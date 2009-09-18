@@ -1,0 +1,163 @@
+/* 
+mldata
+Copyright 2009: Sebastian Henschel
+*/
+
+
+/* SETUP */
+
+body { margin:0; padding:0; color:black; background:#994400; }
+body, th, td { font:12px/1.4em Verdana,sans-serif; }
+#container { position:relative; min-width:62em; max-width:110em; }
+#homepage #container { max-width:110em; }
+
+/* LINKS */
+
+a {text-decoration: none;}
+a img {border: none;}
+a:link, a:visited { color:#000000; }
+
+/* HEADER */
+#header { background:#ffffcc; position:relative; height:140px;}
+#header #logo { position:absolute; left:0px; top:11px; width:125px; height:40px; display:inline; text-align:left; padding-bottom:0px; }
+#header #text { font-weight:bold;color:#994400; position:relative; left:128px; top-margin:10px; top:55px; text-align:left; display:inline; font-size:258%;}
+#accounts a, #accounts b { font-weight:normal; display:inline; text-align:right; padding:5em 1px 1px 1px ; position:absolute: color:#ffffff; background:#ffffff; min-width:62em; max-width:110em; display:inline; text-align:right; padding:5em 5px 12px 7px}
+
+#content-main { color:#000000; background:#ffffff; bottom repeat-x; }
+
+/* NAV */
+
+#nav-global { background:#ffffcc; position:absolute; margin:0; bottom:0; right:0; font-family:"Trebuchet MS",sans-serif; white-space:nowrap; }
+#nav-global li { display:block; float:left; list-style-type:none; margin:0; padding:0; }
+#nav-global a { display:block; float:left; padding:1em 10px 10px 10px; color:#ffffff; background:#883300; }
+#nav-global a:hover { background-color:#994400; color:#ffffff; text-decoration:none; }
+#JMLR #nav-jmlr a, #About #nav-about a, #Instructions #nav-instructions a, #Summary #nav-summary a, #news #nav-news a, #registration #nav-registration a, #submission #nav-submission a, #Workshop #nav-workshop a, #evaluation #nav-evaluation a, #faq #nav-faq a { color:#ffff55; background:#883300; bottom repeat-x; }
+
+/* TRACK */
+#nav-track { float:left; padding:0; background:#883300; margin:0; font-family:"Trebuchet MS",sans-serif; white-space:nowrap; }
+#nav-track li { list-style-type:none; margin:0; padding:0; }
+#nav-track a { padding:3px 10px 3px 10px; color:#ffffff; background:#883300; }
+#nav-track a:hover { background-color:#994400; color:#ffffff; text-decoration:none; }
+#Track1 #nav-track1 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track2 #nav-track2 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track3 #nav-track3 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track4 #nav-track4 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track5 #nav-track5 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track6 #nav-track6 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track7 #nav-track7 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track8 #nav-track8 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track9 #nav-track9 a { color:#ffff55; background:#994400; bottom repeat-x; }
+#Track10 #nav-track0 a { color:#ffff55; background:#994400; bottom repeat-x; }
+    
+
+/* DATASET */
+#nav-dataset { position:relative; clear: both; float:right; min-width:50em; padding:0; margin:0; font-family:"Trebuchet MS",sans-serif; white-space:nowrap; }
+#nav-dataset li { float:left; list-style-type:none; margin:0; padding:0; }
+#nav-dataset a { float:left; padding:3px 10px 3px 10px; color:#444444; background:#dddddd; }
+#nav-dataset a:hover { color:#000000; background-color:#ffffff; text-decoration:none; }
+#Dataset1 #nav-dataset1 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset2 #nav-dataset2 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset3 #nav-dataset3 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset4 #nav-dataset4 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset5 #nav-dataset5 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset6 #nav-dataset6 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset7 #nav-dataset7 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset8 #nav-dataset8 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset9 #nav-dataset9 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset10 #nav-dataset10 a { color:#000000; background:#ffffff; bottom repeat-x; }
+#Dataset11 #nav-dataset11 a { color:#000000; background:#ffffff; bottom repeat-x; }
+
+
+/* BILLBOARDS */                                                                                     
+#billboard { padding:10px; font-size:180%; font-family:"Trebuchet MS",sans-serif; font-weight:normal; color:#ffff55; background:#883300;}
+/* COLUMNS */
+#columnwrap { background:#883300; padding-bottom:40px;}
+#subwrap { background:#000000; float:left; width:70%; padding-bottom:10px; }
+#content-main { float:left; width:100%; background:#ffffcc; color:black; padding-top:10px; padding-bottom:10px; }
+#generic #content-main, #code #content-main { background: #ffffcc; width:100%; }
+#content-main * { margin-left:22px; margin-right:24px; }
+#content-main * * { margin-left:0; margin-right:0; }
+
+/* CONTENT */
+
+#content-main h1,h2,h3 { margin-top:.8em; font-family:"Trebuchet MS",sans-serif; font-weight:normal; }
+#content-main a:link, #content-main a:visited {color:#000000; text-decoration:underline; }
+#content-main h2 a, #content-main h3 a { text-decoration:none !important; }
+#content-main h1 { font-size:218%; margin-top:.6em; margin-bottom:.6em; line-height:1.1em; }
+#content-main h2 { font-size:150%; margin-top:0.2em; margin-bottom:.2em; line-height:1.2em; }
+#content-main h3 { font-size:125%; margin-top:0.2em; font-weight:bold; margin-bottom:.2em; }
+#homepage h2 { font-size:140%; }
+h4 { font-size:100%; font-weight:bold; margin-bottom:-3px; margin-top:1.2em; text-transform:uppercase; letter-spacing:1px; }
+h4 pre, h4 tt, h4 .literal { text-transform:none; }
+h5 { font-size:1em; font-weight:bold; margin-top:1.5em; margin-bottom:3px; }
+hr { color:#ccc; background-color:#ccc; height:1px; border:0; }
+p.date { color:#485858; margin-top:-.2em; }
+p.more { color:#485858; margin-top:-.4em; }
+.sidebar p.date { color:#90ba9e; }
+.sidebar h2:first-child { margin-top:.8em; }
+h2.deck { margin-top:-.5em !important; margin-bottom:.6em; color:#487858; }
+#content-main table { width:95% }
+#content-main th { padding:0px; padding-left:.4em; border:1px solid #113366;background:#F7F7F7 }
+#content-main td { padding:0px; padding-left:.4em; border:1px solid #113366;background:#F7F7F7 }
+#content-main #plain table { width:100% }
+#content-main #plain td { padding:0px; padding-left:.4em; border:0;background:#FFFFFF }
+td.submissionn { color:#FFFFFF; background:#FF0000 }
+td.submissiony { color:#FFFFFF; background:#00FF00 }
+#content-main #smalltab table { width:50% }
+#content-main .description p { margin-top:-0.5em; margin-bottom:-0.1em;}
+#content-main .description li { font-size:90%; padding:0px; margin-bottom:-0.3ex;}
+
+
+/* FOOTER */
+
+#footer { clear:both; color:#ffffff; padding:10px 10px 0px; font-size:90%; }
+#footer a { clear:both; color:#ffffff; padding:0px 0px 0px; font-size:90%; }
+
+
+/* LISTS */
+ul { padding-left:2em; }
+ol { padding-left:30px; }
+ul li { list-style-type:square; margin-bottom:.4em; }
+ul ul { padding-left:1.2em; }
+ul ul ul { padding-left:1em; }
+ul.linklist, ul.toc { padding-left:0; }
+ul.toc ul { margin-left:.6em; }
+ul.toc ul li { list-style-type:square; }
+ul.toc ul ul li { list-style-type:disc; }
+ul.linklist li, ul.toc li { list-style-type:none; }
+dt { font-weight:bold; margin-top:.5em; font-size:1.1em; }
+dd { margin-bottom:.8em; }
+
+/* HIGHLIGHTING */
+.error { color:#FF0000 }
+#content-main span.help { color:#333333; font-size:75%; }
+
+/*  CLEARFIX KLUDGE */
+
+#columnwrap:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+#columnwrap { display: inline-block; }
+
+/* Hides from IE-mac \*/
+* html #columnwrap { height: 1%; }
+#columnwrap { display: block; }
+/* End hide from IE-mac */
+
+#subwrap:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+#subwrap { display: inline-block; }
+
+/* Hides from IE-mac \*/
+* html #subwrap { height: 1%; }
+#subwrap { display: block; }
+/* End hide from IE-mac */om IE-mac */

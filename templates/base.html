@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Language" content="en-us" />
+
+		<title>mldata | {% block title %}PASCAL Machine Learning Benchmarks Repository{% endblock %}</title>
+
+		<meta name="ROBOTS" content="ALL" />
+		<meta http-equiv="imagetoolbar" content="no" />
+		<meta name="MSSmartTagsPreventParsing" content="true" />
+		<meta name="Copyright" content="This site's design and contents Copyright (c) 2009  Sebastian Henschel" />
+
+		<meta name="keywords" content="machine learning, pascal" />
+		<meta name="description" content="PASCAL Machine Learning Benchmarks Repository" />
+
+		<link href="/media/css/base.css" rel="stylesheet" type="text/css" media="screen" />
+		{% block extrahead %}{% endblock %}
+	</head>
+
+	<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}">
+			<div id="accounts">
+				<b>
+				{% if user.is_authenticated %}Welcome {{user}} |
+				<a href="/accounts/logout">Logout</a>
+				{% else %}
+				<a href="/accounts/login">Login</a>
+				{% endif %}
+				</b>
+			</div>
+		<div id="container">
+			<div id="header">
+				<div id="logo">
+					<a href="/">
+						<img id="logo" src="/media/images/pascal.png" alt="logo"></img>
+					</a>
+				</div>
+				<div id="text">
+					<a>PASCAL ML Benchmarks Repository</a>
+				</div>
+				<ul id="nav-global">
+					<li id="nav-about"><a href="/about/">About</a></li>
+					<li id="nav-registration"><a href="/accounts/register/">Registration</a></li>
+				</ul>
+			</div>
+			<!-- END Header -->
+			<div id="billboard">{% block billboard %}{% endblock %}</div>
+			<div id="trackheader">{% block trackheader %}{% endblock %}</div>
+			<div id="datasetheader">{% block datasetheader %}{% endblock %}</div>
+			<div id="content-main">
+			{% block content %}
+			<!-- END #content -->
+			{% endblock %}
+			</div>
+			<div id="columnwrap">
+				{% block columnwrap %}
+				<!-- END #columnwrap -->
+				{% endblock %}
+			</div>
+            {% block footer %}
+			<div id="footer">&copy; {% now "Y" %}
+				<a href="https://kodeaffe.de">Sebastian Henschel</a> | <a href="/impressum/">Impressum</a> | Hosting graciously provided by the <a href="http://www.first.fraunhofer.de">Fraunhofer Society</a>.
+			</div>
+            <!-- END #footer -->
+            {% endblock %}
+		</div>
+		<!-- END #container -->
+
+	</body>
+</html>
