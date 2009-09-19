@@ -22,11 +22,17 @@
 	<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}">
 			<div id="accounts">
 				<b>
-				{% if user.is_authenticated %}Welcome {{user}} |
-				<a href="/accounts/logout">Logout</a>
-				{% else %}
-				<a href="/accounts/login">Login</a>
-				{% endif %}
+					{% if user.is_authenticated %} Welcome
+					{% if user.first_name %}
+					<a href="/user/view/{{user.pk}}">{{user.first_name}}</a>
+					|
+					{% else %}
+					<a href="/user/view/{{user.pk}}">{{user}}</a>|
+					{% endif %}
+					<a href="/accounts/logout">Logout</a>
+					{% else %}
+					<a href="/accounts/login">Login</a>
+					{% endif %}
 				</b>
 			</div>
 		<div id="container">
@@ -36,34 +42,30 @@
 						<img id="logo" src="/media/images/pascal.png" alt="logo"></img>
 					</a>
 				</div>
-				<div id="text">
-					<a>PASCAL ML Benchmarks Repository</a>
-				</div>
+				<div id="text">PASCAL ML Benchmarks Repository</div>
 				<ul id="nav-global">
 					<li id="nav-about"><a href="/about/">About</a></li>
 					<li id="nav-registration"><a href="/accounts/register/">Registration</a></li>
 				</ul>
-			</div>
-			<!-- END Header -->
+			</div><!-- END Header -->
+
 			<div id="billboard">{% block billboard %}{% endblock %}</div>
-			<div id="trackheader">{% block trackheader %}{% endblock %}</div>
-			<div id="datasetheader">{% block datasetheader %}{% endblock %}</div>
+
 			<div id="content-main">
 			{% block content %}
-			<!-- END #content -->
 			{% endblock %}
-			</div>
+			</div><!-- END #content-main -->
+
 			<div id="columnwrap">
 				{% block columnwrap %}
-				<!-- END #columnwrap -->
 				{% endblock %}
-			</div>
-            {% block footer %}
-			<div id="footer">&copy; {% now "Y" %}
+			</div><!-- END #columnwrap -->
+
+            <div id="footer">
+			&copy; 2009-{% now "Y" %}
 				<a href="https://kodeaffe.de">Sebastian Henschel</a> | <a href="/about/impressum">Impressum</a> | Hosting graciously provided by the <a href="http://www.first.fraunhofer.de">Fraunhofer Society</a>.
-			</div>
-            <!-- END #footer -->
-            {% endblock %}
+			
+            </div><!-- END #footer -->
 		</div>
 		<!-- END #container -->
 

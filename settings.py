@@ -51,6 +51,9 @@ MEDIA_URL = '/media/'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media_admin/'
 
+
+LOGIN_REDIRECT_URL='/'
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '67-0bxcy%$$&1%=9@1(@g0xxgsx)0jf^i=5@lf!i44ivp$k)mk'
 
@@ -78,5 +81,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+    'mldata',
     'mldata.about',
+    'mldata.registration',
+    'mldata.user',
 )

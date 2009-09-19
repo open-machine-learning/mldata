@@ -9,6 +9,11 @@ urlpatterns = patterns('',
 
     (r'^about/', include('about.urls')),
 
+    # Using registration
+    (r'^accounts/', include('registration.urls')),
+    #(r'^community/', include('community.urls')),
+    (r'^user/', include('user.urls')),
+
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 
