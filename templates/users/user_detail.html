@@ -21,35 +21,6 @@
 			<td>{{object.email}}</td>
 		</tr>
 	</table>
-	{% if softwares %}
-    <br></br>
-	<h3> Currently listed Software</h3>
-	<table>
-		{% for sw in softwares %}
-		<tr>
-			<td> <a href="{{ sw.get_absolute_url }}"> {{ sw.software.title }} {{ sw.version }}</a></td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% endif %}
-	{% if swsubscriptions %}
-    <br></br>
-	<h3> Current Software Subscriptions</h3>
-	<table>
-        <tr>
-            <th> <b>Title</b> </th>
-            <th> <b>Last Notified</b> </th>
-            <th> <b>Action</b> </th>
-        </tr>
-		{% for subsc in swsubscriptions %}
-		<tr>
-			<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
-            <td> {{ subsc.last_updated|date:"j F Y H:i:s" }}</td>
-            <td> <a href="{{ subsc.get_unsubscribe_url }}/">Unsubscribe</a></td>
-		</tr>
-		{% endfor %}
-	</table>
-    {% endif %}
 	{% if forumsubscriptions %}
     <br></br>
 	<h3> Current Forum Subscriptions</h3>
@@ -68,72 +39,6 @@
 		{% endfor %}
 	</table>
     {% endif %}
-	{% if threadsubscriptions %}
-    <br></br>
-	<h3> Current Thread Subscriptions</h3>
-	<table>
-        <tr>
-            <th> <b>Title</b> </th>
-            <th> <b>Last Notified</b> </th>
-            <th> <b>Action</b> </th>
-        </tr>
-		{% for subsc in threadsubscriptions %}
-		<tr>
-			<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
-            <td> {{ subsc.last_updated|date:"j F Y H:i:s" }}</td>
-            <td> <a href="{{ subsc.get_unsubscribe_url }}">Unsubscribe</a></td>
-		</tr>
-		{% endfor %}
-	</table>
-    {% endif %}
-	{% if swbookmarks %}
-    <br></br>
-	<h3> Current Software Bookmarks</h3>
-	<table>
-        <tr>
-            <th> <b>Title</b> </th>
-            <th> <b>Action</b> </th>
-        </tr>
-		{% for subsc in swbookmarks %}
-		<tr>
-			<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
-            <td> <a href="{{ subsc.get_rmbookmark_url }}">Remove</a></td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% endif %}
-	{% if forumbookmarks %}
-    <br></br>
-	<h3> Current Forum Bookmarks</h3>
-	<table>
-        <tr>
-            <th> <b>Title</b> </th>
-            <th> <b>Action</b> </th>
-        </tr>
-		{% for subsc in forumbookmarks %}
-		<tr>
-			<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
-            <td> <a href="{{ subsc.get_rmbookmark_url }}">Remove</a></td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% endif %}
-	{% if threadbookmarks %}
-    <br></br>
-	<h3> Current Thread Bookmarks</h3>
-	<table>
-        <tr>
-            <th> <b>Title</b> </th>
-            <th> <b>Action</b> </th>
-        </tr>
-		{% for subsc in threadbookmarks %}
-		<tr>
-			<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
-            <td> <a href="{{ subsc.get_rmbookmark_url }}">Remove</a></td>
-		</tr>
-		{% endfor %}
-	</table>
-	{% endif %}
     <br></br>
 	<h2> Change User Details</h3>
 {% if form.errors %}

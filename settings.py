@@ -37,6 +37,9 @@ LANGUAGE_CODE = 'en-us'
 # to load the internationalization machinery.
 USE_I18N = True
 
+
+
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = 'media/'
@@ -52,7 +55,11 @@ MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/media_admin/'
 
 
+# needed for registration
+SITE_ID = 1
 LOGIN_REDIRECT_URL='/'
+ACCOUNT_ACTIVATION_DAYS=1
+DEFAULT_FROM_EMAIL='admin@mldata.org'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '67-0bxcy%$$&1%=9@1(@g0xxgsx)0jf^i=5@lf!i44ivp$k)mk'
@@ -80,7 +87,9 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'mldata',
     'mldata.about',
     'mldata.registration',

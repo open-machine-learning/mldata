@@ -105,6 +105,9 @@ def show_user(request, user_id):
             'password1' : entry.password,
             'password2' : entry.password })
 
+        entry.last_login = entry.last_login.__str__().split('.')[0]
+        entry.date_joined = entry.date_joined.__str__().split('.')[0]
+
         return render_to_response('users/user_detail.html',
                 { 'object': entry,
                     'form' : form },

@@ -1,9 +1,21 @@
 """
-URLConf for Django user registration.
+URLConf for Django user registration and authentication.
 
-Recommended usage is to use a call to ``include()`` in your project's
-root URLConf to include this URLConf for any URL beginning with
-'/accounts/'.
+If the default behavior of the registration views is acceptable to
+you, simply use a line like this in your root URLConf to set up the
+default URLs for registration::
+
+    (r'^accounts/', include('registration.urls')),
+
+This will also automatically set up the views in
+``django.contrib.auth`` at sensible default locations.
+
+But if you'd like to customize the behavior (e.g., by passing extra
+arguments to the various views) or split up the URLs, feel free to set
+up your own URL patterns for these views instead. If you do, it's a
+good idea to use the names ``registration_activate``,
+``registration_complete`` and ``registration_register`` for the
+various steps of the user-signup process.
 
 """
 
@@ -12,12 +24,13 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
 
-from registration.views import activate, register
+from registration.views import activate
+from registration.views import register
 
 
 urlpatterns = patterns('',
                        # Activation keys get matched by \w+ instead of the more specific
-                       # [a-fA-F0-9]+ because a bad activation key should still get to the view;
+                       # [a-fA-F0-9]{40} because a bad activation key should still get to the view;
                        # that way it can return a sensible "invalid key" message instead of a
                        # confusing 404.
                        url(r'^activate/(?P<activation_key>\w+)/$',
@@ -33,28 +46,22 @@ urlpatterns = patterns('',
                            name='auth_logout'),
                        url(r'^password/change/$',
                            auth_views.password_change,
-                           {'template_name': 'registration/password_change_form.html'},
                            name='auth_password_change'),
                        url(r'^password/change/done/$',
                            auth_views.password_change_done,
-                           {'template_name': 'registration/password_change_done.html'},
                            name='auth_password_change_done'),
                        url(r'^password/reset/$',
                            auth_views.password_reset,
-                           {'template_name': 'registration/reset_password.html',
-                           'email_template_name': 'registration/password_reset_email.html'},
                            name='auth_password_reset'),
+                       url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+                           auth_views.password_reset_confirm,
+                           name='auth_password_reset_confirm'),
+                       url(r'^password/reset/complete/$',
+                           auth_views.password_reset_complete,
+                           name='auth_password_reset_complete'),
                        url(r'^password/reset/done/$',
                            auth_views.password_reset_done,
-                           {'template_name': 'registration/reset_password_done.html'},
                            name='auth_password_reset_done'),
-                       url(r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
-                           auth_views.password_reset_confirm,
-                           {'template_name': 'registration/password_reset_confirm.html'},
-                           name='auth_password_reset_confirm'),
-                       url(r'^reset/done/$',
-                           auth_views.password_reset_complete,
-                           {'template_name': 'registration/password_reset_complete.html'}),
                        url(r'^register/$',
                            register,
                            name='registration_register'),
