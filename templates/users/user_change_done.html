@@ -2,14 +2,20 @@
 
 {% block sectionid %}login{% endblock %}
 
-{% block title %}User details updated successfully.{% endblock %}
+{% block title %}User Change{% endblock %}
 
-{% block billboard %}User details updated successfully.{% endblock %}
+{% block billboard %}User Change{% endblock %}
 
 {% block content %}
 
-<h2>User details change change successful</h2>
+<h2>User details changed successfully</h2>
 
 <p>Your user details were successfully updated. Click <a href="/user/view/{{object.pk}}">here</a> to return to your user page.</p>
 
+{% endblock %}
+
+{% block content-related %}
+{% if user.is_superuser %}
+<p>To browse the currently registered users click <a href="/user">here</a>.</p>
+{% endif %}
 {% endblock %}
