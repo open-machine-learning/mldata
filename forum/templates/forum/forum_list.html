@@ -1,0 +1,26 @@
+{% extends "forum_base.html" %}
+{% load i18n %}
+
+{% block content %}
+<table>
+<tr>
+<th>{% trans "Forum" %}</th>
+<th>{% trans "Last Post" %}</th>
+</tr>
+{% for forum in object_list %}
+<tr>
+	<td><p><strong><a href='{{ forum.get_absolute_url }}'>{{ forum.title }}</a></strong><span> {{ forum.threads }} {% trans "thread" %}{{ forum.threads|pluralize }}, {{ forum.posts }} {% trans "post" %}{{ forum.posts|pluralize }}
+<p>{{ forum.description }}</p></td>
+<td>{% if forum.forum_latest_post %}{{ forum.forum_latest_post.time|timesince }} a{% trans "go by" %} {{ forum.forum_latest_post.author }} (<a href='{{ forum.forum_latest_post.get_absolute_url }}'>{% trans "view" %}</a>){% else %}{% trans "No Posts" %}{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+
+{% block content-related %}
+<h2>{% trans "Use ..."%}</h2>
+<p>
+{% trans "the discussion forums to inform us about problems with this site, missing features. Or just discuss general MLdata issues." %}
+</p>
+
+{% endblock %}

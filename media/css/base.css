@@ -3,7 +3,6 @@ mldata
 Copyright 2009: Sebastian Henschel
 */
 
-
 /* SETUP */
 
 body { margin:0; padding:0; color:black; background:#994400; }
@@ -31,7 +30,7 @@ a:link, a:visited { color:#000000; }
 #nav-global li { display:block; float:left; list-style-type:none; margin:0; padding:0; }
 #nav-global a { display:block; float:left; padding:1em 10px 10px 10px; color:#ffffcc; background:#883300; }
 #nav-global a:hover { background-color:#994400; color:#ffff99; text-decoration:none; }
-#nav-about a, #nav-registration a, { color:#ffff99; background:#883300; bottom repeat-x; }
+#nav-about a, #nav-registration a, #nav-forum a, { color:#ffff99; background:#883300; bottom repeat-x; }
 
 
 /* BILLBOARD */
@@ -64,8 +63,10 @@ a:link, a:visited { color:#000000; }
 #content-main h2 { font-size:150%; margin-top:0.2em; margin-bottom:.2em; line-height:1.2em; }
 #content-main h3 { font-size:125%; margin-top:0.2em; font-weight:bold; margin-bottom:.2em; }
 #content-main table { width:95%; border-spacing: 0px; border-collapse:collapse; }
-#content-main th { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff99 }
-#content-main td { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff99 }
+#content-main th { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff77; text-align:left; font-weight:bold;}
+#content-main thead td.paginator { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff33; text-align:left; font-weight:bold;}
+#content-main tfoot td.paginator { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff33; text-align:left; font-weight:bold;}
+#content-main td { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff99; }
 #content-main #plain table { width:100% }
 #content-main #plain td { padding:0px; padding-left:.4em; border:0;background:#ffff99 }
 h4 { font-size:100%; font-weight:bold; margin-bottom:-3px; margin-top:1.2em; text-transform:uppercase; letter-spacing:1px; }
@@ -73,7 +74,6 @@ h4 pre, h4 tt, h4 .literal { text-transform:none; }
 h5 { font-size:1em; font-weight:bold; margin-top:1.5em; margin-bottom:3px; }
 hr { color:#ccc; background-color:#ccc; height:1px; border:0; }
 h2.deck { margin-top:-.5em !important; margin-bottom:.6em; color:#487858; }
-
 
 /* FOOTER */
 #footer { clear:both; color:#ffffff; padding:10px 10px 0px; font-size:90%; }
@@ -124,3 +124,4 @@ dd { margin-bottom:.8em; }
 * html #subwrap { height: 1%; }
 #subwrap { display: block; }
 /* End hide from IE-mac */om IE-mac */
+

@@ -11,15 +11,18 @@ urlpatterns = patterns('',
 
     # Using registration
     (r'^accounts/', include('registration.urls')),
-    #(r'^community/', include('community.urls')),
+    (r'^forum/', include('forum.urls')),
+#    (r'^community/', include('community.urls')),
     (r'^user/', include('user.urls')),
+
+    # Enable comments
+    (r'^comments/', include('django.contrib.comments.urls')),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 
     # redirect the root to hello
     ('^$', 'django.views.generic.simple.redirect_to', {'url':'/about/'}),
-
 )
 
 if settings.DEBUG and not settings.PRODUCTION:
