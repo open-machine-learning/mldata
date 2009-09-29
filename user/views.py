@@ -89,7 +89,7 @@ def show_user_list(request):
         return object_list(request,
                 paginate_by=10,
                 queryset=User.objects.all(),
-                template_name='users/user_list.html')
+                template_name='user/user_list.html')
     raise Http404
 
 def show_user(request, user_id):
@@ -108,7 +108,7 @@ def show_user(request, user_id):
         entry.last_login = entry.last_login.__str__().split('.')[0]
         entry.date_joined = entry.date_joined.__str__().split('.')[0]
 
-        return render_to_response('users/user_detail.html',
+        return render_to_response('user/user_detail.html',
                 { 'object': entry,
                     'form' : form },
                 context_instance=RequestContext(request))
@@ -132,11 +132,11 @@ def update_user(request, user_id):
             form = ChangeUserDetailsForm(request.POST)
             if form.is_valid():
                 form.save(entry)
-                return render_to_response('users/user_change_done.html',
+                return render_to_response('user/user_change_done.html',
                         { 'object': entry},
                         context_instance=RequestContext(request))
 
-        return render_to_response('users/user_detail.html',
+        return render_to_response('user/user_detail.html',
                 { 'object': entry,
                     'softwares' : Revision.objects.get_by_submitter(entry.username),
                     'form' : form,
