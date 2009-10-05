@@ -1,0 +1,4 @@
+blog:
+	- remove literal references to /blog
+	- better error checking/validation
+
