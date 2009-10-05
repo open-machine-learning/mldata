@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% load i18n %}
+
+{% block title %}Blog New Entry{% endblock %}
+
+{% block billboard %}Blog New Entry{% endblock %}
+
+{% block content %}
+<h1>{% trans "Post a new blog entry" %}</h1>
+
+<form action="../post/" method="POST">
+<dl>
+	<dd><label for="id_headline">Headline:</label></dd>
+	<dt><input id="id_headline" type="text" name="headline" maxlength="50" /></dt>
+	<dd><label for="id_url">Summary:</label></dd>
+	<dt><textarea id="id_summary" rows="5" cols="40" name="summary"></textarea></dt>
+	<dd><label for="id_url">Body:</label></dd>
+	<dt><textarea id="id_body" rows="10" cols="40" name="body"></textarea></dt>
+	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" /></dt>
+</dl>
+</form>
+{% endblock %}

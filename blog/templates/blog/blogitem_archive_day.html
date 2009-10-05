@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block title %}{% trans "Blog" %} | {{ day|date:"F j" }}{% endblock %}
+
+{% block billboard %}<a href="/blog">{% trans "Blog" %}</a> &raquo; <a href="../../">{{ day|date:"Y" }}</a> &raquo; <a href="../">{{ day|date:"m" }}</a>{% endblock %}
+
+{% block content %}
+<h1>{{ day|date:"F j Y" }} {% trans "Archive" %}</h1>
+
+<table>
+{% for object in object_list %}
+<tr>
+	<th><a href="{{ object.get_absolute_url }}">{{ object.headline }}</a> ({% trans "by" %} {{ object.author }}, {{ object.pub_date|date:"H:i" }})</th>
+</tr>
+<tr>
+	<td>{{ object.summary|markdown:"safe" }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

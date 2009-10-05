@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+{% load uniqdate %}
+{% load i18n %}
+
+{% block title %}{% trans "Blog" %} | {{ month|date:"F" }}{% endblock %}
+
+{% block billboard %}<a href="/blog">{% trans "Blog" %}</a> &raquo; <a href="../">{{ month|date:"Y" }}</a>{% endblock %}
+
+{% block content %}
+<h1>{{ month|date:"F Y" }} {% trans "Archive" %}</h1>
+
+<ul>
+{% for day in object_list|uniqdate:"day,True" %}
+	<li><a href="{{ day }}">{{ day }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

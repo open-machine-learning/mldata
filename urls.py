@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     # Using registration
     (r'^accounts/', include('registration.urls')),
     (r'^forum/', include('forum.urls')),
+    (r'^blog/', include('blog.urls')),
 #    (r'^community/', include('community.urls')),
     (r'^user/', include('user.urls')),
 

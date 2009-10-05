@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Blog" %} | {{ year }}{% endblock %}
+
+{% block billboard %}<a href="/blog">{% trans "Blog" %}</a>{% endblock %}
+
+{% block content %}
+
+<h1>{{ year }} {% trans "Archive" %}</h1>
+
+<ul class="linklist">
+{% for date in date_list %}
+<li><a href="{{ date|date:"m" }}/">{{ date|date:"F" }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

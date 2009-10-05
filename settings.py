@@ -94,11 +94,8 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'mldata',
     'mldata.about',
-#    'mldata.aggregator',
-#    'mldata.blog',
+    'mldata.blog',
     'mldata.forum',
-#    'mldata.community',
     'mldata.registration',
-#    'mldata.subscriptions',
     'mldata.user',
 )

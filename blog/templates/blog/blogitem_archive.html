@@ -1,0 +1,45 @@
+{% extends "blog/base.html" %}
+{% load i18n %}
+{% load markup %}
+{% load uniqdate %}
+
+{% block title %}{% trans "Blog Latest" %}{% endblock %}
+
+{% block billboard %}<a href="/blog">{% trans "Blog Latest" %}</a>{% endblock %}
+
+{% block content %}
+<h1>{% trans "Latest blog entries" %}</h1>
+
+{% if latest %}
+<table>
+  {% for latest_blog in latest %}
+  <tr>
+    <th><a href="{{ latest_blog.get_absolute_url }}">{{ latest_blog.headline }}</a> ({% trans "by" %} <strong>{{ latest_blog.author }}</strong> {% trans "on" %} {{ latest_blog.pub_date|date:"F j, Y" }})
+
+  {% load comments %}
+  {% get_comment_list for blog.blogitem latest_blog.id as comment_list %}
+  {% if comment_list %}
+    {% get_comment_count for blog.blogitem latest_blog.id as comment_count %}
+    (<a href="{{ latest_blog.get_comment_url }}">{{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}</a>)
+  {% else %}
+    (0 {% trans "comments" %})
+  {% endif %}
+    </th>
+  </tr>
+  <tr>
+    <td>{{ latest_blog.summary|markdown:"safe" }}</td>
+  </td>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
+
+{% block content-archive %}
+{% if date_list %}
+{% for year in date_list|uniqdate:"year,False" %}
+	<li><h3><a href="/blog/{{ year }}">{{ year }}</a></h3></li>
+{% endfor %}
+{% endif %}
+{% endblock %}
+
+
