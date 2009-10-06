@@ -98,4 +98,5 @@ INSTALLED_APPS = (
     'mldata.forum',
     'mldata.registration',
     'mldata.user',
+    'mldata.repository',
 )

@@ -6,21 +6,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-
     (r'^about/', include('about.urls')),
-
-    # Using registration
-    (r'^accounts/', include('registration.urls')),
-    (r'^forum/', include('forum.urls')),
     (r'^blog/', include('blog.urls')),
-#    (r'^community/', include('community.urls')),
-    (r'^user/', include('user.urls')),
+    (r'^forum/', include('forum.urls')),
+    (r'^repository/', include('repository.urls')),
 
-    # Enable comments
-    (r'^comments/', include('django.contrib.comments.urls')),
-
-    # Uncomment the next line to enable the admin:
+    # somewhat util
+    (r'^accounts/', include('registration.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^comments/', include('django.contrib.comments.urls')),
+    (r'^user/', include('user.urls')),
 
     # redirect the root to hello
     ('^$', 'django.views.generic.simple.redirect_to', {'url':'/about/'}),

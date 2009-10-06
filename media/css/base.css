@@ -30,7 +30,7 @@ a:link, a:visited { color:#000000; }
 #nav-global li { display:block; float:left; list-style-type:none; margin:0; padding:0; }
 #nav-global a { display:block; float:left; padding:1em 10px 10px 10px; color:#ffffcc; background:#883300; }
 #nav-global a:hover { background-color:#994400; color:#ffff99; text-decoration:none; }
-#nav-about a, #nav-registration a, #nav-forum a, #nav-blog a { color:#ffff99; background:#883300; bottom repeat-x; }
+#nav-about a, #nav-registration a, #nav-forum a, #nav-blog a, #nav-repository a { color:#ffff99; background:#883300; bottom repeat-x; }
 
 
 /* BILLBOARD */
