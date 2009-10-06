@@ -1,12 +1,12 @@
 from blog.wfwfeed import WellFormedWebRss
-from blog.models import BlogItem
+from blog.models import Post
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from markdown import markdown
 
 def RssBlogFeed(request):
     try:
-        object_list = BlogItem.objects.all().order_by('-pub_date')[:10]
+        object_list = Post.objects.all().order_by('-pub_date')[:10]
     except documents.DocumentDoesNotExist:
         raise Http404
     feed = WellFormedWebRss( u"The mldata.org community blog",

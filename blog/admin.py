@@ -1,9 +1,9 @@
 from django.contrib import admin
-from blog.models import BlogItem
+from blog.models import Post
 
-class BlogItemAdmin(admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     list_display = ('pub_date', 'headline', 'author')
 
 
-admin.site.register(BlogItem, BlogItemAdmin)
+admin.site.register(Post, PostAdmin)
 

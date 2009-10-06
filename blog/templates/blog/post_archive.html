@@ -17,9 +17,9 @@
     <th><a href="{{ latest_blog.get_absolute_url }}">{{ latest_blog.headline }}</a> ({% trans "by" %} <strong>{{ latest_blog.author }}</strong> {% trans "on" %} {{ latest_blog.pub_date|date:"F j, Y" }})
 
   {% load comments %}
-  {% get_comment_list for blog.blogitem latest_blog.id as comment_list %}
+  {% get_comment_list for blog.post latest_blog.id as comment_list %}
   {% if comment_list %}
-    {% get_comment_count for blog.blogitem latest_blog.id as comment_count %}
+    {% get_comment_count for blog.post latest_blog.id as comment_count %}
     (<a href="{{ latest_blog.get_comment_url }}">{{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}</a>)
   {% else %}
     (0 {% trans "comments" %})

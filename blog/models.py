@@ -1,13 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 from utils import slugify
 
-class BlogItem(models.Model):
+class Post(models.Model):
     pub_date = models.DateTimeField()
     slug = models.SlugField(unique_for_date='pub_date', editable=False)
     headline = models.CharField(max_length=200)
     summary = models.TextField(help_text="Use markdown.")
     body = models.TextField(help_text="Use markdown.")
-    author = models.CharField(max_length=100)
+    author = models.ForeignKey(User)
 
     class Meta:
         ordering = ('-pub_date',)
@@ -25,4 +26,4 @@ class BlogItem(models.Model):
     def save(self):
         if not self.id:
             self.slug = slugify(self.headline)
-        super(BlogItem,self).save()
+        super(Post, self).save()

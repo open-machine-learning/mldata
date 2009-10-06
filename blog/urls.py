@@ -1,10 +1,10 @@
 from django.conf.urls.defaults import *
-from blog.models import BlogItem
+from blog.models import Post
 from blog.feeds import RssBlogFeed
 import blog.views
 
 info_dict = {
-    'queryset' : BlogItem.objects.all(),
+    'queryset' : Post.objects.all(),
     'date_field' : 'pub_date',
 }
 

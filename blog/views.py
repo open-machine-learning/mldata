@@ -6,11 +6,8 @@ import datetime
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from blog.models import BlogItem
+from blog.models import Post
 
-
-def latest(request):
-	return render_to_response('blog/latest.html', { 'user': request.user })
 
 def new(request):
 	if not request.user.is_authenticated():
@@ -23,12 +20,12 @@ def post(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect(reverse('blog_index'))
 
-	entry = BlogItem()
-	entry.pub_date = datetime.datetime.now()
-	entry.headline = request.POST['headline']
-	entry.summary = request.POST['summary']
-	entry.body = request.POST['body']
-	entry.author = request.user.username
-	entry.save()
-	return HttpResponseRedirect(entry.get_absolute_url())
+	post = Post()
+	post.pub_date = datetime.datetime.now()
+	post.headline = request.POST['headline']
+	post.summary = request.POST['summary']
+	post.body = request.POST['body']
+	post.author_id = request.user.id
+	post.save()
+	return HttpResponseRedirect(post.get_absolute_url())
 
