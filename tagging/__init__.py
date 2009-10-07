@@ -18,8 +18,10 @@ def register(model, tag_descriptor_attr='tags',
     Sets the given model class up for working with tags.
     """
     if model in registry:
-        raise AlreadyRegistered(
-            _('The model %s has already been registered.') % model.__name__)
+# ignore
+         return
+#        raise AlreadyRegistered(
+#            _('The model %s has already been registered.') % model.__name__)
     registry.append(model)
 
     # Add tag descriptor
