@@ -20,7 +20,7 @@ def RssBlogFeed(request):
         #comments=commentlink,
         feed.add_item( object.headline.encode('utf-8'),
                 link, markdown(object.body),
-                author_name=object.author.encode('utf-8'),
+                author_name=object.author.username.encode('utf-8'),
                 pubdate=object.pub_date, unique_id=link)
     response = HttpResponse(mimetype='application/xml')
     feed.write(response, 'utf-8')
