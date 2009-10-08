@@ -1,4 +1,10 @@
 blog:
-	- remove literal references to /blog
 	- better error checking/validation
 
+repository:
+	- implement creation of Data objects
+	- implement view of Data objects
+	- implement creation of Task objects
+	- implement view of Task objects
+	- implement creation of Solution objects
+	- implement view of Solution objects
