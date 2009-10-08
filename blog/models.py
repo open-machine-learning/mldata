@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from utils import slugify
 
@@ -18,7 +19,7 @@ class Post(models.Model):
         return unicode(self.headline)
 
     def get_absolute_url(self):
-        return "/blog/%s/%s/" % (self.pub_date.strftime("%Y/%m/%d").lower(), self.slug)
+        return reverse('blog_index') + "%s/%s/" % (self.pub_date.strftime("%Y/%m/%d").lower(), self.slug)
 
     def get_comment_url(self):
         return self.get_absolute_url() + "#comments"

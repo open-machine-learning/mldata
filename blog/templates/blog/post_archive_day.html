@@ -4,7 +4,7 @@
 
 {% block title %}{% trans "Blog" %} | {{ day|date:"F j" }}{% endblock %}
 
-{% block billboard %}<a href="/blog">{% trans "Blog" %}</a> &raquo; <a href="../../">{{ day|date:"Y" }}</a> &raquo; <a href="../">{{ day|date:"m" }}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="../../">{{ day|date:"Y" }}</a> :: <a href="../">{{ day|date:"m" }}</a>{% endblock %}
 
 {% block content %}
 <h1>{{ day|date:"F j Y" }} {% trans "Archive" %}</h1>

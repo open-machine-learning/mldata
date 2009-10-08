@@ -3,7 +3,7 @@
 
 {% block title %}{% trans "Blog" %} | {{ year }}{% endblock %}
 
-{% block billboard %}<a href="/blog">{% trans "Blog" %}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a>{% endblock %}
 
 {% block content %}
 

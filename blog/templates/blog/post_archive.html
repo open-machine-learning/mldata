@@ -3,9 +3,9 @@
 {% load markup %}
 {% load uniqdate %}
 
-{% block title %}{% trans "Blog Latest" %}{% endblock %}
+{% block title %}{% trans "Blog :: Latest" %}{% endblock %}
 
-{% block billboard %}<a href="/blog">{% trans "Blog Latest" %}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog :: Latest" %}</a>{% endblock %}
 
 {% block content %}
 <h1>{% trans "Latest blog entries" %}</h1>
@@ -37,7 +37,7 @@
 {% block content-archive %}
 {% if date_list %}
 {% for year in date_list|uniqdate:"year,False" %}
-	<li><h3><a href="/blog/{{ year }}">{{ year }}</a></h3></li>
+	<li><h3><a href="{% url blog_index %}{{ year }}">{{ year }}</a></h3></li>
 {% endfor %}
 {% endif %}
 {% endblock %}
