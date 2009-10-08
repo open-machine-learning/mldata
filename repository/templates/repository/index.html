@@ -15,19 +15,19 @@ repo!
 {% block content-related %}
 <h2>Data</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.data_archive %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.data_index %}">Archive</a></h3></li>
 	<li><h3><a href="{% url repository.views.data_new %}">Submit new data</a></h3></li>
 </ul>
 
 <h2>Task</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.task_archive %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.task_index %}">Archive</a></h3></li>
 	<li><h3><a href="{% url repository.views.task_new %}">Submit new task</a></h3></li>
 </ul>
 
 <h2>Solution</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.solution_archive %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.solution_index %}">Archive</a></h3></li>
 	<li><h3><a href="{% url repository.views.solution_new %}">Submit new solution</a></h3></li>
 </ul>
 {% endblock %}
