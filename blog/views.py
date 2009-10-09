@@ -10,10 +10,10 @@ from blog.models import Post, PostForm
 
 
 def new(request):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('blog_index'))
-
     if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('blog_index'))
+
         form = PostForm(request.POST)
         if form.is_valid():
             post = Post()

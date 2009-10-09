@@ -1,12 +1,13 @@
 {% extends "blog/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Blog" %} :: {% trans "New Entry" %}{% endblock %}
+{% block title %}{% trans "Blog" %} :: {% trans "New Post" %}{% endblock %}
 
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="{% url blog.views.new %}">{% trans "New Entry" %}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="{% url blog.views.new %}">{% trans "New Post" %}</a>{% endblock %}
 
 {% block content %}
-<h1>{% trans "Post a new blog entry" %}</h1>
+{% if user.is_authenticated %}
+<h1>{% trans "Submit a new Post" %}</h1>
 
 <form action="{% url blog.views.new %}" method="POST">
 <dl>
@@ -16,7 +17,17 @@
 	<dt>{{ form.summary }}</dt>
 	<dd><label for="id_body">{% trans "Body" %}</label>: {{ form.body.errors }}</dd>
 	<dt>{{ form.body }}</dt>
-	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" /></dt>
+	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
 </dl>
 </form>
+{% else %}
+<h1>{% trans "Please login to submit a Post" %}</h1>
+<form method='post' action='/accounts/login/?next={% url blog.views.new %}'>
+	<dt><label for="id_username"><tt>{% trans "Username" %}:</tt></label></dt>
+	<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>
+	<dt><label for="id_password"><tt>{% trans "Password" %}:</tt></label></dt>
+	<dd><input id="id_password" type="password" name="password" maxlength="30" /></dd>
+	<dt colspan="2"><input type="submit" name="post" value="{% trans "Login" %}"/></dt>
+</form>
+{% endif %}
 {% endblock %}
