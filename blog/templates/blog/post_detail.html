@@ -2,7 +2,7 @@
 {% load markup %}
 {% load i18n %}
 
-{% block title %}{% trans "Blog" %} | {{ object.headline|escape }}{% endblock %}
+{% block title %}{% trans "Blog" %} :: {{ object.headline|escape }}{% endblock %}
 
 {% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="../../../">{{ object.pub_date|date:"Y" }}</a> :: <a href="../../">{{ object.pub_date|date:"m" }}</a> :: <a href="../">{{ object.pub_date|date:"d" }}</a>{% endblock %}
 

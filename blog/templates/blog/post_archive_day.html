@@ -2,22 +2,18 @@
 {% load i18n %}
 {% load markup %}
 
-{% block title %}{% trans "Blog" %} | {{ day|date:"F j" }}{% endblock %}
+{% block title %}{% trans "Blog" %} :: {{ day|date:"Y/m/d" }}{% endblock %}
 
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="../../">{{ day|date:"Y" }}</a> :: <a href="../">{{ day|date:"m" }}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> ::
+<a href="../../">{{ day|date:"Y" }}</a> :: <a href="../">{{ day|date:"m" }}</a> :: <a href="">{{ day|date:"d" }}</a>{% endblock %}
 
 {% block content %}
 <h1>{{ day|date:"F j Y" }} {% trans "Archive" %}</h1>
 
-<table>
+<ul>
 {% for object in object_list %}
-<tr>
-	<th><a href="{{ object.get_absolute_url }}">{{ object.headline }}</a> ({% trans "by" %} {{ object.author }}, {{ object.pub_date|date:"H:i" }})</th>
-</tr>
-<tr>
-	<td>{{ object.summary|markdown:"safe" }}</td>
-</tr>
+	<li><a href="{{ object.get_absolute_url }}">{{ object.headline }}</a> ({% trans "by" %} {{ object.author }}, {{ object.pub_date|date:"H:i" }})</li>
 {% endfor %}
-</table>
+</ul>
 
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends "blog/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Blog" %} | {{ year }}{% endblock %}
+{% block title %}{% trans "Blog" %} :: {{ year }}{% endblock %}
 
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="{% url blog_index %}{{year}}">{{ year }}</a>{% endblock %}
 
 {% block content %}
 

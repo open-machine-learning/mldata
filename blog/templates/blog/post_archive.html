@@ -3,9 +3,9 @@
 {% load markup %}
 {% load uniqdate %}
 
-{% block title %}{% trans "Blog :: Latest" %}{% endblock %}
+{% block title %}{% trans "Blog" %} :: {% trans "Archive" %}{% endblock %}
 
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog :: Latest" %}</a>{% endblock %}
+{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %} :: {% trans "Archive" %}</a>{% endblock %}
 
 {% block content %}
 <h1>{% trans "Latest blog entries" %}</h1>

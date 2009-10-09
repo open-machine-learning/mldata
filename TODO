@@ -1,6 +1,3 @@
-blog:
-	- better error checking/validation
-
 repository:
 	- implement creation of Data objects
 	- implement view of Data objects

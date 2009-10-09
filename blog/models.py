@@ -1,7 +1,9 @@
 from django.db import models
+from django.forms import ModelForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from utils import slugify
+
 
 class Post(models.Model):
     pub_date = models.DateTimeField()
@@ -28,3 +30,8 @@ class Post(models.Model):
         if not self.id:
             self.slug = slugify(self.headline)
         super(Post, self).save()
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        exclude = ('pub_date', 'slug', 'author',)
