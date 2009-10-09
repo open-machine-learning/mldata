@@ -1,0 +1,53 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ object.name }}{% endblock %}
+
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "View" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Data of" %} {{ object.name }}</h1>
+
+<table>
+<tr>
+	<th colspan="2">{{ object.name }} ({% trans "on" %} {{ object.pub_date }} {% trans "by" %} {{ object.author.username }})</th>
+</tr>
+<tr>
+	<td>{% trans "Summary" %}</td>
+	<td>{{ object.summary }}</td>
+</tr>
+<tr>
+	<td>{% trans "Description" %}</td>
+	<td>{{ object.description|markdown }}</td>
+</tr>
+<tr>
+	<td>{% trans "URLs" %}</td>
+	<td>{{ object.urls }}</td>
+</tr>
+<tr>
+	<td>{% trans "License" %}</td>
+	<td>{{ object.license }}</td>
+</tr>
+<tr>
+	<td>{% trans "Data Source" %}</td>
+	<td>{{ object.source }}</td>
+</tr>
+<tr>
+	<td>{% trans "Data Format" %}</td>
+	<td>{{ object.format }}</td>
+</tr>
+<tr>
+	<td>{% trans "Measurement Details" %}</td>
+	<td>{{ object.measurement_details|markdown }}</td>
+</tr>
+<tr>
+	<td>{% trans "Usage Scenario" %}</td>
+	<td>{{ object.usage_scenario|markdown }}</td>
+</tr>
+<tr>
+	<td colspan="2"><a href="{{ MEDIA_URL }}{{object.file.name}}">{% trans "Download Data File" %}</a></td>
+</tr>
+</table>
+{% endblock %}
+

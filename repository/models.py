@@ -1,4 +1,7 @@
 from django.db import models
+from django.forms import ModelForm
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from utils import slugify
 import tagging
 
@@ -8,12 +11,13 @@ class Repository(models.Model):
     version = models.IntegerField()
     name = models.CharField(max_length=32)
     slug = models.CharField(max_length=32) # meta id
-    summary = models.CharField(max_length=255)
-    description = models.TextField()
-    urls = models.CharField(max_length=255)
-    publications = models.CharField(max_length=255)
-    license = models.CharField(max_length=255)
-    is_public = models.BooleanField()
+    summary = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+    urls = models.CharField(max_length=255, blank=True)
+    publications = models.CharField(max_length=255, blank=True)
+    license = models.CharField(max_length=255, blank=True)
+    is_public = models.BooleanField(default=True)
+    author = models.ForeignKey(User)
 
     class Meta:
         ordering = ('-pub_date',)
@@ -29,16 +33,21 @@ class Repository(models.Model):
 
 
 class Data(Repository):
-    source = models.CharField(max_length=255)
+    source = models.CharField(max_length=255, blank=True)
     format = models.CharField(max_length=16) # CSV, ARFF, netCDF, HDF5, ODBC
-    measurement_details = models.TextField()
-    usage_scenario = models.TextField()
+    measurement_details = models.TextField(blank=True)
+    usage_scenario = models.TextField(blank=True)
     file = models.FileField(upload_to='repository/data')
 
     def get_absolute_url(self):
-        return self.file.url
+        return reverse('repository.views.data_view', args=[self.id])
 
 tagging.register(Data)
+
+class DataForm(ModelForm):
+    class Meta:
+        model = Data
+        exclude = ('pub_date', 'version', 'slug', 'author',)
 
 
 class Task(Repository):

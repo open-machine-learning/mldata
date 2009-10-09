@@ -1,0 +1,32 @@
+{% extends "base_2col.html" %}
+{% load i18n %}
+
+{% block sectionid %}repository{% endblock %}
+
+{% block title %}{% trans "Repository" %}{% endblock %}
+
+{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a>{% endblock %}
+
+{% block content %}
+repository base
+{% endblock %}
+
+{% block content-related %}
+<h2>Data</h2>
+<ul>
+	<li><h3><a href="{% url repository.views.data_index %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.data_new %}">Submit new Data</a></h3></li>
+</ul>
+
+<h2>Task</h2>
+<ul>
+	<li><h3><a href="{% url repository.views.task_index %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.task_new %}">Submit new Task</a></h3></li>
+</ul>
+
+<h2>Solution</h2>
+<ul>
+	<li><h3><a href="{% url repository.views.solution_index %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.solution_new %}">Submit new Solution</a></h3></li>
+</ul>
+{% endblock %}

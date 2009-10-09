@@ -1,14 +1,18 @@
-{% extends "repository/index.html" %}
+{% extends "repository/base.html" %}
 {% load markup %}
 {% load i18n %}
 
-{% block sectionid %}repository{% endblock %}
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Archive" %}{% endblock %}
 
-{% block title %}{% trans "Repository :: Data :: Archive" %}{% endblock %}
-
-{% block billboard %}{% trans "Repository :: Data :: Archive" %}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Archive" %}{% endblock %}
 
 {% block content %}
-data archive
+<h1>Archive of Data</h1>
+
+<ul>
+{% for object in object_list %}
+	<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a> ({% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.author.username }})</li>
+{% endfor %}
+</ul>
 {% endblock %}
 

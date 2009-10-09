@@ -94,6 +94,7 @@ dd { margin-bottom:.8em; }
 
 /* HIGHLIGHTING */
 .error { color:#FF0000 }
+.errorlist { color:#FF0000 }
 #content-main span.help { color:#333333; font-size:75%; }
 
 

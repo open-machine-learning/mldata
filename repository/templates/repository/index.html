@@ -1,33 +1,17 @@
-{% extends "base_2col.html" %}
-{% load markup %}
+{% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block sectionid %}repository{% endblock %}
-
-{% block title %}{% trans "Repository" %}{% endblock %}
-
-{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a>{% endblock %}
-
 {% block content %}
-repo!
-{% endblock %}
+<h1>Repository</h1>
+<p>
+This is the repository where you can find and modify all available data, tasks and solutions. Choose one of the items to the left to continue.
+</p>
 
-{% block content-related %}
-<h2>Data</h2>
+<h2>Latest Items</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.data_index %}">Archive</a></h3></li>
-	<li><h3><a href="{% url repository.views.data_new %}">Submit new data</a></h3></li>
-</ul>
-
-<h2>Task</h2>
-<ul>
-	<li><h3><a href="{% url repository.views.task_index %}">Archive</a></h3></li>
-	<li><h3><a href="{% url repository.views.task_new %}">Submit new task</a></h3></li>
-</ul>
-
-<h2>Solution</h2>
-<ul>
-	<li><h3><a href="{% url repository.views.solution_index %}">Archive</a></h3></li>
-	<li><h3><a href="{% url repository.views.solution_new %}">Submit new solution</a></h3></li>
+	<li>Data: <a href="{% url repository.views.data_view latest_data.id %}">{{ latest_data.name }}</a></li>
+	<li>Task: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>
+	<li>Solution: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>
 </ul>
 {% endblock %}
+
