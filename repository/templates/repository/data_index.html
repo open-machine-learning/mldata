@@ -11,7 +11,7 @@
 
 <ul>
 {% for object in object_list %}
-	<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a> ({% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.author.username }})</li>
+	<li><a href="{{ object.repository.data.get_absolute_url }}">{{ object.repository.name }}</a> ({% trans "on" %} {{ object.repository.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.repository.author.username }})</li>
 {% endfor %}
 </ul>
 {% endblock %}

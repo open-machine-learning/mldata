@@ -4,9 +4,9 @@ All custom repository logic is kept here
 
 import datetime
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from repository.models import *
-from utils import slugify
+from repository.forms import *
 from settings import MEDIA_URL
 
 
@@ -38,7 +38,7 @@ def index(request):
 
 
 def data_index(request):
-    object_list = Data.objects.all()
+    object_list = CurrentVersion.objects.all().order_by('-repository__pub_date')
     info_dict = {
         'object_list': object_list,
     }
@@ -53,8 +53,8 @@ def data_new(request):
         if form.is_valid():
             data = Data()
             data.pub_date = datetime.datetime.now()
-            data.version = 1
             data.name = form.cleaned_data['name']
+            data.version = 1
             data.summary = form.cleaned_data['summary']
             data.description = form.cleaned_data['description']
             data.urls = form.cleaned_data['urls']
@@ -67,7 +67,8 @@ def data_new(request):
             data.measurement_details = form.cleaned_data['measurement_details']
             data.usage_scenario = form.cleaned_data['usage_scenario']
             data.file = request.FILES['file']
-            data.file.name = slugify(data.name) + '%s' % (data.version)
+            data.file.name = data.get_filename()
+            data.tags = form.cleaned_data['tags']
             data.save()
             return HttpResponseRedirect(data.get_absolute_url())
     else:
@@ -79,8 +80,54 @@ def data_new(request):
     }
     return render_to_response('repository/data_new.html', info_dict)
 
-def data_view(request, id):
-    obj = get_object_or_404(Data, pk=id, is_public=True)
+def data_edit(request, slug):
+    try:
+        prev = CurrentVersion.objects.filter(slug__text=slug)[0].repository.data
+    except IndexError:
+        raise Http404
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('blog_index'))
+
+        request.POST['name'] = prev.name # cheat a little
+        form = DataForm(request.POST, request.FILES)
+        if form.is_valid():
+            next = Data()
+            next.pub_date = datetime.datetime.now()
+            next.name = prev.name
+            next.version = next.get_next_version()
+            next.summary = form.cleaned_data['summary']
+            next.description = form.cleaned_data['description']
+            next.urls = form.cleaned_data['urls']
+            next.publications = form.cleaned_data['publications']
+            next.license = form.cleaned_data['license']
+            next.is_public = form.cleaned_data['is_public']
+            next.author_id = request.user.id
+            next.source = form.cleaned_data['source']
+            next.format = form.cleaned_data['format']
+            next.measurement_details = form.cleaned_data['measurement_details']
+            next.usage_scenario = form.cleaned_data['usage_scenario']
+            next.file = request.FILES['file']
+            next.file.name = next.get_filename()
+            next.tags = form.cleaned_data['tags']
+            next.save()
+            return HttpResponseRedirect(next.get_absolute_url())
+    else:
+        form = DataForm(instance=prev)
+
+    info_dict = {
+        'form': form,
+        'prev': prev,
+        'user': request.user,
+    }
+    return render_to_response('repository/data_edit.html', info_dict)
+
+def data_view(request, slug):
+    try:
+        obj = CurrentVersion.objects.filter(slug__text=slug)[0].repository.data
+    except IndexError:
+        raise Http404
     info_dict = {
         'object': obj,
         'MEDIA_URL': MEDIA_URL,

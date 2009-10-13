@@ -1,9 +1,9 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "New" %}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Edit" %}{% endblock %}
 
-{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "New" %}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Edit" %}{% endblock %}
 
 {% block extrahead %}
 		<link href="/media/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" media="screen" />
@@ -15,20 +15,18 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Submit new Data</h1>
+<h1>Edit Data for {{ prev.name }}</h1>
 
-<form action="{% url repository.views.data_new %}" method="post" enctype="multipart/form-data">
+<form action="{% url repository.views.data_edit prev.slug.text %}" method="post" enctype="multipart/form-data">
 <table>
 <tr>
 	<td style="vertical-align: top"><dl>
-		<dd><label for="id_name">{% trans "Name" %}*:</label> {{ form.name.errors }}</dd>
-		<dt>{{ form.name }}</dt>
 		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
 		<dt>{{ form.format }}</dt>
 		<dd><label for="id_file">{% trans "Data file" %}*:</label> {{ form.file.errors }}</dd>
 		<dt>{{ form.file }}</dt>
 		<br />
-		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
+		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Edit Data" %}" /></td>
 	</dl></td>
 	<td style="vertical-align: top"><dl>
 		<dd><label for="id_tags">{% trans "Tags" %}:</label> {{ form.tags.errors }}</dd>
@@ -52,13 +50,13 @@
 		<dd><label for="id_usage_scenario">{% trans "Usage scenario" %}:</label> {{ form.usage_scenario.errors }}</dd>
 		<dt>{{ form.usage_scenario }}</dt>
 		<br />
-		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
+		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Edit Data" %}" /></td>
 	</dl></td>
 </tr>
 </table>
 </form>
 {% else %}
-<h1>{% trans "Please login to submit new Data" %}</h1>
+<h1>{% trans "Please login to edit Data" %}</h1>
 <form method='post' action='/accounts/login/?next={% url repository.views.data_new %}'>
 	<dt><label for="id_username"><tt>{% trans "Username" %}:</tt></label></dt>
 	<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>

@@ -1,7 +1,5 @@
 repository:
-	- implement creation of Data objects
-	- implement view of Data objects
-	- implement creation of Task objects
-	- implement view of Task objects
-	- implement creation of Solution objects
-	- implement view of Solution objects
+	- Data:
+		+ access to previous versions, restore + delete
+		+ subdirectories within FileField's upload_to
+	- implement handling of Task + Solution objects

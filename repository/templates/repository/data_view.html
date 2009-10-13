@@ -11,7 +11,12 @@
 
 <table>
 <tr>
-	<th colspan="2">{{ object.name }} ({% trans "on" %} {{ object.pub_date }} {% trans "by" %} {{ object.author.username }})</th>
+	<th>{{ object.name }} ({% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.author.username }}, {% trans "version" %} {{ object.version }})</th>
+	<th style="text-align: right"><a href="{% url repository.views.data_edit object.slug.text %}">{% trans "EDIT" %}</a></th>
+</tr>
+<tr>
+	<td>{% trans "Tags" %}</td>
+	<td>{{ object.tags }}</td>
 </tr>
 <tr>
 	<td>{% trans "Summary" %}</td>
