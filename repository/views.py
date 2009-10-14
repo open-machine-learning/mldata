@@ -11,25 +11,19 @@ from repository.models import *
 from repository.forms import *
 from settings import MEDIA_URL
 
-
-class EmptyLatest:
-    id = 0
-    name = ''
-
-
 def index(request):
     try:
         latest_data = Data.objects.latest()
     except Data.DoesNotExist:
-        latest_data = EmptyLatest()
+        latest_data = None
     try:
         latest_task = Task.objects.latest()
     except Task.DoesNotExist:
-        latest_task = EmptyLatest()
+        latest_task = None
     try:
         latest_solution = Solution.objects.latest()
     except Solution.DoesNotExist:
-        latest_solution = EmptyLatest()
+        latest_solution = None
 
     info_dict = {
         'latest_data': latest_data,
@@ -41,7 +35,7 @@ def index(request):
 
 
 def data_index(request):
-    object_list = CurrentVersion.objects.all().order_by('-repository__pub_date')
+    object_list = CurrentVersion.objects.filter(type=TYPE['data']).order_by('-repository__pub_date')
     info_dict = {
         'user': request.user,
         'object_list': object_list,
@@ -82,7 +76,7 @@ def data_new(request):
                 new.file = request.FILES['file']
                 new.file.name = new.get_filename()
                 new.tags = form.cleaned_data['tags']
-                new.save()
+                new.save(type=TYPE['data'])
                 return HttpResponseRedirect(new.get_absolute_url())
     else:
         form = DataForm()
@@ -107,7 +101,7 @@ def data_edit(request, slug):
             next.pub_date = datetime.datetime.now()
             next.name = prev.name
             next.slug_id = next.get_slug_id()
-            next.version = next.get_next_version()
+            next.version = next.get_next_version(type=TYPE['data'])
             next.summary = form.cleaned_data['summary']
             next.description = form.cleaned_data['description']
             next.urls = form.cleaned_data['urls']
@@ -122,7 +116,7 @@ def data_edit(request, slug):
             next.file = request.FILES['file']
             next.file.name = next.get_filename()
             next.tags = form.cleaned_data['tags']
-            next.save()
+            next.save(type=TYPE['data'])
             return HttpResponseRedirect(next.get_absolute_url())
     else:
         form = DataForm(instance=prev)

@@ -4,6 +4,12 @@ from django.core.urlresolvers import reverse
 from utils import slugify
 from tagging.fields import TagField
 
+TYPE = {
+    'data': 0,
+    'task': 1,
+    'solution': 2,
+}
+
 
 class Slug(models.Model):
     text = models.CharField(max_length=32, unique=True)
@@ -32,7 +38,7 @@ class Repository(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
-    def save(self):
+    def save(self, type):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
         current = CurrentVersion.objects.filter(slug=self.slug_id)
@@ -42,6 +48,8 @@ class Repository(models.Model):
             current = CurrentVersion()
             # can't put foreign key id into constructor
             current.slug_id = self.slug_id
+        current.type = type
+        # saves as close together as possible
         super(Repository, self).save()
         current.repository_id = self.id
         current.save()
@@ -58,15 +66,17 @@ class Repository(models.Model):
             slug = slug[0]
         return slug.id
 
-    def get_next_version(self):
+    def get_next_version(self, type):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
-        current = CurrentVersion.objects.filter(slug=self.slug_id)[0]
+        current = CurrentVersion.objects.filter(type=type, slug=self.slug_id)[0]
         return current.repository.version + 1
+
 
 class CurrentVersion(models.Model):
     slug = models.ForeignKey(Slug)
     repository = models.ForeignKey(Repository)
+    type = models.IntegerField() # crutch for lookups of data/task/solution
 
     def __unicode__(self):
         return unicode('%s %s' % (self.repository.version, self.slug.text))

@@ -4,14 +4,14 @@
 {% block content %}
 <h1>Repository</h1>
 <p>
-This is the repository where you can find and modify all available data, tasks and solutions. Choose one of the items to the left to continue.
+{% trans "This is the repository where you can find and modify all available data, tasks and solutions." %}
 </p>
 
 <h2>Latest Items</h2>
 <ul>
-	<li>Data: <a href="{% url repository.views.data_view latest_data.slug.text %}">{{ latest_data.name }}</a></li>
-	<li>Task: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>
-	<li>Solution: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>
+	{% if latest_data %}<li>Data: <a href="{% url repository.views.data_view latest_data.slug.text %}">{{ latest_data.name }}</a></li>{%endif %}
+	{% if latest_task %}<li>Task: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>{%endif %}
+	{% if latest_solution %}<li>Solution: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>{%endif %}
 </ul>
 {% endblock %}
 
