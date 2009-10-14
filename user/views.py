@@ -102,8 +102,8 @@ def show_user(request, user_id):
         form = ChangeUserDetailsForm(initial={ 'firstname' : entry.first_name,
             'lastname' : entry.last_name,
             'email' : entry.email,
-            'password1' : entry.password,
-            'password2' : entry.password })
+            'password1' : '',
+            'password2' : '' })
 
         entry.last_login = entry.last_login.__str__().split('.')[0]
         entry.date_joined = entry.date_joined.__str__().split('.')[0]
@@ -138,7 +138,6 @@ def update_user(request, user_id):
 
         return render_to_response('user/user_detail.html',
                 { 'object': entry,
-                    'softwares' : Revision.objects.get_by_submitter(entry.username),
                     'form' : form,
                     },
                 context_instance=RequestContext(request))
