@@ -57,7 +57,7 @@
 </form>
 {% else %}
 <h1>{% trans "Please login to edit Data" %}</h1>
-<form method='post' action='/accounts/login/?next={% url repository.views.data_new %}'>
+<form method='post' action='/accounts/login/?next={% url repository.views.data_edit prev.slug.text %}'>
 	<dt><label for="id_username"><tt>{% trans "Username" %}:</tt></label></dt>
 	<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>
 	<dt><label for="id_password"><tt>{% trans "Password" %}:</tt></label></dt>
