@@ -6,7 +6,7 @@ from tagging.fields import TagField
 
 
 class Slug(models.Model):
-    text = models.CharField(max_length=32) # meta id
+    text = models.CharField(max_length=32, unique=True)
 
     def __unicode__(self):
         return unicode(self.text)
@@ -32,35 +32,35 @@ class Repository(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
-    def make_slug(self):
-        if not self.name:
-            raise AttributeError, 'Attribute name is not set!'
-        text = slugify(self.name)
-        slug = Slug.objects.filter(text__exact=text)
-        if not slug:
-            slug = Slug(text=text)
-            slug.save()
-        else:
-            slug = slug[0]
-        self.slug_id = slug.id
-
     def save(self):
         if not self.slug_id:
-            self.make_slug()
-        super(Repository, self).save()
+            raise AttributeError, 'Attribute slug is not set!'
         current = CurrentVersion.objects.filter(slug=self.slug_id)
         if current:
             current = current[0]
-            current.repository_id = self.id
         else:
             current = CurrentVersion()
+            # can't put foreign key id into constructor
             current.slug_id = self.slug_id
-            current.repository_id = self.id
+        super(Repository, self).save()
+        current.repository_id = self.id
         current.save()
+
+    def get_slug_id(self, create=False):
+        if not self.name:
+            raise AttributeError, 'Attribute name is not set!'
+        text = slugify(self.name)
+        if create:
+            slug = Slug(text=text)
+            slug.save()
+        else:
+            slug = Slug.objects.filter(text__exact=text)
+            slug = slug[0]
+        return slug.id
 
     def get_next_version(self):
         if not self.slug_id:
-            self.make_slug()
+            raise AttributeError, 'Attribute slug is not set!'
         current = CurrentVersion.objects.filter(slug=self.slug_id)[0]
         return current.repository.version + 1
 

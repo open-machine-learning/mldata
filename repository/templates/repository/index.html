@@ -9,7 +9,7 @@ This is the repository where you can find and modify all available data, tasks a
 
 <h2>Latest Items</h2>
 <ul>
-	<li>Data: <a href="{% url repository.views.data_view latest_data.id %}">{{ latest_data.name }}</a></li>
+	<li>Data: <a href="{% url repository.views.data_view latest_data.slug.text %}">{{ latest_data.name }}</a></li>
 	<li>Task: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>
 	<li>Solution: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>
 </ul>
