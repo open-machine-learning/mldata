@@ -1,6 +1,5 @@
 repository:
 	- Data:
-		+ access to previous versions, restore + delete
 		+ subdirectories within FileField's upload_to
 	- implement handling of Task + Solution objects
 	- pagination for long listings

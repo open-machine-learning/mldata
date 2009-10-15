@@ -4,13 +4,26 @@ All custom repository logic is kept here
 
 import datetime, os, shutil
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_URL, MEDIA_ROOT
+from settings import MEDIA_URL
+
+
+def _get_object_or_404(slug_or_id):
+    obj = CurrentVersion.objects.filter(slug__text=slug_or_id)
+    if not obj:
+        obj = Data.objects.get(pk=slug_or_id)
+        if not obj:
+            raise Http404
+    else:
+        obj = obj[0].repository.data
+    obj.slug_or_id = slug_or_id
+    return obj
+
 
 def index(request):
     try:
@@ -89,8 +102,9 @@ def data_new(request):
     }
     return render_to_response('repository/data_submit.html', info_dict)
 
-def data_edit(request, slug):
-    prev = get_object_or_404(CurrentVersion, slug__text=slug).repository.data
+
+def data_edit(request, slug_or_id):
+    prev = _get_object_or_404(slug_or_id)
 
     if request.method == 'POST':
         if not request.user.is_authenticated():
@@ -122,13 +136,14 @@ def data_edit(request, slug):
     else:
         form = DataForm(instance=prev)
 
-    url_data_edit = reverse(data_edit, args=[prev.slug.text])
+    url_data_edit = reverse(data_edit, args=[prev.slug_or_id])
     info_dict = {
         'form': form,
         'prev': prev,
         'user': request.user,
         'submit': {
-            'head': _('Edit Data for') + ' ' + prev.name,
+            'head': '%s %s (%s %s)' % \
+                (_('Edit Data for'), prev.name, _('version'), prev.version),
             'action': url_data_edit,
             'is_new': False,
             'title': _('Edit'),
@@ -140,8 +155,10 @@ def data_edit(request, slug):
     }
     return render_to_response('repository/data_submit.html', info_dict)
 
-def data_view(request, slug):
-    obj = get_object_or_404(CurrentVersion, slug__text=slug).repository.data
+def data_view(request, slug_or_id):
+    obj = _get_object_or_404(slug_or_id)
+    obj.versions = Data.objects.values('id', 'version').filter(slug__text=obj.slug.text).order_by('version')
+
     info_dict = {
         'object': obj,
         'user': request.user,

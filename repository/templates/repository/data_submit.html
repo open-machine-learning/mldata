@@ -23,7 +23,7 @@
 		{% endif %}
 		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
 		<dt>{{ form.format }}</dt>
-		<dd><label for="id_file">{% trans "Data file" %}*:</label> {{ form.file.errors }}</dd>
+		<dd><label for="id_file">{% trans "Data file" %}{% if submit.is_new %}*{% endif %}:</label> {{ form.file.errors }}</dd>
 		<dt>{{ form.file }}</dt>
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
