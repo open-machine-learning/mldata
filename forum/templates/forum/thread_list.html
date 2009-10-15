@@ -59,13 +59,7 @@
 
 <dl>
 	{% if not user.is_authenticated %}
-	<h2>{% trans "Please login to create a new thread" %}</h2>
-	<form method='post' action='/accounts/login/?next={{ forum.get_absolute_url }}'>
-		<dt><label for="id_username"><tt>{% trans "Username" %}:</tt></label></dt>
-		<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>
-		<dt><label for="id_password"><tt>{% trans "Password" %}:</tt></label></dt>
-		<dd><input id="id_password" type="password" name="password" maxlength="30" /></dd>
-		<dt colspan="2"><input type="submit" name="post" value="{% trans "Login" %}" /></dt>
+		{% include "form_login.html" %}
 	{% else %}
 	<h2>{% trans "Create a new Thread (as" %} {{ user.username }})</h2>
 	<form method='post' action='new/'>

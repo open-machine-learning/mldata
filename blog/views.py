@@ -6,6 +6,7 @@ import datetime
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 from blog.models import Post, PostForm
 
 
@@ -30,5 +31,9 @@ def new(request):
     info_dict = {
         'user': request.user,
         'form': form,
+        'login': {
+            'reason': _('submit a Post'),
+            'next': reverse(new),
+        },
     }
     return render_to_response('blog/new.html', info_dict)

@@ -49,6 +49,10 @@ def forum(request, slug):
                             'forum': f,
                             'child_forums': child_forums,
                             'form': form,
+                            'login': {
+                                'reason': _('create a new thread'),
+                                'next': f.get_absolute_url(),
+                            },
                         })
 
 def thread(request, thread):
@@ -88,6 +92,10 @@ def thread(request, thread):
                             'thread': t,
                             'subscription': s,
                             'form': form,
+                            'login': {
+                                'reason': _('post a reply'),
+                                'next': t.get_absolute_url(),
+                            },
                         })
 
 def reply(request, thread):

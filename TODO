@@ -4,6 +4,5 @@ repository:
 		+ subdirectories within FileField's upload_to
 	- implement handling of Task + Solution objects
 	- make data file optional on edit
-	- DRY for HTML forms
 
 TESTS!
