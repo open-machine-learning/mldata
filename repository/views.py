@@ -45,7 +45,7 @@ def data_index(request):
 def data_new(request):
     if request.method == 'POST':
         if not request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('blog_index'))
+            return HttpResponseRedirect(reverse(data_index))
 
         form = DataForm(request.POST, request.FILES)
         if form.is_valid():
@@ -81,18 +81,29 @@ def data_new(request):
     else:
         form = DataForm()
 
+    url_data_new = reverse(data_new)
     info_dict = {
         'form': form,
         'user': request.user,
+        'submit': {
+            'head': _('Submit new Data'),
+            'action': url_data_new,
+            'is_new': True,
+            'title': _('New'),
+        },
+        'login': {
+            'reason': _('submit new Data'),
+            'next': url_data_new,
+        },
     }
-    return render_to_response('repository/data_new.html', info_dict)
+    return render_to_response('repository/data_submit.html', info_dict)
 
 def data_edit(request, slug):
     prev = get_object_or_404(CurrentVersion, slug__text=slug).repository.data
 
     if request.method == 'POST':
         if not request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('blog_index'))
+            return HttpResponseRedirect(reverse(data_index))
 
         request.POST['name'] = prev.name # cheat a little
         form = DataForm(request.POST, request.FILES)
@@ -121,12 +132,23 @@ def data_edit(request, slug):
     else:
         form = DataForm(instance=prev)
 
+    url_data_edit = reverse(data_edit, args=[prev.slug.text])
     info_dict = {
         'form': form,
         'prev': prev,
         'user': request.user,
+        'submit': {
+            'head': _('Edit Data for') + ' ' + prev.name,
+            'action': url_data_edit,
+            'is_new': False,
+            'title': _('Edit'),
+        },
+        'login': {
+            'reason': _('edit Data'),
+            'next': url_data_edit,
+        },
     }
-    return render_to_response('repository/data_edit.html', info_dict)
+    return render_to_response('repository/data_submit.html', info_dict)
 
 def data_view(request, slug):
     obj = get_object_or_404(CurrentVersion, slug__text=slug).repository.data

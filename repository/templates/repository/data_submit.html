@@ -1,9 +1,9 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "New" %}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ submit.title }}{% endblock %}
 
-{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "New" %}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ submit.title }}{% endblock %}
 
 {% block extrahead %}
 		<link href="/media/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" media="screen" />
@@ -15,14 +15,16 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Submit new Data</h1>
+<h1>{{ submit.head }}</h1>
 
-<form action="{% url repository.views.data_new %}" method="post" enctype="multipart/form-data">
+<form action="{{ submit.action }}" method="post" enctype="multipart/form-data">
 <table>
 <tr>
 	<td style="vertical-align: top"><dl>
+		{% if submit.is_new %}
 		<dd><label for="id_name">{% trans "Name" %}*:</label> {{ form.name.errors }}</dd>
 		<dt>{{ form.name }}</dt>
+		{% endif %}
 		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
 		<dt>{{ form.format }}</dt>
 		<dd><label for="id_file">{% trans "Data file" %}*:</label> {{ form.file.errors }}</dd>
@@ -58,14 +60,7 @@
 </table>
 </form>
 {% else %}
-<h1>{% trans "Please login to submit new Data" %}</h1>
-<form method='post' action='/accounts/login/?next={% url repository.views.data_new %}'>
-	<dt><label for="id_username"><tt>{% trans "Username" %}:</tt></label></dt>
-	<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>
-	<dt><label for="id_password"><tt>{% trans "Password" %}:</tt></label></dt>
-	<dd><input id="id_password" type="password" name="password" maxlength="30" /></dd>
-	<dt colspan="2"><input type="submit" name="post" value="{% trans "Login" %}"/></dt>
-</form>
+{% include "form_login.html" %}
 {% endif %}
 {% endblock %}
 
