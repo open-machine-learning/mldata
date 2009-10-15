@@ -6,11 +6,7 @@
 {% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ submit.title }}{% endblock %}
 
 {% block extrahead %}
-		<link href="/media/css/jquery.autocomplete.css" rel="stylesheet" type="text/css" media="screen" />
-		<script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
-		<script type="text/javascript" src="/media/js/jquery/jquery.ajaxQueue.js"></script>
-		<script type="text/javascript" src="/media/js/jquery/jquery.bgiframe.min.js"></script>
-		<script type="text/javascript" src="/media/js/jquery/jquery.autocomplete.js"></script>
+{% include "autocomplete.html" %}
 {% endblock %}
 
 {% block content %}
