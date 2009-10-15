@@ -57,13 +57,8 @@ class Repository(models.Model):
     def get_slug_id(self, create=False):
         if not self.name:
             raise AttributeError, 'Attribute name is not set!'
-        text = slugify(self.name)
-        if create:
-            slug = Slug(text=text)
-            slug.save()
-        else:
-            slug = Slug.objects.filter(text__exact=text)
-            slug = slug[0]
+        slug = Slug(text=slugify(self.name))
+        slug.save()
         return slug.id
 
     def get_next_version(self, type):

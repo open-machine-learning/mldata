@@ -52,7 +52,7 @@ def data_new(request):
             new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
             try:
-                new.slug_id = new.get_slug_id(create=True)
+                new.slug_id = new.get_slug_id()
             except IntegrityError:
                 # looks quirky...
                 from django.forms.util import ErrorDict
