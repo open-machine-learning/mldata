@@ -2,14 +2,15 @@
 All custom repository logic is kept here
 """
 
-import datetime
+import datetime, os, shutil
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
 from django.utils.translation import ugettext as _
+from django.forms.util import ErrorDict
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_URL
+from settings import MEDIA_URL, MEDIA_ROOT
 
 def index(request):
     try:
@@ -48,6 +49,9 @@ def data_new(request):
             return HttpResponseRedirect(reverse(data_index))
 
         form = DataForm(request.POST, request.FILES)
+        if not request.FILES:
+            d = ErrorDict({'': _('This field is required.')})
+            form.errors['file'] = d.as_ul()
         if form.is_valid():
             new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
@@ -55,9 +59,8 @@ def data_new(request):
                 new.slug_id = new.get_slug_id()
             except IntegrityError:
                 # looks quirky...
-                from django.forms.util import ErrorDict
                 d = ErrorDict({'':
-                    _('The given name yields an already existing slug. Please try another name!')})
+                    _('The given name yields an already existing slug. Please try another name.')})
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
@@ -101,8 +104,19 @@ def data_edit(request, slug):
             next.slug_id = prev.slug_id
             next.version = next.get_next_version(type=TYPE['data'])
             next.author_id = request.user.id
-            next.file = request.FILES['file']
-            next.file.name = next.get_filename()
+            if request.FILES:
+                next.file = request.FILES['file']
+                next.file.name = next.get_filename()
+            else:
+                # this looks all fishy, but paths get mixed up somehow
+                oldpath = prev.file.path # save old path, coz following copy is somewhat shallow
+                next.file = prev.file
+                next.file.name = next.get_filename()
+                newpath = os.path.dirname(oldpath) + os.sep + next.file.name
+                # for some unknown reason, next.file.name needs upload_to
+                # prepended to be written properly into database...
+                next.file.name = prev.file.field.upload_to + os.sep + next.file.name
+                shutil.copyfile(oldpath, newpath)
             next.save(type=TYPE['data'])
             return HttpResponseRedirect(next.get_absolute_url())
     else:
