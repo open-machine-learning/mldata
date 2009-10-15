@@ -49,9 +49,8 @@ def data_new(request):
 
         form = DataForm(request.POST, request.FILES)
         if form.is_valid():
-            new = Data()
+            new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
-            new.name = form.cleaned_data['name']
             try:
                 new.slug_id = new.get_slug_id(create=True)
             except IntegrityError:
@@ -62,20 +61,9 @@ def data_new(request):
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
-                new.summary = form.cleaned_data['summary']
-                new.description = form.cleaned_data['description']
-                new.urls = form.cleaned_data['urls']
-                new.publications = form.cleaned_data['publications']
-                new.license = form.cleaned_data['license']
-                new.is_public = form.cleaned_data['is_public']
                 new.author_id = request.user.id
-                new.source = form.cleaned_data['source']
-                new.format = form.cleaned_data['format']
-                new.measurement_details = form.cleaned_data['measurement_details']
-                new.usage_scenario = form.cleaned_data['usage_scenario']
                 new.file = request.FILES['file']
                 new.file.name = new.get_filename()
-                new.tags = form.cleaned_data['tags']
                 new.save(type=TYPE['data'])
                 return HttpResponseRedirect(new.get_absolute_url())
     else:
@@ -108,25 +96,13 @@ def data_edit(request, slug):
         request.POST['name'] = prev.name # cheat a little
         form = DataForm(request.POST, request.FILES)
         if form.is_valid():
-            next = Data()
+            next = form.save(commit=False)
             next.pub_date = datetime.datetime.now()
-            next.name = prev.name
-            next.slug_id = next.get_slug_id()
+            next.slug_id = prev.slug_id
             next.version = next.get_next_version(type=TYPE['data'])
-            next.summary = form.cleaned_data['summary']
-            next.description = form.cleaned_data['description']
-            next.urls = form.cleaned_data['urls']
-            next.publications = form.cleaned_data['publications']
-            next.license = form.cleaned_data['license']
-            next.is_public = form.cleaned_data['is_public']
             next.author_id = request.user.id
-            next.source = form.cleaned_data['source']
-            next.format = form.cleaned_data['format']
-            next.measurement_details = form.cleaned_data['measurement_details']
-            next.usage_scenario = form.cleaned_data['usage_scenario']
             next.file = request.FILES['file']
             next.file.name = next.get_filename()
-            next.tags = form.cleaned_data['tags']
             next.save(type=TYPE['data'])
             return HttpResponseRedirect(next.get_absolute_url())
     else:
