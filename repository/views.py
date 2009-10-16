@@ -159,9 +159,16 @@ def data_view(request, slug_or_id):
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
 
+    cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
+    if cv[0].repository_id == obj.id:
+        can_activate = False
+    else:
+        can_activate = True
+
     info_dict = {
         'object': obj,
         'user': request.user,
+        'can_activate': can_activate,
         'can_delete': _can_delete(request.user, obj.author_id),
         'MEDIA_URL': MEDIA_URL,
     }
@@ -175,15 +182,27 @@ def data_delete(request, slug_or_id):
         current = Data.objects.filter(slug__text=obj.slug.text).\
             filter(is_deleted=False).order_by('-version')
         if current:
-            current = current[0]
             cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
             if cv:
-                cv[0].repository_id = current.id
+                cv[0].repository_id = current[0].id
                 cv[0].save()
         obj.save(TYPE['data']) # a lil optimisation for db saves
 
     return HttpResponseRedirect(reverse(data_index))
 
+
+def data_activate(request, id):
+    if not request.user.is_authenticated():
+        url=reverse(data_activate, args=[id])
+        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
+
+    obj = get_object_or_404(Data, pk=id)
+    cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
+    if cv:
+        cv[0].repository_id = obj.id
+        cv[0].save()
+
+    return HttpResponseRedirect(obj.get_absolute_url())
 
 
 def task_index(request):

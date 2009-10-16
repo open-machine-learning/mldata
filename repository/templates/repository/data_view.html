@@ -19,6 +19,7 @@
 		{% endifequal %}
 	{% endfor %}</th>
 	<th style="text-align: right">
+		{% if can_activate %}<a href="{% url repository.views.data_activate object.id %}">{% trans "ACTIVATE" %}</a>{% endif %}
 		<a href="{% url repository.views.data_edit object.slug_or_id %}">{% trans "EDIT" %}</a>
 		{% if can_delete %}<a href="{% url repository.views.data_delete object.slug_or_id %}">{% trans "DELETE" %}</a>{% endif %}
 	</th>
