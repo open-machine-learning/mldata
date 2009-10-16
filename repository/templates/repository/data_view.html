@@ -18,7 +18,10 @@
 			<a href="{% url repository.views.data_view v.id %}">{{ v.version }}</a>
 		{% endifequal %}
 	{% endfor %}</th>
-	<th style="text-align: right"><a href="{% url repository.views.data_edit object.slug_or_id %}">{% trans "EDIT" %}</a></th>
+	<th style="text-align: right">
+		<a href="{% url repository.views.data_edit object.slug_or_id %}">{% trans "EDIT" %}</a>
+		{% if can_delete %}<a href="{% url repository.views.data_delete object.slug_or_id %}">{% trans "DELETE" %}</a>{% endif %}
+	</th>
 </tr>
 <tr>
 	<td>{% trans "Tags" %}</td>

@@ -14,10 +14,11 @@ from settings import MEDIA_URL
 
 
 def _get_object_or_404(slug_or_id):
-    obj = CurrentVersion.objects.filter(slug__text=slug_or_id)
+    obj = CurrentVersion.objects.filter(slug__text=slug_or_id).\
+        filter(repository__is_deleted=False)
     if not obj:
         obj = Data.objects.get(pk=slug_or_id)
-        if not obj:
+        if not obj or obj.is_deleted:
             raise Http404
     else:
         obj = obj[0].repository.data
@@ -25,10 +26,17 @@ def _get_object_or_404(slug_or_id):
     return obj
 
 
+def _can_delete(user, author_id):
+    if user.is_staff or user.is_superuser or user.id == author_id:
+        return True
+    else:
+        return False
+
+
 def index(request):
     try:
-        latest_data = Data.objects.latest()
-    except Data.DoesNotExist:
+        latest_data = Data.objects.filter(is_deleted=False).order_by('-pub_date')[0]
+    except IndexError:
         latest_data = None
     try:
         latest_task = Task.objects.latest()
@@ -49,12 +57,14 @@ def index(request):
 
 
 def data_index(request):
-    object_list = CurrentVersion.objects.filter(type=TYPE['data']).order_by('-repository__pub_date')
+    object_list = CurrentVersion.objects.filter(type=TYPE['data']).\
+        filter(repository__is_deleted=False).order_by('-repository__pub_date')
     info_dict = {
         'user': request.user,
         'object_list': object_list,
     }
     return render_to_response('repository/data_index.html', info_dict)
+
 
 def data_new(request):
     url = reverse(data_new)
@@ -142,16 +152,38 @@ def data_edit(request, slug_or_id):
     }
     return render_to_response('repository/data_submit.html', info_dict)
 
+
 def data_view(request, slug_or_id):
     obj = _get_object_or_404(slug_or_id)
-    obj.versions = Data.objects.values('id', 'version').filter(slug__text=obj.slug.text).order_by('version')
+    obj.versions = Data.objects.values('id', 'version').\
+        filter(slug__text=obj.slug.text).\
+        filter(is_deleted=False).order_by('version')
 
     info_dict = {
         'object': obj,
         'user': request.user,
+        'can_delete': _can_delete(request.user, obj.author_id),
         'MEDIA_URL': MEDIA_URL,
     }
     return render_to_response('repository/data_view.html', info_dict)
+
+
+def data_delete(request, slug_or_id):
+    obj = _get_object_or_404(slug_or_id)
+    if _can_delete(request.user, obj.author_id):
+        obj.is_deleted = True
+        current = Data.objects.filter(slug__text=obj.slug.text).\
+            filter(is_deleted=False).order_by('-version')
+        if current:
+            current = current[0]
+            cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
+            if cv:
+                cv[0].repository_id = current.id
+                cv[0].save()
+        obj.save(TYPE['data']) # a lil optimisation for db saves
+
+    return HttpResponseRedirect(reverse(data_index))
+
 
 
 def task_index(request):

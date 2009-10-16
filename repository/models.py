@@ -29,6 +29,7 @@ class Repository(models.Model):
     publications = models.CharField(max_length=255, blank=True)
     license = models.CharField(max_length=255, blank=True)
     is_public = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
     author = models.ForeignKey(User)
 
     class Meta:
