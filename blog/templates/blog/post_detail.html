@@ -33,7 +33,6 @@
 {% else %}
 <p>{% trans "No one has posted any comments yet. Perhaps you would like to be the first?" %}</p>
 {% endif %}
-<br />
 
 {% if user.is_authenticated %}
 <h2>{% trans "Leave a comment" %}</h2>
@@ -66,13 +65,6 @@
 <input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
 </form>
 {% else %}
-<h2>{% trans "Please login to post a comment" %}</h2>
-<form method='post' action='/accounts/login/?next={{ object.get_absolute_url }}'>
-	<dt><label for="id_username">{% trans "Username" %}:</label></dt>
-	<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>
-	<dt><label for="id_password">{% trans "Password" %}:</label></dt>
-	<dd><input id="id_password" type="password" name="password" maxlength="30" /></dd>
-	<dt colspan="2"><input type="submit" name="post" value="{% trans "Login" %}"/></dt>
-</form>
+<p>{% trans "To post a comment, please" %} <a href="{% url auth_login %}?next={{ object.get_absolute_url }}">login</a>.</p>
 {% endif %}
 {% endblock %}

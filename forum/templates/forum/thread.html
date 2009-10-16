@@ -45,7 +45,7 @@
 {% else %}
 <dl>
 	{% if not user.is_authenticated %}
-		{% include "form_login.html" %}
+		<p>{% trans "To submit a reply, please" %} <a href="{% url auth_login %}?next={{ thread.get_absolute_url }}">login</a>.<p>
 	{% else %}
 	<h2>{% trans "Post a Reply (as" %} {{ user.username }})</h2>
 	<form method='post' action='reply/'>

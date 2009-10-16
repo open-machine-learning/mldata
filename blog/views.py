@@ -11,10 +11,11 @@ from blog.models import Post, PostForm
 
 
 def new(request):
-    if request.method == 'POST':
-        if not request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('blog_index'))
+    if not request.user.is_authenticated():
+        redirect_to = reverse('auth_login') + '?next=' + reverse(new)
+        return HttpResponseRedirect(redirect_to)
 
+    if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = Post()
@@ -31,9 +32,5 @@ def new(request):
     info_dict = {
         'user': request.user,
         'form': form,
-        'login': {
-            'reason': _('submit a Post'),
-            'next': reverse(new),
-        },
     }
     return render_to_response('blog/new.html', info_dict)

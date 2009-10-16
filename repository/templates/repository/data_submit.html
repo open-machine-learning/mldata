@@ -1,29 +1,28 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ submit.title }}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ title }}{% endblock %}
 
-{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ submit.title }}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ title }}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
 {% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<h1>{{ submit.head }}</h1>
+<h1>{{ head }}</h1>
 
-<form action="{{ submit.action }}" method="post" enctype="multipart/form-data">
+<form action="{{ action }}" method="post" enctype="multipart/form-data">
 <table>
 <tr>
 	<td style="vertical-align: top"><dl>
-		{% if submit.is_new %}
+		{% if is_new %}
 		<dd><label for="id_name">{% trans "Name" %}*:</label> {{ form.name.errors }}</dd>
 		<dt>{{ form.name }}</dt>
 		{% endif %}
 		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
 		<dt>{{ form.format }}</dt>
-		<dd><label for="id_file">{% trans "Data file" %}{% if submit.is_new %}*{% endif %}:</label> {{ form.file.errors }}</dd>
+		<dd><label for="id_file">{% trans "Data file" %}{% if is_new %}*{% endif %}:</label> {{ form.file.errors }}</dd>
 		<dt>{{ form.file }}</dt>
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
@@ -55,8 +54,5 @@
 </tr>
 </table>
 </form>
-{% else %}
-{% include "form_login.html" %}
-{% endif %}
 {% endblock %}
 

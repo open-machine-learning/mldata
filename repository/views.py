@@ -57,10 +57,11 @@ def data_index(request):
     return render_to_response('repository/data_index.html', info_dict)
 
 def data_new(request):
-    if request.method == 'POST':
-        if not request.user.is_authenticated():
-            return HttpResponseRedirect(reverse(data_index))
+    url = reverse(data_new)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
 
+    if request.method == 'POST':
         form = DataForm(request.POST, request.FILES)
         if not request.FILES:
             d = ErrorDict({'': _('This field is required.')})
@@ -85,31 +86,24 @@ def data_new(request):
     else:
         form = DataForm()
 
-    url_data_new = reverse(data_new)
     info_dict = {
         'form': form,
         'user': request.user,
-        'submit': {
-            'head': _('Submit new Data'),
-            'action': url_data_new,
-            'is_new': True,
-            'title': _('New'),
-        },
-        'login': {
-            'reason': _('submit new Data'),
-            'next': url_data_new,
-        },
+        'head': _('Submit new Data'),
+        'action': url,
+        'is_new': True,
+        'title': _('New'),
     }
     return render_to_response('repository/data_submit.html', info_dict)
 
 
 def data_edit(request, slug_or_id):
     prev = _get_object_or_404(slug_or_id)
+    url = reverse(data_edit, args=[prev.slug_or_id])
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
 
     if request.method == 'POST':
-        if not request.user.is_authenticated():
-            return HttpResponseRedirect(reverse(data_index))
-
         request.POST['name'] = prev.name # cheat a little
         form = DataForm(request.POST, request.FILES)
         if form.is_valid():
@@ -136,22 +130,15 @@ def data_edit(request, slug_or_id):
     else:
         form = DataForm(instance=prev)
 
-    url_data_edit = reverse(data_edit, args=[prev.slug_or_id])
     info_dict = {
         'form': form,
         'prev': prev,
         'user': request.user,
-        'submit': {
-            'head': '%s %s (%s %s)' % \
-                (_('Edit Data for'), prev.name, _('version'), prev.version),
-            'action': url_data_edit,
-            'is_new': False,
-            'title': _('Edit'),
-        },
-        'login': {
-            'reason': _('edit Data'),
-            'next': url_data_edit,
-        },
+        'head': '%s %s (%s %s)' % \
+            (_('Edit Data for'), prev.name, _('version'), prev.version),
+        'action': url,
+        'is_new': False,
+        'title': _('Edit'),
     }
     return render_to_response('repository/data_submit.html', info_dict)
 

@@ -1,5 +1,8 @@
 repository:
 	- Data:
+		+ 'loeschen' -> is_deleted
+		+ version aktuell machen
+		+ kein kopieren bei neuen versionen
 		+ subdirectories within FileField's upload_to
 	- implement handling of Task + Solution objects
 	- pagination for long listings

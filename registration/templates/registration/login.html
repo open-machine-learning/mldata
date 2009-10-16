@@ -1,30 +1,32 @@
 {% extends "base_2col.html" %}
+{% load i18n %}
 
 {% block sectionid %}login{% endblock %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}{% trans "Log in" %}{% endblock %}
 
-{% block billboard %}Log in{% endblock %}
+{% block billboard %}{% trans "Log in" %} {{ next }} {% endblock %}
 
 {% block content-related %}
-<p>If you don't have an account, you can <a href="/accounts/register/">sign up</a> for one; it's free, and you'll be able to add content to this site.</p>
-<p>Forgotten your password? Then click <a href="/accounts/password/reset/">here</a> to receive an e-mail with a new one.</p>
+<p>{% trans "If you don't have an account, you can <a href='/accounts/register/'>sign up</a> for one; it's free, and you'll be able to add content to this site.</p> <p>Forgotten your password? Then click <a href='/accounts/password/reset/'>here</a> to receive an e-mail with a new one." %}</p>
 {% endblock %}
 
 {% block content %}
+<h1>{% trans "Login" %}</h1>
 
-{% if form.errors %}
-<p class="error">Please correct the errors below:</p>
-{% endif %}
+{% if form.errors %}<p class="error">
+{% trans "Please correct the errors below" %}:
+{% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+</p>{% endif %}
 
-<h2>Login</h2>
-<form method="post" action="{% if next %}?next={{ next }}{% endif %}">
+<form method="post" action="{% url django.contrib.auth.views.login %}">
+<input type="hidden" name="next" value="{{ next }}" />
 <dl>
-<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
+<dt>{{ form.username.label_tag }}: {% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.username|safe }}</dd>
-<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
+<dt>{{ form.password.label_tag }}: {% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.password|safe }}</dd>
-<dt><input type="submit" value="Log in" /></dt>
+<dt><input type="submit" value="{% trans "Log in" %}" /></dt>
 </dl>
 </form>
 

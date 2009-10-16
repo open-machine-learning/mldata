@@ -6,7 +6,6 @@
 {% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="{% url blog.views.new %}">{% trans "New Post" %}</a>{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
 <h1>{% trans "Submit a new Post" %}</h1>
 
 <form action="{% url blog.views.new %}" method="POST">
@@ -20,7 +19,4 @@
 	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
 </dl>
 </form>
-{% else %}
-{% include "form_login.html" %}
-{% endif %}
 {% endblock %}

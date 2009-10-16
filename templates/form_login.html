@@ -1,9 +1,0 @@
-{% load i18n %}
-<h1>{% trans "Please login to" %} {{ login.reason }}</h1>
-<form method='post' action='/accounts/login/?next={{ login.next }}'>
-	<dt><label for="id_username">{% trans "Username" %}:</label></dt>
-	<dd><input id="id_username" type="text" name="username" maxlength="30" /></dd>
-	<dt><label for="id_password">{% trans "Password" %}:</label></dt>
-	<dd><input id="id_password" type="password" name="password" maxlength="30" /></dd>
-	<dt colspan="2"><input type="submit" name="post" value="{% trans "Login" %}"/></dt>
-</form>
