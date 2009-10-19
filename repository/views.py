@@ -3,6 +3,7 @@ All custom repository logic is kept here
 """
 
 import datetime, os, shutil
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.db import IntegrityError
@@ -11,6 +12,10 @@ from django.forms.util import ErrorDict
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_URL
+
+
+VERSIONS_PER_PAGE = 5
+OBJECTS_PER_PAGE = 10
 
 
 def _get_object_or_404(slug_or_id):
@@ -57,11 +62,22 @@ def index(request):
 
 
 def data_index(request):
-    object_list = CurrentVersion.objects.filter(type=TYPE['data']).\
+    data = CurrentVersion.objects.filter(type=TYPE['data']).\
         filter(repository__is_deleted=False).order_by('-repository__pub_date')
+
+    paginator = Paginator(data, OBJECTS_PER_PAGE)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+    try:
+        data = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        data = paginator.page(paginator.num_pages)
+
     info_dict = {
         'user': request.user,
-        'object_list': object_list,
+        'data': data,
     }
     return render_to_response('repository/data_index.html', info_dict)
 
@@ -149,9 +165,20 @@ def data_edit(request, slug_or_id):
 
 def data_view(request, slug_or_id):
     obj = _get_object_or_404(slug_or_id)
+
     obj.versions = Data.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
+    paginator = Paginator(obj.versions, VERSIONS_PER_PAGE)
+    try:
+        default_page = str((obj.version % VERSIONS_PER_PAGE) + 1)
+        page = int(request.GET.get('page', default_page))
+    except ValueError:
+        page = 1
+    try:
+        obj.versions = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        obj.versions = paginator.page(paginator.num_pages)
 
     cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
     if cv[0].repository_id == obj.id:

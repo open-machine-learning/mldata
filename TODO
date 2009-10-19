@@ -1,5 +1,4 @@
-repository:
-	- implement handling of Task + Solution objects
-	- pagination for long listings
-
-TESTS!
+- repository:
+	+ implement handling of Task + Solution objects
+- TESTS!
+- better templates
