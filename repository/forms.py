@@ -1,5 +1,5 @@
 import re
-from django.forms import ModelForm, FileField, ValidationError
+from django.forms import *
 from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.widgets import AutoCompleteTagInput
@@ -8,6 +8,7 @@ from tagging.forms import TagField
 class DataForm(ModelForm):
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
     file = FileField(required=False)
+    format = CharField(required=False)
 
     class Meta:
         model = Data

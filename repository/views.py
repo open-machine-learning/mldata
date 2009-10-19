@@ -73,9 +73,14 @@ def data_new(request):
 
     if request.method == 'POST':
         form = DataForm(request.POST, request.FILES)
+
+        # manual validation coz it's required for new, but not edited data
+        is_required = ErrorDict({'': _('This field is required.')}).as_ul()
         if not request.FILES:
-            d = ErrorDict({'': _('This field is required.')})
-            form.errors['file'] = d.as_ul()
+            form.errors['file'] = is_required
+        if not request.POST['format']:
+            form.errors['format'] = is_required
+
         if form.is_valid():
             new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
@@ -115,26 +120,15 @@ def data_edit(request, slug_or_id):
 
     if request.method == 'POST':
         request.POST['name'] = prev.name # cheat a little
-        form = DataForm(request.POST, request.FILES)
+        form = DataForm(request.POST)
         if form.is_valid():
             next = form.save(commit=False)
             next.pub_date = datetime.datetime.now()
             next.slug_id = prev.slug_id
+            next.file = prev.file
+            next.format = prev.format
             next.version = next.get_next_version(type=TYPE['data'])
             next.author_id = request.user.id
-            if request.FILES:
-                next.file = request.FILES['file']
-                next.file.name = next.get_filename()
-            else:
-                # this looks all fishy, but paths get mixed up somehow
-                oldpath = prev.file.path # save old path, coz following copy is somewhat shallow
-                next.file = prev.file
-                next.file.name = next.get_filename()
-                newpath = os.path.dirname(oldpath) + os.sep + next.file.name
-                # for some unknown reason, next.file.name needs upload_to
-                # prepended to be written properly into database...
-                next.file.name = prev.file.field.upload_to + os.sep + next.file.name
-                shutil.copyfile(oldpath, newpath)
             next.save(type=TYPE['data'])
             return HttpResponseRedirect(next.get_absolute_url())
     else:

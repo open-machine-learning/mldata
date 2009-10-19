@@ -92,7 +92,7 @@ class Data(Repository):
     def get_filename(self):
         if not self.slug_id:
             self.make_slug()
-        return '%s_%s.txt' % (self.slug.text, self.version)
+        return '%s.%s' % (self.slug.text, self.format)
 
 
 class Task(Repository):
