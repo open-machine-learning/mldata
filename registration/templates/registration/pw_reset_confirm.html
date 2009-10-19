@@ -1,0 +1,24 @@
+{% extends "base_2col.html" %}
+{% load i18n %}
+
+{% block sectionid %}accounts{% endblock %}
+
+{% block title %}{% trans "Password" %} :: {% trans "Reset" %}{% endblock %}
+
+{% block billboard %}{% trans "Password" %} :: {% trans "Reset" %} :: {% trans "Confirm" %}{% endblock %}
+
+{% block content %}
+<p>
+{% trans "Please enter your new password twice so we can verify you typed it in correctly" %}.
+</p>
+
+<form action="" method="post">
+	<label for="id_new_password1">{% trans "New password" %}:</label>{% if form.new_password1.errors %} <span class="error">{{ form.new_password1.errors|join:", " }}</span>{% endif %}<br />
+	<input type="password" name="new_password1" id="id_new_password1" />
+	<br />
+	<label for="id_new_password2">{% trans "Confirm password" %}:</label>{% if form.new_password2.errors %} <span class="error">{{ form.new_password2.errors|join:", " }}</span>{% endif %}<br />
+	<input type="password" name="new_password2" id="id_new_password2" />
+	<br />
+	<input type="submit" value="{% trans "Change my password" %}" />
+</form>
+{% endblock %}

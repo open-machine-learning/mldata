@@ -1,0 +1,14 @@
+{% extends "base_2col.html" %}
+{% load i18n %}
+
+{% block sectionid %}accounts{% endblock %}
+
+{% block title %}{% trans "Registration" %}{% endblock %}
+
+{% block billboard %}{% trans "Registration" %} :: {% trans "Activation sent" %}{% endblock %}
+
+{% block content %}
+<p>
+{% trans "An activation link has been sent to the email address you supplied, along with instructions for activating your account." %}
+</p>
+{% endblock %}

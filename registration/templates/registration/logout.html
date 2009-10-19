@@ -1,15 +1,20 @@
 {% extends "base_2col.html" %}
+{% load i18n %}
 
-{% block sectionid %}login{% endblock %}
+{% block sectionid %}accounts{% endblock %}
 
-{% block title %}Logout{% endblock %}
+{% block title %}{% trans "Logout" %}{% endblock %}
 
-{% block billboard %}Logout{% endblock %}
+{% block billboard %}{% trans "Logout" %}{% endblock %}
 
 {% block content %}
-<p>You've been logged out.</p>
+<p>
+{% trans "You have been logged out. Thanks for stopping by" %}!
+</p>
 {% endblock %}
 
 {% block content-related %}
-<p>Thanks for stopping by; when you come back, don't forget to <a href="/accounts/login/">log in</a> again.</p>
+<p>
+{% trans "Maybe you would like to" %} <a href="{% url django.contrib.auth.views.login %}">{% trans "log in" %}</a>?
+</p>
 {% endblock %}

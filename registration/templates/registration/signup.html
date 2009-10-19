@@ -1,0 +1,35 @@
+{% extends "base_2col.html" %}
+{% load i18n %}
+
+{% block sectionid %}accounts{% endblock %}
+
+{% block title %}{% trans "Registration" %}{% endblock %}
+
+{% block billboard %}{% trans "Registration" %} :: {% trans "Sign up" %}{% endblock %}
+
+{% block content-related %}
+<p>
+{% trans "Fill out the form to the right (all fields are required), and your account will be created; you'll be sent an email with instructions on how to finish your registration." %}
+</p>
+{% endblock %}
+
+{% block content %}
+{% if form.errors %}
+<p class="error">{% trans "Please correct the errors below" %}:</p>
+{% endif %}
+
+<form method="post" action="">
+<dl>
+<dt><label for="id_username">{% trans "Username" %}:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
+<dd>{{ form.username|safe }}</dd>
+<dt><label for="id_email">{% trans "Email address" %}:</label>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</dt>
+<dd>{{ form.email|safe }}</dd>
+<dt><label for="id_password1">{% trans "Password" %}:</label>{% if form.password1.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
+<dd>{{ form.password1|safe }}</dd>
+<dt><label for="id_password2">{% trans "Password (type again to catch any typos)" %}:</label>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
+<dd>{{ form.password2|safe }}</dd>
+<dt><label for="id_tos">{% trans "I have read and agree to the" %} <a href="/about/tos/">Terms of Service</a>:</label>{% if form.tos.errors %} <span class="error">{{ form.tos.errors|join:", " }}</span>{% endif %}&nbsp;&nbsp;{{ form.tos|safe }}</dt>
+<dt><input type="submit" value="{% trans "Register" %}" /></dt>
+</dl>
+</form>
+{% endblock %}

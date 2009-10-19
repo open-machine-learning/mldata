@@ -1,0 +1,21 @@
+{% extends "base_2col.html" %}
+{% load i18n %}
+
+{% block sectionid %}accounts{% endblock %}
+
+{% block title %}{% trans "Registration" %}{% endblock %}
+
+{% block billboard %}{% trans "Registration" %} :: {% trans "Account Activation" %}{% endblock %}
+
+{% block content %}
+{% load humanize %}
+{% if account %}
+<p>
+{% trans "Thanks for signing up! You can start contributing when you" %} <a href="{% url django.contrib.auth.views.login %}">{% trans "log in" %}</a>!
+</p>
+{% else %}
+<p>
+{% trans "Either your activation link was incorrect, or the activation key for your account has expired; activation keys are only valid for" %} {{ expiration_days|apnumber }} {% trans "days after registration" %}.
+</p>
+{% endif %}
+{% endblock %}
