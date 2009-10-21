@@ -1,0 +1,27 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {{ type }} :: {% trans "Archive" %}{% endblock %}
+
+{% block billboard %}{% trans "Repository" %} :: {{ type }} :: {% trans "Archive" %}{% endblock %}
+
+{% block content %}
+{% if page.object_list %}
+<ul>
+{% for object in page.object_list %}
+	<li><a href="{{ object.get_absolute_url }}">{{ object.repository.name }}</a> ({% trans "on" %} {{ object.repository.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.repository.author.username }})</li>
+{% endfor %}
+
+{% ifnotequal page.paginator.num_pages 1 %}
+{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">&laquo;</a>{% endif %}
+{% for num in page.paginator.page_range %}
+	{% ifequal num page.number %}-{% else %}<a href="{% url repository.views.data_index %}?page={{ num }}">{{ num }}</a>{% endifequal %}
+{% endfor %}
+{% if page.has_next %}<a href="?page={{ page.next_page_number }}">&raquo;</a>{% endif %}
+{% endifnotequal %}
+</ul>
+{% else %}
+<p>{% trans "Sorry, no items available" %}.</p>
+{% endif %}
+{% endblock %}
+

@@ -61,25 +61,38 @@ def index(request):
     return render_to_response('repository/index.html', info_dict)
 
 
-def data_index(request):
-    data = CurrentVersion.objects.filter(type=TYPE['data']).\
+def _repository_index(request, type):
+    objects = CurrentVersion.objects.filter(type=TYPE[type]).\
         filter(repository__is_deleted=False).order_by('-repository__pub_date')
 
-    paginator = Paginator(data, OBJECTS_PER_PAGE)
+    paginator = Paginator(objects, OBJECTS_PER_PAGE)
     try:
-        page = int(request.GET.get('page', '1'))
+        num = int(request.GET.get('page', '1'))
     except ValueError:
-        page = 1
+        num = 1
     try:
-        data = paginator.page(page)
+        page = paginator.page(num)
     except (EmptyPage, InvalidPage):
-        data = paginator.page(paginator.num_pages)
+        page = paginator.page(paginator.num_pages)
+
+    # quirky, but simplifies templates
+    for obj in page.object_list:
+        obj.get_absolute_url = getattr(obj.repository, type).get_absolute_url
 
     info_dict = {
         'user': request.user,
-        'data': data,
+        'page': page,
+        'type': type.capitalize(),
     }
-    return render_to_response('repository/data_index.html', info_dict)
+    return render_to_response('repository/repository_index.html', info_dict)
+
+def data_index(request):
+    return _repository_index(request, 'data')
+def task_index(request):
+    return _repository_index(request, 'task')
+def solution_index(request):
+    return _repository_index(request, 'solution')
+
 
 
 def data_new(request):
@@ -226,18 +239,60 @@ def data_activate(request, id):
     return HttpResponseRedirect(obj.get_absolute_url())
 
 
-def task_index(request):
-    return render_to_response('repository/task_index.html')
-
 def task_new(request):
+    url = reverse(data_new)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
+
+    if request.method == 'POST':
+        form = DataForm(request.POST, request.FILES)
+
+        # manual validation coz it's required for new, but not edited data
+        is_required = ErrorDict({'': _('This field is required.')}).as_ul()
+        if not request.FILES:
+            form.errors['file'] = is_required
+        if not request.POST['format']:
+            form.errors['format'] = is_required
+
+        if form.is_valid():
+            new = form.save(commit=False)
+            new.pub_date = datetime.datetime.now()
+            try:
+                new.slug_id = new.get_slug_id()
+            except IntegrityError:
+                # looks quirky...
+                d = ErrorDict({'':
+                    _('The given name yields an already existing slug. Please try another name.')})
+                form.errors['name'] = d.as_ul()
+            else:
+                new.version = 1
+                new.author_id = request.user.id
+                new.file = request.FILES['file']
+                new.file.name = new.get_filename()
+                new.save(type=TYPE['data'])
+                return HttpResponseRedirect(new.get_absolute_url())
+    else:
+        form = DataForm()
+
+    info_dict = {
+        'form': form,
+        'user': request.user,
+        'head': _('Submit new Data'),
+        'action': url,
+        'is_new': True,
+        'title': _('New'),
+    }
+    return render_to_response('repository/data_submit.html', info_dict)
+
+
     return render_to_response('repository/task_new.html')
 
-def task_view(request, id):
+def task_view(request, slug_or_idid):
     return render_to_response('repository/task_view.html')
 
+def task_edit(request, slug_or_id):
+    return render_to_response('repository/task_view.html')
 
-def solution_index(request):
-    return render_to_response('repository/solution_index.html')
 
 def solution_new(request):
     return render_to_response('repository/solution_new.html')
