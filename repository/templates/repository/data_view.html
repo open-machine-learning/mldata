@@ -7,7 +7,7 @@
 {% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "View" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Data of" %} {{ object.name }}</h1>
+<h1>{% trans "Data of" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h1>
 
 <table>
 <tr>
@@ -19,9 +19,9 @@
 	{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}">&raquo;</a>{% endif %}
 </th>
 	<th style="text-align: right">
-		{% if can_activate %}<a href="{% url repository.views.data_activate object.id %}">{% trans "ACTIVATE" %}</a>{% endif %}
-		<a href="{% url repository.views.data_edit object.slug_or_id %}">{% trans "EDIT" %}</a>
-		{% if can_delete %}<a href="{% url repository.views.data_delete object.slug_or_id %}">{% trans "DELETE" %}</a>{% endif %}
+		{% if can_activate %}<a href="{% url repository.views.data_activate object.id %}" title="{% trans "Activate this version to be the current one" %}">{% trans "ACTIVATE" %}</a>{% endif %}
+		<a href="{% url repository.views.data_edit object.slug_or_id %}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
+		{% if can_delete %}<a href="{% url repository.views.data_delete object.slug_or_id %}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 	</th>
 </tr>
 <tr>

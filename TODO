@@ -1,4 +1,4 @@
 - repository:
 	+ implement handling of Task + Solution objects
 - TESTS!
-- better templates
+- better templates / design

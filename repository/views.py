@@ -18,24 +18,37 @@ VERSIONS_PER_PAGE = 5
 OBJECTS_PER_PAGE = 10
 
 
-def _get_object_or_404(slug_or_id):
-    obj = CurrentVersion.objects.filter(slug__text=slug_or_id).\
-        filter(repository__is_deleted=False)
-    if not obj:
-        obj = Data.objects.get(pk=slug_or_id)
-        if not obj or obj.is_deleted:
-            raise Http404
-    else:
-        obj = obj[0].repository.data
-    obj.slug_or_id = slug_or_id
-    return obj
-
-
-def _can_delete(user, author_id):
+def _is_owner(user, author_id):
     if user.is_staff or user.is_superuser or user.id == author_id:
         return True
     else:
         return False
+
+
+def _get_object_or_404(request, slug_or_id, type):
+    obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
+        repository__is_deleted=False)
+
+    if obj: # slug
+        is_owner = _is_owner(request.user, obj[0].repository.author.id)
+        if not is_owner and not obj[0].repository.is_public:
+            raise Http404
+        obj = getattr(obj[0].repository, type)
+    else: # id
+        try:
+            # e.g. 'data' -> 'Data' -> class Data
+            klass = eval(type.capitalize())
+            obj = klass.objects.get(pk=slug_or_id)
+        except klass.DoesNotExist:
+            raise Http404
+        if not obj or obj.is_deleted:
+            raise Http404
+        is_owner = _is_owner(request.user, obj.author.id)
+        if not is_owner and not obj.is_public:
+            raise Http404
+
+    obj.slug_or_id = slug_or_id
+    return obj
 
 
 def index(request):
@@ -61,9 +74,16 @@ def index(request):
     return render_to_response('repository/index.html', info_dict)
 
 
-def _repository_index(request, type):
-    objects = CurrentVersion.objects.filter(type=TYPE[type]).\
-        filter(repository__is_deleted=False).order_by('-repository__pub_date')
+def _repository_index(request, type, my=False):
+    objects = CurrentVersion.objects.filter(type=TYPE[type],
+        repository__is_deleted=False).order_by('-repository__pub_date')
+
+    if my:
+        objects = objects.filter(repository__author=request.user.id)
+        my_or_archive = _('My')
+    else:
+        objects = objects.filter(repository__is_public=True)
+        my_or_archive = _('Public Archive')
 
     paginator = Paginator(objects, OBJECTS_PER_PAGE)
     try:
@@ -83,11 +103,14 @@ def _repository_index(request, type):
         'user': request.user,
         'page': page,
         'type': type.capitalize(),
+        'my_or_archive': my_or_archive,
     }
     return render_to_response('repository/repository_index.html', info_dict)
 
 def data_index(request):
     return _repository_index(request, 'data')
+def data_my(request):
+    return _repository_index(request, 'data', True)
 def task_index(request):
     return _repository_index(request, 'task')
 def solution_index(request):
@@ -142,7 +165,7 @@ def data_new(request):
 
 
 def data_edit(request, slug_or_id):
-    prev = _get_object_or_404(slug_or_id)
+    prev = _get_object_or_404(request, slug_or_id, 'data')
     url = reverse(data_edit, args=[prev.slug_or_id])
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
@@ -177,7 +200,7 @@ def data_edit(request, slug_or_id):
 
 
 def data_view(request, slug_or_id):
-    obj = _get_object_or_404(slug_or_id)
+    obj = _get_object_or_404(request, slug_or_id, 'data')
 
     obj.versions = Data.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
@@ -203,15 +226,15 @@ def data_view(request, slug_or_id):
         'object': obj,
         'user': request.user,
         'can_activate': can_activate,
-        'can_delete': _can_delete(request.user, obj.author_id),
+        'can_delete': _is_owner(request.user, obj.author_id),
         'MEDIA_URL': MEDIA_URL,
     }
     return render_to_response('repository/data_view.html', info_dict)
 
 
 def data_delete(request, slug_or_id):
-    obj = _get_object_or_404(slug_or_id)
-    if _can_delete(request.user, obj.author_id):
+    obj = _get_object_or_404(request, slug_or_id, 'data')
+    if _is_owner(request.user, obj.author_id):
         obj.is_deleted = True
         current = Data.objects.filter(slug__text=obj.slug.text).\
             filter(is_deleted=False).order_by('-version')
@@ -237,6 +260,7 @@ def data_activate(request, id):
         cv[0].save()
 
     return HttpResponseRedirect(obj.get_absolute_url())
+
 
 
 def task_new(request):

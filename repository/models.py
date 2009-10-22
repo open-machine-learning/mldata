@@ -101,6 +101,9 @@ class Task(Repository):
     performance_measure = models.CharField(max_length=255)
     data = models.ManyToManyField(Data)
 
+    def get_absolute_url(self):
+        return reverse('repository.views.task_view', args=[self.slug.text])
+
 
 class Solution(Repository):
     feature_processing = models.CharField(max_length=255)

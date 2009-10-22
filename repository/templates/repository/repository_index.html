@@ -1,9 +1,9 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {{ type }} :: {% trans "Archive" %}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
 
-{% block billboard %}{% trans "Repository" %} :: {{ type }} :: {% trans "Archive" %}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
 
 {% block content %}
 {% if page.object_list %}

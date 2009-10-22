@@ -14,19 +14,20 @@ repository base
 {% block content-related %}
 <h2>Data</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.data_index %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.data_index %}">Public Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.data_my %}">My Data</a></h3></li>
 	<li><h3><a href="{% url repository.views.data_new %}">Submit new Data</a></h3></li>
 </ul>
 
 <h2>Task</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.task_index %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.task_index %}">Public Archive</a></h3></li>
 	<li><h3><a href="{% url repository.views.task_new %}">Submit new Task</a></h3></li>
 </ul>
 
 <h2>Solution</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.solution_index %}">Archive</a></h3></li>
+	<li><h3><a href="{% url repository.views.solution_index %}">Public Archive</a></h3></li>
 	<li><h3><a href="{% url repository.views.solution_new %}">Submit new Solution</a></h3></li>
 </ul>
 {% endblock %}
