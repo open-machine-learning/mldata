@@ -43,9 +43,12 @@ class Repository(models.Model):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
         current = CurrentVersion.objects.filter(slug=self.slug_id)
-        if current:
+        if current: # only update current version if this is public
+            if not self.is_public:
+                super(Repository, self).save()
+                return
             current = current[0]
-        else:
+        else: # new item, create current version even if not public
             current = CurrentVersion()
             # can't put foreign key id into constructor
             current.slug_id = self.slug_id
@@ -65,8 +68,8 @@ class Repository(models.Model):
     def get_next_version(self, type):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
-        current = CurrentVersion.objects.filter(type=type, slug=self.slug_id)[0]
-        return current.repository.version + 1
+        obj = eval(self.__class__.__name__).objects.filter(slug=self.slug_id).order_by('-version')
+        return obj[0].version + 1
 
 
 class CurrentVersion(models.Model):
@@ -86,8 +89,12 @@ class Data(Repository):
     file = models.FileField(upload_to='repository/data')
     tags = TagField()
 
-    def get_absolute_url(self):
-        return reverse('repository.views.data_view', args=[self.slug.text])
+    def get_absolute_url(self, use_slug=True):
+        if use_slug:
+            args=[self.slug.text]
+        else:
+            args=[self.id]
+        return reverse('repository.views.data_view', args=args)
 
     def get_filename(self):
         if not self.slug_id:

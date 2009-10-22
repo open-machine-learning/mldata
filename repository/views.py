@@ -182,7 +182,7 @@ def data_edit(request, slug_or_id):
             next.version = next.get_next_version(type=TYPE['data'])
             next.author_id = request.user.id
             next.save(type=TYPE['data'])
-            return HttpResponseRedirect(next.get_absolute_url())
+            return HttpResponseRedirect(next.get_absolute_url(use_slug=False))
     else:
         form = DataForm(instance=prev)
 
@@ -201,7 +201,6 @@ def data_edit(request, slug_or_id):
 
 def data_view(request, slug_or_id):
     obj = _get_object_or_404(request, slug_or_id, 'data')
-
     obj.versions = Data.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
