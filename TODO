@@ -1,5 +1,4 @@
 - repository:
-	+ is_public: activate -> is_public true + set current
 	+ if not is_public, then shldn't be in list on view
 	+ implement handling of Task + Solution objects
 - TESTS!

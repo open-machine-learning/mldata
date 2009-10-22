@@ -253,10 +253,15 @@ def data_activate(request, id):
         return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
 
     obj = get_object_or_404(Data, pk=id)
+    if not _is_owner(request.user, obj.author.id):
+        raise Http404
+
     cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
     if cv:
         cv[0].repository_id = obj.id
+        obj.is_public = True
         cv[0].save()
+        obj.save(TYPE['data'])
 
     return HttpResponseRedirect(obj.get_absolute_url())
 
