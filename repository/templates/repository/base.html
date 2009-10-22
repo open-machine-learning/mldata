@@ -15,7 +15,7 @@ repository base
 <h2>Data</h2>
 <ul>
 	<li><h3><a href="{% url repository.views.data_index %}">Public Archive</a></h3></li>
-	<li><h3><a href="{% url repository.views.data_my %}">My Data</a></h3></li>
+	{% if user.is_authenticated %}<li><h3><a href="{% url repository.views.data_my %}">My Data</a></h3></li>{% endif %}
 	<li><h3><a href="{% url repository.views.data_new %}">Submit new Data</a></h3></li>
 </ul>
 

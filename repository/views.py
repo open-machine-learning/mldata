@@ -204,6 +204,10 @@ def data_view(request, slug_or_id):
     obj.versions = Data.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
+    is_owner = _is_owner(request.user, obj.author_id)
+    if not is_owner:
+        obj.versions = obj.versions.filter(is_public=True)
+
     paginator = Paginator(obj.versions, VERSIONS_PER_PAGE)
     try:
         default_page = str((obj.version % VERSIONS_PER_PAGE) + 1)
@@ -225,7 +229,7 @@ def data_view(request, slug_or_id):
         'object': obj,
         'user': request.user,
         'can_activate': can_activate,
-        'can_delete': _is_owner(request.user, obj.author_id),
+        'can_delete': is_owner,
         'MEDIA_URL': MEDIA_URL,
     }
     return render_to_response('repository/data_view.html', info_dict)
