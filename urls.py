@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 
     # somewhat util
     (r'^accounts/', include('registration.urls')),
-    (r'^admin/', include(admin.site.urls)),
+    (r'^admin/', include('admin.site.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
     (r'^user/', include('user.urls')),
 

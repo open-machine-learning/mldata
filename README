@@ -1,0 +1,22 @@
+To install django (Assuming you have python)
+
+Get the source from
+http://www.djangoproject.com/download/
+
+tar xzvf Django-1.1.1.tar.gz
+cd Django-1.1.1
+sudo python setup.py install
+
+
+
+
+If you don't have website/mldata/mldata.db, create the database with
+python manage.py syncdb
+
+Run the webserver with
+cd website/mldata/
+python manage.py runserver
+
+The default webserver runs at http://127.0.0.1:8000/
+Point your web browser to it and have a look.
+
