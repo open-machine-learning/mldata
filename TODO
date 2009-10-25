@@ -1,5 +1,6 @@
 - repository:
-	+ if not is_public, then shldn't be in list on view
+	+ bug: version pagination on wrong page
 	+ implement handling of Task + Solution objects
+	+ add rating system (maybe upgrade comments)
 - TESTS!
 - better templates / design

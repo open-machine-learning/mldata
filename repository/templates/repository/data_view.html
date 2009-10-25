@@ -64,5 +64,13 @@
 	<td colspan="2"><a href="{{ MEDIA_URL }}{{object.file.name}}">{% trans "Download Data File" %}</a></td>
 </tr>
 </table>
+<br />
+
+{% load comments %}
+{% get_comment_list for repository.data object.id as comment_list %}
+{% include "comment_list.html" %}
+{% get_comment_form for repository.data object.id as form %}
+{% include "comment_form.html" %}
+
 {% endblock %}
 

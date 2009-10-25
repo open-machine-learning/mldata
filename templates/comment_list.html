@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load markup %}
+
+{% if comment_list %}
+<h2 id="comments">{% trans "Comments" %}</h2>
+{% for comment in comment_list %}
+<dl><dd>
+	<div class="comment"><dl>
+		<dt id="c{{ comment.id }}">{{ comment.user_name }} ({% trans "on" %} {{ comment.submit_date|date:"F j Y, H:i" }})</dt>
+		<dd>{{ comment.comment|markdown:"safe" }}</dd>
+	</dl></div>
+</dd></dl>
+<hr />
+{% endfor %}
+{% else %}
+<p>{% trans "No one has posted any comments yet. Perhaps you would like to be the first?" %}</p>
+{% endif %}

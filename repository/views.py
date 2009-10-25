@@ -97,7 +97,8 @@ def _repository_index(request, type, my=False):
 
     # quirky, but simplifies templates
     for obj in page.object_list:
-        obj.get_absolute_url = getattr(obj.repository, type).get_absolute_url
+        obj.absolute_url = getattr(obj.repository, type).\
+            get_absolute_url(use_slug=True)
 
     info_dict = {
         'user': request.user,
@@ -149,7 +150,7 @@ def data_new(request):
                 new.file = request.FILES['file']
                 new.file.name = new.get_filename()
                 new.save(type=TYPE['data'])
-                return HttpResponseRedirect(new.get_absolute_url())
+                return HttpResponseRedirect(new.get_absolute_url(use_slug=True))
     else:
         form = DataForm()
 
@@ -182,7 +183,7 @@ def data_edit(request, slug_or_id):
             next.version = next.get_next_version(type=TYPE['data'])
             next.author_id = request.user.id
             next.save(type=TYPE['data'])
-            return HttpResponseRedirect(next.get_absolute_url(use_slug=False))
+            return HttpResponseRedirect(next.get_absolute_url())
     else:
         form = DataForm(instance=prev)
 
@@ -267,56 +268,11 @@ def data_activate(request, id):
         cv[0].save()
         obj.save(TYPE['data'])
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
 
 
 
 def task_new(request):
-    url = reverse(data_new)
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
-
-    if request.method == 'POST':
-        form = DataForm(request.POST, request.FILES)
-
-        # manual validation coz it's required for new, but not edited data
-        is_required = ErrorDict({'': _('This field is required.')}).as_ul()
-        if not request.FILES:
-            form.errors['file'] = is_required
-        if not request.POST['format']:
-            form.errors['format'] = is_required
-
-        if form.is_valid():
-            new = form.save(commit=False)
-            new.pub_date = datetime.datetime.now()
-            try:
-                new.slug_id = new.get_slug_id()
-            except IntegrityError:
-                # looks quirky...
-                d = ErrorDict({'':
-                    _('The given name yields an already existing slug. Please try another name.')})
-                form.errors['name'] = d.as_ul()
-            else:
-                new.version = 1
-                new.author_id = request.user.id
-                new.file = request.FILES['file']
-                new.file.name = new.get_filename()
-                new.save(type=TYPE['data'])
-                return HttpResponseRedirect(new.get_absolute_url())
-    else:
-        form = DataForm()
-
-    info_dict = {
-        'form': form,
-        'user': request.user,
-        'head': _('Submit new Data'),
-        'action': url,
-        'is_new': True,
-        'title': _('New'),
-    }
-    return render_to_response('repository/data_submit.html', info_dict)
-
-
     return render_to_response('repository/task_new.html')
 
 def task_view(request, slug_or_idid):

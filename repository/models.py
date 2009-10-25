@@ -89,7 +89,7 @@ class Data(Repository):
     file = models.FileField(upload_to='repository/data')
     tags = TagField()
 
-    def get_absolute_url(self, use_slug=True):
+    def get_absolute_url(self, use_slug=False):
         if use_slug:
             args=[self.slug.text]
         else:

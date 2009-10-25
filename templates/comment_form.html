@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load comments %}
+
+{% if user.is_authenticated %}
+<h2>{% trans "Leave a comment" %}</h2>
+
+<form action="{% comment_form_target %}" method="POST">
+<dl>
+<!--
+	<dd><label for="id_name">Name:</label></dd>
+	<dt><input id="id_name" type="text" name="name" maxlength="50" value="{{ user.username }}" /></dt>
+	<dd><label for="id_email">Email address:</label></dd>
+	<dt><input type="text" name="email" id="id_email" value="{{ user.email }}" /></dt>
+	<dd><label for="id_url">URL:</label></dd>
+	<dt><input type="text" name="url" id="id_url" /></dt>
+	<dd><label for="id_comment">{% trans "Comment" %}:</label></dd>
+-->
+	<dt><textarea id="id_comment" rows="10" cols="40" name="comment"></textarea></dt>
+	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" /></dt>
+</dl>
+<input type="hidden" name="name" id="id_name" maxlength="50" value="{{ user.username }}" />
+<input type="hidden" name="email" id="id_email" value="{{ user.email }}" />
+<span style="display:none">
+	<label for="id_honeypot">{% trans "If you enter anything in this field your comment will be treated as spam" %}:</label>
+	<input type="text" name="honeypot" id="id_honeypot" />
+</span>
+{{ form.content_type }}
+{{ form.object_pk }}
+{{ form.timestamp }}
+{{ form.security_hash }}
+<input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
+</form>
+{% else %}
+<p>{% trans "To post a comment, please" %} <a href="{% url auth_login %}?next={{ object.get_absolute_url }}">login</a>.</p>
+{% endif %}
