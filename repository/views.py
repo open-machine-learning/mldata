@@ -51,6 +51,34 @@ def _get_object_or_404(request, slug_or_id, type):
     return obj
 
 
+def _get_versions_paginator(request, obj, is_owner):
+    versions = Data.objects.values('id', 'version').\
+        filter(slug__text=obj.slug.text).\
+        filter(is_deleted=False).order_by('version')
+    if not is_owner:
+        versions = versions.filter(is_public=True)
+    paginator = Paginator(versions, VERSIONS_PER_PAGE)
+
+    try:
+        # dunno a better way than looping thru, since index != obj.version
+        index = 0
+        for v in versions:
+            if v['id'] == obj.id:
+                break
+            else:
+                index += 1
+        default_page = (index / VERSIONS_PER_PAGE) + 1
+        page = int(request.GET.get('page', str(default_page)))
+    except ValueError:
+        page = 1
+    try:
+        versions = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        versions = paginator.page(paginator.num_pages)
+
+    return versions
+
+
 def index(request):
     try:
         latest_data = Data.objects.filter(is_deleted=False).order_by('-pub_date')[0]
@@ -202,28 +230,12 @@ def data_edit(request, slug_or_id):
 
 def data_view(request, slug_or_id):
     obj = _get_object_or_404(request, slug_or_id, 'data')
-    obj.versions = Data.objects.values('id', 'version').\
-        filter(slug__text=obj.slug.text).\
-        filter(is_deleted=False).order_by('version')
     is_owner = _is_owner(request.user, obj.author_id)
-    if not is_owner:
-        obj.versions = obj.versions.filter(is_public=True)
+    obj.versions = _get_versions_paginator(request, obj, is_owner)
 
-    paginator = Paginator(obj.versions, VERSIONS_PER_PAGE)
-    try:
-        default_page = str((obj.version % VERSIONS_PER_PAGE) + 1)
-        page = int(request.GET.get('page', default_page))
-    except ValueError:
-        page = 1
-    try:
-        obj.versions = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        obj.versions = paginator.page(paginator.num_pages)
-
+    can_activate = False
     cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
-    if cv[0].repository_id == obj.id:
-        can_activate = False
-    else:
+    if not cv[0].repository_id == obj.id and is_owner:
         can_activate = True
 
     info_dict = {

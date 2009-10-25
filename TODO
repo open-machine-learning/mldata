@@ -1,5 +1,4 @@
 - repository:
-	+ bug: version pagination on wrong page
 	+ implement handling of Task + Solution objects
 	+ add rating system (maybe upgrade comments)
 - TESTS!
