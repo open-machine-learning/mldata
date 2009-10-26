@@ -15,10 +15,10 @@ a:hover { color:#ffffff; background-color:#994400; text-decoration:none; }
 a:link, a:visited { color:#000000; }
 
 /* HEADER */
-#header { background:#ffffcc; position:relative; height:140px;}
-#header #logo { position:relative; left:0px; top:5px; display:inline; text-align:left; padding:5px; margin:0px; }
+#header { background:#ffffcc; position:relative; height:110px;}
+#header #logo { position:absolute; left:0px; top:5px; display:inline; text-align:left; padding:5px; margin:0px; }
 #header #logo img { width:300px; height:90px; }
-#header #text { font-weight:bold;color:#994400; position:relative; left:5px; top:10px; margin:0px; padding:0px; text-align:left; vertical-align: top; display:inline; font-size:2em;}
+#header #text { font-weight:bold;color:#994400; position:absolute; left:320px; top:20px; margin:0px; padding:0px; text-align:left; line-height:1em; display:inline; font-size:2.3em;}
 #accounts b { font-weight:normal; display:inline; text-align:right; padding:5em 1px 1px 1px ; position:absolute: color:#ffffff; background:#ffffff; min-width:62em; max-width:110em; display:inline; text-align:right; padding:5em 5px 12px 7px}
 #accounts b a { color:#000000; background:#ffffff; text-decoration:underline; }
 #accounts b a:hover { color:#ffffff; background:#000000; text-decoration:none; }
