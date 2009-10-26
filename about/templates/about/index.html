@@ -1,10 +1,15 @@
-{% extends "base_2col.html" %}
+{% extends "base.html" %}
 
 {% block title %}About{% endblock %}
 {% block sectionid %}about{% endblock %}
 {% block billboard %}ABOUT{% endblock %}
 
 {% block content-related %}
+<h2>Acknowledgements</h2>
+<p>
+This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)<br />
+<a href="http://www.pascal-network.org/">http://www.pascal-network.org/</a>.
+</p>
 {% endblock %}
 
 {% block content %}
@@ -37,11 +42,5 @@ In the statistics and bioinformatics community, some headway has been seen. The 
 Recently, <a href="http://mloss.org">mloss.org</a> has enabled machine learning researchers to register their software and allow other researchers to easily find, download, and reuse software matching their interests.  Currently, more than 200 projects are listed. Furthermore, the Journal of Machine Learning Research now accepts papers to its special Open Source Software track, in which papers describing peer-reviewed software can be published, as a further incentive for researchers to publish their software under an open source license. Since its inception, in October 2007, seven papers have been published in this track with more papers currently under review.  So far, the initiative has been highly successful, but has focused mostly on the ”method” side of the problem to make machine learning research more reproducible. Hence we see the need to initiate a companion project to <a href="http://mloss.org">mloss.org</a> which focuses on the free exchange and benchmarking of datasets. Additionally, this new repository will emphasise the precise specification of machine learning tasks: detailed definitions of datasets to be used (possibly including feature extraction or other preprocessing steps) together with the desired operation to be performed and the relevant performance metric. Finally, a solution to such a task would provide details of how to apply a general software package (such as on <a href="http://mloss.org">mloss.org</a>) to this particular problem instance, as well as the obtained numerical performance measures. This project will thus focus on providing a platform for publishing, exchanging, collecting, and discussing such data sets, tasks, and solutions for challenging machine learning problems.  
 </p>
 
-
-<h1>Acknowledgements</h1>
-<p>
-This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)<br />
-<a href="http://www.pascal-network.org/">http://www.pascal-network.org/</a>.
-</p>
 
 {% endblock %}

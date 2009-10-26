@@ -22,25 +22,18 @@
 	<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}">
 			<div id="accounts">
 				<b>
-					{% if user.is_authenticated %} Welcome
-					{% if user.first_name %}
-					<a href="/user/view/{{user.pk}}">{{user.first_name}}</a>
-					|
+					{% if user.is_authenticated %}
+					Welcome <a href="{% url user.views.show_user user.pk %}">{% if user.first_name %}{{user.first_name}}{% else %}{{user}}{% endif %}</a>|
+					<a href="{% url auth_logout %}">Logout</a>
 					{% else %}
-					<a href="/user/view/{{user.pk}}">{{user}}</a>|
-					{% endif %}
-					<a href="/accounts/logout">Logout</a>
-					{% else %}
-					<a href="/accounts/login">Login</a>
+					<a href="{% url auth_login %}">Login</a>
 					{% endif %}
 				</b>
 			</div>
 		<div id="container">
 			<div id="header">
 				<div id="logo">
-					<a href="/">
-						<img id="logo" src="/media/images/pascal.png" alt="logo"></img>
-					</a>
+					<a href="/"><img id="logo" src="/media/images/pascal.png" alt="logo"></img></a>
 				</div>
 				<div id="text">PASCAL ML Benchmarks Repository</div>
 				<ul id="nav-global">
@@ -52,27 +45,21 @@
 				</ul>
 			</div><!-- END Header -->
 
-			<div id="billboard">{% block billboard %}{% endblock %}</div>
-
-			<div id="content-main">
-			{% block content %}
-			{% endblock %}
-			</div><!-- END #content-main -->
+			<div id="billboard">
+				{% block billboard %}{% endblock %}
+			</div><!-- END billboad -->
 
 			<div id="columnwrap">
-				{% block columnwrap %}
-				{% endblock %}
-			</div><!-- END #columnwrap -->
+				<div id="content-main">
+					{% block content %}{% endblock %}
+				</div><!-- END content-main -->
+				<div id="content-related" class="sidebar">
+					{% block content-related %}{% endblock %}
+				</div><!-- END content-related -->
+			</div><!-- END columnwrap -->
 
-            <div id="footer">
-			&copy; 2009-{% now "Y" %}
-				<a href="https://kodeaffe.de">Sebastian Henschel</a> | <a
-                href="/about/impressum">Impressum</a> | Hosting graciously
-                provided by the <a href="http://www.tu-berlin.de">TU Berlin</a>.
-			
-            </div><!-- END #footer -->
-		</div>
-		<!-- END #container -->
-
+			<div id="footer">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a> | <a href="/about/impressum">Impressum</a> | Hosting graciously provided by the <a href="http://www.tu-berlin.de">TU Berlin</a>
+			</div><!-- END footer -->
+		</div><!-- END container -->
 	</body>
 </html>

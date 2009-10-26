@@ -1,27 +1,26 @@
-{% extends "base_2col.html" %}
+{% extends "base.html" %}
+{% load i18n %}
 {% load paginator %}
 
 {% block sectionid %}browse{% endblock %}
-
-{% block title %}User List{% endblock %}
-
-{% block billboard %}User List{% endblock %}
+{% block title %}{% trans "User List" %}{% endblock %}
+{% block billboard %}{% trans "User List" %}{% endblock %}
 
 {% block content %}
 	{% paginator 10 %}
 	<table>
-    {% for curuser in object_list %}
+	{% for user in object_list %}
 	<tr>
-		<td><a href="/user/view/{{ curuser.pk }}/"> {{ curuser.username }}</a></td>
-		<td>{{ curuser.get_full_name }}</td>
-		<td>{{ curuser.email }}</td>
+		<td><a href="{% url user.views.show_user user.pk %}">{{ user.username }}</a></td>
+		<td>{{ user.get_full_name }}</td>
+		<td>{{ user.email }}</td>
 	</tr>
-    {% endfor %}
+	{% endfor %}
 	</table>
 	{% paginator 10 %}
 {% endblock %}
 
 {% block content-related %}
-<dt>Viewing List of Users</dt>
+<dt>{% trans "Viewing List of Users" %}</dt>
 {% endblock %}
 

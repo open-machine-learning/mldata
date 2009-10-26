@@ -111,7 +111,6 @@ dd { margin-bottom:.8em; }
 
 
 /*  CLEARFIX KLUDGE */
-
 #columnwrap:after {
     content: "."; 
     display: block; 
@@ -120,7 +119,6 @@ dd { margin-bottom:.8em; }
     visibility: hidden;
 }
 #columnwrap { display: inline-block; }
-
 /* Hides from IE-mac \*/
 * html #columnwrap { height: 1%; }
 #columnwrap { display: block; }

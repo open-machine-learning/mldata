@@ -1,21 +1,18 @@
-{% extends "base_2col.html" %}
+{% extends "base.html" %}
+{% load i18n %}
 
 {% block sectionid %}login{% endblock %}
-
-{% block title %}User Change{% endblock %}
-
-{% block billboard %}User Change{% endblock %}
+{% block title %}{% trans "User Change" %}{% endblock %}
+{% block billboard %}{% trans "User Change" %}{% endblock %}
 
 {% block content %}
+<h2>{% trans "User details changed successfully" %}</h2>
 
-<h2>User details changed successfully</h2>
-
-<p>Your user details were successfully updated. Click <a href="/user/view/{{object.pk}}">here</a> to return to your user page.</p>
-
+<p>{% trans "Your user details were successfully updated. Click" %} <a href="{% url user.views.show_user object.pk %}">{% trans "here" %}</a> {% trans "to return to your user page" %}.</p>
 {% endblock %}
 
 {% block content-related %}
 {% if user.is_superuser %}
-<p>To browse the currently registered users click <a href="/user">here</a>.</p>
+<p>{% trans "To browse the currently registered users click" %} <a href="{% url user.views.show_user_list %}">{% trans "here" %}</a>.</p>
 {% endif %}
 {% endblock %}

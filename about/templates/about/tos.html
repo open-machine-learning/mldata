@@ -1,11 +1,14 @@
-{% extends "base_2col.html" %}
+{% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Terms of Service{% endblock %}
+{% block title %}{% trans "Terms of Service" %}{% endblock %}
 {% block sectionid %}tos{% endblock %}
-{% block billboard %}TOS{% endblock %}
+{% block billboard %}{% trans "Terms of Service - TOS" %}{% endblock %}
 
 {% block content-related %}
+<p>{% trans "To the right you will find the Terms of Service" %}.</p>
 {% endblock %}
+
 
 {% block content %}
 

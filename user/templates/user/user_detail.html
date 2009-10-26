@@ -1,77 +1,77 @@
-{% extends "base_2col.html" %}
+{% extends "base.html" %}
+{% load i18n %}
+
 {% block sectionid %}browse{% endblock %}
-
-{% block title %}User Details{% endblock %}
-
-{% block billboard %}User Details{% endblock %}
+{% block title %}{% trans "User Details" %}{% endblock %}
+{% block billboard %}{% trans "User Details" %}{% endblock %}
 
 {% block content %}
-<h2> User Details for {{ object.username }}</h2>
+<h2>{% trans "Details for user" %} {{ object.username }}</h2>
 	<table>
 		<tr>
-			<td>Username:</td>
-			<td><a href="/user/view/{{ object.pk }}/"> {{ object.username }}</a></td>
+			<td>{% trans "Username" %}:</td>
+			<td><a href="{% url user.views.show_user object.pk %}">{{ object.username }}</a></td>
 		</tr>
 		<tr>
-			<td>Full Name:</td>
+			<td>{% trans "Full Name" %}:</td>
 			<td>{{object.get_full_name}}</td>
 		</tr>
 		<tr>
-			<td>Email Address:</td>
+			<td>{% trans "Email Address" %}:</td>
 			<td>{{object.email}}</td>
 		</tr>
 	</table>
 	{% if forumsubscriptions %}
-    <br></br>
-	<h3> Current Forum Subscriptions</h3>
+	<br />
+	<h3>{% trans "Current Forum Subscriptions" %}</h3>
 	<table>
-        <tr>
-            <th> <b>Title</b> </th>
-            <th> <b>Last Notified</b> </th>
-            <th> <b>Action</b> </th>
-        </tr>
-		{% for subsc in forumsubscriptions %}
-		<tr>
-			<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
-            <td> {{ subsc.last_updated|date:"j F Y H:i:s" }}</td>
-            <td> <a href="{{ subsc.get_unsubscribe_url }}">Unsubscribe</a></td>
-		</tr>
-		{% endfor %}
+	<tr>
+		<th>{% trans "Title" %}</th>
+		<th>{% trans "Last Notified" %}</th>
+		<th>{% trans "Action" %}</th>
+	</tr>
+	{% for subsc in forumsubscriptions %}
+	<tr>
+		<td> <a href="{{ subsc.url }}">{{ subsc.title }}</a></td>
+		<td> {{ subsc.last_updated|date:"j F Y H:i:s" }}</td>
+		<td> <a href="{{ subsc.get_unsubscribe_url }}">{% trans "Unsubscribe" %}</a></td>
+	</tr>
+	{% endfor %}
 	</table>
-    {% endif %}
-    <br></br>
-	<h2> Change User Details</h3>
-{% if form.errors %}
-<p class="error">Please correct the errors below:</p>
-{% endif %}
+	{% endif %}
+	<br />
 
-<form method="post" action="/user/update/{{object.pk}}/">
+<h2>{% trans "Change User Details" %}</h2>
+{% if form.errors %}<p class="error">{% trans "Please correct the errors below" %}:</p>{% endif %}
+
+<form method="post" action="{% url user.views.update_user object.pk %}">
 <dl>
-<dt><label for="id_firstname">First Name:</label>{% if form.firstname.errors %} <span class="error">{{ form.firstname.errors|join:", " }}</span>{% endif %}</dt>
+<dt><label for="id_firstname">{% trans "First Name" %}:</label>{% if form.firstname.errors %} <span class="error">{{ form.firstname.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.firstname|safe }}</dd>
-<dt><label for="id_lastname">Last Name:</label>{% if form.lastname.errors %} <span class="error">{{ form.lastname.errors|join:", " }}</span>{% endif %}</dt>
+<dt><label for="id_lastname">{% trans "Last Name" %}:</label>{% if form.lastname.errors %} <span class="error">{{ form.lastname.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.lastname|safe }}</dd>
-<dt><label for="id_email">Email address:</label>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</dd>
+<dt><label for="id_email">{% trans "Email address" %}:</label>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</dd>
 <dd>{{ form.email|safe }}</dd>
-<dt><label for="id_password1">Password:</label>{% if form.password1.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
+<dt><label for="id_password1">{% trans "Password" %}:</label>{% if form.password1.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.password1|safe }}</dd>
-<dt><label for="id_password2">Password (type again to catch any typos):</label>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
+<dt><label for="id_password2">{% trans "Password (type again to catch any typos)" %}:</label>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.password2|safe }}</dd>
-<dt><input type="submit" value="Update" /></dt>
+<dt><input type="submit" value="{% trans "Update" %}" /></dt>
 </dl>
 </form>
 {% endblock %}
 
 {% block content-related %}
-<dt>Viewing details of:</dt>
+<dt>{% trans "Viewing details of" %}:</dt>
 <dd>{{object.username}}</dd>
 
-<dt>Last login:</dt>
+<dt>{% trans "Last login" %}:</dt>
 <dd>{{object.last_login}}</dd>
-<dt>Date joined:</dt>
+
+<dt>{% trans "Date joined" %}:</dt>
 <dd>{{object.date_joined}}</dd>
 
 {% if user.is_superuser %}
-<p>To browse the currently registered users click <a href="/user">here</a>.</p>
+<p>{% trans "To browse the currently registered users click" %} <a href="{% url user.views.show_user_list %}">{% trans "here" %}</a>.</p>
 {% endif %}
 {% endblock %}
