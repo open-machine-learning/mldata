@@ -25,7 +25,7 @@ def _is_owner(user, author_id):
         return False
 
 
-def _get_object_or_404(request, slug_or_id, type):
+def _get_object_or_404(request, klass, slug_or_id):
     obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
         repository__is_deleted=False)
 
@@ -33,11 +33,9 @@ def _get_object_or_404(request, slug_or_id, type):
         is_owner = _is_owner(request.user, obj[0].repository.author.id)
         if not is_owner and not obj[0].repository.is_public:
             raise Http404
-        obj = getattr(obj[0].repository, type)
+        obj = getattr(obj[0].repository, klass.__name__.lower())
     else: # id
         try:
-            # e.g. 'data' -> 'Data' -> class Data
-            klass = eval(type.capitalize())
             obj = klass.objects.get(pk=slug_or_id)
         except klass.DoesNotExist:
             raise Http404
@@ -100,6 +98,32 @@ def index(request):
         'user': request.user,
     }
     return render_to_response('repository/index.html', info_dict)
+
+
+def rate(request, type, id):
+    try:
+        trash = TYPE[type]
+    except KeyError: # user tries nasty things
+        klass = Data
+        rklass = DataRating
+    else:
+        klass = eval(type.capitalize())
+        rklass = eval(type.capitalize() + 'Rating')
+
+    obj = get_object_or_404(klass, pk=id)
+    if request.user.is_authenticated() and not request.user == obj.author:
+        if request.method == 'POST':
+            form=RatingForm(request.POST)
+            if form.is_valid():
+                r, fail = rklass.objects.get_or_create(user=request.user, repository=obj)
+                r.update_rating(
+                    form.cleaned_data['features'],
+                    form.cleaned_data['usability'],
+                    form.cleaned_data['documentation'],
+                )
+
+    return HttpResponseRedirect(obj.get_absolute_url())
+
 
 
 def _repository_index(request, type, my=False):
@@ -177,7 +201,7 @@ def data_new(request):
                 new.author_id = request.user.id
                 new.file = request.FILES['file']
                 new.file.name = new.get_filename()
-                new.save(type=TYPE['data'])
+                new.save()
                 return HttpResponseRedirect(new.get_absolute_url(use_slug=True))
     else:
         form = DataForm()
@@ -194,7 +218,7 @@ def data_new(request):
 
 
 def data_edit(request, slug_or_id):
-    prev = _get_object_or_404(request, slug_or_id, 'data')
+    prev = _get_object_or_404(request, Data, slug_or_id)
     url = reverse(data_edit, args=[prev.slug_or_id])
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
@@ -210,7 +234,7 @@ def data_edit(request, slug_or_id):
             next.format = prev.format
             next.version = next.get_next_version(type=TYPE['data'])
             next.author_id = request.user.id
-            next.save(type=TYPE['data'])
+            next.save()
             return HttpResponseRedirect(next.get_absolute_url())
     else:
         form = DataForm(instance=prev)
@@ -229,7 +253,8 @@ def data_edit(request, slug_or_id):
 
 
 def data_view(request, slug_or_id):
-    obj = _get_object_or_404(request, slug_or_id, 'data')
+    obj = _get_object_or_404(request, Data, slug_or_id)
+    obj.type = 'data'
     is_owner = _is_owner(request.user, obj.author_id)
     obj.versions = _get_versions_paginator(request, obj, is_owner)
 
@@ -238,18 +263,31 @@ def data_view(request, slug_or_id):
     if not cv[0].repository_id == obj.id and is_owner:
         can_activate = True
 
+    rating_form = None
+    if request.user.is_authenticated() and not request.user == obj.author:
+        try:
+            r = DataRating.objects.get(user__id=request.user.id, repository=obj)
+            rating_form= RatingForm({
+                'features': r.features,
+                'usability': r.usability,
+                'documentation': r.documentation,
+            })
+        except DataRating.DoesNotExist:
+            rating_form = RatingForm()
+
     info_dict = {
         'object': obj,
         'user': request.user,
         'can_activate': can_activate,
         'can_delete': is_owner,
+        'rating_form': rating_form,
         'MEDIA_URL': MEDIA_URL,
     }
     return render_to_response('repository/data_view.html', info_dict)
 
 
 def data_delete(request, slug_or_id):
-    obj = _get_object_or_404(request, slug_or_id, 'data')
+    obj = _get_object_or_404(request, Data, slug_or_id)
     if _is_owner(request.user, obj.author_id):
         obj.is_deleted = True
         current = Data.objects.filter(slug__text=obj.slug.text).\
@@ -259,7 +297,7 @@ def data_delete(request, slug_or_id):
             if cv:
                 cv[0].repository_id = current[0].id
                 cv[0].save()
-        obj.save(TYPE['data']) # a lil optimisation for db saves
+        obj.save() # a lil optimisation for db saves
 
     return HttpResponseRedirect(reverse(data_index))
 
@@ -278,7 +316,7 @@ def data_activate(request, id):
         cv[0].repository_id = obj.id
         obj.is_public = True
         cv[0].save()
-        obj.save(TYPE['data'])
+        obj.save()
 
     return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
 

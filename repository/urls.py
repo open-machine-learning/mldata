@@ -3,6 +3,7 @@ import repository.views as views
 
 urlpatterns = patterns('',
     (r'^$', views.index),
+    (r'^rate/(?P<type>[A-Za-z0-9-_]+)/(?P<id>\d+)/$', views.rate),
     (r'^data/$', views.data_index),
     (r'^data/my/$', views.data_my),
     (r'^data/new/$', views.data_new),

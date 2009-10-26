@@ -31,6 +31,12 @@ class Repository(models.Model):
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     author = models.ForeignKey(User)
+    average_rating = models.FloatField(editable=False, default=-1)
+    average_features_rating = models.FloatField(editable=False, default=-1)
+    average_usability_rating = models.FloatField(editable=False, default=-1)
+    average_documentation_rating = models.FloatField(editable=False, default=-1)
+    total_number_of_votes = models.IntegerField(editable=False, default=0)
+
 
     class Meta:
         ordering = ('-pub_date',)
@@ -39,7 +45,7 @@ class Repository(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
-    def save(self, type):
+    def save(self):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
         current = CurrentVersion.objects.filter(slug=self.slug_id)
@@ -52,7 +58,7 @@ class Repository(models.Model):
             current = CurrentVersion()
             # can't put foreign key id into constructor
             current.slug_id = self.slug_id
-        current.type = type
+        current.type = TYPE[self.__class__.__name__.lower()]
         # saves as close together as possible
         super(Repository, self).save()
         current.repository_id = self.id
@@ -129,3 +135,43 @@ class Split(models.Model):
     def get_absolute_url(self):
         return self.splits.url
 
+
+class Rating(models.Model):
+    """Rating for a repository
+
+    Each user can rate a repository item only once (but she might change
+    her rating?)"""
+    user = models.ForeignKey(User)
+    features = models.IntegerField(default=0)
+    usability = models.IntegerField(default=0)
+    documentation = models.IntegerField(default=0)
+
+    def update_rating(self, f, u, d):
+        self.features = f
+        self.usability = u
+        self.documentation = d
+        self.save()
+
+        repo = self.repository
+        ratings = self.__class__.objects.filter(repository=repo)
+        l = float(len(ratings))
+        f=u=d=0
+        for r in ratings:
+            f+= r.features
+            u+= r.usability
+            d+= r.documentation
+
+        repo.average_rating = (f+u+d)/(3.0*l)
+        repo.average_features_rating = float(f)/l
+        repo.average_usability_rating = float(u)/l
+        repo.average_documentation_rating = float(d)/l
+        repo.total_number_of_votes = l
+        repo.save()
+
+
+class DataRating(Rating):
+    repository = models.ForeignKey(Data)
+class TaskRating(Rating):
+    repository = models.ForeignKey(Task)
+class SolutionRating(Rating):
+    repository = models.ForeignKey(Solution)

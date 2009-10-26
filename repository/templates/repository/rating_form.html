@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% if rating_form %}
+<hr />
+<h2>{% trans "Rating" %}</h2>
+<p>{% trans "Rate this repository item. '0' means poor and '5' means excellent. Ratings can be changed later on." %}</p>
+<div class="ratingform">
+	<form method="post" action="{% url repository.views.rate object.type object.id %}">
+		<table>
+			{{ rating_form|safe }}
+		</table>
+		<input type="submit" value="{% trans "Submit my ratings" %}">
+	</form>
+</div>
+<hr />
+{% endif %}
+
+

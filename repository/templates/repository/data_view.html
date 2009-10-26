@@ -7,11 +7,17 @@
 {% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "View" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Data of" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h1>
+<table class="plain">
+<tr>
+	<td width="75%"><h1>{% trans "Data of" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h1></td>
+	<td class="rating">{% include "repository/rating_results.html" %}</td>
+</tr>
+</table>
+<br />
 
 <table>
 <tr>
-	<th>{{ object.name }} ({% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.author.username }}, {% trans "version" %} {{ object.version }}) /
+	<th>{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.author.username }}, {% trans "version" %} {{ object.version }} /
 	{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}">&laquo;</a>{% endif %}
 	{% for v in object.versions.object_list %}
 		{% ifequal object.version v.version %}-{% else %}<a href="{% url repository.views.data_view v.id %}">{{ v.version }}</a>{% endifequal %}
@@ -65,6 +71,8 @@
 </tr>
 </table>
 <br />
+
+{% include "repository/rating_form.html" %}
 
 {% load comments %}
 {% get_comment_list for repository.data object.id as comment_list %}
