@@ -33,7 +33,7 @@
 		<dd><label for="id_summary">{% trans "Summary" %}:</label> {{ form.summary.errors }}</dd>
 		<dt>{{ form.summary }}</dt>
 		<dd><label for="id_description">{% trans "Description" %}:</label> {{ form.description.errors }}</dd>
-		<dt>{{ form.description }}</dt>
+		<dt>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_urls">{% trans "URLs" %}:</label> {{ form.urls.errors }}</dd>
 		<dt>{{ form.urls }}</dt>
 		<dd><label for="id_publications">{% trans "Publications" %}:</label> {{ form.publications.errors }}</dd>
@@ -45,9 +45,9 @@
 		<dd><label for="id_source">{% trans "Data Source" %}:</label> {{ form.source.errors }}</dd>
 		<dt>{{ form.source }}</dt>
 		<dd><label for="id_measurement_details">{% trans "Measurement details" %}:</label> {{ form.measurement_details.errors }}</dd>
-		<dt>{{ form.measurement_details }}</dt>
+		<dt>{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_usage_scenario">{% trans "Usage scenario" %}:</label> {{ form.usage_scenario.errors }}</dd>
-		<dt>{{ form.usage_scenario }}</dt>
+		<dt>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
 	</dl></td>

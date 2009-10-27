@@ -1,46 +1,39 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}About{% endblock %}
 {% block sectionid %}about{% endblock %}
-{% block billboard %}ABOUT{% endblock %}
+{% block title %}{% trans "About" %}{% endblock %}
+{% block billboard %}{% trans "ABOUT" %}{% endblock %}
 
 {% block content-related %}
-<h2>Acknowledgements</h2>
+<h2>{% trans "Acknowledgements" %}</h2>
 <p>
-This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)<br />
+{% trans "This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)" %}
+<br />
 <a href="http://www.pascal-network.org/">http://www.pascal-network.org/</a>.
 </p>
 {% endblock %}
 
 {% block content %}
-<h1>Motivation</h1>
+<h1>{% trans "Motivation" %}</h1>
 
 <p>
-Machine Learning (ML) is a scientific field comprised of both theoretical and empirical results.
-For methodological advances, one key aspect of reproducible research is the ability to compare
-a proposed approach with the current state of the art. Such a comparison can be theoretical
-in nature, but often a detailed theoretical analysis is not possible or may not tell the whole
-story. In such cases, an empirical comparison is necessary. To produce reproducible machine
-learning research, there are three main required components that need to be easily available:
+{% trans "Machine Learning (ML) is a scientific field comprised of both theoretical and empirical results. For methodological advances, one key aspect of reproducible research is the ability to compare a proposed approach with the current state of the art. Such a comparison can be theoretical in nature, but often a detailed theoretical analysis is not possible or may not tell the whole story. In such cases, an empirical comparison is necessary. To produce reproducible machine learning research, there are three main required components that need to be easily available" %}:
 </p>
 
 <ol>
-   <li>The paper describing the method clearly and comprehensively.</li>
-   <li>The data on which the results are computed.</li>
-   <li>Software (possibly source code) that implements the method and produces the figures and tables of results in the paper.</li>
+   <li>{% trans "The paper describing the method clearly and comprehensively" %}.</li>
+   <li>{% trans "The data on which the results are computed" %}.</li>
+   <li>{% trans "Software (possibly source code) that implements the method and produces the figures and tables of results in the paper" %}.</li>
 </ol>
 
 <p>
-While the open access idea has already migrated to ML through journals such as the Journal of
-Machine Learning Research, the field of ML has fallen behind with regard to open source and
-data.
+{% trans "While the open access idea has already migrated to ML through journals such as the Journal of Machine Learning Research, the field of ML has fallen behind with regard to open source and data" %}.
 </p>
 
 <p>
-In the statistics and bioinformatics community, some headway has been seen. The success of <a href="http://r-project.org">R</a> and <a href="http://bioconductor.org">Bioconductor</a> as well as projects such as <a href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">Sweave</a> have resulted in the possibility to embed the code that produces the results of the paper in the source of the paper itself. This idea of having a unified computation and presentation has been pioneered by Jon Claerbout (in Redoc) and David Donoho (in Wavelab). This approach, however, may not be all that suitable for the machine learning community, as the datasets may be quite large and computations often take significant amounts of time. Instead, here we propose separate but interacting units of software, data and documentation of the scientific result.<br />
+{% trans "In the statistics and bioinformatics community, some headway has been seen. The success of <a href='http://r-project.org'>R</a> and <a href='http://bioconductor.org'>Bioconductor</a> as well as projects such as <a href='http://www.stat.uni-muenchen.de/~leisch/Sweave/'>Sweave</a> have resulted in the possibility to embed the code that produces the results of the paper in the source of the paper itself. This idea of having a unified computation and presentation has been pioneered by Jon Claerbout (in Redoc) and David Donoho (in Wavelab). This approach, however, may not be all that suitable for the machine learning community, as the datasets may be quite large and computations often take significant amounts of time. Instead, here we propose separate but interacting units of software, data and documentation of the scientific result" %}.<br />
 
-Recently, <a href="http://mloss.org">mloss.org</a> has enabled machine learning researchers to register their software and allow other researchers to easily find, download, and reuse software matching their interests.  Currently, more than 200 projects are listed. Furthermore, the Journal of Machine Learning Research now accepts papers to its special Open Source Software track, in which papers describing peer-reviewed software can be published, as a further incentive for researchers to publish their software under an open source license. Since its inception, in October 2007, seven papers have been published in this track with more papers currently under review.  So far, the initiative has been highly successful, but has focused mostly on the ”method” side of the problem to make machine learning research more reproducible. Hence we see the need to initiate a companion project to <a href="http://mloss.org">mloss.org</a> which focuses on the free exchange and benchmarking of datasets. Additionally, this new repository will emphasise the precise specification of machine learning tasks: detailed definitions of datasets to be used (possibly including feature extraction or other preprocessing steps) together with the desired operation to be performed and the relevant performance metric. Finally, a solution to such a task would provide details of how to apply a general software package (such as on <a href="http://mloss.org">mloss.org</a>) to this particular problem instance, as well as the obtained numerical performance measures. This project will thus focus on providing a platform for publishing, exchanging, collecting, and discussing such data sets, tasks, and solutions for challenging machine learning problems.  
+{% trans "Recently, <a href='http://mloss.org'>mloss.org</a> has enabled machine learning researchers to register their software and allow other researchers to easily find, download, and reuse software matching their interests.  Currently, more than 200 projects are listed. Furthermore, the Journal of Machine Learning Research now accepts papers to its special Open Source Software track, in which papers describing peer-reviewed software can be published, as a further incentive for researchers to publish their software under an open source license. Since its inception, in October 2007, seven papers have been published in this track with more papers currently under review.  So far, the initiative has been highly successful, but has focused mostly on the ”method” side of the problem to make machine learning research more reproducible. Hence we see the need to initiate a companion project to <a href='http://mloss.org'>mloss.org</a> which focuses on the free exchange and benchmarking of datasets. Additionally, this new repository will emphasise the precise specification of machine learning tasks: detailed definitions of datasets to be used (possibly including feature extraction or other preprocessing steps) together with the desired operation to be performed and the relevant performance metric. Finally, a solution to such a task would provide details of how to apply a general software package (such as on <a href='http://mloss.org'>mloss.org</a>) to this particular problem instance, as well as the obtained numerical performance measures. This project will thus focus on providing a platform for publishing, exchanging, collecting, and discussing such data sets, tasks, and solutions for challenging machine learning problems" %}.  
 </p>
-
-
 {% endblock %}

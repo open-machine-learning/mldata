@@ -1,6 +1,9 @@
 {% extends "forum/base.html" %}
 {% load i18n %}
 
+{% block title %}{% trans "Forum" %} :: {% trans "List" %}{% endblock %}
+{% block billboard %}{% trans "Forum" %} :: {% trans "List" %}{% endblock %}
+
 {% block content %}
 <table>
 <tr>
@@ -20,7 +23,7 @@
 {% block content-related %}
 <h2>{% trans "Use ..."%}</h2>
 <p>
-{% trans "the discussion forums to inform us about problems with this site, missing features. Or just discuss general MLdata issues." %}
+{% trans "the discussion forums to inform us about problems with this site, missing features. Or just discuss general mldata issues." %}
 </p>
 
 {% endblock %}

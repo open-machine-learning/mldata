@@ -1,5 +1,4 @@
 - repository:
 	+ implement handling of Task + Solution objects
-	- look into getting rid of 'type' field in CurrentVersion
 - TESTS!
 - better templates / design

@@ -1,6 +1,6 @@
 /* 
 stylesheet for mldata.org
-Copyright 2009: Sebastian Henschel
+Copyright 2009:Sebastian Henschel
 */
 
 /* SETUP */
@@ -9,8 +9,8 @@ body, th, td { font:12px/1.4em Verdana,sans-serif; }
 #container { position:relative; min-width:62em; max-width:110em; }
 
 /* LINKS */
-a { color:#000000; text-decoration: none;}
-a img {border: none;}
+a { color:#000000; text-decoration:none;}
+a img {border:none;}
 a:hover { color:#ffffff; background-color:#994400; text-decoration:none; }
 a:link, a:visited { color:#000000; }
 
@@ -19,7 +19,7 @@ a:link, a:visited { color:#000000; }
 #header #logo { position:absolute; left:0px; top:5px; display:inline; text-align:left; padding:5px; margin:0px; }
 #header #logo img { width:300px; height:90px; }
 #header #text { font-weight:bold;color:#994400; position:absolute; left:320px; top:20px; margin:0px; padding:0px; text-align:left; line-height:1em; display:inline; font-size:2.3em;}
-#accounts b { font-weight:normal; display:inline; text-align:right; padding:5em 1px 1px 1px ; position:absolute: color:#ffffff; background:#ffffff; min-width:62em; max-width:110em; display:inline; text-align:right; padding:5em 5px 12px 7px}
+#accounts b { font-weight:normal; display:inline; text-align:right; padding:5em 1px 1px 1px ; position:absolute:color:#ffffff; background:#ffffff; min-width:62em; max-width:110em; display:inline; text-align:right; padding:5em 5px 12px 7px}
 #accounts b a { color:#000000; background:#ffffff; text-decoration:underline; }
 #accounts b a:hover { color:#ffffff; background:#000000; text-decoration:none; }
 
@@ -52,7 +52,7 @@ a:link, a:visited { color:#000000; }
 
 
 /* CONTENT */
-#generic #content-main, #code #content-main { background: #ffffcc; width:100%; }
+#generic #content-main, #code #content-main { background:#ffffcc; width:100%; }
 #content-main { float:right; width:80%; background:#ffffcc; color:#000000; padding-top:10px; padding-bottom:10px; bottom repeat-x; }
 #content-main * { margin-left:22px; margin-right:24px; }
 #content-main * * { margin-left:0; margin-right:0; }
@@ -63,13 +63,14 @@ a:link, a:visited { color:#000000; }
 #content-main h1 { font-size:218%; margin-top:.6em; margin-bottom:.6em; line-height:1.1em; }
 #content-main h2 { font-size:150%; margin-top:0.2em; margin-bottom:.2em; line-height:1.2em; }
 #content-main h3 { font-size:125%; margin-top:0.2em; font-weight:bold; margin-bottom:.2em; }
-#content-main table { width:95%; border-spacing: 0px; border-collapse:collapse; }
+#content-main table { width:95%; border-spacing:0px; border-collapse:collapse; }
 #content-main th { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff77; text-align:left; font-weight:bold;}
 #content-main thead td.paginator { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff33; text-align:left; font-weight:bold;}
 #content-main tfoot td.paginator { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff33; text-align:left; font-weight:bold;}
 #content-main td { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff99; }
 #content-main .plain table { width:100% }
-#content-main .plain td { padding:0px; padding-left:.4em; border: 0; background: #ffffcc; }
+#content-main .plain td { padding:0px; padding-left:.4em; border:0; background:#ffffcc; }
+#content-main .helptext { font-size:x-small; font-weight:normal; }
 h4 { font-size:100%; font-weight:bold; margin-bottom:-3px; margin-top:1.2em; text-transform:uppercase; letter-spacing:1px; }
 h4 pre, h4 tt, h4 .literal { text-transform:none; }
 h5 { font-size:1em; font-weight:bold; margin-top:1.5em; margin-bottom:3px; }
@@ -98,44 +99,44 @@ dd { margin-bottom:.8em; }
 
 
 /* RATING */
-#content-main .ratingform { width:90%; margin-left: auto; margin-right: auto; padding:3px; }
-#content-main .ratingform ul { padding: 2px; margin: 0px; }
-#content-main .ratingform li { list-style-type: none; display: inline; padding-left: 5px; }
-#content-main .ratingform table  { width: 50%; padding: 0px; margin: 2px; }
-#content-main .ratingform td { border: 1px solid #883300; padding: 0px; margin:0px; }
-#content-main .ratingform th { border: 1px solid #883300; padding: 0px; padding-left: 5px; margin:0px; font-weight: bold; }
+#content-main .ratingform { width:90%; margin-left:auto; margin-right:auto; padding:3px; }
+#content-main .ratingform ul { padding:2px; margin:0px; }
+#content-main .ratingform li { list-style-type:none; display:inline; padding-left:5px; }
+#content-main .ratingform table  { width:50%; padding:0px; margin:2px; }
+#content-main .ratingform td { border:1px solid #883300; padding:0px; margin:0px; }
+#content-main .ratingform th { border:1px solid #883300; padding:0px; padding-left:5px; margin:0px; font-weight:bold; }
 
-#content-main .rating { width: 100%; margin-left: 1px; margin-right: 0px; }
-#content-main .rating table { border: 0px; padding: 0px; margin: 0px; width: 100%; min-width: 150px; }
-#content-main .rating td.starlab { text-align: right; font-size: 75%; border:0px; padding: 2px; margin:0px; width: 90%; }
-#content-main .rating td.stars { text-align: left; border:0px; padding: 0px; margin:0px; width: 10%; }
+#content-main .rating { width:100%; margin-left:1px; margin-right:0px; }
+#content-main .rating table { border:0px; padding:0px; margin:0px; width:100%; min-width:150px; }
+#content-main .rating td.starlab { text-align:right; font-size:75%; border:0px; padding:2px; margin:0px; width:90%; }
+#content-main .rating td.stars { text-align:left; border:0px; padding:0px; margin:0px; width:10%; }
 
 
 /*  CLEARFIX KLUDGE */
 #columnwrap:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
-    visibility: hidden;
+    content:"."; 
+    display:block; 
+    height:0; 
+    clear:both; 
+    visibility:hidden;
 }
-#columnwrap { display: inline-block; }
+#columnwrap { display:inline-block; }
 /* Hides from IE-mac \*/
-* html #columnwrap { height: 1%; }
-#columnwrap { display: block; }
+* html #columnwrap { height:1%; }
+#columnwrap { display:block; }
 /* End hide from IE-mac */
 
 #subwrap:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
-    visibility: hidden;
+    content:"."; 
+    display:block; 
+    height:0; 
+    clear:both; 
+    visibility:hidden;
 }
-#subwrap { display: inline-block; }
+#subwrap { display:inline-block; }
 
 /* Hides from IE-mac \*/
-* html #subwrap { height: 1%; }
-#subwrap { display: block; }
+* html #subwrap { height:1%; }
+#subwrap { display:block; }
 /* End hide from IE-mac */om IE-mac */
 

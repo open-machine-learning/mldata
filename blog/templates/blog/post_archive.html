@@ -11,26 +11,21 @@
 <h1>{% trans "Latest blog entries" %}</h1>
 
 {% if latest %}
-<table>
-  {% for latest_blog in latest %}
-  <tr>
-    <th><a href="{{ latest_blog.get_absolute_url }}">{{ latest_blog.headline }}</a> ({% trans "by" %} <strong>{{ latest_blog.author }}</strong> {% trans "on" %} {{ latest_blog.pub_date|date:"F j, Y" }})
-
-  {% load comments %}
-  {% get_comment_list for blog.post latest_blog.id as comment_list %}
-  {% if comment_list %}
-    {% get_comment_count for blog.post latest_blog.id as comment_count %}
-    (<a href="{{ latest_blog.get_comment_url }}">{{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}</a>)
-  {% else %}
-    (0 {% trans "comments" %})
-  {% endif %}
-    </th>
-  </tr>
-  <tr>
-    <td>{{ latest_blog.summary|markdown:"safe" }}</td>
-  </td>
-  {% endfor %}
-</table>
+<ul>
+	{% for latest_blog in latest %}
+	<li>
+		<a href="{{ latest_blog.get_absolute_url }}">{{ latest_blog.headline|escape }}</a>: {{ latest_blog.summary|escape }}<br />{% trans "by" %} <strong>{{ latest_blog.author }}</strong> {% trans "on" %} {{ latest_blog.pub_date|date:"F j, Y" }},
+		{% load comments %}
+		{% get_comment_list for blog.post latest_blog.id as comment_list %}
+		{% if comment_list %}
+		{% get_comment_count for blog.post latest_blog.id as comment_count %}
+		<a href="{{ latest_blog.get_comment_url }}">{{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}</a>
+		{% else %}
+		0 {% trans "comments" %}
+		{% endif %}
+	</li>
+	{% endfor %}
+</ul>
 {% endif %}
 {% endblock %}
 

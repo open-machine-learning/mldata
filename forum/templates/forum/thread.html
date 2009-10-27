@@ -1,11 +1,9 @@
 {% extends "forum/base.html" %}
-
 {% load markup %}
 {% load i18n %}
 
-{% block title %}{{ thread.title }} ({{ forum.title }}){% endblock %}
-{% block billboard %}{% trans "Thread" %}: {{ thread.title }} ({{ forum.title }}){% endblock %}
-{% block pagetitle %}{{ forum.title }} &raquo; {{ thread.title }}{% endblock %}
+{% block title %}{% trans "Forum" %} :: {{ forum.title }} :: {{ thread.title }}{% endblock %}
+{% block billboard %}{% trans "Forum" %} :: {{ forum.title }} :: {{ thread.title }}{% endblock %}
 
 
 {% block content %}
@@ -47,12 +45,11 @@
 	{% if not user.is_authenticated %}
 		<p>{% trans "To submit a reply, please" %} <a href="{% url auth_login %}?next={{ thread.get_absolute_url }}">login</a>.<p>
 	{% else %}
-	<h2>{% trans "Post a Reply (as" %} {{ user.username }})</h2>
+	<h2>{% trans "Post a Reply" %}</h2>
 	<form method='post' action='reply/'>
 		{% if form.body.errors %}<dt><span class="error">{{ form.body.errors|join:", " }}</span></dt>{% endif %}
-		<dt><textarea id="id_body" rows="8" cols="50" tabindex="1" name="body">{{ form.data.body|safe }}</textarea></dt>
-		<dt>{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax" tabindex="3">Markdown syntax</a> here, but <b>raw HTML will be removed</b>.' %}</dt>
-		<dt><input type="submit" tabindex="2" name="post" value="{% trans "Post Message" %}"/></dt>
+		<dt>{{ form.body|markdown }}<span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
+		<dt><input type="submit" name="post" value="{% trans "Post Message" %}"/></dt>
 		{% endif %}
 	</form>
 </dl>
@@ -60,7 +57,7 @@
 {% endblock %}
 
 {% block content-related %}
-<dl><dd>{% trans "You are in Forum" %} <a href='{{ forum.get_absolute_url }}'><b>{{ forum.title }}</b></a> {% trans "looking at thread" %} <a href='{{thread.get_absolute_url}}'><b>{{ thread.title }}</b></a>.
+<dl><dd>{% trans "You are in Forum" %} <a href='{{ forum.get_absolute_url }}'><b>{{ forum.title }}</b></a> {% trans "looking at thread" %} <a href='{{thread.get_absolute_url}}'><b>{{ thread.title|escape }}</b></a>.
 </dd></dl>
 <dl>
     <dd>

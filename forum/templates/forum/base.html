@@ -1,13 +1,7 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block sectionid %}forum{% endblock %}
+{% block title %}{% trans "Forum" %}{% endblock %}
+{% block billboard %}{% trans "Forum" %}{% endblock %}
 
-{% block title %}Discussion Forum{% endblock %}
-
-{% block billboard %}Discussion Forum{% endblock %}
-
-{% block content %}
-<div id='djangoForumBreadcrumbs'><a href='/'>Home</a> &raquo; <a href='/community/'>Forums</a>
-	{% block breadcrumbs %}{% endblock %}
-</div>
-{% endblock %}

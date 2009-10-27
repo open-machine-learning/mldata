@@ -10,12 +10,14 @@
 
 <form action="{% url blog.views.new %}" method="POST">
 <dl>
-	<dd><label for="id_headline">{% trans "Headline" %}</label>: {{ form.headline.errors }}</dd>
+	<dd>{{ form.headline.label }}: {{ form.headline.errors }}</dd>
 	<dt>{{ form.headline }}</dt>
-	<dd><label for="id_url">{% trans "Summary" %}</label>: {{ form.summary.errors }}</dd>
-	<dt>{{ form.summary }}</dt>
-	<dd><label for="id_body">{% trans "Body" %}</label>: {{ form.body.errors }}</dd>
-	<dt>{{ form.body }}</dt>
+	<br />
+	<dd>{{ form.summary.label }}: {{ form.summary.errors }}</dd>
+	<dt>{{ form.summary }}<br /></dt>
+	<br />
+	<dd>{{ form.body.label }}: {{ form.body.errors }}</dd>
+	<dt>{{ form.body }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
 </dl>
 </form>

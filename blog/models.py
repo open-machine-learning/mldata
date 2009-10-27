@@ -9,8 +9,8 @@ class Post(models.Model):
     pub_date = models.DateTimeField()
     slug = models.SlugField(unique_for_date='pub_date', editable=False)
     headline = models.CharField(max_length=200)
-    summary = models.TextField(help_text="Use markdown.")
-    body = models.TextField(help_text="Use markdown.")
+    summary = models.CharField(max_length=255, blank=True)
+    body = models.TextField()
     author = models.ForeignKey(User)
 
     class Meta:

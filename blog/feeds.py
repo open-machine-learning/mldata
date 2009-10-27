@@ -4,6 +4,7 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from markdown import markdown
 
+
 def RssBlogFeed(request):
     try:
         object_list = Post.objects.all().order_by('-pub_date')[:10]

@@ -11,15 +11,8 @@ from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import escape
-try:
-    from markdown import markdown
-except ImportError:
-    class MarkdownNotFound(Exception):
-        def __str__(self):
-            return "Markdown is not installed!"
-    raise MarkdownNotFound
-
 from forum.managers import ForumManager
+from markdown import markdown
 
 class Forum(models.Model):
     """
