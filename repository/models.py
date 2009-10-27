@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
 
@@ -137,10 +138,12 @@ class Split(models.Model):
 
 
 class Rating(models.Model):
-    """Rating for a repository
+    """Rating for a repository item
 
-    Each user can rate a repository item only once (but she might change
-    her rating?)"""
+    Each user can rate a repository item only once, but she might change
+    her rating later on.
+    It acts as a base class for more specific Rating classes.
+    """
     user = models.ForeignKey(User)
     features = models.IntegerField(default=0)
     usability = models.IntegerField(default=0)
@@ -168,6 +171,11 @@ class Rating(models.Model):
         repo.total_number_of_votes = l
         repo.save()
 
+    def __unicode__(self):
+        try:
+            return unicode("%s %s %s" % (self.user.username, _('on'), self.repository.name))
+        except AttributeError:
+            return unicode("%s %s %s" % (self.user.username, _('on'), self.id))
 
 class DataRating(Rating):
     repository = models.ForeignKey(Data)
