@@ -74,7 +74,7 @@ class Repository(models.Model):
     def get_next_version(self):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
-        obj = eval(self.__class__.__name__).objects.filter(slug=self.slug_id).order_by('-version')
+        obj = self.__class__.objects.filter(slug=self.slug_id).order_by('-version')
         return obj[0].version + 1
 
 
