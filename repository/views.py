@@ -232,7 +232,7 @@ def data_edit(request, slug_or_id):
             next.slug_id = prev.slug_id
             next.file = prev.file
             next.format = prev.format
-            next.version = next.get_next_version(type=TYPE['data'])
+            next.version = next.get_next_version()
             next.author_id = request.user.id
             next.save()
             return HttpResponseRedirect(next.get_absolute_url())
