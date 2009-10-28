@@ -2,32 +2,27 @@
 {% load i18n %}
 
 {% block sectionid %}repository{% endblock %}
-
 {% block title %}{% trans "Repository" %}{% endblock %}
-
 {% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a>{% endblock %}
 
-{% block content %}
-repository base
-{% endblock %}
-
 {% block content-related %}
-<h2>Data</h2>
+<h2>{% trans "Data" %}</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.data_index %}">Public Archive</a></h3></li>
-	{% if user.is_authenticated %}<li><h3><a href="{% url repository.views.data_my %}">My Data</a></h3></li>{% endif %}
-	<li><h3><a href="{% url repository.views.data_new %}">Submit new Data</a></h3></li>
+	<li><h3><a href="{% url repository.views.data_index %}">{% trans "Public Archive" %}</a></h3></li>
+	<li><h3><a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a></h3></li>
+	{% if user.is_authenticated %}<li><h3><a href="{% url repository.views.data_my %}">{% trans "My Data" %}</h3></li>{% endif %}
+	<li><h3><a href="{% url repository.views.data_new %}">{% trans "Submit new Data" %}</a></h3></li>
 </ul>
 
-<h2>Task</h2>
+<h2>{% trans "Task" %}</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.task_index %}">Public Archive</a></h3></li>
-	<li><h3><a href="{% url repository.views.task_new %}">Submit new Task</a></h3></li>
+	<li><h3><a href="{% url repository.views.task_index %}">{% trans "Public Archive" %}</a></h3></li>
+	<li><h3><a href="{% url repository.views.task_new %}">{% trans "Submit new Task" %}</a></h3></li>
 </ul>
 
-<h2>Solution</h2>
+<h2>{% trans "Solution" %}</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.solution_index %}">Public Archive</a></h3></li>
-	<li><h3><a href="{% url repository.views.solution_new %}">Submit new Solution</a></h3></li>
+	<li><h3><a href="{% url repository.views.solution_index %}">{% trans "Public Archive" %}</a></h3></li>
+	<li><h3><a href="{% url repository.views.solution_new %}">{% trans "Submit new Solution" %}</a></h3></li>
 </ul>
 {% endblock %}

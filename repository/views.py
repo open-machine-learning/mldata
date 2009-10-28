@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
+from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_URL
@@ -275,6 +276,9 @@ def data_view(request, slug_or_id):
         except DataRating.DoesNotExist:
             rating_form = RatingForm()
 
+    # need tags in list
+    obj.tags = obj.tags.split(', ')
+
     info_dict = {
         'object': obj,
         'user': request.user,
@@ -337,4 +341,22 @@ def solution_new(request):
 
 def solution_view(request, id):
     return render_to_response('repository/solution_view.html')
+
+
+
+def tags_index(request):
+    tags = Tag.objects.usage_for_model(Data, counts=True)
+    info_dict = {
+        'tags': tags,
+    }
+    return render_to_response('repository/tags_index.html', info_dict)
+
+def tags_view(request, tag):
+    tag = Tag.objects.get(name=tag)
+    object_list = TaggedItem.objects.get_by_model(Data, tag).order_by('name')
+    info_dict = {
+        'tag': tag,
+        'object_list': object_list,
+    }
+    return render_to_response('repository/tags_view.html', info_dict)
 
