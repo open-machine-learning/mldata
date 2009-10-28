@@ -4,12 +4,10 @@
 {% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Tags" %}{% endblock %}
 {% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> :: <a href="{% url repository.views.data_index %}">{% trans "Data" %}</a> :: {% trans "Tags" %}{% endblock %}
 
-
-{% block content-related %}
-<p>{% trans "These tags are currently used by the Data items in the repository" %}:</p>
-{% endblock %}
-
 {% block content %}
+<h2>{% trans "Used Tags" %}</h2>
+<p>{% trans "These tags are currently used by the Data items in the repository" %}:</p>
+
 <ul>
 	{% for tag in tags %}
 		<li><a href="{% url repository.views.tags_view tag.name %}">{{ tag.name }} ({{ tag.count }})</a></li>
