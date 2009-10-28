@@ -2,16 +2,14 @@
 {% load i18n %}
 
 {% block content %}
-<h1>Repository</h1>
-<p>
-{% trans "This is the repository where you can find and modify all available data, tasks and solutions." %}
-</p>
+<h1>{% trans "Repository" %}</h1>
+<p>{% trans "This is the repository where you can find and modify all available data, tasks and solutions." %}</p>
 
-<h2>Latest Items</h2>
+<h2>{% trans "Latest Items" %}</h2>
 <ul>
-	{% if latest_data %}<li>Data: <a href="{% url repository.views.data_view latest_data.slug.text %}">{{ latest_data.name }}</a></li>{%endif %}
-	{% if latest_task %}<li>Task: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>{%endif %}
-	{% if latest_solution %}<li>Solution: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>{%endif %}
+	{% if latest_data %}<li>{% trans "Data" %}: <a href="{% url repository.views.data_view latest_data.slug.text %}">{{ latest_data.name }}</a></li>{%endif %}
+	{% if latest_task %}<li>{% trans "Task" %}: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>{%endif %}
+	{% if latest_solution %}<li>{% trans "Solution" %}: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>{%endif %}
 </ul>
 {% endblock %}
 
