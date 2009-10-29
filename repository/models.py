@@ -33,8 +33,7 @@ class Repository(models.Model):
     is_deleted = models.BooleanField(default=False)
     author = models.ForeignKey(User)
     average_rating = models.FloatField(editable=False, default=-1)
-    average_features_rating = models.FloatField(editable=False, default=-1)
-    average_usability_rating = models.FloatField(editable=False, default=-1)
+    average_interesting_rating = models.FloatField(editable=False, default=-1)
     average_documentation_rating = models.FloatField(editable=False, default=-1)
     total_number_of_votes = models.IntegerField(editable=False, default=0)
 
@@ -145,28 +144,24 @@ class Rating(models.Model):
     It acts as a base class for more specific Rating classes.
     """
     user = models.ForeignKey(User)
-    features = models.IntegerField(default=0)
-    usability = models.IntegerField(default=0)
+    interesting = models.IntegerField(default=0)
     documentation = models.IntegerField(default=0)
 
-    def update_rating(self, f, u, d):
-        self.features = f
-        self.usability = u
+    def update_rating(self, i, d):
+        self.interesting = i
         self.documentation = d
         self.save()
 
         repo = self.repository
         ratings = self.__class__.objects.filter(repository=repo)
         l = float(len(ratings))
-        f=u=d=0
+        i=d=0
         for r in ratings:
-            f+= r.features
-            u+= r.usability
+            i+= r.interesting
             d+= r.documentation
 
-        repo.average_rating = (f+u+d)/(3.0*l)
-        repo.average_features_rating = float(f)/l
-        repo.average_usability_rating = float(u)/l
+        repo.average_rating = (i+d)/(3.0*l)
+        repo.average_interesting_rating = float(i)/l
         repo.average_documentation_rating = float(d)/l
         repo.total_number_of_votes = l
         repo.save()

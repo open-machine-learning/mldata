@@ -3,8 +3,7 @@
 {% load i18n %}
 	<table>
 		<tr><td class="starlab">{% trans "Overall" %}</td><td class="stars"><nobr>{% show_stars object.average_rating of 5 round to half %}</nobr></td></tr>
-		<tr><td class="starlab">{% trans "Features" %}</td><td class="stars"><nobr>{% show_stars object.average_features_rating of 5 round to half %}</nobr></td></tr>
-		<tr><td class="starlab">{% trans "Usability" %}</td><td class="stars"><nobr>{% show_stars object.average_usability_rating of 5 round to half %}</nobr></td></tr>
+		<tr><td class="starlab">{% trans "Interesting" %}</td><td class="stars"><nobr>{% show_stars object.average_interesting_rating of 5 round to half %}</nobr></td></tr>
 		<tr><td class="starlab">{% trans "Documentation" %}</td><td class="stars"><nobr>{% show_stars object.average_documentation_rating of 5 round to half %}</nobr></td></tr>
 		<tr><td colspan="2" class="starlab">({% trans "based on" %} {{ object.total_number_of_votes }} {% trans "vote" %}{{ object.total_number_of_votes|pluralize }})</td></tr>
 	</table>

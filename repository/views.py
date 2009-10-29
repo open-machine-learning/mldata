@@ -118,8 +118,7 @@ def rate(request, type, id):
             if form.is_valid():
                 r, fail = rklass.objects.get_or_create(user=request.user, repository=obj)
                 r.update_rating(
-                    form.cleaned_data['features'],
-                    form.cleaned_data['usability'],
+                    form.cleaned_data['interesting'],
                     form.cleaned_data['documentation'],
                 )
 
@@ -269,8 +268,7 @@ def data_view(request, slug_or_id):
         try:
             r = DataRating.objects.get(user__id=request.user.id, repository=obj)
             rating_form= RatingForm({
-                'features': r.features,
-                'usability': r.usability,
+                'interesting': r.interesting,
                 'documentation': r.documentation,
             })
         except DataRating.DoesNotExist:
