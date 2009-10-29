@@ -26,6 +26,7 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
 #MAX_TAG_LENGTH = 30
+TAG_SPLITCHAR = ','
 
 
 # Local time zone for this installation. Choices can be found here:

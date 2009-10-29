@@ -4,6 +4,7 @@ from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.widgets import AutoCompleteTagInput
 from tagging.forms import TagField
+from settings import TAG_SPLITCHAR
 
 
 class DataForm(ModelForm):
@@ -20,6 +21,10 @@ class DataForm(ModelForm):
             raise ValidationError(
                 _('Names consisting of only numerical values are not allowed.'))
         return self.cleaned_data['name']
+
+    def clean_tags(self): # avoid tags like 'foo, bar baz'
+        tags = self.cleaned_data['tags']
+        return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
 
 
 class RatingForm(forms.Form):

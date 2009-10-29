@@ -12,7 +12,7 @@ from django.forms.util import ErrorDict
 from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_URL
+from settings import MEDIA_URL, TAG_SPLITCHAR
 
 
 VERSIONS_PER_PAGE = 5
@@ -275,7 +275,8 @@ def data_view(request, slug_or_id):
             rating_form = RatingForm()
 
     # need tags in list
-    obj.tags = obj.tags.split(', ')
+    obj.tags = obj.tags.split(TAG_SPLITCHAR)
+    #obj.tags = _split_tags(obj.tags)
 
     info_dict = {
         'object': obj,
@@ -345,14 +346,21 @@ def solution_view(request, id):
 def tags_index(request):
     tags = Tag.objects.usage_for_model(Data, counts=True)
     info_dict = {
+        'user': request.user,
         'tags': tags,
     }
     return render_to_response('repository/tags_index.html', info_dict)
 
+
 def tags_view(request, tag):
-    tag = Tag.objects.get(name=tag)
-    object_list = TaggedItem.objects.get_by_model(Data, tag).order_by('name')
+    try:
+        tag = Tag.objects.get(name=tag)
+        object_list = TaggedItem.objects.get_by_model(Data, tag).order_by('name')
+    except Tag.DoesNotExist:
+        object_list = []
+
     info_dict = {
+        'user': request.user,
         'tag': tag,
         'object_list': object_list,
     }
