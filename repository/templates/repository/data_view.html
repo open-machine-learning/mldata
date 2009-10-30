@@ -31,7 +31,7 @@
 </tr>
 <tr>
 	<td>{% trans "Tags" %}</td>
-	<td>{% for tag in object.tags %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a> {% endfor %}</td>
+	<td>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a>{% endif %}{% endfor %}</td>
 </tr>
 <tr>
 	<td>{% trans "Summary" %}</td>

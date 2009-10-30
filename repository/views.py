@@ -276,7 +276,6 @@ def data_view(request, slug_or_id):
 
     # need tags in list
     obj.tags = obj.tags.split(TAG_SPLITCHAR)
-    #obj.tags = _split_tags(obj.tags)
 
     info_dict = {
         'object': obj,
