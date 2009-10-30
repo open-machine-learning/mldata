@@ -1,4 +1,5 @@
 - repository:
 	+ implement handling of Task + Solution objects
 - TESTS!
+- concurrency / race conditions!
 - better templates / design

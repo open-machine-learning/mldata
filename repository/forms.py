@@ -2,7 +2,7 @@ import re
 from django.forms import *
 from django.utils.translation import ugettext as _
 from repository.models import *
-from repository.widgets import AutoCompleteTagInput
+from repository.widgets import *
 from tagging.forms import TagField
 from settings import TAG_SPLITCHAR
 
@@ -11,6 +11,7 @@ class DataForm(ModelForm):
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
     file = FileField(required=False)
     format = CharField(required=False)
+    license = CharField(widget=AutoCompleteLicenseInput())
 
     class Meta:
         model = Data
