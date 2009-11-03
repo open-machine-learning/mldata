@@ -23,6 +23,8 @@
 		<dt>{{ form.file }}</dt>
 		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
 		<dt>{{ form.format }}</dt>
+		<dd><label for="id_license">{% trans "License" %}:</label> {{ form.license.errors }}</dd>
+		<dt>{{ form.license }}</dt>
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
 	</dl></td>
@@ -38,8 +40,6 @@
 		<dt>{{ form.urls }}</dt>
 		<dd><label for="id_publications">{% trans "Publications" %}:</label> {{ form.publications.errors }}</dd>
 		<dt>{{ form.publications }}</dt>
-		<dd><label for="id_license">{% trans "License" %}:</label> {{ form.license.errors }}</dd>
-		<dt>{{ form.license }}</dt>
 		<dd><label for="id_is_public">{% trans "Is the Data ready to be seen by the public" %}?</label> {{ form.is_public.errors }}</dd>
 		<dt>{{ form.is_public }}</dt>
 		<dd><label for="id_source">{% trans "Data Source" %}:</label> {{ form.source.errors }}</dd>

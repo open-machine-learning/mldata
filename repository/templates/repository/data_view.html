@@ -16,7 +16,7 @@
 
 <table>
 <tr>
-	<th>{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.author.username }}, {% trans "version" %} {{ object.version }} /
+	<th>{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }} /
 	{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}">&laquo;</a>{% endif %}
 	{% for v in object.versions.object_list %}
 		{% ifequal object.version v.version %}-{% else %}<a href="{% url repository.views.data_view v.id %}">{{ v.version }}</a>{% endifequal %}

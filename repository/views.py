@@ -19,8 +19,8 @@ VERSIONS_PER_PAGE = 5
 OBJECTS_PER_PAGE = 10
 
 
-def _is_owner(user, author_id):
-    if user.is_staff or user.is_superuser or user.id == author_id:
+def _is_owner(user, user_id):
+    if user.is_staff or user.is_superuser or user.id == user_id:
         return True
     else:
         return False
@@ -31,7 +31,7 @@ def _get_object_or_404(request, klass, slug_or_id):
         repository__is_deleted=False)
 
     if obj: # slug
-        is_owner = _is_owner(request.user, obj[0].repository.author.id)
+        is_owner = _is_owner(request.user, obj[0].repository.user.id)
         if not is_owner and not obj[0].repository.is_public:
             raise Http404
         obj = getattr(obj[0].repository, klass.__name__.lower())
@@ -42,7 +42,7 @@ def _get_object_or_404(request, klass, slug_or_id):
             raise Http404
         if not obj or obj.is_deleted:
             raise Http404
-        is_owner = _is_owner(request.user, obj.author.id)
+        is_owner = _is_owner(request.user, obj.user.id)
         if not is_owner and not obj.is_public:
             raise Http404
 
@@ -112,7 +112,7 @@ def rate(request, type, id):
         rklass = eval(type.capitalize() + 'Rating')
 
     obj = get_object_or_404(klass, pk=id)
-    if request.user.is_authenticated() and not request.user == obj.author:
+    if request.user.is_authenticated() and not request.user == obj.user:
         if request.method == 'POST':
             form=RatingForm(request.POST)
             if form.is_valid():
@@ -131,7 +131,7 @@ def _repository_index(request, type, my=False):
         repository__is_deleted=False).order_by('-repository__pub_date')
 
     if my:
-        objects = objects.filter(repository__author=request.user.id)
+        objects = objects.filter(repository__user=request.user.id)
         my_or_archive = _('My')
     else:
         objects = objects.filter(repository__is_public=True)
@@ -198,7 +198,7 @@ def data_new(request):
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
-                new.author_id = request.user.id
+                new.user_id = request.user.id
                 new.file = request.FILES['file']
                 new.file.name = new.get_filename()
                 new.save()
@@ -233,7 +233,7 @@ def data_edit(request, slug_or_id):
             next.file = prev.file
             next.format = prev.format
             next.version = next.get_next_version()
-            next.author_id = request.user.id
+            next.user_id = request.user.id
             next.save()
             return HttpResponseRedirect(next.get_absolute_url())
     else:
@@ -255,7 +255,7 @@ def data_edit(request, slug_or_id):
 def data_view(request, slug_or_id):
     obj = _get_object_or_404(request, Data, slug_or_id)
     obj.type = 'data'
-    is_owner = _is_owner(request.user, obj.author_id)
+    is_owner = _is_owner(request.user, obj.user_id)
     obj.versions = _get_versions_paginator(request, obj, is_owner)
 
     can_activate = False
@@ -264,7 +264,7 @@ def data_view(request, slug_or_id):
         can_activate = True
 
     rating_form = None
-    if request.user.is_authenticated() and not request.user == obj.author:
+    if request.user.is_authenticated() and not request.user == obj.user:
         try:
             r = DataRating.objects.get(user__id=request.user.id, repository=obj)
             rating_form= RatingForm({
@@ -290,7 +290,7 @@ def data_view(request, slug_or_id):
 
 def data_delete(request, slug_or_id):
     obj = _get_object_or_404(request, Data, slug_or_id)
-    if _is_owner(request.user, obj.author_id):
+    if _is_owner(request.user, obj.user_id):
         obj.is_deleted = True
         current = Data.objects.filter(slug__text=obj.slug.text).\
             filter(is_deleted=False).order_by('-version')
@@ -310,7 +310,7 @@ def data_activate(request, id):
         return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
 
     obj = get_object_or_404(Data, pk=id)
-    if not _is_owner(request.user, obj.author.id):
+    if not _is_owner(request.user, obj.user.id):
         raise Http404
 
     cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)

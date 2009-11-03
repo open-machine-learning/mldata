@@ -41,7 +41,7 @@ class Repository(models.Model):
     license = models.ForeignKey(License)
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
-    author = models.ForeignKey(User)
+    user = models.ForeignKey(User)
     average_rating = models.FloatField(editable=False, default=-1)
     average_interesting_rating = models.FloatField(editable=False, default=-1)
     average_documentation_rating = models.FloatField(editable=False, default=-1)

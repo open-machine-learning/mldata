@@ -15,7 +15,7 @@ class DataForm(ModelForm):
 
     class Meta:
         model = Data
-        exclude = ('pub_date', 'version', 'slug', 'author',)
+        exclude = ('pub_date', 'version', 'slug', 'user',)
 
     def clean_name(self):
         if re.match('^\d+$', self.cleaned_data['name']):
