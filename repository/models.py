@@ -19,6 +19,16 @@ class Slug(models.Model):
         return unicode(self.text)
 
 
+
+class License(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    url = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
+
 class Repository(models.Model):
     pub_date = models.DateTimeField()
     version = models.IntegerField()
@@ -28,7 +38,7 @@ class Repository(models.Model):
     description = models.TextField(blank=True)
     urls = models.CharField(max_length=255, blank=True)
     publications = models.CharField(max_length=255, blank=True)
-    license = models.CharField(max_length=255, blank=True)
+    license = models.ForeignKey(License)
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     author = models.ForeignKey(User)

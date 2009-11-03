@@ -43,11 +43,11 @@ class AutoCompleteTagInput(AutoCompleteInput):
                                     ensure_ascii=False)
         return self.get_snippet(output, name, tag_list)
 
-class AutoCompleteLicenseInput(AutoCompleteInput):
-    def render(self, name, value, attrs=None):
-        output = super(AutoCompleteLicenseInput, self).render(name, value, attrs)
-        licenses = set(Data.objects.values_list('license', flat=True))
-        license_list = simplejson.dumps(
-            [l for l in licenses if l], ensure_ascii=False)
-        return self.get_snippet(output, name, license_list, multiple=False)
+#class AutoCompleteLicenseInput(AutoCompleteInput):
+#    def render(self, name, value, attrs=None):
+#        output = super(AutoCompleteLicenseInput, self).render(name, value, attrs)
+#        licenses = set(Data.objects.values_list('license', flat=True))
+#        license_list = simplejson.dumps(
+#            [l for l in licenses if l], ensure_ascii=False)
+#        return self.get_snippet(output, name, license_list, multiple=False)
 

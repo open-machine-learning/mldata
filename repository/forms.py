@@ -11,7 +11,7 @@ class DataForm(ModelForm):
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
     file = FileField(required=False)
     format = CharField(required=False)
-    license = CharField(widget=AutoCompleteLicenseInput())
+#    license = CharField(widget=AutoCompleteLicenseInput())
 
     class Meta:
         model = Data

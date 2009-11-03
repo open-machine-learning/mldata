@@ -47,7 +47,7 @@
 </tr>
 <tr>
 	<td>{% trans "License" %}</td>
-	<td>{{ object.license }}</td>
+	<td><a href="{{ object.license.url }}">{{ object.license.name }}</a></td>
 </tr>
 <tr>
 	<td>{% trans "Data Source" %}</td>
