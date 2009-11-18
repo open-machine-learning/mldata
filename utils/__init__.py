@@ -6,6 +6,8 @@ from django.contrib.comments.signals import comment_will_be_posted
 import settings
 import datetime
 
+
+
 # not quite sure where to put this code
 def parsewords(curobj,fieldname='language'):
     """
@@ -30,6 +32,8 @@ def parsewords(curobj,fieldname='language'):
     unique_words.sort()
     return unique_words
 
+
+
 def slugify(value):
     """
     Normalizes string, converts to lowercase, removes non-alpha chars and
@@ -42,6 +46,7 @@ def slugify(value):
 slugify = stringfilter(slugify)
 
 
+
 def send_mails(subscribers, subject, message):
     # we don't use send_mass_mail as we don't want to leak other users email addresses
     for s in subscribers:
@@ -52,6 +57,8 @@ def send_mails(subscribers, subject, message):
                 send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [ s.user.email ],fail_silently=True)
                 s.last_updated=now
                 s.save()
+
+
 
 def comment_spam_test(**kwargs):
     """

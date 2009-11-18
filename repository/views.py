@@ -2,7 +2,7 @@
 All custom repository logic is kept here
 """
 
-import datetime, os, shutil
+import datetime, os, shutil, h5py, numpy
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
@@ -12,7 +12,7 @@ from django.forms.util import ErrorDict
 from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_URL, TAG_SPLITCHAR
+from settings import MEDIA_URL, MEDIA_ROOT, TAG_SPLITCHAR
 
 
 VERSIONS_PER_PAGE = 5
@@ -76,6 +76,21 @@ def _get_versions_paginator(request, obj, is_owner):
         versions = paginator.page(paginator.num_pages)
 
     return versions
+
+
+def _make_hdf5(filename):
+    filename = MEDIA_ROOT + filename
+    orig = open(filename, 'r')
+    labels = []
+    for line in orig:
+        labels.append(numpy.double(line.split(' ')[0]))
+    orig.close()
+    hdf5 = h5py.File(filename, 'w')
+    hdf5.create_dataset('labels', data=numpy.array(labels))
+    hdf5.attrs['mldata'] = 0
+    hdf5.attrs['task'] = 'classification'
+    hdf5.close()
+
 
 
 def index(request):
@@ -202,6 +217,7 @@ def data_new(request):
                 new.file = request.FILES['file']
                 new.file.name = new.get_filename()
                 new.save()
+                _make_hdf5(new.file.name)
                 return HttpResponseRedirect(new.get_absolute_url(use_slug=True))
     else:
         form = DataForm()

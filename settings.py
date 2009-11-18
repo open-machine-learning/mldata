@@ -23,6 +23,12 @@ DATABASE_HOST = ''             # Set to empty string for localhost. Not used wit
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 
+# add utils to path; for markdown
+import os
+import sys
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
+
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
 #MAX_TAG_LENGTH = 30

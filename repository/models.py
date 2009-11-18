@@ -12,6 +12,7 @@ TYPE = {
 }
 
 
+
 class Slug(models.Model):
     text = models.CharField(max_length=32, unique=True)
 
@@ -115,7 +116,7 @@ class Data(Repository):
     def get_filename(self):
         if not self.slug_id:
             self.make_slug()
-        return '%s.%s' % (self.slug.text, self.format)
+        return self.slug.text + '.hdf5'
 
 
 class Task(Repository):

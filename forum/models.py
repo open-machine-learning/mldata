@@ -5,14 +5,14 @@ Just about all logic required for smooth updates is in the save()
 methods. A little extra logic is in views.py.
 """
 
-from django.db import models
 import datetime
+from django.db import models
 from django.contrib.auth.models import User, Group
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import escape
 from forum.managers import ForumManager
-from markdown import markdown
+from utils.markdown import markdown
 
 class Forum(models.Model):
     """
