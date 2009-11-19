@@ -23,18 +23,19 @@ if PRODUCTION:
 else:
     DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
     DATABASE_NAME = 'mldata.db'             # Or path to database file if using sqlite3.
-    #DATABASE_NAME = '/home/shensche/proj/mldata/website/mldata/mldata.db' # apache/wsgi
 
 DATABASE_USER = 'mldata'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
-# add utils to path; for markdown
-import os
-import sys
-PROJECT_ROOT = os.path.dirname(__file__)
-sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
+
+#not needed?
+if not PRODUCTION:
+	import os
+	import sys
+	PROJECT_ROOT = os.path.dirname(__file__)
+	sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
@@ -76,7 +77,8 @@ ADMIN_MEDIA_PREFIX = '/media_admin/'
 SITE_ID = 1
 LOGIN_REDIRECT_URL='/'
 ACCOUNT_ACTIVATION_DAYS=1
-DEFAULT_FROM_EMAIL='admin@mldata.org'
+#DEFAULT_FROM_EMAIL='admin@mldata.org'
+DEFAULT_FROM_EMAIL='mldata@data.ml.tu-berlin.de'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '67-0bxcy%$$&1%=9@1(@g0xxgsx)0jf^i=5@lf!i44ivp$k)mk'
