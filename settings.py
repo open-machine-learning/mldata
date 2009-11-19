@@ -37,12 +37,8 @@ if not PRODUCTION:
 	PROJECT_ROOT = os.path.dirname(__file__)
 	sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
 
-# in which directory the data is actually saved as files,
-# relative to MEDIA_ROOT
-if PRODUCTION:
-	DATAPATH = '../../../data'
-else:
-	DATAPATH = 'data'
+# in which directory items are saved as files, relative to MEDIA_ROOT
+DATAPATH = 'data'
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
@@ -67,7 +63,10 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = 'media/'
+if PRODUCTION:
+    MEDIA_ROOT = '/home/mldata/private'
+else:
+    MEDIA_ROOT = 'media/private'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
