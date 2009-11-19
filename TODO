@@ -1,4 +1,6 @@
 - repository:
+	+ converter scripts for hdf5/arff/libsvm
+	+ don't create dataset when upload fails
 	+ serve data files only when not hidden
 	+ implement handling of Task + Solution objects
 - TESTS!
