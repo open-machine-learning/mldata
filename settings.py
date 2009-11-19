@@ -15,19 +15,24 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'mldata.db'             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
+if PRODUCTION:
+	DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+	DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
+else:
+	DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+	DATABASE_NAME = 'mldata.db'             # Or path to database file if using sqlite3.
+
+DATABASE_USER = 'mldata'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
-
-# add utils to path; for markdown
-import os
-import sys
-PROJECT_ROOT = os.path.dirname(__file__)
-sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
+# not needed?
+## add utils to path; for markdown
+#import os
+#import sys
+#PROJECT_ROOT = os.path.dirname(__file__)
+#sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
@@ -49,9 +54,6 @@ LANGUAGE_CODE = 'en-us'
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
-
-
-
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -92,9 +94,14 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'mldata.urls'
 
-TEMPLATE_DIRS = (
-    'templates/',
-)
+if PRODUCTION:
+	TEMPLATE_DIRS = (
+		'/home/mldata/django/mldata/templates/',
+	)
+else:
+	TEMPLATE_DIRS = (
+		'templates/',
+	)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
