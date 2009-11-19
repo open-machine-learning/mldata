@@ -30,12 +30,15 @@ DATABASE_HOST = ''             # Set to empty string for localhost. Not used wit
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 
-#not needed?
+# on production server, path has to be inserted in django.wsgi
 if not PRODUCTION:
 	import os
 	import sys
 	PROJECT_ROOT = os.path.dirname(__file__)
 	sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
+
+# mldata specific
+DATAPATH = 'media/data'
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
