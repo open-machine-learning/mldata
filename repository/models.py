@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
-import utils.hdf5
+#import utils.hdf5
 
 TYPE = {
     'data': 0,
@@ -122,13 +122,13 @@ class Data(Repository):
         return self.slug.text + '.' + self.format
 
 
-    def save(self):
-        super(Data, self).save()
-        if self.format.lower() != 'hdf5':
-            if utils.hdf5.convert(self.file.name, self.format):
-                self.format = 'hdf5'
-                self.file.name = self.get_filename()
-                super(Data, self).save()
+#    def save(self):
+#        super(Data, self).save()
+#        if self.format.lower() != 'hdf5':
+#            if utils.hdf5.convert(self.file.name, self.format):
+#                self.format = 'hdf5'
+#                self.file.name = self.get_filename()
+#                super(Data, self).save()
 
 
 
