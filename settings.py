@@ -18,23 +18,23 @@ ADMINS = (
 MANAGERS = ADMINS
 
 if PRODUCTION:
-	DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-	DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
+    DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
 else:
-	DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-	DATABASE_NAME = 'mldata.db'             # Or path to database file if using sqlite3.
+    DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_NAME = 'mldata.db'             # Or path to database file if using sqlite3.
+    #DATABASE_NAME = '/home/shensche/proj/mldata/website/mldata/mldata.db' # apache/wsgi
 
 DATABASE_USER = 'mldata'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
-# not needed?
-## add utils to path; for markdown
-#import os
-#import sys
-#PROJECT_ROOT = os.path.dirname(__file__)
-#sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
+# add utils to path; for markdown
+import os
+import sys
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
