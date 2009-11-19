@@ -11,6 +11,8 @@ else:
 
 ADMINS = (
     ('Sebastian Henschel', 'shogun@kodeaffe.de'),
+    ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
+    ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
 )
 
 MANAGERS = ADMINS
