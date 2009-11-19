@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
+from settings import DATAPATH
 #import utils.hdf5
 
 TYPE = {
@@ -104,7 +105,7 @@ class Data(Repository):
     format = models.CharField(max_length=16) # CSV, ARFF, netCDF, HDF5, ODBC
     measurement_details = models.TextField(blank=True)
     usage_scenario = models.TextField(blank=True)
-    file = models.FileField(upload_to='repository/data')
+    file = models.FileField(upload_to=DATAPATH)
     tags = TagField()
 
     def get_absolute_url(self, use_slug=False):

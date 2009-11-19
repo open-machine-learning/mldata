@@ -37,12 +37,12 @@ if not PRODUCTION:
 	PROJECT_ROOT = os.path.dirname(__file__)
 	sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
 
-# in which directory the the data is actually saved 
-# as files
+# in which directory the data is actually saved as files,
+# relative to MEDIA_ROOT
 if PRODUCTION:
-	DATAPATH = '/home/mldata/data'
+	DATAPATH = '../../../data'
 else:
-	DATAPATH = 'media/data'
+	DATAPATH = 'data'
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
