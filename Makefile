@@ -33,7 +33,7 @@ release: clean
 		python -mcompileall $(WEBSITEDIR)/$(RELEASENAME)/ \; \
 		find $(WEBSITEDIR)/$(RELEASENAME) -type d -exec chmod 755 {} '\;' \; \
 		find $(WEBSITEDIR)/$(RELEASENAME) -type f -exec chmod 644 {} '\;' \; \
-		chmod 644 $(WEBSITEDIR)/$(RELEASENAME)/settings.py\* \; \
+		chmod 640 $(WEBSITEDIR)/$(RELEASENAME)/settings.py\* \; \
 		rm -rf static/media \; \
 		mv -f $(WEBSITEDIR)/$(RELEASENAME)/media static/ \; \
 		cd $(WEBSITEDIR) \; ln -snf $(RELEASENAME) mldata \; \
