@@ -30,6 +30,10 @@
 	</dl></td>
 {% endif %}
 	<td style="vertical-align: top"><dl>
+{% if not is_new %}
+		<dd><label for="id_license">{% trans "License" %}:</label> {{ form.license.errors }}</dd>
+		<dt>{{ form.license }}</dt>
+{% endif %}
 		<dd><label for="id_tags">{% trans "Tags" %}:</label> {{ form.tags.errors }}</dd>
 		<dt>{{ form.tags }}</dt>
 		<dd><label for="id_summary">{% trans "Summary" %}:</label> {{ form.summary.errors }}</dd>
