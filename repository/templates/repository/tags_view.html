@@ -10,7 +10,7 @@
 
 <ul>
 {% for obj in object_list %}
-<li><a href="{% url repository.views.data_view obj.id %}">{{ obj.name }} ({% trans "version" %} {{ obj.version }})</a></li>
+<li><a href="{% url repository.views.data_view obj.id %}">{{ obj.name }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

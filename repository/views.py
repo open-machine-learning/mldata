@@ -366,7 +366,18 @@ def tags_index(request):
 def tags_view(request, tag):
     try:
         tag = Tag.objects.get(name=tag)
-        object_list = TaggedItem.objects.get_by_model(Data, tag).order_by('name')
+        taggedlist = TaggedItem.objects.get_by_model(Data, tag).\
+            values('id', 'name').order_by('name')
+        cvlist = CurrentVersion.objects.filter(
+            repository__is_deleted=False,
+            repository__is_public=True,
+            type=TYPE['data']).values('repository__id')
+        object_list = []
+        # is there a more efficient way?
+        for cv in cvlist:
+            for tagged in taggedlist:
+                if tagged['id'] == cv['repository__id']:
+                    object_list.append(tagged)
     except Tag.DoesNotExist:
         object_list = []
 
