@@ -11,8 +11,7 @@
 		<meta name="ROBOTS" content="ALL" />
 		<meta http-equiv="imagetoolbar" content="no" />
 		<meta name="MSSmartTagsPreventParsing" content="true" />
-		<meta name="Copyright" content="This site's design and contents Copyright (c) 2009  Sebastian Henschel" />
-
+		<meta name="Copyright" content="This site's design and code Copyright (c) 2009 Sebastian Henschel" />
 		<meta name="keywords" content="machine learning, pascal" />
 		<meta name="description" content="PASCAL Machine Learning Benchmarks Repository" />
 
@@ -40,7 +39,7 @@
 					<li id="nav-forum"><a href="/forum/">{% trans "Forum" %}</a></li>
 					<li id="nav-blog"><a href="/blog/">{% trans "Blog" %}</a></li>
 					<li id="nav-about"><a href="/about/">{% trans "About" %}</a></li>
-					<li id="nav-registration"><a href="/accounts/register/">{% trans "Registration" %}</a></li>
+					{% if not user.is_authenticated %}<li id="nav-registration"><a href="/accounts/register/">{% trans "Registration" %}</a></li>{% endif %}
 				</ul></span>
 			</div><!-- END Header -->
 

@@ -6,7 +6,7 @@ Views which allow users to create and activate accounts.
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -142,6 +142,9 @@ def register(request, success_url=None,
     argument.
     
     """
+    if request.user.is_authenticated:
+        raise Http404
+
     if request.method == 'POST':
         form = form_class(data=request.POST, files=request.FILES)
         if form.is_valid():
