@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -23,10 +24,10 @@
 			<div id="accounts">
 				<b>
 					{% if user.is_authenticated %}
-					Welcome <a href="{% url user.views.show_user user.pk %}">{% if user.first_name %}{{user.first_name}}{% else %}{{user}}{% endif %}</a>|
-					<a href="{% url auth_logout %}">Logout</a>
+					{% trans "Welcome" %} <a href="{% url user.views.show_user user.pk %}">{% if user.first_name %}{{user.first_name}}{% else %}{{user}}{% endif %}</a>|
+					<a href="{% url auth_logout %}">{% trans "Logout" %}</a>
 					{% else %}
-					<a href="{% url auth_login %}">Login</a>
+					<a href="{% url auth_login %}">{% trans "Login" %}</a>
 					{% endif %}
 				</b>
 			</div>
@@ -35,11 +36,11 @@
 				<span id="logo"><a href="/"><img src="/media/images/pascal.png" alt="logo"></img></a></span>
 				<span id="text">Machine Learning<br />Benchmark Repository</span>
 				<span id="nav-global"><ul>
-					<li id="nav-repository"><a href="/repository/">Repository</a></li>
-					<li id="nav-forum"><a href="/forum/">Forum</a></li>
-					<li id="nav-blog"><a href="/blog/">Blog</a></li>
-					<li id="nav-about"><a href="/about/">About</a></li>
-					<li id="nav-registration"><a href="/accounts/register/">Registration</a></li>
+					<li id="nav-repository"><a href="/repository/">{% trans "Repository" %}</a></li>
+					<li id="nav-forum"><a href="/forum/">{% trans "Forum" %}</a></li>
+					<li id="nav-blog"><a href="/blog/">{% trans "Blog" %}</a></li>
+					<li id="nav-about"><a href="/about/">{% trans "About" %}</a></li>
+					<li id="nav-registration"><a href="/accounts/register/">{% trans "Registration" %}</a></li>
 				</ul></span>
 			</div><!-- END Header -->
 
@@ -56,7 +57,7 @@
 				</div><!-- END content-related -->
 			</div><!-- END columnwrap -->
 
-			<div id="footer">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a> | <a href="/about/impressum">Impressum</a> | Hosting graciously provided by the <a href="http://www.tu-berlin.de">TU Berlin</a>
+			<div id="footer">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a> | <a href="/about/impressum">Impressum</a> | {% trans "Hosting graciously provided by the" %} <a href="http://www.tu-berlin.de">TU Berlin</a>
 			</div><!-- END footer -->
 		</div><!-- END container -->
 		<script type="text/javascript">
