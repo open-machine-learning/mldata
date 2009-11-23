@@ -66,7 +66,7 @@
 	<td>{{ object.usage_scenario|markdown }}</td>
 </tr>
 <tr>
-	<td colspan="2"><a href="">{% trans "Download Data File - defunct" %}</a></td>
+	<td colspan="2"><a href="{% url repository.views.data_download object.id %}">{% trans "Download Data File" %}</a></td>
 </tr>
 </table>
 <br />

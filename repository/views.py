@@ -2,17 +2,18 @@
 All custom repository logic is kept here
 """
 
-import datetime, os, shutil
+import datetime, os
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.servers.basehttp import FileWrapper
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
 from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_URL, TAG_SPLITCHAR
+from settings import MEDIA_URL, MEDIA_ROOT, TAG_SPLITCHAR
 
 
 VERSIONS_PER_PAGE = 5
@@ -322,6 +323,16 @@ def data_activate(request, id):
         obj.save()
 
     return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
+
+
+def data_download(request, id):
+    obj = _get_object_or_404(request, Data, id)
+    filename = os.path.join(MEDIA_ROOT, obj.file.name)
+    wrapper = FileWrapper(file(filename))
+    response = HttpResponse(wrapper, mimetype='application/octet-stream')
+    response['Content-Length'] = os.path.getsize(filename)
+    response['Content-Disposition'] = 'attachment; filename=' + obj.file.name
+    return response
 
 
 
