@@ -1,0 +1,43 @@
+Structure of the HDF5 Format
+============================
+
+This will be the generic storage for all kinds of data sets. The basic
+abstraction is that a data set is a large collection of objects having
+the same type, so to say a large array.
+
+/mldata           integer = 0
+/name             Name of the data set
+/comment          Initial comment
+/attribute_names  Array of Strings: names of the attributes
+/attribute_types  Array of Strings: description of the attribute types
+		  (see below)
+/attributes	  Array of Objects as described by attribute_types
+
+Note that the distinction what is input/output, label/target depends
+on the TASK, not on the data set itself!
+
+Attribute Types
+===============
+
+We make a distinction between the actual binary format and the
+attribute type stored in the file. For example, nominal data might be
+stored as integers or even bytes for efficiency, although they are
+mapped to symbolic names to the outside.
+
+The attribute type is specified by a string which has to be parsed for
+better flexibility.
+
+Supported types are:
+
+"NUMERIC"
+Numerical values
+Stored as: array of numerical type
+
+"NOMINAL(VALUE1, VALUE2, ...)"
+Enumeration type
+Stored as: array of small integer types
+
+"STRING"
+Stored as: an array of strings
+
+As we see more data types, more type descriptors will be added.
