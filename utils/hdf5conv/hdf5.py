@@ -1,5 +1,5 @@
 """
-Convert from and to HDF5
+Convert from and to HDF5 (spec of mldata.org)
 
 Currently supported formats:
 
@@ -19,20 +19,36 @@ VERSION_MLDATA = '0'
 
 
 def progress(msg):
+    """Print the given message with some kind of progress indicator."""
     print ' -> ' + msg
 
 
 
 class Converter():
+    """Base class for conversion"""
+
     def __init__(self, in_filename, out_filename):
+        """Constructor takes two arguments:
+
+        filename of in-file, filename of out-file
+        """
         self.in_filename = in_filename
         self.out_filename = out_filename
-        self.attrs = {}
+        self.attrs = {
+            'mldata': VERSION_MLDATA,
+            'name': '',
+            'comment': '',
+        }
 
     def run(self):
+        """Run the actual conversion process.
+
+        'Abstract base method' to be implemented by child classes.
+        """
         print 'Not implemented yet!'
 
     def write_hdf5(self, *args, **kwargs):
+        """Write an HDF file (spec of mldata.org)."""
         progress('writing out-file ' + self.out_filename)
         h = h5py.File(self.out_filename, 'w')
 
@@ -43,7 +59,6 @@ class Converter():
         progress('writing attributes')
         for key, val in self.attrs.iteritems():
             h.attrs[key] = val
-        h.attrs['mldata'] = VERSION_MLDATA
 
         h.close()
         return True
@@ -51,44 +66,54 @@ class Converter():
 
 
 class LibSVM2HDF5(Converter):
-    def run(self):
-        return False
-        labels = []
-        features = []
+    """Convert a file from LibSVM to HDF5
 
-        infile = open(self.in_filename, 'r')
+    This is simple enough, so it doesn't need its own module.
+    """
+
+    def run(self):
+        """Run the actual conversion process."""
         progress('reading in-file ' + self.in_filename)
+        infile = open(self.in_filename, 'r')
+        attributes = []
+        #attributes = numpy.array([])
         for line in infile:
             items = line.strip().split(' ')
-            items.remove('')
+            try:
+                items.remove('')
+            except ValueError:
+                pass
 
-            labels.append(numpy.double(items.pop(0)))
-
-            values = []
+            attribute = []
+            # label/target
+            attribute.append(numpy.double(items.pop(0)))
+            # features
+            prev_idx = 0
             for item in items:
-                values.append(numpy.double(item.split(':')[1]))
-            features.append(values)
-
+                idx, val = item.split(':')
+                if int(idx) > (prev_idx + 1):
+                    attribute.append(0) # sparse values!
+                prev_idx = int(idx)
+                attribute.append(numpy.double(val))
+            attributes.append(attribute)
         infile.close()
 
-        self.attrs['name'] = 'foobar'
-        progress('named as ' + self.attrs['name'])
-        self.attrs['task'] = 'classification'
-        progress('defined as task ' + self.attrs['task'])
+        progress('emtpy values for attribute_names, attribute_types, name, comment.')
 
-        label_names = ''
-        progress('no names for labels found...')
-        feature_names = ''
-        progress('no names for features found...')
+        return self.write_hdf5(attributes=attributes)
 
-        return self.write_hdf5(attr=attr,
-            labels=labels, label_names=label_names,
-            features=features, feature_names=feature_names)
 
 
 
 class ARFF2HDF5(Converter):
+    """Convert a file from ARFF to HDF5 (spec of mldata.org).
+
+    It uses the module arff provided by the dataformat project:
+    http://mloss.org/software/view/163/
+    """
+
     def run(self):
+        """Run the actual conversion process."""
         import arff
         a = arff.ArffFile.load(self.in_filename)
 
@@ -113,7 +138,14 @@ class ARFF2HDF5(Converter):
 
 
 class HDF52ARFF(Converter):
+    """Convert a file from HDF5 (spec of mldata.org) to ARFF
+
+    It uses the module arff provided by the dataformat project:
+    http://mloss.org/software/view/163/
+    """
+
     def run(self):
+        """Run the actual conversion process."""
         import arff
         a = arff.ArffFile()
         h = h5py.File(self.in_filename, 'r')
