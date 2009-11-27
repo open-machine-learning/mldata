@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 import repository.views as views
 
 urlpatterns = patterns('',
@@ -14,6 +15,7 @@ urlpatterns = patterns('',
     (r'^data/download/(?P<id>\d+)/$', views.data_download),
     (r'^data/tags/$', views.tags_index),
     (r'^data/tags/(?P<tag>[A-Za-z0-9-_]+)/$', views.tags_view),
+    (r'^data/license$', direct_to_template, {'template':'repository/license.html'}),
     (r'^task/$', views.task_index),
     (r'^task/new$', views.task_new),
     (r'^task/view/(?P<slug_or_id>[A-Za-z0-9-_]+)/$', views.task_view),

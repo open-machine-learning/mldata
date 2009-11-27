@@ -23,7 +23,7 @@
 		<dt>{{ form.file }}</dt>
 		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
 		<dt>{{ form.format }}</dt>
-		<dd><label for="id_license">{% trans "License" %}:</label> {{ form.license.errors }}</dd>
+		<dd><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>): {{ form.license.errors }}</dd>
 		<dt>{{ form.license }}</dt>
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
@@ -31,7 +31,7 @@
 {% endif %}
 	<td style="vertical-align: top"><dl>
 {% if not is_new %}
-		<dd><label for="id_license">{% trans "License" %}:</label> {{ form.license.errors }}</dd>
+		<dd><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>): {{ form.license.errors }}</dd>
 		<dt>{{ form.license }}</dt>
 {% endif %}
 		<dd><label for="id_tags">{% trans "Tags" %}:</label> {{ form.tags.errors }}</dd>
