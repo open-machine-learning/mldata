@@ -142,7 +142,7 @@ def register(request, success_url=None,
     argument.
     
     """
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         raise Http404
 
     if request.method == 'POST':
