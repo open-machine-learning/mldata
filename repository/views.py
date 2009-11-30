@@ -13,7 +13,7 @@ from django.forms.util import ErrorDict
 from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_URL, MEDIA_ROOT, TAG_SPLITCHAR
+from settings import MEDIA_ROOT, TAG_SPLITCHAR
 
 
 VERSIONS_PER_PAGE = 5
@@ -172,11 +172,18 @@ def solution_index(request):
     return _repository_index(request, 'solution')
 
 
+# TODO
+def _handle_format(obj, target):
+    # assume target to be valid format
+    # if target unknown look into obj.file and guess format form there
+    # if target known do something with obj.file
+    return target
+
 
 def data_new(request):
-    url = reverse(data_new)
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
+        next = '?next=' + reverse(data_new)
+        return HttpResponseRedirect(reverse('auth_login') + next)
 
     if request.method == 'POST':
         form = DataForm(request.POST, request.FILES)
@@ -185,8 +192,6 @@ def data_new(request):
         is_required = ErrorDict({'': _('This field is required.')}).as_ul()
         if not request.FILES:
             form.errors['file'] = is_required
-        if not request.POST['format']:
-            form.errors['format'] = is_required
 
         if form.is_valid():
             new = form.save(commit=False)
@@ -200,23 +205,64 @@ def data_new(request):
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
+                # set to invisible until approved by review
+                new.is_public = False
                 new.user_id = request.user.id
                 new.file = request.FILES['file']
+                new.format = _handle_format(new, request.FILES['file'].name.split('.')[-1])
                 new.file.name = new.get_filename()
                 new.save()
-                return HttpResponseRedirect(new.get_absolute_url(use_slug=True))
+                return HttpResponseRedirect(reverse(data_new_review, args=[new.id]))
     else:
         form = DataForm()
 
     info_dict = {
         'form': form,
         'user': request.user,
-        'head': _('Submit new Data'),
-        'action': url,
-        'is_new': True,
-        'title': _('New'),
     }
-    return render_to_response('repository/data_submit.html', info_dict)
+    return render_to_response('repository/data_new.html', info_dict)
+
+
+def _data_revert(obj):
+    os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
+    obj.delete()
+
+# TODO
+def _data_file_extract(obj):
+    filename = os.path.join(MEDIA_ROOT, obj.file.name)
+    # do something depending on format
+    return "<br />".join(file(filename).readlines())
+
+
+def data_new_review(request, id):
+    if not request.user.is_authenticated():
+        next = '?next=' + reverse(data_new_review, args=[id])
+        return HttpResponseRedirect(reverse('auth_login') + next)
+
+    obj = _get_object_or_404(request, Data, id)
+    # don't want users to be able to remove items once approved
+    if obj.is_approved:
+        raise Http404
+
+    if request.method == 'POST':
+        if request.POST.has_key('back'):
+            _data_revert(obj)
+            return HttpResponseRedirect(reverse(data_new))
+        elif request.POST.has_key('ok'):
+            format = request.POST['id_format']
+            if format != obj.format:
+                obj.format = _handle_format(obj, format)
+
+            obj.is_approved = True
+            obj.save()
+            return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
+
+    info_dict = {
+        'object': obj,
+        'user': request.user,
+        'parsed': _data_file_extract(obj),
+    }
+    return render_to_response('repository/data_new_review.html', info_dict)
 
 
 def data_edit(request, slug_or_id):
@@ -245,26 +291,44 @@ def data_edit(request, slug_or_id):
         'form': form,
         'prev': prev,
         'user': request.user,
-        'head': '%s %s (%s %s)' % \
-            (_('Edit Data for'), prev.name, _('version'), prev.version),
-        'action': url,
-        'is_new': False,
-        'title': _('Edit'),
     }
-    return render_to_response('repository/data_submit.html', info_dict)
+    return render_to_response('repository/data_edit.html', info_dict)
 
 
-def data_view(request, slug_or_id):
+def _data_view_obj(request, slug_or_id):
     obj = _get_object_or_404(request, Data, slug_or_id)
     obj.type = 'data'
-    is_owner = _is_owner(request.user, obj.user_id)
-    obj.versions = _get_versions_paginator(request, obj, is_owner)
 
-    can_activate = False
+    # determine completeness
+    attrs = ['tags', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
+    attrs_len = len(attrs)
+    attrs_complete = 0
+    for attr in attrs:
+        if eval('obj.' + attr):
+            attrs_complete += 1
+    obj.completeness = int((attrs_complete * 100) / attrs_len)
+
+    # need tags in list
+    obj.tags = obj.tags.split(TAG_SPLITCHAR)
+
+    return obj
+
+
+def _data_can_activate(obj, is_owner):
+    if not is_owner:
+        return False
+
+    if not obj.is_public:
+        return True
+
     cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
-    if not cv[0].repository_id == obj.id and is_owner:
-        can_activate = True
+    if not cv[0].repository_id == obj.id:
+        return True
 
+    return False
+
+
+def _data_rating_form(request, obj):
     rating_form = None
     if request.user.is_authenticated() and not request.user == obj.user:
         try:
@@ -276,18 +340,57 @@ def data_view(request, slug_or_id):
         except DataRating.DoesNotExist:
             rating_form = RatingForm()
 
-    # need tags in list
-    obj.tags = obj.tags.split(TAG_SPLITCHAR)
+    return rating_form
+
+
+def data_view_main(request, slug_or_id):
+    obj = _data_view_obj(request, slug_or_id)
+    is_owner = _is_owner(request.user, obj.user_id)
+    obj.versions = _get_versions_paginator(request, obj, is_owner)
 
     info_dict = {
         'object': obj,
         'user': request.user,
-        'can_activate': can_activate,
+        'can_activate': _data_can_activate(obj, is_owner),
         'can_delete': is_owner,
-        'rating_form': rating_form,
-        'MEDIA_URL': MEDIA_URL,
+        'rating_form': _data_rating_form(request, obj),
     }
-    return render_to_response('repository/data_view.html', info_dict)
+    return render_to_response('repository/data_view_main.html', info_dict)
+
+
+def data_view_data(request, slug_or_id):
+    obj = _data_view_obj(request, slug_or_id)
+    is_owner = _is_owner(request.user, obj.user_id)
+    obj.versions = _get_versions_paginator(request, obj, is_owner)
+
+    info_dict = {
+        'object': obj,
+        'user': request.user,
+        'can_activate': _data_can_activate(obj, is_owner),
+        'can_delete': is_owner,
+        'rating_form': _data_rating_form(request, obj),
+        'data': _data_file_extract(obj),
+    }
+    return render_to_response('repository/data_view_data.html', info_dict)
+
+
+def data_view_other(request, slug_or_id):
+    obj = _data_view_obj(request, slug_or_id)
+    is_owner = _is_owner(request.user, obj.user_id)
+    obj.versions = _get_versions_paginator(request, obj, is_owner)
+
+    info_dict = {
+        'object': obj,
+        'user': request.user,
+        'can_activate': _data_can_activate(obj, is_owner),
+        'can_delete': is_owner,
+        'rating_form': _data_rating_form(request, obj),
+    }
+    return render_to_response('repository/data_view_other.html', info_dict)
+
+
+def data_view(request, slug_or_id):
+    return data_view_main(request, slug_or_id)
 
 
 def data_delete(request, slug_or_id):

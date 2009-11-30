@@ -1,0 +1,31 @@
+{% extends "repository/data_view.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block data_content %}
+<tr>
+	<td>{% trans "Summary" %}</td>
+	<td>{{ object.summary }}</td>
+</tr>
+<tr>
+	<td>{% trans "URLs" %}</td>
+	<td>{{ object.urls }}</td>
+</tr>
+<tr>
+	<td>{% trans "Publications" %}</td>
+	<td>{{ object.publications }}</td>
+</tr>
+<tr>
+	<td>{% trans "Data Source" %}</td>
+	<td>{{ object.source }}</td>
+</tr>
+<tr>
+	<td>{% trans "Measurement Details" %}</td>
+	<td>{{ object.measurement_details|markdown }}</td>
+</tr>
+<tr>
+	<td>{% trans "Usage Scenario" %}</td>
+	<td>{{ object.usage_scenario|markdown }}</td>
+</tr>
+{% endblock %}
+

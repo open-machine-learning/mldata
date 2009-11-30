@@ -11,10 +11,16 @@
 	<td width="75%"><h1>{% trans "Data of" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h1></td>
 	<td class="rating">{% include "repository/rating_results.html" %}</td>
 </tr>
+<tr>
+	<td colspan="2">{% trans "Completeness of this Data item currently" %}: {{ object.completeness }}%. {% trans "You can" %} <a href="{% url repository.views.data_edit object.id %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make better use of the site's automatisms" %}.</td>
+</tr>
 </table>
 <br />
 
 <table>
+<tr>
+	<th colspan="2"><a title="{% trans "Primary attributes of Data item + download" %}" href="{% url repository.views.data_view_main object.id %}">{% trans "Main" %}</a> <a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="{% url repository.views.data_view_data object.id %}">{% trans "Data" %}</a> <a title="{% trans "Other attributes of Data item" %}" href="{% url repository.views.data_view_other object.id %}">{% trans "Other" %}</a></th>
+</tr>
 <tr>
 	<th>{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }} /
 	{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}">&laquo;</a>{% endif %}
@@ -22,52 +28,14 @@
 		{% ifequal object.version v.version %}-{% else %}<a href="{% url repository.views.data_view v.id %}">{{ v.version }}</a>{% endifequal %}
 	{% endfor %}
 	{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}">&raquo;</a>{% endif %}
-</th>
+	</th>
 	<th style="text-align: right">
 		{% if can_activate %}<a href="{% url repository.views.data_activate object.id %}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
 		<a href="{% url repository.views.data_edit object.slug_or_id %}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
 		{% if can_delete %}<a href="{% url repository.views.data_delete object.slug_or_id %}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 	</th>
 </tr>
-<tr>
-	<td>{% trans "Tags" %}</td>
-	<td>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</td>
-</tr>
-<tr>
-	<td>{% trans "Summary" %}</td>
-	<td>{{ object.summary }}</td>
-</tr>
-<tr>
-	<td>{% trans "Description" %}</td>
-	<td>{{ object.description|markdown }}</td>
-</tr>
-<tr>
-	<td>{% trans "URLs" %}</td>
-	<td>{{ object.urls }}</td>
-</tr>
-<tr>
-	<td>{% trans "License" %}</td>
-	<td><a href="{{ object.license.url }}">{{ object.license.name }}</a></td>
-</tr>
-<tr>
-	<td>{% trans "Data Source" %}</td>
-	<td>{{ object.source }}</td>
-</tr>
-<tr>
-	<td>{% trans "Data Format" %}</td>
-	<td>{{ object.format }}</td>
-</tr>
-<tr>
-	<td>{% trans "Measurement Details" %}</td>
-	<td>{{ object.measurement_details|markdown }}</td>
-</tr>
-<tr>
-	<td>{% trans "Usage Scenario" %}</td>
-	<td>{{ object.usage_scenario|markdown }}</td>
-</tr>
-<tr>
-	<td colspan="2"><a href="{% url repository.views.data_download object.id %}">{% trans "Download Data File" %}</a></td>
-</tr>
+{% block data_content %}{% endblock %}
 </table>
 <br />
 

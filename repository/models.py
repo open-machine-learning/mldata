@@ -61,6 +61,12 @@ class Repository(models.Model):
     def save(self):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
+
+        # don't update current if item is not approved yet
+        if not self.is_approved:
+            super(Repository, self).save()
+            return
+
         current = CurrentVersion.objects.filter(slug=self.slug_id)
         if current: # only update current version if this is public
             if not self.is_public:
@@ -76,6 +82,15 @@ class Repository(models.Model):
         super(Repository, self).save()
         current.repository_id = self.id
         current.save()
+
+
+    def delete(self):
+        # delete slug
+        slug = Slug.objects.get(pk=self.slug.id)
+        if slug:
+            slug.delete()
+        #super(Repository, self).delete()
+
 
     def get_slug_id(self, create=False):
         if not self.name:
@@ -107,6 +122,10 @@ class Data(Repository):
     usage_scenario = models.TextField(blank=True)
     file = models.FileField(upload_to=DATAPATH)
     tags = TagField()
+    # is_approved is necessary for 2-step creation, don't want to call review
+    # ever again once the item is approved - review can remove permanently via
+    # 'Back' button!
+    is_approved = models.BooleanField(default=False)
 
     def get_absolute_url(self, use_slug=False):
         if use_slug:

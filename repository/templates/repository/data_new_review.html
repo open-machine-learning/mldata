@@ -1,0 +1,30 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Review" %} {{ object.name }}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Review" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Review" %} {{ object.name }}</h1>
+<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file type. Press 'OK' to finalise the item or 'Back' to remove it from the repository and start anew." %}</p>
+
+<form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
+<table>
+<tr>
+	<td><dl>
+		<dd><label for="id_format">{% trans "Detected Data format is" %} {{ object.format }}</label>:</dd>
+		<dt><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: LibSVM, ARFF, HDF5. Unsupported formats will be kept as is, but premium features are not available for these." %}</span></dt>
+		<br />
+		<dd>{% trans "Parsed contents of Data file" %}:</dd>
+		<code>{{ parsed|safe }}</code>
+		<br />
+		<dt><input type="submit" name="ok" class="submit-post" value="{% trans "OK" %}" /> <input type="submit" name="back" class="submit-post" value="{% trans "Back" %}" /></dt>
+		<dt></dt>
+	</dl></td>
+</tr>
+</table>
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,10 @@
+{% extends "repository/data_view.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block data_content %}
+<tr>
+	<td colspan="2">{{ data|safe }}</td>
+</tr>
+{% endblock %}
+

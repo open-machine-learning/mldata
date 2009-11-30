@@ -1,39 +1,22 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ title }}{% endblock %}
-
-{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ title }}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Edit" %}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Edit" %}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
 {% endblock %}
 
 {% block content %}
-<h1>{{ head }}</h1>
+<h1>{% trans "Edit Data for" %} {{ prev.name }} ({% trans "version " %}{{ prev.version }})</h1>
 
-<form action="{{ action }}" method="post" enctype="multipart/form-data">
+<form action="{% url repository.views.data_edit prev.id %}" method="post" enctype="multipart/form-data">
 <table>
 <tr>
-{% if is_new %}
 	<td style="vertical-align: top"><dl>
-		<dd><label for="id_name">{% trans "Name" %}*:</label> {{ form.name.errors }}</dd>
-		<dt>{{ form.name }}</dt>
-		<dd><label for="id_file">{% trans "Data file" %}{% if is_new %}*{% endif %}:</label> {{ form.file.errors }}</dd>
-		<dt>{{ form.file }}</dt>
-		<dd><label for="id_format">{% trans "Data Format" %} (CSV, ARFF, HDF5, ...) *:</label> {{ form.format.errors }}</dd>
-		<dt>{{ form.format }}</dt>
 		<dd><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>): {{ form.license.errors }}</dd>
 		<dt>{{ form.license }}</dt>
-		<br />
-		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
-	</dl></td>
-{% endif %}
-	<td style="vertical-align: top"><dl>
-{% if not is_new %}
-		<dd><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>): {{ form.license.errors }}</dd>
-		<dt>{{ form.license }}</dt>
-{% endif %}
 		<dd><label for="id_tags">{% trans "Tags" %}:</label> {{ form.tags.errors }}</dd>
 		<dt>{{ form.tags }}</dt>
 		<dd><label for="id_summary">{% trans "Summary" %}:</label> {{ form.summary.errors }}</dd>
