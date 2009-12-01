@@ -300,7 +300,7 @@ def _data_view_obj(request, slug_or_id):
     obj.type = 'data'
 
     # determine completeness
-    attrs = ['tags', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
+    attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
     attrs_len = len(attrs)
     attrs_complete = 0
     for attr in attrs:
