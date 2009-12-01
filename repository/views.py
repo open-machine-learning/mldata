@@ -342,8 +342,7 @@ def _data_rating_form(request, obj):
 
     return rating_form
 
-
-def data_view_main(request, slug_or_id):
+def _data_view(request, slug_or_id, template):
     obj = _data_view_obj(request, slug_or_id)
     is_owner = _is_owner(request.user, obj.user_id)
     obj.versions = _get_versions_paginator(request, obj, is_owner)
@@ -351,46 +350,28 @@ def data_view_main(request, slug_or_id):
     info_dict = {
         'object': obj,
         'user': request.user,
+        'request': request,
         'can_activate': _data_can_activate(obj, is_owner),
         'can_delete': is_owner,
         'rating_form': _data_rating_form(request, obj),
     }
-    return render_to_response('repository/data_view_main.html', info_dict)
+    if template == 'data':
+        info_dict['data'] =_data_file_extract(obj)
+
+    return render_to_response('repository/data_view_' + template + '.html', info_dict)
+
+
+def data_view_main(request, slug_or_id):
+    return _data_view(request, slug_or_id, 'main')
 
 
 def data_view_data(request, slug_or_id):
-    obj = _data_view_obj(request, slug_or_id)
-    is_owner = _is_owner(request.user, obj.user_id)
-    obj.versions = _get_versions_paginator(request, obj, is_owner)
-
-    info_dict = {
-        'object': obj,
-        'user': request.user,
-        'can_activate': _data_can_activate(obj, is_owner),
-        'can_delete': is_owner,
-        'rating_form': _data_rating_form(request, obj),
-        'data': _data_file_extract(obj),
-    }
-    return render_to_response('repository/data_view_data.html', info_dict)
+    return _data_view(request, slug_or_id, 'data')
 
 
 def data_view_other(request, slug_or_id):
-    obj = _data_view_obj(request, slug_or_id)
-    is_owner = _is_owner(request.user, obj.user_id)
-    obj.versions = _get_versions_paginator(request, obj, is_owner)
+    return _data_view(request, slug_or_id, 'other')
 
-    info_dict = {
-        'object': obj,
-        'user': request.user,
-        'can_activate': _data_can_activate(obj, is_owner),
-        'can_delete': is_owner,
-        'rating_form': _data_rating_form(request, obj),
-    }
-    return render_to_response('repository/data_view_other.html', info_dict)
-
-
-def data_view(request, slug_or_id):
-    return data_view_main(request, slug_or_id)
 
 
 def data_delete(request, slug_or_id):
