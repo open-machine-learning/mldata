@@ -10,7 +10,7 @@
 
 {% block content %}
 <h1>{% trans "Submit new Data" %}</h1>
-<p>{% trans "Supply only the vital information about the Data item here. You can fill in additional information later on by editing the item." %}</p>
+<p>{% trans "Supply only the vital information about the Data item here. You can fill in additional information later on by editing. Please note that the Data file cannot be changed, you would have to create a new Data item." %}</p>
 
 <form action="{% url repository.views.data_new %}" method="post" enctype="multipart/form-data">
 <table>
