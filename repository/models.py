@@ -68,12 +68,9 @@ class Repository(models.Model):
             return
 
         current = CurrentVersion.objects.filter(slug=self.slug_id)
-        if current: # only update current version if this is public
-            if not self.is_public:
-                super(Repository, self).save()
-                return
+        if current:
             current = current[0]
-        else: # new item, create current version even if not public
+        else: # new item
             current = CurrentVersion()
             # can't put foreign key id into constructor
             current.slug_id = self.slug_id

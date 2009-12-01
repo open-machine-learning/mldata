@@ -10,6 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
+from django.db.models import Q
 from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
@@ -255,7 +256,7 @@ def data_new_review(request, id):
 
             obj.is_approved = True
             obj.save()
-            return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
+            return HttpResponseRedirect(reverse(data_view_main, args=[obj.id]))
 
     info_dict = {
         'object': obj,
@@ -282,6 +283,7 @@ def data_edit(request, slug_or_id):
             next.format = prev.format
             next.version = next.get_next_version()
             next.user_id = request.user.id
+            next.is_approved = prev.is_approved
             next.save()
             return HttpResponseRedirect(next.get_absolute_url())
     else:
@@ -438,8 +440,46 @@ def solution_view(request, id):
 
 
 
+# seems quirky...
+# get Data queryset of current version items
+def _tags_queryset(request):
+    cvlist = CurrentVersion.objects.filter(
+            (Q(repository__user=request.user.id) |\
+             Q(repository__is_public=True)) &\
+            Q(repository__is_deleted=False) &\
+            Q(type=TYPE['data'])).values('repository_id')
+
+    if len(cvlist) == 0:
+        return Data.objects.none()
+
+    where = []
+    for cv in cvlist:
+        where.append(str(cv['repository_id']))
+    where = 'id IN (' + ', '.join(where) + ')'
+
+    return Data.objects.extra(where=[where])
+
+
 def tags_index(request):
-    tags = Tag.objects.usage_for_model(Data, counts=True)
+    queryset = _tags_queryset(request)
+    if queryset:
+        # doesn't retrieve data from queryset only, but seemingly from Model
+        # tags = Tag.objects.usage_for_queryset(queryset, counts=True)
+        all = Tag.objects.usage_for_model(Data)
+        tags = []
+        for tag in all:
+            found = False
+            tag.count = 0
+            for item in tag.items.values():
+                for data in queryset:
+                    if item['object_id'] == data.id:
+                        found = True
+                        tag.count += 1
+            if found:
+                tags.append(tag)
+    else:
+        tags = None
+
     info_dict = {
         'user': request.user,
         'tags': tags,
@@ -449,21 +489,20 @@ def tags_index(request):
 
 def tags_view(request, tag):
     try:
+        queryset = _tags_queryset(request)
         tag = Tag.objects.get(name=tag)
-        taggedlist = TaggedItem.objects.get_by_model(Data, tag).\
-            values('id', 'name').order_by('name')
-        cvlist = CurrentVersion.objects.filter(
-            repository__is_deleted=False,
-            repository__is_public=True,
-            type=TYPE['data']).values('repository__id')
+        # generates ambigous column name error: id
+        #object_list = TaggedItem.objects.get_by_model(queryset, tag)
+        # so we do this:
+        tagged_list = TaggedItem.objects.get_by_model(Data, tag)
         object_list = []
-        # is there a more efficient way?
-        for cv in cvlist:
-            for tagged in taggedlist:
-                if tagged['id'] == cv['repository__id']:
+        for data in queryset:
+            for tagged in tagged_list:
+                if tagged.id == data.id:
                     object_list.append(tagged)
+                    break
     except Tag.DoesNotExist:
-        object_list = []
+        object_list = None
 
     info_dict = {
         'user': request.user,
