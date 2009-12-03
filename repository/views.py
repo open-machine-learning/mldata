@@ -84,7 +84,7 @@ def _get_versions_paginator(request, obj, is_owner):
 
 def index(request):
     try:
-        latest_data = Data.objects.filter(is_deleted=False).order_by('-pub_date')[0]
+        latest_data = Data.objects.filter(is_deleted=False, is_public=True).order_by('-pub_date')[0]
     except IndexError:
         latest_data = None
     try:
