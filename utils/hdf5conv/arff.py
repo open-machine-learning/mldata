@@ -188,12 +188,13 @@ class ArffFile(object):
             values = [s.strip () for s in atype[1:-1].split(',')]
             self.define_attribute(name, 'nominal', values)
         else:
-            print "Unsupported type " + atype + " for attribute " + name + "."
+            #print "Unsupported type " + atype + " for attribute " + name + "."
+            pass
 
     def __parse_data(self, l):
         l = [s.strip() for s in l.split(',')]
         if len(l) != len(self.attributes):
-            print "Warning: line %d contains wrong number of values" % self.lineno
+            #print "Warning: line %d contains wrong number of values" % self.lineno
             return 
 
         datum = []
@@ -216,7 +217,8 @@ class ArffFile(object):
         self.data.append(datum)
 
     def __print_warning(self, msg):
-        print ('Warning (line %d): ' % self.lineno) + msg
+        #print ('Warning (line %d): ' % self.lineno) + msg
+        return
 
     def dump(self):
         """Print an overview of the ARFF file."""

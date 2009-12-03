@@ -20,7 +20,8 @@ VERSION_MLDATA = '0'
 
 def progress(msg):
     """Print the given message with some kind of progress indicator."""
-    print ' -> ' + msg
+    #print ' -> ' + msg
+    pass
 
 
 
@@ -45,7 +46,7 @@ class Converter():
 
         'Abstract base method' to be implemented by child classes.
         """
-        print 'Not implemented yet!'
+        raise Exception('Not implemented yet!')
 
     def write_hdf5(self, *args, **kwargs):
         """Write an HDF file (spec of mldata.org)."""

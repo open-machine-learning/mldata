@@ -12,15 +12,10 @@ def convert(in_filename, in_format, out_filename, out_format):
         conv = HDF52ARFF(in_filename, out_filename)
 
     if conv:
-        print 'Converting from %s to %s...' % (in_format, out_format)
-        res = conv.run()
-        if res:
-            print 'Success!'
-        else:
-            print 'Fail!'
-        return res
+        #print 'Converting from %s to %s...' % (in_format, out_format)
+        return conv.run()
     else:
-        print 'Unknown conversion pair %s to %s!' % (in_format, out_format)
+        #print 'Unknown conversion pair %s to %s!' % (in_format, out_format)
         return False
 
 
