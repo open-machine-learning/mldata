@@ -15,6 +15,7 @@ from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITCHAR
+from utils import hdf5conv
 
 
 VERSIONS_PER_PAGE = 5
@@ -173,12 +174,17 @@ def solution_index(request):
     return _repository_index(request, 'solution')
 
 
-# TODO
-def _handle_format(obj, target):
-    # assume target to be valid format
-    # if target unknown look into obj.file and guess format form there
-    # if target known do something with obj.file
-    return target
+def _data_format(uploaded):
+    """Determine data format."""
+    suffix = uploaded.name.split('.')[-1]
+    if suffix == 'txt':
+        return 'libsvm'
+    elif suffix == 'arff':
+        return 'arff'
+    elif suffix == 'hdf5':
+        return 'hdf5'
+    else: # unknown
+        return suffix
 
 
 def data_new(request):
@@ -210,7 +216,7 @@ def data_new(request):
                 new.is_public = False
                 new.user_id = request.user.id
                 new.file = request.FILES['file']
-                new.format = _handle_format(new, request.FILES['file'].name.split('.')[-1])
+                new.format = _data_format(request.FILES['file'])
                 new.file.name = new.get_filename()
                 new.save()
                 return HttpResponseRedirect(reverse(data_new_review, args=[new.id]))
@@ -222,17 +228,6 @@ def data_new(request):
         'user': request.user,
     }
     return render_to_response('repository/data_new.html', info_dict)
-
-
-def _data_revert(obj):
-    os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
-    obj.delete()
-
-# TODO
-def _data_file_extract(obj):
-    filename = os.path.join(MEDIA_ROOT, obj.file.name)
-    # do something depending on format
-    return "<br />".join(file(filename).readlines())
 
 
 def data_new_review(request, id):
@@ -247,12 +242,23 @@ def data_new_review(request, id):
 
     if request.method == 'POST':
         if request.POST.has_key('back'):
-            _data_revert(obj)
+            os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
+            obj.delete()
             return HttpResponseRedirect(reverse(data_new))
         elif request.POST.has_key('ok'):
+            uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
+            converted = hdf5conv.get_filename(uploaded)
+
             format = request.POST['id_format']
             if format != obj.format:
-                obj.format = _handle_format(obj, format)
+                # try to convert, ignore if unsuccessful
+                hdf5conv.convert(uploaded, format, converted, 'hdf5')
+            obj.format = format
+
+            if os.path.isfile(converted): # assign converted file to obj
+                os.remove(uploaded)
+                # for some reason, FileField saves file.name as DATAPATH/<basename>
+                obj.file.name = os.path.sep.join([DATAPATH, converted.split(os.path.sep)[-1]])
 
             obj.is_approved = True
             obj.save()
@@ -261,7 +267,7 @@ def data_new_review(request, id):
     info_dict = {
         'object': obj,
         'user': request.user,
-        'parsed': _data_file_extract(obj),
+        'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
 
@@ -358,7 +364,8 @@ def _data_view(request, slug_or_id, template):
         'rating_form': _data_rating_form(request, obj),
     }
     if template == 'data':
-        info_dict['data'] =_data_file_extract(obj)
+        info_dict['extract'] =\
+            hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name))
 
     return render_to_response('repository/data_view_' + template + '.html', info_dict)
 

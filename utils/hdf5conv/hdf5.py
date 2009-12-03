@@ -171,6 +171,37 @@ class HDF52ARFF(Converter):
             a.attribute_types[attr] = type
             a.attribute_data[attr] = data
 
+        h.close()
         a.save(self.out_filename)
         return True
 
+
+def hdf5_extract(filename):
+    """Get an extract from an HDF file."""
+    h = h5py.File(filename, 'r')
+    extract = {}
+
+    attrs = ['mldata', 'name', 'comment']
+    for attr in attrs:
+        try:
+            extract[attr] = h.attrs[attr]
+        except KeyError:
+            pass
+
+    dsets = ['attribute_names', 'attribute_types']
+    for dset in dsets:
+        try:
+            extract[dset] = h[dset][:]
+        except KeyError:
+            pass
+
+    # only first 23 items of attributes
+    try:
+        extract['attributes'] = []
+        for i in xrange(23):
+            extract['attributes'].append(h['attributes'][i])
+    except KeyError:
+        pass
+
+    h.close()
+    return extract
