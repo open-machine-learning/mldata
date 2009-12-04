@@ -7,45 +7,61 @@
 
 {% block content %}
 <h1>{% trans "Review" %} {{ object.name }}</h1>
-<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file type. Press 'OK' to finalise the item or 'Back' to remove it from the repository and start anew." %}</p>
+<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'OK' to finalise the item or 'Back' to remove it from the repository and start anew." %}</p>
 
 <form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
 <table>
 <tr>
 	<td><dl>
-		<dd><label for="id_format">{% trans "Detected Data format is" %} {{ object.format }}</label>:</dd>
-		<dt><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, arff, hdf5. Unsupported formats will be kept as is, but premium features are not available for these." %}</span></dt>
+		<dd><label for="id_format">{% trans "Detected Data format is" %}</label>:</dd>
+		<dt><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, arff, hdf5." %}<br />{% trans "Unsupported formats will be kept as is, but premium features are not available for these." %}</span></dt>
 		<br />
 		<dd>{% trans "Parsed contents of Data file" %}:</dd>
-		<table>
+		<table class="widget">
 		<tr>
-			<td>{% trans "Name" %}:</td>
-			<td>{{ extract.name }}</td>
+			<td class="heading">{% trans "Name" %}</td>
 		</tr>
 		<tr>
-			<td>{% trans "Version" %} mldata:</td>
-			<td>{{ extract.mldata }}</td>
+			<td class="indented">{{ extract.name }}</td>
 		</tr>
 		<tr>
-			<td>{% trans "Comment" %}:</td>
-			<td>{{ extract.comment }}</td>
+			<td class="heading">{% trans "Version" %} mldata</td>
 		</tr>
 		<tr>
-			<td>{% trans "Attribute Names" %}:</td>
-			<td>{{ extract.attribute_names }}</td>
+			<td class="indented">{{ extract.mldata }}</td>
 		</tr>
 		<tr>
-			<td>{% trans "Attribute Types" %}:</td>
-			<td>{{ extract.attribute_types }}</td>
+			<td class="heading">{% trans "Comment" %}</td>
 		</tr>
 		<tr>
-			<td>{% trans "Attributes (extract)" %}:</td>
-			<td>{{ extract.attributes }}</td>
+			<td class="indented">{{ extract.comment }}</td>
+		</tr>
+		<tr>
+			<td class="heading">{% trans "Attribute Names" %}</td>
+		</tr>
+		<tr>
+			<td class="indented">{{ extract.attribute_names }}</td>
+		</tr>
+		<tr>
+			<td class="heading">{% trans "Attribute Types" %}</td>
+		</tr>
+		<tr>
+			<td class="indented">{{ extract.attribute_types }}</td>
+		</tr>
+		<tr>
+			<td class="heading">{% trans "Attributes (extract)" %}</td>
+		</tr>
+		<tr>
+			<td class="indented"><ol>
+			{% for attr in extract.attributes %}
+				<li>{{ attr|join:' / ' }}</li>
+			{% endfor %}
+			</ol></td>
+		</tr>
+		<tr>
+			<td style="padding-top:1em"><input type="submit" name="ok" class="submit-post" value="{% trans "OK" %}" /> <input type="submit" name="back" class="submit-post" value="{% trans "Back" %}" /></td>
 		</tr>
 		</table>
-		<br />
-		<dt><input type="submit" name="ok" class="submit-post" value="{% trans "OK" %}" /> <input type="submit" name="back" class="submit-post" value="{% trans "Back" %}" /></dt>
-		<dt></dt>
 	</dl></td>
 </tr>
 </table>
