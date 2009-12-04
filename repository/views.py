@@ -396,7 +396,7 @@ def data_delete(request, slug_or_id):
                 cv[0].save()
         obj.save() # a lil optimisation for db saves
 
-    return HttpResponseRedirect(reverse(data_index))
+    return HttpResponseRedirect(reverse(data_my))
 
 
 def data_activate(request, id):
