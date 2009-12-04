@@ -30,7 +30,7 @@ def get_unparseable(filename):
     for line in file:
         data.append(line)
         i += 1
-        if i > 23:
+        if i > NUM_EXTRACT:
             break
     data = "\n".join(data)
 

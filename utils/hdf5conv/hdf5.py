@@ -16,6 +16,7 @@ import h5py, numpy
 NAME = 'hdf5conv'
 VERSION = '0.1'
 VERSION_MLDATA = '0'
+NUM_EXTRACT = 23
 
 
 def progress(msg):
@@ -196,10 +197,10 @@ def hdf5_extract(filename):
         except KeyError:
             pass
 
-    # only first 23 items of attributes
+    # only first NUM_EXTRACT items of attributes
     try:
         extract['attributes'] = []
-        for i in xrange(23):
+        for i in xrange(NUM_EXTRACT):
             extract['attributes'].append(h['attributes'][i])
     except KeyError:
         pass
