@@ -362,6 +362,9 @@ def _data_view(request, slug_or_id, template):
         'can_activate': _data_can_activate(obj, is_owner),
         'can_delete': is_owner,
         'rating_form': _data_rating_form(request, obj),
+        'url_main': reverse(data_view_main, args=[obj.slug_or_id]),
+        'url_data': reverse(data_view_data, args=[obj.slug_or_id]),
+        'url_other': reverse(data_view_other, args=[obj.slug_or_id]),
     }
     if template == 'data':
         info_dict['extract'] =\

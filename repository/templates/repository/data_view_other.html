@@ -4,28 +4,40 @@
 
 {% block data_content %}
 <tr>
-	<td>{% trans "Summary" %}</td>
-	<td>{{ object.summary }}</td>
+	<td colspan="2" class="heading">{% trans "Summary" %}</td>
 </tr>
 <tr>
-	<td>{% trans "URLs" %}</td>
-	<td>{{ object.urls }}</td>
+	<td colspan="2" class="indented">{{ object.summary }}</td>
 </tr>
 <tr>
-	<td>{% trans "Publications" %}</td>
-	<td>{{ object.publications }}</td>
+	<td colspan="2" class="heading">{% trans "URLs" %}</td>
 </tr>
 <tr>
-	<td>{% trans "Data Source" %}</td>
-	<td>{{ object.source }}</td>
+	<td colspan="2" class="indented">{{ object.urls }}</td>
 </tr>
 <tr>
-	<td>{% trans "Measurement Details" %}</td>
-	<td>{{ object.measurement_details|markdown }}</td>
+	<td colspan="2" class="heading">{% trans "Publications" %}</td>
 </tr>
 <tr>
-	<td>{% trans "Usage Scenario" %}</td>
-	<td>{{ object.usage_scenario|markdown }}</td>
+	<td colspan="2" class="indented">{{ object.publications }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Data Source" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ object.source }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Measurement Details" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ object.measurement_details|markdown }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Usage Scenario" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ object.usage_scenario|markdown }}</td>
 </tr>
 {% endblock %}
 

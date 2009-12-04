@@ -1,0 +1,58 @@
+{% load i18n %}
+{% load markup %}
+{% load comments %}
+
+<table class="widget">
+<tr>
+	<th class="tab" id="comments">{% trans "Comments" %}</th>
+</tr>
+{% if comment_list %}
+{% for comment in comment_list %}
+<tr>
+	<th id="c{{ comment.id }}">{% trans "on" %} {{ comment.submit_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ comment.user_name }} </th>
+</tr>
+<tr>
+	<td class="indented">{{ comment.comment|markdown:"safe" }}</td>
+</tr>
+{% endfor %}
+{% else %}
+<tr>
+	<td>{% trans "No one has posted any comments yet. Perhaps you would like to be the first?" %}</td>
+</tr>
+{% endif %}
+<tr>
+{% if user.is_authenticated %}
+	<th>{% trans "Leave a comment" %}</th>
+</tr>
+<tr>
+	<td><form action="{% comment_form_target %}" method="POST">
+		<dl>
+		<!--
+			<dd><label for="id_name">Name:</label></dd>
+			<dt><input id="id_name" type="text" name="name" maxlength="50" value="{{ user.username }}" /></dt>
+			<dd><label for="id_email">Email address:</label></dd>
+			<dt><input type="text" name="email" id="id_email" value="{{ user.email }}" /></dt>
+			<dd><label for="id_url">URL:</label></dd>
+			<dt><input type="text" name="url" id="id_url" /></dt>
+			<dd><label for="id_comment">{% trans "Comment" %}:</label></dd>
+		-->
+			<dt><textarea id="id_comment" rows="10" cols="40" name="comment"></textarea></dt>
+			<dt><input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" /></dt>
+		</dl>
+		<input type="hidden" name="name" id="id_name" maxlength="50" value="{{ user.username }}" />
+		<input type="hidden" name="email" id="id_email" value="{{ user.email }}" />
+		<span style="display:none">
+			<label for="id_honeypot">{% trans "If you enter anything in this field your comment will be treated as spam" %}:</label>
+			<input type="text" name="honeypot" id="id_honeypot" />
+		</span>
+		{{ form.content_type }}
+		{{ form.object_pk }}
+		{{ form.timestamp }}
+		{{ form.security_hash }}
+		<input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
+	</form></td>
+{% else %}
+	<td>{% trans "To post a comment, please" %} <a href="{% url auth_login %}?next={{ object.get_absolute_url }}">login</a>.</td>
+{% endif %}
+</tr>
+</table>

@@ -26,14 +26,28 @@ $(function() {
 	<td class="rating">{% include "repository/rating_results.html" %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% trans "Completeness of this Data item currently" %}: {{ object.completeness }}%. {% trans "You can" %} <a href="{% url repository.views.data_edit object.id %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make better use of the site's automatisms" %}.</td>
+	<td colspan="2">{% trans "Completeness of this Data item currently" %}: {{ object.completeness }}%.<br />{% trans "You can" %} <a href="{% url repository.views.data_edit object.id %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make better use of the site's automatisms" %}.</td>
 </tr>
 </table>
-<br />
 
-<table>
+<table class="widget">
 <tr>
-	<th colspan="2"><a title="{% trans "Primary attributes of Data item + download" %}" href="{% url repository.views.data_view_main object.id %}">{% trans "Main" %}</a> <a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="{% url repository.views.data_view_data object.id %}">{% trans "Data" %}</a> <a title="{% trans "Other attributes of Data item" %}" href="{% url repository.views.data_view_other object.id %}">{% trans "Other" %}</a></th>
+	<th class="tab" colspan="2">
+		{% ifequal request.path url_main %}
+			<span style="font-size:large">{% trans "Main" %}</span>
+		{% else %}
+			<a id="main" class="tab" title="{% trans "Primary attributes of Data item + download" %}" href="{{ url_main }}">{% trans "Main" %}</a>
+		{% endifequal %}
+		{% ifequal request.path url_data %}
+			<span style="font-size:large">{% trans "Data" %}</span>
+		{% else %}
+			<a id="data" class="tab" title="{% trans "Extracted/parsed/visualised data from the file" %}" href="{{ url_data }}">{% trans "Data" %}</a>
+		{% endifequal %}
+		{% ifequal request.path url_other %}
+			<span style="font-size:large">{% trans "Other" %}</span>
+		{% else %}
+			<a id="other" class="tab" title="{% trans "Other attributes of Data item" %}" href="{{ url_other }}">{% trans "Other" %}</a></th>
+		{% endifequal %}
 </tr>
 <tr>
 	<th>{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }} /
@@ -51,15 +65,13 @@ $(function() {
 </tr>
 {% block data_content %}{% endblock %}
 </table>
-<br />
 
 {% include "repository/rating_form.html" %}
 
 {% load comments %}
 {% get_comment_list for repository.data object.id as comment_list %}
-{% include "comment_list.html" %}
 {% get_comment_form for repository.data object.id as form %}
-{% include "comment_form.html" %}
+{% include "comments.html" %}
 
 {% endblock %}
 

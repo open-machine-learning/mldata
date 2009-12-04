@@ -19,8 +19,7 @@
 
 {% load comments %}
 {% get_comment_list for blog.post object.id as comment_list %}
-{% include "comment_list.html" %}
 {% get_comment_form for blog.post object.id as form %}
-{% include "comment_form.html" %}
+{% include "comments.html" %}
 
 {% endblock %}

@@ -4,34 +4,44 @@
 
 {% block data_content %}
 <tr>
-	<td colspan="2">
-		<table>
-		<tr>
-			<td>{% trans "Name" %}:</td>
-			<td>{{ extract.name }}</td>
-		</tr>
-		<tr>
-			<td>{% trans "Version" %} mldata:</td>
-			<td>{{ extract.mldata }}</td>
-		</tr>
-		<tr>
-			<td>{% trans "Comment" %}:</td>
-			<td>{{ extract.comment }}</td>
-		</tr>
-		<tr>
-			<td>{% trans "Attribute Names" %}:</td>
-			<td>{{ extract.attribute_names }}</td>
-		</tr>
-		<tr>
-			<td>{% trans "Attribute Types" %}:</td>
-			<td>{{ extract.attribute_types }}</td>
-		</tr>
-		<tr>
-			<td>{% trans "Attributes (extract)" %}:</td>
-			<td>{{ extract.attributes }}</td>
-		</tr>
-		</table>
-	</td>
+	<td colspan="2" class="heading">{% trans "Name" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ extract.name }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Version" %} mldata</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ extract.mldata }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Comment" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ extract.comment }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Attribute Names" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ extract.attribute_names }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Attribute Types" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented">{{ extract.attribute_types }}</td>
+</tr>
+<tr>
+	<td colspan="2" class="heading">{% trans "Attributes (extract)" %}</td>
+</tr>
+<tr>
+	<td colspan="2" class="indented"><ol>
+	{% for attr in extract.attributes %}
+		<li>{{ attr|join:' / ' }}</li>
+	{% endfor %}
+	</ol></td>
 </tr>
 {% endblock %}
 

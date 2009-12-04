@@ -68,9 +68,18 @@ a:link, a:visited { color:#000000; }
 #content-main thead td.paginator { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff33; text-align:left; font-weight:bold;}
 #content-main tfoot td.paginator { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff33; text-align:left; font-weight:bold;}
 #content-main td { padding:.5em; padding-left:.4em; border:1px solid #883300;background:#ffff99; }
-#content-main .plain table { width:100% }
-#content-main .plain td { padding:0px; padding-left:.4em; border:0; background:#ffffcc; }
+#content-main table.plain { width:95%; margin-bottom:1em; }
+#content-main table.plain td { padding:0px; border:0; background:#ffffcc; }
+#content-main table.widget { width:95%; margin-bottom:4em; }
+#content-main table.widget td { padding:0px; border:0; background:#ffffcc; }
+#content-main table.widget td.heading { padding:0px; padding-top:1em; border:0; font-weight:bold; background:#ffffcc; }
+#content-main table.widget td.indented { padding:0px; padding-left:1em; border:0; background:#ffffcc; }
+#content-main table.widget th { padding:.5em; border:0; background:#ffff77; }
+#content-main table.widget th.tab { padding:1em; border:0; color:#ffff99; background:#883300; }
+#content-main table.widget a.tab { color:#ffff99; background:#883300; bottom repeat-x; text-decoration:none; }
+#content-main table.widget a.tab:hover { background-color:#994400; color:#ffff99; text-decoration:none; }
 #content-main .helptext { font-size:x-small; font-weight:normal; }
+
 h4 { font-size:100%; font-weight:bold; margin-bottom:-3px; margin-top:1.2em; text-transform:uppercase; letter-spacing:1px; }
 h4 pre, h4 tt, h4 .literal { text-transform:none; }
 h5 { font-size:1em; font-weight:bold; margin-top:1.5em; margin-bottom:3px; }
