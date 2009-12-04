@@ -6,6 +6,13 @@
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
+<script type="text/javascript">
+$(function() {
+	$('#cancel').click(function() {
+		window.history.back(-1);
+	});
+});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -36,7 +43,7 @@
 		<dd><label for="id_usage_scenario">{% trans "Usage scenario" %}:</label> {{ form.usage_scenario.errors }}</dd>
 		<dt>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<br />
-		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit Data" %}" /></td>
+		<dt><input type="submit" id="post" name="post" class="submit-post" value="{% trans "Edit" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /></td>
 	</dl></td>
 </tr>
 </table>
