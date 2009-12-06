@@ -15,13 +15,13 @@ a:hover { color:#ffffff; background:#994400; text-decoration:none; }
 a:link, a:visited { color:#000000; }
 
 /* HEADER */
+#account { font-weight:normal; display:inline; text-align:right; padding:5em 2px 2px 2px; color:#000000; background:#ffffff; min-width:62em; max-width:110em; }
+#account a { color:#000000; background:#ffffff; text-decoration:underline; }
+#account a:hover { color:#ffffff; background:#000000; text-decoration:none; }
 #header { background:#ffffcc; position:relative; height:110px;}
 #header #logo { position:absolute; left:0px; top:5px; display:inline; text-align:left; padding:5px; margin:0px; }
 #header #logo img { width:300px; height:90px; }
 #header #text { font-weight:bold;color:#994400; position:absolute; left:320px; top:20px; margin:0px; padding:0px; text-align:left; line-height:1em; display:inline; font-size:2.3em;}
-#accounts { font-weight:normal; display:inline; text-align:right; padding:5em 1px 1px 1px; color:#000000; background:#ffffff; min-width:62em; max-width:110em; display:inline; text-align:right; padding:5em 5px 12px 7px}
-#accounts a { color:#000000; background:#ffffff; text-decoration:underline; }
-#accounts a:hover { color:#ffffff; background:#000000; text-decoration:none; }
 
 
 /* NAV */

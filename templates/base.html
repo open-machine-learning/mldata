@@ -20,7 +20,7 @@
 	</head>
 
 	<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}">
-			<div id="accounts"><strong>
+			<div id="account"><strong>
 					{% if user.is_authenticated %}
 					{% trans "Welcome" %} <a href="{% url user.views.show_user user.pk %}">{% if user.first_name %}{{user.first_name}}{% else %}{{user}}{% endif %}</a>|
 					<a href="{% url auth_logout %}">{% trans "Logout" %}</a>
