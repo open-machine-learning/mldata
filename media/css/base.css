@@ -126,6 +126,11 @@ dd { margin-bottom:.8em; }
 .rating td.starlab { text-align:right; font-size:75%; border:0; padding:2px; margin:0px; width:90%; }
 .rating td.stars { text-align:left; border:0; padding:0; margin:0; width:10%; }
 
+/* TABS */
+.ui-tabs .ui-tabs-hide {
+     display: none;
+}
+
 
 /*  CLEARFIX KLUDGE */
 #columnwrap:after {
