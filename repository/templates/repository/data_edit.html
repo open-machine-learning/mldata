@@ -6,11 +6,15 @@
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
+<script type="text/javascript" src="/media/js/jquery/ui.core.js"></script>
+<script type="text/javascript" src="/media/js/jquery/ui.tabs.js"></script>
 <script type="text/javascript">
 $(function() {
 	$('#cancel').click(function() {
 		window.history.back(-1);
 	});
+
+	$('#contents').tabs();
 });
 </script>
 {% endblock %}
@@ -19,34 +23,40 @@ $(function() {
 <h1>{% trans "Edit Data for" %} {{ prev.name }} ({% trans "version " %}{{ prev.version }})</h1>
 
 <form action="{% url repository.views.data_edit prev.id %}" method="post" enctype="multipart/form-data">
-<table>
-<tr>
-	<td style="vertical-align: top"><dl>
-		<dd><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>): {{ form.license.errors }}</dd>
-		<dt>{{ form.license }}</dt>
-		<dd><label for="id_tags">{% trans "Tags" %}:</label> {{ form.tags.errors }}</dd>
-		<dt>{{ form.tags }}</dt>
-		<dd><label for="id_summary">{% trans "Summary" %}:</label> {{ form.summary.errors }}</dd>
-		<dt>{{ form.summary }}</dt>
-		<dd><label for="id_description">{% trans "Description" %}:</label> {{ form.description.errors }}</dd>
-		<dt>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_urls">{% trans "URLs" %}:</label> {{ form.urls.errors }}</dd>
-		<dt>{{ form.urls }}</dt>
-		<dd><label for="id_publications">{% trans "Publications" %}:</label> {{ form.publications.errors }}</dd>
-		<dt>{{ form.publications }}</dt>
-		<dd><label for="id_is_public">{% trans "Is the Data ready to be seen by the public" %}?</label> {{ form.is_public.errors }}</dd>
-		<dt>{{ form.is_public }}</dt>
-		<dd><label for="id_source">{% trans "Data Source" %}:</label> {{ form.source.errors }}</dd>
-		<dt>{{ form.source }}</dt>
-		<dd><label for="id_measurement_details">{% trans "Measurement details" %}:</label> {{ form.measurement_details.errors }}</dd>
-		<dt>{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_usage_scenario">{% trans "Usage scenario" %}:</label> {{ form.usage_scenario.errors }}</dd>
-		<dt>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<br />
-		<dt><input type="submit" id="post" name="post" class="submit-post" value="{% trans "Edit" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /></td>
-	</dl></td>
-</tr>
-</table>
+<div id="contents" class="widget">
+<ul class="head">
+	<li><a title="{% trans "Primary attributes of Data item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
+	<li><a title="{% trans "Other attributes of Data item" %}" href="#contents-other">{% trans "Other" %}</a></li>
+</ul>
+
+<div id="contents-main">
+	<div class="title"><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>) {{ form.license.errors }}</div>
+	<div class="data">{{ form.license }}</div>
+	<div class="title"><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</div>
+	<div class="data">{{ form.tags }}</div>
+	<div class="title"><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</div>
+	<div class="data">{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
+	<div class="title"><label for="id_is_public">{% trans "Is the Data item ready to be seen by the public" %}?</label> {{ form.is_public.errors }}</div>
+	<div class="data">{{ form.is_public }}</div>
+</div>
+
+<div id="contents-other">
+	<div class="title"><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</div>
+	<div class="data">{{ form.summary }}</div>
+	<div class="title"><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</div>
+	<div class="data">{{ form.urls }}</div>
+	<div class="title"><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</div>
+	<div class="data">{{ form.publications }}</div>
+	<div class="title"><label for="id_source">{% trans "Data Source" %}</label> {{ form.source.errors }}</div>
+	<div class="data">{{ form.source }}</div>
+	<div class="title"><label for="id_measurement_details">{% trans "Measurement details" %}</label> {{ form.measurement_details.errors }}</div>
+	<div class="data">{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
+	<div class="title"><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</div>
+	<div class="data">{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
+</div>
+
+<p><input type="submit" id="post" name="post" class="submit-post" value="{% trans "Edit" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /></p>
+</div>
 </form>
 {% endblock %}
 
