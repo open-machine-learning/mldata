@@ -74,9 +74,17 @@ $(function() {
 	<div class="title">{% trans "Comment" %}</div>
 	<div class="data">{{ extract.comment }}</div>
 	<div class="title">{% trans "Attribute Names" %}</div>
-	<div class="data">{{ extract.attribute_names }}</div>
+	<div class="data"><ol>
+	{% for name in extract.attribute_names %}
+		<li>{{ name }}</li>
+	{% endfor %}
+	</ol></div>
 	<div class="title">{% trans "Attribute Types" %}</div>
-	<div class="data">{{ extract.attribute_types }}</div>
+	<div class="data"><ol>
+	{% for type in extract.attribute_types %}
+		<li>{{ type }}</li>
+	{% endfor %}
+	</ol></div>
 	<div class="title">{% trans "Attributes (extract)" %}</div>
 	<div class="data"><ol>
 	{% for attr in extract.attributes %}
