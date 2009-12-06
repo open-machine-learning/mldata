@@ -34,7 +34,7 @@ def get_unparseable(filename):
             break
     data = "\n".join(data)
 
-    return {'attributes': 'unparseable data:' + data}
+    return {'attributes': [['unparseable data', data]]}
 
 
 def get_extract(in_filename):
