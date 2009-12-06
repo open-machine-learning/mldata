@@ -249,10 +249,11 @@ def data_new_review(request, id):
             uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
             converted = hdf5conv.get_filename(uploaded)
 
-            format = request.POST['id_format']
-            if format != obj.format:
-                # try to convert, ignore if unsuccessful
-                hdf5conv.convert(uploaded, format, converted, 'hdf5')
+            format = request.POST['id_format'].lower()
+            if format != 'hdf5':
+                # try to convert
+                if hdf5conv.convert(uploaded, format, converted, 'hdf5'):
+                    format = 'hdf5'
             obj.format = format
 
             if os.path.isfile(converted): # assign converted file to obj
@@ -262,7 +263,7 @@ def data_new_review(request, id):
 
             obj.is_approved = True
             obj.save()
-            return HttpResponseRedirect(reverse(data_view_main, args=[obj.id]))
+            return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
 
     info_dict = {
         'object': obj,
@@ -350,7 +351,7 @@ def _data_rating_form(request, obj):
 
     return rating_form
 
-def _data_view(request, slug_or_id, template):
+def data_view(request, slug_or_id):
     obj = _data_view_obj(request, slug_or_id)
     is_owner = _is_owner(request.user, obj.user_id)
     obj.versions = _get_versions_paginator(request, obj, is_owner)
@@ -362,28 +363,10 @@ def _data_view(request, slug_or_id, template):
         'can_activate': _data_can_activate(obj, is_owner),
         'can_delete': is_owner,
         'rating_form': _data_rating_form(request, obj),
-        'url_main': reverse(data_view_main, args=[obj.slug_or_id]),
-        'url_data': reverse(data_view_data, args=[obj.slug_or_id]),
-        'url_other': reverse(data_view_other, args=[obj.slug_or_id]),
+        'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
-    if template == 'data':
-        info_dict['extract'] =\
-            hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name))
 
-    return render_to_response('repository/data_view_' + template + '.html', info_dict)
-
-
-def data_view_main(request, slug_or_id):
-    return _data_view(request, slug_or_id, 'main')
-
-
-def data_view_data(request, slug_or_id):
-    return _data_view(request, slug_or_id, 'data')
-
-
-def data_view_other(request, slug_or_id):
-    return _data_view(request, slug_or_id, 'other')
-
+    return render_to_response('repository/data_view.html', info_dict)
 
 
 def data_delete(request, slug_or_id):

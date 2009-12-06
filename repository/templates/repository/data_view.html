@@ -5,7 +5,15 @@
 {% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {{ object.name }}{% endblock %}
 {% block billboard %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "View" %}{% endblock %}
 {% block extrahead %}
+<!--<link type="text/css" href="/media/css/ui/ui.base.css" rel="stylesheet" />-->
+<style type="text/css">
+.ui-tabs .ui-tabs-hide {
+     display: none;
+}
+</style>
 <script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="/media/js/jquery/ui.core.js"></script>
+<script type="text/javascript" src="/media/js/jquery/ui.tabs.js"></script>
 <script type="text/javascript">
 $(function() {
 	$('#delete').click(function() {
@@ -15,6 +23,8 @@ $(function() {
 			return false;
 		}
 	});
+
+	$('#contents').tabs();
 });
 </script>
 {% endblock %}
@@ -26,45 +36,75 @@ $(function() {
 	<td class="rating">{% include "repository/rating_results.html" %}</td>
 </tr>
 <tr>
-	<td colspan="2">{% trans "Completeness of this Data item currently" %}: {{ object.completeness }}%.<br />{% trans "You can" %} <a href="{% url repository.views.data_edit object.id %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make better use of the site's automatisms" %}.</td>
+	<td colspan="2">{% trans "Completeness of this Data item currently" %}: {{ object.completeness }}%.<br />{% trans "You can" %} <a href="{% url repository.views.data_edit object.id %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.</td>
 </tr>
 </table>
 
-<table class="widget">
-<tr>
-	<th class="tab" colspan="2">
-		{% ifequal request.path url_main %}
-			<span style="font-size:large">{% trans "Main" %}</span>
-		{% else %}
-			<a id="main" class="tab" title="{% trans "Primary attributes of Data item + download" %}" href="{{ url_main }}">{% trans "Main" %}</a>
-		{% endifequal %}
-		{% ifequal request.path url_data %}
-			<span style="font-size:large">{% trans "Data" %}</span>
-		{% else %}
-			<a id="data" class="tab" title="{% trans "Extracted/parsed/visualised data from the file" %}" href="{{ url_data }}">{% trans "Data" %}</a>
-		{% endifequal %}
-		{% ifequal request.path url_other %}
-			<span style="font-size:large">{% trans "Other" %}</span>
-		{% else %}
-			<a id="other" class="tab" title="{% trans "Other attributes of Data item" %}" href="{{ url_other }}">{% trans "Other" %}</a></th>
-		{% endifequal %}
-</tr>
-<tr>
-	<th>{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }} /
+<div id="contents" class="widget">
+<ul>
+	<li><a title="{% trans "Primary attributes of Data item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
+	<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-data">{% trans "Data" %}</a></li>
+	<li><a title="{% trans "Other attributes of Data item" %}" href="#contents-other">{% trans "Other" %}</a></li>
+</ul>
+<div id="info">
+	{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }} /
 	{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}">&laquo;</a>{% endif %}
 	{% for v in object.versions.object_list %}
 		{% ifequal object.version v.version %}-{% else %}<a href="{{ request.path }}../{{ v.id }}">{{ v.version }}</a>{% endifequal %}
 	{% endfor %}
 	{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}">&raquo;</a>{% endif %}
-	</th>
-	<th style="text-align: right">
+</div>
+<div id="actions">
 		{% if can_activate %}<a href="{% url repository.views.data_activate object.id %}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
 		<a href="{% url repository.views.data_edit object.slug_or_id %}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
 		{% if can_delete %}<a id="delete" href="{% url repository.views.data_delete object.slug_or_id %}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
-	</th>
-</tr>
-{% block data_content %}{% endblock %}
-</table>
+</div>
+<br style="clear:both" />
+
+<div id="contents-main">
+		<div class="title">{% trans "Tags" %}</div>
+		<div class="data">{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</div>
+		<div class="title">{% trans "Description" %}</div>
+		<div class="data">{{ object.description|markdown }}</div>
+		<div class="title">{% trans "License" %}</div>
+		<div class="data"><a href="{{ object.license.url }}">{{ object.license.name }}</a></div>
+		<div class="title"><a href="{% url repository.views.data_download object.id %}">{% trans "Download Data File" %}</a></div>
+</div>
+<div id="contents-data">
+	<div class="title">{% trans "Format" %}</div>
+	<div class="data">{{ object.format }}</div>
+	<div class="title">{% trans "Name" %}</div>
+	<div class="data">{{ extract.name }}</div>
+	<div class="title">{% trans "Version" %} mldata</div>
+	<div class="data">{{ extract.mldata }}</div>
+	<div class="title">{% trans "Comment" %}</div>
+	<div class="data">{{ extract.comment }}</div>
+	<div class="title">{% trans "Attribute Names" %}</div>
+	<div class="data">{{ extract.attribute_names }}</div>
+	<div class="title">{% trans "Attribute Types" %}</div>
+	<div class="data">{{ extract.attribute_types }}</div>
+	<div class="title">{% trans "Attributes (extract)" %}</div>
+	<div class="data"><ol>
+	{% for attr in extract.attributes %}
+		<li>{{ attr|join:' / ' }}</li>
+	{% endfor %}
+	</ol></div>
+</div>
+<div id="contents-other">
+	<div class="title">{% trans "Summary" %}</div>
+	<div class="data">{{ object.summary }}</div>
+	<div class="title">{% trans "URLs" %}</div>
+	<div class="data">{{ object.urls }}</div>
+	<div class="title">{% trans "Publications" %}</div>
+	<div class="data">{{ object.publications }}</div>
+	<div class="title">{% trans "Data Source" %}</div>
+	<div class="data">{{ object.source }}</div>
+	<div class="title">{% trans "Measurement Details" %}</div>
+	<div class="data">{{ object.measurement_details|markdown }}</div>
+	<div class="title">{% trans "Usage Scenario" %}</div>
+	<div class="data">{{ object.usage_scenario|markdown }}</div>
+</div>
+</div> <!-- // contents -->
 
 {% include "repository/rating_form.html" %}
 

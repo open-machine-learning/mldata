@@ -129,7 +129,7 @@ class Data(Repository):
             args=[self.slug.text]
         else:
             args=[self.id]
-        return reverse('repository.views.data_view_main', args=args)
+        return reverse('repository.views.data_view', args=args)
 
 
     def get_filename(self):
