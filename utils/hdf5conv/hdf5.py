@@ -56,7 +56,8 @@ class Converter():
 
         progress('writing datasets')
         for key, val in kwargs.iteritems():
-            h.create_dataset(key, data=numpy.array(val))
+            if val: # h5py doesn't like writing empty datasets
+                h.create_dataset(key, data=numpy.array(val))
 
         progress('writing attributes')
         for key, val in self.attrs.iteritems():
