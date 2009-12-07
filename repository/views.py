@@ -174,19 +174,6 @@ def solution_index(request):
     return _repository_index(request, 'solution')
 
 
-def _data_format(uploaded):
-    """Determine data format."""
-    suffix = uploaded.name.split('.')[-1]
-    if suffix == 'txt':
-        return 'libsvm'
-    elif suffix == 'arff':
-        return 'arff'
-    elif suffix == 'hdf5':
-        return 'hdf5'
-    else: # unknown
-        return suffix
-
-
 def data_new(request):
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new)
@@ -216,7 +203,7 @@ def data_new(request):
                 new.is_public = False
                 new.user_id = request.user.id
                 new.file = request.FILES['file']
-                new.format = _data_format(request.FILES['file'])
+                new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
                 new.file.name = new.get_filename()
                 new.save()
                 return HttpResponseRedirect(reverse(data_new_review, args=[new.id]))
