@@ -22,7 +22,7 @@
 		<dt>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dd>
 		<dt>{{ form.tags }}</dt>
-		<dd><label for="id_license">{% trans "License" %}</label> (<a href="../license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dd>
+		<dd><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.data_index %}license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dd>
 		<dt>{{ form.license }}</dt>
 		<dd><label for="id_file">{% trans "Data file" %}</label> *: {{ form.file.errors }}</dd>
 		<dt>{{ form.file }}</dt>

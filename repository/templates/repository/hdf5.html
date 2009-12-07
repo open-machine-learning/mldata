@@ -1,0 +1,26 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {% trans "HDF5" %}{% endblock %}
+{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a>{% endblock %}
+
+{% block content %}
+<h1>{% trans "Our HDF5 Format Explained" %}</h1>
+<p><a href="http://www.hdfgroup.org/HDF5/">HDF5</a> {% trans "is a data model, library, and file format for storing and managing data. It supports an unlimited variety of datatypes, and is designed for flexible and efficient I/O and for high volume and complex data. HDF5 is portable and is extensible, allowing applications to evolve in their use of HDF5. The HDF5 Technology suite includes tools and applications for managing, manipulating, viewing, and analyzing data in the HDF5 format." %}</p>
+<p>{% trans "Internally, we make use of HDF5 because of its hierarchical structure which allows for efficient access of data attributes. It also allows for storing data in a flexible way which seems paramount to us in the current state of the machine learning community and its wild bunch of file formats used." %}</p>
+
+<p>{% trans "We defined the following HDF5 attributes in our files" %}:</p>
+<ul>
+	<li>mldata ({% trans "Internal mldata version, currently set to" %} 0)</li>
+	<li>name ({% trans "Name to describe the item as found in the file" %})</li>
+	<li>comment ({% trans "Any comment in the file" %})</li>
+</ul>
+
+<p>{% trans "The following datasets may be defined in our HDF5 files" %}:</p>
+<ul>
+	<li>attribute_names ({% trans "Names of the data attributes" %})</li>
+	<li>attribute_types ({% trans "Types of the data attributes" %})</li>
+	<li>attributes ({% trans "The data attributes themselves" %})</li>
+</ul>
+{% endblock %}
+

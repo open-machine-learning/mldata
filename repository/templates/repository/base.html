@@ -8,21 +8,27 @@
 {% block content-related %}
 <h2>{% trans "Data" %}</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.data_index %}">{% trans "Public Archive" %}</a></h3></li>
-	<li><h3><a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a></h3></li>
-	{% if user.is_authenticated %}<li><h3><a href="{% url repository.views.data_my %}">{% trans "My Data" %}</h3></li>{% endif %}
-	<li><h3><a href="{% url repository.views.data_new %}">{% trans "Submit new Data" %}</a></h3></li>
+	<li><a href="{% url repository.views.data_index %}">{% trans "Public Archive" %}</a></li>
+	<li><a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a></li>
+	{% if user.is_authenticated %}<li><a href="{% url repository.views.data_my %}">{% trans "My Data" %}</li>{% endif %}
+	<li><a href="{% url repository.views.data_new %}">{% trans "Submit new Data" %}</a></li>
 </ul>
 
 <h2>{% trans "Task" %}</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.task_index %}">{% trans "Public Archive" %}</a></h3></li>
-	<li><h3><a href="{% url repository.views.task_new %}">{% trans "Submit new Task" %}</a></h3></li>
+	<li><a href="{% url repository.views.task_index %}">{% trans "Public Archive" %}</a></li>
+	<li><a href="{% url repository.views.task_new %}">{% trans "Submit new Task" %}</a></li>
 </ul>
 
 <h2>{% trans "Solution" %}</h2>
 <ul>
-	<li><h3><a href="{% url repository.views.solution_index %}">{% trans "Public Archive" %}</a></h3></li>
-	<li><h3><a href="{% url repository.views.solution_new %}">{% trans "Submit new Solution" %}</a></h3></li>
+	<li><a href="{% url repository.views.solution_index %}">{% trans "Public Archive" %}</a></li>
+	<li><a href="{% url repository.views.solution_new %}">{% trans "Submit new Solution" %}</a></li>
+</ul>
+
+<h2>{% trans "Misc" %}</h2>
+<ul>
+	<li><a href="{% url repository.views.data_index %}license">{% trans "License" %}</a></li>
+	<li><a href="{% url repository.views.index %}hdf5">{% trans "Our HDF5" %}</a></li>
 </ul>
 {% endblock %}

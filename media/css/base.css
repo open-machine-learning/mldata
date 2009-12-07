@@ -47,6 +47,7 @@ a:link, a:visited { color:#000000; }
 #content-related { color:#ffffcc; float:left; width:20%;}
 #content-related h2 { font-weight:normal; font-size:150%; margin-bottom:0em;}
 #content-related ul,form { margin-top:0.5ex; margin-bottom:0.5ex;}
+#content-related li { font-weight:normal; font-size:110%; line-height:140%;}
 #content-related a:link, #content-related a:visited { color:#ffffcc; text-decoration:underline; }
 #content-related a:hover { color:#ffff99; background:#994400; text-decoration:none; }
 
