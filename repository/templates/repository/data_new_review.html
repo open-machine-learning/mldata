@@ -10,61 +10,34 @@
 <p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'OK' to finalise the item or 'Back' to remove it from the repository and start anew." %}</p>
 
 <form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
-<table>
-<tr>
-	<td><dl>
-		<dd><label for="id_format">{% trans "Detected Data format is" %}</label>:</dd>
-		<dt><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, arff, hdf5. These will be converted to our flavour of HDF5." %}<br />{% trans "Unsupported formats will be kept as is, but premium features are not available for these." %}</span></dt>
-		<br />
-		<dd>{% trans "Parsed contents of Data file" %}:</dd>
-		<table class="widget">
-		<tr>
-			<td class="heading">{% trans "Name" %}</td>
-		</tr>
-		<tr>
-			<td class="indented">{{ extract.name }}</td>
-		</tr>
-		<tr>
-			<td class="heading">{% trans "Version" %} mldata</td>
-		</tr>
-		<tr>
-			<td class="indented">{{ extract.mldata }}</td>
-		</tr>
-		<tr>
-			<td class="heading">{% trans "Comment" %}</td>
-		</tr>
-		<tr>
-			<td class="indented">{{ extract.comment }}</td>
-		</tr>
-		<tr>
-			<td class="heading">{% trans "Attribute Names" %}</td>
-		</tr>
-		<tr>
-			<td class="indented">{{ extract.attribute_names }}</td>
-		</tr>
-		<tr>
-			<td class="heading">{% trans "Attribute Types" %}</td>
-		</tr>
-		<tr>
-			<td class="indented">{{ extract.attribute_types }}</td>
-		</tr>
-		<tr>
-			<td class="heading">{% trans "Attributes (extract)" %}</td>
-		</tr>
-		<tr>
-			<td class="indented"><ol>
-			{% for attr in extract.attributes %}
-				<li>{{ attr|join:' / ' }}</li>
-			{% endfor %}
-			</ol></td>
-		</tr>
-		<tr>
-			<td style="padding-top:1em"><input type="submit" name="ok" class="submit-post" value="{% trans "OK" %}" /> <input type="submit" name="back" class="submit-post" value="{% trans "Back" %}" /></td>
-		</tr>
-		</table>
-	</dl></td>
-</tr>
-</table>
+<div>
+	<label for="id_format">{% trans "Detected Data format is" %}</label>:<br />
+	<input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, arff, hdf5. These will be converted to our flavour of HDF5." %}<br />{% trans "Unsupported formats will be kept as is, but premium features are not available for these." %}</span>
+</div>
+
+<div style="padding-top:1em">{% trans "Parsed contents of Data file" %}:</div>
+<div class="widget">
+	<div class="title">{% trans "Name" %}</div>
+	<div class="data">{{ extract.name }}</div>
+	<div class="title">{% trans "Version" %} mldata</div>
+	<div class="data">{{ extract.mldata }}</div>
+	<div class="title">{% trans "Comment" %}</div>
+	<div class="data">{{ extract.comment }}</div>
+	<div class="title">{% trans "Attribute Names" %}</div>
+	<div class="data">{{ extract.attribute_names }}</div>
+	<div class="title">{% trans "Attribute Types" %}</div>
+	<div class="data">{{ extract.attribute_types }}</div>
+	<div class="title">{% trans "Attributes (extract)" %}</div>
+	<div class="data"><ol>
+	{% for attr in extract.attributes %}
+		<li>{{ attr|join:' / ' }}</li>
+	{% endfor %}
+	</ol></div>
+</div>
+
+<div style="padding-top:1em">
+	<input type="submit" name="ok" class="submit-post" value="{% trans "OK" %}" /> <input type="submit" name="back" class="submit-post" value="{% trans "Back" %}" />
+</div>
 </form>
 
 {% endblock %}
