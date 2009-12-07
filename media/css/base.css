@@ -127,9 +127,9 @@ dd { margin-bottom:.8em; }
 .rating td.stars { text-align:left; border:0; padding:0; margin:0; width:10%; }
 
 /* TABS */
-.ui-tabs .ui-tabs-hide {
-     display: none;
-}
+.ui-tabs .ui-tabs-hide { display: none; }
+/* ui-tabs-selected alone doesn't work - maybe all css has to be reworked. */
+#content-main .widget ul li.ui-tabs-selected a { font-size:x-large; background:#994400; text-decoration:none;}
 
 
 /*  CLEARFIX KLUDGE */
