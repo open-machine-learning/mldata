@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Copyright (c) 2008, Mikio L. Braun, Cheng Soon Ong, Soeren Sonnenburg
 # All rights reserved.
 #
@@ -12,7 +13,7 @@
 # in the documentation and/or other materials provided with the
 # distribution.
 #     * Neither the names of the Technical University of Berlin, ETH
-# Zuerich, or Fraunhofer FIRST nor the names of its contributors may be
+# Zürich, or Fraunhofer FIRST nor the names of its contributors may be
 # used to endorse or promote products derived from this software without
 # specific prior written permission.
 #
@@ -117,7 +118,7 @@ class ArffFile(object):
                 o.append("@attribute " + self.esc(a) +
                          " {" + ','.join(self.attribute_data[a]) + "}")
             else:
-                raise Exception("Type " + at + " not supported for writing!")
+                raise "Type " + at + " not supported for writing!"
         o.append("\n@data")
         for d in self.data:
             line = []
@@ -177,12 +178,13 @@ class ArffFile(object):
         p = re.compile(r'[a-zA-Z_][a-zA-Z0-9_]*|\{[^\}]+\}|\'[^\']+\'|\"[^\"]+\"')
         l = [s.strip() for s in p.findall(l)]
         name = l[1]
-        atype = l[2].lower()
-        if (atype == 'real' or
-            atype == 'numeric' or
-            atype == 'integer'):
+        atype = l[2]
+        atypel = atype.lower()
+        if (atypel == 'real' or
+            atypel == 'numeric' or
+            atypel == 'integer'):
             self.define_attribute(name, 'numeric')
-        elif atype == 'string':
+        elif atypel == 'string':
             self.define_attribute(name, 'string')
         elif atype[0] == '{' and atype[-1] == '}':
             values = [s.strip () for s in atype[1:-1].split(',')]
@@ -218,7 +220,7 @@ class ArffFile(object):
 
     def __print_warning(self, msg):
         #print ('Warning (line %d): ' % self.lineno) + msg
-        return
+        pass
 
     def dump(self):
         """Print an overview of the ARFF file."""
@@ -234,10 +236,10 @@ class ArffFile(object):
             print d
     
 
-#a = ArffFile.load('../examples/diabetes.arff')
 
 if __name__ == '__main__':
-    a = ArffFile.parse("""% yes
+    if False:
+        a = ArffFile.parse("""% yes
 % this is great
 @relation foobar
 @attribute foo {a,b,c}
@@ -248,5 +250,8 @@ b, 2
 c, d
 d, 3
 """)
-    a.dump()
+        a.dump()
+
+    a = ArffFile.load('../examples/diabetes.arff')
+
     print a.write()
