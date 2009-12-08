@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load markup %}
+{% load comments %}
+
+{% block sectionid %}comments{% endblock %}
+{% block title %}{% trans "Comments" %}{% endblock %}
+{% block billboard %}{% trans "Comments" %}{% endblock %}
+
+{% block content %}
+{{ comment.get_content_object_url }}
+<h2>{% trans "Preview" %}</h2>
+<dl>
+	<dt>{{ comment|markdown }}</dt>
+</dl>
+
+{% include "comments/form.html" %}
+{% endblock %}
+
+{% block content-related %}
+<p>{% trans "Preview your comment for item" %} <a href="{{ next }}">{{next}}</a></p>
+{% endblock %}

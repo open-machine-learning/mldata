@@ -112,8 +112,9 @@ $(function() {
 
 {% load comments %}
 {% get_comment_list for repository.data object.id as comment_list %}
+{% include "comments/list.html" %}
 {% get_comment_form for repository.data object.id as form %}
-{% include "comments.html" %}
+{% include "comments/form.html" %}
 
 {% endblock %}
 

@@ -18,7 +18,7 @@ def new(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            if hasattr(request.POST, 'preview'):
+            if request.POST.has_key('preview'):
                 preview = {
                     'headline': form.cleaned_data['headline'],
                     'summary': form.cleaned_data['summary'],
