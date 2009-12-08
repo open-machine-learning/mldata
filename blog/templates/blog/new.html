@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load markup %}
 {% load i18n %}
 
 {% block title %}{% trans "Blog" %} :: {% trans "New Post" %}{% endblock %}
@@ -7,6 +8,22 @@
 
 {% block content %}
 <h1>{% trans "Submit a new Post" %}</h1>
+
+{% if preview %}
+<h2>{% trans "Preview" %}</h2>
+<table>
+<tr>
+	<th>{{ preview.headline }} ({% trans "by" %} <strong>{{ user }}</strong> {% trans "on" %} {% now "F j Y, H:i" %})</th>
+</tr>
+<tr>
+	<td>{{ preview.summary }}</td>
+</tr>
+<tr>
+	<td>{{ preview.body|markdown:"safe" }}</td>
+</tr>
+</table>
+{% endif %}
+
 
 <form action="{% url blog.views.new %}" method="POST">
 <dl>
@@ -18,7 +35,7 @@
 	<br />
 	<dd>{{ form.body.label }}: {{ form.body.errors }}</dd>
 	<dt>{{ form.body }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-	<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
+	<dt><input type="submit" name="preview" class="submit-post" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
 </dl>
 </form>
 {% endblock %}
