@@ -30,29 +30,10 @@
 {% endif %}
 </table>
 
-{% if posting %}
-<h2>{% trans "Preview" %}</h2>
-<div id="threadlist">
-	<dt id="post{{ posting.id }}">{{ posting.author }} ( on {{ posting.time|date:"F j, Y, H:i:s" }} )</dt>
-	{{ posting.body|markdown:"safe" }}
-</div>
-{% endif %}
-
 {% if thread.closed %}
 <h2>{% trans "Sorry, this thread is closed. No further replies are permitted." %}</h2>
 {% else %}
-<dl>
-	{% if not user.is_authenticated %}
-		<p>{% trans "To submit a reply, please" %} <a href="{% url auth_login %}?next={{ thread.get_absolute_url }}">login</a>.<p>
-	{% else %}
-	<h2>{% trans "Post a Reply" %}</h2>
-	<form method='post' action='reply/'>
-		{% if form.body.errors %}<dt><span class="error">{{ form.body.errors|join:", " }}</span></dt>{% endif %}
-		<dt>{{ form.body|markdown }}<span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dt><input type="submit" name="post" value="{% trans "Post Message" %}"/></dt>
-		{% endif %}
-	</form>
-</dl>
+{% include "forum/form_reply.html" %}
 {% endif %}
 {% endblock %}
 

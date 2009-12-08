@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load markup %}
+
+{% if preview %}
+<h2>{% trans "Preview" %}</h2>
+<dl>
+	<dd>{{ preview.title }} ({% trans "by" %} <strong>{{ user }}</strong> {% trans "on" %} {% now "F j Y, H:i" %})</dd>
+	<dt>{{ preview.body|markdown }}</dt>
+</dl>
+<br />
+{% endif %}
+
+<dl>
+	{% if not user.is_authenticated %}
+		<p>{% trans "To create a new Thread, please" %} <a href="{% url auth_login %}?next={{ forum.get_absolute_url }}">login</a>.<p>
+	{% else %}
+	<h2>{% trans "Create a new Thread" %}</h2>
+	<form method='post' action='{% url forum.views.newthread forum.title %}'>
+		<dt>{{ form.title.label }}:{% if form.title.errors %}<span class="error">{{ form.title.errors|join:", " }}</span>{% endif %}</dt>
+		<dt>{{ form.title|escape }}</dt>
+		<dt>{{ form.body.label }}:{% if form.body.errors %}<span class="error">{{ form.body.errors|join:", " }}</span>{% endif %}</dt>
+		<dt>{{ form.body }}</dt>
+		<dd><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><input type="submit" name="preview" value="{% trans "Preview" %}" /> <input type="submit" name="post" value="{% trans "Submit" %}" /></dt>
+		{% endif %}
+	</form>
+</dl>

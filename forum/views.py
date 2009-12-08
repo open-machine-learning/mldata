@@ -66,7 +66,7 @@ def thread(request, thread):
             raise Http404
     except Thread.DoesNotExist:
         raise Http404
-    
+
     p = t.post_set.select_related('author').all().order_by('time')
     s = None
     if request.user.is_authenticated():
@@ -81,7 +81,7 @@ def thread(request, thread):
         initial = {'subscribe': False}
 
     form = ReplyForm(initial=initial)
-    
+
     return object_list( request,
                         queryset=p,
                         paginate_by=FORUM_PAGINATION,
@@ -114,58 +114,62 @@ def reply(request, thread):
     if request.method == "POST":
         form = ReplyForm(request.POST)
         if form.is_valid():
-            body = form.cleaned_data['body']
-            p = Post(
-                thread=t, 
-                author=request.user,
-                body=body,
-                time=datetime.now(),
-                )
-            p.save()
-
-            sub = Subscription.objects.filter(thread=t, author=request.user)
-            if form.cleaned_data.get('subscribe',False):
-                if not sub:
-                    s = Subscription(
-                        author=request.user,
-                        thread=t
-                        )
-                    s.save()
+            if request.POST.has_key('preview'):
+                preview = {'body': form.cleaned_data['body']}
             else:
-                if sub:
-                    sub.delete()
+                body = form.cleaned_data['body']
+                p = Post(
+                    thread=t, 
+                    author=request.user,
+                    body=body,
+                    time=datetime.now(),
+                    )
+                p.save()
 
-            if t.subscription_set.count() > 0:
-                # Subscriptions are updated now send mail to all the authors subscribed in
-                # this thread.
-                mail_subject = ''
-                try:
-                    mail_subject = settings.FORUM_MAIL_PREFIX 
-                except AttributeError:
-                    mail_subject = '[Forum]'
+                sub = Subscription.objects.filter(thread=t, author=request.user)
+                if form.cleaned_data.get('subscribe',False):
+                    if not sub:
+                        s = Subscription(
+                            author=request.user,
+                            thread=t
+                            )
+                        s.save()
+                else:
+                    if sub:
+                        sub.delete()
 
-                mail_from = ''
-                try:
-                    mail_from = settings.FORUM_MAIL_FROM
-                except AttributeError:
-                    mail_from = settings.DEFAULT_FROM_EMAIL
+                if t.subscription_set.count() > 0:
+                    # Subscriptions are updated now send mail to all the authors subscribed in
+                    # this thread.
+                    mail_subject = ''
+                    try:
+                        mail_subject = settings.FORUM_MAIL_PREFIX 
+                    except AttributeError:
+                        mail_subject = '[Forum]'
 
-                mail_tpl = loader.get_template('forum/notify.txt')
-                c = Context({
-                    'body': wordwrap(striptags(body), 72),
-                    'site' : Site.objects.get_current(),
-                    'thread': t,
-                    })
+                    mail_from = ''
+                    try:
+                        mail_from = settings.FORUM_MAIL_FROM
+                    except AttributeError:
+                        mail_from = settings.DEFAULT_FROM_EMAIL
 
-                email = EmailMessage(
-                        subject=mail_subject+' '+striptags(t.title),
-                        body= mail_tpl.render(c),
-                        from_email=mail_from,
-                        bcc=[s.author.email for s in t.subscription_set.all()],)
-                email.send(fail_silently=True)
+                    mail_tpl = loader.get_template('forum/notify.txt')
+                    c = Context({
+                        'body': wordwrap(striptags(body), 72),
+                        'site' : Site.objects.get_current(),
+                        'thread': t,
+                        })
 
-            return HttpResponseRedirect(p.get_absolute_url())
+                    email = EmailMessage(
+                            subject=mail_subject+' '+striptags(t.title),
+                            body= mail_tpl.render(c),
+                            from_email=mail_from,
+                            bcc=[s.author.email for s in t.subscription_set.all()],)
+                    email.send(fail_silently=True)
+
+                return HttpResponseRedirect(p.get_absolute_url())
     else:
+        preview = False
         form = ReplyForm()
     
     return render_to_response('forum/reply.html',
@@ -173,6 +177,7 @@ def reply(request, thread):
             'form': form,
             'forum': t.forum,
             'thread': t,
+            'preview': preview,
         }))
 
 
@@ -188,41 +193,49 @@ def newthread(request, forum):
         return HttpResponseRedirect('%s?next=%s' % (LOGIN_URL, request.path))
 
     f = get_object_or_404(Forum, slug=forum)
-    
+
     if not Forum.objects.has_access(f, request.user.groups.all()):
         return HttpResponseForbidden()
 
     if request.method == 'POST':
         form = CreateThreadForm(request.POST)
         if form.is_valid():
-            t = Thread(
-                forum=f,
-                title=form.cleaned_data['title'],
-            )
-            t.save()
+            if request.POST.has_key('preview'):
+                preview = {
+                    'title': form.cleaned_data['title'],
+                    'body': form.cleaned_data['body']
+                }
+            else:
+                t = Thread(
+                    forum=f,
+                    title=form.cleaned_data['title'],
+                )
+                t.save()
 
-            p = Post(
-                thread=t,
-                author=request.user,
-                body=form.cleaned_data['body'],
-                time=datetime.now(),
-            )
-            p.save()
-    
-            if form.cleaned_data.get('subscribe', False):
-                s = Subscription(
+                p = Post(
+                    thread=t,
                     author=request.user,
-                    thread=t
-                    )
-                s.save()
-            return HttpResponseRedirect(t.get_absolute_url())
+                    body=form.cleaned_data['body'],
+                    time=datetime.now(),
+                )
+                p.save()
+
+                if form.cleaned_data.get('subscribe', False):
+                    s = Subscription(
+                        author=request.user,
+                        thread=t
+                        )
+                    s.save()
+                return HttpResponseRedirect(t.get_absolute_url())
     else:
         form = CreateThreadForm()
+        preview = False
 
-    return render_to_response('forum/newthread.html',
+    return render_to_response('forum/thread_new.html',
         RequestContext(request, {
             'form': form,
             'forum': f,
+            'preview': preview,
         }))
 
 def updatesubs(request):

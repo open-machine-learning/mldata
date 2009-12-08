@@ -12,7 +12,7 @@
 <table>
 {% if is_paginated %}
 <thead><tr>
-	<td class="paginator"><a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a></td>
+	<td colspan="4" class="paginator"><a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a></td>
 </thead></tr>
 {% endif %}
     <tr>
@@ -34,41 +34,17 @@
 
 {% if is_paginated %}
 <tfoot><tr>
-	<td class="paginator"><a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a></td>
+	<td colspan="4" class="paginator"><a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a></td>
 </tfoot></tr>
 {% endif %}
 </table>
-{% endif %}
-
-{% if posting %}
-<h2>{% trans "Preview" %}</h2>
-<p><b>{% trans "Thread" %}:</b> {{thread.title|escape}}</p>
-<div id="threadlist">
-    <dl>
-        <dt id="post{{ posting.id }}">{{ posting.author }} ( on {{ posting.time|date:"F j, Y, H:i:s" }} )</dt>
-    </dl>
-    {{ posting.body|markdown:"safe" }}
-</div>
 {% endif %}
 
 {% if forum.threads %}
 <br />
 {% endif %}
 
-<dl>
-	{% if not user.is_authenticated %}
-		<p>{% trans "To create a new Thread, please" %} <a href="{% url auth_login %}?next={{ forum.get_absolute_url }}">login</a>.<p>
-	{% else %}
-	<h2>{% trans "Create a new Thread" %}</h2>
-	<form method='post' action='new/'>
-		<dt>{{ form.title.label }}:{% if form.title.errors %}<span class="error">{{ form.title.errors|join:", " }}</span>{% endif %}</dt>
-		<dt>{{ form.title|escape }}</dt>
-		<dt>{{ form.body.label }}:{% if form.body.errors %}<span class="error">{{ form.body.errors|join:", " }}</span>{% endif %}</dt>
-		<dt>{{ form.body|markdown }}<span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt><br />
-		<dt><input type="submit" name="post" value="{% trans "Post Message" %}" /></dt>
-		{% endif %}
-	</form>
-</dl>
+{% include "forum/form_thread_new.html" %}
 {% endblock %}
 
 

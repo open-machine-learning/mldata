@@ -1,0 +1,14 @@
+{% load i18n %}
+<dl>
+	{% if not user.is_authenticated %}
+		<p>{% trans "To submit a reply, please" %} <a href="{% url auth_login %}?next={{ thread.get_absolute_url }}">login</a>.<p>
+	{% else %}
+	<h2>{% trans "Post a Reply" %}</h2>
+	<form method='post' action='{% url forum.views.reply thread.id %}'>
+		{% if form.body.errors %}<dt><span class="error">{{ form.body.errors|join:", " }}</span></dt>{% endif %}
+		<dt>{{ form.body }}</dt>
+		<dd><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><input type="submit" name="preview" value="{% trans "Preview" %}"/> <input type="submit" name="post" value="{% trans "Post Reply" %}"/></dt>
+		{% endif %}
+	</form>
+</dl>
