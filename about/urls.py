@@ -1,8 +1,9 @@
 from django.conf.urls.defaults import *
+import about.views as views
 
 urlpatterns = patterns('',
-    (r'^$', 'about.views.index'),
-    (r'^about/$', 'about.views.index'),
-    (r'^impressum/$', 'about.views.impressum'),
-    (r'^tos/$', 'about.views.tos'),
+    url(r'^$', views.index, name='about_index'),
+    (r'^about/$', views.index),
+    (r'^impressum/$', views.impressum),
+    (r'^tos/$', views.tos),
 )

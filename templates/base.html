@@ -29,15 +29,15 @@
 					{% endif %}
 			</strong></div>
 		<div id="container">
-			<div style="text-align:center; color:#ffffff">This site is under construction. We will reset the database at regular intervals. Please check back regularly for updates. Thank you for your comments and criticisms.</div>
+			<div style="text-align:center; color:#ffffff">This site is under construction. We will reset the database at irregular intervals. Please check back regularly for updates. Thank you for your comments and criticisms.</div>
 			<div id="header">
 				<span id="logo"><a href="/"><img src="/media/images/pascal.png" alt="logo"></img></a></span>
 				<span id="text">Machine Learning<br />Benchmark Repository</span>
 				<span id="nav-global"><ul>
-					<li id="nav-repository"><a href="/repository/">{% trans "Repository" %}</a></li>
-					<li id="nav-forum"><a href="/forum/">{% trans "Forum" %}</a></li>
-					<li id="nav-blog"><a href="/blog/">{% trans "Blog" %}</a></li>
-					<li id="nav-about"><a href="/about/">{% trans "About" %}</a></li>
+					<li id="nav-repository"><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
+					<li id="nav-forum"><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
+					<li id="nav-blog"><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
+					<li id="nav-about"><a href="{% url about_index %}">{% trans "About" %}</a></li>
 					{% if not user.is_authenticated %}<li id="nav-registration"><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>{% endif %}
 				</ul></span>
 			</div><!-- END Header -->
