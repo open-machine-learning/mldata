@@ -10,7 +10,7 @@
 <ul>
 	<li><a href="{% url repository.views.data_index %}">{% trans "Public Archive" %}</a></li>
 	<li><a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a></li>
-	{% if user.is_authenticated %}<li><a href="{% url repository.views.data_my %}">{% trans "My Data" %}</li>{% endif %}
+	{% if request.user.is_authenticated %}<li><a href="{% url repository.views.data_my %}">{% trans "My Data" %}</li>{% endif %}
 	<li><a href="{% url repository.views.data_new %}">{% trans "Submit new Data" %}</a></li>
 </ul>
 

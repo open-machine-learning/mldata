@@ -21,11 +21,11 @@
 
 	<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}">
 			<div id="account"><strong>
-					{% if user.is_authenticated %}
-					{% trans "Welcome" %} <a href="{% url user.views.show_user user.pk %}">{% if user.first_name %}{{user.first_name}}{% else %}{{user}}{% endif %}</a>|
-					<a href="{% url auth_logout %}">{% trans "Logout" %}</a>
+					{% if request.user.is_authenticated %}
+					{% trans "Welcome" %} <a href="{% url user.views.show_user request.user.pk %}">{% if request.user.first_name %}{{ request.user.first_name}}{% else %}{{request.user}}{% endif %}</a>|
+					<a href="{% url user_signout %}">{% trans "SignOut" %}</a>
 					{% else %}
-					<a href="{% url auth_login %}">{% trans "Login" %}</a>
+					<a href="{% url user_signin %}">{% trans "SignIn" %}</a>
 					{% endif %}
 			</strong></div>
 		<div id="container">
@@ -38,7 +38,7 @@
 					<li id="nav-forum"><a href="/forum/">{% trans "Forum" %}</a></li>
 					<li id="nav-blog"><a href="/blog/">{% trans "Blog" %}</a></li>
 					<li id="nav-about"><a href="/about/">{% trans "About" %}</a></li>
-					{% if not user.is_authenticated %}<li id="nav-registration"><a href="/accounts/register/">{% trans "Registration" %}</a></li>{% endif %}
+					{% if not user.is_authenticated %}<li id="nav-registration"><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>{% endif %}
 				</ul></span>
 			</div><!-- END Header -->
 

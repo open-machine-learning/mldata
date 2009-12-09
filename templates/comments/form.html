@@ -27,6 +27,6 @@
 		<input type="hidden" name="name" id="id_name" maxlength="50" value="{{ user.username }}" />
 	</form>
 {% else %}
-	<p>{% trans "To post a comment, please" %} <a href="{% url auth_login %}?next={{ object.get_absolute_url }}">login</a>.</p>
+	<p>{% trans "To post a comment, please" %} <a href="{% url user_signin %}?next={{ object.get_absolute_url }}">login</a>.</p>
 {% endif %}
 </div>

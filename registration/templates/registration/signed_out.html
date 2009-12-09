@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block sectionid %}accounts{% endblock %}
+
+{% block title %}{% trans "SignOut" %}{% endblock %}
+
+{% block billboard %}{% trans "SignOut" %}{% endblock %}
+
+{% block content %}
+<p>
+{% trans "You have been signed out. Thanks for stopping by" %}!
+</p>
+{% endblock %}
+
+{% block content-related %}
+<p>
+{% trans "Maybe you would like to" %} <a href="{% url django_authopenid.views.signin %}">{% trans "sign in again" %}</a>?
+</p>
+{% endblock %}

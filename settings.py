@@ -10,7 +10,7 @@ else:
 
 
 ADMINS = (
-    ('Sebastian Henschel', 'shogun@kodeaffe.de'),
+    ('Sebastian Henschel', 'mldata@kodeaffe.de'),
     ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
     ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
 )
@@ -100,6 +100,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_authopenid.middleware.OpenIDMiddleware',
 )
 
 ROOT_URLCONF = 'mldata.urls'
@@ -112,6 +113,11 @@ else:
 	TEMPLATE_DIRS = (
 		'templates/',
 	)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'mldata.django_authopenid.context_processors.authopenid',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -130,4 +136,5 @@ INSTALLED_APPS = (
     'mldata.user',
     'mldata.repository',
     'mldata.tagging',
+    'mldata.django_authopenid',
 )

@@ -100,7 +100,7 @@ def index(request):
         'latest_data': latest_data,
         'latest_task': latest_task,
         'latest_solution': latest_solution,
-        'user': request.user,
+        'request': request,
     }
     return render_to_response('repository/index.html', info_dict)
 
@@ -157,7 +157,7 @@ def _repository_index(request, type, my=False):
             get_absolute_url(use_slug=True)
 
     info_dict = {
-        'user': request.user,
+        'request': request,
         'page': page,
         'type': type.capitalize(),
         'my_or_archive': my_or_archive,
@@ -177,7 +177,7 @@ def solution_index(request):
 def data_new(request):
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new)
-        return HttpResponseRedirect(reverse('auth_login') + next)
+        return HttpResponseRedirect(reverse('user_signin') + next)
 
     if request.method == 'POST':
         form = DataForm(request.POST, request.FILES)
@@ -212,7 +212,7 @@ def data_new(request):
 
     info_dict = {
         'form': form,
-        'user': request.user,
+        'request': request,
     }
     return render_to_response('repository/data_new.html', info_dict)
 
@@ -220,7 +220,7 @@ def data_new(request):
 def data_new_review(request, id):
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new_review, args=[id])
-        return HttpResponseRedirect(reverse('auth_login') + next)
+        return HttpResponseRedirect(reverse('user_signin') + next)
 
     obj = _get_object_or_404(request, Data, id)
     # don't want users to be able to remove items once approved
@@ -254,7 +254,7 @@ def data_new_review(request, id):
 
     info_dict = {
         'object': obj,
-        'user': request.user,
+        'request': request,
         'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
@@ -264,7 +264,7 @@ def data_edit(request, slug_or_id):
     prev = _get_object_or_404(request, Data, slug_or_id)
     url = reverse(data_edit, args=[prev.slug_or_id])
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     if request.method == 'POST':
         request.POST['name'] = prev.name # cheat a little
@@ -286,7 +286,7 @@ def data_edit(request, slug_or_id):
     info_dict = {
         'form': form,
         'prev': prev,
-        'user': request.user,
+        'request': request,
     }
     return render_to_response('repository/data_edit.html', info_dict)
 
@@ -345,7 +345,7 @@ def data_view(request, slug_or_id):
 
     info_dict = {
         'object': obj,
-        'user': request.user,
+        'request': request,
         'request': request,
         'can_activate': _data_can_activate(obj, is_owner),
         'can_delete': is_owner,
@@ -375,7 +375,7 @@ def data_delete(request, slug_or_id):
 def data_activate(request, id):
     if not request.user.is_authenticated():
         url=reverse(data_activate, args=[id])
-        return HttpResponseRedirect(reverse('auth_login') + '?next=' + url)
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = get_object_or_404(Data, pk=id)
     if not _is_owner(request.user, obj.user.id):
@@ -461,7 +461,7 @@ def tags_index(request):
         tags = None
 
     info_dict = {
-        'user': request.user,
+        'request': request,
         'tags': tags,
     }
     return render_to_response('repository/tags_index.html', info_dict)
@@ -485,7 +485,7 @@ def tags_view(request, tag):
         object_list = None
 
     info_dict = {
-        'user': request.user,
+        'request': request,
         'tag': tag,
         'object_list': object_list,
     }

@@ -20,6 +20,10 @@
 			<td>{% trans "Email Address" %}:</td>
 			<td>{{object.email}}</td>
 		</tr>
+		<tr>
+			<td>{% trans "OpenID URL" %}:</td>
+			<td>{{object.openid_url}}</td>
+		</tr>
 	</table>
 	{% if forumsubscriptions %}
 	<br />
@@ -52,6 +56,8 @@
 <dd>{{ form.lastname|safe }}</dd>
 <dt><label for="id_email">{% trans "Email address" %}:</label>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</dd>
 <dd>{{ form.email|safe }}</dd>
+<dt><label for="id_openid_url">{{ form.openid_url.label }}:</label>{% if form.openid_url.errors %} <span class="error">{{ form.openid_url.errors|join:", " }}</span>{% endif %}</dd>
+<dd>{{ form.openid_url|safe }}</dd>
 <dt><label for="id_password1">{% trans "Password" %}:</label>{% if form.password1.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
 <dd>{{ form.password1|safe }}</dd>
 <dt><label for="id_password2">{% trans "Password (type again to catch any typos)" %}:</label>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>

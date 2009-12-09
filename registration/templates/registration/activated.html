@@ -11,7 +11,7 @@
 {% load humanize %}
 {% if account %}
 <p>
-{% trans "Thanks for signing up! You can start contributing when you" %} <a href="{% url django.contrib.auth.views.login %}">{% trans "log in" %}</a>!
+{% trans "Thanks for signing up! You can start contributing when you" %} <a href="{% url user_signin %}">{% trans "sign in" %}</a>!
 </p>
 {% else %}
 <p>

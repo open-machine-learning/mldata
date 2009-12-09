@@ -6,7 +6,7 @@
 
 {% block content %}
 <h2>{% trans "Used Tags" %}</h2>
-<p>{% if user.is_authenticated %}{% trans "These tags are currently used by public and your Data items in the repository" %}{% else %}{% trans "These tags are currently used by public Data items in the repository" %}{% endif %}:</p>
+<p>{% if request.user.is_authenticated %}{% trans "These tags are currently used by public and your Data items in the repository" %}{% else %}{% trans "These tags are currently used by public Data items in the repository" %}{% endif %}:</p>
 
 <ul>
 	{% for tag in tags %}

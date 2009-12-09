@@ -12,7 +12,8 @@ urlpatterns = patterns('',
     (r'^repository/', include('repository.urls')),
 
     # somewhat util
-    (r'^accounts/', include('registration.urls')),
+    #(r'^accounts/', include('registration.urls')),
+    (r'^accounts/', include('django_authopenid.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^comments/', include('django.contrib.comments.urls')),
     (r'^user/', include('user.urls')),

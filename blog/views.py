@@ -12,7 +12,7 @@ from blog.models import Post, PostForm
 
 def new(request):
     if not request.user.is_authenticated():
-        redirect_to = reverse('auth_login') + '?next=' + reverse(new)
+        redirect_to = reverse('user_signin') + '?next=' + reverse(new)
         return HttpResponseRedirect(redirect_to)
 
     if request.method == 'POST':
@@ -38,7 +38,7 @@ def new(request):
         form = PostForm()
 
     info_dict = {
-        'user': request.user,
+        'request': request,
         'form': form,
         'preview': preview,
     }

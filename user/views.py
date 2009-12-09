@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
+from django_authopenid.models import UserAssociation
 
 import re
 
@@ -29,10 +30,13 @@ class ChangeUserDetailsForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
         max_length=200)),
         label=u'Email address')
+    openid_url = forms.CharField(max_length=30,
+            widget=forms.TextInput(attrs=attrs_dict),
+            label=u'OpenID URL', required=False)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict),
-            label=u'Password')
+            label=u'Password', required=False)
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict),
-            label=u'Password (again, to catch typos)')
+            label=u'Password (again, to catch typos)', required=False)
 
     def clean_firstname(self):
         """
@@ -52,6 +56,21 @@ class ChangeUserDetailsForm(forms.Form):
                 raise forms.ValidationError(u'Last name can only contain letters, numbers and underscores')
         return self.cleaned_data['lastname']
 
+    def clean_openid_url(self):
+        """
+        Validates that OpenID URL starts with 'http'.
+        """
+        if 'openid_url' in self.cleaned_data:
+            item = self.cleaned_data['openid_url']
+        else:
+            item = None
+
+        if item and not item.startswith('http'):
+            raise forms.ValidationError(u'OpenID URL must start with "http"')
+
+        return item
+
+
     def clean_username(self):
         """
         Validates that the username is alphanumeric and is not already
@@ -66,6 +85,22 @@ class ChangeUserDetailsForm(forms.Form):
             except User.DoesNotExist:
                 return self.cleaned_data['username']
             raise forms.ValidationError(u'This username is already taken. Please choose another.')
+
+
+    def clean_password1(self):
+        """
+        Validates that a password is given if no OpenID URL is supplied.
+        """
+        if 'password1' in self.cleaned_data:
+            item = self.cleaned_data['password1']
+        else:
+            item = None
+
+        if not 'openid_url' in self.cleaned_data and not item:
+            raise forms.ValidationError(u'You must use a password when not supplying an OpenID URL')
+
+        return item
+
 
     def clean_password2(self):
         """
@@ -84,6 +119,17 @@ class ChangeUserDetailsForm(forms.Form):
         u.set_password(self.cleaned_data['password1'])
         u.save()
 
+        try:
+            print u
+            ua = UserAssociation.objects.get(user=u)
+            ua.openid_url = self.cleaned_data['openid_url']
+        except UserAssociation.DoesNotExist:
+            ua = UserAssociation(
+                openid_url=self.cleaned_data['openid_url'],
+                user_id=u.id
+            )
+        ua.save()
+
 def show_user_list(request):
     if request.user.is_superuser:
         return object_list(request,
@@ -95,51 +141,68 @@ def show_user_list(request):
 def show_user(request, user_id):
     if request.user.is_authenticated():
         entry = get_object_or_404(User, pk=user_id)
-
         if not request.user.is_superuser and not entry == request.user:
             raise Http404
 
-        form = ChangeUserDetailsForm(initial={ 'firstname' : entry.first_name,
-            'lastname' : entry.last_name,
-            'email' : entry.email,
-            'password1' : '',
-            'password2' : '' })
+        try:
+            entry.openid_url = UserAssociation.objects.get(user=entry).openid_url
+        except UserAssociation.DoesNotExist:
+            entry.openid_url = ''
+
+        form = ChangeUserDetailsForm(initial={
+            'firstname': entry.first_name,
+            'lastname': entry.last_name,
+            'email': entry.email,
+            'openid_url': entry.openid_url,
+            'password1': '',
+            'password2': '',
+        })
 
         entry.last_login = entry.last_login.__str__().split('.')[0]
         entry.date_joined = entry.date_joined.__str__().split('.')[0]
 
-        return render_to_response('user/user_detail.html',
-                { 'object': entry,
-                    'form' : form },
-                context_instance=RequestContext(request))
+        return render_to_response(
+            'user/user_detail.html',
+            { 'object': entry, 'form' : form },
+            context_instance=RequestContext(request)
+        )
 
     raise Http404
 
 def update_user(request, user_id):
     if request.user.is_authenticated():
         entry = get_object_or_404(User, pk=user_id)
-
         if not request.user.is_superuser and not entry == request.user:
             raise Http404
 
-        form = ChangeUserDetailsForm(initial={ 'firstname' : entry.first_name,
-            'lastname' : entry.last_name,
-            'email' : entry.email,
-            'password1' : entry.password,
-            'password2' : entry.password })
+        try:
+            entry.openid_url = UserAssociation.objects.get(user=entry).openid_url
+        except UserAssociation.DoesNotExist:
+            entry.openid_url = ''
+
+        form = ChangeUserDetailsForm(initial={
+            'firstname': entry.first_name,
+            'lastname': entry.last_name,
+            'email': entry.email,
+            'openid_url': entry.openid_url,
+            'password1': entry.password,
+            'password2': entry.password,
+        })
 
         if request.method == 'POST':
             form = ChangeUserDetailsForm(request.POST)
             if form.is_valid():
                 form.save(entry)
-                return render_to_response('user/user_change_done.html',
-                        { 'object': entry},
-                        context_instance=RequestContext(request))
+                return render_to_response(
+                    'user/user_change_done.html',
+                    { 'object': entry, },
+                    context_instance=RequestContext(request)
+                )
 
-        return render_to_response('user/user_detail.html',
-                { 'object': entry,
-                    'form' : form,
-                    },
-                context_instance=RequestContext(request))
+        return render_to_response(
+            'user/user_detail.html',
+            { 'object': entry, 'form' : form, },
+            context_instance=RequestContext(request)
+        )
 
     raise Http404

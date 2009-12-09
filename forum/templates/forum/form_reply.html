@@ -1,7 +1,7 @@
 {% load i18n %}
 <dl>
 	{% if not user.is_authenticated %}
-		<p>{% trans "To submit a reply, please" %} <a href="{% url auth_login %}?next={{ thread.get_absolute_url }}">login</a>.<p>
+		<p>{% trans "To submit a reply, please" %} <a href="{% url user_signin %}?next={{ thread.get_absolute_url }}">login</a>.<p>
 	{% else %}
 	<h2>{% trans "Post a Reply" %}</h2>
 	<form method='post' action='{% url forum.views.reply thread.id %}'>
