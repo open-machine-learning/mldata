@@ -90,7 +90,7 @@ class ChangeUserDetailsForm(forms.Form):
                 c.begin(item)
                 r = c.complete({}, item)
                 item = r.identity_url
-            except consumer.DiscoveryFailure as e:
+            except consumer.DiscoveryFailure, e:
                 raise forms.ValidationError(e)
 
         return item
