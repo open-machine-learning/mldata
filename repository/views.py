@@ -238,9 +238,11 @@ def data_new_review(request, id):
 
             format = request.POST['id_format'].lower()
             if format != 'hdf5':
-                # try to convert
-                if hdf5conv.convert(uploaded, format, converted, 'hdf5'):
+                try:
+                    hdf5conv.convert(uploaded, format, converted, 'hdf5')
                     format = 'hdf5'
+                except Exception:
+                    pass
             obj.format = format
 
             if os.path.isfile(converted): # assign converted file to obj

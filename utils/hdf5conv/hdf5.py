@@ -64,7 +64,6 @@ class Converter():
             h.attrs[key] = val
 
         h.close()
-        return True
 
 
 
@@ -102,8 +101,7 @@ class LibSVM2HDF5(Converter):
         infile.close()
 
         progress('emtpy values for attribute_names, attribute_types, name, comment.')
-
-        return self.write_hdf5(attributes=attributes)
+        self.write_hdf5(attributes=attributes)
 
 
 
@@ -135,7 +133,7 @@ class ARFF2HDF5(Converter):
             val = key + ':' + val
             attribute_types.append(val)
 
-        return self.write_hdf5(
+        self.write_hdf5(
             attribute_names=attribute_names, attribute_types=attribute_types,
             attributes=attributes)
 
@@ -176,7 +174,6 @@ class HDF52ARFF(Converter):
 
         h.close()
         a.save(self.out_filename)
-        return True
 
 
 def hdf5_extract(filename):

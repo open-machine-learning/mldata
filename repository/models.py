@@ -139,15 +139,6 @@ class Data(Repository):
         return self.slug.text + '.' + self.format
 
 
-#    def save(self):
-#        super(Data, self).save()
-#        if self.format.lower() != 'hdf5':
-#            if utils.hdf5.convert(self.file.name, self.format):
-#                self.format = 'hdf5'
-#                self.file.name = self.get_filename()
-#                super(Data, self).save()
-
-
 
 class Task(Repository):
     format_input = models.CharField(max_length=255)

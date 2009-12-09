@@ -13,10 +13,9 @@ def convert(in_filename, in_format, out_filename, out_format):
 
     if conv:
         #print 'Converting from %s to %s...' % (in_format, out_format)
-        return conv.run()
+        conv.run()
     else:
-        #print 'Unknown conversion pair %s to %s!' % (in_format, out_format)
-        return False
+        raise RuntimeError('Unknown conversion pair %s to %s!' % (in_format, out_format))
 
 
 def is_binary(filename):
@@ -94,7 +93,9 @@ def get_extract(in_filename):
     out_filename = get_filename(in_filename)
 
     if in_format != 'hdf5':
-        if not convert(in_filename, in_format, out_filename, 'hdf5'):
+        try:
+            convert(in_filename, in_format, out_filename, 'hdf5')
+        except Exception:
             return get_unparseable(in_filename, in_format)
         filename = out_filename
     else:
