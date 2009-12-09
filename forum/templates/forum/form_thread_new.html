@@ -11,7 +11,7 @@
 {% endif %}
 
 <dl>
-	{% if not user.is_authenticated %}
+	{% if not request.user.is_authenticated %}
 		<p>{% trans "To create a new Thread, please" %} <a href="{% url user_signin %}?next={{ forum.get_absolute_url }}">login</a>.<p>
 	{% else %}
 	<h2>{% trans "Create a new Thread" %}</h2>

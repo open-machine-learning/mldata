@@ -3,7 +3,7 @@
 {% load comments %}
 
 <div>
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
 	<h2>{% trans "Leave a comment" %}</h2>
 	<form action="{% comment_form_target %}" method="POST">
 		<dl>

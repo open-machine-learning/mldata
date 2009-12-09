@@ -6,7 +6,7 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
 {% if not subs %}
 <p>{% trans "No subscriptions." %}</p>
 {% else %}
