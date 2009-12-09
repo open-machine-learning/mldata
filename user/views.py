@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from django_authopenid.models import UserAssociation
+from openid.consumer import consumer
 
 import re
 
@@ -30,7 +31,7 @@ class ChangeUserDetailsForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
         max_length=200)),
         label=u'Email address')
-    openid_url = forms.CharField(max_length=30,
+    openid_url = forms.CharField(max_length=255,
             widget=forms.TextInput(attrs=attrs_dict),
             label=u'OpenID URL', required=False)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict),
@@ -56,21 +57,6 @@ class ChangeUserDetailsForm(forms.Form):
                 raise forms.ValidationError(u'Last name can only contain letters, numbers and underscores')
         return self.cleaned_data['lastname']
 
-    def clean_openid_url(self):
-        """
-        Validates that OpenID URL starts with 'http'.
-        """
-        if 'openid_url' in self.cleaned_data:
-            item = self.cleaned_data['openid_url']
-        else:
-            item = None
-
-        if item and not item.startswith('http'):
-            raise forms.ValidationError(u'OpenID URL must start with "http"')
-
-        return item
-
-
     def clean_username(self):
         """
         Validates that the username is alphanumeric and is not already
@@ -87,6 +73,30 @@ class ChangeUserDetailsForm(forms.Form):
             raise forms.ValidationError(u'This username is already taken. Please choose another.')
 
 
+    def clean_openid_url(self):
+        """
+        Validates that OpenID URL starts with 'http' and verifies that given
+        ID exists.
+        """
+        item = self.cleaned_data['openid_url']
+        if item:
+            if not item.startswith('http'):
+                raise forms.ValidationError(u'OpenID URL must start with "http"')
+
+            # access OpenID provider to get verified identity_url
+            # this looks winged...
+            c = consumer.Consumer({}, None)
+            try:
+                c.begin(item)
+                r = c.complete({}, item)
+                item = r.identity_url
+            except consumer.DiscoveryFailure as e:
+                raise forms.ValidationError(e)
+
+        return item
+
+
+
     def clean_password1(self):
         """
         Validates that a password is given if no OpenID URL is supplied.
@@ -96,7 +106,7 @@ class ChangeUserDetailsForm(forms.Form):
         else:
             item = None
 
-        if not 'openid_url' in self.cleaned_data and not item:
+        if not self.cleaned_data['openid_url'] and not item:
             raise forms.ValidationError(u'You must use a password when not supplying an OpenID URL')
 
         return item
@@ -119,16 +129,18 @@ class ChangeUserDetailsForm(forms.Form):
         u.set_password(self.cleaned_data['password1'])
         u.save()
 
+        # for some strange reason (primary key == openid_url != int?), a new
+        # item is created when saving an existing one, so delete the old
         try:
-            print u
-            ua = UserAssociation.objects.get(user=u)
-            ua.openid_url = self.cleaned_data['openid_url']
+            UserAssociation.objects.get(user=u).delete()
         except UserAssociation.DoesNotExist:
+            pass
+        finally:
             ua = UserAssociation(
                 openid_url=self.cleaned_data['openid_url'],
-                user_id=u.id
+                user=u
             )
-        ua.save()
+            ua.save()
 
 def show_user_list(request):
     if request.user.is_superuser:

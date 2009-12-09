@@ -1,1 +1,3 @@
-Thank you to join {{ site }}.
+Someone, hopefully you, joined us at {{ site.name }} using this email address.
+
+If you didn't request this, you don't need to do anything; you won't receive any more email from us.
