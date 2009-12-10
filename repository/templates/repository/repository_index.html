@@ -2,7 +2,6 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
-
 {% block billboard %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
 
 {% block content %}
@@ -24,6 +23,23 @@
 </ul>
 {% else %}
 <p>{% trans "Sorry, no items available" %}.</p>
+{% endif %}
+
+{% if unapproved %}
+<h2>{% trans "My Unapproved" %} {{ type }}</h2>
+<ul>
+{% for object in unapproved %}
+	<li><a href="{% ifequal type "Data" %}
+	{% url repository.views.data_new_review object.id %}
+{% else %}
+	{% ifequal type "Task" %}
+		{% url repository.views.task_index %}
+	{% else %}
+		{% url repository.views.solution_index %}
+	{% endifequal %}
+{% endifequal %}">{{object.name}}</a></li>
+{% endfor %}
+</ul>
 {% endif %}
 {% endblock %}
 

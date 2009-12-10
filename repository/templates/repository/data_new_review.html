@@ -7,7 +7,7 @@
 
 {% block content %}
 <h1>{% trans "Review" %} {{ object.name }}</h1>
-<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'OK' to finalise the item or 'Back' to remove it from the repository and start anew." %}</p>
+<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'Approve' to finalise the item or 'Revert' to remove it from the repository and start anew." %}</p>
 
 <form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
 <div>
@@ -36,7 +36,7 @@
 </div>
 
 <div style="padding-top:1em">
-	<input type="submit" name="ok" class="submit-post" value="{% trans "OK" %}" /> <input type="submit" name="back" class="submit-post" value="{% trans "Back" %}" />
+	<input type="submit" name="approve" class="submit-post" value="{% trans "Approve" %}" /> <input type="submit" name="revert" class="submit-post" value="{% trans "Revert" %}" />
 </div>
 </form>
 

@@ -138,10 +138,16 @@ def _repository_index(request, type, my=False):
         repository__is_deleted=False).order_by('-repository__pub_date')
 
     if my:
-        objects = objects.filter(repository__user=request.user.id)
+        objects = objects.filter(repository__user=request.user)
+        klass = eval(type.capitalize())
+        unapproved = klass.objects.filter(
+            user=request.user,
+            is_approved=False
+        )
         my_or_archive = _('My')
     else:
         objects = objects.filter(repository__is_public=True)
+        unapproved = None
         my_or_archive = _('Public Archive')
 
     paginator = Paginator(objects, OBJECTS_PER_PAGE)
@@ -163,6 +169,7 @@ def _repository_index(request, type, my=False):
         'request': request,
         'page': page,
         'type': type.capitalize(),
+        'unapproved': unapproved,
         'my_or_archive': my_or_archive,
     }
     return render_to_response('repository/repository_index.html', info_dict)
@@ -231,11 +238,11 @@ def data_new_review(request, id):
         raise Http404
 
     if request.method == 'POST':
-        if request.POST.has_key('back'):
+        if request.POST.has_key('revert'):
             os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
             obj.delete()
             return HttpResponseRedirect(reverse(data_new))
-        elif request.POST.has_key('ok'):
+        elif request.POST.has_key('approve'):
             uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
             converted = hdf5conv.get_filename(uploaded)
 
