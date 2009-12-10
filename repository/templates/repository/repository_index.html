@@ -6,6 +6,8 @@
 {% block billboard %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
 
 {% block content %}
+<h1>{{ my_or_archive }} {{ type }}</h1>
+
 {% if page.object_list %}
 <ul>
 {% for object in page.object_list %}
@@ -15,7 +17,7 @@
 {% ifnotequal page.paginator.num_pages 1 %}
 {% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">&laquo;</a>{% endif %}
 {% for num in page.paginator.page_range %}
-	{% ifequal num page.number %}-{% else %}<a href="{% url repository.views.data_index %}?page={{ num }}">{{ num }}</a>{% endifequal %}
+	{% ifequal num page.number %}-{% else %}<a href="{{ request.path }}?page={{ num }}">{{ num }}</a>{% endifequal %}
 {% endfor %}
 {% if page.has_next %}<a href="?page={{ page.next_page_number }}">&raquo;</a>{% endif %}
 {% endifnotequal %}
