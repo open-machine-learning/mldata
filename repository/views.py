@@ -51,15 +51,16 @@ def _get_object_or_404(request, klass, slug_or_id):
         if not is_owner and not obj.is_public:
             raise Http404
 
+    obj.is_owner = is_owner
     obj.slug_or_id = slug_or_id
     return obj
 
 
-def _get_versions_paginator(request, obj, is_owner):
+def _get_versions_paginator(request, obj):
     versions = Data.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
-    if not is_owner:
+    if not obj.is_owner:
         versions = versions.filter(is_public=True)
     paginator = Paginator(versions, VERSIONS_PER_PAGE)
 
@@ -138,11 +139,6 @@ def _repository_index(request, type, my=False):
 
     if my:
         objects = objects.filter(repository__user=request.user.id)
-#        klass = eval(type.capitalize())
-#        unapproved = klass.objects.filter(
-#            user=request.user.id,
-#            is_approved=False
-#        )
         my_or_archive = _('My')
     else:
         objects = objects.filter(repository__is_public=True)
@@ -312,8 +308,8 @@ def _data_completeness(obj):
     return int((attrs_complete * 100) / attrs_len)
 
 
-def _data_can_activate(obj, is_owner):
-    if not is_owner:
+def _data_can_activate(obj):
+    if not obj.is_owner:
         return False
 
     if not obj.is_public:
@@ -340,6 +336,7 @@ def _data_rating_form(request, obj):
             })
         except DataRating.DoesNotExist:
             rating_form = RatingForm()
+        rating_form.type = TYPE['data']
 
     return rating_form
 
@@ -351,14 +348,13 @@ def data_view(request, slug_or_id):
     obj.completeness = _data_completeness(obj)
     # need tags in list
     obj.tags = obj.tags.split(TAG_SPLITCHAR)
-    is_owner = _is_owner(request.user, obj.user)
-    obj.versions = _get_versions_paginator(request, obj, is_owner)
+    obj.versions = _get_versions_paginator(request, obj)
 
     info_dict = {
         'object': obj,
         'request': request,
-        'can_activate': _data_can_activate(obj, is_owner),
-        'can_delete': is_owner,
+        'can_activate': _data_can_activate(obj),
+        'can_delete': obj.is_owner,
         'rating_form': _data_rating_form(request, obj),
         'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
@@ -368,7 +364,7 @@ def data_view(request, slug_or_id):
 
 def data_delete(request, slug_or_id):
     obj = _get_object_or_404(request, Data, slug_or_id)
-    if _is_owner(request.user, obj.user):
+    if obj.is_owner:
         obj.is_deleted = True
         obj.save()
         current = Data.objects.filter(slug=obj.slug).\
