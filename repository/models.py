@@ -55,46 +55,33 @@ class Repository(models.Model):
         ordering = ('-pub_date',)
         get_latest_by = 'pub_date'
 
+
     def __unicode__(self):
         return unicode(self.name)
 
+
     def save(self):
         if not self.slug_id:
-            raise AttributeError, 'Attribute slug is not set!'
-
-        # don't update current if item is not approved yet
-        if not self.is_approved:
-            super(Repository, self).save()
-            return
-
-        current = CurrentVersion.objects.filter(slug=self.slug_id)
-        if current:
-            current = current[0]
-        else: # new item
-            current = CurrentVersion()
-            # can't put foreign key id into constructor
-            current.slug_id = self.slug_id
-        current.type = TYPE[self.__class__.__name__.lower()]
-        # saves as close together as possible
+            self.slug_id = self.get_slug_id()
         super(Repository, self).save()
-        current.repository_id = self.id
-        current.save()
 
 
     def delete(self):
-        # delete slug
-        slug = Slug.objects.get(pk=self.slug.id)
-        if slug:
-            slug.delete()
+        try:
+            Slug.objects.get(pk=self.slug.id).delete()
+        except Slug.DoesNotExist:
+            pass
+        # calling delete in parent not necessary
         #super(Repository, self).delete()
 
 
-    def get_slug_id(self, create=False):
+    def get_slug_id(self):
         if not self.name:
             raise AttributeError, 'Attribute name is not set!'
         slug = Slug(text=slugify(self.name))
         slug.save()
         return slug.id
+
 
     def get_next_version(self):
         if not self.slug_id:
@@ -107,6 +94,21 @@ class CurrentVersion(models.Model):
     slug = models.ForeignKey(Slug)
     repository = models.ForeignKey(Repository)
     type = models.IntegerField() # crutch for lookups of data/task/solution
+
+
+    @classmethod
+    def edit(klass, repository):
+        try:
+            cv = klass.objects.get(slug=repository.slug)
+        except klass.DoesNotExist:
+            cv = klass()
+            # can't put foreign key id into constructor
+            cv.slug = repository.slug
+            cv.type = TYPE[repository.__class__.__name__.lower()]
+
+        cv.repository = repository
+        cv.save()
+
 
     def __unicode__(self):
         return unicode('%s %s' % (self.repository.version, self.slug.text))
@@ -134,7 +136,7 @@ class Data(Repository):
 
     def get_filename(self):
         if not self.slug_id:
-            self.make_slug()
+            raise AttributeError, 'Attribute slug is not set!'
 
         return self.slug.text + '.' + self.format
 

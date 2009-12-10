@@ -22,8 +22,10 @@ VERSIONS_PER_PAGE = 5
 OBJECTS_PER_PAGE = 10
 
 
-def _is_owner(user, user_id):
-    if user.is_staff or user.is_superuser or user.id == user_id:
+def _is_owner(request_user, obj_user):
+    if request_user.is_staff or\
+        request_user.is_superuser or\
+        request_user == obj_user:
         return True
     else:
         return False
@@ -33,8 +35,8 @@ def _get_object_or_404(request, klass, slug_or_id):
     obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
         repository__is_deleted=False)
 
-    if obj: # slug
-        is_owner = _is_owner(request.user, obj[0].repository.user.id)
+    if obj: # slug + current version
+        is_owner = _is_owner(request.user, obj[0].repository.user)
         if not is_owner and not obj[0].repository.is_public:
             raise Http404
         obj = getattr(obj[0].repository, klass.__name__.lower())
@@ -45,7 +47,7 @@ def _get_object_or_404(request, klass, slug_or_id):
             raise Http404
         if not obj or obj.is_deleted:
             raise Http404
-        is_owner = _is_owner(request.user, obj.user.id)
+        is_owner = _is_owner(request.user, obj.user)
         if not is_owner and not obj.is_public:
             raise Http404
 
@@ -136,6 +138,11 @@ def _repository_index(request, type, my=False):
 
     if my:
         objects = objects.filter(repository__user=request.user.id)
+#        klass = eval(type.capitalize())
+#        unapproved = klass.objects.filter(
+#            user=request.user.id,
+#            is_approved=False
+#        )
         my_or_archive = _('My')
     else:
         objects = objects.filter(repository__is_public=True)
@@ -252,6 +259,7 @@ def data_new_review(request, id):
 
             obj.is_approved = True
             obj.save()
+            CurrentVersion.edit(obj)
             return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
 
     info_dict = {
@@ -281,7 +289,8 @@ def data_edit(request, slug_or_id):
             next.user_id = request.user.id
             next.is_approved = prev.is_approved
             next.save()
-            return HttpResponseRedirect(next.get_absolute_url())
+            CurrentVersion.edit(next)
+            return HttpResponseRedirect(next.get_absolute_url(True))
     else:
         form = DataForm(instance=prev)
 
@@ -293,23 +302,14 @@ def data_edit(request, slug_or_id):
     return render_to_response('repository/data_edit.html', info_dict)
 
 
-def _data_view_obj(request, slug_or_id):
-    obj = _get_object_or_404(request, Data, slug_or_id)
-    obj.type = 'data'
-
-    # determine completeness
+def _data_completeness(obj):
     attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
     attrs_len = len(attrs)
     attrs_complete = 0
     for attr in attrs:
         if eval('obj.' + attr):
             attrs_complete += 1
-    obj.completeness = int((attrs_complete * 100) / attrs_len)
-
-    # need tags in list
-    obj.tags = obj.tags.split(TAG_SPLITCHAR)
-
-    return obj
+    return int((attrs_complete * 100) / attrs_len)
 
 
 def _data_can_activate(obj, is_owner):
@@ -319,9 +319,12 @@ def _data_can_activate(obj, is_owner):
     if not obj.is_public:
         return True
 
-    cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
-    if not cv[0].repository_id == obj.id:
-        return True
+    try:
+        cv = CurrentVersion.objects.get(slug=obj.slug)
+        if not cv.repository_id == obj.id:
+            return True
+    except CurrentVersion.DoesNotExist:
+        pass
 
     return False
 
@@ -341,13 +344,18 @@ def _data_rating_form(request, obj):
     return rating_form
 
 def data_view(request, slug_or_id):
-    obj = _data_view_obj(request, slug_or_id)
-    is_owner = _is_owner(request.user, obj.user_id)
+    obj = _get_object_or_404(request, Data, slug_or_id)
+    if not obj.is_approved:
+        return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
+
+    obj.completeness = _data_completeness(obj)
+    # need tags in list
+    obj.tags = obj.tags.split(TAG_SPLITCHAR)
+    is_owner = _is_owner(request.user, obj.user)
     obj.versions = _get_versions_paginator(request, obj, is_owner)
 
     info_dict = {
         'object': obj,
-        'request': request,
         'request': request,
         'can_activate': _data_can_activate(obj, is_owner),
         'can_delete': is_owner,
@@ -360,16 +368,13 @@ def data_view(request, slug_or_id):
 
 def data_delete(request, slug_or_id):
     obj = _get_object_or_404(request, Data, slug_or_id)
-    if _is_owner(request.user, obj.user_id):
+    if _is_owner(request.user, obj.user):
         obj.is_deleted = True
-        current = Data.objects.filter(slug__text=obj.slug.text).\
+        obj.save()
+        current = Data.objects.filter(slug=obj.slug).\
             filter(is_deleted=False).order_by('-version')
         if current:
-            cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
-            if cv:
-                cv[0].repository_id = current[0].id
-                cv[0].save()
-        obj.save() # a lil optimisation for db saves
+            CurrentVersion.edit(current[0])
 
     return HttpResponseRedirect(reverse(data_my))
 
@@ -380,15 +385,12 @@ def data_activate(request, id):
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = get_object_or_404(Data, pk=id)
-    if not _is_owner(request.user, obj.user.id):
+    if not _is_owner(request.user, obj.user):
         raise Http404
 
-    cv = CurrentVersion.objects.filter(slug__text=obj.slug.text)
-    if cv:
-        cv[0].repository_id = obj.id
-        obj.is_public = True
-        cv[0].save()
-        obj.save()
+    obj.is_public = True
+    obj.save()
+    CurrentVersion.edit(obj)
 
     return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
 
