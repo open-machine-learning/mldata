@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.servers.basehttp import FileWrapper
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
 from django.db.models import Q
@@ -184,6 +184,7 @@ def solution_index(request):
     return _repository_index(request, 'solution')
 
 
+@transaction.commit_on_success
 def data_new(request):
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new)
@@ -227,6 +228,7 @@ def data_new(request):
     return render_to_response('repository/data_new.html', info_dict)
 
 
+@transaction.commit_on_success
 def data_new_review(request, id):
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new_review, args=[id])
@@ -273,6 +275,7 @@ def data_new_review(request, id):
     return render_to_response('repository/data_new_review.html', info_dict)
 
 
+@transaction.commit_on_success
 def data_edit(request, slug_or_id):
     prev = _get_object_or_404(request, Data, slug_or_id)
     url = reverse(data_edit, args=[prev.slug_or_id])
@@ -369,6 +372,7 @@ def data_view(request, slug_or_id):
     return render_to_response('repository/data_view.html', info_dict)
 
 
+@transaction.commit_on_success
 def data_delete(request, slug_or_id):
     obj = _get_object_or_404(request, Data, slug_or_id)
     if obj.is_owner:
@@ -382,6 +386,7 @@ def data_delete(request, slug_or_id):
     return HttpResponseRedirect(reverse(data_my))
 
 
+@transaction.commit_on_success
 def data_activate(request, id):
     if not request.user.is_authenticated():
         url=reverse(data_activate, args=[id])
