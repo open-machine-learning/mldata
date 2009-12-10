@@ -202,9 +202,9 @@ def data_new(request):
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
-                # set to invisible until approved by review
+                # set to invisible for public until approved by review + activated
                 new.is_public = False
-                new.user_id = request.user.id
+                new.user = request.user
                 new.file = request.FILES['file']
                 new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
                 new.file.name = new.get_filename()
