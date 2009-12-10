@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load get_version %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -55,7 +56,7 @@
 				</div><!-- END content-related -->
 			</div><!-- END columnwrap -->
 
-			<div id="footer">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a>, Cheng Soon Ong, Mikio L. Braun, Soeren Sonnenburg, Patrik O. Hoyer, Jussi Lahtinen, Petri Myllymäki, Heikki Mannila | <a href="/about/impressum">Impressum</a> | {% trans "Hosting graciously provided by the" %} <a href="http://www.tu-berlin.de">TU Berlin</a>
+			<div id="footer">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a>, Cheng Soon Ong, Mikio L. Braun, Soeren Sonnenburg, Patrik O. Hoyer, Jussi Lahtinen, Petri Myllymäki, Heikki Mannila<br />Version {% get_version %} | <a href="/about/impressum">Impressum</a> | {% trans "Hosting graciously provided by the" %} <a href="http://www.tu-berlin.de">TU Berlin</a>
 			</div><!-- END footer -->
 		</div><!-- END container -->
 		<script type="text/javascript">

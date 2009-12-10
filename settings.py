@@ -1,5 +1,7 @@
 # Django settings for mldata project.
 
+VERSION = "deadbeef"
+
 PRODUCTION = False # set to True when project goes live
 
 if not PRODUCTION:

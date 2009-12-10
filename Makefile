@@ -19,7 +19,7 @@ WEBSITEDIR:=django
 #	ssh mldata@data.ml.tu-berlin.de mysqldump mldata >`date '+%Y-%m-%d'`_mysql.dump
 
 release: clean
-	svn commit
+#	svn commit
 	svn update
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 	svn export . $(RELEASEDIR)/$(RELEASENAME)
@@ -30,6 +30,7 @@ release: clean
 		\( tar xjvf - -C $(WEBSITEDIR) \; sync \; sync \; sync \; \
 		sed -i "s#XXXXXXXXX#\`cat /home/mldata/.mysql_password\`#" $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		sed -i '"s/^PRODUCTION = False/PRODUCTION = True/g"' $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
+		sed -i '"s/^VERSION = \"deadbeef\"/VERSION = \"$(VER)\"/g"' $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		python -mcompileall $(WEBSITEDIR)/$(RELEASENAME)/ \; \
 		find $(WEBSITEDIR)/$(RELEASENAME) -type d -exec chmod 755 {} '\;' \; \
 		find $(WEBSITEDIR)/$(RELEASENAME) -type f -exec chmod 644 {} '\;' \; \
