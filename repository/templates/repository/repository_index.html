@@ -10,7 +10,7 @@
 {% if page.object_list %}
 <ul>
 {% for object in page.object_list %}
-	<li><a href="{{ object.absolute_url }}">{{ object.repository.name }}</a> ({% trans "on" %} {{ object.repository.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.repository.user.username }})</li>
+	<li><a title="{{ object.repository.summary }}" href="{{ object.absolute_url }}">{{ object.repository.name }}</a> ({% trans "on" %} {{ object.repository.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.repository.user.username }})</li>
 {% endfor %}
 
 {% ifnotequal page.paginator.num_pages 1 %}
