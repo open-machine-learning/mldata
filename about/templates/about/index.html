@@ -6,7 +6,15 @@
 {% block billboard %}{% trans "ABOUT" %}{% endblock %}
 
 {% block content-related %}
-<h2>{% trans "Acknowledgements" %}</h2>
+<h2>{% trans "About" %}</h2>
+<ul>
+	<li><a title="{% trans "About this site" %}" href="{% url about_index %}">{% trans "Index" %}</a></li>
+	<li><a title="{% trans "Impressum as required by law" %}" href="{% url about_impressum %}">{% trans "Impressum" %}</a></li>
+	<li><a title="{% trans "Terms of Service" %}" href="{% url about_tos %}">{% trans "TOS" %}</a></li>
+	<li><a title="{% trans "Related projects" %}" href="{% url about_related %}">{% trans "Related" %}</a></li>
+</ul>
+
+<h2 style="margin-top:2em">{% trans "Acknowledgements" %}</h2>
 <p>
 {% trans "This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)" %}
 <br />

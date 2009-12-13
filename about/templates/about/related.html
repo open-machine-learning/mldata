@@ -1,0 +1,23 @@
+{% extends "about/index.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %} :: {% trans "Related" %}{% endblock %}
+{% block billboard %}{% trans "ABOUT" %} :: {% trans "RELATED" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Related Projects" %}</h1>
+<p>The projects mentioned below are somewhat related to this website, having similar design goals.</p>
+
+<h2>mlcomp.org</h2>
+<p>MLcomp is a collaborative tool designed for Machine Learning practitioners and researchers. You provide the data and algorithms, we do the computation.</p>
+<p style="margin:2em"><a href="http://mlcomp.org">http://mlcomp.org</a></p>
+
+
+<h2>UCSD MKL data repository</h2>
+<p>
+<p>The data repository, open to the entire community, is intended to support and stimulate research efforts on multiple kernel learning. It can be found at:</p>
+<p style="margin:2em"><a href="http://mkl.ucsd.edu/">http://mkl.ucsd.edu</a></p>
+<p>The repository mainly consists of "heterogeneous" data sets. It provides kernels as well as the underlying data, to allow comparing different multiple kernel learning algorithms, as well as alternative approaches to learning from heterogeneous data.</p>
+</p>
+
+{% endblock %}

@@ -1,19 +1,16 @@
-{% extends "base.html" %}
+{% extends "about/index.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Impressum" %}{% endblock %}
-{% block sectionid %}impressum{% endblock %}
-{% block billboard %}{% trans "IMPRESSUM" %}{% endblock %}
-
-{% block content-related %}
-<p>{% trans "To the right is the information about this site required by law, as well as other important points" %}.</p>
-{% endblock %}
+{% block title %}{% trans "About" %} :: {% trans "Impressum" %}{% endblock %}
+{% block billboard %}{% trans "ABOUT" %} :: {% trans "IMPRESSUM" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Host" %}</h1>
+<h1>{% trans "Impressum" %}</h1>
+
+<h2>{% trans "Host" %}</h2>
 <p>{% trans "The host of this Internet web site is the" %} <a href="http://www.tu-berlin.de">Technische Universität Berlin</a>.</p>
 
-<h1>{% trans "Address" %}</h1>
+<h2>{% trans "Address" %}</h2>
 <table>
 <tr><td>
 TU Berlin<br />
@@ -26,10 +23,10 @@ Fax: +49 (0)30 314-23222<br />
 </td></tr>
 </table>
 
-<h1>{% trans "Value added tax identification number" %}</h1>
+<h2>{% trans "Value added tax identification number" %}</h2>
 <p>{% trans "The value added tax identification number of the TU Berlin is DE 811 231 089" %}.</p>
 
-<h1>{% trans "Editors" %}</h1>
+<h2>{% trans "Editors" %}</h2>
 <p>{% trans "The editors responsible for the content of this site" %}:</p>
 <table>
 <tr><td>
@@ -42,7 +39,7 @@ email: soeren.sonnenburg att first.fraunhofer.de<br />
 </td></tr>
 </table>
 
-<h1>{% trans "Disclaimer" %}</h1>
+<h2>{% trans "Disclaimer" %}</h2>
 <p>
 {% trans "The TU Berlin makes every effort to provide timely and accurate information. Nevertheless, mistakes and confusions may occur. The TU Berlin does not assume liability for relevance, accuracy and completeness of the information provided. The TU Berlin is only liable for material or immaterial damages if it can be proved that the TU Berlin caused damage deliberately or through gross negligence. The damages include those which arise from the use or misuse of the information provided or direct or indirect damages which arise through the use of faulty or incomplete information. The same goes for the software available free of charge which can be used for downloading. The TU Berlin reserves the right to change, supplement, or delete some or all of the information on its Internet web site without notice. Similarly, the TU also reserves the right to temporarily or permanently discontinue the Internet web site." %}
 </p>
