@@ -58,7 +58,6 @@ class Repository(models.Model):
     average_interesting_rating = models.FloatField(editable=False, default=-1)
     average_documentation_rating = models.FloatField(editable=False, default=-1)
     total_number_of_votes = models.IntegerField(editable=False, default=0)
-    tags = TagField()
 
 
     class Meta:
@@ -135,6 +134,7 @@ class Data(Repository):
     # ever again once the item is approved - review can remove permanently via
     # 'Back' button!
     is_approved = models.BooleanField(default=False)
+    tags = TagField() # tagging doesn't work anymore if put into base class
 
     def get_absolute_url(self, use_slug=False):
         if use_slug:
@@ -160,6 +160,7 @@ class Task(Repository):
     data = models.ManyToManyField(Data)
     splits = models.FileField(upload_to=SPLITPATH)
     license = models.ForeignKey(License)
+    tags = TagField() # tagging doesn't work anymore if put into base class
 
     def get_absolute_url(self):
         return reverse('repository.views.task_view', args=[self.slug.text])
@@ -173,6 +174,7 @@ class Solution(Repository):
     score = models.FileField(upload_to='repository/scores')
     task = models.ForeignKey(Task)
     license = models.ForeignKey(License)
+    tags = TagField() # tagging doesn't work anymore if put into base class
 
 
 class Rating(models.Model):
