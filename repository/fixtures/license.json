@@ -1,5 +1,6 @@
 [
-{"pk": 1, "model": "repository.license", "fields": {"url": "http://www.opendatacommons.org/licenses/pddl/", "name": "PDDL"}},
-{"pk": 2, "model": "repository.license", "fields": {"url": "http://creativecommons.org/about/cc0", "name": "CC0"}},
-{"pk": 3, "model": "repository.license", "fields": {"url": "http://www.opendatacommons.org/licenses/odbl/", "name": "ODbL"}}
+{"pk": 1, "model": "repository.datalicense", "fields": {"url": "http://www.opendatacommons.org/licenses/pddl/", "name": "PDDL"}},
+{"pk": 2, "model": "repository.datalicense", "fields": {"url": "http://creativecommons.org/about/cc0", "name": "CC0"}},
+{"pk": 3, "model": "repository.datalicense", "fields": {"url": "http://www.opendatacommons.org/licenses/odbl/", "name": "ODbL"}},
+{"pk": 1, "model": "repository.license", "fields": {"url": "http://www.gnu.org/licenses/gpl-3.0-standalone.html", "name": "GNU GPL v3"}}
 ]

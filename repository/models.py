@@ -4,8 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
-from settings import DATAPATH
-#import utils.hdf5
+from settings import DATAPATH, SPLITPATH
 
 TYPE = {
     'data': 0,
@@ -22,13 +21,24 @@ class Slug(models.Model):
         return unicode(self.text)
 
 
-
 class License(models.Model):
     name = models.CharField(max_length=255, unique=True)
     url = models.CharField(max_length=255)
 
     def __unicode__(self):
         return unicode(self.name)
+
+# doesn't work
+#class DataLicense(License):
+#    pass
+
+class DataLicense(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    url = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
 
 
 
@@ -41,7 +51,6 @@ class Repository(models.Model):
     description = models.TextField(blank=True)
     urls = models.CharField(max_length=255, blank=True)
     publications = models.CharField(max_length=255, blank=True)
-    license = models.ForeignKey(License)
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     user = models.ForeignKey(User)
@@ -49,6 +58,7 @@ class Repository(models.Model):
     average_interesting_rating = models.FloatField(editable=False, default=-1)
     average_documentation_rating = models.FloatField(editable=False, default=-1)
     total_number_of_votes = models.IntegerField(editable=False, default=0)
+    tags = TagField()
 
 
     class Meta:
@@ -120,7 +130,7 @@ class Data(Repository):
     measurement_details = models.TextField(blank=True)
     usage_scenario = models.TextField(blank=True)
     file = models.FileField(upload_to=DATAPATH)
-    tags = TagField()
+    license = models.ForeignKey(DataLicense)
     # is_approved is necessary for 2-step creation, don't want to call review
     # ever again once the item is approved - review can remove permanently via
     # 'Back' button!
@@ -143,10 +153,13 @@ class Data(Repository):
 
 
 class Task(Repository):
-    format_input = models.CharField(max_length=255)
-    format_output = models.CharField(max_length=255)
+    input = models.CharField(max_length=255)
+    output = models.CharField(max_length=255)
     performance_measure = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
     data = models.ManyToManyField(Data)
+    splits = models.FileField(upload_to=SPLITPATH)
+    license = models.ForeignKey(License)
 
     def get_absolute_url(self):
         return reverse('repository.views.task_view', args=[self.slug.text])
@@ -159,15 +172,7 @@ class Solution(Repository):
     code = models.TextField()
     score = models.FileField(upload_to='repository/scores')
     task = models.ForeignKey(Task)
-
-
-class Split(models.Model):
-    data = models.ForeignKey(Data)
-    task = models.ForeignKey(Task)
-    splits = models.FileField(upload_to='repository/splits')
-
-    def get_absolute_url(self):
-        return self.splits.url
+    license = models.ForeignKey(License)
 
 
 class Rating(models.Model):
