@@ -107,7 +107,7 @@ class CurrentVersion(models.Model):
 
 
     @classmethod
-    def edit(klass, repository):
+    def set(klass, repository):
         try:
             cv = klass.objects.get(slug=repository.slug)
         except klass.DoesNotExist:

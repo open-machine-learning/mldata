@@ -264,7 +264,7 @@ def data_new_review(request, id):
 
             obj.is_approved = True
             obj.save()
-            CurrentVersion.edit(obj)
+            CurrentVersion.set(obj)
             return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
 
     info_dict = {
@@ -295,7 +295,7 @@ def data_edit(request, slug_or_id):
             next.user_id = request.user.id
             next.is_approved = prev.is_approved
             next.save()
-            CurrentVersion.edit(next)
+            CurrentVersion.set(next)
             return HttpResponseRedirect(next.get_absolute_url(True))
     else:
         form = DataForm(instance=prev)
@@ -381,7 +381,7 @@ def data_delete(request, slug_or_id):
         current = Data.objects.filter(slug=obj.slug).\
             filter(is_deleted=False).order_by('-version')
         if current:
-            CurrentVersion.edit(current[0])
+            CurrentVersion.set(current[0])
 
     return HttpResponseRedirect(reverse(data_my))
 
@@ -398,7 +398,7 @@ def data_activate(request, id):
 
     obj.is_public = True
     obj.save()
-    CurrentVersion.edit(obj)
+    CurrentVersion.set(obj)
 
     return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
 
