@@ -1,11 +1,11 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
-{% block billboard %}{% trans "Repository" %} :: {{ type }} :: {{ my_or_archive }}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
 
 {% block content %}
-<h1>{{ my_or_archive }} {{ type }}</h1>
+<h1>{{ my_or_archive }} {{ klass }}</h1>
 
 {% if page.object_list %}
 <ul>
@@ -26,18 +26,16 @@
 {% endif %}
 
 {% if unapproved %}
-<h2>{% trans "My Unapproved" %} {{ type }}</h2>
+<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
 <ul>
 {% for object in unapproved %}
-	<li><a href="{% ifequal type "Data" %}
+	<li><a href="{% ifequal klass "Data" %}
 	{% url repository.views.data_new_review object.id %}
+{% else %}{% ifequal klass "Task" %}
+	{% url repository.views.task_index %}
 {% else %}
-	{% ifequal type "Task" %}
-		{% url repository.views.task_index %}
-	{% else %}
-		{% url repository.views.solution_index %}
-	{% endifequal %}
-{% endifequal %}">{{object.name}}</a></li>
+	{% url repository.views.solution_index %}
+{% endifequal %}{% endifequal %}">{{object.name}}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

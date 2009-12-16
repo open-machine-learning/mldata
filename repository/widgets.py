@@ -38,7 +38,7 @@ class AutoCompleteInput(forms.TextInput):
 class AutoCompleteTagInput(AutoCompleteInput):
     def render(self, name, value, attrs=None):
         output = super(AutoCompleteTagInput, self).render(name, value, attrs)
-        tags = Tag.objects.usage_for_model(Data)
+        tags = Tag.objects.all()
         tag_list = simplejson.dumps([tag.name for tag in tags],
                                     ensure_ascii=False)
         return self.get_snippet(output, name, tag_list)

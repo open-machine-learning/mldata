@@ -1,0 +1,63 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
+{% block billboard %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
+
+{% block extrahead %}
+{% include "autocomplete.html" %}
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Submit new" %} {{ klass }}</h1>
+<p>{% trans "Supply only the vital information about the item here. You can fill in additional information later on by editing." %}
+{% ifequal klass "Data" %}
+{% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}
+{% else %}{% ifequal klass "Task" %}
+{% trans "Please note that the Split file cannot be changed, you would have to create a new Task item." %}
+{% endifequal %}{% endifequal %}
+</p>
+
+<form action="{{ url_new }}" method="post" enctype="multipart/form-data">
+<table>
+{% if form.errors %}
+<tr>
+	<td class="errorlist">{% trans "There had been errors, please see below" %}.</td>
+</tr>
+{% endif %}
+<tr>
+	<td style="vertical-align: top"><dl>
+		<dd><label for="id_name">{% trans "Name" %}</label> *: {{ form.name.errors }}</dd>
+		<dt>{{ form.name }}</dt>
+		<dd><label for="id_description">{% trans "Description" %}</label>: {{ form.description.errors }}</dd>
+		<dt>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
+		<dd><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dd>
+		<dt>{{ form.tags }}</dt>
+		<dd><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dd>
+		<dt>{{ form.license }}</dt>
+{% ifequal klass "Data" %}
+		<dd><label for="id_file">{% trans "Data file" %}</label> *: {{ form.file.errors }}</dd>
+		<dt>{{ form.file }}</dt>
+{% else %}{% ifequal klass "Task" %}
+		<dd><label for="id_input">{% trans "Input format" %}</label> *: {{ form.input.errors }}</dd>
+		<dt>{{ form.input}}</dt>
+		<dd><label for="id_output">{% trans "Output format" %}</label> *: {{ form.output.errors }}</dd>
+		<dt>{{ form.output }}</dt>
+		<dd><label for="id_performance_measure">{% trans "Performance Measure" %}</label> *: {{ form.performance_measure.errors }}</dd>
+		<dt>{{ form.performance_measure }}</dt>
+		<dd><label for="id_type">{% trans "Type" %}</label> *: {{ form.type.errors }}</dd>
+		<dt>{{ form.type }}</dt>
+		<dd><label for="id_data">{% trans "Data" %}</label> *: {{ form.data.errors }}</dd>
+		<dt>{{ form.data }}</dt>
+		<dd><label for="id_splits">{% trans "Splits file" %}</label> *: {{ form.splits.errors }}</dd>
+		<dt>{{ form.splits }}</dt>
+{% endifequal %}{% endifequal %}
+
+		<br />
+		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
+	</dl></td>
+</tr>
+</table>
+</form>
+{% endblock %}
+

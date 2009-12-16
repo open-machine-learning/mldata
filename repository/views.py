@@ -22,6 +22,32 @@ VERSIONS_PER_PAGE = 5
 OBJECTS_PER_PAGE = 10
 
 
+
+def index(request):
+    qs = Q(is_deleted=False) & Q(is_public=True)
+    try:
+        latest_data = Data.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest_data = None
+    try:
+        latest_task = Task.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest_task = None
+    try:
+        latest_solution = Solution.objects.latest()
+    except Solution.DoesNotExist:
+        latest_solution = None
+
+    info_dict = {
+        'latest_data': latest_data,
+        'latest_task': latest_task,
+        'latest_solution': latest_solution,
+        'request': request,
+    }
+    return render_to_response('repository/index.html', info_dict)
+
+
+
 def _is_owner(request_user, obj_user):
     if request_user.is_staff or\
         request_user.is_superuser or\
@@ -31,7 +57,7 @@ def _is_owner(request_user, obj_user):
         return False
 
 
-def _get_object_or_404(request, klass, slug_or_id):
+def _get_object_or_404(request, slug_or_id, klass):
     obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
         repository__is_deleted=False)
 
@@ -57,7 +83,7 @@ def _get_object_or_404(request, klass, slug_or_id):
 
 
 def _get_versions_paginator(request, obj):
-    versions = Data.objects.values('id', 'version').\
+    versions = obj.__class__.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
     if not obj.is_owner:
@@ -84,66 +110,282 @@ def _get_versions_paginator(request, obj):
     return versions
 
 
-
-def index(request):
-    try:
-        latest_data = Data.objects.filter(is_deleted=False, is_public=True).order_by('-pub_date')[0]
-    except IndexError:
-        latest_data = None
-    try:
-        latest_task = Task.objects.latest()
-    except Task.DoesNotExist:
-        latest_task = None
-    try:
-        latest_solution = Solution.objects.latest()
-    except Solution.DoesNotExist:
-        latest_solution = None
-
-    info_dict = {
-        'latest_data': latest_data,
-        'latest_task': latest_task,
-        'latest_solution': latest_solution,
-        'request': request,
-    }
-    return render_to_response('repository/index.html', info_dict)
-
-
-def rate(request, type, id):
-    try:
-        trash = TYPE[type]
-    except KeyError: # user tries nasty things
-        klass = Data
-        rklass = DataRating
+def _get_completeness(obj):
+    if obj.__class__ == Data:
+        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
+    elif obj.__class__ == Task:
+        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'input', 'output', 'performance_measure', 'type']
     else:
-        klass = eval(type.capitalize())
-        rklass = eval(type.capitalize() + 'Rating')
+        return 0
+
+    attrs_len = len(attrs)
+    attrs_complete = 0
+    for attr in attrs:
+        if eval('obj.' + attr):
+            attrs_complete += 1
+    return int((attrs_complete * 100) / attrs_len)
+
+
+def _get_rating_form(request, obj):
+    rating_form = None
+    if request.user.is_authenticated() and not request.user == obj.user:
+        klass = eval(obj.__class__.__name__ + 'Rating')
+        try:
+            r = klass.objects.get(user__id=request.user.id, repository=obj)
+            rating_form= RatingForm({
+                'interesting': r.interesting,
+                'documentation': r.documentation,
+            })
+        except klass.DoesNotExist:
+            rating_form = RatingForm()
+        rating_form.klassid = TYPE[obj.__class__.__name__]
+
+    return rating_form
+
+
+def _can_activate(obj):
+    if not obj.is_owner:
+        return False
+
+    if not obj.is_public:
+        return True
+
+    try:
+        cv = CurrentVersion.objects.get(slug=obj.slug)
+        if not cv.repository_id == obj.id:
+            return True
+    except CurrentVersion.DoesNotExist:
+        pass
+
+    return False
+
+@transaction.commit_on_success
+def _activate(request, id, klass):
+    if not request.user.is_authenticated():
+        func = eval(klass.__name__.lower() + '_activate')
+        url = reverse(func, args=[id])
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = get_object_or_404(klass, pk=id)
-    if request.user.is_authenticated() and not request.user == obj.user:
-        if request.method == 'POST':
-            form=RatingForm(request.POST)
-            if form.is_valid():
-                r, fail = rklass.objects.get_or_create(user=request.user, repository=obj)
-                r.update_rating(
-                    form.cleaned_data['interesting'],
-                    form.cleaned_data['documentation'],
-                )
+    if not _is_owner(request.user, obj.user):
+        raise Http404
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    obj.is_public = True
+    obj.save()
+    CurrentVersion.set(obj)
+
+    return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
 
 
+@transaction.commit_on_success
+def _delete(request, slug_or_id, klass):
+    obj = _get_object_or_404(request, slug_or_id, klass)
+    if obj.is_owner:
+        obj.is_deleted = True
+        obj.save()
+        current = klass.objects.filter(slug=obj.slug).\
+            filter(is_deleted=False).order_by('-version')
+        if current:
+            CurrentVersion.set(current[0])
 
-def _repository_index(request, type, my=False):
-    objects = CurrentVersion.objects.filter(type=TYPE[type],
-        repository__is_deleted=False).order_by('-repository__pub_date')
+    func = eval(klass.__name__.lower() + '_my')
+    return HttpResponseRedirect(reverse(func))
+
+
+def _download(request, id, klass):
+    obj = _get_object_or_404(request, id, klass)
+    if klass == Data:
+        fileobj = obj.file
+    elif klass == Task:
+        fileobj = obj.splits
+    else:
+        raise Http404
+
+    filename = os.path.join(MEDIA_ROOT, fileobj.name)
+    wrapper = FileWrapper(file(filename))
+    response = HttpResponse(wrapper, mimetype='application/octet-stream')
+    response['Content-Length'] = os.path.getsize(filename)
+    response['Content-Disposition'] = 'attachment; filename=' + fileobj.name
+    return response
+
+
+
+def _view(request, slug_or_id, klass):
+    obj = _get_object_or_404(request, slug_or_id, klass)
+    if klass == Data and not obj.is_approved:
+        return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
+
+    obj.completeness = _get_completeness(obj)
+    obj.klass = klass.__name__
+    # need tags in list
+    obj.tags = obj.tags.split(TAG_SPLITCHAR)
+    obj.versions = _get_versions_paginator(request, obj)
+    klassname = klass.__name__.lower()
+    obj.url_edit = reverse(eval(klassname + '_edit'), args=[slug_or_id])
+    obj.url_delete = reverse(eval(klassname + '_delete'), args=[slug_or_id])
+
+    info_dict = {
+        'object': obj,
+        'request': request,
+        'can_activate': _can_activate(obj),
+        'can_delete': obj.is_owner,
+        'rating_form': _get_rating_form(request, obj),
+    }
+    if klass == Data:
+        info_dict['extract'] = hdf5conv.get_extract(
+            os.path.join(MEDIA_ROOT, obj.file.name))
+
+    return render_to_response('repository/item_view.html', info_dict)
+
+
+
+@transaction.commit_on_success
+def _new(request, klass):
+    url_new = reverse(eval(klass.__name__.lower() + '_new'))
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url_new)
+
+    if request.method == 'POST':
+        if klass == Data:
+            form = DataForm(request.POST, request.FILES)
+        elif klass == Task:
+            form = TaskForm(request.POST, request.FILES, request=request)
+        else:
+            raise Http404
+
+        # manual validation coz it's required for new, but not edited item
+        if not request.FILES:
+            is_required = ErrorDict({'': _('This field is required.')}).as_ul()
+            if klass == Data:
+                form.errors['file'] = is_required
+            elif klass == Task:
+                form.errors['splits'] = is_required
+            else:
+                raise Http404
+
+        if form.is_valid():
+            new = form.save(commit=False)
+            new.pub_date = datetime.datetime.now()
+            try:
+                new.slug_id = new.get_slug_id()
+            except IntegrityError:
+                # looks quirky...
+                d = ErrorDict({'':
+                    _('The given name yields an already existing slug. Please try another name.')})
+                form.errors['name'] = d.as_ul()
+            else:
+                new.version = 1
+                # set to invisible for public until approved by review + activated
+                new.is_public = False
+                new.user = request.user
+
+                if klass == Data:
+                    new.file = request.FILES['file']
+                    new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
+                    new.file.name = new.get_filename()
+                    new.save()
+                    func = eval(klass.__name__.lower() + '_new_review')
+                elif klass == Task:
+                    new.splits = request.FILES['splits']
+                    new.splits.name = new.get_splitname()
+                    new.save()
+                    form.save_m2m() # a bit odd
+                    CurrentVersion.set(new)
+                    func = eval(klass.__name__.lower() + '_view')
+                else:
+                    raise Http404
+                return HttpResponseRedirect(reverse(func, args=[new.id]))
+    else:
+        if klass == Data:
+            form = DataForm()
+        elif klass == Task:
+            form = TaskForm(request=request)
+        else:
+            form = SolutionForm()
+
+    info_dict = {
+        'klass': klass.__name__,
+        'url_new': url_new,
+        'form': form,
+        'request': request,
+    }
+
+    return render_to_response('repository/item_new.html', info_dict)
+
+
+
+@transaction.commit_on_success
+def _edit(request, slug_or_id, klass):
+    prev = _get_object_or_404(request, slug_or_id, klass)
+    prev.klass = klass.__name__
+    prev.url_edit = reverse(
+        eval(klass.__name__.lower() + '_edit'), args=[prev.id])
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(
+            reverse('user_signin') + '?next=' + prev.url_edit)
+
+    if request.method == 'POST':
+        request.POST['name'] = prev.name # cheat a little
+
+        if klass == Data:
+            form = DataForm(request.POST)
+        elif klass == Task:
+            form = TaskForm(request.POST, request=request)
+        else:
+            raise Http404
+
+        if form.is_valid():
+            next = form.save(commit=False)
+            next.pub_date = datetime.datetime.now()
+            next.slug_id = prev.slug_id
+            next.version = next.get_next_version()
+            next.user_id = request.user.id
+            if klass == Data:
+                next.format = prev.format
+                next.is_approved = prev.is_approved
+                next.file = prev.file
+                next.save()
+            elif klass == Task:
+                next.splits = prev.splits
+                next.save()
+                form.save_m2m() # a bit odd
+            else:
+                raise Http404
+            CurrentVersion.set(next)
+            return HttpResponseRedirect(next.get_absolute_url(True))
+    else:
+        if klass == Data:
+            form = DataForm(instance=prev)
+        elif klass == Task:
+            form = TaskForm(instance=prev, request=request)
+        else:
+            raise Http404
+
+    info_dict = {
+        'form': form,
+        'object': prev,
+        'request': request,
+    }
+
+    return render_to_response('repository/item_edit.html', info_dict)
+
+
+
+def _index(request, klass, my=False):
+    objects = CurrentVersion.objects.filter(
+        type=TYPE[klass.__name__],
+        repository__is_deleted=False
+    ).order_by('-repository__pub_date')
 
     if my:
         objects = objects.filter(repository__user=request.user)
-        klass = eval(type.capitalize())
-        unapproved = klass.objects.filter(
-            user=request.user,
-            is_approved=False
-        )
+        if klass == Data:
+            unapproved = klass.objects.filter(
+                user=request.user,
+                is_approved=False
+            )
+        else:
+            unapproved = None
         my_or_archive = _('My')
     else:
         objects = objects.filter(repository__is_public=True)
@@ -162,70 +404,60 @@ def _repository_index(request, type, my=False):
 
     # quirky, but simplifies templates
     for obj in page.object_list:
-        obj.absolute_url = getattr(obj.repository, type).\
+        obj.absolute_url = getattr(obj.repository, klass.__name__.lower()).\
             get_absolute_url(use_slug=True)
 
     info_dict = {
         'request': request,
         'page': page,
-        'type': type.capitalize(),
+        'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
     }
-    return render_to_response('repository/repository_index.html', info_dict)
+    return render_to_response('repository/item_index.html', info_dict)
+
 
 def data_index(request):
-    return _repository_index(request, 'data')
+    return _index(request, Data)
 def data_my(request):
-    return _repository_index(request, 'data', True)
-def task_index(request):
-    return _repository_index(request, 'task')
-def solution_index(request):
-    return _repository_index(request, 'solution')
-
-
-@transaction.commit_on_success
+    return _index(request, Data, True)
+def data_view(request, slug_or_id):
+    return _view(request, slug_or_id, Data)
+def data_delete(request, slug_or_id):
+    return _delete(request, slug_or_id, Data)
+def data_activate(request, id):
+    return _activate(request, id, Data)
+def data_download(request, id):
+    return _download(request, id, Data)
 def data_new(request):
-    if not request.user.is_authenticated():
-        next = '?next=' + reverse(data_new)
-        return HttpResponseRedirect(reverse('user_signin') + next)
+    return _new(request, Data)
+def data_edit(request, slug_or_id):
+    return _edit(request, slug_or_id, Data)
 
-    if request.method == 'POST':
-        form = DataForm(request.POST, request.FILES)
+def task_index(request):
+    return _index(request, Task)
+def task_my(request):
+    return _index(request, Task, True)
+def task_view(request, slug_or_id):
+    return _view(request, slug_or_id, Task)
+def splits_download(request, id):
+    return _download(request, id, Task)
+def task_activate(request, id):
+    return _activate(request, id, Task)
+def task_delete(request, slug_or_id):
+    return _delete(request, slug_or_id, Task)
+def task_new(request):
+    return _new(request, Task)
+def task_edit(request, slug_or_id):
+    return _edit(request, slug_or_id, Task)
 
-        # manual validation coz it's required for new, but not edited data
-        is_required = ErrorDict({'': _('This field is required.')}).as_ul()
-        if not request.FILES:
-            form.errors['file'] = is_required
+def solution_index(request):
+    return _index(request, Solution)
+def solution_view(request, slug_or_id):
+    return _view(request, slug_or_id, Solution)
+def solution_new(request):
+    return _new(request, Solution)
 
-        if form.is_valid():
-            new = form.save(commit=False)
-            new.pub_date = datetime.datetime.now()
-            try:
-                new.slug_id = new.get_slug_id()
-            except IntegrityError:
-                # looks quirky...
-                d = ErrorDict({'':
-                    _('The given name yields an already existing slug. Please try another name.')})
-                form.errors['name'] = d.as_ul()
-            else:
-                new.version = 1
-                # set to invisible for public until approved by review + activated
-                new.is_public = False
-                new.user = request.user
-                new.file = request.FILES['file']
-                new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
-                new.file.name = new.get_filename()
-                new.save()
-                return HttpResponseRedirect(reverse(data_new_review, args=[new.id]))
-    else:
-        form = DataForm()
-
-    info_dict = {
-        'form': form,
-        'request': request,
-    }
-    return render_to_response('repository/data_new.html', info_dict)
 
 
 @transaction.commit_on_success
@@ -234,7 +466,7 @@ def data_new_review(request, id):
         next = '?next=' + reverse(data_new_review, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + next)
 
-    obj = _get_object_or_404(request, Data, id)
+    obj = _get_object_or_404(request, id, Data)
     # don't want users to be able to remove items once approved
     if obj.is_approved:
         raise Http404
@@ -275,196 +507,20 @@ def data_new_review(request, id):
     return render_to_response('repository/data_new_review.html', info_dict)
 
 
-@transaction.commit_on_success
-def data_edit(request, slug_or_id):
-    prev = _get_object_or_404(request, Data, slug_or_id)
-    url = reverse(data_edit, args=[prev.slug_or_id])
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
-
-    if request.method == 'POST':
-        request.POST['name'] = prev.name # cheat a little
-        form = DataForm(request.POST)
-        if form.is_valid():
-            next = form.save(commit=False)
-            next.pub_date = datetime.datetime.now()
-            next.slug_id = prev.slug_id
-            next.file = prev.file
-            next.format = prev.format
-            next.version = next.get_next_version()
-            next.user_id = request.user.id
-            next.is_approved = prev.is_approved
-            next.save()
-            CurrentVersion.set(next)
-            return HttpResponseRedirect(next.get_absolute_url(True))
-    else:
-        form = DataForm(instance=prev)
-
-    info_dict = {
-        'form': form,
-        'prev': prev,
-        'request': request,
-    }
-    return render_to_response('repository/data_edit.html', info_dict)
-
-
-def _data_completeness(obj):
-    attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
-    attrs_len = len(attrs)
-    attrs_complete = 0
-    for attr in attrs:
-        if eval('obj.' + attr):
-            attrs_complete += 1
-    return int((attrs_complete * 100) / attrs_len)
-
-
-def _data_can_activate(obj):
-    if not obj.is_owner:
-        return False
-
-    if not obj.is_public:
-        return True
-
-    try:
-        cv = CurrentVersion.objects.get(slug=obj.slug)
-        if not cv.repository_id == obj.id:
-            return True
-    except CurrentVersion.DoesNotExist:
-        pass
-
-    return False
-
-
-def _data_rating_form(request, obj):
-    rating_form = None
-    if request.user.is_authenticated() and not request.user == obj.user:
-        try:
-            r = DataRating.objects.get(user__id=request.user.id, repository=obj)
-            rating_form= RatingForm({
-                'interesting': r.interesting,
-                'documentation': r.documentation,
-            })
-        except DataRating.DoesNotExist:
-            rating_form = RatingForm()
-        rating_form.type = TYPE['data']
-
-    return rating_form
-
-def data_view(request, slug_or_id):
-    obj = _get_object_or_404(request, Data, slug_or_id)
-    if not obj.is_approved:
-        return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
-
-    obj.completeness = _data_completeness(obj)
-    # need tags in list
-    obj.tags = obj.tags.split(TAG_SPLITCHAR)
-    obj.versions = _get_versions_paginator(request, obj)
-
-    info_dict = {
-        'object': obj,
-        'request': request,
-        'can_activate': _data_can_activate(obj),
-        'can_delete': obj.is_owner,
-        'rating_form': _data_rating_form(request, obj),
-        'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
-    }
-
-    return render_to_response('repository/data_view.html', info_dict)
-
-
-@transaction.commit_on_success
-def data_delete(request, slug_or_id):
-    obj = _get_object_or_404(request, Data, slug_or_id)
-    if obj.is_owner:
-        obj.is_deleted = True
-        obj.save()
-        current = Data.objects.filter(slug=obj.slug).\
-            filter(is_deleted=False).order_by('-version')
-        if current:
-            CurrentVersion.set(current[0])
-
-    return HttpResponseRedirect(reverse(data_my))
-
-
-@transaction.commit_on_success
-def data_activate(request, id):
-    if not request.user.is_authenticated():
-        url=reverse(data_activate, args=[id])
-        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
-
-    obj = get_object_or_404(Data, pk=id)
-    if not _is_owner(request.user, obj.user):
-        raise Http404
-
-    obj.is_public = True
-    obj.save()
-    CurrentVersion.set(obj)
-
-    return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
-
-
-def data_download(request, id):
-    obj = _get_object_or_404(request, Data, id)
-    filename = os.path.join(MEDIA_ROOT, obj.file.name)
-    wrapper = FileWrapper(file(filename))
-    response = HttpResponse(wrapper, mimetype='application/octet-stream')
-    response['Content-Length'] = os.path.getsize(filename)
-    response['Content-Disposition'] = 'attachment; filename=' + obj.file.name
-    return response
-
-
-
-def task_new(request):
-    return render_to_response('repository/task_new.html')
-
-def task_view(request, slug_or_idid):
-    return render_to_response('repository/task_view.html')
-
-def task_edit(request, slug_or_id):
-    return render_to_response('repository/task_view.html')
-
-
-def solution_new(request):
-    return render_to_response('repository/solution_new.html')
-
-def solution_view(request, id):
-    return render_to_response('repository/solution_view.html')
-
-
-
-# seems quirky...
-# get Data queryset of current version items
-def _tags_queryset(request):
-    cvlist = CurrentVersion.objects.filter(
-            (Q(repository__user=request.user.id) |\
-             Q(repository__is_public=True)) &\
-            Q(repository__is_deleted=False) &\
-            Q(type=TYPE['data'])).values('repository_id')
-
-    if len(cvlist) == 0:
-        return Data.objects.none()
-
-    where = []
-    for cv in cvlist:
-        where.append(str(cv['repository_id']))
-    where = 'id IN (' + ', '.join(where) + ')'
-
-    return Data.objects.extra(where=[where])
-
 
 def tags_index(request):
-    queryset = _tags_queryset(request)
-    if queryset:
-        # doesn't retrieve data from queryset only, but seemingly from Model
-        # tags = Tag.objects.usage_for_queryset(queryset, counts=True)
-        all = Tag.objects.usage_for_model(Data)
+    current = CurrentVersion.objects.filter(
+            Q(repository__user=request.user.id) | Q(repository__is_public=True)
+    )
+    if current:
+        all = Tag.objects.all()
         tags = []
         for tag in all:
             found = False
             tag.count = 0
             for item in tag.items.values():
-                for data in queryset:
-                    if item['object_id'] == data.id:
+                for object in current:
+                    if item['object_id'] == object.repository.id:
                         found = True
                         tag.count += 1
             if found:
@@ -481,25 +537,58 @@ def tags_index(request):
 
 def tags_view(request, tag):
     try:
-        queryset = _tags_queryset(request)
+        current = CurrentVersion.objects.filter(
+                Q(repository__user=request.user.id) | Q(repository__is_public=True)
+        )
         tag = Tag.objects.get(name=tag)
-        # generates ambigous column name error: id
-        #object_list = TaggedItem.objects.get_by_model(queryset, tag)
-        # so we do this:
-        tagged_list = TaggedItem.objects.get_by_model(Data, tag)
-        object_list = []
-        for data in queryset:
-            for tagged in tagged_list:
-                if tagged.id == data.id:
-                    object_list.append(tagged)
+        tagged = TaggedItem.objects.filter(tag=tag)
+        objects = []
+        for c in current:
+            for t in tagged:
+                if t.object_id == c.repository.id:
+                    try:
+                        o = c.repository.data
+                    except:
+                        try:
+                            o = c.repository.task
+                        except:
+                            try:
+                                o = c.repository.solution
+                            except:
+                                raise Http404
+                    objects.append(o)
                     break
     except Tag.DoesNotExist:
-        object_list = None
+        objects = None
 
     info_dict = {
         'request': request,
         'tag': tag,
-        'object_list': object_list,
+        'objects': objects,
     }
     return render_to_response('repository/tags_view.html', info_dict)
 
+
+
+def rate(request, klassid, id):
+    try:
+        inverted = dict((v,k) for k, v in TYPE.iteritems())
+        klassname = inverted[int(klassid)]
+    except KeyError: # user tries nasty things
+        raise Http404
+    else:
+        rklass = eval(klassname + 'Rating')
+        klass = eval(klassname)
+
+    obj = get_object_or_404(klass, pk=id)
+    if request.user.is_authenticated() and not request.user == obj.user:
+        if request.method == 'POST':
+            form=RatingForm(request.POST)
+            if form.is_valid():
+                r, fail = rklass.objects.get_or_create(user=request.user, repository=obj)
+                r.update_rating(
+                    form.cleaned_data['interesting'],
+                    form.cleaned_data['documentation'],
+                )
+
+    return HttpResponseRedirect(obj.get_absolute_url())

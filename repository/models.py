@@ -7,9 +7,9 @@ from tagging.fields import TagField
 from settings import DATAPATH, SPLITPATH
 
 TYPE = {
-    'data': 0,
-    'task': 1,
-    'solution': 2,
+    'Data': 0,
+    'Task': 1,
+    'Solution': 2,
 }
 
 
@@ -95,8 +95,10 @@ class Repository(models.Model):
     def get_next_version(self):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
-        obj = self.__class__.objects.filter(slug=self.slug_id).order_by('-version')
-        return obj[0].version + 1
+        objects = self.__class__.objects.filter(
+            slug=self.slug_id, is_deleted=False
+        ).order_by('-version')
+        return objects[0].version + 1
 
 
 class CurrentVersion(models.Model):
@@ -162,8 +164,22 @@ class Task(Repository):
     license = models.ForeignKey(License)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
-    def get_absolute_url(self):
-        return reverse('repository.views.task_view', args=[self.slug.text])
+
+    def get_absolute_url(self, use_slug=False):
+        if use_slug:
+            args=[self.slug.text]
+        else:
+            args=[self.id]
+        return reverse('repository.views.task_view', args=args)
+
+
+    def get_splitname(self):
+        if not self.slug_id:
+            raise AttributeError, 'Attribute slug is not set!'
+
+        suffix = self.splits.name.split('.')[-1]
+
+        return self.slug.text + '.' + suffix
 
 
 class Solution(Repository):
