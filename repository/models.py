@@ -115,7 +115,7 @@ class CurrentVersion(models.Model):
             cv = klass()
             # can't put foreign key id into constructor
             cv.slug = repository.slug
-            cv.type = TYPE[repository.__class__.__name__.lower()]
+            cv.type = TYPE[repository.__class__.__name__]
 
         cv.repository = repository
         cv.save()
