@@ -1,0 +1,17 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Tags" %}{% endblock %}
+{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> :: <a href="{% url repository.views.data_index %}">{% trans "Data" %}</a> :: {% trans "Tags" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Used Tags" %}</h2>
+<p>{% if request.user.is_authenticated %}{% trans "These tags are currently used by public and your Data items in the repository" %}{% else %}{% trans "These tags are currently used by public Data items in the repository" %}{% endif %}:</p>
+
+<ul>
+	{% for tag in tags %}
+		<li><a href="{% url repository.views.tags_view tag.name %}">{{ tag.name }} ({{ tag.count }})</a></li>
+	{% endfor %}
+</ul>
+{% endblock %}
+
