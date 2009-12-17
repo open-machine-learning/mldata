@@ -221,8 +221,9 @@ def _view(request, slug_or_id, klass):
     obj.tags = obj.tags.split(TAG_SPLITCHAR)
     obj.versions = _get_versions_paginator(request, obj)
     klassname = klass.__name__.lower()
-    obj.url_edit = reverse(eval(klassname + '_edit'), args=[slug_or_id])
-    obj.url_delete = reverse(eval(klassname + '_delete'), args=[slug_or_id])
+    obj.url_activate = reverse(eval(klassname + '_activate'), args=[obj.id])
+    obj.url_edit = reverse(eval(klassname + '_edit'), args=[obj.id])
+    obj.url_delete = reverse(eval(klassname + '_delete'), args=[obj.id])
 
     info_dict = {
         'object': obj,
