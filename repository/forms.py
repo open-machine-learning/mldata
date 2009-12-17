@@ -1,6 +1,7 @@
 import re
 from django.forms import *
 from django.db.models import Q
+from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.widgets import *
@@ -22,6 +23,7 @@ class DataForm(ModelForm):
                 _('Names consisting of only numerical values are not allowed.'))
         return self.cleaned_data['name']
 
+
     def clean_tags(self): # avoid tags like 'foo, bar baz'
         tags = self.cleaned_data['tags']
         return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
@@ -31,6 +33,8 @@ class DataForm(ModelForm):
 class TaskForm(ModelForm):
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
     splits = FileField(required=False)
+    type = ModelChoiceField(queryset=TaskType.objects.all(), required=False)
+    freeformtype = CharField(required=False)
 
     class Meta:
         model = Task
@@ -53,15 +57,36 @@ class TaskForm(ModelForm):
             self.fields['data'].choices =\
                 [(d.id, d.name + ' (v' + str(d.version) + ')') for d in qs]
 
+
     def clean_name(self):
         if re.match('^\d+$', self.cleaned_data['name']):
             raise ValidationError(
                 _('Names consisting of only numerical values are not allowed.'))
         return self.cleaned_data['name']
 
+
     def clean_tags(self): # avoid tags like 'foo, bar baz'
         tags = self.cleaned_data['tags']
         return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
+
+
+    def clean_freeformtype(self):
+        """Override type from freeformtype"""
+        fftype = None
+        if 'freeformtype' in self.cleaned_data:
+            fftype = self.cleaned_data['freeformtype'].strip()
+
+        if fftype:
+            try:
+                t = TaskType(name=fftype)
+                t.save()
+            except IntegrityError: # already exists
+                t = TaskType.objects.get(name=fftype)
+            self.cleaned_data['type'] = t
+        elif not ('type' in self.cleaned_data and self.cleaned_data['type']):
+            raise ValidationError(_('No type given.'))
+
+        return fftype
 
 
 

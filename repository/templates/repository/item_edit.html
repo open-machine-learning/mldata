@@ -23,6 +23,9 @@ $(function() {
 <h1>{% trans "Edit" %} {{ object.klass }} {% trans "for" %} {{ object.name }} ({% trans "version" %} {{ object.version }})</h1>
 
 <form action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
+{% if form.errors %}
+<div class="errorlist">{% trans "There had been errors, please see below" %}.</div>
+{% endif %}
 <div id="contents" class="widget">
 <ul class="head">
 	<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
@@ -40,13 +43,13 @@ $(function() {
 	<div class="data">{{ form.is_public }}</div>
 {% ifequal object.klass "Task" %}
 	<div class="title"><label for="id_input">{% trans "Input format" %}</label> {{ form.input.errors }}</div>
-	<div class="data">{{ form.input }}</div>
+	<div class="data">{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
 	<div class="title"><label for="id_output">{% trans "Output format" %}</label> {{ form.output.errors }}</div>
-	<div class="data">{{ form.output }}</div>
+	<div class="data">{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
 	<div class="title"><label for="id_performance_measure">{% trans "Performance Measure" %}</label> {{ form.performance_measure.errors }}</div>
-	<div class="data">{{ form.performance_measure }}</div>
-	<div class="title"><label for="id_type">{% trans "Type" %}</label> {{ form.type.errors }}</div>
-	<div class="data">{{ form.type }}</div>
+	<div class="data">{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
+	<div class="title"><label for="id_type">{% trans "Type" %}</label> {{ form.type.errors }} {{ form.freeformtype.errors }}</div>
+	<div class="data">{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></div>
 	<div class="title"><label for="id_data">{% trans "Data" %}</label> {{ form.data.errors }}</div>
 	<div class="data">{{ form.data }}</div>
 {% endifequal %}
