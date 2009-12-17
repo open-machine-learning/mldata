@@ -69,11 +69,11 @@ $(function() {
 	<div class="title"><a href="{% url repository.views.data_download object.id %}">{% trans "Download Data File" %}</a></div>
 {% else %}{% ifequal object.klass "Task" %}
 	<div class="title">{% trans "Input format" %}</div>
-	<div class="data">{{ object.input }}</div>
+	<div class="data">{{ object.input|markdown }}</div>
 	<div class="title">{% trans "Output format" %}</div>
-	<div class="data">{{ object.output }}</div>
+	<div class="data">{{ object.output|markdown }}</div>
 	<div class="title">{% trans "Performance Measure" %}</div>
-	<div class="data">{{ object.performance_measure }}</div>
+	<div class="data">{{ object.performance_measure|markdown }}</div>
 	<div class="title">{% trans "Type" %}</div>
 	<div class="data">{{ object.type }}</div>
 	<div class="title">{% trans "Data" %}</div>
