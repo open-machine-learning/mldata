@@ -1,0 +1,4 @@
+[
+{"pk": 1, "model": "repository.tasktype", "fields": {"name": "Regression"}},
+{"pk": 2, "model": "repository.tasktype", "fields": {"name": "Classification"}}
+]

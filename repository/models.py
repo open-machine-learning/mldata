@@ -41,6 +41,13 @@ class DataLicense(models.Model):
 
 
 
+class TaskType(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
 
 class Repository(models.Model):
     pub_date = models.DateTimeField()
@@ -155,11 +162,11 @@ class Data(Repository):
 
 
 class Task(Repository):
-    input = models.CharField(max_length=255)
-    output = models.CharField(max_length=255)
-    performance_measure = models.CharField(max_length=255)
-    type = models.CharField(max_length=255)
-    data = models.ManyToManyField(Data)
+    input = models.TextField(blank=True)
+    output = models.TextField(blank=True)
+    performance_measure = models.TextField(blank=True)
+    type = models.ForeignKey(TaskType)
+    data = models.ManyToManyField(Data, blank=True)
     splits = models.FileField(upload_to=SPLITPATH)
     license = models.ForeignKey(License)
     tags = TagField() # tagging doesn't work anymore if put into base class

@@ -40,14 +40,14 @@
 		<dt>{{ form.file }}</dt>
 {% else %}{% ifequal klass "Task" %}
 		<dd><label for="id_input">{% trans "Input format" %}</label> *: {{ form.input.errors }}</dd>
-		<dt>{{ form.input}}</dt>
+		<dt>{{ form.input}}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_output">{% trans "Output format" %}</label> *: {{ form.output.errors }}</dd>
-		<dt>{{ form.output }}</dt>
+		<dt>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_performance_measure">{% trans "Performance Measure" %}</label> *: {{ form.performance_measure.errors }}</dd>
-		<dt>{{ form.performance_measure }}</dt>
+		<dt>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_type">{% trans "Type" %}</label> *: {{ form.type.errors }}</dd>
 		<dt>{{ form.type }}</dt>
-		<dd><label for="id_data">{% trans "Data" %}</label> *: {{ form.data.errors }}</dd>
+		<dd><label for="id_data">{% trans "Data" %}</label>: {{ form.data.errors }}</dd>
 		<dt>{{ form.data }}</dt>
 		<dd><label for="id_splits">{% trans "Splits file" %}</label> *: {{ form.splits.errors }}</dd>
 		<dt>{{ form.splits }}</dt>
