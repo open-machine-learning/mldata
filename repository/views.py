@@ -263,11 +263,10 @@ def _new(request, klass):
 
         # manual validation coz it's required for new, but not edited item
         if not request.FILES:
-            is_required = ErrorDict({'': _('This field is required.')}).as_ul()
             if klass == Data:
-                form.errors['file'] = is_required
+                form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
             elif klass == Task:
-                form.errors['splits'] = is_required
+                pass
             else:
                 raise Http404
 
@@ -294,8 +293,9 @@ def _new(request, klass):
                     new.save()
                     func = eval(klass.__name__.lower() + '_new_review')
                 elif klass == Task:
-                    new.splits = request.FILES['splits']
-                    new.splits.name = new.get_splitname()
+                    if 'splits' in request.FILES:
+                        new.splits = request.FILES['splits']
+                        new.splits.name = new.get_splitname()
                     new.save()
                     form.save_m2m() # a bit odd
                     CurrentVersion.set(new)
@@ -354,7 +354,12 @@ def _edit(request, slug_or_id, klass):
                 next.file = prev.file
                 next.save()
             elif klass == Task:
-                next.splits = prev.splits
+                if 'splits' in request.FILES:
+                    next.splits = request.FILES['splits']
+                    next.splits.name = next.get_splitname()
+                    os.remove(os.path.join(MEDIA_ROOT, prev.splits.name))
+                else:
+                    next.splits = prev.splits
                 next.save()
                 form.save_m2m() # a bit odd
             else:

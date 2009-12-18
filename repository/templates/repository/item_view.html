@@ -78,7 +78,7 @@ $(function() {
 	<div class="data">{{ object.type }}</div>
 	<div class="title">{% trans "Data" %}</div>
 	<div class="data">{% for d in object.data.all %}<a href="{{ d.get_absolute_url }}">{{ d.name }}</a> {% endfor %}</div>
-	<div class="title"><a href="{% url repository.views.splits_download object.id %}">{% trans "Download Splits" %}</a></div>
+	{% if object.splits %}<div class="title"><a href="{% url repository.views.splits_download object.id %}">{% trans "Download Splits" %}</a></div>{% endif %}
 {% else %}{% ifequal object.klass "Solution" %}
 	illegal
 {% endifequal %}{% endifequal %}{% endifequal %}

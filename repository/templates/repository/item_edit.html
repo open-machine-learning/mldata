@@ -52,6 +52,8 @@ $(function() {
 	<div class="data">{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></div>
 	<div class="title"><label for="id_data">{% trans "Data" %}</label> {{ form.data.errors }}</div>
 	<div class="data">{{ form.data }}</div>
+	<div class="title"><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</div>
+	<div class="data">{{ form.splits }}</div>
 {% endifequal %}
 </div>
 

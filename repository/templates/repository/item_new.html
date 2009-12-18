@@ -49,7 +49,7 @@
 		<dt>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dt>
 		<dd><label for="id_data">{% trans "Data" %}</label>: {{ form.data.errors }}</dd>
 		<dt>{{ form.data }}</dt>
-		<dd><label for="id_splits">{% trans "Splits file" %}</label> *: {{ form.splits.errors }}</dd>
+		<dd><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dd>
 		<dt>{{ form.splits }}</dt>
 {% endifequal %}{% endifequal %}
 
