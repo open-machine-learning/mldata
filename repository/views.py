@@ -201,11 +201,18 @@ def _download(request, id, klass):
     else:
         raise Http404
 
-    filename = os.path.join(MEDIA_ROOT, fileobj.name)
-    wrapper = FileWrapper(file(filename))
-    response = HttpResponse(wrapper, mimetype='application/octet-stream')
-    response['Content-Length'] = os.path.getsize(filename)
+    # fails to work when OpenID Middleware is activated
+#    filename = os.path.join(MEDIA_ROOT, fileobj.name)
+#    wrapper = FileWrapper(file(filename))
+#    response = HttpResponse(wrapper, content_type='application/octet-stream')
+    # not sure if this alternative is a memory hog...
+    response = HttpResponse()
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Length'] = fileobj.size
     response['Content-Disposition'] = 'attachment; filename=' + fileobj.name
+    for chunk in fileobj.chunks():
+        response.write(chunk)
+
     return response
 
 
