@@ -6,7 +6,7 @@
 <div class="head" id="comments">{% trans "Comments" %}</div>
 {% if comment_list %}
 {% for comment in comment_list %}
-<div class="title" id="c{{ comment.id }}">{% trans "on" %} {{ comment.submit_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ comment.user_name }} </div>
+<div class="title" id="c{{ comment.id }}">{% trans "on" %} {{ comment.submit_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ comment.user }} </div>
 <div class="data">{{ comment.comment|markdown }}</div>
 {% endfor %}
 {% else %}
