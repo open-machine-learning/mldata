@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.widgets import *
 from tagging.forms import TagField
-from settings import TAG_SPLITCHAR
+from settings import TAG_SPLITSTR
 
 
 class DataForm(ModelForm):
@@ -26,7 +26,7 @@ class DataForm(ModelForm):
 
     def clean_tags(self): # avoid tags like 'foo, bar baz'
         tags = self.cleaned_data['tags']
-        return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
+        return TAG_SPLITSTR.join([y for x in tags.split(' ') for y in x.split(',') if y])
 
 
 
@@ -114,7 +114,7 @@ class SolutionForm(ModelForm):
 
     def clean_tags(self): # avoid tags like 'foo, bar baz'
         tags = self.cleaned_data['tags']
-        return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
+        return TAG_SPLITSTR.join([y for x in tags.split(' ') for y in x.split(',') if y])
 
 
 

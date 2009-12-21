@@ -47,7 +47,7 @@ SCOREPATH = 'score'
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'
 #MAX_TAG_LENGTH = 30
-TAG_SPLITCHAR = ','
+TAG_SPLITSTR = ', '
 
 
 # Local time zone for this installation. Choices can be found here:

@@ -14,7 +14,7 @@ from django.db.models import Q
 from tagging.models import Tag, TaggedItem
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_ROOT, TAG_SPLITCHAR
+from settings import MEDIA_ROOT, TAG_SPLITSTR
 from utils import hdf5conv
 
 
@@ -228,7 +228,7 @@ def _view(request, slug_or_id, klass):
     obj.completeness = _get_completeness(obj)
     obj.klass = klass.__name__
     # need tags in list
-    obj.tags = obj.tags.split(TAG_SPLITCHAR)
+    obj.tags = obj.tags.split(TAG_SPLITSTR)
     obj.versions = _get_versions_paginator(request, obj)
     klassname = klass.__name__.lower()
     obj.url_activate = reverse(eval(klassname + '_activate'), args=[obj.id])
