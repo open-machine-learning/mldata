@@ -58,18 +58,6 @@ class TaskForm(ModelForm):
                 [(d.id, d.name + ' (v' + str(d.version) + ')') for d in qs]
 
 
-    def clean_name(self):
-        if re.match('^\d+$', self.cleaned_data['name']):
-            raise ValidationError(
-                _('Names consisting of only numerical values are not allowed.'))
-        return self.cleaned_data['name']
-
-
-    def clean_tags(self): # avoid tags like 'foo, bar baz'
-        tags = self.cleaned_data['tags']
-        return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
-
-
     def clean_freeformtype(self):
         """Override type from freeformtype"""
         fftype = None
@@ -91,9 +79,43 @@ class TaskForm(ModelForm):
 
 
 class SolutionForm(ModelForm):
+    tags = TagField(widget=AutoCompleteTagInput(), required=False)
+    score = FileField(required=False)
+
     class Meta:
         model = Solution
         exclude = ('pub_date', 'version', 'slug', 'user',)
+
+
+    def __init__(self, *args, **kwargs):
+        # filter available choices for Task item
+        if kwargs.has_key('request'):
+            request = kwargs.pop('request')
+        else:
+            request = None
+        # super needs to be called before to have attribute fields
+        super(ModelForm, self).__init__(*args, **kwargs)
+        if request:
+            qs = Task.objects.filter(
+                Q(is_deleted=False) &
+                (Q(user=request.user) | Q(is_public=True))
+            )
+            self.fields['task'].queryset = qs
+            self.fields['task'].choices =\
+                [(t.id, t.name + ' (v' + str(t.version) + ')') for t in qs]
+
+
+    def clean_name(self):
+        if re.match('^\d+$', self.cleaned_data['name']):
+            raise ValidationError(
+                _('Names consisting of only numerical values are not allowed.'))
+        return self.cleaned_data['name']
+
+
+    def clean_tags(self): # avoid tags like 'foo, bar baz'
+        tags = self.cleaned_data['tags']
+        return TAG_SPLITCHAR.join([y for x in tags.split(' ') for y in x.split(',') if y])
+
 
 
 

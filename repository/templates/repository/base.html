@@ -23,6 +23,7 @@
 <h2>{% trans "Solution" %}</h2>
 <ul>
 	<li><a href="{% url repository.views.solution_index %}">{% trans "Public Archive" %}</a></li>
+	{% if request.user.is_authenticated %}<li><a href="{% url repository.views.solution_my %}">{% trans "My Solution" %}</li>{% endif %}
 	<li><a href="{% url repository.views.solution_new %}">{% trans "Submit new Solution" %}</a></li>
 </ul>
 

@@ -54,7 +54,20 @@ $(function() {
 	<div class="data">{{ form.data }}</div>
 	<div class="title"><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</div>
 	<div class="data">{{ form.splits }}</div>
-{% endifequal %}
+{% else %}{% ifequal object.klass "Solution" %}
+	<div class="title"><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</div>
+	<div class="data">{{ form.feature_processing }}</div>
+	<div class="title"><label for="id_parameters">{% trans "Parameters" %}</label> {{ form.parameters.errors }}</div>
+	<div class="data">{{ form.parameters }}</div>
+	<div class="title"><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</div>
+	<div class="data">{{ form.os }}</div>
+	<div class="title"><label for="id_code">{% trans "Code" %}</label> {{ form.os.errors }}</div>
+	<div class="data">{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
+	<div class="title"><label for="id_task">{% trans "Task" %}</label> {{ form.task.errors }}</div>
+	<div class="data">{{ form.task }}</div>
+	<div class="title"><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</div>
+	<div class="data">{{ form.score }}</div>
+{% endifequal %}{% endifequal %}
 </div>
 
 <div id="contents-other">

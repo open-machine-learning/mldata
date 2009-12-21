@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
-from settings import DATAPATH, SPLITPATH
+from settings import DATAPATH, SPLITPATH, SCOREPATH
 
 TYPE = {
     'Data': 0,
@@ -189,15 +189,33 @@ class Task(Repository):
         return self.slug.text + '.' + suffix
 
 
+
 class Solution(Repository):
-    feature_processing = models.CharField(max_length=255)
-    parameters = models.CharField(max_length=255)
-    os = models.CharField(max_length=255)
-    code = models.TextField()
-    score = models.FileField(upload_to='repository/scores')
+    feature_processing = models.CharField(max_length=255, blank=True)
+    parameters = models.CharField(max_length=255, blank=True)
+    os = models.CharField(max_length=255, blank=True)
+    code = models.TextField(blank=True)
+    score = models.FileField(upload_to=SCOREPATH)
     task = models.ForeignKey(Task)
     license = models.ForeignKey(License)
     tags = TagField() # tagging doesn't work anymore if put into base class
+
+    def get_absolute_url(self, use_slug=False):
+        if use_slug:
+            args=[self.slug.text]
+        else:
+            args=[self.id]
+        return reverse('repository.views.solution_view', args=args)
+
+
+    def get_scorename(self):
+        if not self.slug_id:
+            raise AttributeError, 'Attribute slug is not set!'
+
+        suffix = self.score.name.split('.')[-1]
+
+        return self.slug.text + '.' + suffix
+
 
 
 class Rating(models.Model):

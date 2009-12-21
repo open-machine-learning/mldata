@@ -25,23 +25,22 @@ OBJECTS_PER_PAGE = 10
 
 def index(request):
     qs = Q(is_deleted=False) & Q(is_public=True)
+    latest = {}
     try:
-        latest_data = Data.objects.filter(qs).order_by('-pub_date')[0]
+        latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
     except IndexError:
-        latest_data = None
+        latest['data'] = None
     try:
-        latest_task = Task.objects.filter(qs).order_by('-pub_date')[0]
+        latest['task'] = Task.objects.filter(qs).order_by('-pub_date')[0]
     except IndexError:
-        latest_task = None
+        latest['task'] = None
     try:
-        latest_solution = Solution.objects.latest()
-    except Solution.DoesNotExist:
-        latest_solution = None
+        latest['solution'] = Solution.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['solution'] = None
 
     info_dict = {
-        'latest_data': latest_data,
-        'latest_task': latest_task,
-        'latest_solution': latest_solution,
+        'latest': latest,
         'request': request,
     }
     return render_to_response('repository/index.html', info_dict)
@@ -114,7 +113,9 @@ def _get_completeness(obj):
     if obj.__class__ == Data:
         attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
     elif obj.__class__ == Task:
-        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'input', 'output', 'performance_measure', 'type']
+        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'input', 'output', 'performance_measure', 'type', 'splits']
+    elif obj.__class__ == Solution:
+        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'feature_processing', 'parameters', 'os', 'code', 'score']
     else:
         return 0
 
@@ -198,6 +199,8 @@ def _download(request, id, klass):
         fileobj = obj.file
     elif klass == Task:
         fileobj = obj.splits
+    elif klass == Solution:
+        fileobj = obj.score
     else:
         raise Http404
 
@@ -258,6 +261,8 @@ def _new(request, klass):
             form = DataForm(request.POST, request.FILES)
         elif klass == Task:
             form = TaskForm(request.POST, request.FILES, request=request)
+        elif klass == Solution:
+            form = SolutionForm(request.POST, request.FILES, request=request)
         else:
             raise Http404
 
@@ -265,7 +270,7 @@ def _new(request, klass):
         if not request.FILES:
             if klass == Data:
                 form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
-            elif klass == Task:
+            elif klass == Task or klass == Solution:
                 pass
             else:
                 raise Http404
@@ -282,7 +287,7 @@ def _new(request, klass):
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
-                # set to invisible for public until approved by review + activated
+                # set to invisible for public until activated / made public
                 new.is_public = False
                 new.user = request.user
 
@@ -300,6 +305,13 @@ def _new(request, klass):
                     form.save_m2m() # a bit odd
                     CurrentVersion.set(new)
                     func = eval(klass.__name__.lower() + '_view')
+                elif klass == Solution:
+                    if 'score' in request.FILES:
+                        new.score = request.FILES['score']
+                        new.score.name = new.get_scorename()
+                    new.save()
+                    CurrentVersion.set(new)
+                    func = eval(klass.__name__.lower() + '_view')
                 else:
                     raise Http404
                 return HttpResponseRedirect(reverse(func, args=[new.id]))
@@ -308,8 +320,10 @@ def _new(request, klass):
             form = DataForm()
         elif klass == Task:
             form = TaskForm(request=request)
+        elif klass == Solution:
+            form = SolutionForm(request=request)
         else:
-            form = SolutionForm()
+            raise Http404
 
     info_dict = {
         'klass': klass.__name__,
@@ -339,6 +353,8 @@ def _edit(request, slug_or_id, klass):
             form = DataForm(request.POST)
         elif klass == Task:
             form = TaskForm(request.POST, request=request)
+        elif klass == Solution:
+            form = SolutionForm(request.POST, request=request)
         else:
             raise Http404
 
@@ -357,11 +373,23 @@ def _edit(request, slug_or_id, klass):
                 if 'splits' in request.FILES:
                     next.splits = request.FILES['splits']
                     next.splits.name = next.get_splitname()
-                    os.remove(os.path.join(MEDIA_ROOT, prev.splits.name))
+                    filename = os.path.join(MEDIA_ROOT, prev.splits.name)
+                    if os.path.isfile(filename):
+                        os.remove(filename)
                 else:
                     next.splits = prev.splits
                 next.save()
                 form.save_m2m() # a bit odd
+            elif klass == Solution:
+                if 'score' in request.FILES:
+                    next.score = request.FILES['score']
+                    next.score.name = next.get_scorename()
+                    filename = os.path.join(MEDIA_ROOT, prev.score.name)
+                    if os.path.isfile(filename):
+                        os.remove(filename)
+                else:
+                    next.score = prev.score
+                next.save()
             else:
                 raise Http404
             CurrentVersion.set(next)
@@ -371,6 +399,8 @@ def _edit(request, slug_or_id, klass):
             form = DataForm(instance=prev)
         elif klass == Task:
             form = TaskForm(instance=prev, request=request)
+        elif klass == Solution:
+            form = SolutionForm(instance=prev, request=request)
         else:
             raise Http404
 
@@ -466,10 +496,20 @@ def task_edit(request, slug_or_id):
 
 def solution_index(request):
     return _index(request, Solution)
+def solution_my(request):
+    return _index(request, Solution, True)
 def solution_view(request, slug_or_id):
     return _view(request, slug_or_id, Solution)
+def score_download(request, id):
+    return _download(request, id, Solution)
+def solution_activate(request, id):
+    return _activate(request, id, Solution)
+def solution_delete(request, slug_or_id):
+    return _delete(request, slug_or_id, Solution)
 def solution_new(request):
     return _new(request, Solution)
+def solution_edit(request, slug_or_id):
+    return _edit(request, slug_or_id, Solution)
 
 
 

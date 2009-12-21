@@ -42,6 +42,7 @@ if not PRODUCTION:
 # in which directory items are saved as files, relative to MEDIA_ROOT
 DATAPATH = 'data'
 SPLITPATH = 'splits'
+SCOREPATH = 'score'
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'

@@ -80,7 +80,17 @@ $(function() {
 	<div class="data">{% for d in object.data.all %}<a href="{{ d.get_absolute_url }}">{{ d.name }}</a> {% endfor %}</div>
 	{% if object.splits %}<div class="title"><a href="{% url repository.views.splits_download object.id %}">{% trans "Download Splits" %}</a></div>{% endif %}
 {% else %}{% ifequal object.klass "Solution" %}
-	illegal
+	<div class="title">{% trans "Feature Processing" %}</div>
+	<div class="data">{{ object.feature_processing }}</div>
+	<div class="title">{% trans "Parameters" %}</div>
+	<div class="data">{{ object.Parameters }}</div>
+	<div class="title">{% trans "Operating System" %}</div>
+	<div class="data">{{ object.os }}</div>
+	<div class="title">{% trans "Code" %}</div>
+	<div class="data">{{ object.code|markdown }}</div>
+	<div class="title">{% trans "Task" %}</div>
+	<div class="data"><a href="{{ object.task.get_absolute_url }}">{{ object.task.name }}</a></div>
+	{% if object.score %}<div class="title"><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a></div>{% endif %}
 {% endifequal %}{% endifequal %}{% endifequal %}
 </div>
 {% ifequal object.klass "Data" %}
@@ -141,8 +151,8 @@ $(function() {
 {% get_comment_list for repository.task object.id as comment_list %}
 {% get_comment_form for repository.task object.id as form %}
 {% else %}{% ifequal object.klass "Solution" %}
-{% get_comment_list for repository.task object.id as comment_list %}
-{% get_comment_form for repository.task object.id as form %}
+{% get_comment_list for repository.solution object.id as comment_list %}
+{% get_comment_form for repository.solution object.id as form %}
 {% endifequal %}{% endifequal %}{% endifequal %}
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}

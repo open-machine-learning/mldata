@@ -13,9 +13,7 @@
 <p>{% trans "Supply only the vital information about the item here. You can fill in additional information later on by editing." %}
 {% ifequal klass "Data" %}
 {% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}
-{% else %}{% ifequal klass "Task" %}
-{% trans "Please note that the Split file cannot be changed, you would have to create a new Task item." %}
-{% endifequal %}{% endifequal %}
+{% endifequal %}
 </p>
 
 <form action="{{ url_new }}" method="post" enctype="multipart/form-data">
@@ -51,7 +49,21 @@
 		<dt>{{ form.data }}</dt>
 		<dd><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dd>
 		<dt>{{ form.splits }}</dt>
-{% endifequal %}{% endifequal %}
+{% else %}{% ifequal klass "Solution" %}
+		<dd><label for="id_feature_processing">{% trans "Feature Processing" %}</label>: {{ form.feature_processing.errors }}</dd>
+		<dt>{{ form.feature_processing }}</dt>
+		<dd><label for="id_parameters">{% trans "Parameters" %}</label>: {{ form.parameters.errors }}</dd>
+		<dt>{{ form.parameters }}</dt>
+		<dd><label for="id_os">{% trans "Operating System" %}</label>: {{ form.os.errors }}</dd>
+		<dt>{{ form.os }}</dt>
+		<dd><label for="id_code">{% trans "Code" %}</label>: {{ form.code.errors }}</dd>
+		<dt>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
+		<dd><label for="id_task">{% trans "Task" %}</label> *: {{ form.task.errors }}</dd>
+		<dt>{{ form.task }}</dt>
+		<dd><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dd>
+		<dt>{{ form.score }}</dt>
+
+{% endifequal %}{% endifequal %}{% endifequal %}
 
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>

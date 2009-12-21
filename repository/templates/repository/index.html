@@ -7,9 +7,9 @@
 
 <h2>{% trans "Latest Items" %}</h2>
 <ul>
-	{% if latest_data %}<li>{% trans "Data" %}: <a href="{% url repository.views.data_view latest_data.slug.text %}">{{ latest_data.name }}</a></li>{%endif %}
-	{% if latest_task %}<li>{% trans "Task" %}: <a href="{% url repository.views.task_view latest_task.id %}">{{ latest_task.name }}</a></li>{%endif %}
-	{% if latest_solution %}<li>{% trans "Solution" %}: <a href="{% url repository.views.solution_view latest_task.id %}">{{ latest_solution.name }}</a></li>{%endif %}
+	{% if latest.data %}<li>{% trans "Data" %}: <a href="{% url repository.views.data_view latest.data.slug.text %}">{{ latest.data.name }}</a></li>{%endif %}
+	{% if latest.task %}<li>{% trans "Task" %}: <a href="{% url repository.views.task_view latest.task.id %}">{{ latest.task.name }}</a></li>{%endif %}
+	{% if latest.solution %}<li>{% trans "Solution" %}: <a href="{% url repository.views.solution_view latest.task.id %}">{{ latest.solution.name }}</a></li>{%endif %}
 </ul>
 
 <p>The following kinds of objects are stored in the repository. We will illustrate each class with the MNIST5 data set:</p>
