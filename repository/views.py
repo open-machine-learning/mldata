@@ -175,7 +175,7 @@ def _activate(request, id, klass):
     obj.save()
     CurrentVersion.set(obj)
 
-    return HttpResponseRedirect(obj.get_absolute_url(use_slug=True))
+    return HttpResponseRedirect(obj.get_absolute_slugurl())
 
 
 @transaction.commit_on_success
@@ -368,7 +368,7 @@ def _edit(request, slug_or_id, klass):
             else:
                 raise Http404
             CurrentVersion.set(next)
-            return HttpResponseRedirect(next.get_absolute_url(True))
+            return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
         form = formfunc(instance=prev, request=request)
 
@@ -416,7 +416,7 @@ def _index(request, klass, my=False):
     # quirky, but simplifies templates
     for obj in page.object_list:
         obj.absolute_url = getattr(obj.repository, klass.__name__.lower()).\
-            get_absolute_url(use_slug=True)
+            get_absolute_slugurl()
 
     info_dict = {
         'request': request,

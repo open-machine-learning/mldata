@@ -10,7 +10,7 @@
 
 <ul>
 {% for obj in objects %}
-<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_url }}">{{ obj.name }}</a></li>
+<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

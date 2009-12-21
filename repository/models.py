@@ -108,14 +108,13 @@ class Repository(models.Model):
         return objects[0].version + 1
 
 
-    def get_absolute_url(self, use_slug=False):
-        if use_slug:
-            args=[self.slug.text]
-        else:
-            args=[self.id]
+    def get_absolute_url(self):
         view = 'repository.views.' + self.__class__.__name__.lower() + '_view'
-        return reverse(view, args=args)
+        return reverse(view, args=[self.id])
 
+    def get_absolute_slugurl(self):
+        view = 'repository.views.' + self.__class__.__name__.lower() + '_view'
+        return reverse(view, args=[self.slug.text])
 
 
 class CurrentVersion(models.Model):
