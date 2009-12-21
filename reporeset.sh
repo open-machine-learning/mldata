@@ -1,4 +1,4 @@
 #!/bin/sh
 
-./manage.py reset repository comments tagging
-./manage.py loaddata license tasktype
+python manage.py reset repository comments tagging
+python manage.py loaddata license tasktype
