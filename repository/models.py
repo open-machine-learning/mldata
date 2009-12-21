@@ -108,6 +108,16 @@ class Repository(models.Model):
         return objects[0].version + 1
 
 
+    def get_absolute_url(self, use_slug=False):
+        if use_slug:
+            args=[self.slug.text]
+        else:
+            args=[self.id]
+        view = 'repository.views.' + self.__class__.__name__.lower() + '_view'
+        return reverse(view, args=args)
+
+
+
 class CurrentVersion(models.Model):
     slug = models.ForeignKey(Slug)
     repository = models.ForeignKey(Repository)
@@ -145,14 +155,6 @@ class Data(Repository):
     is_approved = models.BooleanField(default=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
-    def get_absolute_url(self, use_slug=False):
-        if use_slug:
-            args=[self.slug.text]
-        else:
-            args=[self.id]
-        return reverse('repository.views.data_view', args=args)
-
-
     def get_filename(self):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
@@ -170,14 +172,6 @@ class Task(Repository):
     splits = models.FileField(upload_to=SPLITPATH)
     license = models.ForeignKey(License)
     tags = TagField() # tagging doesn't work anymore if put into base class
-
-
-    def get_absolute_url(self, use_slug=False):
-        if use_slug:
-            args=[self.slug.text]
-        else:
-            args=[self.id]
-        return reverse('repository.views.task_view', args=args)
 
 
     def get_splitname(self):
@@ -199,13 +193,6 @@ class Solution(Repository):
     task = models.ForeignKey(Task)
     license = models.ForeignKey(License)
     tags = TagField() # tagging doesn't work anymore if put into base class
-
-    def get_absolute_url(self, use_slug=False):
-        if use_slug:
-            args=[self.slug.text]
-        else:
-            args=[self.id]
-        return reverse('repository.views.solution_view', args=args)
 
 
     def get_scorename(self):

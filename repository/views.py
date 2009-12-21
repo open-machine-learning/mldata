@@ -256,24 +256,13 @@ def _new(request, klass):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url_new)
 
+    formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
-        if klass == Data:
-            form = DataForm(request.POST, request.FILES)
-        elif klass == Task:
-            form = TaskForm(request.POST, request.FILES, request=request)
-        elif klass == Solution:
-            form = SolutionForm(request.POST, request.FILES, request=request)
-        else:
-            raise Http404
+        form = formfunc(request.POST, request.FILES, request=request)
 
-        # manual validation coz it's required for new, but not edited item
-        if not request.FILES:
-            if klass == Data:
-                form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
-            elif klass == Task or klass == Solution:
-                pass
-            else:
-                raise Http404
+        # manual validation coz it's required for new, but not edited Data
+        if not request.FILES and klass == Data:
+            form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
 
         if form.is_valid():
             new = form.save(commit=False)
@@ -316,14 +305,7 @@ def _new(request, klass):
                     raise Http404
                 return HttpResponseRedirect(reverse(func, args=[new.id]))
     else:
-        if klass == Data:
-            form = DataForm()
-        elif klass == Task:
-            form = TaskForm(request=request)
-        elif klass == Solution:
-            form = SolutionForm(request=request)
-        else:
-            raise Http404
+        form = formfunc(request=request)
 
     info_dict = {
         'klass': klass.__name__,
@@ -346,17 +328,10 @@ def _edit(request, slug_or_id, klass):
         return HttpResponseRedirect(
             reverse('user_signin') + '?next=' + prev.url_edit)
 
+    formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
         request.POST['name'] = prev.name # cheat a little
-
-        if klass == Data:
-            form = DataForm(request.POST)
-        elif klass == Task:
-            form = TaskForm(request.POST, request=request)
-        elif klass == Solution:
-            form = SolutionForm(request.POST, request=request)
-        else:
-            raise Http404
+        form = formfunc(request.POST, request=request)
 
         if form.is_valid():
             next = form.save(commit=False)
@@ -395,14 +370,7 @@ def _edit(request, slug_or_id, klass):
             CurrentVersion.set(next)
             return HttpResponseRedirect(next.get_absolute_url(True))
     else:
-        if klass == Data:
-            form = DataForm(instance=prev)
-        elif klass == Task:
-            form = TaskForm(instance=prev, request=request)
-        elif klass == Solution:
-            form = SolutionForm(instance=prev, request=request)
-        else:
-            raise Http404
+        form = formfunc(instance=prev, request=request)
 
     info_dict = {
         'form': form,

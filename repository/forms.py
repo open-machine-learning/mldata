@@ -9,13 +9,9 @@ from tagging.forms import TagField
 from settings import TAG_SPLITSTR
 
 
-class DataForm(ModelForm):
+class RepositoryForm(forms.ModelForm):
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
-    file = FileField(required=False)
 
-    class Meta:
-        model = Data
-        exclude = ('pub_date', 'version', 'slug', 'user', 'format',)
 
     def clean_name(self):
         if re.match('^\d+$', self.cleaned_data['name']):
@@ -30,15 +26,28 @@ class DataForm(ModelForm):
 
 
 
-class TaskForm(ModelForm):
-    tags = TagField(widget=AutoCompleteTagInput(), required=False)
-    splits = FileField(required=False)
-    type = ModelChoiceField(queryset=TaskType.objects.all(), required=False)
-    freeformtype = CharField(required=False)
+class DataForm(RepositoryForm):
+    file = forms.FileField(required=False)
+
+    class Meta:
+        model = Data
+        exclude = ('pub_date', 'version', 'slug', 'user', 'format',)
+
+    def __init__(self, *args, **kwargs):
+        # don't need request in DataForm
+        if kwargs.has_key('request'):
+            kwargs.pop('request')
+        super(RepositoryForm, self).__init__(*args, **kwargs)
+
+
+class TaskForm(RepositoryForm):
+    splits = forms.FileField(required=False)
+    type = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
+    freeformtype = forms.CharField(required=False)
 
     class Meta:
         model = Task
-        exclude = ('pub_date', 'version', 'slug', 'user',)
+        exclude = ('pub_date', 'version', 'slug', 'user')
 
     def __init__(self, *args, **kwargs):
         # filter available choices for Data item
@@ -47,7 +56,7 @@ class TaskForm(ModelForm):
         else:
             request = None
         # super needs to be called before to have attribute fields
-        super(ModelForm, self).__init__(*args, **kwargs)
+        super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
             qs = Data.objects.filter(
                 Q(is_approved=True) & Q(is_deleted=False) &
@@ -78,9 +87,8 @@ class TaskForm(ModelForm):
 
 
 
-class SolutionForm(ModelForm):
-    tags = TagField(widget=AutoCompleteTagInput(), required=False)
-    score = FileField(required=False)
+class SolutionForm(RepositoryForm):
+    score = forms.FileField(required=False)
 
     class Meta:
         model = Solution
@@ -94,7 +102,7 @@ class SolutionForm(ModelForm):
         else:
             request = None
         # super needs to be called before to have attribute fields
-        super(ModelForm, self).__init__(*args, **kwargs)
+        super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
             qs = Task.objects.filter(
                 Q(is_deleted=False) &
@@ -105,22 +113,9 @@ class SolutionForm(ModelForm):
                 [(t.id, t.name + ' (v' + str(t.version) + ')') for t in qs]
 
 
-    def clean_name(self):
-        if re.match('^\d+$', self.cleaned_data['name']):
-            raise ValidationError(
-                _('Names consisting of only numerical values are not allowed.'))
-        return self.cleaned_data['name']
-
-
-    def clean_tags(self): # avoid tags like 'foo, bar baz'
-        tags = self.cleaned_data['tags']
-        return TAG_SPLITSTR.join([y for x in tags.split(' ') for y in x.split(',') if y])
-
-
-
 
 class RatingForm(forms.Form):
-    interesting = IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
-    documentation = IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
+    interesting = forms.IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
+    documentation = forms.IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
 
 
