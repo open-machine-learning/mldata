@@ -188,6 +188,7 @@ def _delete(request, slug_or_id, klass):
             filter(is_deleted=False).order_by('-version')
         if current:
             CurrentVersion.set(current[0])
+            return HttpResponseRedirect(current[0].get_absolute_slugurl())
 
     func = eval(klass.__name__.lower() + '_my')
     return HttpResponseRedirect(reverse(func))
