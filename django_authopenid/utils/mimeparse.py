@@ -162,4 +162,4 @@ if __name__ == "__main__":
             # match using a wildcard for both requested and supported 
             self.assertEqual(best_match(mime_types_supported, 'image/*'), 'image/*')
 
-    unittest.main() 
+    unittest.main()
