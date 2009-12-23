@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.registration.tests.RegistrationFormTests</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.registration-module.html">Package&nbsp;registration</a> ::
+        <a href="mldata.registration.tests-module.html">Module&nbsp;tests</a> ::
+        Class&nbsp;RegistrationFormTests
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.registration.tests.RegistrationFormTests-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class RegistrationFormTests</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.registration.tests-pysrc.html#RegistrationFormTests">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_mldata_r_11" name="uml_class_diagram_for_mldata_r_11">
+<area shape="rect" href="mldata.registration.tests.RegistrationTestCase-class.html#setUp" title="Hook method for setting up the test fixture before exercising it." alt="" coords="253,633,376,652"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationTestCase-class.html" title="Base class for the test cases; this sets up two users &#45;&#45; one expired, one not &#45;&#45; which are used to exercise various parts of the application." alt="" coords="252,608,377,653"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form" title="Test that ``RegistrationForm`` enforces username constraints and matching &#160;passwords." alt="" coords="192,708,437,727"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_tos" title="Test that ``RegistrationFormTermsOfService`` requires agreement to the &#160;terms of service." alt="" coords="192,727,437,745"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_unique_email" title="Test that ``RegistrationFormUniqueEmail`` validates uniqueness of email &#160;addresses." alt="" coords="192,745,437,764"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_no_free_email" title="Test that ``RegistrationFormNoFreeEmail`` disallows registration with free &#160;email addresses." alt="" coords="192,764,437,783"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html" title="Tests for the forms and custom validation logic included in django&#45;registration." alt="" coords="191,683,439,784"/>
+<area shape="rect" href="javascript:void(0);" title="Wrapper around default __call__ method to perform common Django test set &#160;up." alt="" coords="17,385,612,404"/>
+<area shape="rect" href="javascript:void(0);" title="Asserts that a response indicates that a page was retrieved successfully, &#160;(i.e., the HTTP status code was as expected), and that ``text`` occurs &#160;``count`` times in the content of the response." alt="" coords="17,404,612,423"/>
+<area shape="rect" href="javascript:void(0);" title="Asserts that a form used to render the response has a specific field error." alt="" coords="17,423,612,441"/>
+<area shape="rect" href="javascript:void(0);" title="Asserts that a response indicates that a page was retrieved successfully, &#160;(i.e., the HTTP status code was as expected), and that ``text`` doesn&#39;t &#160;occurs in the content of the response." alt="" coords="17,441,612,460"/>
+<area shape="rect" href="javascript:void(0);" title="Asserts that a response redirected to a specific URL, and that the redirect URL can be loaded." alt="" coords="17,460,612,479"/>
+<area shape="rect" href="javascript:void(0);" title="Asserts that the template with the provided name was NOT used in rendering &#160;the response." alt="" coords="17,479,612,497"/>
+<area shape="rect" href="javascript:void(0);" title="Asserts that the template with the provided name was used in rendering the &#160;response." alt="" coords="17,497,612,516"/>
+<area shape="rect" href="javascript:void(0);" title="django.test.testcases.TransactionTestCase" alt="" coords="16,360,613,517"/>
+<area shape="rect" href="javascript:void(0);" title="Does basically the same as TransactionTestCase, but surrounds every test with a transaction, monkey&#45;patches the real transaction management routines to do nothing, and rollsback the test transaction at the end of the test." alt="" coords="221,547,408,579"/>
+<area shape="rect" href="exceptions.AssertionError-class.html" title="Assertion failed." alt="" coords="124,28,505,47"/>
+<area shape="rect" href="javascript:void(0);" title="unittest.TestCase.__eq__" alt="" coords="124,49,505,68"/>
+<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="124,68,505,87"/>
+<area shape="rect" href="javascript:void(0);" title="Create an instance of the class that will use the named test method when &#160;executed." alt="" coords="124,87,505,105"/>
+<area shape="rect" href="javascript:void(0);" title="unittest.TestCase.__ne__" alt="" coords="124,105,505,124"/>
+<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="124,124,505,143"/>
+<area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="124,143,505,161"/>
+<area shape="rect" href="javascript:void(0);" title="Fail if the two objects are unequal as determined by their difference &#160;rounded to the given number of decimal places (default 7) and comparing to &#160;zero." alt="" coords="124,161,505,180"/>
+<area shape="rect" href="javascript:void(0);" title="Fail if the two objects are unequal as determined by their difference &#160;rounded to the given number of decimal places (default 7) and comparing to &#160;zero." alt="" coords="124,180,505,199"/>
+<area shape="rect" href="javascript:void(0);" title="Fail if the two objects are unequal as determined by the &#39;==&#39; operator." alt="" coords="124,199,505,217"/>
+<area shape="rect" href="javascript:void(0);" title="Fail if the two objects are unequal as determined by the &#39;==&#39; operator." alt="" coords="124,217,505,236"/>
+<area shape="rect" href="javascript:void(0);" title="Fail the test if the expression is true." alt="" coords="124,236,505,255"/>
+<area shape="rect" href="javascript:void(0);" title="Fail if the two objects are equal as determined by their difference rounded to the given number of decimal places (default 7) and comparing to zero." alt="" coords="124,255,505,273"/>
+<area shape="rect" href="javascript:void(0);" title="Fail if the two objects are equal as determined by their difference rounded to the given number of decimal places (default 7) and comparing to zero." alt="" coords="124,273,505,292"/>
+<area shape="rect" href="javascript:void(0);" title="Hook method for deconstructing the test fixture after testing it." alt="" coords="124,311,505,329"/>
+<area shape="rect" href="javascript:void(0);" title="A class whose instances are single test cases." alt="" coords="123,11,507,331"/>
+</map>
+  <img src="uml_class_diagram_for_mldata_r_11.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_11" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Tests for the forms and custom validation logic included in 
+  django-registration.</p>
+
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Nested Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-NestedClasses"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>unittest.TestCase</code></b>:
+      <code><a href="exceptions.AssertionError-class.html">failureException</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="test_registration_form"></a><span class="summary-sig-name">test_registration_form</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Test that ``RegistrationForm`` enforces username constraints and 
+      matching passwords.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.registration.tests-pysrc.html#RegistrationFormTests.test_registration_form">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="test_registration_form_tos"></a><span class="summary-sig-name">test_registration_form_tos</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Test that ``RegistrationFormTermsOfService`` requires agreement to 
+      the terms of service.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.registration.tests-pysrc.html#RegistrationFormTests.test_registration_form_tos">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="test_registration_form_unique_email"></a><span class="summary-sig-name">test_registration_form_unique_email</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Test that ``RegistrationFormUniqueEmail`` validates uniqueness of 
+      email addresses.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.registration.tests-pysrc.html#RegistrationFormTests.test_registration_form_unique_email">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="test_registration_form_no_free_email"></a><span class="summary-sig-name">test_registration_form_no_free_email</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Test that ``RegistrationFormNoFreeEmail`` disallows registration with
+      free email addresses.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.registration.tests-pysrc.html#RegistrationFormTests.test_registration_form_no_free_email">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.registration.tests.RegistrationTestCase-class.html">RegistrationTestCase</a></code></b>:
+      <code><a href="mldata.registration.tests.RegistrationTestCase-class.html#setUp">setUp</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>django.test.testcases.TestCase</code></b> (private):
+      <code>_fixture_setup</code>,
+      <code>_fixture_teardown</code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.test.testcases.TransactionTestCase</code></b>:
+      <code>__call__</code>,
+      <code>assertContains</code>,
+      <code>assertFormError</code>,
+      <code>assertNotContains</code>,
+      <code>assertRedirects</code>,
+      <code>assertTemplateNotUsed</code>,
+      <code>assertTemplateUsed</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>django.test.testcases.TransactionTestCase</code></b> (private):
+      <code>_post_teardown</code>,
+      <code>_pre_setup</code>,
+      <code>_urlconf_setup</code>,
+      <code>_urlconf_teardown</code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>unittest.TestCase</code></b>:
+      <code>__eq__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__ne__</code>,
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>assertAlmostEqual</code>,
+      <code>assertAlmostEquals</code>,
+      <code>assertEqual</code>,
+      <code>assertEquals</code>,
+      <code>assertFalse</code>,
+      <code>assertNotAlmostEqual</code>,
+      <code>assertNotAlmostEquals</code>,
+      <code>assertNotEqual</code>,
+      <code>assertNotEquals</code>,
+      <code>assertRaises</code>,
+      <code>assertTrue</code>,
+      <code>assert_</code>,
+      <code>countTestCases</code>,
+      <code>debug</code>,
+      <code>defaultTestResult</code>,
+      <code>fail</code>,
+      <code>failIf</code>,
+      <code>failIfAlmostEqual</code>,
+      <code>failIfEqual</code>,
+      <code>failUnless</code>,
+      <code>failUnlessAlmostEqual</code>,
+      <code>failUnlessEqual</code>,
+      <code>failUnlessRaises</code>,
+      <code>id</code>,
+      <code>run</code>,
+      <code>shortDescription</code>,
+      <code>tearDown</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>unittest.TestCase</code></b> (private):
+      <code>_exc_info</code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:30 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

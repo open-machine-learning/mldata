@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.templatetags.permute_items</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.templatetags-module.html">Package&nbsp;templatetags</a> ::
+        Module&nbsp;permute_items
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.templatetags.permute_items-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.templatetags.permute_items-module.html">Module mldata.templatetags.permute_items</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt> <tt class="py-keyword">import</tt> <tt class="py-name">template</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">random</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable mldata.blog.templatetags.uniqdate.register=mldata.blog.templatetags.uniqdate-module.html#register,Function mldata.django_authopenid.views.register()=mldata.django_authopenid.views-module.html#register,Variable mldata.forum.templatetags.forum_tags.register=mldata.forum.templatetags.forum_tags-module.html#register,Function mldata.registration.views.register()=mldata.registration.views-module.html#register,Variable mldata.repository.templatetags.show_stars.register=mldata.repository.templatetags.show_stars-module.html#register,Function mldata.tagging.register()=mldata.tagging-module.html#register,Variable mldata.tagging.templatetags.tagging_tags.register=mldata.tagging.templatetags.tagging_tags-module.html#register,Variable mldata.templatetags.get_version.register=mldata.templatetags.get_version-module.html#register,Variable mldata.templatetags.paginator.register=mldata.templatetags.paginator-module.html#register,Variable mldata.templatetags.permute_items.register=mldata.templatetags.permute_items-module.html#register"><a title="mldata.blog.templatetags.uniqdate.register
+mldata.django_authopenid.views.register
+mldata.forum.templatetags.forum_tags.register
+mldata.registration.views.register
+mldata.repository.templatetags.show_stars.register
+mldata.tagging.register
+mldata.tagging.templatetags.tagging_tags.register
+mldata.templatetags.get_version.register
+mldata.templatetags.paginator.register
+mldata.templatetags.permute_items.register" class="py-name" href="#" onclick="return doclink('link-0', 'register', 'link-0');">register</a></tt> <tt class="py-op">=</tt> <tt class="py-name">template</tt><tt class="py-op">.</tt><tt class="py-name">Library</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="Permutator"></a><div id="Permutator-def"><a name="L6"></a><tt class="py-lineno"> 6</tt> <a class="py-toggle" href="#" id="Permutator-toggle" onclick="return toggle('Permutator');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.templatetags.permute_items.Permutator-class.html">Permutator</a><tt class="py-op">(</tt><tt class="py-base-class">template</tt><tt class="py-op">.</tt><tt class="py-base-class">Node</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Permutator-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Permutator-expanded"><a name="Permutator.__init__"></a><div id="Permutator.__init__-def"><a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="Permutator.__init__-toggle" onclick="return toggle('Permutator.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.templatetags.permute_items.Permutator-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">context_var</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Permutator.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Permutator.__init__-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">context_var</tt> <tt class="py-op">=</tt> <tt class="py-name">context_var</tt> </tt>
+</div><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="Permutator.render"></a><div id="Permutator.render-def"><a name="L10"></a><tt class="py-lineno">10</tt> <a class="py-toggle" href="#" id="Permutator.render-toggle" onclick="return toggle('Permutator.render');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.templatetags.permute_items.Permutator-class.html#render">render</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">context</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Permutator.render-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Permutator.render-expanded"><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">context_var</tt> </tt>
+</div></div><a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="permute_items"></a><div id="permute_items-def"><a name="L13"></a><tt class="py-lineno">13</tt> <a class="py-toggle" href="#" id="permute_items-toggle" onclick="return toggle('permute_items');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.templatetags.permute_items-module.html#permute_items">permute_items</a><tt class="py-op">(</tt><tt class="py-param">parser</tt><tt class="py-op">,</tt> <tt class="py-param">token</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="permute_items-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="permute_items-expanded"><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt id="link-1" class="py-name" targets="Method mldata.forum.feeds.RssForumFeed.items()=mldata.forum.feeds.RssForumFeed-class.html#items,Method mldata.forum.sitemap.ForumSitemap.items()=mldata.forum.sitemap.ForumSitemap-class.html#items,Method mldata.forum.sitemap.PostSitemap.items()=mldata.forum.sitemap.PostSitemap-class.html#items,Method mldata.forum.sitemap.ThreadSitemap.items()=mldata.forum.sitemap.ThreadSitemap-class.html#items,Variable tagging.models.Tag.items=tagging.models.Tag-class.html#items"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-1', 'items', 'link-1');">items</a></tt> <tt class="py-op">=</tt> <tt class="py-name">token</tt><tt class="py-op">.</tt><tt class="py-name">contents</tt><tt class="py-op">[</tt><tt class="py-number">13</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'|'</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">shuffle</tt><tt class="py-op">(</tt><tt id="link-2" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-2', 'items', 'link-1');">items</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt id="link-3" class="py-name" targets="Class mldata.templatetags.permute_items.Permutator=mldata.templatetags.permute_items.Permutator-class.html"><a title="mldata.templatetags.permute_items.Permutator" class="py-name" href="#" onclick="return doclink('link-3', 'Permutator', 'link-3');">Permutator</a></tt><tt class="py-op">(</tt><tt class="py-string">", "</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt id="link-4" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-4', 'items', 'link-1');">items</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt id="link-5" class="py-name"><a title="mldata.blog.templatetags.uniqdate.register
+mldata.django_authopenid.views.register
+mldata.forum.templatetags.forum_tags.register
+mldata.registration.views.register
+mldata.repository.templatetags.show_stars.register
+mldata.tagging.register
+mldata.tagging.templatetags.tagging_tags.register
+mldata.templatetags.get_version.register
+mldata.templatetags.paginator.register
+mldata.templatetags.permute_items.register" class="py-name" href="#" onclick="return doclink('link-5', 'register', 'link-0');">register</a></tt><tt class="py-op">.</tt><tt class="py-name">tag</tt><tt class="py-op">(</tt><tt class="py-string">'permute_items'</tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name" targets="Module mldata.templatetags.permute_items=mldata.templatetags.permute_items-module.html,Function mldata.templatetags.permute_items.permute_items()=mldata.templatetags.permute_items-module.html#permute_items"><a title="mldata.templatetags.permute_items
+mldata.templatetags.permute_items.permute_items" class="py-name" href="#" onclick="return doclink('link-6', 'permute_items', 'link-6');">permute_items</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:55 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

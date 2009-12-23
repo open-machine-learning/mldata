@@ -1,0 +1,1116 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.forum.models</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.forum-module.html">Package&nbsp;forum</a> ::
+        Module&nbsp;models
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.forum.models-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.forum.models-module.html">Module mldata.forum.models</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">""" </tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring">A basic forum model with corresponding thread/post models.</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">Just about all logic required for smooth updates is in the save() </tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">methods. A little extra logic is in views.py.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">datetime</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-0', 'models', 'link-0');">models</a></tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-1', 'models', 'link-0');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">Group</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">conf</tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Module mldata.settings=mldata.settings-module.html,Module mldata.tagging.settings=mldata.tagging.settings-module.html,Module mldata.tagging.tests.settings=mldata.tagging.tests.settings-module.html"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-2', 'settings', 'link-2');">settings</a></tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Package mldata.django_authopenid.utils=mldata.django_authopenid.utils-module.html,Module mldata.tagging.utils=mldata.tagging.utils-module.html,Package mldata.utils=mldata.utils-module.html"><a title="mldata.django_authopenid.utils
+mldata.tagging.utils
+mldata.utils" class="py-name" href="#" onclick="return doclink('link-3', 'utils', 'link-3');">utils</a></tt><tt class="py-op">.</tt><tt class="py-name">translation</tt> <tt class="py-keyword">import</tt> <tt class="py-name">ugettext_lazy</tt> <tt class="py-keyword">as</tt> <tt class="py-name">_</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="mldata.django_authopenid.utils
+mldata.tagging.utils
+mldata.utils" class="py-name" href="#" onclick="return doclink('link-4', 'utils', 'link-3');">utils</a></tt><tt class="py-op">.</tt><tt class="py-name">html</tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name" targets="Method mldata.utils.markdown.RawHtmlTextPostprocessor.escape()=mldata.utils.markdown.RawHtmlTextPostprocessor-class.html#escape"><a title="mldata.utils.markdown.RawHtmlTextPostprocessor.escape" class="py-name" href="#" onclick="return doclink('link-5', 'escape', 'link-5');">escape</a></tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-6" class="py-name" targets="Package mldata.forum=mldata.forum-module.html,Variable mldata.forum.models.Thread.forum=mldata.forum.models.Thread-class.html#forum,Function mldata.forum.views.forum()=mldata.forum.views-module.html#forum"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-6', 'forum', 'link-6');">forum</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Module mldata.forum.managers=mldata.forum.managers-module.html,Module mldata.tagging.managers=mldata.tagging.managers-module.html"><a title="mldata.forum.managers
+mldata.tagging.managers" class="py-name" href="#" onclick="return doclink('link-7', 'managers', 'link-7');">managers</a></tt> <tt class="py-keyword">import</tt> <tt id="link-8" class="py-name" targets="Class mldata.forum.managers.ForumManager=mldata.forum.managers.ForumManager-class.html"><a title="mldata.forum.managers.ForumManager" class="py-name" href="#" onclick="return doclink('link-8', 'ForumManager', 'link-8');">ForumManager</a></tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-9" class="py-name"><a title="mldata.django_authopenid.utils
+mldata.tagging.utils
+mldata.utils" class="py-name" href="#" onclick="return doclink('link-9', 'utils', 'link-3');">utils</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Module mldata.utils.markdown=mldata.utils.markdown-module.html,Function mldata.utils.markdown.markdown()=mldata.utils.markdown-module.html#markdown"><a title="mldata.utils.markdown
+mldata.utils.markdown.markdown" class="py-name" href="#" onclick="return doclink('link-10', 'markdown', 'link-10');">markdown</a></tt> <tt class="py-keyword">import</tt> <tt id="link-11" class="py-name"><a title="mldata.utils.markdown
+mldata.utils.markdown.markdown" class="py-name" href="#" onclick="return doclink('link-11', 'markdown', 'link-10');">markdown</a></tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
+<a name="Forum"></a><div id="Forum-def"><a name="L17"></a><tt class="py-lineno"> 17</tt> <a class="py-toggle" href="#" id="Forum-toggle" onclick="return toggle('Forum');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html">Forum</a><tt class="py-op">(</tt><tt class="py-base-class">models</tt><tt class="py-op">.</tt><tt class="py-base-class">Model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Forum-expanded"><a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-docstring">    Very basic outline for a Forum, or group of threads. The threads</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring">    and posts fielsd are updated by the save() methods of their</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring">    respective models and are used for display purposes.</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring">    All of the parent/child recursion code here is borrowed directly from</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">    the Satchmo project: http://www.satchmoproject.com/</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">    <tt id="link-12" class="py-name" targets="Variable mldata.forum.models.Forum.groups=mldata.forum.models.Forum-class.html#groups"><a title="mldata.forum.models.Forum.groups" class="py-name" href="#" onclick="return doclink('link-12', 'groups', 'link-12');">groups</a></tt> <tt class="py-op">=</tt> <tt id="link-13" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-13', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ManyToManyField</tt><tt class="py-op">(</tt><tt class="py-name">Group</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">    <tt id="link-14" class="py-name" targets="Method mldata.forum.feeds.RssForumFeed.title()=mldata.forum.feeds.RssForumFeed-class.html#title,Variable mldata.forum.forms.CreateThreadForm.title=mldata.forum.forms.CreateThreadForm-class.html#title,Variable mldata.forum.models.Forum.title=mldata.forum.models.Forum-class.html#title,Variable mldata.forum.models.Thread.title=mldata.forum.models.Thread-class.html#title"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-14', 'title', 'link-14');">title</a></tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-15', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Title"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">100</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt id="link-16" class="py-name" targets="Variable mldata.blog.models.Post.slug=mldata.blog.models.Post-class.html#slug,Variable mldata.forum.models.Forum.slug=mldata.forum.models.Forum-class.html#slug,Variable mldata.repository.models.CurrentVersion.slug=mldata.repository.models.CurrentVersion-class.html#slug,Variable mldata.repository.models.Repository.slug=mldata.repository.models.Repository-class.html#slug"><a title="mldata.blog.models.Post.slug
+mldata.forum.models.Forum.slug
+mldata.repository.models.CurrentVersion.slug
+mldata.repository.models.Repository.slug" class="py-name" href="#" onclick="return doclink('link-16', 'slug', 'link-16');">slug</a></tt> <tt class="py-op">=</tt> <tt id="link-17" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-17', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">SlugField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Slug"</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">    <tt id="link-18" class="py-name" targets="Variable mldata.forum.models.Forum.parent=mldata.forum.models.Forum-class.html#parent"><a title="mldata.forum.models.Forum.parent" class="py-name" href="#" onclick="return doclink('link-18', 'parent', 'link-18');">parent</a></tt> <tt class="py-op">=</tt> <tt id="link-19" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-19', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt class="py-string">'self'</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">null</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">related_name</tt><tt class="py-op">=</tt><tt class="py-string">'child'</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">    <tt id="link-20" class="py-name" targets="Method mldata.forum.feeds.RssForumFeed.description()=mldata.forum.feeds.RssForumFeed-class.html#description,Variable mldata.forum.models.Forum.description=mldata.forum.models.Forum-class.html#description,Variable mldata.repository.models.Repository.description=mldata.repository.models.Repository-class.html#description"><a title="mldata.forum.feeds.RssForumFeed.description
+mldata.forum.models.Forum.description
+mldata.repository.models.Repository.description" class="py-name" href="#" onclick="return doclink('link-20', 'description', 'link-20');">description</a></tt> <tt class="py-op">=</tt> <tt id="link-21" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-21', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">TextField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Description"</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt id="link-22" class="py-name" targets="Variable mldata.forum.models.Forum.threads=mldata.forum.models.Forum-class.html#threads"><a title="mldata.forum.models.Forum.threads" class="py-name" href="#" onclick="return doclink('link-22', 'threads', 'link-22');">threads</a></tt> <tt class="py-op">=</tt> <tt id="link-23" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-23', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">IntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Threads"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">editable</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">    <tt id="link-24" class="py-name" targets="Variable mldata.forum.models.Forum.posts=mldata.forum.models.Forum-class.html#posts,Variable mldata.forum.models.Thread.posts=mldata.forum.models.Thread-class.html#posts"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-24', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt id="link-25" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-25', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">IntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Posts"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">editable</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">    <tt id="link-26" class="py-name" targets="Variable mldata.blog.models.Post.Meta.ordering=mldata.blog.models.Post.Meta-class.html#ordering,Variable mldata.forum.admin.ForumAdmin.ordering=mldata.forum.admin.ForumAdmin-class.html#ordering,Variable mldata.forum.models.Forum.Meta.ordering=mldata.forum.models.Forum.Meta-class.html#ordering,Variable mldata.forum.models.Forum.ordering=mldata.forum.models.Forum-class.html#ordering,Variable mldata.forum.models.Post.Meta.ordering=mldata.forum.models.Post.Meta-class.html#ordering,Variable mldata.forum.models.Thread.Meta.ordering=mldata.forum.models.Thread.Meta-class.html#ordering,Variable mldata.repository.models.Repository.Meta.ordering=mldata.repository.models.Repository.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Article.Meta.ordering=mldata.tagging.tests.models.Article.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Link.Meta.ordering=mldata.tagging.tests.models.Link.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Parrot.Meta.ordering=mldata.tagging.tests.models.Parrot.Meta-class.html#ordering"><a title="mldata.blog.models.Post.Meta.ordering
+mldata.forum.admin.ForumAdmin.ordering
+mldata.forum.models.Forum.Meta.ordering
+mldata.forum.models.Forum.ordering
+mldata.forum.models.Post.Meta.ordering
+mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Repository.Meta.ordering
+mldata.tagging.tests.models.Article.Meta.ordering
+mldata.tagging.tests.models.Link.Meta.ordering
+mldata.tagging.tests.models.Parrot.Meta.ordering" class="py-name" href="#" onclick="return doclink('link-26', 'ordering', 'link-26');">ordering</a></tt> <tt class="py-op">=</tt> <tt id="link-27" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-27', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">IntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Ordering"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">null</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt id="link-28" class="py-name" targets="Method mldata.blog.models.Post.objects()=mldata.blog.models.Post-class.html#objects,Method mldata.forum.models.Forum.objects()=mldata.forum.models.Forum-class.html#objects,Method mldata.forum.models.Post.objects()=mldata.forum.models.Post-class.html#objects,Method mldata.forum.models.Subscription.objects()=mldata.forum.models.Subscription-class.html#objects,Method mldata.forum.models.Thread.objects()=mldata.forum.models.Thread-class.html#objects,Method mldata.registration.models.RegistrationProfile.objects()=mldata.registration.models.RegistrationProfile-class.html#objects,Method mldata.repository.models.CurrentVersion.objects()=mldata.repository.models.CurrentVersion-class.html#objects,Method mldata.repository.models.Data.objects()=mldata.repository.models.Data-class.html#objects,Method mldata.repository.models.DataLicense.objects()=mldata.repository.models.DataLicense-class.html#objects,Method mldata.repository.models.DataRating.objects()=mldata.repository.models.DataRating-class.html#objects,Method mldata.repository.models.License.objects()=mldata.repository.models.License-class.html#objects,Method mldata.repository.models.Rating.objects()=mldata.repository.models.Rating-class.html#objects,Method mldata.repository.models.Repository.objects()=mldata.repository.models.Repository-class.html#objects,Method mldata.repository.models.Slug.objects()=mldata.repository.models.Slug-class.html#objects,Method mldata.repository.models.Solution.objects()=mldata.repository.models.Solution-class.html#objects,Method mldata.repository.models.SolutionRating.objects()=mldata.repository.models.SolutionRating-class.html#objects,Method mldata.repository.models.Task.objects()=mldata.repository.models.Task-class.html#objects,Method mldata.repository.models.TaskRating.objects()=mldata.repository.models.TaskRating-class.html#objects,Method mldata.repository.models.TaskType.objects()=mldata.repository.models.TaskType-class.html#objects,Method mldata.tagging.tests.models.Article.objects()=mldata.tagging.tests.models.Article-class.html#objects,Method mldata.tagging.tests.models.FormTest.objects()=mldata.tagging.tests.models.FormTest-class.html#objects,Method mldata.tagging.tests.models.Link.objects()=mldata.tagging.tests.models.Link-class.html#objects,Method mldata.tagging.tests.models.Parrot.objects()=mldata.tagging.tests.models.Parrot-class.html#objects,Method mldata.tagging.tests.models.Perch.objects()=mldata.tagging.tests.models.Perch-class.html#objects"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-28', 'objects', 'link-28');">objects</a></tt> <tt class="py-op">=</tt> <tt id="link-29" class="py-name"><a title="mldata.forum.managers.ForumManager" class="py-name" href="#" onclick="return doclink('link-29', 'ForumManager', 'link-8');">ForumManager</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"> </tt>
+<a name="Forum._get_forum_latest_post"></a><div id="Forum._get_forum_latest_post-def"><a name="L37"></a><tt class="py-lineno"> 37</tt> <a class="py-toggle" href="#" id="Forum._get_forum_latest_post-toggle" onclick="return toggle('Forum._get_forum_latest_post');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_get_forum_latest_post">_get_forum_latest_post</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._get_forum_latest_post-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._get_forum_latest_post-expanded"><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt class="py-docstring">"""This gets the latest post for the forum"""</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">hasattr</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">,</tt> <tt class="py-string">'__forum_latest_post'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__forum_latest_post</tt> <tt class="py-op">=</tt> <tt id="link-30" class="py-name" targets="Class mldata.blog.models.Post=mldata.blog.models.Post-class.html,Class mldata.forum.models.Post=mldata.forum.models.Post-class.html"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-30', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-31" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-31', 'objects', 'link-28');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">thread__forum__pk</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">latest</tt><tt class="py-op">(</tt><tt class="py-string">"time"</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt id="link-32" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-32', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Class django_authopenid.models.Association.DoesNotExist=django_authopenid.models.Association.DoesNotExist-class.html,Class django_authopenid.models.Nonce.DoesNotExist=django_authopenid.models.Nonce.DoesNotExist-class.html,Class django_authopenid.models.UserAssociation.DoesNotExist=django_authopenid.models.UserAssociation.DoesNotExist-class.html,Class mldata.blog.models.Post.DoesNotExist=mldata.blog.models.Post.DoesNotExist-class.html,Class mldata.forum.models.Forum.DoesNotExist=mldata.forum.models.Forum.DoesNotExist-class.html,Class mldata.forum.models.Post.DoesNotExist=mldata.forum.models.Post.DoesNotExist-class.html,Class mldata.forum.models.Subscription.DoesNotExist=mldata.forum.models.Subscription.DoesNotExist-class.html,Class mldata.forum.models.Thread.DoesNotExist=mldata.forum.models.Thread.DoesNotExist-class.html,Class mldata.registration.models.RegistrationProfile.DoesNotExist=mldata.registration.models.RegistrationProfile.DoesNotExist-class.html,Class mldata.repository.models.CurrentVersion.DoesNotExist=mldata.repository.models.CurrentVersion.DoesNotExist-class.html,Class mldata.repository.models.Data.DoesNotExist=mldata.repository.models.Data.DoesNotExist-class.html,Class mldata.repository.models.DataLicense.DoesNotExist=mldata.repository.models.DataLicense.DoesNotExist-class.html,Class mldata.repository.models.DataRating.DoesNotExist=mldata.repository.models.DataRating.DoesNotExist-class.html,Class mldata.repository.models.License.DoesNotExist=mldata.repository.models.License.DoesNotExist-class.html,Class mldata.repository.models.Rating.DoesNotExist=mldata.repository.models.Rating.DoesNotExist-class.html,Class mldata.repository.models.Repository.DoesNotExist=mldata.repository.models.Repository.DoesNotExist-class.html,Class mldata.repository.models.Slug.DoesNotExist=mldata.repository.models.Slug.DoesNotExist-class.html,Class mldata.repository.models.Solution.DoesNotExist=mldata.repository.models.Solution.DoesNotExist-class.html,Class mldata.repository.models.SolutionRating.DoesNotExist=mldata.repository.models.SolutionRating.DoesNotExist-class.html,Class mldata.repository.models.Task.DoesNotExist=mldata.repository.models.Task.DoesNotExist-class.html,Class mldata.repository.models.TaskRating.DoesNotExist=mldata.repository.models.TaskRating.DoesNotExist-class.html,Class mldata.repository.models.TaskType.DoesNotExist=mldata.repository.models.TaskType.DoesNotExist-class.html,Class mldata.tagging.tests.models.Article.DoesNotExist=mldata.tagging.tests.models.Article.DoesNotExist-class.html,Class mldata.tagging.tests.models.FormTest.DoesNotExist=mldata.tagging.tests.models.FormTest.DoesNotExist-class.html,Class mldata.tagging.tests.models.Link.DoesNotExist=mldata.tagging.tests.models.Link.DoesNotExist-class.html,Class mldata.tagging.tests.models.Parrot.DoesNotExist=mldata.tagging.tests.models.Parrot.DoesNotExist-class.html,Class mldata.tagging.tests.models.Perch.DoesNotExist=mldata.tagging.tests.models.Perch.DoesNotExist-class.html,Class tagging.models.Tag.DoesNotExist=tagging.models.Tag.DoesNotExist-class.html"><a title="django_authopenid.models.Association.DoesNotExist
+django_authopenid.models.Nonce.DoesNotExist
+django_authopenid.models.UserAssociation.DoesNotExist
+mldata.blog.models.Post.DoesNotExist
+mldata.forum.models.Forum.DoesNotExist
+mldata.forum.models.Post.DoesNotExist
+mldata.forum.models.Subscription.DoesNotExist
+mldata.forum.models.Thread.DoesNotExist
+mldata.registration.models.RegistrationProfile.DoesNotExist
+mldata.repository.models.CurrentVersion.DoesNotExist
+mldata.repository.models.Data.DoesNotExist
+mldata.repository.models.DataLicense.DoesNotExist
+mldata.repository.models.DataRating.DoesNotExist
+mldata.repository.models.License.DoesNotExist
+mldata.repository.models.Rating.DoesNotExist
+mldata.repository.models.Repository.DoesNotExist
+mldata.repository.models.Slug.DoesNotExist
+mldata.repository.models.Solution.DoesNotExist
+mldata.repository.models.SolutionRating.DoesNotExist
+mldata.repository.models.Task.DoesNotExist
+mldata.repository.models.TaskRating.DoesNotExist
+mldata.repository.models.TaskType.DoesNotExist
+mldata.tagging.tests.models.Article.DoesNotExist
+mldata.tagging.tests.models.FormTest.DoesNotExist
+mldata.tagging.tests.models.Link.DoesNotExist
+mldata.tagging.tests.models.Parrot.DoesNotExist
+mldata.tagging.tests.models.Perch.DoesNotExist
+tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-33', 'DoesNotExist', 'link-33');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__forum_latest_post</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__forum_latest_post</tt> </tt>
+</div><a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">    <tt id="link-34" class="py-name" targets="Variable mldata.forum.models.Forum.forum_latest_post=mldata.forum.models.Forum-class.html#forum_latest_post"><a title="mldata.forum.models.Forum.forum_latest_post" class="py-name" href="#" onclick="return doclink('link-34', 'forum_latest_post', 'link-34');">forum_latest_post</a></tt> <tt class="py-op">=</tt> <tt class="py-name">property</tt><tt class="py-op">(</tt><tt id="link-35" class="py-name" targets="Method mldata.forum.models.Forum._get_forum_latest_post()=mldata.forum.models.Forum-class.html#_get_forum_latest_post"><a title="mldata.forum.models.Forum._get_forum_latest_post" class="py-name" href="#" onclick="return doclink('link-35', '_get_forum_latest_post', 'link-35');">_get_forum_latest_post</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"> </tt>
+<a name="Forum._recurse_for_parents_slug"></a><div id="Forum._recurse_for_parents_slug-def"><a name="L48"></a><tt class="py-lineno"> 48</tt> <a class="py-toggle" href="#" id="Forum._recurse_for_parents_slug-toggle" onclick="return toggle('Forum._recurse_for_parents_slug');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_recurse_for_parents_slug">_recurse_for_parents_slug</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">forum_obj</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._recurse_for_parents_slug-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._recurse_for_parents_slug-expanded"><a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-comment">#This is used for the urls</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">forum_obj</tt><tt class="py-op">.</tt><tt class="py-name">parent_id</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">            <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">forum_obj</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name"><a title="mldata.forum.models.Forum.parent" class="py-name" href="#" onclick="return doclink('link-36', 'parent', 'link-18');">parent</a></tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="mldata.blog.models.Post.slug
+mldata.forum.models.Forum.slug
+mldata.repository.models.CurrentVersion.slug
+mldata.repository.models.Repository.slug" class="py-name" href="#" onclick="return doclink('link-37', 'slug', 'link-16');">slug</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">            <tt class="py-name">more</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name" targets="Method mldata.forum.models.Forum._recurse_for_parents_slug()=mldata.forum.models.Forum-class.html#_recurse_for_parents_slug"><a title="mldata.forum.models.Forum._recurse_for_parents_slug" class="py-name" href="#" onclick="return doclink('link-38', '_recurse_for_parents_slug', 'link-38');">_recurse_for_parents_slug</a></tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">more</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">forum_obj</tt> <tt class="py-op">==</tt> <tt class="py-name">self</tt> <tt class="py-keyword">and</tt> <tt class="py-name">p_list</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">reverse</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">p_list</tt> </tt>
+</div><a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
+<a name="Forum.get_absolute_url"></a><div id="Forum.get_absolute_url-def"><a name="L60"></a><tt class="py-lineno"> 60</tt> <a class="py-toggle" href="#" id="Forum.get_absolute_url-toggle" onclick="return toggle('Forum.get_absolute_url');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#get_absolute_url">get_absolute_url</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.get_absolute_url-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.get_absolute_url-expanded"><a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">core</tt><tt class="py-op">.</tt><tt class="py-name">urlresolvers</tt> <tt class="py-keyword">import</tt> <tt class="py-name">reverse</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name"><a title="mldata.forum.models.Forum._recurse_for_parents_slug" class="py-name" href="#" onclick="return doclink('link-39', '_recurse_for_parents_slug', 'link-38');">_recurse_for_parents_slug</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name"><a title="mldata.blog.models.Post.slug
+mldata.forum.models.Forum.slug
+mldata.repository.models.CurrentVersion.slug
+mldata.repository.models.Repository.slug" class="py-name" href="#" onclick="return doclink('link-40', 'slug', 'link-16');">slug</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">'%s%s/'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">reverse</tt><tt class="py-op">(</tt><tt class="py-string">'forum_index'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'/'</tt><tt class="py-op">.</tt><tt class="py-name">join</tt> <tt class="py-op">(</tt><tt class="py-name">p_list</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"> </tt>
+<a name="Forum._recurse_for_parents_name"></a><div id="Forum._recurse_for_parents_name-def"><a name="L66"></a><tt class="py-lineno"> 66</tt> <a class="py-toggle" href="#" id="Forum._recurse_for_parents_name-toggle" onclick="return toggle('Forum._recurse_for_parents_name');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_recurse_for_parents_name">_recurse_for_parents_name</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">forum_obj</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._recurse_for_parents_name-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._recurse_for_parents_name-expanded"><a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">        <tt class="py-comment">#This is used for the visual display &amp; save validation</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">forum_obj</tt><tt class="py-op">.</tt><tt class="py-name">parent_id</tt><tt class="py-op">:</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">            <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">forum_obj</tt><tt class="py-op">.</tt><tt id="link-41" class="py-name"><a title="mldata.forum.models.Forum.parent" class="py-name" href="#" onclick="return doclink('link-41', 'parent', 'link-18');">parent</a></tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-42" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-42', 'title', 'link-14');">title</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">            <tt class="py-name">more</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-43" class="py-name" targets="Method mldata.forum.models.Forum._recurse_for_parents_name()=mldata.forum.models.Forum-class.html#_recurse_for_parents_name"><a title="mldata.forum.models.Forum._recurse_for_parents_name" class="py-name" href="#" onclick="return doclink('link-43', '_recurse_for_parents_name', 'link-43');">_recurse_for_parents_name</a></tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">more</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">forum_obj</tt> <tt class="py-op">==</tt> <tt class="py-name">self</tt> <tt class="py-keyword">and</tt> <tt class="py-name">p_list</tt><tt class="py-op">:</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">reverse</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">p_list</tt> </tt>
+</div><a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"> </tt>
+<a name="Forum.get_separator"></a><div id="Forum.get_separator-def"><a name="L78"></a><tt class="py-lineno"> 78</tt> <a class="py-toggle" href="#" id="Forum.get_separator-toggle" onclick="return toggle('Forum.get_separator');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#get_separator">get_separator</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.get_separator-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.get_separator-expanded"><a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">' &amp;raquo; '</tt> </tt>
+</div><a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"> </tt>
+<a name="Forum._parents_repr"></a><div id="Forum._parents_repr-def"><a name="L81"></a><tt class="py-lineno"> 81</tt> <a class="py-toggle" href="#" id="Forum._parents_repr-toggle" onclick="return toggle('Forum._parents_repr');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_parents_repr">_parents_repr</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._parents_repr-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._parents_repr-expanded"><a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-44" class="py-name"><a title="mldata.forum.models.Forum._recurse_for_parents_name" class="py-name" href="#" onclick="return doclink('link-44', '_recurse_for_parents_name', 'link-43');">_recurse_for_parents_name</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-45" class="py-name" targets="Method mldata.forum.models.Forum.get_separator()=mldata.forum.models.Forum-class.html#get_separator"><a title="mldata.forum.models.Forum.get_separator" class="py-name" href="#" onclick="return doclink('link-45', 'get_separator', 'link-45');">get_separator</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">p_list</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">    <tt id="link-46" class="py-name" targets="Method mldata.forum.models.Forum._parents_repr()=mldata.forum.models.Forum-class.html#_parents_repr"><a title="mldata.forum.models.Forum._parents_repr" class="py-name" href="#" onclick="return doclink('link-46', '_parents_repr', 'link-46');">_parents_repr</a></tt><tt class="py-op">.</tt><tt class="py-name">short_description</tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Forum parents"</tt><tt class="py-op">)</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
+<a name="Forum._recurse_for_parents_name_url"></a><div id="Forum._recurse_for_parents_name_url-def"><a name="L86"></a><tt class="py-lineno"> 86</tt> <a class="py-toggle" href="#" id="Forum._recurse_for_parents_name_url-toggle" onclick="return toggle('Forum._recurse_for_parents_name_url');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_recurse_for_parents_name_url">_recurse_for_parents_name_url</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">forum__obj</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._recurse_for_parents_name_url-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._recurse_for_parents_name_url-expanded"><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">        <tt class="py-comment">#Get all the absolute urls and names (for use in site navigation)</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">        <tt class="py-name">url_list</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">forum__obj</tt><tt class="py-op">.</tt><tt class="py-name">parent_id</tt><tt class="py-op">:</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">            <tt class="py-name">p</tt> <tt class="py-op">=</tt> <tt class="py-name">forum__obj</tt><tt class="py-op">.</tt><tt id="link-47" class="py-name"><a title="mldata.forum.models.Forum.parent" class="py-name" href="#" onclick="return doclink('link-47', 'parent', 'link-18');">parent</a></tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-48" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-48', 'title', 'link-14');">title</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">            <tt class="py-name">url_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">.</tt><tt id="link-49" class="py-name" targets="Method mldata.blog.models.Post.get_absolute_url()=mldata.blog.models.Post-class.html#get_absolute_url,Method mldata.forum.models.Forum.get_absolute_url()=mldata.forum.models.Forum-class.html#get_absolute_url,Method mldata.forum.models.Post.get_absolute_url()=mldata.forum.models.Post-class.html#get_absolute_url,Method mldata.forum.models.Thread.get_absolute_url()=mldata.forum.models.Thread-class.html#get_absolute_url,Method mldata.repository.models.Data.get_absolute_url()=mldata.repository.models.Data-class.html#get_absolute_url,Method mldata.repository.models.Repository.get_absolute_url()=mldata.repository.models.Repository-class.html#get_absolute_url,Method mldata.repository.models.Solution.get_absolute_url()=mldata.repository.models.Solution-class.html#get_absolute_url,Method mldata.repository.models.Task.get_absolute_url()=mldata.repository.models.Task-class.html#get_absolute_url"><a title="mldata.blog.models.Post.get_absolute_url
+mldata.forum.models.Forum.get_absolute_url
+mldata.forum.models.Post.get_absolute_url
+mldata.forum.models.Thread.get_absolute_url
+mldata.repository.models.Data.get_absolute_url
+mldata.repository.models.Repository.get_absolute_url
+mldata.repository.models.Solution.get_absolute_url
+mldata.repository.models.Task.get_absolute_url" class="py-name" href="#" onclick="return doclink('link-49', 'get_absolute_url', 'link-49');">get_absolute_url</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">            <tt class="py-name">more</tt><tt class="py-op">,</tt> <tt id="link-50" class="py-name" targets="Variable mldata.repository.models.DataLicense.url=mldata.repository.models.DataLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-50', 'url', 'link-50');">url</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-51" class="py-name" targets="Method mldata.forum.models.Forum._recurse_for_parents_name_url()=mldata.forum.models.Forum-class.html#_recurse_for_parents_name_url"><a title="mldata.forum.models.Forum._recurse_for_parents_name_url" class="py-name" href="#" onclick="return doclink('link-51', '_recurse_for_parents_name_url', 'link-51');">_recurse_for_parents_name_url</a></tt><tt class="py-op">(</tt><tt class="py-name">p</tt><tt class="py-op">)</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">more</tt><tt class="py-op">)</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">            <tt class="py-name">url_list</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt id="link-52" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-52', 'url', 'link-50');">url</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">forum__obj</tt> <tt class="py-op">==</tt> <tt class="py-name">self</tt> <tt class="py-keyword">and</tt> <tt class="py-name">p_list</tt><tt class="py-op">:</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">            <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">reverse</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">            <tt class="py-name">url_list</tt><tt class="py-op">.</tt><tt class="py-name">reverse</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">p_list</tt><tt class="py-op">,</tt> <tt class="py-name">url_list</tt> </tt>
+</div><a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"> </tt>
+<a name="Forum.get_url_name"></a><div id="Forum.get_url_name-def"><a name="L102"></a><tt class="py-lineno">102</tt> <a class="py-toggle" href="#" id="Forum.get_url_name-toggle" onclick="return toggle('Forum.get_url_name');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#get_url_name">get_url_name</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.get_url_name-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.get_url_name-expanded"><a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">        <tt class="py-comment">#Get a list of the url to display and the actual urls</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt><tt class="py-op">,</tt> <tt class="py-name">url_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-53" class="py-name"><a title="mldata.forum.models.Forum._recurse_for_parents_name_url" class="py-name" href="#" onclick="return doclink('link-53', '_recurse_for_parents_name_url', 'link-51');">_recurse_for_parents_name_url</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-54', 'title', 'link-14');">title</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">        <tt class="py-name">url_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-55" class="py-name"><a title="mldata.blog.models.Post.get_absolute_url
+mldata.forum.models.Forum.get_absolute_url
+mldata.forum.models.Post.get_absolute_url
+mldata.forum.models.Thread.get_absolute_url
+mldata.repository.models.Data.get_absolute_url
+mldata.repository.models.Repository.get_absolute_url
+mldata.repository.models.Solution.get_absolute_url
+mldata.repository.models.Task.get_absolute_url" class="py-name" href="#" onclick="return doclink('link-55', 'get_absolute_url', 'link-49');">get_absolute_url</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">zip</tt><tt class="py-op">(</tt><tt class="py-name">p_list</tt><tt class="py-op">,</tt> <tt class="py-name">url_list</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"> </tt>
+<a name="Forum.__unicode__"></a><div id="Forum.__unicode__-def"><a name="L109"></a><tt class="py-lineno">109</tt> <a class="py-toggle" href="#" id="Forum.__unicode__-toggle" onclick="return toggle('Forum.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.__unicode__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.__unicode__-expanded"><a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">u'%s'</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-56" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-56', 'title', 'link-14');">title</a></tt> </tt>
+</div><a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">     </tt>
+<a name="Forum.Meta"></a><div id="Forum.Meta-def"><a name="L112"></a><tt class="py-lineno">112</tt> <a class="py-toggle" href="#" id="Forum.Meta-toggle" onclick="return toggle('Forum.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Forum.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.Meta-expanded"><a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt id="link-57" class="py-name"><a title="mldata.blog.models.Post.Meta.ordering
+mldata.forum.admin.ForumAdmin.ordering
+mldata.forum.models.Forum.Meta.ordering
+mldata.forum.models.Forum.ordering
+mldata.forum.models.Post.Meta.ordering
+mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Repository.Meta.ordering
+mldata.tagging.tests.models.Article.Meta.ordering
+mldata.tagging.tests.models.Link.Meta.ordering
+mldata.tagging.tests.models.Parrot.Meta.ordering" class="py-name" href="#" onclick="return doclink('link-57', 'ordering', 'link-26');">ordering</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-string">'ordering'</tt><tt class="py-op">,</tt> <tt class="py-string">'title'</tt><tt class="py-op">,</tt><tt class="py-op">]</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">        <tt id="link-58" class="py-name" targets="Variable mldata.forum.models.Forum.Meta.verbose_name=mldata.forum.models.Forum.Meta-class.html#verbose_name,Variable mldata.forum.models.Post.Meta.verbose_name=mldata.forum.models.Post.Meta-class.html#verbose_name,Variable mldata.forum.models.Subscription.Meta.verbose_name=mldata.forum.models.Subscription.Meta-class.html#verbose_name,Variable mldata.forum.models.Thread.Meta.verbose_name=mldata.forum.models.Thread.Meta-class.html#verbose_name,Variable mldata.registration.models.RegistrationProfile.Meta.verbose_name=mldata.registration.models.RegistrationProfile.Meta-class.html#verbose_name"><a title="mldata.forum.models.Forum.Meta.verbose_name
+mldata.forum.models.Post.Meta.verbose_name
+mldata.forum.models.Subscription.Meta.verbose_name
+mldata.forum.models.Thread.Meta.verbose_name
+mldata.registration.models.RegistrationProfile.Meta.verbose_name" class="py-name" href="#" onclick="return doclink('link-58', 'verbose_name', 'link-58');">verbose_name</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Forum'</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">        <tt id="link-59" class="py-name" targets="Variable mldata.forum.models.Forum.Meta.verbose_name_plural=mldata.forum.models.Forum.Meta-class.html#verbose_name_plural,Variable mldata.forum.models.Post.Meta.verbose_name_plural=mldata.forum.models.Post.Meta-class.html#verbose_name_plural,Variable mldata.forum.models.Subscription.Meta.verbose_name_plural=mldata.forum.models.Subscription.Meta-class.html#verbose_name_plural,Variable mldata.forum.models.Thread.Meta.verbose_name_plural=mldata.forum.models.Thread.Meta-class.html#verbose_name_plural,Variable mldata.registration.models.RegistrationProfile.Meta.verbose_name_plural=mldata.registration.models.RegistrationProfile.Meta-class.html#verbose_name_plural"><a title="mldata.forum.models.Forum.Meta.verbose_name_plural
+mldata.forum.models.Post.Meta.verbose_name_plural
+mldata.forum.models.Subscription.Meta.verbose_name_plural
+mldata.forum.models.Thread.Meta.verbose_name_plural
+mldata.registration.models.RegistrationProfile.Meta.verbose_name_plural" class="py-name" href="#" onclick="return doclink('link-59', 'verbose_name_plural', 'link-59');">verbose_name_plural</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Forums'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"> </tt>
+<a name="Forum.save"></a><div id="Forum.save-def"><a name="L117"></a><tt class="py-lineno">117</tt> <a class="py-toggle" href="#" id="Forum.save-toggle" onclick="return toggle('Forum.save');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#save">save</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">force_insert</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-param">force_update</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.save-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.save-expanded"><a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">        <tt class="py-name">p_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-60" class="py-name"><a title="mldata.forum.models.Forum._recurse_for_parents_name" class="py-name" href="#" onclick="return doclink('link-60', '_recurse_for_parents_name', 'link-43');">_recurse_for_parents_name</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-61" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-61', 'title', 'link-14');">title</a></tt><tt class="py-op">)</tt> <tt class="py-keyword">in</tt> <tt class="py-name">p_list</tt><tt class="py-op">:</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">validators</tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"You must not save a forum in itself!"</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-62" class="py-name" targets="Class mldata.forum.models.Forum=mldata.forum.models.Forum-class.html"><a title="mldata.forum.models.Forum" class="py-name" href="#" onclick="return doclink('link-62', 'Forum', 'link-62');">Forum</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-63" class="py-name" targets="Method mldata.blog.models.Post.save()=mldata.blog.models.Post-class.html#save,Method mldata.forum.models.Forum.save()=mldata.forum.models.Forum-class.html#save,Method mldata.forum.models.Post.save()=mldata.forum.models.Post-class.html#save,Method mldata.forum.models.Thread.save()=mldata.forum.models.Thread-class.html#save,Method mldata.registration.forms.RegistrationForm.save()=mldata.registration.forms.RegistrationForm-class.html#save,Method mldata.repository.models.Repository.save()=mldata.repository.models.Repository-class.html#save,Method mldata.user.views.ChangeUserDetailsForm.save()=mldata.user.views.ChangeUserDetailsForm-class.html#save,Method mldata.utils.hdf5conv.arff.ArffFile.save()=mldata.utils.hdf5conv.arff.ArffFile-class.html#save"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-63', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-name">force_insert</tt><tt class="py-op">,</tt> <tt class="py-name">force_update</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line"> </tt>
+<a name="Forum._flatten"></a><div id="Forum._flatten-def"><a name="L123"></a><tt class="py-lineno">123</tt> <a class="py-toggle" href="#" id="Forum._flatten-toggle" onclick="return toggle('Forum._flatten');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_flatten">_flatten</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">L</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._flatten-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._flatten-expanded"><a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"><tt class="py-docstring">        Taken from a python newsgroup post</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-64" class="py-name" targets="Variable mldata.repository.forms.TaskForm.type=mldata.repository.forms.TaskForm-class.html#type,Variable mldata.repository.models.CurrentVersion.type=mldata.repository.models.CurrentVersion-class.html#type,Variable mldata.repository.models.Task.type=mldata.repository.models.Task-class.html#type,Variable mldata.utils.markdown.CDATA.type=mldata.utils.markdown.CDATA-class.html#type,Variable mldata.utils.markdown.Element.type=mldata.utils.markdown.Element-class.html#type,Variable mldata.utils.markdown.EntityReference.type=mldata.utils.markdown.EntityReference-class.html#type,Variable mldata.utils.markdown.TextNode.type=mldata.utils.markdown.TextNode-class.html#type"><a title="mldata.repository.forms.TaskForm.type
+mldata.repository.models.CurrentVersion.type
+mldata.repository.models.Task.type
+mldata.utils.markdown.CDATA.type
+mldata.utils.markdown.Element.type
+mldata.utils.markdown.EntityReference.type
+mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return doclink('link-64', 'type', 'link-64');">type</a></tt><tt class="py-op">(</tt><tt class="py-name">L</tt><tt class="py-op">)</tt> <tt class="py-op">!=</tt> <tt id="link-65" class="py-name"><a title="mldata.repository.forms.TaskForm.type
+mldata.repository.models.CurrentVersion.type
+mldata.repository.models.Task.type
+mldata.utils.markdown.CDATA.type
+mldata.utils.markdown.Element.type
+mldata.utils.markdown.EntityReference.type
+mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return doclink('link-65', 'type', 'link-64');">type</a></tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-op">[</tt><tt class="py-name">L</tt><tt class="py-op">]</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">L</tt> <tt class="py-op">==</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> <tt class="py-keyword">return</tt> <tt class="py-name">L</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-66" class="py-name" targets="Method mldata.forum.models.Forum._flatten()=mldata.forum.models.Forum-class.html#_flatten"><a title="mldata.forum.models.Forum._flatten" class="py-name" href="#" onclick="return doclink('link-66', '_flatten', 'link-66');">_flatten</a></tt><tt class="py-op">(</tt><tt class="py-name">L</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-67" class="py-name"><a title="mldata.forum.models.Forum._flatten" class="py-name" href="#" onclick="return doclink('link-67', '_flatten', 'link-66');">_flatten</a></tt><tt class="py-op">(</tt><tt class="py-name">L</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"> </tt>
+<a name="Forum._recurse_for_children"></a><div id="Forum._recurse_for_children-def"><a name="L131"></a><tt class="py-lineno">131</tt> <a class="py-toggle" href="#" id="Forum._recurse_for_children-toggle" onclick="return toggle('Forum._recurse_for_children');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#_recurse_for_children">_recurse_for_children</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">node</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum._recurse_for_children-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum._recurse_for_children-expanded"><a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">        <tt class="py-name">children</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">        <tt class="py-name">children</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">node</tt><tt class="py-op">)</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt id="link-68" class="py-name" targets="Variable mldata.forum.models.Forum.child=mldata.forum.models.Forum-class.html#child"><a title="mldata.forum.models.Forum.child" class="py-name" href="#" onclick="return doclink('link-68', 'child', 'link-68');">child</a></tt> <tt class="py-keyword">in</tt> <tt class="py-name">node</tt><tt class="py-op">.</tt><tt id="link-69" class="py-name"><a title="mldata.forum.models.Forum.child" class="py-name" href="#" onclick="return doclink('link-69', 'child', 'link-68');">child</a></tt><tt class="py-op">.</tt><tt class="py-name">all</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">            <tt class="py-name">children_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-70" class="py-name" targets="Method mldata.forum.models.Forum._recurse_for_children()=mldata.forum.models.Forum-class.html#_recurse_for_children"><a title="mldata.forum.models.Forum._recurse_for_children" class="py-name" href="#" onclick="return doclink('link-70', '_recurse_for_children', 'link-70');">_recurse_for_children</a></tt><tt class="py-op">(</tt><tt id="link-71" class="py-name"><a title="mldata.forum.models.Forum.child" class="py-name" href="#" onclick="return doclink('link-71', 'child', 'link-68');">child</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">            <tt class="py-name">children</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">children_list</tt><tt class="py-op">)</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">children</tt> </tt>
+</div><a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line"> </tt>
+<a name="Forum.get_all_children"></a><div id="Forum.get_all_children-def"><a name="L139"></a><tt class="py-lineno">139</tt> <a class="py-toggle" href="#" id="Forum.get_all_children-toggle" onclick="return toggle('Forum.get_all_children');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Forum-class.html#get_all_children">get_all_children</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Forum.get_all_children-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Forum.get_all_children-expanded"><a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line"><tt class="py-docstring">        Gets a list of all of the children forums.</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">        <tt class="py-name">children_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-72" class="py-name"><a title="mldata.forum.models.Forum._recurse_for_children" class="py-name" href="#" onclick="return doclink('link-72', '_recurse_for_children', 'link-70');">_recurse_for_children</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-name">flat_list</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-73" class="py-name"><a title="mldata.forum.models.Forum._flatten" class="py-name" href="#" onclick="return doclink('link-73', '_flatten', 'link-66');">_flatten</a></tt><tt class="py-op">(</tt><tt class="py-name">children_list</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">flat_list</tt> </tt>
+</div></div><a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"> </tt>
+<a name="Thread"></a><div id="Thread-def"><a name="L147"></a><tt class="py-lineno">147</tt> <a class="py-toggle" href="#" id="Thread-toggle" onclick="return toggle('Thread');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Thread-class.html">Thread</a><tt class="py-op">(</tt><tt class="py-base-class">models</tt><tt class="py-op">.</tt><tt class="py-base-class">Model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Thread-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Thread-expanded"><a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-docstring">    A Thread belongs in a Forum, and is a collection of posts.</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-docstring">    Threads can be closed or stickied which alter their behaviour </tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"><tt class="py-docstring">    in the thread listings. Again, the posts &amp; views fields are </tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"><tt class="py-docstring">    automatically updated with saving a post or viewing the thread.</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">    <tt id="link-74" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-74', 'forum', 'link-6');">forum</a></tt> <tt class="py-op">=</tt> <tt id="link-75" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-75', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-76" class="py-name"><a title="mldata.forum.models.Forum" class="py-name" href="#" onclick="return doclink('link-76', 'Forum', 'link-62');">Forum</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line">    <tt id="link-77" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-77', 'title', 'link-14');">title</a></tt> <tt class="py-op">=</tt> <tt id="link-78" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-78', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Title"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">100</tt><tt class="py-op">)</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">    <tt id="link-79" class="py-name" targets="Variable mldata.forum.models.Thread.sticky=mldata.forum.models.Thread-class.html#sticky"><a title="mldata.forum.models.Thread.sticky" class="py-name" href="#" onclick="return doclink('link-79', 'sticky', 'link-79');">sticky</a></tt> <tt class="py-op">=</tt> <tt id="link-80" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-80', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">BooleanField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Sticky?"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">    <tt id="link-81" class="py-name" targets="Variable mldata.forum.models.Thread.closed=mldata.forum.models.Thread-class.html#closed"><a title="mldata.forum.models.Thread.closed" class="py-name" href="#" onclick="return doclink('link-81', 'closed', 'link-81');">closed</a></tt> <tt class="py-op">=</tt> <tt id="link-82" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-82', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">BooleanField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Closed?"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">    <tt id="link-83" class="py-name"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-83', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt id="link-84" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-84', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">IntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Posts"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">    <tt id="link-85" class="py-name" targets="Module mldata.about.views=mldata.about.views-module.html,Module mldata.blog.views=mldata.blog.views-module.html,Module mldata.django_authopenid.views=mldata.django_authopenid.views-module.html,Variable mldata.forum.models.Thread.views=mldata.forum.models.Thread-class.html#views,Module mldata.forum.views=mldata.forum.views-module.html,Module mldata.registration.views=mldata.registration.views-module.html,Module mldata.repository.views=mldata.repository.views-module.html,Module mldata.tagging.views=mldata.tagging.views-module.html,Module mldata.user.views=mldata.user.views-module.html"><a title="mldata.about.views
+mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-85', 'views', 'link-85');">views</a></tt> <tt class="py-op">=</tt> <tt id="link-86" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-86', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">IntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Views"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">default</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">    <tt id="link-87" class="py-name" targets="Variable mldata.forum.models.Thread.latest_post_time=mldata.forum.models.Thread-class.html#latest_post_time"><a title="mldata.forum.models.Thread.latest_post_time" class="py-name" href="#" onclick="return doclink('link-87', 'latest_post_time', 'link-87');">latest_post_time</a></tt> <tt class="py-op">=</tt> <tt id="link-88" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-88', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">DateTimeField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Latest Post Time"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">null</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line"> </tt>
+<a name="Thread._get_thread_latest_post"></a><div id="Thread._get_thread_latest_post-def"><a name="L163"></a><tt class="py-lineno">163</tt> <a class="py-toggle" href="#" id="Thread._get_thread_latest_post-toggle" onclick="return toggle('Thread._get_thread_latest_post');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Thread-class.html#_get_thread_latest_post">_get_thread_latest_post</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Thread._get_thread_latest_post-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Thread._get_thread_latest_post-expanded"><a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">        <tt class="py-docstring">"""This gets the latest post for the thread"""</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">hasattr</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">,</tt> <tt class="py-string">'__thread_latest_post'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__thread_latest_post</tt> <tt class="py-op">=</tt> <tt id="link-89" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-89', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-90" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-90', 'objects', 'link-28');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">thread__pk</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">latest</tt><tt class="py-op">(</tt><tt class="py-string">"time"</tt><tt class="py-op">)</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt id="link-91" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-91', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-92" class="py-name"><a title="django_authopenid.models.Association.DoesNotExist
+django_authopenid.models.Nonce.DoesNotExist
+django_authopenid.models.UserAssociation.DoesNotExist
+mldata.blog.models.Post.DoesNotExist
+mldata.forum.models.Forum.DoesNotExist
+mldata.forum.models.Post.DoesNotExist
+mldata.forum.models.Subscription.DoesNotExist
+mldata.forum.models.Thread.DoesNotExist
+mldata.registration.models.RegistrationProfile.DoesNotExist
+mldata.repository.models.CurrentVersion.DoesNotExist
+mldata.repository.models.Data.DoesNotExist
+mldata.repository.models.DataLicense.DoesNotExist
+mldata.repository.models.DataRating.DoesNotExist
+mldata.repository.models.License.DoesNotExist
+mldata.repository.models.Rating.DoesNotExist
+mldata.repository.models.Repository.DoesNotExist
+mldata.repository.models.Slug.DoesNotExist
+mldata.repository.models.Solution.DoesNotExist
+mldata.repository.models.SolutionRating.DoesNotExist
+mldata.repository.models.Task.DoesNotExist
+mldata.repository.models.TaskRating.DoesNotExist
+mldata.repository.models.TaskType.DoesNotExist
+mldata.tagging.tests.models.Article.DoesNotExist
+mldata.tagging.tests.models.FormTest.DoesNotExist
+mldata.tagging.tests.models.Link.DoesNotExist
+mldata.tagging.tests.models.Parrot.DoesNotExist
+mldata.tagging.tests.models.Perch.DoesNotExist
+tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-92', 'DoesNotExist', 'link-33');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__thread_latest_post</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">__thread_latest_post</tt> </tt>
+</div><a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">    <tt id="link-93" class="py-name" targets="Variable mldata.forum.models.Thread.thread_latest_post=mldata.forum.models.Thread-class.html#thread_latest_post"><a title="mldata.forum.models.Thread.thread_latest_post" class="py-name" href="#" onclick="return doclink('link-93', 'thread_latest_post', 'link-93');">thread_latest_post</a></tt> <tt class="py-op">=</tt> <tt class="py-name">property</tt><tt class="py-op">(</tt><tt id="link-94" class="py-name" targets="Method mldata.forum.models.Thread._get_thread_latest_post()=mldata.forum.models.Thread-class.html#_get_thread_latest_post"><a title="mldata.forum.models.Thread._get_thread_latest_post" class="py-name" href="#" onclick="return doclink('link-94', '_get_thread_latest_post', 'link-94');">_get_thread_latest_post</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"> </tt>
+<a name="Thread.Meta"></a><div id="Thread.Meta-def"><a name="L174"></a><tt class="py-lineno">174</tt> <a class="py-toggle" href="#" id="Thread.Meta-toggle" onclick="return toggle('Thread.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Thread.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="Thread.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Thread.Meta-expanded"><a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">        <tt id="link-95" class="py-name"><a title="mldata.blog.models.Post.Meta.ordering
+mldata.forum.admin.ForumAdmin.ordering
+mldata.forum.models.Forum.Meta.ordering
+mldata.forum.models.Forum.ordering
+mldata.forum.models.Post.Meta.ordering
+mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Repository.Meta.ordering
+mldata.tagging.tests.models.Article.Meta.ordering
+mldata.tagging.tests.models.Link.Meta.ordering
+mldata.tagging.tests.models.Parrot.Meta.ordering" class="py-name" href="#" onclick="return doclink('link-95', 'ordering', 'link-26');">ordering</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'-sticky'</tt><tt class="py-op">,</tt> <tt class="py-string">'-latest_post_time'</tt><tt class="py-op">)</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">        <tt id="link-96" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
+mldata.forum.models.Post.Meta.verbose_name
+mldata.forum.models.Subscription.Meta.verbose_name
+mldata.forum.models.Thread.Meta.verbose_name
+mldata.registration.models.RegistrationProfile.Meta.verbose_name" class="py-name" href="#" onclick="return doclink('link-96', 'verbose_name', 'link-58');">verbose_name</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Thread'</tt><tt class="py-op">)</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">        <tt id="link-97" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name_plural
+mldata.forum.models.Post.Meta.verbose_name_plural
+mldata.forum.models.Subscription.Meta.verbose_name_plural
+mldata.forum.models.Thread.Meta.verbose_name_plural
+mldata.registration.models.RegistrationProfile.Meta.verbose_name_plural" class="py-name" href="#" onclick="return doclink('link-97', 'verbose_name_plural', 'link-59');">verbose_name_plural</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Threads'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line"> </tt>
+<a name="Thread.save"></a><div id="Thread.save-def"><a name="L179"></a><tt class="py-lineno">179</tt> <a class="py-toggle" href="#" id="Thread.save-toggle" onclick="return toggle('Thread.save');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Thread-class.html#save">save</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">force_insert</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-param">force_update</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Thread.save-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Thread.save-expanded"><a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">        <tt class="py-name">f</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-98" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-98', 'forum', 'link-6');">forum</a></tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-99" class="py-name"><a title="mldata.forum.models.Forum.threads" class="py-name" href="#" onclick="return doclink('link-99', 'threads', 'link-22');">threads</a></tt> <tt class="py-op">=</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-100" class="py-name" targets="Variable mldata.forum.models.Forum.thread_set=mldata.forum.models.Forum-class.html#thread_set"><a title="mldata.forum.models.Forum.thread_set" class="py-name" href="#" onclick="return doclink('link-100', 'thread_set', 'link-100');">thread_set</a></tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-101" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-101', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-102" class="py-name"><a title="mldata.forum.models.Thread.sticky" class="py-name" href="#" onclick="return doclink('link-102', 'sticky', 'link-79');">sticky</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-103" class="py-name"><a title="mldata.forum.models.Thread.sticky" class="py-name" href="#" onclick="return doclink('link-103', 'sticky', 'link-79');">sticky</a></tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-104" class="py-name" targets="Class mldata.forum.models.Thread=mldata.forum.models.Thread-class.html"><a title="mldata.forum.models.Thread" class="py-name" href="#" onclick="return doclink('link-104', 'Thread', 'link-104');">Thread</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-105" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-105', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-name">force_insert</tt><tt class="py-op">,</tt> <tt class="py-name">force_update</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line"> </tt>
+<a name="Thread.delete"></a><div id="Thread.delete-def"><a name="L187"></a><tt class="py-lineno">187</tt> <a class="py-toggle" href="#" id="Thread.delete-toggle" onclick="return toggle('Thread.delete');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Thread-class.html#delete">delete</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Thread.delete-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Thread.delete-expanded"><a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-106" class="py-name"><a title="mldata.forum.models.Thread" class="py-name" href="#" onclick="return doclink('link-106', 'Thread', 'link-104');">Thread</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-107" class="py-name" targets="Method mldata.forum.models.Post.delete()=mldata.forum.models.Post-class.html#delete,Method mldata.forum.models.Thread.delete()=mldata.forum.models.Thread-class.html#delete,Method mldata.repository.models.Repository.delete()=mldata.repository.models.Repository-class.html#delete"><a title="mldata.forum.models.Post.delete
+mldata.forum.models.Thread.delete
+mldata.repository.models.Repository.delete" class="py-name" href="#" onclick="return doclink('link-107', 'delete', 'link-107');">delete</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line">        <tt class="py-name">f</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-108" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-108', 'forum', 'link-6');">forum</a></tt> </tt>
+<a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-109" class="py-name"><a title="mldata.forum.models.Forum.threads" class="py-name" href="#" onclick="return doclink('link-109', 'threads', 'link-22');">threads</a></tt> <tt class="py-op">=</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-110" class="py-name"><a title="mldata.forum.models.Forum.thread_set" class="py-name" href="#" onclick="return doclink('link-110', 'thread_set', 'link-100');">thread_set</a></tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-111" class="py-name"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-111', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt id="link-112" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-112', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-113" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-113', 'objects', 'link-28');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">thread__forum__pk</tt><tt class="py-op">=</tt><tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-114" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-114', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line">     </tt>
+<a name="Thread.get_absolute_url"></a><div id="Thread.get_absolute_url-def"><a name="L194"></a><tt class="py-lineno">194</tt> <a class="py-toggle" href="#" id="Thread.get_absolute_url-toggle" onclick="return toggle('Thread.get_absolute_url');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Thread-class.html#get_absolute_url">get_absolute_url</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Thread.get_absolute_url-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Thread.get_absolute_url-expanded"><a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt class="py-string">'forum_view_thread'</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line">    <tt id="link-115" class="py-name"><a title="mldata.blog.models.Post.get_absolute_url
+mldata.forum.models.Forum.get_absolute_url
+mldata.forum.models.Post.get_absolute_url
+mldata.forum.models.Thread.get_absolute_url
+mldata.repository.models.Data.get_absolute_url
+mldata.repository.models.Repository.get_absolute_url
+mldata.repository.models.Solution.get_absolute_url
+mldata.repository.models.Task.get_absolute_url" class="py-name" href="#" onclick="return doclink('link-115', 'get_absolute_url', 'link-49');">get_absolute_url</a></tt> <tt class="py-op">=</tt> <tt id="link-116" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-116', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">permalink</tt><tt class="py-op">(</tt><tt id="link-117" class="py-name"><a title="mldata.blog.models.Post.get_absolute_url
+mldata.forum.models.Forum.get_absolute_url
+mldata.forum.models.Post.get_absolute_url
+mldata.forum.models.Thread.get_absolute_url
+mldata.repository.models.Data.get_absolute_url
+mldata.repository.models.Repository.get_absolute_url
+mldata.repository.models.Solution.get_absolute_url
+mldata.repository.models.Task.get_absolute_url" class="py-name" href="#" onclick="return doclink('link-117', 'get_absolute_url', 'link-49');">get_absolute_url</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line">     </tt>
+<a name="Thread.__unicode__"></a><div id="Thread.__unicode__-def"><a name="L198"></a><tt class="py-lineno">198</tt> <a class="py-toggle" href="#" id="Thread.__unicode__-toggle" onclick="return toggle('Thread.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Thread-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Thread.__unicode__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Thread.__unicode__-expanded"><a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">u'%s'</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-118" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.title
+mldata.forum.forms.CreateThreadForm.title
+mldata.forum.models.Forum.title
+mldata.forum.models.Thread.title" class="py-name" href="#" onclick="return doclink('link-118', 'title', 'link-14');">title</a></tt> </tt>
+</div></div><a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line"> </tt>
+<a name="Post"></a><div id="Post-def"><a name="L201"></a><tt class="py-lineno">201</tt> <a class="py-toggle" href="#" id="Post-toggle" onclick="return toggle('Post');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Post-class.html">Post</a><tt class="py-op">(</tt><tt class="py-base-class">models</tt><tt class="py-op">.</tt><tt class="py-base-class">Model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Post-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Post-expanded"><a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">    <tt class="py-docstring">""" </tt> </tt>
+<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line"><tt class="py-docstring">    A Post is a User's input to a thread. Uber-basic - the save() </tt> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line"><tt class="py-docstring">    method also updates models further up the heirarchy (Thread,Forum)</tt> </tt>
+<a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line">    <tt id="link-119" class="py-name" targets="Variable mldata.forum.models.Post.thread=mldata.forum.models.Post-class.html#thread,Variable mldata.forum.models.Subscription.thread=mldata.forum.models.Subscription-class.html#thread,Function mldata.forum.views.thread()=mldata.forum.views-module.html#thread"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-119', 'thread', 'link-119');">thread</a></tt> <tt class="py-op">=</tt> <tt id="link-120" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-120', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-121" class="py-name"><a title="mldata.forum.models.Thread" class="py-name" href="#" onclick="return doclink('link-121', 'Thread', 'link-104');">Thread</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line">    <tt id="link-122" class="py-name" targets="Variable mldata.blog.models.Post.author=mldata.blog.models.Post-class.html#author,Variable mldata.forum.models.Post.author=mldata.forum.models.Post-class.html#author,Variable mldata.forum.models.Subscription.author=mldata.forum.models.Subscription-class.html#author"><a title="mldata.blog.models.Post.author
+mldata.forum.models.Post.author
+mldata.forum.models.Subscription.author" class="py-name" href="#" onclick="return doclink('link-122', 'author', 'link-122');">author</a></tt> <tt class="py-op">=</tt> <tt id="link-123" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-123', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">related_name</tt><tt class="py-op">=</tt><tt class="py-string">'forum_post_set'</tt><tt class="py-op">)</tt> </tt>
+<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line">    <tt id="link-124" class="py-name" targets="Variable mldata.blog.models.Post.body=mldata.blog.models.Post-class.html#body,Variable mldata.forum.forms.CreateThreadForm.body=mldata.forum.forms.CreateThreadForm-class.html#body,Variable mldata.forum.forms.ReplyForm.body=mldata.forum.forms.ReplyForm-class.html#body,Variable mldata.forum.models.Post.body=mldata.forum.models.Post-class.html#body"><a title="mldata.blog.models.Post.body
+mldata.forum.forms.CreateThreadForm.body
+mldata.forum.forms.ReplyForm.body
+mldata.forum.models.Post.body" class="py-name" href="#" onclick="return doclink('link-124', 'body', 'link-124');">body</a></tt> <tt class="py-op">=</tt> <tt id="link-125" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-125', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">TextField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Body"</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L209"></a><tt class="py-lineno">209</tt>  <tt class="py-line">    <tt id="link-126" class="py-name" targets="Variable mldata.forum.models.Post.body_html=mldata.forum.models.Post-class.html#body_html"><a title="mldata.forum.models.Post.body_html" class="py-name" href="#" onclick="return doclink('link-126', 'body_html', 'link-126');">body_html</a></tt> <tt class="py-op">=</tt> <tt id="link-127" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-127', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">TextField</tt><tt class="py-op">(</tt><tt class="py-name">editable</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L210"></a><tt class="py-lineno">210</tt>  <tt class="py-line">    <tt id="link-128" class="py-name" targets="Variable mldata.forum.models.Post.time=mldata.forum.models.Post-class.html#time"><a title="mldata.forum.models.Post.time" class="py-name" href="#" onclick="return doclink('link-128', 'time', 'link-128');">time</a></tt> <tt class="py-op">=</tt> <tt id="link-129" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-129', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">DateTimeField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">"Time"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">blank</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">null</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L211"></a><tt class="py-lineno">211</tt>  <tt class="py-line"> </tt>
+<a name="Post.save"></a><div id="Post.save-def"><a name="L212"></a><tt class="py-lineno">212</tt> <a class="py-toggle" href="#" id="Post.save-toggle" onclick="return toggle('Post.save');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Post-class.html#save">save</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">force_insert</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-param">force_update</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Post.save-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Post.save-expanded"><a name="L213"></a><tt class="py-lineno">213</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">:</tt> </tt>
+<a name="L214"></a><tt class="py-lineno">214</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-130" class="py-name"><a title="mldata.forum.models.Post.time" class="py-name" href="#" onclick="return doclink('link-130', 'time', 'link-128');">time</a></tt> <tt class="py-op">=</tt> <tt class="py-name">datetime</tt><tt class="py-op">.</tt><tt class="py-name">datetime</tt><tt class="py-op">.</tt><tt class="py-name">now</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L215"></a><tt class="py-lineno">215</tt>  <tt class="py-line">         </tt>
+<a name="L216"></a><tt class="py-lineno">216</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-131" class="py-name"><a title="mldata.forum.models.Post.body_html" class="py-name" href="#" onclick="return doclink('link-131', 'body_html', 'link-126');">body_html</a></tt> <tt class="py-op">=</tt> <tt id="link-132" class="py-name"><a title="mldata.utils.markdown
+mldata.utils.markdown.markdown" class="py-name" href="#" onclick="return doclink('link-132', 'markdown', 'link-10');">markdown</a></tt><tt class="py-op">(</tt><tt id="link-133" class="py-name"><a title="mldata.utils.markdown.RawHtmlTextPostprocessor.escape" class="py-name" href="#" onclick="return doclink('link-133', 'escape', 'link-5');">escape</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-134" class="py-name"><a title="mldata.blog.models.Post.body
+mldata.forum.forms.CreateThreadForm.body
+mldata.forum.forms.ReplyForm.body
+mldata.forum.models.Post.body" class="py-name" href="#" onclick="return doclink('link-134', 'body', 'link-124');">body</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-135" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-135', 'Post', 'link-30');">Post</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-136" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-136', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-name">force_insert</tt><tt class="py-op">,</tt> <tt class="py-name">force_update</tt><tt class="py-op">)</tt> </tt>
+<a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line"> </tt>
+<a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line">        <tt class="py-name">t</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-137" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-137', 'thread', 'link-119');">thread</a></tt> </tt>
+<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line">        <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-138" class="py-name"><a title="mldata.forum.models.Thread.latest_post_time" class="py-name" href="#" onclick="return doclink('link-138', 'latest_post_time', 'link-87');">latest_post_time</a></tt> <tt class="py-op">=</tt> <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-139" class="py-name" targets="Variable mldata.forum.models.Thread.post_set=mldata.forum.models.Thread-class.html#post_set"><a title="mldata.forum.models.Thread.post_set" class="py-name" href="#" onclick="return doclink('link-139', 'post_set', 'link-139');">post_set</a></tt><tt class="py-op">.</tt><tt class="py-name">latest</tt><tt class="py-op">(</tt><tt class="py-string">'time'</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-140" class="py-name"><a title="mldata.forum.models.Post.time" class="py-name" href="#" onclick="return doclink('link-140', 'time', 'link-128');">time</a></tt> </tt>
+<a name="L221"></a><tt class="py-lineno">221</tt>  <tt class="py-line">        <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-141" class="py-name"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-141', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-142" class="py-name"><a title="mldata.forum.models.Thread.post_set" class="py-name" href="#" onclick="return doclink('link-142', 'post_set', 'link-139');">post_set</a></tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L222"></a><tt class="py-lineno">222</tt>  <tt class="py-line">        <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-143" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-143', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L223"></a><tt class="py-lineno">223</tt>  <tt class="py-line"> </tt>
+<a name="L224"></a><tt class="py-lineno">224</tt>  <tt class="py-line">        <tt class="py-name">f</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-144" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-144', 'thread', 'link-119');">thread</a></tt><tt class="py-op">.</tt><tt id="link-145" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-145', 'forum', 'link-6');">forum</a></tt> </tt>
+<a name="L225"></a><tt class="py-lineno">225</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-146" class="py-name"><a title="mldata.forum.models.Forum.threads" class="py-name" href="#" onclick="return doclink('link-146', 'threads', 'link-22');">threads</a></tt> <tt class="py-op">=</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-147" class="py-name"><a title="mldata.forum.models.Forum.thread_set" class="py-name" href="#" onclick="return doclink('link-147', 'thread_set', 'link-100');">thread_set</a></tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L226"></a><tt class="py-lineno">226</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-148" class="py-name"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-148', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt id="link-149" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-149', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-150" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-150', 'objects', 'link-28');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">thread__forum__pk</tt><tt class="py-op">=</tt><tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L227"></a><tt class="py-lineno">227</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-151" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-151', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L228"></a><tt class="py-lineno">228</tt>  <tt class="py-line"> </tt>
+<a name="Post.delete"></a><div id="Post.delete-def"><a name="L229"></a><tt class="py-lineno">229</tt> <a class="py-toggle" href="#" id="Post.delete-toggle" onclick="return toggle('Post.delete');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Post-class.html#delete">delete</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Post.delete-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Post.delete-expanded"><a name="L230"></a><tt class="py-lineno">230</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L231"></a><tt class="py-lineno">231</tt>  <tt class="py-line">            <tt class="py-name">latest_post</tt> <tt class="py-op">=</tt> <tt id="link-152" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-152', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-153" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-153', 'objects', 'link-28');">objects</a></tt><tt class="py-op">.</tt><tt id="link-154" class="py-name" targets="Variable mldata.blog.models.PostForm.Meta.exclude=mldata.blog.models.PostForm.Meta-class.html#exclude,Variable mldata.repository.forms.DataForm.Meta.exclude=mldata.repository.forms.DataForm.Meta-class.html#exclude,Variable mldata.repository.forms.SolutionForm.Meta.exclude=mldata.repository.forms.SolutionForm.Meta-class.html#exclude,Variable mldata.repository.forms.TaskForm.Meta.exclude=mldata.repository.forms.TaskForm.Meta-class.html#exclude"><a title="mldata.blog.models.PostForm.Meta.exclude
+mldata.repository.forms.DataForm.Meta.exclude
+mldata.repository.forms.SolutionForm.Meta.exclude
+mldata.repository.forms.TaskForm.Meta.exclude" class="py-name" href="#" onclick="return doclink('link-154', 'exclude', 'link-154');">exclude</a></tt><tt class="py-op">(</tt><tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">latest</tt><tt class="py-op">(</tt><tt class="py-string">'time'</tt><tt class="py-op">)</tt> </tt>
+<a name="L232"></a><tt class="py-lineno">232</tt>  <tt class="py-line">            <tt id="link-155" class="py-name"><a title="mldata.forum.models.Thread.latest_post_time" class="py-name" href="#" onclick="return doclink('link-155', 'latest_post_time', 'link-87');">latest_post_time</a></tt> <tt class="py-op">=</tt> <tt class="py-name">latest_post</tt><tt class="py-op">.</tt><tt id="link-156" class="py-name"><a title="mldata.forum.models.Post.time" class="py-name" href="#" onclick="return doclink('link-156', 'time', 'link-128');">time</a></tt> </tt>
+<a name="L233"></a><tt class="py-lineno">233</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt id="link-157" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-157', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-158" class="py-name"><a title="django_authopenid.models.Association.DoesNotExist
+django_authopenid.models.Nonce.DoesNotExist
+django_authopenid.models.UserAssociation.DoesNotExist
+mldata.blog.models.Post.DoesNotExist
+mldata.forum.models.Forum.DoesNotExist
+mldata.forum.models.Post.DoesNotExist
+mldata.forum.models.Subscription.DoesNotExist
+mldata.forum.models.Thread.DoesNotExist
+mldata.registration.models.RegistrationProfile.DoesNotExist
+mldata.repository.models.CurrentVersion.DoesNotExist
+mldata.repository.models.Data.DoesNotExist
+mldata.repository.models.DataLicense.DoesNotExist
+mldata.repository.models.DataRating.DoesNotExist
+mldata.repository.models.License.DoesNotExist
+mldata.repository.models.Rating.DoesNotExist
+mldata.repository.models.Repository.DoesNotExist
+mldata.repository.models.Slug.DoesNotExist
+mldata.repository.models.Solution.DoesNotExist
+mldata.repository.models.SolutionRating.DoesNotExist
+mldata.repository.models.Task.DoesNotExist
+mldata.repository.models.TaskRating.DoesNotExist
+mldata.repository.models.TaskType.DoesNotExist
+mldata.tagging.tests.models.Article.DoesNotExist
+mldata.tagging.tests.models.FormTest.DoesNotExist
+mldata.tagging.tests.models.Link.DoesNotExist
+mldata.tagging.tests.models.Parrot.DoesNotExist
+mldata.tagging.tests.models.Perch.DoesNotExist
+tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-158', 'DoesNotExist', 'link-33');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L234"></a><tt class="py-lineno">234</tt>  <tt class="py-line">            <tt id="link-159" class="py-name"><a title="mldata.forum.models.Thread.latest_post_time" class="py-name" href="#" onclick="return doclink('link-159', 'latest_post_time', 'link-87');">latest_post_time</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L235"></a><tt class="py-lineno">235</tt>  <tt class="py-line"> </tt>
+<a name="L236"></a><tt class="py-lineno">236</tt>  <tt class="py-line">        <tt class="py-name">t</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-160" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-160', 'thread', 'link-119');">thread</a></tt> </tt>
+<a name="L237"></a><tt class="py-lineno">237</tt>  <tt class="py-line">        <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-161" class="py-name"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-161', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-162" class="py-name"><a title="mldata.forum.models.Thread.post_set" class="py-name" href="#" onclick="return doclink('link-162', 'post_set', 'link-139');">post_set</a></tt><tt class="py-op">.</tt><tt id="link-163" class="py-name"><a title="mldata.blog.models.PostForm.Meta.exclude
+mldata.repository.forms.DataForm.Meta.exclude
+mldata.repository.forms.SolutionForm.Meta.exclude
+mldata.repository.forms.TaskForm.Meta.exclude" class="py-name" href="#" onclick="return doclink('link-163', 'exclude', 'link-154');">exclude</a></tt><tt class="py-op">(</tt><tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L238"></a><tt class="py-lineno">238</tt>  <tt class="py-line">        <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-164" class="py-name"><a title="mldata.forum.models.Thread.latest_post_time" class="py-name" href="#" onclick="return doclink('link-164', 'latest_post_time', 'link-87');">latest_post_time</a></tt> <tt class="py-op">=</tt> <tt id="link-165" class="py-name"><a title="mldata.forum.models.Thread.latest_post_time" class="py-name" href="#" onclick="return doclink('link-165', 'latest_post_time', 'link-87');">latest_post_time</a></tt> </tt>
+<a name="L239"></a><tt class="py-lineno">239</tt>  <tt class="py-line">        <tt class="py-name">t</tt><tt class="py-op">.</tt><tt id="link-166" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-166', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L240"></a><tt class="py-lineno">240</tt>  <tt class="py-line"> </tt>
+<a name="L241"></a><tt class="py-lineno">241</tt>  <tt class="py-line">        <tt class="py-name">f</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-167" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-167', 'thread', 'link-119');">thread</a></tt><tt class="py-op">.</tt><tt id="link-168" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-168', 'forum', 'link-6');">forum</a></tt> </tt>
+<a name="L242"></a><tt class="py-lineno">242</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-169" class="py-name"><a title="mldata.forum.models.Forum.posts
+mldata.forum.models.Thread.posts" class="py-name" href="#" onclick="return doclink('link-169', 'posts', 'link-24');">posts</a></tt> <tt class="py-op">=</tt> <tt id="link-170" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-170', 'Post', 'link-30');">Post</a></tt><tt class="py-op">.</tt><tt id="link-171" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.CurrentVersion.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataLicense.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-171', 'objects', 'link-28');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">thread__forum__pk</tt><tt class="py-op">=</tt><tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-172" class="py-name"><a title="mldata.blog.models.PostForm.Meta.exclude
+mldata.repository.forms.DataForm.Meta.exclude
+mldata.repository.forms.SolutionForm.Meta.exclude
+mldata.repository.forms.TaskForm.Meta.exclude" class="py-name" href="#" onclick="return doclink('link-172', 'exclude', 'link-154');">exclude</a></tt><tt class="py-op">(</tt><tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L243"></a><tt class="py-lineno">243</tt>  <tt class="py-line">        <tt class="py-name">f</tt><tt class="py-op">.</tt><tt id="link-173" class="py-name"><a title="mldata.blog.models.Post.save
+mldata.forum.models.Forum.save
+mldata.forum.models.Post.save
+mldata.forum.models.Thread.save
+mldata.registration.forms.RegistrationForm.save
+mldata.repository.models.Repository.save
+mldata.user.views.ChangeUserDetailsForm.save
+mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-173', 'save', 'link-63');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L244"></a><tt class="py-lineno">244</tt>  <tt class="py-line"> </tt>
+<a name="L245"></a><tt class="py-lineno">245</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-174" class="py-name"><a title="mldata.blog.models.Post
+mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-174', 'Post', 'link-30');">Post</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-175" class="py-name"><a title="mldata.forum.models.Post.delete
+mldata.forum.models.Thread.delete
+mldata.repository.models.Repository.delete" class="py-name" href="#" onclick="return doclink('link-175', 'delete', 'link-107');">delete</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L246"></a><tt class="py-lineno">246</tt>  <tt class="py-line"> </tt>
+<a name="Post.Meta"></a><div id="Post.Meta-def"><a name="L247"></a><tt class="py-lineno">247</tt> <a class="py-toggle" href="#" id="Post.Meta-toggle" onclick="return toggle('Post.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Post.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="Post.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Post.Meta-expanded"><a name="L248"></a><tt class="py-lineno">248</tt>  <tt class="py-line">        <tt id="link-176" class="py-name"><a title="mldata.blog.models.Post.Meta.ordering
+mldata.forum.admin.ForumAdmin.ordering
+mldata.forum.models.Forum.Meta.ordering
+mldata.forum.models.Forum.ordering
+mldata.forum.models.Post.Meta.ordering
+mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Repository.Meta.ordering
+mldata.tagging.tests.models.Article.Meta.ordering
+mldata.tagging.tests.models.Link.Meta.ordering
+mldata.tagging.tests.models.Parrot.Meta.ordering" class="py-name" href="#" onclick="return doclink('link-176', 'ordering', 'link-26');">ordering</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'-time'</tt><tt class="py-op">,</tt><tt class="py-op">)</tt> </tt>
+<a name="L249"></a><tt class="py-lineno">249</tt>  <tt class="py-line">        <tt id="link-177" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
+mldata.forum.models.Post.Meta.verbose_name
+mldata.forum.models.Subscription.Meta.verbose_name
+mldata.forum.models.Thread.Meta.verbose_name
+mldata.registration.models.RegistrationProfile.Meta.verbose_name" class="py-name" href="#" onclick="return doclink('link-177', 'verbose_name', 'link-58');">verbose_name</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Post'</tt><tt class="py-op">)</tt> </tt>
+<a name="L250"></a><tt class="py-lineno">250</tt>  <tt class="py-line">        <tt id="link-178" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name_plural
+mldata.forum.models.Post.Meta.verbose_name_plural
+mldata.forum.models.Subscription.Meta.verbose_name_plural
+mldata.forum.models.Thread.Meta.verbose_name_plural
+mldata.registration.models.RegistrationProfile.Meta.verbose_name_plural" class="py-name" href="#" onclick="return doclink('link-178', 'verbose_name_plural', 'link-59');">verbose_name_plural</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Posts'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L251"></a><tt class="py-lineno">251</tt>  <tt class="py-line">         </tt>
+<a name="Post.get_absolute_url"></a><div id="Post.get_absolute_url-def"><a name="L252"></a><tt class="py-lineno">252</tt> <a class="py-toggle" href="#" id="Post.get_absolute_url-toggle" onclick="return toggle('Post.get_absolute_url');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Post-class.html#get_absolute_url">get_absolute_url</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Post.get_absolute_url-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Post.get_absolute_url-expanded"><a name="L253"></a><tt class="py-lineno">253</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">'%s?page=last#post%s'</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-179" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-179', 'thread', 'link-119');">thread</a></tt><tt class="py-op">.</tt><tt id="link-180" class="py-name"><a title="mldata.blog.models.Post.get_absolute_url
+mldata.forum.models.Forum.get_absolute_url
+mldata.forum.models.Post.get_absolute_url
+mldata.forum.models.Thread.get_absolute_url
+mldata.repository.models.Data.get_absolute_url
+mldata.repository.models.Repository.get_absolute_url
+mldata.repository.models.Solution.get_absolute_url
+mldata.repository.models.Task.get_absolute_url" class="py-name" href="#" onclick="return doclink('link-180', 'get_absolute_url', 'link-49');">get_absolute_url</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L254"></a><tt class="py-lineno">254</tt>  <tt class="py-line">     </tt>
+<a name="Post.__unicode__"></a><div id="Post.__unicode__-def"><a name="L255"></a><tt class="py-lineno">255</tt> <a class="py-toggle" href="#" id="Post.__unicode__-toggle" onclick="return toggle('Post.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Post-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Post.__unicode__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Post.__unicode__-expanded"><a name="L256"></a><tt class="py-lineno">256</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">u"%s"</tt> <tt class="py-op">%</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt> </tt>
+</div></div><a name="L257"></a><tt class="py-lineno">257</tt>  <tt class="py-line"> </tt>
+<a name="Subscription"></a><div id="Subscription-def"><a name="L258"></a><tt class="py-lineno">258</tt> <a class="py-toggle" href="#" id="Subscription-toggle" onclick="return toggle('Subscription');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Subscription-class.html">Subscription</a><tt class="py-op">(</tt><tt class="py-base-class">models</tt><tt class="py-op">.</tt><tt class="py-base-class">Model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Subscription-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Subscription-expanded"><a name="L259"></a><tt class="py-lineno">259</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L260"></a><tt class="py-lineno">260</tt>  <tt class="py-line"><tt class="py-docstring">    Allow users to subscribe to threads.</tt> </tt>
+<a name="L261"></a><tt class="py-lineno">261</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L262"></a><tt class="py-lineno">262</tt>  <tt class="py-line">    <tt id="link-181" class="py-name"><a title="mldata.blog.models.Post.author
+mldata.forum.models.Post.author
+mldata.forum.models.Subscription.author" class="py-name" href="#" onclick="return doclink('link-181', 'author', 'link-122');">author</a></tt> <tt class="py-op">=</tt> <tt id="link-182" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-182', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">)</tt> </tt>
+<a name="L263"></a><tt class="py-lineno">263</tt>  <tt class="py-line">    <tt id="link-183" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-183', 'thread', 'link-119');">thread</a></tt> <tt class="py-op">=</tt> <tt id="link-184" class="py-name"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-184', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-185" class="py-name"><a title="mldata.forum.models.Thread" class="py-name" href="#" onclick="return doclink('link-185', 'Thread', 'link-104');">Thread</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L264"></a><tt class="py-lineno">264</tt>  <tt class="py-line"> </tt>
+<a name="Subscription.Meta"></a><div id="Subscription.Meta-def"><a name="L265"></a><tt class="py-lineno">265</tt> <a class="py-toggle" href="#" id="Subscription.Meta-toggle" onclick="return toggle('Subscription.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.models.Subscription.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="Subscription.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Subscription.Meta-expanded"><a name="L266"></a><tt class="py-lineno">266</tt>  <tt class="py-line">        <tt id="link-186" class="py-name" targets="Variable mldata.forum.models.Subscription.Meta.unique_together=mldata.forum.models.Subscription.Meta-class.html#unique_together"><a title="mldata.forum.models.Subscription.Meta.unique_together" class="py-name" href="#" onclick="return doclink('link-186', 'unique_together', 'link-186');">unique_together</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-string">"author"</tt><tt class="py-op">,</tt> <tt class="py-string">"thread"</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-op">)</tt> </tt>
+<a name="L267"></a><tt class="py-lineno">267</tt>  <tt class="py-line">        <tt id="link-187" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
+mldata.forum.models.Post.Meta.verbose_name
+mldata.forum.models.Subscription.Meta.verbose_name
+mldata.forum.models.Thread.Meta.verbose_name
+mldata.registration.models.RegistrationProfile.Meta.verbose_name" class="py-name" href="#" onclick="return doclink('link-187', 'verbose_name', 'link-58');">verbose_name</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Subscription'</tt><tt class="py-op">)</tt> </tt>
+<a name="L268"></a><tt class="py-lineno">268</tt>  <tt class="py-line">        <tt id="link-188" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name_plural
+mldata.forum.models.Post.Meta.verbose_name_plural
+mldata.forum.models.Subscription.Meta.verbose_name_plural
+mldata.forum.models.Thread.Meta.verbose_name_plural
+mldata.registration.models.RegistrationProfile.Meta.verbose_name_plural" class="py-name" href="#" onclick="return doclink('link-188', 'verbose_name_plural', 'link-59');">verbose_name_plural</a></tt> <tt class="py-op">=</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Subscriptions'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L269"></a><tt class="py-lineno">269</tt>  <tt class="py-line"> </tt>
+<a name="Subscription.__unicode__"></a><div id="Subscription.__unicode__-def"><a name="L270"></a><tt class="py-lineno">270</tt> <a class="py-toggle" href="#" id="Subscription.__unicode__-toggle" onclick="return toggle('Subscription.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.forum.models.Subscription-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Subscription.__unicode__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Subscription.__unicode__-expanded"><a name="L271"></a><tt class="py-lineno">271</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">u"%s to %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-189" class="py-name"><a title="mldata.blog.models.Post.author
+mldata.forum.models.Post.author
+mldata.forum.models.Subscription.author" class="py-name" href="#" onclick="return doclink('link-189', 'author', 'link-122');">author</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-190" class="py-name"><a title="mldata.forum.models.Post.thread
+mldata.forum.models.Subscription.thread
+mldata.forum.views.thread" class="py-name" href="#" onclick="return doclink('link-190', 'thread', 'link-119');">thread</a></tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L272"></a><tt class="py-lineno">272</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:36:00 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

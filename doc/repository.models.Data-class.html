@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>repository.models.Data</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata.repository-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        repository ::
+        models ::
+        Data ::
+        Class&nbsp;Data
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="repository.models.Data-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Data</h1><p class="nomargin-top"></p>
+<center>
+<center>  <map id="uml_class_diagram_for_reposito" name="uml_class_diagram_for_reposito">
+<area shape="rect" href="javascript:void(0);" title="item&#39;s average documentation rating" alt="" coords="131,303,445,321"/>
+<area shape="rect" href="javascript:void(0);" title="item&#39;s average interesting rating" alt="" coords="131,321,445,340"/>
+<area shape="rect" href="javascript:void(0);" title="item&#39;s average overal rating" alt="" coords="131,340,445,359"/>
+<area shape="rect" href="javascript:void(0);" title="repository.models.Repository.currentversion_set" alt="" coords="131,359,445,377"/>
+<area shape="rect" href="javascript:void(0);" title="repository.models.Repository.data" alt="" coords="131,377,445,396"/>
+<area shape="rect" href="javascript:void(0);" title="item&#39;s description" alt="" coords="131,396,445,415"/>
+<area shape="rect" href="javascript:void(0);" title="if item is deleted" alt="" coords="131,415,445,433"/>
+<area shape="rect" href="javascript:void(0);" title="if item is public" alt="" coords="131,433,445,452"/>
+<area shape="rect" href="javascript:void(0);" title="item&#39;s name" alt="" coords="131,452,445,471"/>
+<area shape="rect" href="javascript:void(0);" title="publication date (item creation date)" alt="" coords="131,471,445,489"/>
+<area shape="rect" href="javascript:void(0);" title="publications where item is mentioned or used" alt="" coords="131,489,445,508"/>
+<area shape="rect" href="javascript:void(0);" title="item&#39;s slug" alt="" coords="131,508,445,527"/>
+<area shape="rect" href="javascript:void(0);" title="repository.models.Repository.solution" alt="" coords="131,527,445,545"/>
+<area shape="rect" href="javascript:void(0);" title="version number to flip between different incarnations of the item" alt="" coords="131,564,445,583"/>
+<area shape="rect" href="javascript:void(0);" title="repository.models.Repository.__unicode__" alt="" coords="131,585,445,604"/>
+<area shape="rect" href="javascript:void(0);" title="Delete item." alt="" coords="131,604,445,623"/>
+<area shape="rect" href="javascript:void(0);" title="Get absolute URL for this item, using its slug." alt="" coords="131,623,445,641"/>
+<area shape="rect" href="javascript:void(0);" title="repository.models.Repository.get_next_by_pub_date" alt="" coords="131,641,445,660"/>
+<area shape="rect" href="javascript:void(0);" title="Get next available version for this item." alt="" coords="131,660,445,679"/>
+<area shape="rect" href="javascript:void(0);" title="repository.models.Repository.get_previous_by_pub_date" alt="" coords="131,679,445,697"/>
+<area shape="rect" href="javascript:void(0);" title="Get the id of the slug generated for the item&#39;s name." alt="" coords="131,697,445,716"/>
+<area shape="rect" href="javascript:void(0);" title="Save item." alt="" coords="131,716,445,735"/>
+<area shape="rect" href="javascript:void(0);" title="Base class for Repository items: Data, Task, Solution" alt="" coords="129,285,447,736"/>
+<area shape="rect" href="repository.models.Data.DoesNotExist-class.html" title="repository.models.Data.DoesNotExist" alt="" coords="148,783,428,801"/>
+<area shape="rect" href="repository.models.Data.MultipleObjectsReturned-class.html" title="repository.models.Data.MultipleObjectsReturned" alt="" coords="148,801,428,820"/>
+<area shape="rect" href="repository.models.Data-class.html#datarating_set" title="repository.models.Data.datarating_set" alt="" coords="148,820,428,839"/>
+<area shape="rect" href="repository.models.Data-class.html#file" title="data file" alt="" coords="148,839,428,857"/>
+<area shape="rect" href="repository.models.Data-class.html#format" title="data format, e.g." alt="" coords="148,857,428,876"/>
+<area shape="rect" href="repository.models.Data-class.html#is_approved" title="is_approved is necessary for 2&#45;step creation, don&#39;t want to call review &#160;ever again once the item is approved &#45; review can remove permanently via &#160;&#39;Back&#39; button!" alt="" coords="148,876,428,895"/>
+<area shape="rect" href="repository.models.Data-class.html#license" title="license of Data item" alt="" coords="148,895,428,913"/>
+<area shape="rect" href="repository.models.Data-class.html#measurement_details" title="item&#39;s measurement details" alt="" coords="148,913,428,932"/>
+<area shape="rect" href="repository.models.Data-class.html#repository_ptr" title="repository.models.Data.repository_ptr" alt="" coords="148,932,428,951"/>
+<area shape="rect" href="repository.models.Data-class.html#source" title="source of the data" alt="" coords="148,951,428,969"/>
+<area shape="rect" href="repository.models.Data-class.html#tags" title="item&#39;s tags" alt="" coords="148,969,428,988"/>
+<area shape="rect" href="repository.models.Data-class.html#task_set" title="repository.models.Data.task_set" alt="" coords="148,988,428,1007"/>
+<area shape="rect" href="repository.models.Data-class.html#usage_scenario" title="item&#39;s usage scenario" alt="" coords="148,1007,428,1025"/>
+<area shape="rect" href="repository.models.Data-class.html#get_absolute_url" title="repository.models.Data.get_absolute_url" alt="" coords="148,1028,428,1047"/>
+<area shape="rect" href="repository.models.Data-class.html#get_filename" title="Construct filename for Data file." alt="" coords="148,1047,428,1065"/>
+<area shape="rect" href="repository.models.Data-class.html#objects" title="repository.models.Data.objects" alt="" coords="148,1065,428,1084"/>
+<area shape="rect" href="repository.models.Data-class.html" title="Repository item Data." alt="" coords="147,765,429,1085"/>
+<area shape="rect" href="django.db.models.base.ModelBase-class.html" title="Metaclass for all models." alt="" coords="17,28,559,47"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.pk" alt="" coords="17,47,559,65"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.__eq__" alt="" coords="17,68,559,87"/>
+<area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="17,87,559,105"/>
+<area shape="rect" href="javascript:void(0);" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,105,559,124"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.__ne__" alt="" coords="17,124,559,143"/>
+<area shape="rect" href="javascript:void(0);" title="Provide pickling support." alt="" coords="17,143,559,161"/>
+<area shape="rect" href="javascript:void(0);" title="repr(x)" alt="" coords="17,161,559,180"/>
+<area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="17,180,559,199"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.prepare_database_save" alt="" coords="17,199,559,217"/>
+<area shape="rect" href="javascript:void(0);" title="Does the heavy&#45;lifting involved in saving." alt="" coords="17,217,559,236"/>
+<area shape="rect" href="javascript:void(0);" title="Returns the value of the field name for this instance." alt="" coords="17,236,559,255"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model" alt="" coords="16,11,560,256"/>
+</map>
+  <img src="uml_class_diagram_for_reposito.gif" alt='' usemap="#uml_class_diagram_for_reposito" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Repository item Data.</p>
+
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Nested Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-NestedClasses"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data.DoesNotExist-class.html" class="summary-name">DoesNotExist</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data.MultipleObjectsReturned-class.html" class="summary-name">MultipleObjectsReturned</a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.base.Model</code></b>:
+      <code><a href="django.db.models.base.ModelBase-class.html">__metaclass__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="repository.models.Data-class.html#get_absolute_url" class="summary-sig-name">get_absolute_url</a>(<span class="summary-sig-arg">*moreargs</span>,
+        <span class="summary-sig-arg">**morekwargs</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="repository.models.Data-class.html#get_filename" class="summary-sig-name">get_filename</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Construct filename for Data file.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="repository.models.Data-class.html#objects" class="summary-sig-name">objects</a>(<span class="summary-sig-arg">...</span>)</span></td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>Repository</code></b>:
+      <code>__unicode__</code>,
+      <code>delete</code>,
+      <code>get_absolute_slugurl</code>,
+      <code>get_next_by_pub_date</code>,
+      <code>get_next_version</code>,
+      <code>get_previous_by_pub_date</code>,
+      <code>get_slug_id</code>,
+      <code>save</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.base.Model</code></b>:
+      <code>__eq__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__ne__</code>,
+      <code>__reduce__</code>,
+      <code>__repr__</code>,
+      <code>__str__</code>,
+      <code>prepare_database_save</code>,
+      <code>save_base</code>,
+      <code>serializable_value</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.base.Model</code></b> (private):
+      <code>_collect_sub_objects</code>,
+      <code>_get_FIELD_display</code>,
+      <code>_get_next_or_previous_by_FIELD</code>,
+      <code>_get_next_or_previous_in_order</code>,
+      <code>_get_pk_val</code>,
+      <code>_set_pk_val</code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__new__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xa4c3b4c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xa4c3b4c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_meta"></a><span class="summary-name">_meta</span> = <code title="&lt;Options for Data&gt;">&lt;Options for Data&gt;</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#datarating_set" class="summary-name">datarating_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
+t at 0xa4cf4ac&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">models.FileField</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#file" class="summary-name">file</a> = <code title="&lt;django.db.models.fields.files.FileDescriptor object at 0xa4c3d6c&gt;">&lt;django.db.models.fields.files.FileDescriptor object at<code class="variable-ellipsis">...</code></code><br />
+      data file
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string / models.CharField</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#format" class="summary-name">format</a><br />
+      data format, e.g.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">boolean / models.BooleanField</span>
+    </td><td class="summary">
+        <a name="is_approved"></a><span class="summary-name">is_approved</span><br />
+      is_approved is necessary for 2-step creation, don't want to call 
+      review ever again once the item is approved - review can remove 
+      permanently via 'Back' button!
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">DataLicense</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#license" class="summary-name">license</a> = <code title="&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor \
+object at 0xa4c3b8c&gt;">&lt;django.db.models.fields.related.ReverseSingleRelate<code class="variable-ellipsis">...</code></code><br />
+      license of Data item
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string / models.TextField</span>
+    </td><td class="summary">
+        <a name="measurement_details"></a><span class="summary-name">measurement_details</span><br />
+      item's measurement details
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#repository_ptr" class="summary-name">repository_ptr</a> = <code title="&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor \
+object at 0xa4c3e6c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string / models.CharField</span>
+    </td><td class="summary">
+        <a name="source"></a><span class="summary-name">source</span><br />
+      source of the data
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string / tagging.TagField</span>
+    </td><td class="summary">
+        <a name="tags"></a><span class="summary-name">tags</span> = <code title="&lt;tagging.fields.TagField object at 0xa4c382c&gt;">&lt;tagging.fields.TagField object at 0xa4c382c&gt;</code><br />
+      item's tags
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="repository.models.Data-class.html#task_set" class="summary-name">task_set</a> = <code title="&lt;django.db.models.fields.related.ManyRelatedObjectsDescriptor object a\
+t 0xa4c7b2c&gt;">&lt;django.db.models.fields.related.ManyRelatedObjects<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string / models.TextField</span>
+    </td><td class="summary">
+        <a name="usage_scenario"></a><span class="summary-name">usage_scenario</span><br />
+      item's usage scenario
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>Repository</code></b>:
+      <code>average_documentation_rating</code>,
+      <code>average_interesting_rating</code>,
+      <code>average_rating</code>,
+      <code>currentversion_set</code>,
+      <code>data</code>,
+      <code>description</code>,
+      <code>is_deleted</code>,
+      <code>is_public</code>,
+      <code>name</code>,
+      <code>pub_date</code>,
+      <code>publications</code>,
+      <code>slug</code>,
+      <code>solution</code>,
+      <code>summary</code>,
+      <code>task</code>,
+      <code>total_number_of_votes</code>,
+      <code>urls</code>,
+      <code>user</code>,
+      <code>version</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.base.Model</code></b> (private):
+      <code>_deferred</code>
+      </p></div>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.base.Model</code></b>:
+      <code>pk</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="get_absolute_url"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_absolute_url</span>(<span class="sig-arg">*moreargs</span>,
+        <span class="sig-arg">**morekwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        Repository.get_absolute_url
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_filename"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_filename</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Construct filename for Data file.</p>
+  <dl class="fields">
+    <dt>Returns: string</dt>
+        <dd>filename for Data file</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AttributeError</strong></code> - if slug is not set.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="objects"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">objects</span>(<span class="sig-arg">...</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        Repository.objects
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="_base_manager"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_base_manager</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.manager.Manager object at 0xa4c3b4c&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_default_manager"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">_default_manager</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.manager.Manager object at 0xa4c3b4c&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="datarating_set"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">datarating_set</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+t at 0xa4cf4ac&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">file</h3>
+  data file
+  <dl class="fields">
+    <dt>Type:</dt>
+      <dd>models.FileField</dd>
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.fields.files.FileDescriptor object at 0xa4c3d6c&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="format"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">format</h3>
+  data format, e.g. CSV, ARFF, netCDF, HDF5, ODBC
+  <dl class="fields">
+    <dt>Type:</dt>
+      <dd>string / models.CharField</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="license"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">license</h3>
+  license of Data item
+  <dl class="fields">
+    <dt>Type:</dt>
+      <dd>DataLicense</dd>
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+object at 0xa4c3b8c&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="repository_ptr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">repository_ptr</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+object at 0xa4c3e6c&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="task_set"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">task_set</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.fields.related.ManyRelatedObjectsDescriptor object a<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+t 0xa4c7b2c&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata.repository-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:34:21 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

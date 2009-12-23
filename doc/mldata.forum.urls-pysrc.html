@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.forum.urls</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.forum-module.html">Package&nbsp;forum</a> ::
+        Module&nbsp;urls
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.forum.urls-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.forum.urls-module.html">Module mldata.forum.urls</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring">URLConf for Django-Forum.</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring">django-forum assumes that the forum application is living under</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">/forum/.</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-docstring">Usage in your base urls.py:</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-docstring">    (r'^forum/', include('forum.urls')),</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">conf</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module mldata.about.urls=mldata.about.urls-module.html,Module mldata.blog.urls=mldata.blog.urls-module.html,Module mldata.django_authopenid.urls=mldata.django_authopenid.urls-module.html,Module mldata.forum.urls=mldata.forum.urls-module.html,Module mldata.registration.urls=mldata.registration.urls-module.html,Variable mldata.repository.models.Repository.urls=mldata.repository.models.Repository-class.html#urls,Module mldata.repository.urls=mldata.repository.urls-module.html,Module mldata.urls=mldata.urls-module.html,Module mldata.user.urls=mldata.user.urls-module.html"><a title="mldata.about.urls
+mldata.blog.urls
+mldata.django_authopenid.urls
+mldata.forum.urls
+mldata.registration.urls
+mldata.repository.models.Repository.urls
+mldata.repository.urls
+mldata.urls
+mldata.user.urls" class="py-name" href="#" onclick="return doclink('link-0', 'urls', 'link-0');">urls</a></tt><tt class="py-op">.</tt><tt class="py-name">defaults</tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package mldata.forum=mldata.forum-module.html,Variable mldata.forum.models.Thread.forum=mldata.forum.models.Thread-class.html#forum,Function mldata.forum.views.forum()=mldata.forum.views-module.html#forum"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-1', 'forum', 'link-1');">forum</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-2');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class mldata.forum.models.Forum=mldata.forum.models.Forum-class.html"><a title="mldata.forum.models.Forum" class="py-name" href="#" onclick="return doclink('link-3', 'Forum', 'link-3');">Forum</a></tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-4', 'forum', 'link-1');">forum</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module mldata.blog.feeds=mldata.blog.feeds-module.html,Module mldata.forum.feeds=mldata.forum.feeds-module.html"><a title="mldata.blog.feeds
+mldata.forum.feeds" class="py-name" href="#" onclick="return doclink('link-5', 'feeds', 'link-5');">feeds</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Class mldata.forum.feeds.RssForumFeed=mldata.forum.feeds.RssForumFeed-class.html"><a title="mldata.forum.feeds.RssForumFeed" class="py-name" href="#" onclick="return doclink('link-6', 'RssForumFeed', 'link-6');">RssForumFeed</a></tt><tt class="py-op">,</tt> <tt id="link-7" class="py-name" targets="Class mldata.forum.feeds.AtomForumFeed=mldata.forum.feeds.AtomForumFeed-class.html"><a title="mldata.forum.feeds.AtomForumFeed" class="py-name" href="#" onclick="return doclink('link-7', 'AtomForumFeed', 'link-7');">AtomForumFeed</a></tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-8" class="py-name"><a title="mldata.forum
+mldata.forum.models.Thread.forum
+mldata.forum.views.forum" class="py-name" href="#" onclick="return doclink('link-8', 'forum', 'link-1');">forum</a></tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Module mldata.forum.sitemap=mldata.forum.sitemap-module.html"><a title="mldata.forum.sitemap" class="py-name" href="#" onclick="return doclink('link-9', 'sitemap', 'link-9');">sitemap</a></tt> <tt class="py-keyword">import</tt> <tt id="link-10" class="py-name" targets="Class mldata.forum.sitemap.ForumSitemap=mldata.forum.sitemap.ForumSitemap-class.html"><a title="mldata.forum.sitemap.ForumSitemap" class="py-name" href="#" onclick="return doclink('link-10', 'ForumSitemap', 'link-10');">ForumSitemap</a></tt><tt class="py-op">,</tt> <tt id="link-11" class="py-name" targets="Class mldata.forum.sitemap.ThreadSitemap=mldata.forum.sitemap.ThreadSitemap-class.html"><a title="mldata.forum.sitemap.ThreadSitemap" class="py-name" href="#" onclick="return doclink('link-11', 'ThreadSitemap', 'link-11');">ThreadSitemap</a></tt><tt class="py-op">,</tt> <tt id="link-12" class="py-name" targets="Class mldata.forum.sitemap.PostSitemap=mldata.forum.sitemap.PostSitemap-class.html"><a title="mldata.forum.sitemap.PostSitemap" class="py-name" href="#" onclick="return doclink('link-12', 'PostSitemap', 'link-12');">PostSitemap</a></tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt id="link-13" class="py-name" targets="Variable mldata.forum.urls.feed_dict=mldata.forum.urls-module.html#feed_dict"><a title="mldata.forum.urls.feed_dict" class="py-name" href="#" onclick="return doclink('link-13', 'feed_dict', 'link-13');">feed_dict</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt class="py-string">'rss'</tt> <tt class="py-op">:</tt> <tt id="link-14" class="py-name"><a title="mldata.forum.feeds.RssForumFeed" class="py-name" href="#" onclick="return doclink('link-14', 'RssForumFeed', 'link-6');">RssForumFeed</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt class="py-string">'atom'</tt><tt class="py-op">:</tt> <tt id="link-15" class="py-name"><a title="mldata.forum.feeds.AtomForumFeed" class="py-name" href="#" onclick="return doclink('link-15', 'AtomForumFeed', 'link-7');">AtomForumFeed</a></tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt id="link-16" class="py-name" targets="Variable mldata.forum.urls.sitemap_dict=mldata.forum.urls-module.html#sitemap_dict"><a title="mldata.forum.urls.sitemap_dict" class="py-name" href="#" onclick="return doclink('link-16', 'sitemap_dict', 'link-16');">sitemap_dict</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt class="py-string">'forums'</tt><tt class="py-op">:</tt> <tt id="link-17" class="py-name"><a title="mldata.forum.sitemap.ForumSitemap" class="py-name" href="#" onclick="return doclink('link-17', 'ForumSitemap', 'link-10');">ForumSitemap</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-string">'threads'</tt><tt class="py-op">:</tt> <tt id="link-18" class="py-name"><a title="mldata.forum.sitemap.ThreadSitemap" class="py-name" href="#" onclick="return doclink('link-18', 'ThreadSitemap', 'link-11');">ThreadSitemap</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-string">'posts'</tt><tt class="py-op">:</tt> <tt id="link-19" class="py-name"><a title="mldata.forum.sitemap.PostSitemap" class="py-name" href="#" onclick="return doclink('link-19', 'PostSitemap', 'link-12');">PostSitemap</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"><tt id="link-20" class="py-name" targets="Variable mldata.about.urls.urlpatterns=mldata.about.urls-module.html#urlpatterns,Variable mldata.blog.urls.urlpatterns=mldata.blog.urls-module.html#urlpatterns,Variable mldata.django_authopenid.urls.urlpatterns=mldata.django_authopenid.urls-module.html#urlpatterns,Variable mldata.forum.urls.urlpatterns=mldata.forum.urls-module.html#urlpatterns,Variable mldata.registration.urls.urlpatterns=mldata.registration.urls-module.html#urlpatterns,Variable mldata.repository.urls.urlpatterns=mldata.repository.urls-module.html#urlpatterns,Variable mldata.urls.urlpatterns=mldata.urls-module.html#urlpatterns,Variable mldata.user.urls.urlpatterns=mldata.user.urls-module.html#urlpatterns"><a title="mldata.about.urls.urlpatterns
+mldata.blog.urls.urlpatterns
+mldata.django_authopenid.urls.urlpatterns
+mldata.forum.urls.urlpatterns
+mldata.registration.urls.urlpatterns
+mldata.repository.urls.urlpatterns
+mldata.urls.urlpatterns
+mldata.user.urls.urlpatterns" class="py-name" href="#" onclick="return doclink('link-20', 'urlpatterns', 'link-20');">urlpatterns</a></tt> <tt class="py-op">=</tt> <tt id="link-21" class="py-name" targets="Variable mldata.utils.markdown.CorePatterns.patterns=mldata.utils.markdown.CorePatterns-class.html#patterns"><a title="mldata.utils.markdown.CorePatterns.patterns" class="py-name" href="#" onclick="return doclink('link-21', 'patterns', 'link-21');">patterns</a></tt><tt class="py-op">(</tt><tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt id="link-22" class="py-name" targets="Variable mldata.repository.models.DataLicense.url=mldata.repository.models.DataLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-22', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.forums_list'</tt><tt class="py-op">,</tt> <tt id="link-23" class="py-name" targets="Variable mldata.repository.models.DataLicense.name=mldata.repository.models.DataLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-23', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_index'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">     </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt id="link-24" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-24', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^(?P&lt;url&gt;(rss|atom).*)/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'django.contrib.syndication.views.feed'</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'feed_dict'</tt><tt class="py-op">:</tt> <tt id="link-25" class="py-name"><a title="mldata.forum.urls.feed_dict" class="py-name" href="#" onclick="return doclink('link-25', 'feed_dict', 'link-13');">feed_dict</a></tt><tt class="py-op">}</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt id="link-26" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-26', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^thread/(?P&lt;thread&gt;[0-9]+)/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.thread'</tt><tt class="py-op">,</tt> <tt id="link-27" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-27', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_view_thread'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt id="link-28" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-28', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^thread/(?P&lt;thread&gt;[0-9]+)/reply/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.reply'</tt><tt class="py-op">,</tt> <tt id="link-29" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-29', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_reply_thread'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt id="link-30" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-30', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^subscriptions/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.updatesubs'</tt><tt class="py-op">,</tt> <tt id="link-31" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-31', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_subscriptions'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt id="link-32" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-32', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^(?P&lt;slug&gt;[-\w]+)/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.forum'</tt><tt class="py-op">,</tt> <tt id="link-33" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-33', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_thread_list'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">    <tt id="link-34" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-34', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^(?P&lt;forum&gt;[-\w]+)/new/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.newthread'</tt><tt class="py-op">,</tt> <tt id="link-35" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-35', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_new_thread'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">    <tt id="link-36" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-36', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^([-\w/]+/)(?P&lt;forum&gt;[-\w]+)/new/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.newthread'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">    <tt id="link-37" class="py-name"><a title="mldata.repository.models.DataLicense.url
+mldata.repository.models.License.url" class="py-name" href="#" onclick="return doclink('link-37', 'url', 'link-22');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^([-\w/]+/)(?P&lt;slug&gt;[-\w]+)/$'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum.views.forum'</tt><tt class="py-op">,</tt> <tt id="link-38" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-38', 'name', 'link-23');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'forum_subforum_thread_list'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^sitemap.xml$'</tt><tt class="py-op">,</tt> <tt class="py-string">'django.contrib.sitemaps.views.index'</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'sitemaps'</tt><tt class="py-op">:</tt> <tt id="link-39" class="py-name"><a title="mldata.forum.urls.sitemap_dict" class="py-name" href="#" onclick="return doclink('link-39', 'sitemap_dict', 'link-16');">sitemap_dict</a></tt><tt class="py-op">}</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^sitemap-(?P&lt;section&gt;.+)\.xml$'</tt><tt class="py-op">,</tt> <tt class="py-string">'django.contrib.sitemaps.views.sitemap'</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'sitemaps'</tt><tt class="py-op">:</tt> <tt id="link-40" class="py-name"><a title="mldata.forum.urls.sitemap_dict" class="py-name" href="#" onclick="return doclink('link-40', 'sitemap_dict', 'link-16');">sitemap_dict</a></tt><tt class="py-op">}</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:54 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

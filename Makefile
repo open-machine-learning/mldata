@@ -51,3 +51,11 @@ tar: clean
 clean:
 	find ./ -name '*.pyc' -delete
 	find ./ -name '*.swp' -delete
+
+doc:
+	DJANGO_SETTINGS_MODULE=settings epydoc --name "API doc for mldata.org" --url http://mldata.org --graph=all --html --output doc/ .
+
+checkdoc:
+	DJANGO_SETTINGS_MODULE=settings epydoc --check .
+
+.PHONY: doc

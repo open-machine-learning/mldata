@@ -1,5 +1,10 @@
 """
-All custom repository logic is kept here
+Define the views of app Repository
+
+@var VERSIONS_PER_PAGE: how many versions of an item will be shown in the selector
+@type VERSIONS_PER_PAGE: integer
+@var OBJECTS_PER_PAGE: how many items will be shown on one page
+@type OBJECTS_PER_PAGE: integer
 """
 
 import datetime, os
@@ -23,31 +28,16 @@ OBJECTS_PER_PAGE = 10
 
 
 
-def index(request):
-    qs = Q(is_deleted=False) & Q(is_public=True)
-    latest = {}
-    try:
-        latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['data'] = None
-    try:
-        latest['task'] = Task.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['task'] = None
-    try:
-        latest['solution'] = Solution.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['solution'] = None
-
-    info_dict = {
-        'latest': latest,
-        'request': request,
-    }
-    return render_to_response('repository/index.html', info_dict)
-
-
-
 def _is_owner(request_user, obj_user):
+    """Determine if given user is the owner of the given item.
+
+    @param request_user: request's user object
+    @type request_user: user object
+    @param obj_user: item's user object
+    @type obj_user: user object
+    @return: if request user owns the item or not
+    @rtype: boolean
+    """
     if request_user.is_staff or\
         request_user.is_superuser or\
         request_user == obj_user:
@@ -57,6 +47,22 @@ def _is_owner(request_user, obj_user):
 
 
 def _get_object_or_404(request, slug_or_id, klass):
+    """Wrapper for Django's get_object_or_404.
+
+    Retrieves an item by slug or id and checks for ownership.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: item's slug or id for lookup
+    @type slug_or_id: string or integer
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: retrieved item
+    @rtype: klass
+    @raise Http404:
+        - user is not owner if item is not public
+        - item could not be found
+    """
     obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
         repository__is_deleted=False)
 
@@ -82,6 +88,15 @@ def _get_object_or_404(request, slug_or_id, klass):
 
 
 def _get_versions_paginator(request, obj):
+    """Get a paginator for item versions.
+
+    @param request: request data
+    @type request: Django request
+    @param obj: item to get versions for
+    @type obj: either class Data, Task or Solution
+    @return: paginator for item versions
+    @rtype: Django paginator
+    """
     versions = obj.__class__.objects.values('id', 'version').\
         filter(slug__text=obj.slug.text).\
         filter(is_deleted=False).order_by('version')
@@ -110,6 +125,14 @@ def _get_versions_paginator(request, obj):
 
 
 def _get_completeness(obj):
+    """Determine item's completeness.
+
+    @param obj: item to determine its completeness from
+    @type obj: either Data, Task or Solution
+    @return: completeness of item as a percentage
+    @rtype: integer
+    @raise Http404: if given item is not of expected class
+    """
     if obj.__class__ == Data:
         attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
     elif obj.__class__ == Task:
@@ -117,7 +140,7 @@ def _get_completeness(obj):
     elif obj.__class__ == Solution:
         attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'feature_processing', 'parameters', 'os', 'code', 'score']
     else:
-        return 0
+        raise Http404
 
     attrs_len = len(attrs)
     attrs_complete = 0
@@ -128,6 +151,15 @@ def _get_completeness(obj):
 
 
 def _get_rating_form(request, obj):
+    """Get a rating form for given item.
+
+    @param request: request data
+    @type request: Django request
+    @param obj: item to get rating form for
+    @type obj: either of Data, Task, Solution
+    @return: a rating form
+    @rtype: forms.RatingForm
+    """
     rating_form = None
     if request.user.is_authenticated() and not request.user == obj.user:
         klass = eval(obj.__class__.__name__ + 'Rating')
@@ -145,6 +177,13 @@ def _get_rating_form(request, obj):
 
 
 def _can_activate(obj):
+    """Determine if given item can be activated by the user.
+
+    @param obj: item to be activated
+    @type obj: either Data, Task or Solution
+    @return: if user can activate given item
+    @rtype: boolean
+    """
     if not obj.is_owner:
         return False
 
@@ -162,15 +201,26 @@ def _can_activate(obj):
 
 @transaction.commit_on_success
 def _activate(request, id, klass):
+    """Activate item given by id and klass.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to activate
+    @type id: integer
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: redirect user to login page or item's page
+    @rtype: Django response
+    @raise Http404: if user doesn't own the item
+    """
     if not request.user.is_authenticated():
         func = eval(klass.__name__.lower() + '_activate')
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = get_object_or_404(klass, pk=id)
-    if not _is_owner(request.user, obj.user):
+    if not obj.is_owner:
         raise Http404
-
     obj.is_public = True
     obj.save()
     CurrentVersion.set(obj)
@@ -179,22 +229,53 @@ def _activate(request, id, klass):
 
 
 @transaction.commit_on_success
-def _delete(request, slug_or_id, klass):
+def _delete(request, id, klass):
+    """Delete item given by id and klass.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to delete
+    @type id: integer
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: redirect user to login page or item's page or user's my page
+    @rtype: Django response
+    @raise Http404: if user doesn't own the item
+    """
+    if not request.user.is_authenticated():
+        func = eval(klass.__name__.lower() + '_delete')
+        url = reverse(func, args=[id])
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
+
     obj = _get_object_or_404(request, slug_or_id, klass)
-    if obj.is_owner:
-        obj.is_deleted = True
-        obj.save()
-        current = klass.objects.filter(slug=obj.slug).\
-            filter(is_deleted=False).order_by('-version')
-        if current:
-            CurrentVersion.set(current[0])
-            return HttpResponseRedirect(current[0].get_absolute_slugurl())
+    if not obj.is_owner:
+        raise Http404
+    obj.is_deleted = True
+    obj.save()
+
+    current = klass.objects.filter(slug=obj.slug).\
+        filter(is_deleted=False).order_by('-version')
+    if current:
+        CurrentVersion.set(current[0])
+        return HttpResponseRedirect(current[0].get_absolute_slugurl())
 
     func = eval(klass.__name__.lower() + '_my')
     return HttpResponseRedirect(reverse(func))
 
 
 def _download(request, id, klass):
+    """Download file relating to item given by id and klass.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: contents of file related to object
+    @rtype: binary file
+    @raise Http404: if given klass is unexpected
+    """
     obj = _get_object_or_404(request, id, klass)
     if klass == Data:
         fileobj = obj.file
@@ -222,6 +303,17 @@ def _download(request, id, klass):
 
 
 def _view(request, slug_or_id, klass):
+    """View item given by slug or id and klass.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of the item to activate
+    @type slug_or_id: string or integer
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: view page or review page if klass Data and item not approved
+    @rtype: Django response
+    """
     obj = _get_object_or_404(request, slug_or_id, klass)
     if klass == Data and not obj.is_approved:
         return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
@@ -253,6 +345,16 @@ def _view(request, slug_or_id, klass):
 
 @transaction.commit_on_success
 def _new(request, klass):
+    """Create a new item of given klass.
+
+    @param request: request data
+    @type request: Django request
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: user login page, item's view page or this page again on failed form validation
+    @rtype: Django response
+    @raise Http404: if given klass is unexpected
+    """
     url_new = reverse(eval(klass.__name__.lower() + '_new'))
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url_new)
@@ -321,6 +423,18 @@ def _new(request, klass):
 
 @transaction.commit_on_success
 def _edit(request, slug_or_id, klass):
+    """Edit existing item given by slug or id and klass.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of the item to activate
+    @type slug_or_id: string or integer
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @return: user login page, item's view page or this page again on failed form validation
+    @rtype: Django response
+    @raise Http404: if given klass is unexpected
+    """
     prev = _get_object_or_404(request, slug_or_id, klass)
     prev.klass = klass.__name__
     prev.url_edit = reverse(
@@ -384,6 +498,16 @@ def _edit(request, slug_or_id, klass):
 
 
 def _index(request, klass, my=False):
+    """Index/My page for section given by klass.
+
+    @param request: request data
+    @type request: Django request
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @param my: if the page should be a My page or the archive index of the section
+    @return: section's index or My page
+    @rtype: Django response
+    """
     objects = CurrentVersion.objects.filter(
         type=TYPE[klass.__name__],
         repository__is_deleted=False
@@ -429,61 +553,324 @@ def _index(request, klass, my=False):
     return render_to_response('repository/item_index.html', info_dict)
 
 
+
+def index(request):
+    """Index page of app repository.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
+    qs = Q(is_deleted=False) & Q(is_public=True)
+    latest = {}
+    try:
+        latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['data'] = None
+    try:
+        latest['task'] = Task.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['task'] = None
+    try:
+        latest['solution'] = Solution.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['solution'] = None
+
+    info_dict = {
+        'latest': latest,
+        'request': request,
+    }
+    return render_to_response('repository/index.html', info_dict)
+
+
+
 def data_index(request):
+    """Index page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _index(request, Data)
+
 def data_my(request):
+    """My page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _index(request, Data, True)
-def data_view(request, slug_or_id):
-    return _view(request, slug_or_id, Data)
-def data_delete(request, slug_or_id):
-    return _delete(request, slug_or_id, Data)
-def data_activate(request, id):
-    return _activate(request, id, Data)
-def data_download(request, id):
-    return _download(request, id, Data)
+
 def data_new(request):
+    """New page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _new(request, Data)
+
+def data_view(request, slug_or_id):
+    """View page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of item to view
+    @type slug_or_id: string or integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _view(request, slug_or_id, Data)
+
 def data_edit(request, slug_or_id):
+    """Edit page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of item to edit
+    @type slug_or_id: string or integer
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _edit(request, slug_or_id, Data)
 
+def data_delete(request, id):
+    """Delete of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to delete
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _delete(request, id, Data)
+
+def data_activate(request, id):
+    """Activate of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to activate
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _activate(request, id, Data)
+
+def data_download(request, id):
+    """Download of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to download
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _download(request, id, Data)
+
+
 def task_index(request):
+    """Index page of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _index(request, Task)
+
 def task_my(request):
+    """My page of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _index(request, Task, True)
-def task_view(request, slug_or_id):
-    return _view(request, slug_or_id, Task)
-def splits_download(request, id):
-    return _download(request, id, Task)
-def task_activate(request, id):
-    return _activate(request, id, Task)
-def task_delete(request, slug_or_id):
-    return _delete(request, slug_or_id, Task)
+
 def task_new(request):
+    """New page of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _new(request, Task)
+
+def task_view(request, slug_or_id):
+    """View page of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of the item to view
+    @type slug_or_id: string or integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _view(request, slug_or_id, Task)
+
 def task_edit(request, slug_or_id):
+    """Edit page of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of item to edit
+    @type slug_or_id: string or integer
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _edit(request, slug_or_id, Task)
 
+def task_delete(request, id):
+    """Delete of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to delete
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _delete(request, id, Task)
+
+def task_activate(request, id):
+    """Activate of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to activate
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _activate(request, id, Task)
+
+def splits_download(request, id):
+    """Download of Task section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to download
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _download(request, id, Task)
+
+
 def solution_index(request):
+    """Index page of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _index(request, Solution)
+
 def solution_my(request):
+    """My page of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _index(request, Solution, True)
-def solution_view(request, slug_or_id):
-    return _view(request, slug_or_id, Solution)
-def score_download(request, id):
-    return _download(request, id, Solution)
-def solution_activate(request, id):
-    return _activate(request, id, Solution)
-def solution_delete(request, slug_or_id):
-    return _delete(request, slug_or_id, Solution)
+
 def solution_new(request):
+    """New page of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _new(request, Solution)
+
+def solution_view(request, slug_or_id):
+    """View page of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of the item to view
+    @type slug_or_id: string or integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _view(request, slug_or_id, Solution)
+
 def solution_edit(request, slug_or_id):
+    """Edit page of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_or_id: slug or id of item to edit
+    @type slug_or_id: string or integer
+    @return: rendered response page
+    @rtype: Django response
+    """
     return _edit(request, slug_or_id, Solution)
+
+def solution_activate(request, id):
+    """Activate of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to activate
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _activate(request, id, Solution)
+
+def solution_delete(request, id):
+    """Delete of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to delete
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _delete(request, id, Solution)
+
+def score_download(request, id):
+    """Download of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to download
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _download(request, id, Solution)
 
 
 
 @transaction.commit_on_success
 def data_new_review(request, id):
+    """Review Data item to check if uploaded file is as expected.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to review
+    @type id: integer
+    @return: redirect user to login page or item's view page after approval or review form
+    @rtype: Django response
+    @raise Http404: if already approved
+    """
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new_review, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + next)
@@ -531,6 +918,13 @@ def data_new_review(request, id):
 
 
 def tags_index(request):
+    """Index page to display all public and all user's tags.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
     current = CurrentVersion.objects.filter(
             Q(repository__user=request.user.id) | Q(repository__is_public=True)
     )
@@ -558,6 +952,16 @@ def tags_index(request):
 
 
 def tags_view(request, tag):
+    """View all items tagged by given tag.
+
+    @param request: request data
+    @type request: Django request
+    @param tag: name of the tag
+    @type tag: string
+    @return: rendered response page
+    @rtype: Django response
+    @raise Http404: if an item's class is unexpected
+    """
     try:
         current = CurrentVersion.objects.filter(
                 Q(repository__user=request.user.id) | Q(repository__is_public=True)
@@ -593,6 +997,15 @@ def tags_view(request, tag):
 
 
 def rate(request, klassid, id):
+    """Rate an item given by id and klass.
+
+    @param id: item's id
+    @type id: integer
+    @param klassid: item's class for lookup in correct database table
+    @type klassid: either Data, Task or Solution
+    @return: redirect to item's view page
+    @rtype: Django response
+    """
     try:
         inverted = dict((v,k) for k, v in TYPE.iteritems())
         klassname = inverted[int(klassid)]

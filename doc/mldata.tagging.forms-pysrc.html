@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.tagging.forms</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.tagging-module.html">Package&nbsp;tagging</a> ::
+        Module&nbsp;forms
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.tagging.forms-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.tagging.forms-module.html">Module mldata.tagging.forms</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring">Tagging components for Django's form library.</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module mldata.django_authopenid.forms=mldata.django_authopenid.forms-module.html,Module mldata.forum.forms=mldata.forum.forms-module.html,Module mldata.registration.forms=mldata.registration.forms-module.html,Module mldata.repository.forms=mldata.repository.forms-module.html,Module mldata.tagging.forms=mldata.tagging.forms-module.html"><a title="mldata.django_authopenid.forms
+mldata.forum.forms
+mldata.registration.forms
+mldata.repository.forms
+mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-0', 'forms', 'link-0');">forms</a></tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Package mldata.django_authopenid.utils=mldata.django_authopenid.utils-module.html,Module mldata.tagging.utils=mldata.tagging.utils-module.html,Package mldata.utils=mldata.utils-module.html"><a title="mldata.django_authopenid.utils
+mldata.tagging.utils
+mldata.utils" class="py-name" href="#" onclick="return doclink('link-1', 'utils', 'link-1');">utils</a></tt><tt class="py-op">.</tt><tt class="py-name">translation</tt> <tt class="py-keyword">import</tt> <tt class="py-name">ugettext</tt> <tt class="py-keyword">as</tt> <tt class="py-name">_</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Package mldata.tagging=mldata.tagging-module.html"><a title="mldata.tagging" class="py-name" href="#" onclick="return doclink('link-2', 'tagging', 'link-2');">tagging</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Module mldata.settings=mldata.settings-module.html,Module mldata.tagging.settings=mldata.tagging.settings-module.html,Module mldata.tagging.tests.settings=mldata.tagging.tests.settings-module.html"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-3', 'settings', 'link-3');">settings</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name"><a title="mldata.tagging" class="py-name" href="#" onclick="return doclink('link-4', 'tagging', 'link-2');">tagging</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.about.models
+mldata.blog.models
+mldata.django_authopenid.models
+mldata.forum.models
+mldata.registration.models
+mldata.repository.models
+mldata.tagging.models
+mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-5', 'models', 'link-5');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Class tagging.models.Tag=tagging.models.Tag-class.html"><a title="tagging.models.Tag" class="py-name" href="#" onclick="return doclink('link-6', 'Tag', 'link-6');">Tag</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name"><a title="mldata.tagging" class="py-name" href="#" onclick="return doclink('link-7', 'tagging', 'link-2');">tagging</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="mldata.django_authopenid.utils
+mldata.tagging.utils
+mldata.utils" class="py-name" href="#" onclick="return doclink('link-8', 'utils', 'link-1');">utils</a></tt> <tt class="py-keyword">import</tt> <tt id="link-9" class="py-name" targets="Function mldata.tagging.utils.parse_tag_input()=mldata.tagging.utils-module.html#parse_tag_input"><a title="mldata.tagging.utils.parse_tag_input" class="py-name" href="#" onclick="return doclink('link-9', 'parse_tag_input', 'link-9');">parse_tag_input</a></tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"> </tt>
+<a name="TagAdminForm"></a><div id="TagAdminForm-def"><a name="L11"></a><tt class="py-lineno">11</tt> <a class="py-toggle" href="#" id="TagAdminForm-toggle" onclick="return toggle('TagAdminForm');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.tagging.forms.TagAdminForm-class.html">TagAdminForm</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelForm</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TagAdminForm-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="TagAdminForm-expanded"><a name="TagAdminForm.Meta"></a><div id="TagAdminForm.Meta-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="TagAdminForm.Meta-toggle" onclick="return toggle('TagAdminForm.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.tagging.forms.TagAdminForm.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="TagAdminForm.Meta-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TagAdminForm.Meta-expanded"><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-name">model</tt> <tt class="py-op">=</tt> <tt id="link-10" class="py-name"><a title="tagging.models.Tag" class="py-name" href="#" onclick="return doclink('link-10', 'Tag', 'link-6');">Tag</a></tt> </tt>
+</div><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"> </tt>
+<a name="TagAdminForm.clean_name"></a><div id="TagAdminForm.clean_name-def"><a name="L15"></a><tt class="py-lineno">15</tt> <a class="py-toggle" href="#" id="TagAdminForm.clean_name-toggle" onclick="return toggle('TagAdminForm.clean_name');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.tagging.forms.TagAdminForm-class.html#clean_name">clean_name</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TagAdminForm.clean_name-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TagAdminForm.clean_name-expanded"><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">        <tt class="py-name">value</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt class="py-name">tag_names</tt> <tt class="py-op">=</tt> <tt id="link-11" class="py-name"><a title="mldata.tagging.utils.parse_tag_input" class="py-name" href="#" onclick="return doclink('link-11', 'parse_tag_input', 'link-9');">parse_tag_input</a></tt><tt class="py-op">(</tt><tt class="py-name">value</tt><tt class="py-op">)</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">tag_names</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-12" class="py-name"><a title="mldata.django_authopenid.forms
+mldata.forum.forms
+mldata.registration.forms
+mldata.repository.forms
+mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-12', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Multiple tags were given.'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">tag_names</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt id="link-13" class="py-name"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-13', 'settings', 'link-3');">settings</a></tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Variable mldata.tagging.settings.MAX_TAG_LENGTH=mldata.tagging.settings-module.html#MAX_TAG_LENGTH"><a title="mldata.tagging.settings.MAX_TAG_LENGTH" class="py-name" href="#" onclick="return doclink('link-14', 'MAX_TAG_LENGTH', 'link-14');">MAX_TAG_LENGTH</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-15" class="py-name"><a title="mldata.django_authopenid.forms
+mldata.forum.forms
+mldata.registration.forms
+mldata.repository.forms
+mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-15', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">                <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'A tag may be no more than %s characters long.'</tt><tt class="py-op">)</tt> <tt class="py-op">%</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">                    <tt id="link-16" class="py-name"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-16', 'settings', 'link-3');">settings</a></tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="mldata.tagging.settings.MAX_TAG_LENGTH" class="py-name" href="#" onclick="return doclink('link-17', 'MAX_TAG_LENGTH', 'link-14');">MAX_TAG_LENGTH</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">value</tt> </tt>
+</div></div><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"> </tt>
+<a name="TagField"></a><div id="TagField-def"><a name="L26"></a><tt class="py-lineno">26</tt> <a class="py-toggle" href="#" id="TagField-toggle" onclick="return toggle('TagField');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.tagging.forms.TagField-class.html">TagField</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">CharField</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TagField-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="TagField-expanded"><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"><tt class="py-docstring">    A ``CharField`` which validates that its input is a valid list of</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"><tt class="py-docstring">    tag names.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="TagField.clean"></a><div id="TagField.clean-def"><a name="L31"></a><tt class="py-lineno">31</tt> <a class="py-toggle" href="#" id="TagField.clean-toggle" onclick="return toggle('TagField.clean');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.tagging.forms.TagField-class.html#clean">clean</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">value</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TagField.clean-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="TagField.clean-expanded"><a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">value</tt> <tt class="py-op">=</tt> <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-18" class="py-name" targets="Class mldata.tagging.fields.TagField=mldata.tagging.fields.TagField-class.html,Class mldata.tagging.forms.TagField=mldata.tagging.forms.TagField-class.html"><a title="mldata.tagging.fields.TagField
+mldata.tagging.forms.TagField" class="py-name" href="#" onclick="return doclink('link-18', 'TagField', 'link-18');">TagField</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method mldata.registration.forms.RegistrationForm.clean()=mldata.registration.forms.RegistrationForm-class.html#clean,Method mldata.tagging.forms.TagField.clean()=mldata.tagging.forms.TagField-class.html#clean"><a title="mldata.registration.forms.RegistrationForm.clean
+mldata.tagging.forms.TagField.clean" class="py-name" href="#" onclick="return doclink('link-19', 'clean', 'link-19');">clean</a></tt><tt class="py-op">(</tt><tt class="py-name">value</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">value</tt> <tt class="py-op">==</tt> <tt class="py-string">u''</tt><tt class="py-op">:</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">value</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">tag_name</tt> <tt class="py-keyword">in</tt> <tt id="link-20" class="py-name"><a title="mldata.tagging.utils.parse_tag_input" class="py-name" href="#" onclick="return doclink('link-20', 'parse_tag_input', 'link-9');">parse_tag_input</a></tt><tt class="py-op">(</tt><tt class="py-name">value</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">tag_name</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt id="link-21" class="py-name"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-21', 'settings', 'link-3');">settings</a></tt><tt class="py-op">.</tt><tt id="link-22" class="py-name"><a title="mldata.tagging.settings.MAX_TAG_LENGTH" class="py-name" href="#" onclick="return doclink('link-22', 'MAX_TAG_LENGTH', 'link-14');">MAX_TAG_LENGTH</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-23" class="py-name"><a title="mldata.django_authopenid.forms
+mldata.forum.forms
+mldata.registration.forms
+mldata.repository.forms
+mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-23', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">                    <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Each tag may be no more than %s characters long.'</tt><tt class="py-op">)</tt> <tt class="py-op">%</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">                        <tt id="link-24" class="py-name"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-24', 'settings', 'link-3');">settings</a></tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="mldata.tagging.settings.MAX_TAG_LENGTH" class="py-name" href="#" onclick="return doclink('link-25', 'MAX_TAG_LENGTH', 'link-14');">MAX_TAG_LENGTH</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">value</tt> </tt>
+</div></div><a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:59 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

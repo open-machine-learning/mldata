@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.templatetags.get_version</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.templatetags-module.html">Package&nbsp;templatetags</a> ::
+        Module&nbsp;get_version
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.templatetags.get_version-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.templatetags.get_version-module.html">Module mldata.templatetags.get_version</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt> <tt class="py-keyword">import</tt> <tt class="py-name">template</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">conf</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module mldata.settings=mldata.settings-module.html,Module mldata.tagging.settings=mldata.tagging.settings-module.html,Module mldata.tagging.tests.settings=mldata.tagging.tests.settings-module.html"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-0', 'settings', 'link-0');">settings</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable mldata.blog.templatetags.uniqdate.register=mldata.blog.templatetags.uniqdate-module.html#register,Function mldata.django_authopenid.views.register()=mldata.django_authopenid.views-module.html#register,Variable mldata.forum.templatetags.forum_tags.register=mldata.forum.templatetags.forum_tags-module.html#register,Function mldata.registration.views.register()=mldata.registration.views-module.html#register,Variable mldata.repository.templatetags.show_stars.register=mldata.repository.templatetags.show_stars-module.html#register,Function mldata.tagging.register()=mldata.tagging-module.html#register,Variable mldata.tagging.templatetags.tagging_tags.register=mldata.tagging.templatetags.tagging_tags-module.html#register,Variable mldata.templatetags.get_version.register=mldata.templatetags.get_version-module.html#register,Variable mldata.templatetags.paginator.register=mldata.templatetags.paginator-module.html#register,Variable mldata.templatetags.permute_items.register=mldata.templatetags.permute_items-module.html#register"><a title="mldata.blog.templatetags.uniqdate.register
+mldata.django_authopenid.views.register
+mldata.forum.templatetags.forum_tags.register
+mldata.registration.views.register
+mldata.repository.templatetags.show_stars.register
+mldata.tagging.register
+mldata.tagging.templatetags.tagging_tags.register
+mldata.templatetags.get_version.register
+mldata.templatetags.paginator.register
+mldata.templatetags.permute_items.register" class="py-name" href="#" onclick="return doclink('link-1', 'register', 'link-1');">register</a></tt> <tt class="py-op">=</tt> <tt class="py-name">template</tt><tt class="py-op">.</tt><tt class="py-name">Library</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="get_version"></a><div id="get_version-def"><a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">register</tt><tt class="py-op">.</tt><tt class="py-name">simple_tag</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="get_version-toggle" onclick="return toggle('get_version');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.templatetags.get_version-module.html#get_version">get_version</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="get_version-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="get_version-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt id="link-2" class="py-name"><a title="mldata.settings
+mldata.tagging.settings
+mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-2', 'settings', 'link-0');">settings</a></tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Variable mldata.settings.VERSION=mldata.settings-module.html#VERSION,Variable mldata.tagging.VERSION=mldata.tagging-module.html#VERSION,Variable mldata.utils.hdf5conv.VERSION=mldata.utils.hdf5conv-module.html#VERSION,Variable mldata.utils.hdf5conv.hdf5.VERSION=mldata.utils.hdf5conv.hdf5-module.html#VERSION"><a title="mldata.settings.VERSION
+mldata.tagging.VERSION
+mldata.utils.hdf5conv.VERSION
+mldata.utils.hdf5conv.hdf5.VERSION" class="py-name" href="#" onclick="return doclink('link-3', 'VERSION', 'link-3');">VERSION</a></tt> </tt>
+</div><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:57 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

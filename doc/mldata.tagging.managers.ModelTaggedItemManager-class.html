@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.tagging.managers.ModelTaggedItemManager</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.tagging-module.html">Package&nbsp;tagging</a> ::
+        <a href="mldata.tagging.managers-module.html">Module&nbsp;managers</a> ::
+        Class&nbsp;ModelTaggedItemManager
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.tagging.managers.ModelTaggedItemManager-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class ModelTaggedItemManager</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.tagging.managers-pysrc.html#ModelTaggedItemManager">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_mldata_t_7" name="uml_class_diagram_for_mldata_t_7">
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.creation_counter" alt="" coords="44,28,273,47"/>
+<area shape="rect" href="javascript:void(0);" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="44,49,273,68"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.aggregate" alt="" coords="44,68,273,87"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.all" alt="" coords="44,87,273,105"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.annotate" alt="" coords="44,105,273,124"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.complex_filter" alt="" coords="44,124,273,143"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.contribute_to_class" alt="" coords="44,143,273,161"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.count" alt="" coords="44,161,273,180"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.create" alt="" coords="44,180,273,199"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.dates" alt="" coords="44,199,273,217"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.defer" alt="" coords="44,217,273,236"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.distinct" alt="" coords="44,236,273,255"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.exclude" alt="" coords="44,255,273,273"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.extra" alt="" coords="44,273,273,292"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager.values_list" alt="" coords="44,311,273,329"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.manager.Manager" alt="" coords="43,11,275,331"/>
+<area shape="rect" href="mldata.tagging.managers.ModelTaggedItemManager-class.html#related_to" title="mldata.tagging.managers.ModelTaggedItemManager.related_to" alt="" coords="17,385,300,404"/>
+<area shape="rect" href="mldata.tagging.managers.ModelTaggedItemManager-class.html#with_all" title="mldata.tagging.managers.ModelTaggedItemManager.with_all" alt="" coords="17,404,300,423"/>
+<area shape="rect" href="mldata.tagging.managers.ModelTaggedItemManager-class.html#with_any" title="mldata.tagging.managers.ModelTaggedItemManager.with_any" alt="" coords="17,423,300,441"/>
+<area shape="rect" href="mldata.tagging.managers.ModelTaggedItemManager-class.html" title="A manager for retrieving model instances based on their tags." alt="" coords="16,360,301,443"/>
+</map>
+  <img src="uml_class_diagram_for_mldata_t_7.gif" alt='' usemap="#uml_class_diagram_for_mldata_t_7" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>A manager for retrieving model instances based on their tags.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="related_to"></a><span class="summary-sig-name">related_to</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">queryset</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">num</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.managers-pysrc.html#ModelTaggedItemManager.related_to">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="with_all"></a><span class="summary-sig-name">with_all</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tags</span>,
+        <span class="summary-sig-arg">queryset</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.managers-pysrc.html#ModelTaggedItemManager.with_all">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="with_any"></a><span class="summary-sig-name">with_any</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">tags</span>,
+        <span class="summary-sig-arg">queryset</span>=<span class="summary-sig-default">None</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.managers-pysrc.html#ModelTaggedItemManager.with_any">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.manager.Manager</code></b>:
+      <code>__init__</code>,
+      <code>aggregate</code>,
+      <code>all</code>,
+      <code>annotate</code>,
+      <code>complex_filter</code>,
+      <code>contribute_to_class</code>,
+      <code>count</code>,
+      <code>create</code>,
+      <code>dates</code>,
+      <code>defer</code>,
+      <code>distinct</code>,
+      <code>exclude</code>,
+      <code>extra</code>,
+      <code>filter</code>,
+      <code>get</code>,
+      <code>get_empty_query_set</code>,
+      <code>get_or_create</code>,
+      <code>get_query_set</code>,
+      <code>in_bulk</code>,
+      <code>iterator</code>,
+      <code>latest</code>,
+      <code>none</code>,
+      <code>only</code>,
+      <code>order_by</code>,
+      <code>reverse</code>,
+      <code>select_related</code>,
+      <code>update</code>,
+      <code>values</code>,
+      <code>values_list</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.manager.Manager</code></b> (private):
+      <code>_copy_to_model</code>,
+      <code>_insert</code>,
+      <code>_set_creation_counter</code>,
+      <code>_update</code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.manager.Manager</code></b>:
+      <code>creation_counter</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:44 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

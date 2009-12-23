@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.tagging.fields.TagField</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.tagging-module.html">Package&nbsp;tagging</a> ::
+        <a href="mldata.tagging.fields-module.html">Module&nbsp;fields</a> ::
+        Class&nbsp;TagField
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.tagging.fields.TagField-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class TagField</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_mldata_t_3" name="uml_class_diagram_for_mldata_t_3">
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.empty_strings_allowed" alt="" coords="17,28,281,47"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.creation_counter" alt="" coords="17,47,281,65"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.auto_creation_counter" alt="" coords="17,65,281,84"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.unique" alt="" coords="17,84,281,103"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.choices" alt="" coords="17,103,281,121"/>
+<area shape="rect" href="javascript:void(0);" title="Flattened version of choices tuple." alt="" coords="17,121,281,140"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.__cmp__" alt="" coords="17,143,281,161"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.__deepcopy__" alt="" coords="17,161,281,180"/>
+<area shape="rect" href="javascript:void(0);" title="Returns the database column data type for this field, taking into account &#160;the DATABASE_ENGINE setting." alt="" coords="17,180,281,199"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.set_attributes_from_name" alt="" coords="17,199,281,217"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.get_attname" alt="" coords="17,217,281,236"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.get_attname_column" alt="" coords="17,236,281,255"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field.get_cache_name" alt="" coords="17,255,281,273"/>
+<area shape="rect" href="javascript:void(0);" title="Returns field&#39;s value just before saving." alt="" coords="17,273,281,292"/>
+<area shape="rect" href="javascript:void(0);" title="Returns field&#39;s value prepared for interacting with the database backend." alt="" coords="17,292,281,311"/>
+<area shape="rect" href="javascript:void(0);" title="Returns field&#39;s value prepared for saving into a database." alt="" coords="17,311,281,329"/>
+<area shape="rect" href="javascript:void(0);" title="Returns field&#39;s value prepared for database lookup." alt="" coords="17,329,281,348"/>
+<area shape="rect" href="javascript:void(0);" title="Returns a boolean of whether this field has a default value." alt="" coords="17,348,281,367"/>
+<area shape="rect" href="javascript:void(0);" title="Returns the default value for this field." alt="" coords="17,367,281,385"/>
+<area shape="rect" href="javascript:void(0);" title="Returns the value of this field in the given model instance." alt="" coords="17,404,281,423"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.Field" alt="" coords="16,11,283,424"/>
+<area shape="rect" href="javascript:void(0);" title="Converts the input value into the expected Python data type, raising &#160;django.core.exceptions.ValidationError if the data can&#39;t be converted." alt="" coords="52,479,247,497"/>
+<area shape="rect" href="javascript:void(0);" title="django.db.models.fields.CharField" alt="" coords="51,453,248,499"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="41,553,257,572"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#contribute_to_class" title="mldata.tagging.fields.TagField.contribute_to_class" alt="" coords="41,572,257,591"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#__get__" title="Tag getter." alt="" coords="41,591,257,609"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#__set__" title="Set an object&#39;s tags." alt="" coords="41,609,257,628"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#__delete__" title="Clear all of an object&#39;s tags." alt="" coords="41,628,257,647"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#get_internal_type" title="mldata.tagging.fields.TagField.get_internal_type" alt="" coords="41,647,257,665"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html#formfield" title="Returns a django.forms.Field instance for this database Field." alt="" coords="41,665,257,684"/>
+<area shape="rect" href="mldata.tagging.fields.TagField-class.html" title="A &quot;special&quot; character field that actually works as a relationship to tags &quot;under the hood&quot;." alt="" coords="40,528,259,685"/>
+</map>
+  <img src="uml_class_diagram_for_mldata_t_3.gif" alt='' usemap="#uml_class_diagram_for_mldata_t_3" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>A &quot;special&quot; character field that actually works as a 
+  relationship to tags &quot;under the hood&quot;. This exposes a 
+  space-separated string of tags, but does the splitting/reordering/etc. 
+  under the hood.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.fields.TagField-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      x.__init__(...) initializes x; see x.__class__.__doc__ for signature</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.fields.TagField-class.html#contribute_to_class" class="summary-sig-name">contribute_to_class</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">name</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.contribute_to_class">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.fields.TagField-class.html#__get__" class="summary-sig-name">__get__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">instance</span>,
+        <span class="summary-sig-arg">owner</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Tag getter.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.__get__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__set__"></a><span class="summary-sig-name">__set__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">instance</span>,
+        <span class="summary-sig-arg">value</span>)</span><br />
+      Set an object's tags.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.__set__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_save"></a><span class="summary-sig-name">_save</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Save tags back to the database</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField._save">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__delete__"></a><span class="summary-sig-name">__delete__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">instance</span>)</span><br />
+      Clear all of an object's tags.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.__delete__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_get_instance_tag_cache"></a><span class="summary-sig-name">_get_instance_tag_cache</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">instance</span>)</span><br />
+      Helper: get an instance's tag cache.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField._get_instance_tag_cache">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_set_instance_tag_cache"></a><span class="summary-sig-name">_set_instance_tag_cache</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">instance</span>,
+        <span class="summary-sig-arg">tags</span>)</span><br />
+      Helper: set an instance's tag cache.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField._set_instance_tag_cache">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.fields.TagField-class.html#get_internal_type" class="summary-sig-name">get_internal_type</a>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.get_internal_type">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.fields.TagField-class.html#formfield" class="summary-sig-name">formfield</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Returns a django.forms.Field instance for this database Field.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.formfield">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.fields.CharField</code></b>:
+      <code>to_python</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.fields.Field</code></b>:
+      <code>__cmp__</code>,
+      <code>__deepcopy__</code>,
+      <code>bind</code>,
+      <code>db_type</code>,
+      <code>get_attname</code>,
+      <code>get_attname_column</code>,
+      <code>get_cache_name</code>,
+      <code>get_choices</code>,
+      <code>get_choices_default</code>,
+      <code>get_db_prep_lookup</code>,
+      <code>get_db_prep_save</code>,
+      <code>get_db_prep_value</code>,
+      <code>get_default</code>,
+      <code>get_flatchoices</code>,
+      <code>get_validator_unique_lookup_type</code>,
+      <code>has_default</code>,
+      <code>pre_save</code>,
+      <code>save_form_data</code>,
+      <code>set_attributes_from_name</code>,
+      <code>value_from_object</code>,
+      <code>value_to_string</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.fields.Field</code></b> (private):
+      <code>_get_choices</code>,
+      <code>_get_flatchoices</code>,
+      <code>_get_val_from_obj</code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.fields.Field</code></b>:
+      <code>auto_creation_counter</code>,
+      <code>creation_counter</code>,
+      <code>empty_strings_allowed</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.fields.Field</code></b>:
+      <code>choices</code>,
+      <code>flatchoices</code>,
+      <code>unique</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>x.__init__(...) initializes x; see x.__class__.__doc__ for 
+  signature</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="contribute_to_class"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">contribute_to_class</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">cls</span>,
+        <span class="sig-arg">name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.contribute_to_class">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        django.db.models.fields.Field.contribute_to_class
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__get__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__get__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">instance</span>,
+        <span class="sig-arg">owner</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.__get__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Tag getter. Returns an instance's tags if accessed on an instance, and
+  all of a model's tags if called on a class. That is, this model:</p>
+<pre class="literalblock">
+  class Link(models.Model):
+      ...
+      tags = TagField()
+</pre>
+  <p>Lets you do both of these:</p>
+<pre class="literalblock">
+  &gt;&gt;&gt; l = Link.objects.get(...)
+  &gt;&gt;&gt; l.tags
+  'tag1 tag2 tag3'
+
+  &gt;&gt;&gt; Link.tags
+  'tag1 tag2 tag3 tag4'
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_internal_type"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_internal_type</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.get_internal_type">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Overrides:
+        django.db.models.fields.Field.get_internal_type
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="formfield"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">formfield</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.fields-pysrc.html#TagField.formfield">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns a django.forms.Field instance for this database Field.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        django.db.models.fields.Field.formfield
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:43 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

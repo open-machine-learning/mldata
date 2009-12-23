@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.tagging.utils</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.tagging-module.html">Package&nbsp;tagging</a> ::
+        Module&nbsp;utils
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.tagging.utils-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module utils</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.tagging.utils-pysrc.html">source&nbsp;code</a></span></p>
+<p>Tagging utilities - from user tag input parsing to tag cloud 
+  calculation.</p>
+
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#parse_tag_input" class="summary-sig-name">parse_tag_input</a>(<span class="summary-sig-arg">input</span>)</span><br />
+      Parses tag input, with multiple word input being activated and 
+      delineated by commas and double quotes.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#parse_tag_input">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="split_strip"></a><span class="summary-sig-name">split_strip</span>(<span class="summary-sig-arg">input</span>,
+        <span class="summary-sig-arg">delimiter</span>=<span class="summary-sig-default"><code class="variable-quote">u'</code><code class="variable-string">,</code><code class="variable-quote">'</code></span>)</span><br />
+      Splits ``input`` on ``delimiter``, stripping each resulting string 
+      and returning a list of non-empty strings.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#split_strip">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#edit_string_for_tags" class="summary-sig-name">edit_string_for_tags</a>(<span class="summary-sig-arg">tags</span>)</span><br />
+      Given list of ``Tag`` instances, creates a string representation of 
+      the list suitable for editing by the user, such that submitting the 
+      given string representation back without changing it will give the 
+      same list of tags.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#edit_string_for_tags">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#get_queryset_and_model" class="summary-sig-name">get_queryset_and_model</a>(<span class="summary-sig-arg">queryset_or_model</span>)</span><br />
+      Given a ``QuerySet`` or a ``Model``, returns a two-tuple of 
+      (queryset, model).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#get_queryset_and_model">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#get_tag_list" class="summary-sig-name">get_tag_list</a>(<span class="summary-sig-arg">tags</span>)</span><br />
+      Utility function for accepting tag input in a flexible manner.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#get_tag_list">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#get_tag" class="summary-sig-name">get_tag</a>(<span class="summary-sig-arg">tag</span>)</span><br />
+      Utility function for accepting single tag input in a flexible manner.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#get_tag">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_calculate_thresholds"></a><span class="summary-sig-name">_calculate_thresholds</span>(<span class="summary-sig-arg">min_weight</span>,
+        <span class="summary-sig-arg">max_weight</span>,
+        <span class="summary-sig-arg">steps</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#_calculate_thresholds">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#_calculate_tag_weight" class="summary-sig-name" onclick="show_private();">_calculate_tag_weight</a>(<span class="summary-sig-arg">weight</span>,
+        <span class="summary-sig-arg">max_weight</span>,
+        <span class="summary-sig-arg">distribution</span>)</span><br />
+      Logarithmic tag weight calculation is based on code from the `Tag 
+      Cloud`_ plugin for Mephisto, by Sven Fuchs.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#_calculate_tag_weight">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.tagging.utils-module.html#calculate_cloud" class="summary-sig-name">calculate_cloud</a>(<span class="summary-sig-arg">tags</span>,
+        <span class="summary-sig-arg">steps</span>=<span class="summary-sig-default">4</span>,
+        <span class="summary-sig-arg">distribution</span>=<span class="summary-sig-default">1</span>)</span><br />
+      Add a ``font_size`` attribute to each tag according to the frequency 
+      of its use, as indicated by its ``count`` attribute.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.tagging.utils-pysrc.html#calculate_cloud">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="LINEAR"></a><span class="summary-name">LINEAR</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="LOGARITHMIC"></a><span class="summary-name">LOGARITHMIC</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'mldata.tagging'"><code class="variable-quote">'</code><code class="variable-string">mldata.tagging</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="parse_tag_input"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">parse_tag_input</span>(<span class="sig-arg">input</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#parse_tag_input">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Parses tag input, with multiple word input being activated and 
+  delineated by commas and double quotes. Quotes take precedence, so they 
+  may contain commas.</p>
+  <p>Returns a sorted list of unique tag names.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="edit_string_for_tags"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">edit_string_for_tags</span>(<span class="sig-arg">tags</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#edit_string_for_tags">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Given list of ``Tag`` instances, creates a string representation of 
+  the list suitable for editing by the user, such that submitting the given
+  string representation back without changing it will give the same list of
+  tags.</p>
+  <p>Tag names which contain commas will be double quoted.</p>
+  <p>If any tag name which isn't being quoted contains whitespace, the 
+  resulting string of tag names will be comma-delimited, otherwise it will 
+  be space-delimited.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_queryset_and_model"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_queryset_and_model</span>(<span class="sig-arg">queryset_or_model</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#get_queryset_and_model">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Given a ``QuerySet`` or a ``Model``, returns a two-tuple of (queryset,
+  model).</p>
+  <p>If a ``Model`` is given, the ``QuerySet`` returned will be created 
+  using its default manager.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_tag_list"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_tag_list</span>(<span class="sig-arg">tags</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#get_tag_list">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+
+Utility function for accepting tag input in a flexible manner.
+
+If a ``Tag`` object is given, it will be returned in a list as
+its single occupant.
+
+If given, the tag names in the following will be used to create a
+``Tag`` ``QuerySet``:
+
+   * A string, which may contain multiple tag names.
+   * A list or tuple of strings corresponding to tag names.
+   * A list or tuple of integers corresponding to tag ids.
+
+If given, the following will be returned as-is:
+
+   * A list or tuple of ``Tag`` objects.
+   * A ``Tag`` ``QuerySet``.
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_tag"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_tag</span>(<span class="sig-arg">tag</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#get_tag">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Utility function for accepting single tag input in a flexible 
+  manner.</p>
+  <p>If a ``Tag`` object is given it will be returned as-is; if a string or
+  integer are given, they will be used to lookup the appropriate 
+  ``Tag``.</p>
+  <p>If no matching tag can be found, ``None`` will be returned.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="_calculate_tag_weight"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_calculate_tag_weight</span>(<span class="sig-arg">weight</span>,
+        <span class="sig-arg">max_weight</span>,
+        <span class="sig-arg">distribution</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#_calculate_tag_weight">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Logarithmic tag weight calculation is based on code from the `Tag 
+  Cloud`_ plugin for Mephisto, by Sven Fuchs.</p>
+  <p>.. _`Tag Cloud`: 
+  http://www.artweb-design.de/projects/mephisto-plugin-tag-cloud</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="calculate_cloud"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">calculate_cloud</span>(<span class="sig-arg">tags</span>,
+        <span class="sig-arg">steps</span>=<span class="sig-default">4</span>,
+        <span class="sig-arg">distribution</span>=<span class="sig-default">1</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.tagging.utils-pysrc.html#calculate_cloud">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add a ``font_size`` attribute to each tag according to the frequency 
+  of its use, as indicated by its ``count`` attribute.</p>
+  <p>``steps`` defines the range of font sizes - ``font_size`` will be an 
+  integer between 1 and ``steps`` (inclusive).</p>
+  <p>``distribution`` defines the type of font size distribution algorithm 
+  which will be used - logarithmic or linear. It must be one of 
+  ``tagging.utils.LOGARITHMIC`` or ``tagging.utils.LINEAR``.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:14 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

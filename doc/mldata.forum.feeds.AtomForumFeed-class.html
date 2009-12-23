@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.forum.feeds.AtomForumFeed</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.forum-module.html">Package&nbsp;forum</a> ::
+        <a href="mldata.forum.feeds-module.html">Module&nbsp;feeds</a> ::
+        Class&nbsp;AtomForumFeed
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.forum.feeds.AtomForumFeed-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class AtomForumFeed</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#AtomForumFeed">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_mldata_f_4" name="uml_class_diagram_for_mldata_f_4">
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title_template" title="mldata.forum.feeds.RssForumFeed.title_template" alt="" coords="55,209,199,228"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description_template" title="mldata.forum.feeds.RssForumFeed.description_template" alt="" coords="55,228,199,247"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_object" title="mldata.forum.feeds.RssForumFeed.get_object" alt="" coords="55,249,199,268"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title" title="mldata.forum.feeds.RssForumFeed.title" alt="" coords="55,268,199,287"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description" title="mldata.forum.feeds.RssForumFeed.description" alt="" coords="55,287,199,305"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#link" title="mldata.forum.feeds.RssForumFeed.link" alt="" coords="55,305,199,324"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set" title="mldata.forum.feeds.RssForumFeed.get_query_set" alt="" coords="55,324,199,343"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#items" title="mldata.forum.feeds.RssForumFeed.items" alt="" coords="55,343,199,361"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate" title="mldata.forum.feeds.RssForumFeed.item_pubdate" alt="" coords="55,361,199,380"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html" title="mldata.forum.feeds.RssForumFeed" alt="" coords="53,192,200,381"/>
+<area shape="rect" href="django.utils.feedgenerator.Atom1Feed-class.html" title="mldata.forum.feeds.AtomForumFeed.feed_type" alt="" coords="76,428,177,447"/>
+<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html#subtitle" title="mldata.forum.feeds.AtomForumFeed.subtitle" alt="" coords="76,449,177,468"/>
+<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html" title="mldata.forum.feeds.AtomForumFeed" alt="" coords="75,411,179,469"/>
+<area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed.item_enclosure_url" alt="" coords="17,28,236,47"/>
+<area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed.feed_url" alt="" coords="17,47,236,65"/>
+<area shape="rect" href="javascript:void(0);" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,68,236,87"/>
+<area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed.item_link" alt="" coords="17,87,236,105"/>
+<area shape="rect" href="javascript:void(0);" title="Returns an extra keyword arguments dictionary that is used when &#160;initializing the feed generator." alt="" coords="17,105,236,124"/>
+<area shape="rect" href="javascript:void(0);" title="Returns an extra keyword arguments dictionary that is used with the &#160;`add_item` call of the feed generator." alt="" coords="17,124,236,143"/>
+<area shape="rect" href="javascript:void(0);" title="Returns a feedgenerator.DefaultFeed object, fully populated, for this feed." alt="" coords="17,143,236,161"/>
+<area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed" alt="" coords="16,11,237,163"/>
+</map>
+  <img src="uml_class_diagram_for_mldata_f_4.gif" alt='' usemap="#uml_class_diagram_for_mldata_f_4" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Nested Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-NestedClasses"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="django.utils.feedgenerator.Atom1Feed-class.html" class="summary-name">feed_type</a>
+    </td>
+  </tr>
+</table>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="subtitle"></a><span class="summary-sig-name">subtitle</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#AtomForumFeed.subtitle">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.forum.feeds.RssForumFeed-class.html">RssForumFeed</a></code></b>:
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#description">description</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#get_object">get_object</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set">get_query_set</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate">item_pubdate</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#items">items</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#link">link</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#title">title</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.contrib.syndication.feeds.Feed</code></b>:
+      <code>__init__</code>,
+      <code>feed_extra_kwargs</code>,
+      <code>get_feed</code>,
+      <code>item_extra_kwargs</code>,
+      <code>item_link</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.forum.feeds.RssForumFeed-class.html">RssForumFeed</a></code></b>:
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#description_template">description_template</a></code>,
+      <code><a href="mldata.forum.feeds.RssForumFeed-class.html#title_template">title_template</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>django.contrib.syndication.feeds.Feed</code></b>:
+      <code>feed_url</code>,
+      <code>item_enclosure_url</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:23 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
