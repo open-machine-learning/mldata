@@ -1,3 +1,7 @@
+"""
+URLconf for app Blog
+"""
+
 from django.conf.urls.defaults import *
 from blog.models import Post
 from blog.feeds import RssBlogFeed

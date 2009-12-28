@@ -1,5 +1,5 @@
 """
-All custom blog logic is kept here
+Views for app Blog
 """
 
 import datetime
@@ -10,7 +10,15 @@ from django.utils.translation import ugettext as _
 from blog.models import Post, PostForm
 
 
+
 def new(request):
+    """View to make a new blog post.
+
+    @param request: request data
+    @type request: Django request
+    @return a view page to make a new blog post
+    @rtype: Django response
+    """
     if not request.user.is_authenticated():
         redirect_to = reverse('user_signin') + '?next=' + reverse(new)
         return HttpResponseRedirect(redirect_to)

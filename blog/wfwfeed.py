@@ -1,11 +1,30 @@
+"""
+Implements a well formed web RSS feed
+"""
+
 from django.contrib.sites.models import Site
 from django.contrib.syndication.feeds import Feed
 from django.utils.feedgenerator import rfc2822_date, SyndicationFeed
 from django.utils.xmlutils import SimplerXMLGenerator
 
+
 class WellFormedWebRss(SyndicationFeed):
+    """A well formed web RSS feed.
+
+    @cvar mime_type: mime-type of feed
+    @type mime_type: string
+    """
     mime_type = 'application/rss+xml'
+
+
     def write(self, outfile, encoding):
+        """Write feed date into given outfile using given encoding.
+
+        @param outfile: 'file' to write feed data into, e.g. Django response
+        @type outfile: File
+        @param encoding: feed's encoding
+        @type encoding: string
+        """
         handler = SimplerXMLGenerator(outfile, encoding)
         handler.startDocument()
         handler.startElement(u"rss", {u"version": self._version, u"xmlns:wfw": u"http://wellformedweb.org/CommentAPI/"})
@@ -24,11 +43,23 @@ class WellFormedWebRss(SyndicationFeed):
         self.endChannelElement(handler)
         handler.endElement(u"rss")
 
+
     def endChannelElement(self, handler):
+        """End channel element in handler.
+
+        @param handler: handler to end channel in.
+        @type handler: SimplerXMLGenerator
+        """
         handler.endElement(u"channel")
+
 
     _version = u"2.0"
     def write_items(self, handler):
+        """Write feed items into given handler.
+
+        @param handler: handler to end channel in.
+        @type handler: SimplerXMLGenerator
+        """
         for item in self.items:
             handler.startElement(u"item", {})
             handler.addQuickElement(u"title", item['title'])
@@ -67,4 +98,9 @@ class WellFormedWebRss(SyndicationFeed):
             handler.endElement(u"item")
 
     def add_commentRss(self, c):
+        """Add a comment to the rss feed.
+
+        @param c: comment to add
+        @type c: string
+        """
         self.items[-1]['wfw_commentRss']=c

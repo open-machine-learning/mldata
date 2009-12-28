@@ -1,3 +1,7 @@
+"""
+Implements a blog RSS feed
+"""
+
 from blog.wfwfeed import WellFormedWebRss
 from blog.models import Post
 from django.contrib.sites.models import Site
@@ -6,6 +10,13 @@ from utils.markdown import markdown
 
 
 def RssBlogFeed(request):
+    """Get a response page with a feed of the latest 10 blog posts.
+
+    @param request: request data
+    @type request: Django request
+    @return: a response page including the RSS feed
+    @rtype: Django response
+    """
     try:
         object_list = Post.objects.all().order_by('-pub_date')[:10]
     except documents.DocumentDoesNotExist:
