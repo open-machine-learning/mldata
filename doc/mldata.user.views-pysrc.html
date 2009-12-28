@@ -62,8 +62,7 @@
 </table>
 <h1 class="epydoc">Source Code for <a href="mldata.user.views-module.html">Module mldata.user.views</a></h1>
 <pre class="py-src">
-<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module mldata.about.views=mldata.about.views-module.html,Module mldata.blog.views=mldata.blog.views-module.html,Module mldata.django_authopenid.views=mldata.django_authopenid.views-module.html,Variable mldata.forum.models.Thread.views=mldata.forum.models.Thread-class.html#views,Module mldata.forum.views=mldata.forum.views-module.html,Module mldata.registration.views=mldata.registration.views-module.html,Module mldata.repository.views=mldata.repository.views-module.html,Module mldata.tagging.views=mldata.tagging.views-module.html,Module mldata.user.views=mldata.user.views-module.html"><a title="mldata.about.views
-mldata.blog.views
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module mldata.blog.views=mldata.blog.views-module.html,Module mldata.django_authopenid.views=mldata.django_authopenid.views-module.html,Variable mldata.forum.models.Thread.views=mldata.forum.models.Thread-class.html#views,Module mldata.forum.views=mldata.forum.views-module.html,Module mldata.registration.views=mldata.registration.views-module.html,Module mldata.repository.views=mldata.repository.views-module.html,Module mldata.tagging.views=mldata.tagging.views-module.html,Module mldata.user.views=mldata.user.views-module.html"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
@@ -79,16 +78,14 @@ mldata.registration.forms
 mldata.repository.forms
 mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-2', 'forms', 'link-2');">forms</a></tt> </tt>
 <a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt> <tt class="py-keyword">import</tt> <tt class="py-name">authenticate</tt><tt class="py-op">,</tt> <tt class="py-name">login</tt> </tt>
-<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.about.models
-mldata.blog.models
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
 mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-3', 'models', 'link-3');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt> </tt>
-<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">contenttypes</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="mldata.about.models
-mldata.blog.models
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">contenttypes</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
@@ -96,8 +93,7 @@ mldata.repository.models
 mldata.tagging.models
 mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-4', 'models', 'link-3');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">ContentType</tt> </tt>
 <a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">http</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Http404</tt> </tt>
-<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Package mldata.django_authopenid=mldata.django_authopenid-module.html"><a title="mldata.django_authopenid" class="py-name" href="#" onclick="return doclink('link-5', 'django_authopenid', 'link-5');">django_authopenid</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="mldata.about.models
-mldata.blog.models
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Package mldata.django_authopenid=mldata.django_authopenid-module.html"><a title="mldata.django_authopenid" class="py-name" href="#" onclick="return doclink('link-5', 'django_authopenid', 'link-5');">django_authopenid</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
@@ -796,7 +792,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 14:54:22 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 17:23:05 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

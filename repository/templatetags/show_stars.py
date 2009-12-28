@@ -29,17 +29,18 @@ PATH_TO_QUARTER_STAR = IMG_TEMPLATE % (settings.MEDIA_URL + 'images/stars/quarte
 PATH_TO_BLANK_STAR = IMG_TEMPLATE % (settings.MEDIA_URL + 'images/stars/blank.png', "Empty Star")
 
 class ShowStarsNode(Node):
-    """Default rounding is to the whole unit."""
-    def __init__(self, context_var, total_stars, round_to):
-        """Initialize node.
+    """Default rounding is to the whole unit.
 
-        @ivar context_var: context variable
-        @type context_var: unknown
-        @ivar total_stars: total number of stars
-        @type total_stars: integer
-        @ivar round_to: round to
-        @type round_to: string
-        """
+    @ivar context_var: context variable
+    @type context_var: unknown
+    @ivar total_stars: total number of stars
+    @type total_stars: integer
+    @ivar round_to: round to
+    @type round_to: string
+    """
+
+    def __init__(self, context_var, total_stars, round_to):
+        """Initialize node."""
         self.context_var = context_var
         self.total_stars = int(total_stars)
         self.round_to = round_to.lower()

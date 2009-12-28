@@ -109,9 +109,9 @@ class Repository(models.Model):
     @cvar average_rating: item's average overal rating
     @type average_rating: float / models.FloatField
     @cvar average_interesting_rating: item's average interesting rating
-    @type average_rating: float / models.FloatField
+    @type average_interesting_rating: float / models.FloatField
     @cvar average_documentation_rating: item's average documentation rating
-    @type average_rating: float / models.FloatField
+    @type average_documentation_rating: float / models.FloatField
     @cvar total_number_of_votes: item's total number of votes
     @type total_number_of_votes: integer / models.IntegerField
     """

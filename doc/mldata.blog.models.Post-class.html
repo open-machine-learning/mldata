@@ -79,12 +79,12 @@
 <area shape="rect" href="javascript:void(0);" title="Does the heavy&#45;lifting involved in saving." alt="" coords="17,236,559,255"/>
 <area shape="rect" href="javascript:void(0);" title="Returns the value of the field name for this instance." alt="" coords="17,255,559,273"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model" alt="" coords="16,11,560,275"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html#pub_date" title="mldata.blog.models.Post.pub_date" alt="" coords="131,321,445,340"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html#slug" title="mldata.blog.models.Post.slug" alt="" coords="131,340,445,359"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html#headline" title="mldata.blog.models.Post.headline" alt="" coords="131,359,445,377"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html#summary" title="mldata.blog.models.Post.summary" alt="" coords="131,377,445,396"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html#body" title="mldata.blog.models.Post.body" alt="" coords="131,396,445,415"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html#author" title="mldata.blog.models.Post.author" alt="" coords="131,415,445,433"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html#pub_date" title="post&#39;s publication date" alt="" coords="131,321,445,340"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html#slug" title="post&#39;s slug" alt="" coords="131,340,445,359"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html#headline" title="post&#39;s headline" alt="" coords="131,359,445,377"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html#summary" title="post&#39;s summary" alt="" coords="131,377,445,396"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html#body" title="post&#39;s body" alt="" coords="131,396,445,415"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html#author" title="post&#39;s author" alt="" coords="131,415,445,433"/>
 <area shape="rect" href="mldata.blog.models.Post.Meta-class.html" title="mldata.blog.models.Post.Meta" alt="" coords="131,433,445,452"/>
 <area shape="rect" href="mldata.blog.models.Post.DoesNotExist-class.html" title="mldata.blog.models.Post.DoesNotExist" alt="" coords="131,452,445,471"/>
 <area shape="rect" href="mldata.blog.models.Post.MultipleObjectsReturned-class.html" title="mldata.blog.models.Post.MultipleObjectsReturned" alt="" coords="131,471,445,489"/>
@@ -95,13 +95,13 @@
 <area shape="rect" href="mldata.blog.models.Post-class.html#get_next_by_pub_date" title="mldata.blog.models.Post.get_next_by_pub_date" alt="" coords="131,567,445,585"/>
 <area shape="rect" href="mldata.blog.models.Post-class.html#get_previous_by_pub_date" title="mldata.blog.models.Post.get_previous_by_pub_date" alt="" coords="131,585,445,604"/>
 <area shape="rect" href="mldata.blog.models.Post-class.html#objects" title="mldata.blog.models.Post.objects" alt="" coords="131,604,445,623"/>
-<area shape="rect" href="mldata.blog.models.Post-class.html" title="Post(id, pub_date, slug, headline, summary, body, author_id)" alt="" coords="129,304,447,624"/>
+<area shape="rect" href="mldata.blog.models.Post-class.html" title="A Blog post." alt="" coords="129,304,447,624"/>
 </map>
   <img src="uml_class_diagram_for_mldata_b_2.gif" alt='' usemap="#uml_class_diagram_for_mldata_b_2" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
-<p>Post(id, pub_date, slug, headline, summary, body, author_id)</p>
+<p>A Blog post.</p>
 
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
@@ -337,58 +337,64 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">datetime / models.DateTimeField</span>
     </td><td class="summary">
-        <a name="pub_date"></a><span class="summary-name">pub_date</span> = <code title="models.DateTimeField()">models.DateTimeField()</code>
+        <a name="pub_date"></a><span class="summary-name">pub_date</span> = <code title="models.DateTimeField()">models.DateTimeField()</code><br />
+      post's publication date
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string / models.SlugField</span>
     </td><td class="summary">
-        <a href="mldata.blog.models.Post-class.html#slug" class="summary-name">slug</a> = <code title="models.SlugField(unique_for_date= 'pub_date', editable= False)">models.SlugField(unique_for_date= 'pub_date', editable=<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.blog.models.Post-class.html#slug" class="summary-name">slug</a> = <code title="models.SlugField(unique_for_date= 'pub_date', editable= False)">models.SlugField(unique_for_date= 'pub_date', editable=<code class="variable-ellipsis">...</code></code><br />
+      post's slug
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string / models.CharField</span>
     </td><td class="summary">
-        <a name="headline"></a><span class="summary-name">headline</span> = <code title="models.CharField(max_length= 200)">models.CharField(max_length= 200)</code>
+        <a name="headline"></a><span class="summary-name">headline</span> = <code title="models.CharField(max_length= 200)">models.CharField(max_length= 200)</code><br />
+      post's headline
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string / models.CharField</span>
     </td><td class="summary">
-        <a name="summary"></a><span class="summary-name">summary</span> = <code title="models.CharField(max_length= 255, blank= True)">models.CharField(max_length= 255, blank= True)</code>
+        <a name="summary"></a><span class="summary-name">summary</span> = <code title="models.CharField(max_length= 255, blank= True)">models.CharField(max_length= 255, blank= True)</code><br />
+      post's summary
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string / models.TextField</span>
     </td><td class="summary">
-        <a name="body"></a><span class="summary-name">body</span> = <code title="models.TextField()">models.TextField()</code>
+        <a name="body"></a><span class="summary-name">body</span> = <code title="models.TextField()">models.TextField()</code><br />
+      post's body
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django user / models.ForeignKey</span>
     </td><td class="summary">
-        <a name="author"></a><span class="summary-name">author</span> = <code title="models.ForeignKey(User)">models.ForeignKey(User)</code>
+        <a name="author"></a><span class="summary-name">author</span> = <code title="models.ForeignKey(User)">models.ForeignKey(User)</code><br />
+      post's author
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.blog.models.Post-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xab3f06c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.blog.models.Post-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x9f5106c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.blog.models.Post-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xab3f06c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.blog.models.Post-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x9f5106c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -505,8 +511,10 @@
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">slug</h3>
-  
+  post's slug
   <dl class="fields">
+    <dt>Type:</dt>
+      <dd>string / models.SlugField</dd>
   </dl>
   <dl class="fields">
     <dt>Value:</dt>
@@ -529,7 +537,7 @@ models.SlugField(unique_for_date= 'pub_date', editable= False)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0xab3f06c&gt;
+&lt;django.db.models.manager.Manager object at 0x9f5106c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -547,7 +555,7 @@ models.SlugField(unique_for_date= 'pub_date', editable= False)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0xab3f06c&gt;
+&lt;django.db.models.manager.Manager object at 0x9f5106c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -585,7 +593,7 @@ models.SlugField(unique_for_date= 'pub_date', editable= False)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:43 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:24 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

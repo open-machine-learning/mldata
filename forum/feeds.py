@@ -120,7 +120,7 @@ class AtomForumFeed(RssForumFeed):
     """Atom feed for forum.
 
     @cvar feed_type: type of feed -> Atom
-    @type: Atom1Feed
+    @type feed_type: Atom1Feed
     """
     feed_type = Atom1Feed
 

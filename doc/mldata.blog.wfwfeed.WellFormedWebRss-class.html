@@ -75,17 +75,19 @@
 <area shape="rect" href="javascript:void(0);" title="Returns the feed in the given encoding as a string." alt="" coords="17,167,1316,185"/>
 <area shape="rect" href="javascript:void(0);" title="Returns the latest item&#39;s pubdate." alt="" coords="17,185,1316,204"/>
 <area shape="rect" href="javascript:void(0);" title="Base class for all syndication feeds." alt="" coords="16,11,1317,205"/>
-<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#mime_type" title="mldata.blog.wfwfeed.WellFormedWebRss.mime_type" alt="" coords="567,252,767,271"/>
-<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#write" title="Outputs the feed in the given encoding to outfile, which is a file&#45;like &#160;object." alt="" coords="567,273,767,292"/>
-<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#endChannelElement" title="mldata.blog.wfwfeed.WellFormedWebRss.endChannelElement" alt="" coords="567,292,767,311"/>
-<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#write_items" title="mldata.blog.wfwfeed.WellFormedWebRss.write_items" alt="" coords="567,311,767,329"/>
-<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#add_commentRss" title="mldata.blog.wfwfeed.WellFormedWebRss.add_commentRss" alt="" coords="567,329,767,348"/>
-<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html" title="mldata.blog.wfwfeed.WellFormedWebRss" alt="" coords="565,235,768,349"/>
+<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#mime_type" title="mime&#45;type of feed" alt="" coords="567,252,767,271"/>
+<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#write" title="Write feed date into given outfile using given encoding." alt="" coords="567,273,767,292"/>
+<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#endChannelElement" title="End channel element in handler." alt="" coords="567,292,767,311"/>
+<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#write_items" title="Write feed items into given handler." alt="" coords="567,311,767,329"/>
+<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#add_commentRss" title="Add a comment to the rss feed." alt="" coords="567,329,767,348"/>
+<area shape="rect" href="mldata.blog.wfwfeed.WellFormedWebRss-class.html" title="A well formed web RSS feed." alt="" coords="565,235,768,349"/>
 </map>
   <img src="uml_class_diagram_for_mldata_b_6.gif" alt='' usemap="#uml_class_diagram_for_mldata_b_6" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
+<p>A well formed web RSS feed.</p>
+
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -112,8 +114,7 @@
           <td><span class="summary-sig"><a href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#write" class="summary-sig-name">write</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">outfile</span>,
         <span class="summary-sig-arg">encoding</span>)</span><br />
-      Outputs the feed in the given encoding to outfile, which is a 
-      file-like object.</td>
+      Write feed date into given outfile using given encoding.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.write">source&nbsp;code</a></span>
             
@@ -129,8 +130,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="endChannelElement"></a><span class="summary-sig-name">endChannelElement</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">handler</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#endChannelElement" class="summary-sig-name">endChannelElement</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">handler</span>)</span><br />
+      End channel element in handler.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.endChannelElement">source&nbsp;code</a></span>
             
@@ -146,8 +148,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="write_items"></a><span class="summary-sig-name">write_items</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">handler</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#write_items" class="summary-sig-name">write_items</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">handler</span>)</span><br />
+      Write feed items into given handler.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.write_items">source&nbsp;code</a></span>
             
@@ -163,8 +166,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="add_commentRss"></a><span class="summary-sig-name">add_commentRss</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">c</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.blog.wfwfeed.WellFormedWebRss-class.html#add_commentRss" class="summary-sig-name">add_commentRss</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">c</span>)</span><br />
+      Add a comment to the rss feed.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.add_commentRss">source&nbsp;code</a></span>
             
@@ -223,9 +227,10 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
-        <a name="mime_type"></a><span class="summary-name">mime_type</span> = <code title="'application/rss+xml'"><code class="variable-quote">'</code><code class="variable-string">application/rss+xml</code><code class="variable-quote">'</code></code>
+        <a name="mime_type"></a><span class="summary-name">mime_type</span> = <code title="'application/rss+xml'"><code class="variable-quote">'</code><code class="variable-string">application/rss+xml</code><code class="variable-quote">'</code></code><br />
+      mime-type of feed
     </td>
   </tr>
 <tr class="private">
@@ -295,13 +300,88 @@
     </td>
   </tr></table>
   
-  <p>Outputs the feed in the given encoding to outfile, which is a 
-  file-like object. Subclasses should override this.</p>
+  <p>Write feed date into given outfile using given encoding.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>outfile</code></strong> (File) - 'file' to write feed data into, e.g. Django response</li>
+        <li><strong class="pname"><code>encoding</code></strong> (string) - feed's encoding</li>
+    </ul></dd>
     <dt>Overrides:
         django.utils.feedgenerator.SyndicationFeed.write
-        <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="endChannelElement"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">endChannelElement</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">handler</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.endChannelElement">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>End channel element in handler.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>handler</code></strong> (SimplerXMLGenerator) - handler to end channel in.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="write_items"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">write_items</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">handler</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.write_items">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Write feed items into given handler.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>handler</code></strong> (SimplerXMLGenerator) - handler to end channel in.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="add_commentRss"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">add_commentRss</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">c</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.blog.wfwfeed-pysrc.html#WellFormedWebRss.add_commentRss">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add a comment to the rss feed.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>c</code></strong> (string) - comment to add</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -337,7 +417,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:44 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:25 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

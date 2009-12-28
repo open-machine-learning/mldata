@@ -38,15 +38,15 @@ class ArffFile(object):
     of data points made up of attributes. The whole data set is called
     a 'relation'. Supported attributes are:
 
-    - 'numeric': floating point numbers
-    - 'string': strings
-    - 'nominal': taking one of a number of possible values
+        - 'numeric': floating point numbers
+        - 'string': strings
+        - 'nominal': taking one of a number of possible values
 
     Not all features of ARFF files are supported yet. The most notable
     exceptions are:
 
-    - no sparse data
-    - no support for date and relational attributes
+        - no sparse data
+        - no support for date and relational attributes
 
     Also, parsing of strings might still be a bit brittle.
 
@@ -58,13 +58,13 @@ class ArffFile(object):
 
     Attributes are:
 
-    - 'relation': name of the relation
-    - 'attributes': names of the attributes
-    - 'attribute_types': types of the attributes
-    - 'attribute_data': additional data, for example for nominal attributes.
-    - 'comment': the initial comment in the file. Typically contains some
-                 information on the data set.
-    - 'data': the actual data, by data points.
+        - 'relation': name of the relation
+        - 'attributes': names of the attributes
+        - 'attribute_types': types of the attributes
+        - 'attribute_data': additional data, for example for nominal attributes.
+        - 'comment': the initial comment in the file. Typically contains some
+                     information on the data set.
+        - 'data': the actual data, by data points.
     """
     def __init__(self):
         """Construct an empty ARFF structure."""

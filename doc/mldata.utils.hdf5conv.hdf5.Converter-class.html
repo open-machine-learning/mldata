@@ -66,13 +66,13 @@
 <h1 class="epydoc">Class Converter</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.hdf5conv.hdf5-pysrc.html#Converter">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_u_4" name="uml_class_diagram_for_mldata_u_4">
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.ARFF2HDF5-class.html" title="Convert a file from ARFF to HDF5 (spec of mldata.org)." alt="" coords="16,123,104,149"/>
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html#__init__" title="Constructor takes two arguments:" alt="" coords="83,36,315,55"/>
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html#run" title="Run the actual conversion process." alt="" coords="83,55,315,73"/>
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html#write_hdf5" title="Write an HDF file (spec of mldata.org)." alt="" coords="83,73,315,92"/>
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html" title="Base class for conversion" alt="" coords="81,11,316,93"/>
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.HDF52ARFF-class.html" title="Convert a file from HDF5 (spec of mldata.org) to ARFF" alt="" coords="155,123,243,149"/>
-<area shape="rect" href="mldata.utils.hdf5conv.hdf5.LibSVM2HDF5-class.html" title="Convert a file from LibSVM to HDF5" alt="" coords="293,123,395,149"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.LibSVM2HDF5-class.html" title="Convert a file from LibSVM to HDF5" alt="" coords="16,123,117,149"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.ARFF2HDF5-class.html" title="Convert a file from ARFF to HDF5 (spec of mldata.org)." alt="" coords="168,123,256,149"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html#__init__" title="Construct a converter." alt="" coords="96,36,328,55"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html#run" title="Run the actual conversion process." alt="" coords="96,55,328,73"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html#write_hdf5" title="Write an HDF file (spec of mldata.org)." alt="" coords="96,73,328,92"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.Converter-class.html" title="Base class for conversion" alt="" coords="95,11,329,93"/>
+<area shape="rect" href="mldata.utils.hdf5conv.hdf5.HDF52ARFF-class.html" title="Convert a file from HDF5 (spec of mldata.org) to ARFF" alt="" coords="307,123,395,149"/>
 </map>
   <img src="uml_class_diagram_for_mldata_u_4.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_4" ismap="ismap" class="graph-without-title" />
 </center>
@@ -106,7 +106,7 @@
           <td><span class="summary-sig"><a href="mldata.utils.hdf5conv.hdf5.Converter-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">in_filename</span>,
         <span class="summary-sig-arg">out_filename</span>)</span><br />
-      Constructor takes two arguments:</td>
+      Construct a converter.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.utils.hdf5conv.hdf5-pysrc.html#Converter.__init__">source&nbsp;code</a></span>
             
@@ -139,7 +139,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="write_hdf5"></a><span class="summary-sig-name">write_hdf5</span>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a href="mldata.utils.hdf5conv.hdf5.Converter-class.html#write_hdf5" class="summary-sig-name">write_hdf5</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
       Write an HDF file (spec of mldata.org).</td>
@@ -188,9 +188,13 @@
     </td>
   </tr></table>
   
-  <p>Constructor takes two arguments:</p>
-  <p>filename of in-file, filename of out-file</p>
+  <p>Construct a converter.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>in_filename</code></strong> (string) - name of in-file</li>
+        <li><strong class="pname"><code>out_filename</code></strong> (string) - name of out-file</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -210,6 +214,33 @@
   
   <p>Run the actual conversion process.</p>
   <p>'Abstract base method' to be implemented by child classes.</p>
+  <dl class="fields">
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Exception</strong></code> - if child class hasn't overriden this</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="write_hdf5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">write_hdf5</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.hdf5conv.hdf5-pysrc.html#Converter.write_hdf5">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Write an HDF file (spec of mldata.org).</p>
+  <p>Keyword arguments are written as datasets where they key specifies the
+  name and the value the data.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -246,7 +277,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 14:54:12 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:53 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

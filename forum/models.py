@@ -136,7 +136,7 @@ class Forum(models.Model):
     _parents_repr.short_description = _("Forum parents")
 
 
-    def _recurse_for_parents_name_url(self, forum__obj):
+    def _recurse_for_parents_name_url(self, forum_obj):
         """Get all the absolute urls and names (for use in site navigation)
 
         @param forum_obj: forum to recurse through
@@ -146,14 +146,14 @@ class Forum(models.Model):
         """
         p_list = []
         url_list = []
-        if forum__obj.parent_id:
-            p = forum__obj.parent
+        if forum_obj.parent_id:
+            p = forum_obj.parent
             p_list.append(p.title)
             url_list.append(p.get_absolute_url())
             more, url = self._recurse_for_parents_name_url(p)
             p_list.extend(more)
             url_list.extend(url)
-        if forum__obj == self and p_list:
+        if forum_obj == self and p_list:
             p_list.reverse()
             url_list.reverse()
         return p_list, url_list
@@ -162,7 +162,7 @@ class Forum(models.Model):
     def get_url_name(self):
         """Get a list of the url to display and the actual urls.
 
-        @return a list of URLs
+        @return: a list of URLs
         @rtype: list of strings
         """
         p_list, url_list = self._recurse_for_parents_name_url(self)

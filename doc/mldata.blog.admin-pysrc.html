@@ -62,15 +62,17 @@
 </table>
 <h1 class="epydoc">Source Code for <a href="mldata.blog.admin-module.html">Module mldata.blog.admin</a></h1>
 <pre class="py-src">
-<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module mldata.about.admin=mldata.about.admin-module.html,Module mldata.blog.admin=mldata.blog.admin-module.html,Module mldata.django_authopenid.admin=mldata.django_authopenid.admin-module.html,Module mldata.forum.admin=mldata.forum.admin-module.html,Module mldata.registration.admin=mldata.registration.admin-module.html,Module mldata.repository.admin=mldata.repository.admin-module.html,Module mldata.tagging.admin=mldata.tagging.admin-module.html"><a title="mldata.about.admin
-mldata.blog.admin
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring">Admin classes for app Blog</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module mldata.blog.admin=mldata.blog.admin-module.html,Module mldata.django_authopenid.admin=mldata.django_authopenid.admin-module.html,Module mldata.forum.admin=mldata.forum.admin-module.html,Module mldata.registration.admin=mldata.registration.admin-module.html,Module mldata.repository.admin=mldata.repository.admin-module.html,Module mldata.tagging.admin=mldata.tagging.admin-module.html"><a title="mldata.blog.admin
 mldata.django_authopenid.admin
 mldata.forum.admin
 mldata.registration.admin
 mldata.repository.admin
 mldata.tagging.admin" class="py-name" href="#" onclick="return doclink('link-0', 'admin', 'link-0');">admin</a></tt> </tt>
-<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package mldata.blog=mldata.blog-module.html"><a title="mldata.blog" class="py-name" href="#" onclick="return doclink('link-1', 'blog', 'link-1');">blog</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.about.models
-mldata.blog.models
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package mldata.blog=mldata.blog-module.html"><a title="mldata.blog" class="py-name" href="#" onclick="return doclink('link-1', 'blog', 'link-1');">blog</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
@@ -78,9 +80,10 @@ mldata.repository.models
 mldata.tagging.models
 mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-2');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class mldata.blog.models.Post=mldata.blog.models.Post-class.html,Class mldata.forum.models.Post=mldata.forum.models.Post-class.html"><a title="mldata.blog.models.Post
 mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-3', 'Post', 'link-3');">Post</a></tt> </tt>
-<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
-<a name="PostAdmin"></a><div id="PostAdmin-def"><a name="L4"></a><tt class="py-lineno"> 4</tt> <a class="py-toggle" href="#" id="PostAdmin-toggle" onclick="return toggle('PostAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.blog.admin.PostAdmin-class.html">PostAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="PostAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="PostAdmin-expanded"><a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line">    <tt id="link-4" class="py-name" targets="Variable mldata.blog.admin.PostAdmin.list_display=mldata.blog.admin.PostAdmin-class.html#list_display,Variable mldata.forum.admin.ForumAdmin.list_display=mldata.forum.admin.ForumAdmin-class.html#list_display,Variable mldata.forum.admin.SubscriptionAdmin.list_display=mldata.forum.admin.SubscriptionAdmin-class.html#list_display,Variable mldata.forum.admin.ThreadAdmin.list_display=mldata.forum.admin.ThreadAdmin-class.html#list_display,Variable mldata.registration.admin.RegistrationAdmin.list_display=mldata.registration.admin.RegistrationAdmin-class.html#list_display,Variable mldata.repository.admin.DataAdmin.list_display=mldata.repository.admin.DataAdmin-class.html#list_display,Variable mldata.repository.admin.SolutionAdmin.list_display=mldata.repository.admin.SolutionAdmin-class.html#list_display,Variable mldata.repository.admin.TaskAdmin.list_display=mldata.repository.admin.TaskAdmin-class.html#list_display"><a title="mldata.blog.admin.PostAdmin.list_display
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="PostAdmin"></a><div id="PostAdmin-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="PostAdmin-toggle" onclick="return toggle('PostAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.blog.admin.PostAdmin-class.html">PostAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PostAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="PostAdmin-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-docstring">"""Admin class for posts."""</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt id="link-4" class="py-name" targets="Variable mldata.blog.admin.PostAdmin.list_display=mldata.blog.admin.PostAdmin-class.html#list_display,Variable mldata.forum.admin.ForumAdmin.list_display=mldata.forum.admin.ForumAdmin-class.html#list_display,Variable mldata.forum.admin.SubscriptionAdmin.list_display=mldata.forum.admin.SubscriptionAdmin-class.html#list_display,Variable mldata.forum.admin.ThreadAdmin.list_display=mldata.forum.admin.ThreadAdmin-class.html#list_display,Variable mldata.registration.admin.RegistrationAdmin.list_display=mldata.registration.admin.RegistrationAdmin-class.html#list_display,Variable mldata.repository.admin.DataAdmin.list_display=mldata.repository.admin.DataAdmin-class.html#list_display,Variable mldata.repository.admin.SolutionAdmin.list_display=mldata.repository.admin.SolutionAdmin-class.html#list_display,Variable mldata.repository.admin.TaskAdmin.list_display=mldata.repository.admin.TaskAdmin-class.html#list_display"><a title="mldata.blog.admin.PostAdmin.list_display
 mldata.forum.admin.ForumAdmin.list_display
 mldata.forum.admin.SubscriptionAdmin.list_display
 mldata.forum.admin.ThreadAdmin.list_display
@@ -88,10 +91,7 @@ mldata.registration.admin.RegistrationAdmin.list_display
 mldata.repository.admin.DataAdmin.list_display
 mldata.repository.admin.SolutionAdmin.list_display
 mldata.repository.admin.TaskAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-4', 'list_display', 'link-4');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'pub_date'</tt><tt class="py-op">,</tt> <tt class="py-string">'headline'</tt><tt class="py-op">,</tt> <tt class="py-string">'author'</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
-<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
-<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt id="link-5" class="py-name"><a title="mldata.about.admin
-mldata.blog.admin
+</div><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt id="link-5" class="py-name"><a title="mldata.blog.admin
 mldata.django_authopenid.admin
 mldata.forum.admin
 mldata.registration.admin
@@ -107,7 +107,7 @@ mldata.templatetags.get_version.register
 mldata.templatetags.paginator.register
 mldata.templatetags.permute_items.register" class="py-name" href="#" onclick="return doclink('link-6', 'register', 'link-6');">register</a></tt><tt class="py-op">(</tt><tt id="link-7" class="py-name"><a title="mldata.blog.models.Post
 mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link-7', 'Post', 'link-3');">Post</a></tt><tt class="py-op">,</tt> <tt id="link-8" class="py-name" targets="Class mldata.blog.admin.PostAdmin=mldata.blog.admin.PostAdmin-class.html"><a title="mldata.blog.admin.PostAdmin" class="py-name" href="#" onclick="return doclink('link-8', 'PostAdmin', 'link-8');">PostAdmin</a></tt><tt class="py-op">)</tt> </tt>
-<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -145,7 +145,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 14:54:23 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 17:23:04 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
