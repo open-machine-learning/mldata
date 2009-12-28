@@ -64,7 +64,11 @@ NUM_EXTRACT = 23
 
 
 def progress(msg):
-    """Print the given message with some kind of progress indicator."""
+    """Print the given message with some kind of progress indicator.
+
+    @param msg: messsage to print
+    @type msg: string
+    """
     #print ' -> ' + msg
     pass
 
@@ -74,9 +78,12 @@ class Converter():
     """Base class for conversion"""
 
     def __init__(self, in_filename, out_filename):
-        """Constructor takes two arguments:
+        """Construct a converter.
 
-        filename of in-file, filename of out-file
+        @param in_filename: name of in-file
+        @type in_filename: string
+        @param out_filename: name of out-file
+        @type out_filename: string
         """
         self.in_filename = in_filename
         self.out_filename = out_filename
@@ -86,15 +93,23 @@ class Converter():
             'comment': '',
         }
 
+
     def run(self):
         """Run the actual conversion process.
 
         'Abstract base method' to be implemented by child classes.
+
+        @raise Exception: if child class hasn't overriden this
         """
         raise Exception('Not implemented yet!')
 
+
     def write_hdf5(self, *args, **kwargs):
-        """Write an HDF file (spec of mldata.org)."""
+        """Write an HDF file (spec of mldata.org).
+
+        Keyword arguments are written as datasets where they key specifies the
+        name and the value the data.
+        """
         progress('writing out-file ' + self.out_filename)
         h = h5py.File(self.out_filename, 'w')
 
@@ -221,7 +236,13 @@ class HDF52ARFF(Converter):
 
 
 def hdf5_extract(filename):
-    """Get an extract from an HDF file."""
+    """Get an extract from an HDF file.
+
+    @param filename: filename to extract data from
+    @type filename: string
+    @return: an extract of the given HDF5 file.
+    @rtype: string
+    """
     h = h5py.File(filename, 'r')
     extract = {}
 
