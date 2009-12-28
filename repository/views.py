@@ -218,7 +218,7 @@ def _activate(request, id, klass):
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = get_object_or_404(klass, pk=id)
+    obj = _get_object_or_404(request, id, klass)
     if not obj.is_owner:
         raise Http404
     obj.is_public = True
