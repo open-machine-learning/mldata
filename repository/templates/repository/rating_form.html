@@ -5,11 +5,11 @@
 <div class="head">{% trans "Rating" %}</div>
 <p>{% trans "Rate this repository item. '0' means poor and '5' means excellent. Ratings can be changed later on" %}.</p>
 <div class="ratingform">
-	<form method="post" action="{% url repository.views.rate rating_form.klassid object.id %}">
+	<form method="post" action="{{ rating_form.action }}">
 		<table>
 			{{ rating_form|safe }}
 		</table>
-		<input type="submit" value="{% trans "Submit my ratings" %}">
+		<input type="submit" value="{% trans "Submit ratings" %}">
 	</form>
 </div>
 </div>

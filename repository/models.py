@@ -428,14 +428,15 @@ class Rating(models.Model):
         repo = self.repository
         ratings = self.__class__.objects.filter(repository=repo)
         l = float(len(ratings))
-        i=d=0
+        i = d = 0
         for r in ratings:
-            i+= r.interesting
-            d+= r.documentation
+            i += r.interesting
+            d += r.documentation
 
-        repo.average_rating = (i+d)/(3.0*l)
-        repo.average_interesting_rating = float(i)/l
-        repo.average_documentation_rating = float(d)/l
+        num_scores = 2.0
+        repo.average_rating = (i + d) / (num_scores * l)
+        repo.average_interesting_rating = float(i) / l
+        repo.average_documentation_rating = float(d) / l
         repo.total_number_of_votes = l
         repo.save()
 

@@ -162,16 +162,18 @@ def _get_rating_form(request, obj):
     """
     rating_form = None
     if request.user.is_authenticated() and not request.user == obj.user:
-        klass = eval(obj.__class__.__name__ + 'Rating')
+        klassname = obj.__class__.__name__
+        rklass = eval(klassname + 'Rating')
         try:
-            r = klass.objects.get(user__id=request.user.id, repository=obj)
-            rating_form= RatingForm({
+            r = rklass.objects.get(user__id=request.user.id, repository=obj)
+            rating_form = RatingForm({
                 'interesting': r.interesting,
                 'documentation': r.documentation,
             })
-        except klass.DoesNotExist:
+        except rklass.DoesNotExist:
             rating_form = RatingForm()
-        rating_form.klassid = TYPE[obj.__class__.__name__]
+        rating_form.action = reverse(
+            eval(klassname.lower() + '_rate'), args=[obj.id])
 
     return rating_form
 
@@ -996,25 +998,17 @@ def tags_view(request, tag):
 
 
 
-def rate(request, klassid, id):
+def _rate(request, id, klass):
     """Rate an item given by id and klass.
 
     @param id: item's id
     @type id: integer
-    @param klassid: item's class for lookup in correct database table
-    @type klassid: either Data, Task or Solution
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
     @return: redirect to item's view page
     @rtype: Django response
     """
-    try:
-        inverted = dict((v,k) for k, v in TYPE.iteritems())
-        klassname = inverted[int(klassid)]
-    except KeyError: # user tries nasty things
-        raise Http404
-    else:
-        rklass = eval(klassname + 'Rating')
-        klass = eval(klassname)
-
+    rklass = eval(klass.__name__ + 'Rating')
     obj = get_object_or_404(klass, pk=id)
     if request.user.is_authenticated() and not request.user == obj.user:
         if request.method == 'POST':
@@ -1027,3 +1021,12 @@ def rate(request, klassid, id):
                 )
 
     return HttpResponseRedirect(obj.get_absolute_url())
+
+
+def data_rate(request, id):
+    return _rate(request, id, Data)
+def task_rate(request, id):
+    return _rate(request, id, Task)
+def solution_rate(request, id):
+    return _rate(request, id, Solution)
+
