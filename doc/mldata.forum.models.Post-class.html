@@ -78,11 +78,11 @@
 <area shape="rect" href="javascript:void(0);" title="Does the heavy&#45;lifting involved in saving." alt="" coords="17,217,559,236"/>
 <area shape="rect" href="javascript:void(0);" title="Returns the value of the field name for this instance." alt="" coords="17,236,559,255"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model" alt="" coords="16,11,560,256"/>
-<area shape="rect" href="mldata.forum.models.Post-class.html#thread" title="mldata.forum.models.Post.thread" alt="" coords="140,303,436,321"/>
-<area shape="rect" href="mldata.forum.models.Post-class.html#author" title="mldata.forum.models.Post.author" alt="" coords="140,321,436,340"/>
-<area shape="rect" href="mldata.forum.models.Post-class.html#body" title="mldata.forum.models.Post.body" alt="" coords="140,340,436,359"/>
-<area shape="rect" href="mldata.forum.models.Post-class.html#body_html" title="mldata.forum.models.Post.body_html" alt="" coords="140,359,436,377"/>
-<area shape="rect" href="mldata.forum.models.Post-class.html#time" title="mldata.forum.models.Post.time" alt="" coords="140,377,436,396"/>
+<area shape="rect" href="mldata.forum.models.Post-class.html#thread" title="thread this post belongs to" alt="" coords="140,303,436,321"/>
+<area shape="rect" href="mldata.forum.models.Post-class.html#author" title="post&#39;s author" alt="" coords="140,321,436,340"/>
+<area shape="rect" href="mldata.forum.models.Post-class.html#body" title="post&#39;s body" alt="" coords="140,340,436,359"/>
+<area shape="rect" href="mldata.forum.models.Post-class.html#body_html" title="HTML version of post&#39;s body" alt="" coords="140,359,436,377"/>
+<area shape="rect" href="mldata.forum.models.Post-class.html#time" title="time when post was made" alt="" coords="140,377,436,396"/>
 <area shape="rect" href="mldata.forum.models.Post.Meta-class.html" title="mldata.forum.models.Post.Meta" alt="" coords="140,396,436,415"/>
 <area shape="rect" href="mldata.forum.models.Post.DoesNotExist-class.html" title="mldata.forum.models.Post.DoesNotExist" alt="" coords="140,415,436,433"/>
 <area shape="rect" href="mldata.forum.models.Post.MultipleObjectsReturned-class.html" title="mldata.forum.models.Post.MultipleObjectsReturned" alt="" coords="140,433,436,452"/>
@@ -97,8 +97,9 @@
 </center>
 </center>
 <hr />
-<p>A Post is a User's input to a thread. Uber-basic - the save() method 
-  also updates models further up the heirarchy (Thread,Forum)</p>
+<p>A Post is a User's input to a thread.</p>
+  <p>Uber-basic - the save() method also updates models further up the 
+  hierarchy (Thread, Forum)</p>
 
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
@@ -301,51 +302,56 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Thread / models.ForeignKey</span>
     </td><td class="summary">
-        <a name="thread"></a><span class="summary-name">thread</span> = <code title="models.ForeignKey(Thread)">models.ForeignKey(Thread)</code>
+        <a name="thread"></a><span class="summary-name">thread</span> = <code title="models.ForeignKey(Thread)">models.ForeignKey(Thread)</code><br />
+      thread this post belongs to
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django User / models.ForeignKey</span>
     </td><td class="summary">
-        <a name="author"></a><span class="summary-name">author</span> = <code title="models.ForeignKey(User, related_name= 'forum_post_set')">models.ForeignKey(User, related_name= 'forum_post_set')</code>
+        <a name="author"></a><span class="summary-name">author</span> = <code title="models.ForeignKey(User, related_name= 'forum_post_set')">models.ForeignKey(User, related_name= 'forum_post_set')</code><br />
+      post's author
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string / models.TextField</span>
     </td><td class="summary">
-        <a name="body"></a><span class="summary-name">body</span> = <code title="models.TextField(_(&quot;Body&quot;))">models.TextField(_(&quot;Body&quot;))</code>
+        <a name="body"></a><span class="summary-name">body</span> = <code title="models.TextField(_(&quot;Body&quot;))">models.TextField(_(&quot;Body&quot;))</code><br />
+      post's body
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string / models.TextField</span>
     </td><td class="summary">
-        <a name="body_html"></a><span class="summary-name">body_html</span> = <code title="models.TextField(editable= False)">models.TextField(editable= False)</code>
+        <a name="body_html"></a><span class="summary-name">body_html</span> = <code title="models.TextField(editable= False)">models.TextField(editable= False)</code><br />
+      HTML version of post's body
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">datetime / models.DateTimeField</span>
     </td><td class="summary">
-        <a name="time"></a><span class="summary-name">time</span> = <code title="models.DateTimeField(_(&quot;Time&quot;), blank= True, null= True)">models.DateTimeField(_(&quot;Time&quot;), blank= True, null= True)</code>
+        <a name="time"></a><span class="summary-name">time</span> = <code title="models.DateTimeField(_(&quot;Time&quot;), blank= True, null= True)">models.DateTimeField(_(&quot;Time&quot;), blank= True, null= True)</code><br />
+      time when post was made
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.forum.models.Post-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xa24a32c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.forum.models.Post-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xab9b34c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.forum.models.Post-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xa24a32c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.forum.models.Post-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xab9b34c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -492,7 +498,7 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0xa24a32c&gt;
+&lt;django.db.models.manager.Manager object at 0xab9b34c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -510,7 +516,7 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0xa24a32c&gt;
+&lt;django.db.models.manager.Manager object at 0xab9b34c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -548,7 +554,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:25 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:49 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

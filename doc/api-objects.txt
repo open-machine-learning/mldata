@@ -169,7 +169,6 @@ mldata.forum.urls.sitemap_dict	mldata.forum.urls-module.html#sitemap_dict
 mldata.forum.urls.PostSitemap	mldata.forum.sitemap.PostSitemap-class.html
 mldata.forum.urls.urlpatterns	mldata.forum.urls-module.html#urlpatterns
 mldata.forum.views	mldata.forum.views-module.html
-mldata.forum.views.LOGIN_URL	mldata.forum.views-module.html#LOGIN_URL
 mldata.forum.views.newthread	mldata.forum.views-module.html#newthread
 mldata.forum.views.thread	mldata.forum.views-module.html#thread
 mldata.forum.views.CreateThreadForm	mldata.forum.forms.CreateThreadForm-class.html
@@ -269,6 +268,7 @@ mldata.repository.views.index	mldata.repository.views-module.html#index
 mldata.repository.views.solution_edit	mldata.repository.views-module.html#solution_edit
 mldata.repository.views._new	mldata.repository.views-module.html#_new
 mldata.repository.views._view	mldata.repository.views-module.html#_view
+mldata.repository.views.data_rate	mldata.repository.views-module.html#data_rate
 mldata.repository.views.data_my	mldata.repository.views-module.html#data_my
 mldata.repository.views.task_my	mldata.repository.views-module.html#task_my
 mldata.repository.views.splits_download	mldata.repository.views-module.html#splits_download
@@ -283,11 +283,12 @@ mldata.repository.views.DEFAULT_DATE_INPUT_FORMATS	mldata.repository.views-modul
 mldata.repository.views.DEFAULT_TIME_INPUT_FORMATS	mldata.repository.views-module.html#DEFAULT_TIME_INPUT_FORMATS
 mldata.repository.views.solution_index	mldata.repository.views-module.html#solution_index
 mldata.repository.views._get_rating_form	mldata.repository.views-module.html#_get_rating_form
-mldata.repository.views.rate	mldata.repository.views-module.html#rate
 mldata.repository.views.TYPE	mldata.repository.views-module.html#TYPE
+mldata.repository.views.solution_rate	mldata.repository.views-module.html#solution_rate
 mldata.repository.views.task_view	mldata.repository.views-module.html#task_view
 mldata.repository.views.task_edit	mldata.repository.views-module.html#task_edit
 mldata.repository.views.__package__	mldata.repository.views-module.html#__package__
+mldata.repository.views._rate	mldata.repository.views-module.html#_rate
 mldata.repository.views.VERSIONS_PER_PAGE	mldata.repository.views-module.html#VERSIONS_PER_PAGE
 mldata.repository.views._is_owner	mldata.repository.views-module.html#_is_owner
 mldata.repository.views.data_activate	mldata.repository.views-module.html#data_activate
@@ -296,6 +297,7 @@ mldata.repository.views.solution_activate	mldata.repository.views-module.html#so
 mldata.repository.views.data_delete	mldata.repository.views-module.html#data_delete
 mldata.repository.views.task_delete	mldata.repository.views-module.html#task_delete
 mldata.repository.views.data_new_review	mldata.repository.views-module.html#data_new_review
+mldata.repository.views.task_rate	mldata.repository.views-module.html#task_rate
 mldata.repository.views.tags_view	mldata.repository.views-module.html#tags_view
 mldata.repository.views.SPLITPATH	mldata.repository.views-module.html#SPLITPATH
 mldata.repository.views.data_index	mldata.repository.views-module.html#data_index

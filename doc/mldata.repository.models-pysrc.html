@@ -1324,18 +1324,19 @@ mldata.repository.models.DataRating.repository
 mldata.repository.models.SolutionRating.repository
 mldata.repository.models.TaskRating.repository" class="py-name" href="#" onclick="return doclink('link-194', 'repository', 'link-92');">repository</a></tt><tt class="py-op">=</tt><tt class="py-name">repo</tt><tt class="py-op">)</tt> </tt>
 <a name="L430"></a><tt class="py-lineno">430</tt>  <tt class="py-line">        <tt class="py-name">l</tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">ratings</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
-<a name="L431"></a><tt class="py-lineno">431</tt>  <tt class="py-line">        <tt class="py-name">i</tt><tt class="py-op">=</tt><tt class="py-name">d</tt><tt class="py-op">=</tt><tt class="py-number">0</tt> </tt>
+<a name="L431"></a><tt class="py-lineno">431</tt>  <tt class="py-line">        <tt class="py-name">i</tt> <tt class="py-op">=</tt> <tt class="py-name">d</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
 <a name="L432"></a><tt class="py-lineno">432</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">r</tt> <tt class="py-keyword">in</tt> <tt class="py-name">ratings</tt><tt class="py-op">:</tt> </tt>
-<a name="L433"></a><tt class="py-lineno">433</tt>  <tt class="py-line">            <tt class="py-name">i</tt><tt class="py-op">+=</tt> <tt class="py-name">r</tt><tt class="py-op">.</tt><tt id="link-195" class="py-name"><a title="mldata.repository.forms.RatingForm.interesting
+<a name="L433"></a><tt class="py-lineno">433</tt>  <tt class="py-line">            <tt class="py-name">i</tt> <tt class="py-op">+=</tt> <tt class="py-name">r</tt><tt class="py-op">.</tt><tt id="link-195" class="py-name"><a title="mldata.repository.forms.RatingForm.interesting
 mldata.repository.models.Rating.interesting" class="py-name" href="#" onclick="return doclink('link-195', 'interesting', 'link-185');">interesting</a></tt> </tt>
-<a name="L434"></a><tt class="py-lineno">434</tt>  <tt class="py-line">            <tt class="py-name">d</tt><tt class="py-op">+=</tt> <tt class="py-name">r</tt><tt class="py-op">.</tt><tt id="link-196" class="py-name"><a title="mldata.repository.forms.RatingForm.documentation
+<a name="L434"></a><tt class="py-lineno">434</tt>  <tt class="py-line">            <tt class="py-name">d</tt> <tt class="py-op">+=</tt> <tt class="py-name">r</tt><tt class="py-op">.</tt><tt id="link-196" class="py-name"><a title="mldata.repository.forms.RatingForm.documentation
 mldata.repository.models.Rating.documentation" class="py-name" href="#" onclick="return doclink('link-196', 'documentation', 'link-187');">documentation</a></tt> </tt>
 <a name="L435"></a><tt class="py-lineno">435</tt>  <tt class="py-line"> </tt>
-<a name="L436"></a><tt class="py-lineno">436</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-197" class="py-name"><a title="mldata.repository.models.Repository.average_rating" class="py-name" href="#" onclick="return doclink('link-197', 'average_rating', 'link-52');">average_rating</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">+</tt><tt class="py-name">d</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-op">(</tt><tt class="py-number">3.0</tt><tt class="py-op">*</tt><tt class="py-name">l</tt><tt class="py-op">)</tt> </tt>
-<a name="L437"></a><tt class="py-lineno">437</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-198" class="py-name"><a title="mldata.repository.models.Repository.average_interesting_rating" class="py-name" href="#" onclick="return doclink('link-198', 'average_interesting_rating', 'link-54');">average_interesting_rating</a></tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-name">l</tt> </tt>
-<a name="L438"></a><tt class="py-lineno">438</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-199" class="py-name"><a title="mldata.repository.models.Repository.average_documentation_rating" class="py-name" href="#" onclick="return doclink('link-199', 'average_documentation_rating', 'link-56');">average_documentation_rating</a></tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">d</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-name">l</tt> </tt>
-<a name="L439"></a><tt class="py-lineno">439</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-200" class="py-name"><a title="mldata.repository.models.Repository.total_number_of_votes" class="py-name" href="#" onclick="return doclink('link-200', 'total_number_of_votes', 'link-58');">total_number_of_votes</a></tt> <tt class="py-op">=</tt> <tt class="py-name">l</tt> </tt>
-<a name="L440"></a><tt class="py-lineno">440</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-201" class="py-name"><a title="mldata.blog.models.Post.save
+<a name="L436"></a><tt class="py-lineno">436</tt>  <tt class="py-line">        <tt class="py-name">num_scores</tt> <tt class="py-op">=</tt> <tt class="py-number">2.0</tt> </tt>
+<a name="L437"></a><tt class="py-lineno">437</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-197" class="py-name"><a title="mldata.repository.models.Repository.average_rating" class="py-name" href="#" onclick="return doclink('link-197', 'average_rating', 'link-52');">average_rating</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">i</tt> <tt class="py-op">+</tt> <tt class="py-name">d</tt><tt class="py-op">)</tt> <tt class="py-op">/</tt> <tt class="py-op">(</tt><tt class="py-name">num_scores</tt> <tt class="py-op">*</tt> <tt class="py-name">l</tt><tt class="py-op">)</tt> </tt>
+<a name="L438"></a><tt class="py-lineno">438</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-198" class="py-name"><a title="mldata.repository.models.Repository.average_interesting_rating" class="py-name" href="#" onclick="return doclink('link-198', 'average_interesting_rating', 'link-54');">average_interesting_rating</a></tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">)</tt> <tt class="py-op">/</tt> <tt class="py-name">l</tt> </tt>
+<a name="L439"></a><tt class="py-lineno">439</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-199" class="py-name"><a title="mldata.repository.models.Repository.average_documentation_rating" class="py-name" href="#" onclick="return doclink('link-199', 'average_documentation_rating', 'link-56');">average_documentation_rating</a></tt> <tt class="py-op">=</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">d</tt><tt class="py-op">)</tt> <tt class="py-op">/</tt> <tt class="py-name">l</tt> </tt>
+<a name="L440"></a><tt class="py-lineno">440</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-200" class="py-name"><a title="mldata.repository.models.Repository.total_number_of_votes" class="py-name" href="#" onclick="return doclink('link-200', 'total_number_of_votes', 'link-58');">total_number_of_votes</a></tt> <tt class="py-op">=</tt> <tt class="py-name">l</tt> </tt>
+<a name="L441"></a><tt class="py-lineno">441</tt>  <tt class="py-line">        <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-201" class="py-name"><a title="mldata.blog.models.Post.save
 mldata.forum.models.Forum.save
 mldata.forum.models.Post.save
 mldata.forum.models.Thread.save
@@ -1343,10 +1344,10 @@ mldata.registration.forms.RegistrationForm.save
 mldata.repository.models.Repository.save
 mldata.user.views.ChangeUserDetailsForm.save
 mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-201', 'save', 'link-65');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L441"></a><tt class="py-lineno">441</tt>  <tt class="py-line"> </tt>
-<a name="Rating.__unicode__"></a><div id="Rating.__unicode__-def"><a name="L442"></a><tt class="py-lineno">442</tt> <a class="py-toggle" href="#" id="Rating.__unicode__-toggle" onclick="return toggle('Rating.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.repository.models.Rating-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="Rating.__unicode__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Rating.__unicode__-expanded"><a name="L443"></a><tt class="py-lineno">443</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L444"></a><tt class="py-lineno">444</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">unicode</tt><tt class="py-op">(</tt><tt class="py-string">"%s %s %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-202" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+</div><a name="L442"></a><tt class="py-lineno">442</tt>  <tt class="py-line"> </tt>
+<a name="Rating.__unicode__"></a><div id="Rating.__unicode__-def"><a name="L443"></a><tt class="py-lineno">443</tt> <a class="py-toggle" href="#" id="Rating.__unicode__-toggle" onclick="return toggle('Rating.__unicode__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.repository.models.Rating-class.html#__unicode__">__unicode__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Rating.__unicode__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Rating.__unicode__-expanded"><a name="L444"></a><tt class="py-lineno">444</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L445"></a><tt class="py-lineno">445</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">unicode</tt><tt class="py-op">(</tt><tt class="py-string">"%s %s %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-202" class="py-name"><a title="django_authopenid.models.UserAssociation.user
 mldata.registration.models.RegistrationProfile.user
 mldata.repository.models.Rating.user
 mldata.repository.models.Repository.user
@@ -1361,17 +1362,17 @@ mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
 mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-205', 'name', 'link-16');">name</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
-<a name="L445"></a><tt class="py-lineno">445</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">AttributeError</tt><tt class="py-op">:</tt> </tt>
-<a name="L446"></a><tt class="py-lineno">446</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">unicode</tt><tt class="py-op">(</tt><tt class="py-string">"%s %s %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-206" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+<a name="L446"></a><tt class="py-lineno">446</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">AttributeError</tt><tt class="py-op">:</tt> </tt>
+<a name="L447"></a><tt class="py-lineno">447</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">unicode</tt><tt class="py-op">(</tt><tt class="py-string">"%s %s %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-206" class="py-name"><a title="django_authopenid.models.UserAssociation.user
 mldata.registration.models.RegistrationProfile.user
 mldata.repository.models.Rating.user
 mldata.repository.models.Repository.user
 mldata.user" class="py-name" href="#" onclick="return doclink('link-206', 'user', 'link-50');">user</a></tt><tt class="py-op">.</tt><tt id="link-207" class="py-name"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.username
 mldata.registration.forms.RegistrationForm.username" class="py-name" href="#" onclick="return doclink('link-207', 'username', 'link-203');">username</a></tt><tt class="py-op">,</tt> <tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'on'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
-</div></div><a name="L447"></a><tt class="py-lineno">447</tt>  <tt class="py-line"> </tt>
-<a name="DataRating"></a><div id="DataRating-def"><a name="L448"></a><tt class="py-lineno">448</tt> <a class="py-toggle" href="#" id="DataRating-toggle" onclick="return toggle('DataRating');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.repository.models.DataRating-class.html">DataRating</a><tt class="py-op">(</tt><tt class="py-base-class">Rating</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="DataRating-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="DataRating-expanded"><a name="L449"></a><tt class="py-lineno">449</tt>  <tt class="py-line">    <tt class="py-docstring">"""Rating for a Data item."""</tt> </tt>
-<a name="L450"></a><tt class="py-lineno">450</tt>  <tt class="py-line">    <tt id="link-208" class="py-name"><a title="mldata.repository
+</div></div><a name="L448"></a><tt class="py-lineno">448</tt>  <tt class="py-line"> </tt>
+<a name="DataRating"></a><div id="DataRating-def"><a name="L449"></a><tt class="py-lineno">449</tt> <a class="py-toggle" href="#" id="DataRating-toggle" onclick="return toggle('DataRating');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.repository.models.DataRating-class.html">DataRating</a><tt class="py-op">(</tt><tt class="py-base-class">Rating</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="DataRating-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="DataRating-expanded"><a name="L450"></a><tt class="py-lineno">450</tt>  <tt class="py-line">    <tt class="py-docstring">"""Rating for a Data item."""</tt> </tt>
+<a name="L451"></a><tt class="py-lineno">451</tt>  <tt class="py-line">    <tt id="link-208" class="py-name"><a title="mldata.repository
 mldata.repository.models.CurrentVersion.repository
 mldata.repository.models.DataRating.repository
 mldata.repository.models.SolutionRating.repository
@@ -1383,9 +1384,9 @@ mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
 mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-209', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-210" class="py-name"><a title="mldata.repository.models.Data" class="py-name" href="#" onclick="return doclink('link-210', 'Data', 'link-147');">Data</a></tt><tt class="py-op">)</tt> </tt>
-</div><a name="TaskRating"></a><div id="TaskRating-def"><a name="L451"></a><tt class="py-lineno">451</tt> <a class="py-toggle" href="#" id="TaskRating-toggle" onclick="return toggle('TaskRating');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.repository.models.TaskRating-class.html">TaskRating</a><tt class="py-op">(</tt><tt class="py-base-class">Rating</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="TaskRating-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="TaskRating-expanded"><a name="L452"></a><tt class="py-lineno">452</tt>  <tt class="py-line">    <tt class="py-docstring">"""Rating for a Task item."""</tt> </tt>
-<a name="L453"></a><tt class="py-lineno">453</tt>  <tt class="py-line">    <tt id="link-211" class="py-name"><a title="mldata.repository
+</div><a name="TaskRating"></a><div id="TaskRating-def"><a name="L452"></a><tt class="py-lineno">452</tt> <a class="py-toggle" href="#" id="TaskRating-toggle" onclick="return toggle('TaskRating');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.repository.models.TaskRating-class.html">TaskRating</a><tt class="py-op">(</tt><tt class="py-base-class">Rating</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TaskRating-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="TaskRating-expanded"><a name="L453"></a><tt class="py-lineno">453</tt>  <tt class="py-line">    <tt class="py-docstring">"""Rating for a Task item."""</tt> </tt>
+<a name="L454"></a><tt class="py-lineno">454</tt>  <tt class="py-line">    <tt id="link-211" class="py-name"><a title="mldata.repository
 mldata.repository.models.CurrentVersion.repository
 mldata.repository.models.DataRating.repository
 mldata.repository.models.SolutionRating.repository
@@ -1397,9 +1398,9 @@ mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
 mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-212', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-213" class="py-name"><a title="mldata.repository.models.Task" class="py-name" href="#" onclick="return doclink('link-213', 'Task', 'link-173');">Task</a></tt><tt class="py-op">)</tt> </tt>
-</div><a name="SolutionRating"></a><div id="SolutionRating-def"><a name="L454"></a><tt class="py-lineno">454</tt> <a class="py-toggle" href="#" id="SolutionRating-toggle" onclick="return toggle('SolutionRating');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.repository.models.SolutionRating-class.html">SolutionRating</a><tt class="py-op">(</tt><tt class="py-base-class">Rating</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="SolutionRating-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="SolutionRating-expanded"><a name="L455"></a><tt class="py-lineno">455</tt>  <tt class="py-line">    <tt class="py-docstring">"""Rating for a Solution item."""</tt> </tt>
-<a name="L456"></a><tt class="py-lineno">456</tt>  <tt class="py-line">    <tt id="link-214" class="py-name"><a title="mldata.repository
+</div><a name="SolutionRating"></a><div id="SolutionRating-def"><a name="L455"></a><tt class="py-lineno">455</tt> <a class="py-toggle" href="#" id="SolutionRating-toggle" onclick="return toggle('SolutionRating');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.repository.models.SolutionRating-class.html">SolutionRating</a><tt class="py-op">(</tt><tt class="py-base-class">Rating</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="SolutionRating-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="SolutionRating-expanded"><a name="L456"></a><tt class="py-lineno">456</tt>  <tt class="py-line">    <tt class="py-docstring">"""Rating for a Solution item."""</tt> </tt>
+<a name="L457"></a><tt class="py-lineno">457</tt>  <tt class="py-line">    <tt id="link-214" class="py-name"><a title="mldata.repository
 mldata.repository.models.CurrentVersion.repository
 mldata.repository.models.DataRating.repository
 mldata.repository.models.SolutionRating.repository
@@ -1411,7 +1412,7 @@ mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
 mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-215', 'models', 'link-0');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-216" class="py-name" targets="Class mldata.repository.models.Solution=mldata.repository.models.Solution-class.html"><a title="mldata.repository.models.Solution" class="py-name" href="#" onclick="return doclink('link-216', 'Solution', 'link-216');">Solution</a></tt><tt class="py-op">)</tt> </tt>
-</div><a name="L457"></a><tt class="py-lineno">457</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+</div><a name="L458"></a><tt class="py-lineno">458</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -1449,7 +1450,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:36:00 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:54:18 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,6 +1,9 @@
 """
 All forum logic is kept here - displaying lists of forums, threads 
 and posts, adding new threads, and adding replies.
+
+@var FORUM_PAGINATION: number of items on one page
+@type FORUM_PAGINATION: integer
 """
 
 from datetime import datetime
@@ -19,19 +22,35 @@ from django.views.generic.list_detail import object_list
 from forum.models import Forum,Thread,Post,Subscription
 from forum.forms import CreateThreadForm, ReplyForm
 
+
+
 FORUM_PAGINATION = getattr(settings, 'FORUM_PAGINATION', 10)
-LOGIN_URL = getattr(settings, 'LOGIN_URL', '/accounts/login/')
+
+
 
 def forums_list(request):
+    """Get a list of forums.
+
+    @return: list of forums
+    @rtype: Django object_list
+    """
     queryset = Forum.objects.for_groups(request.user.groups.all()).filter(parent__isnull=True)
     return object_list( request,
                         queryset=queryset)
 
+
+
 def forum(request, slug):
-    """
-    Displays a list of threads within a forum.
+    """View the list of threads within a forum.
+
     Threads are sorted by their sticky flag, followed by their 
     most recent post.
+
+    @param slug: forum's slug
+    @type slug: string
+    @return: list of threads of forum identified by slug
+    @rtype: Django object_list
+    @raise Http404: if slug doesn't yield an existing forum.
     """
     try:
         f = Forum.objects.for_groups(request.user.groups.all()).select_related().get(slug=slug)
@@ -56,9 +75,16 @@ def forum(request, slug):
                         })
 
 def thread(request, thread):
-    """
-    Increments the viewed count on a thread then displays the 
-    posts for that thread, in chronological order.
+    """View a thread.
+
+    Increments the viewed count on a thread then displays the posts for that
+    thread, in chronological order.
+
+    @param thread: thread id to work on
+    @type thread: integer
+    @return a thread's view
+    @rtype: Django object_list
+    @raise Http404: if thread doesn't exist or user has no access to it.
     """
     try:
         t = Thread.objects.select_related().get(pk=thread)
@@ -99,12 +125,18 @@ def thread(request, thread):
                         })
 
 def reply(request, thread):
-    """
+    """Post a reply.
+
     If a thread isn't closed, and the user is logged in, post a reply
     to a thread. Note we don't have "nested" replies at this stage.
+
+    @param thread: thread id to reply to
+    @type thread: integer
+    @return: a view to post a reply
+    @rtype: Django response
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('%s?next=%s' % (LOGIN_URL, request.path))
+        return HttpResponseRedirect('%s?next=%s' % (reverse('user_signin'), request.path))
     t = get_object_or_404(Thread, pk=thread)
     if t.closed:
         return HttpResponseServerError()
@@ -182,15 +214,21 @@ def reply(request, thread):
 
 
 def newthread(request, forum):
-    """
+    """Post a new thread.
+
     Rudimentary post function - this should probably use 
     newforms, although not sure how that goes when we're updating 
     two models.
 
     Only allows a user to post if they're logged in.
+
+    @param forum: forum slug to create new thread for.
+    @type forum: string
+    @return: a view to post a new thread
+    @rtype: Django response
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('%s?next=%s' % (LOGIN_URL, request.path))
+        return HttpResponseRedirect('%s?next=%s' % (reverse('user_signin'), request.path))
 
     f = get_object_or_404(Forum, slug=forum)
 
@@ -238,12 +276,16 @@ def newthread(request, forum):
             'preview': preview,
         }))
 
+
+
 def updatesubs(request):
-    """
-    Allow users to update their subscriptions all in one shot.
+    """Allow users to update their subscriptions all in one shot.
+
+    @return: a view to update user's subscriptions.
+    @rtype: Django response
     """
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('%s?next=%s' % (LOGIN_URL, request.path))
+        return HttpResponseRedirect('%s?next=%s' % (reverse('user_signin'), request.path))
 
     subs = Subscription.objects.select_related().filter(author=request.user)
 
@@ -260,4 +302,4 @@ def updatesubs(request):
             'subs': subs,
             'next': request.GET.get('next')
         }))
-       
+

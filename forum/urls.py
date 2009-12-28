@@ -1,12 +1,5 @@
 """
-URLConf for Django-Forum.
-
-django-forum assumes that the forum application is living under
-/forum/.
-
-Usage in your base urls.py:
-    (r'^forum/', include('forum.urls')),
-
+URLConf for app Forum
 """
 
 from django.conf.urls.defaults import *
@@ -27,7 +20,7 @@ sitemap_dict = {
 
 urlpatterns = patterns('',
     url(r'^$', 'forum.views.forums_list', name='forum_index'),
-    
+
     url(r'^(?P<url>(rss|atom).*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feed_dict}),
 
     url(r'^thread/(?P<thread>[0-9]+)/$', 'forum.views.thread', name='forum_view_thread'),

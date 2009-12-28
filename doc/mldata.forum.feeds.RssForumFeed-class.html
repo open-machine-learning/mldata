@@ -74,22 +74,24 @@
 <area shape="rect" href="javascript:void(0);" title="Returns an extra keyword arguments dictionary that is used with the &#160;`add_item` call of the feed generator." alt="" coords="17,143,236,161"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a feedgenerator.DefaultFeed object, fully populated, for this feed." alt="" coords="17,161,236,180"/>
 <area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed" alt="" coords="16,11,237,181"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title_template" title="mldata.forum.feeds.RssForumFeed.title_template" alt="" coords="55,228,199,247"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description_template" title="mldata.forum.feeds.RssForumFeed.description_template" alt="" coords="55,247,199,265"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_object" title="mldata.forum.feeds.RssForumFeed.get_object" alt="" coords="55,268,199,287"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title" title="mldata.forum.feeds.RssForumFeed.title" alt="" coords="55,287,199,305"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description" title="mldata.forum.feeds.RssForumFeed.description" alt="" coords="55,305,199,324"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#link" title="mldata.forum.feeds.RssForumFeed.link" alt="" coords="55,324,199,343"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set" title="mldata.forum.feeds.RssForumFeed.get_query_set" alt="" coords="55,343,199,361"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#items" title="mldata.forum.feeds.RssForumFeed.items" alt="" coords="55,361,199,380"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate" title="mldata.forum.feeds.RssForumFeed.item_pubdate" alt="" coords="55,380,199,399"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html" title="mldata.forum.feeds.RssForumFeed" alt="" coords="53,211,200,400"/>
-<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html" title="mldata.forum.feeds.AtomForumFeed" alt="" coords="71,429,183,456"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title_template" title="template filename for post title" alt="" coords="44,228,209,247"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description_template" title="template filename for post description" alt="" coords="44,247,209,265"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_object" title="Get a forum object." alt="" coords="44,268,209,287"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title" title="Get the title for the given object." alt="" coords="44,287,209,305"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description" title="Get the object&#39;s description." alt="" coords="44,305,209,324"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#link" title="Get object&#39;s URL." alt="" coords="44,324,209,343"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set" title="Get other posts from object&#39;s forum, ordered descending by time." alt="" coords="44,343,209,361"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#items" title="Get last 15 items of object&#39;s related posts." alt="" coords="44,361,209,380"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate" title="Get publication date of given item." alt="" coords="44,380,209,399"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html" title="RSS feed for forum." alt="" coords="43,211,211,400"/>
+<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html" title="Atom feed for forum." alt="" coords="71,429,183,456"/>
 </map>
   <img src="uml_class_diagram_for_mldata_f_5.gif" alt='' usemap="#uml_class_diagram_for_mldata_f_5" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
+<p>RSS feed for forum.</p>
+
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -134,12 +136,13 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Forum</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#get_object" class="summary-sig-name">get_object</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">bits</span>)</span></td>
+        <span class="summary-sig-arg">bits</span>)</span><br />
+      Get a forum object.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.get_object">source&nbsp;code</a></span>
             
@@ -151,12 +154,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="title"></a><span class="summary-sig-name">title</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#title" class="summary-sig-name">title</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span><br />
+      Get the title for the given object.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.title">source&nbsp;code</a></span>
             
@@ -168,12 +172,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="description"></a><span class="summary-sig-name">description</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#description" class="summary-sig-name">description</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span><br />
+      Get the object's description.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.description">source&nbsp;code</a></span>
             
@@ -185,12 +190,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="link"></a><span class="summary-sig-name">link</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#link" class="summary-sig-name">link</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span><br />
+      Get object's URL.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.link">source&nbsp;code</a></span>
             
@@ -202,12 +208,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django queryset</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_query_set"></a><span class="summary-sig-name">get_query_set</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set" class="summary-sig-name">get_query_set</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span><br />
+      Get other posts from object's forum, ordered descending by time.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.get_query_set">source&nbsp;code</a></span>
             
@@ -219,12 +226,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">list</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="items"></a><span class="summary-sig-name">items</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#items" class="summary-sig-name">items</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span><br />
+      Get last 15 items of object's related posts.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.items">source&nbsp;code</a></span>
             
@@ -236,12 +244,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">datetime</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate" class="summary-sig-name">item_pubdate</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">item</span>)</span></td>
+        <span class="summary-sig-arg">item</span>)</span><br />
+      Get publication date of given item.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.item_pubdate">source&nbsp;code</a></span>
             
@@ -296,16 +305,18 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
-        <a name="title_template"></a><span class="summary-name">title_template</span> = <code title="'forum/feeds/post_title.html'"><code class="variable-quote">'</code><code class="variable-string">forum/feeds/post_title.html</code><code class="variable-quote">'</code></code>
+        <a name="title_template"></a><span class="summary-name">title_template</span> = <code title="'forum/feeds/post_title.html'"><code class="variable-quote">'</code><code class="variable-string">forum/feeds/post_title.html</code><code class="variable-quote">'</code></code><br />
+      template filename for post title
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
-        <a name="description_template"></a><span class="summary-name">description_template</span> = <code title="'forum/feeds/post_description.html'"><code class="variable-quote">'</code><code class="variable-string">forum/feeds/post_description.html</code><code class="variable-quote">'</code></code>
+        <a name="description_template"></a><span class="summary-name">description_template</span> = <code title="'forum/feeds/post_description.html'"><code class="variable-quote">'</code><code class="variable-string">forum/feeds/post_description.html</code><code class="variable-quote">'</code></code><br />
+      template filename for post description
     </td>
   </tr>
   <tr>
@@ -375,11 +386,146 @@
     </td>
   </tr></table>
   
-  
+  <p>Get a forum object.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bits</code></strong> (list) - bits of the item's slug</li>
+    </ul></dd>
+    <dt>Returns: Forum</dt>
+        <dd>a forum item matching exactly the slug or none</dd>
     <dt>Overrides:
         django.contrib.syndication.feeds.Feed.get_object
     </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="title"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">title</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.title">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the title for the given object.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Forum) - object to get the title for</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+        <dd>object's or generic title</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="description"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">description</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.description">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the object's description.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Forum) - object to get description for</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+        <dd>object's or generic description</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="link"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">link</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.link">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get object's URL.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Forum) - object to get URL for</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+        <dd>object's or forum's index URL</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_query_set"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_query_set</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.get_query_set">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get other posts from object's forum, ordered descending by time.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Post) - object to get posts for</li>
+    </ul></dd>
+    <dt>Returns: Django queryset</dt>
+        <dd>a queryset with thread's or all posts</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="items"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">items</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#RssForumFeed.items">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get last 15 items of object's related posts.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Post @return a list of the last 15 related posts) - post ot get related for</li>
+    </ul></dd>
+    <dt>Returns: list</dt>
   </dl>
 </td></tr></table>
 </div>
@@ -398,8 +544,14 @@
     </td>
   </tr></table>
   
-  
+  <p>Get publication date of given item.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>item</code></strong> (Post) - item to get publication date for</li>
+    </ul></dd>
+    <dt>Returns: datetime</dt>
+        <dd>publication date</dd>
     <dt>Overrides:
         item_pubdate
     </dt>
@@ -438,7 +590,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:23 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:47 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

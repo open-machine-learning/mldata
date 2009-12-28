@@ -84,11 +84,12 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django object_list</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="forums_list"></a><span class="summary-sig-name">forums_list</span>(<span class="summary-sig-arg">request</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.views-module.html#forums_list" class="summary-sig-name">forums_list</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Get a list of forums.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.views-pysrc.html#forums_list">source&nbsp;code</a></span>
             
@@ -100,13 +101,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django object_list</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.forum.views-module.html#forum" class="summary-sig-name">forum</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">slug</span>)</span><br />
-      Displays a list of threads within a forum.</td>
+      View the list of threads within a forum.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.views-pysrc.html#forum">source&nbsp;code</a></span>
             
@@ -118,14 +119,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django object_list</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="thread"></a><span class="summary-sig-name">thread</span>(<span class="summary-sig-arg">request</span>,
+          <td><span class="summary-sig"><a href="mldata.forum.views-module.html#thread" class="summary-sig-name">thread</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">thread</span>)</span><br />
-      Increments the viewed count on a thread then displays the posts for 
-      that thread, in chronological order.</td>
+      View a thread.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.views-pysrc.html#thread">source&nbsp;code</a></span>
             
@@ -137,14 +137,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.forum.views-module.html#reply" class="summary-sig-name">reply</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">thread</span>)</span><br />
-      If a thread isn't closed, and the user is logged in, post a reply to 
-      a thread.</td>
+      Post a reply.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.views-pysrc.html#reply">source&nbsp;code</a></span>
             
@@ -156,14 +155,13 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.forum.views-module.html#newthread" class="summary-sig-name">newthread</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">forum</span>)</span><br />
-      Rudimentary post function - this should probably use newforms, 
-      although not sure how that goes when we're updating two models.</td>
+      Post a new thread.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.views-pysrc.html#newthread">source&nbsp;code</a></span>
             
@@ -175,11 +173,11 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="updatesubs"></a><span class="summary-sig-name">updatesubs</span>(<span class="summary-sig-arg">request</span>)</span><br />
+          <td><span class="summary-sig"><a href="mldata.forum.views-module.html#updatesubs" class="summary-sig-name">updatesubs</a>(<span class="summary-sig-arg">request</span>)</span><br />
       Allow users to update their subscriptions all in one shot.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.views-pysrc.html#updatesubs">source&nbsp;code</a></span>
@@ -210,16 +208,10 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">integer</span>
     </td><td class="summary">
-        <a name="FORUM_PAGINATION"></a><span class="summary-name">FORUM_PAGINATION</span> = <code title="10">10</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="LOGIN_URL"></a><span class="summary-name">LOGIN_URL</span> = <code title="'/accounts/login/'"><code class="variable-quote">'</code><code class="variable-string">/accounts/login/</code><code class="variable-quote">'</code></code>
+        <a name="FORUM_PAGINATION"></a><span class="summary-name">FORUM_PAGINATION</span> = <code title="10">10</code><br />
+      number of items on one page
     </td>
   </tr>
 <tr>
@@ -248,6 +240,27 @@
   </td>
 </tr>
 </table>
+<a name="forums_list"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forums_list</span>(<span class="sig-arg">request</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.views-pysrc.html#forums_list">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get a list of forums.</p>
+  <dl class="fields">
+    <dt>Returns: Django object_list</dt>
+        <dd>list of forums</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="forum"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -263,9 +276,51 @@
     </td>
   </tr></table>
   
-  <p>Displays a list of threads within a forum. Threads are sorted by their
-  sticky flag, followed by their most recent post.</p>
+  <p>View the list of threads within a forum.</p>
+  <p>Threads are sorted by their sticky flag, followed by their most recent
+  post.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>slug</code></strong> (string) - forum's slug</li>
+    </ul></dd>
+    <dt>Returns: Django object_list</dt>
+        <dd>list of threads of forum identified by slug</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Http404</strong></code> - if slug doesn't yield an existing forum.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="thread"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">thread</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">thread</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.views-pysrc.html#thread">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View a thread.</p>
+  <p>Increments the viewed count on a thread then displays the posts for 
+  that thread, in chronological order.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>thread</code></strong> (integer @return a thread's view) - thread id to work on</li>
+    </ul></dd>
+    <dt>Returns: Django object_list</dt>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Http404</strong></code> - if thread doesn't exist or user has no access to it.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -284,9 +339,16 @@
     </td>
   </tr></table>
   
+  <p>Post a reply.</p>
   <p>If a thread isn't closed, and the user is logged in, post a reply to a
   thread. Note we don't have &quot;nested&quot; replies at this stage.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>thread</code></strong> (integer) - thread id to reply to</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>a view to post a reply</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -305,10 +367,38 @@
     </td>
   </tr></table>
   
+  <p>Post a new thread.</p>
   <p>Rudimentary post function - this should probably use newforms, 
   although not sure how that goes when we're updating two models.</p>
   <p>Only allows a user to post if they're logged in.</p>
   <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>forum</code></strong> (string) - forum slug to create new thread for.</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>a view to post a new thread</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="updatesubs"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">updatesubs</span>(<span class="sig-arg">request</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.views-pysrc.html#updatesubs">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Allow users to update their subscriptions all in one shot.</p>
+  <dl class="fields">
+    <dt>Returns: Django response</dt>
+        <dd>a view to update user's subscriptions.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -344,7 +434,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:13 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:36 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

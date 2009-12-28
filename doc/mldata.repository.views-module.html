@@ -810,18 +810,69 @@
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#rate" class="summary-sig-name">rate</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">klassid</span>,
-        <span class="summary-sig-arg">id</span>)</span><br />
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_rate" class="summary-sig-name" onclick="show_private();">_rate</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>,
+        <span class="summary-sig-arg">klass</span>)</span><br />
       Rate an item given by id and klass.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#rate">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_rate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="data_rate"></a><span class="summary-sig-name">data_rate</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_rate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="task_rate"></a><span class="summary-sig-name">task_rate</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#task_rate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="solution_rate"></a><span class="summary-sig-name">solution_rate</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_rate">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -2121,19 +2172,19 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="rate"></a>
-<div>
+<a name="_rate"></a>
+<div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">rate</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">klassid</span>,
-        <span class="sig-arg">id</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_rate</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>,
+        <span class="sig-arg">klass</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#rate">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_rate">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
@@ -2142,7 +2193,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>id</code></strong> (integer) - item's id</li>
-        <li><strong class="pname"><code>klassid</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>redirect to item's view page</dd>
@@ -2252,7 +2303,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:13 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:37 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

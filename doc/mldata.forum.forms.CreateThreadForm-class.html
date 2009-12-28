@@ -86,17 +86,19 @@
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm" alt="" coords="16,85,1005,424"/>
 <area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
 <area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#title" title="mldata.forum.forms.CreateThreadForm.title" alt="" coords="457,545,564,564"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#body" title="mldata.forum.forms.CreateThreadForm.body" alt="" coords="457,564,564,583"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#subscribe" title="mldata.forum.forms.CreateThreadForm.subscribe" alt="" coords="457,583,564,601"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" title="mldata.forum.forms.CreateThreadForm.base_fields" alt="" coords="457,601,564,620"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="457,620,564,639"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html" title="mldata.forum.forms.CreateThreadForm" alt="" coords="456,528,565,648"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#title" title="title of Thread" alt="" coords="420,545,601,564"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#body" title="body of Thread" alt="" coords="420,564,601,583"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#subscribe" title="if thread can be subscribed to" alt="" coords="420,583,601,601"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" title="mldata.forum.forms.CreateThreadForm.base_fields" alt="" coords="420,601,601,620"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="420,620,601,639"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html" title="Form to create threads." alt="" coords="419,528,603,648"/>
 </map>
   <img src="uml_class_diagram_for_mldata_f_6.gif" alt='' usemap="#uml_class_diagram_for_mldata_f_6" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
+<p>Form to create threads.</p>
+
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -205,33 +207,36 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">forms.CharField</span>
     </td><td class="summary">
-        <a name="title"></a><span class="summary-name">title</span> = <code title="forms.CharField(label= _(&quot;Title&quot;), max_length= 100)">forms.CharField(label= _(&quot;Title&quot;), max_length= 100)</code>
+        <a name="title"></a><span class="summary-name">title</span> = <code title="forms.CharField(label= _(&quot;Title&quot;), max_length= 100)">forms.CharField(label= _(&quot;Title&quot;), max_length= 100)</code><br />
+      title of Thread
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">forms.CharField</span>
     </td><td class="summary">
         <a href="mldata.forum.forms.CreateThreadForm-class.html#body" class="summary-name">body</a> = <code title="forms.CharField(label= _(&quot;Body&quot;), widget= forms.Textarea(attrs= {'rows\
-': 8, 'cols': 50}))">forms.CharField(label= _(&quot;Body&quot;), widget= forms.Textare<code class="variable-ellipsis">...</code></code>
+': 8, 'cols': 50}))">forms.CharField(label= _(&quot;Body&quot;), widget= forms.Textare<code class="variable-ellipsis">...</code></code><br />
+      body of Thread
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">forms.BooleanField</span>
+    </td><td class="summary">
+        <a href="mldata.forum.forms.CreateThreadForm-class.html#subscribe" class="summary-name">subscribe</a> = <code title="forms.BooleanField(label= _(&quot;Subscribe via email&quot;), required= False)">forms.BooleanField(label= _(&quot;Subscribe via email&quot;)<code class="variable-ellipsis">...</code></code><br />
+      if thread can be subscribed to
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.forum.forms.CreateThreadForm-class.html#subscribe" class="summary-name">subscribe</a> = <code title="forms.BooleanField(label= _(&quot;Subscribe via email&quot;), required= False)">forms.BooleanField(label= _(&quot;Subscribe via email&quot;)<code class="variable-ellipsis">...</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'title': &lt;django.forms.fields.CharField object at 0xaaa29ec&gt;, 'body':\
- &lt;django.forms.fields.CharField object at 0xaaa2d8c&gt;, 'subscribe': &lt;dj\
-ango.forms.fields.BooleanField object at 0xaaa2dac&gt;}">{'title': &lt;django.forms.fields.CharField object <code class="variable-ellipsis">...</code></code>
+        <a href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'title': &lt;django.forms.fields.CharField object at 0xb40d60c&gt;, 'body':\
+ &lt;django.forms.fields.CharField object at 0xb40d68c&gt;, 'subscribe': &lt;dj\
+ango.forms.fields.BooleanField object at 0xb40d6ac&gt;}">{'title': &lt;django.forms.fields.CharField object <code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -297,8 +302,10 @@ ango.forms.fields.BooleanField object at 0xaaa2dac&gt;}">{'title': &lt;django.fo
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">body</h3>
-  
+  body of Thread
   <dl class="fields">
+    <dt>Type:</dt>
+      <dd>forms.CharField</dd>
   </dl>
   <dl class="fields">
     <dt>Value:</dt>
@@ -316,8 +323,10 @@ forms.CharField(label= _(&quot;Body&quot;), widget= forms.Textarea(attrs= {'rows
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">subscribe</h3>
-  
+  if thread can be subscribed to
   <dl class="fields">
+    <dt>Type:</dt>
+      <dd>forms.BooleanField</dd>
   </dl>
   <dl class="fields">
     <dt>Value:</dt>
@@ -340,9 +349,9 @@ forms.BooleanField(label= _(&quot;Subscribe via email&quot;), required= False)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'title': &lt;django.forms.fields.CharField object at 0xaaa29ec&gt;, 'body':<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- &lt;django.forms.fields.CharField object at 0xaaa2d8c&gt;, 'subscribe': &lt;dj<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ango.forms.fields.BooleanField object at 0xaaa2dac&gt;}
+{'title': &lt;django.forms.fields.CharField object at 0xb40d60c&gt;, 'body':<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ &lt;django.forms.fields.CharField object at 0xb40d68c&gt;, 'subscribe': &lt;dj<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ango.forms.fields.BooleanField object at 0xb40d6ac&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -414,7 +423,7 @@ ango.forms.fields.BooleanField object at 0xaaa2dac&gt;}
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:24 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:48 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

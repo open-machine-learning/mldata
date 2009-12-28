@@ -80,14 +80,14 @@
 <area shape="rect" href="javascript:void(0);" title="Does the heavy&#45;lifting involved in saving." alt="" coords="17,255,559,273"/>
 <area shape="rect" href="javascript:void(0);" title="Returns the value of the field name for this instance." alt="" coords="17,273,559,292"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model" alt="" coords="16,11,560,293"/>
-<area shape="rect" href="mldata.forum.models.Subscription-class.html#author" title="mldata.forum.models.Subscription.author" alt="" coords="213,340,363,359"/>
-<area shape="rect" href="mldata.forum.models.Subscription-class.html#thread" title="mldata.forum.models.Subscription.thread" alt="" coords="213,359,363,377"/>
-<area shape="rect" href="mldata.forum.models.Subscription.Meta-class.html" title="mldata.forum.models.Subscription.Meta" alt="" coords="213,377,363,396"/>
-<area shape="rect" href="mldata.forum.models.Subscription.DoesNotExist-class.html" title="mldata.forum.models.Subscription.DoesNotExist" alt="" coords="213,396,363,415"/>
-<area shape="rect" href="mldata.forum.models.Subscription.MultipleObjectsReturned-class.html" title="mldata.forum.models.Subscription.MultipleObjectsReturned" alt="" coords="213,415,363,433"/>
-<area shape="rect" href="mldata.forum.models.Subscription-class.html#__unicode__" title="mldata.forum.models.Subscription.__unicode__" alt="" coords="213,436,363,455"/>
-<area shape="rect" href="mldata.forum.models.Subscription-class.html#objects" title="mldata.forum.models.Subscription.objects" alt="" coords="213,455,363,473"/>
-<area shape="rect" href="mldata.forum.models.Subscription-class.html" title="Allow users to subscribe to threads." alt="" coords="212,323,364,475"/>
+<area shape="rect" href="mldata.forum.models.Subscription-class.html#author" title="thread&#39;s author" alt="" coords="165,340,411,359"/>
+<area shape="rect" href="mldata.forum.models.Subscription-class.html#thread" title="subscribed thread" alt="" coords="165,359,411,377"/>
+<area shape="rect" href="mldata.forum.models.Subscription.Meta-class.html" title="mldata.forum.models.Subscription.Meta" alt="" coords="165,377,411,396"/>
+<area shape="rect" href="mldata.forum.models.Subscription.DoesNotExist-class.html" title="mldata.forum.models.Subscription.DoesNotExist" alt="" coords="165,396,411,415"/>
+<area shape="rect" href="mldata.forum.models.Subscription.MultipleObjectsReturned-class.html" title="mldata.forum.models.Subscription.MultipleObjectsReturned" alt="" coords="165,415,411,433"/>
+<area shape="rect" href="mldata.forum.models.Subscription-class.html#__unicode__" title="mldata.forum.models.Subscription.__unicode__" alt="" coords="165,436,411,455"/>
+<area shape="rect" href="mldata.forum.models.Subscription-class.html#objects" title="mldata.forum.models.Subscription.objects" alt="" coords="165,455,411,473"/>
+<area shape="rect" href="mldata.forum.models.Subscription-class.html" title="Allow users to subscribe to threads." alt="" coords="164,323,412,475"/>
 </map>
   <img src="uml_class_diagram_for_mldata_f_15.gif" alt='' usemap="#uml_class_diagram_for_mldata_f_15" ismap="ismap" class="graph-without-title" />
 </center>
@@ -246,30 +246,32 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Django User / models.ForeignKey</span>
     </td><td class="summary">
-        <a name="author"></a><span class="summary-name">author</span> = <code title="models.ForeignKey(User)">models.ForeignKey(User)</code>
+        <a name="author"></a><span class="summary-name">author</span> = <code title="models.ForeignKey(User)">models.ForeignKey(User)</code><br />
+      thread's author
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">Thread / models.ForeignKey</span>
     </td><td class="summary">
-        <a name="thread"></a><span class="summary-name">thread</span> = <code title="models.ForeignKey(Thread)">models.ForeignKey(Thread)</code>
+        <a name="thread"></a><span class="summary-name">thread</span> = <code title="models.ForeignKey(Thread)">models.ForeignKey(Thread)</code><br />
+      subscribed thread
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.forum.models.Subscription-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xa24a7ec&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.forum.models.Subscription-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xab9b80c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.forum.models.Subscription-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xa24a7ec&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.forum.models.Subscription-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xab9b80c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -345,7 +347,7 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0xa24a7ec&gt;
+&lt;django.db.models.manager.Manager object at 0xab9b80c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -363,7 +365,7 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0xa24a7ec&gt;
+&lt;django.db.models.manager.Manager object at 0xab9b80c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -401,7 +403,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:26 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:50 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

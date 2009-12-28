@@ -65,19 +65,19 @@
 <h1 class="epydoc">Class AtomForumFeed</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#AtomForumFeed">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_f_4" name="uml_class_diagram_for_mldata_f_4">
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title_template" title="mldata.forum.feeds.RssForumFeed.title_template" alt="" coords="55,209,199,228"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description_template" title="mldata.forum.feeds.RssForumFeed.description_template" alt="" coords="55,228,199,247"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_object" title="mldata.forum.feeds.RssForumFeed.get_object" alt="" coords="55,249,199,268"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title" title="mldata.forum.feeds.RssForumFeed.title" alt="" coords="55,268,199,287"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description" title="mldata.forum.feeds.RssForumFeed.description" alt="" coords="55,287,199,305"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#link" title="mldata.forum.feeds.RssForumFeed.link" alt="" coords="55,305,199,324"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set" title="mldata.forum.feeds.RssForumFeed.get_query_set" alt="" coords="55,324,199,343"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#items" title="mldata.forum.feeds.RssForumFeed.items" alt="" coords="55,343,199,361"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate" title="mldata.forum.feeds.RssForumFeed.item_pubdate" alt="" coords="55,361,199,380"/>
-<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html" title="mldata.forum.feeds.RssForumFeed" alt="" coords="53,192,200,381"/>
-<area shape="rect" href="django.utils.feedgenerator.Atom1Feed-class.html" title="mldata.forum.feeds.AtomForumFeed.feed_type" alt="" coords="76,428,177,447"/>
-<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html#subtitle" title="mldata.forum.feeds.AtomForumFeed.subtitle" alt="" coords="76,449,177,468"/>
-<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html" title="mldata.forum.feeds.AtomForumFeed" alt="" coords="75,411,179,469"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title_template" title="template filename for post title" alt="" coords="44,209,209,228"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description_template" title="template filename for post description" alt="" coords="44,228,209,247"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_object" title="Get a forum object." alt="" coords="44,249,209,268"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#title" title="Get the title for the given object." alt="" coords="44,268,209,287"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#description" title="Get the object&#39;s description." alt="" coords="44,287,209,305"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#link" title="Get object&#39;s URL." alt="" coords="44,305,209,324"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#get_query_set" title="Get other posts from object&#39;s forum, ordered descending by time." alt="" coords="44,324,209,343"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#items" title="Get last 15 items of object&#39;s related posts." alt="" coords="44,343,209,361"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html#item_pubdate" title="Get publication date of given item." alt="" coords="44,361,209,380"/>
+<area shape="rect" href="mldata.forum.feeds.RssForumFeed-class.html" title="RSS feed for forum." alt="" coords="43,192,211,381"/>
+<area shape="rect" href="django.utils.feedgenerator.Atom1Feed-class.html" title="type of feed &#45;&gt; Atom" alt="" coords="76,428,177,447"/>
+<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html#subtitle" title="Get subtitle for feed." alt="" coords="76,449,177,468"/>
+<area shape="rect" href="mldata.forum.feeds.AtomForumFeed-class.html" title="Atom feed for forum." alt="" coords="75,411,179,469"/>
 <area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed.item_enclosure_url" alt="" coords="17,28,236,47"/>
 <area shape="rect" href="javascript:void(0);" title="django.contrib.syndication.feeds.Feed.feed_url" alt="" coords="17,47,236,65"/>
 <area shape="rect" href="javascript:void(0);" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,68,236,87"/>
@@ -91,6 +91,8 @@
 </center>
 </center>
 <hr />
+<p>Atom feed for forum.</p>
+
 <!-- ==================== NESTED CLASSES ==================== -->
 <a name="section-NestedClasses"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -112,7 +114,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="django.utils.feedgenerator.Atom1Feed-class.html" class="summary-name">feed_type</a>
+        <a href="django.utils.feedgenerator.Atom1Feed-class.html" class="summary-name">feed_type</a><br />
+      type of feed -&gt; Atom
     </td>
   </tr>
 </table>
@@ -135,12 +138,13 @@
 </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
+      <span class="summary-type">string</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="subtitle"></a><span class="summary-sig-name">subtitle</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">obj</span>)</span></td>
+          <td><span class="summary-sig"><a href="mldata.forum.feeds.AtomForumFeed-class.html#subtitle" class="summary-sig-name">subtitle</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">obj</span>)</span><br />
+      Get subtitle for feed.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.forum.feeds-pysrc.html#AtomForumFeed.subtitle">source&nbsp;code</a></span>
             
@@ -240,6 +244,51 @@
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="subtitle"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">subtitle</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.forum.feeds-pysrc.html#AtomForumFeed.subtitle">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get subtitle for feed.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Post) - object to get subtitle for</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+        <dd>a subtitle</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -271,7 +320,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 23 18:35:23 2009
+    Generated by Epydoc 3.0.1 on Mon Dec 28 14:53:47 2009
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
