@@ -33,15 +33,17 @@ $(function() {
 </ul>
 
 <div id="contents-main">
-	<div class="title"><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) {{ form.license.errors }}</div>
-	<div class="data">{{ form.license }}</div>
 	<div class="title"><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</div>
 	<div class="data">{{ form.tags }}</div>
 	<div class="title"><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</div>
 	<div class="data">{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
 	<div class="title"><label for="id_is_public">{% trans "Is the item ready to be seen by the public" %}?</label> {{ form.is_public.errors }}</div>
 	<div class="data">{{ form.is_public }}</div>
-{% ifequal object.klass "Task" %}
+
+{% ifequal object.klass "Data" %}
+	<div class="title"><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) {{ form.license.errors }}</div>
+	<div class="data">{{ form.license }}</div>
+{% else %}{% ifequal object.klass "Task" %}
 	<div class="title"><label for="id_input">{% trans "Input format" %}</label> {{ form.input.errors }}</div>
 	<div class="data">{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
 	<div class="title"><label for="id_output">{% trans "Output format" %}</label> {{ form.output.errors }}</div>
@@ -67,7 +69,7 @@ $(function() {
 	<div class="data">{{ form.task }}</div>
 	<div class="title"><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</div>
 	<div class="data">{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</div>
-{% endifequal %}{% endifequal %}
+{% endifequal %}{% endifequal %}{% endifequal %}
 </div>
 
 <div id="contents-other">

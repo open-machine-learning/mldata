@@ -34,7 +34,7 @@ class Slug(models.Model):
 
 
 class License(models.Model):
-    """License to be used by Task or Solution items.
+    """License to be used by Data items.
 
     @cvar name: name of the license
     @type name: string / models.CharField
@@ -49,10 +49,10 @@ class License(models.Model):
 
 
 
-class DataLicense(models.Model):
-    """License to be used by Data items.
+class FixedLicense(models.Model):
+    """License to be used by Task or Solution items.
 
-    For some reason, it didn't work when it just inherited from License, so
+    For some reason, it didn't work when just inheriting, so
     the code needs to be duplicated.
 
     @cvar name: name of the license
@@ -274,7 +274,7 @@ class Data(Repository):
     @cvar file: data file
     @type file: models.FileField
     @cvar license: license of Data item
-    @type license: DataLicense
+    @type license: License
     @cvar is_approved: is_approved is necessary for 2-step creation, don't want to call review ever again once the item is approved - review can remove permanently via 'Back' button!
     @type is_approved: boolean / models.BooleanField
     @cvar tags: item's tags
@@ -285,7 +285,7 @@ class Data(Repository):
     measurement_details = models.TextField(blank=True)
     usage_scenario = models.TextField(blank=True)
     file = models.FileField(upload_to=DATAPATH)
-    license = models.ForeignKey(DataLicense)
+    license = models.ForeignKey(License)
     is_approved = models.BooleanField(default=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
@@ -319,7 +319,7 @@ class Task(Repository):
     @cvar splits: item's data splits
     @type splits: models.FileField
     @cvar license: item's license
-    @type license: License
+    @type license: FixedLicense
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
     """
@@ -329,7 +329,7 @@ class Task(Repository):
     type = models.ForeignKey(TaskType)
     data = models.ManyToManyField(Data, blank=True)
     splits = models.FileField(upload_to=SPLITPATH)
-    license = models.ForeignKey(License)
+    license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 
@@ -365,7 +365,7 @@ class Solution(Repository):
     @cvar task: related Task
     @type task: Task
     @cvar license: item's license
-    @type license: License
+    @type license: FixedLicense
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
     """
@@ -375,7 +375,7 @@ class Solution(Repository):
     code = models.TextField(blank=True)
     score = models.FileField(upload_to=SCOREPATH)
     task = models.ForeignKey(Task)
-    license = models.ForeignKey(License)
+    license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 

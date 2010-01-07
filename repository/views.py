@@ -136,9 +136,9 @@ def _get_completeness(obj):
     if obj.__class__ == Data:
         attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
     elif obj.__class__ == Task:
-        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'input', 'output', 'performance_measure', 'type', 'splits']
+        attrs = ['tags', 'description', 'summary', 'urls', 'publications', 'input', 'output', 'performance_measure', 'type', 'splits']
     elif obj.__class__ == Solution:
-        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'feature_processing', 'parameters', 'os', 'code', 'score']
+        attrs = ['tags', 'description', 'summary', 'urls', 'publications', 'feature_processing', 'parameters', 'os', 'code', 'score']
     else:
         raise Http404
 
@@ -395,6 +395,7 @@ def _new(request, klass):
                     if 'splits' in request.FILES:
                         new.splits = request.FILES['splits']
                         new.splits.name = new.get_splitname()
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
                     form.save_m2m() # a bit odd
                     CurrentVersion.set(new)
@@ -403,6 +404,8 @@ def _new(request, klass):
                     if 'score' in request.FILES:
                         new.score = request.FILES['score']
                         new.score.name = new.get_scorename()
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    new.save()
                     new.save()
                     CurrentVersion.set(new)
                     func = eval(klass.__name__.lower() + '_view')
@@ -470,6 +473,8 @@ def _edit(request, slug_or_id, klass):
                         os.remove(filename)
                 else:
                     next.splits = prev.splits
+
+                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
                 form.save_m2m() # a bit odd
             elif klass == Solution:
@@ -481,6 +486,7 @@ def _edit(request, slug_or_id, klass):
                         os.remove(filename)
                 else:
                     next.score = prev.score
+                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
             else:
                 raise Http404

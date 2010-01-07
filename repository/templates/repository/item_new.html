@@ -31,12 +31,13 @@
 		<dt>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dd>
 		<dt>{{ form.tags }}</dt>
+{% ifequal klass "Data" %}
 		<dd><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dd>
 		<dt>{{ form.license }}</dt>
-{% ifequal klass "Data" %}
 		<dd><label for="id_file">{% trans "Data file" %}</label> *: {{ form.file.errors }}</dd>
 		<dt>{{ form.file }}</dt>
 {% else %}{% ifequal klass "Task" %}
+		<dd>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA</a></dd>
 		<dd><label for="id_input">{% trans "Input format" %}</label> *: {{ form.input.errors }}</dd>
 		<dt>{{ form.input}}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dd><label for="id_output">{% trans "Output format" %}</label> *: {{ form.output.errors }}</dd>
@@ -50,6 +51,7 @@
 		<dd><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dd>
 		<dt>{{ form.splits }}</dt>
 {% else %}{% ifequal klass "Solution" %}
+		<dd>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA 3.0</a></dd>
 		<dd><label for="id_feature_processing">{% trans "Feature Processing" %}</label>: {{ form.feature_processing.errors }}</dd>
 		<dt>{{ form.feature_processing }}</dt>
 		<dd><label for="id_parameters">{% trans "Parameters" %}</label>: {{ form.parameters.errors }}</dd>
