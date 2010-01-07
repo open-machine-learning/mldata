@@ -106,13 +106,14 @@ class TaskForm(RepositoryForm):
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
-            qs = Data.objects.filter(
-                Q(is_approved=True) & Q(is_deleted=False) &
-                (Q(user=request.user) | Q(is_public=True))
+            cv = CurrentVersion.objects.filter(
+                Q(type=TYPE['Data']) &
+                (Q(repository__user=request.user) | Q(repository__is_public=True))
             )
+            ids = [d.repository.id for d in cv]
+            qs = Data.objects.filter(pk__in=ids)
             self.fields['data'].queryset = qs
-            self.fields['data'].choices =\
-                [(d.id, d.name + ' (v' + str(d.version) + ')') for d in qs]
+            self.fields['data'].choices = [(d.id, d.name) for d in qs]
 
 
     def clean_freeformtype(self):
@@ -168,13 +169,14 @@ class SolutionForm(RepositoryForm):
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
-            qs = Task.objects.filter(
-                Q(is_deleted=False) &
-                (Q(user=request.user) | Q(is_public=True))
+            cv = CurrentVersion.objects.filter(
+                Q(type=TYPE['Task']) &
+                (Q(repository__user=request.user) | Q(repository__is_public=True))
             )
+            ids = [t.repository.id for t in cv]
+            qs = Task.objects.filter(pk__in=ids)
             self.fields['task'].queryset = qs
-            self.fields['task'].choices =\
-                [(t.id, t.name + ' (v' + str(t.version) + ')') for t in qs]
+            self.fields['task'].choices = [(t.id, t.name) for t in qs]
 
 
 
