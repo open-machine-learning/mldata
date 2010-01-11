@@ -2,44 +2,42 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %} :: {% trans "Impressum" %}{% endblock %}
-{% block billboard %}{% trans "ABOUT" %} :: {% trans "IMPRESSUM" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / {% trans "Impressum" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Impressum" %}</h1>
+<h2 class="title-01">{% trans "Impressum" %}</h2>
 
-<h2>{% trans "Host" %}</h2>
+<div class="in">
+<h3>{% trans "Host" %}</h3>
 <p>{% trans "The host of this Internet web site is the" %} <a href="http://www.tu-berlin.de">Technische Universität Berlin</a>.</p>
 
-<h2>{% trans "Address" %}</h2>
-<table>
-<tr><td>
-TU Berlin<br />
-Der Präsident<br />
-Prof. Dr. Kurt Kutzler<br />
-Straße des 17. Juni 135<br />
-10623 Berlin<br />
-Telefon: +49 (0)30 314-0<br />
-Fax: +49 (0)30 314-23222<br />
-</td></tr>
-</table>
+<h3>{% trans "Address" %}</h3>
+<dl>
+	<dt>TU Berlin</dt>
+	<dt>Der Präsident</dt>
+	<dt>Prof. Dr. Kurt Kutzler</dt>
+	<dt>Straße des 17. Juni 135</dt>
+	<dt>10623 Berlin</dt>
+	<dt>Germany</dt>
+	<dt>Telephone: +49 (0)30 314-0</dt>
+	<dt>Fax: +49 (0)30 314-23222</dt>
+</dl>
 
-<h2>{% trans "Value added tax identification number" %}</h2>
-<p>{% trans "The value added tax identification number of the TU Berlin is DE 811 231 089" %}.</p>
+<h3>{% trans "VAT ID" %}</h3>
+<p>{% trans "The value added tax identification number of the TU Berlin is" %} <strong>DE 811 231 089</strong>.</p>
 
-<h2>{% trans "Editors" %}</h2>
+<h3>{% trans "Editors" %}</h3>
 <p>{% trans "The editors responsible for the content of this site" %}:</p>
-<table>
-<tr><td>
-Soeren Sonnenburg<br />
-Fraunhofer Institute FIRST<br />
-Kekulestr. 7<br />
-12489 Berlin<br />
-Germany<br />
-email: soeren.sonnenburg att first.fraunhofer.de<br />
-</td></tr>
-</table>
+<dl>
+	<dt>Soeren Sonnenburg</dt>
+	<dt>Fraunhofer Institute FIRST</dt>
+	<dt>Kekulestr. 7</dt>
+	<dt>12489 Berlin</dt>
+	<dt>Germany</dt>
+	<dt>Email: soeren.sonnenburg att first.fraunhofer.de</dt>
+</dl>
 
-<h2>{% trans "Disclaimer" %}</h2>
+<h3>{% trans "Disclaimer" %}</h3>
 <p>
 {% trans "The TU Berlin makes every effort to provide timely and accurate information. Nevertheless, mistakes and confusions may occur. The TU Berlin does not assume liability for relevance, accuracy and completeness of the information provided. The TU Berlin is only liable for material or immaterial damages if it can be proved that the TU Berlin caused damage deliberately or through gross negligence. The damages include those which arise from the use or misuse of the information provided or direct or indirect damages which arise through the use of faulty or incomplete information. The same goes for the software available free of charge which can be used for downloading. The TU Berlin reserves the right to change, supplement, or delete some or all of the information on its Internet web site without notice. Similarly, the TU also reserves the right to temporarily or permanently discontinue the Internet web site." %}
 </p>
@@ -48,4 +46,5 @@ email: soeren.sonnenburg att first.fraunhofer.de<br />
 {% trans "Individuals or organisations providing information on the internet are only responsible for illegal and punishable contents derived from other sources which are accessed by direct or indirect connections, e.g. links, if the individuals and organisations are aware of the nature of these contents on these web sites. Contents derived from other sources are noted appropriately. The TU Berlin has no influence whatsoever on contents derived from other sources and does not promote them. The TU Berlin has no knowledge of illegal or offensive contents contained in the linked web sites from other information providers. If there are illegal and offensive contents on the web sites of other information providers, the TU Berlin distances itself from these contents." %}
 </p>
 
+</div>
 {% endblock %}

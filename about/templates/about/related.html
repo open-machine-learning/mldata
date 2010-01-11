@@ -2,11 +2,13 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %} :: {% trans "Related" %}{% endblock %}
-{% block billboard %}{% trans "ABOUT" %} :: {% trans "RELATED" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / {% trans "Related" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Related Projects" %}</h1>
-<p>{% trans "The projects mentioned below are somewhat related to this website" %}.</p>
+<h2 class="title-01">{% trans "Related Projects" %}</h2>
+
+<div class="in">
+<p>{% trans "The projects mentioned here are somewhat related to this website" %}.</p>
 
 <h2>{% trans "Largescale Challenge Repository" %}</h2>
 <p style="margin:2em"><a href="ftp://ftp.first.fraunhofer.de/pub/projects/largescale/">ftp://ftp.first.fraunhofer.de/pub/projects/largescale/</a></p>
@@ -72,4 +74,5 @@
 <p>{% trans "The repository mainly consists of &quot;heterogeneous&quot; data sets. It provides kernels as well as the underlying data, to allow comparing different multiple kernel learning algorithms, as well as alternative approaches to learning from heterogeneous data" %}.</p>
 </p>
 
+</div>
 {% endblock %}

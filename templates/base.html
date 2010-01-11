@@ -3,70 +3,93 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-		<meta http-equiv="Content-Language" content="en-us" />
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="en" />
 
-		<title>mldata :: {% block title %}PASCAL Machine Learning Benchmarks Repository{% endblock %}</title>
+	<title>mldata :: {% block title %}PASCAL Machine Learning Benchmarks Repository{% endblock %}</title>
 
-		<meta name="ROBOTS" content="ALL" />
-		<meta http-equiv="imagetoolbar" content="no" />
-		<meta name="MSSmartTagsPreventParsing" content="true" />
-		<meta name="Copyright" content="This site's design and code Copyright (c) 2009 Sebastian Henschel" />
-		<meta name="keywords" content="machine learning, pascal" />
-		<meta name="description" content="PASCAL Machine Learning Benchmarks Repository" />
+	<meta name="ROBOTS" content="ALL" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="Copyright" content="Sebastian Henschel" />
+	<meta name="keywords" content="machine learning, pascal" />
+	<meta name="description" content="PASCAL Machine Learning Benchmarks Repository" />
 
-		<link href="/media/css/base.css" rel="stylesheet" type="text/css" media="screen" />
-		{% block extrahead %}{% endblock %}
-	</head>
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/reset.css" />
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/main.css" />
+	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/media/css/main-msie.css" /><![endif]-->
+	<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/style.css" />
+	<link rel="stylesheet" media="print" type="text/css" href="/media/css/print.css" />
+	{% block extrahead %}{% endblock %}
+</head>
 
-	<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}">
-			<div id="account"><strong>
-					{% if request.user.is_authenticated %}
-					{% trans "Welcome" %} <a href="{% url user.views.show_user request.user.pk %}">{% if request.user.first_name %}{{ request.user.first_name}}{% else %}{{request.user}}{% endif %}</a>|
-					<a href="{% url user_signout %}">{% trans "SignOut" %}</a>
-					{% else %}
-					<a href="{% url user_signin %}">{% trans "SignIn" %}</a>
-					{% endif %}
-			</strong></div>
-		<div id="container">
-			<div style="text-align:center; color:#ffffff">This site is under construction. We will reset the database at irregular intervals. Please check back regularly for updates. Thank you for your comments and criticisms.</div>
-			<div id="header">
-				<span id="logo"><a href="/"><img src="/media/images/pascal.png" alt="logo"></img></a></span>
-				<span id="text">Machine Learning<br />Benchmark Repository</span>
-				<span id="nav-global"><ul>
-					<li id="nav-repository"><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
-					<li id="nav-forum"><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
-					<li id="nav-blog"><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
-					<li id="nav-about"><a href="{% url about_index %}">{% trans "About" %}</a></li>
-					{% if not request.user.is_authenticated %}<li id="nav-registration"><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>{% endif %}
-				</ul></span>
-			</div><!-- END Header -->
+<body id="{{ section }}">
+<div id="main">
+	<div id="header">
+		<p id="logo"><a href="/"><img src="/media/images/pascal.png" alt="logo"></img></a></p>
+		<div id="slogan">
+			Machine Learning Benchmark Repository<br />
+			Under construction! The database will be reset at irregular intervals. Thanks for your comments and criticisms.
+		</div>
+	</div><!-- /header -->
 
-			<div id="billboard">
-				{% block billboard %}{% endblock %}
-			</div><!-- END billboad -->
+	<hr class="noscreen" />
 
-			<div id="columnwrap">
-				<div id="content-main">
-					{% block content %}{% endblock %}
-				</div><!-- END content-main -->
-				<div id="content-related" class="sidebar">
-					{% block content-related %}{% endblock %}
-				</div><!-- END content-related -->
-			</div><!-- END columnwrap -->
+	<div id="nav" class="box"><ul>
+		<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
+		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
+		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
+		<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
+		{% if not request.user.is_authenticated %}<li{% ifequal sectionid 'registration' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>{% endif %}
+	</ul></span>
 
-			<div id="footer">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a>, Cheng Soon Ong, Mikio L. Braun, Soeren Sonnenburg, Patrik O. Hoyer, Jussi Lahtinen, Petri Myllymäki, Heikki Mannila<br />Version {% get_version %} | <a href="/about/impressum">Impressum</a> | {% trans "Hosting graciously provided by the" %} <a href="http://www.tu-berlin.de">TU Berlin</a>
-			</div><!-- END footer -->
-		</div><!-- END container -->
-		<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript">
-		try {
+		<p id="account"><strong>
+			{% if request.user.is_authenticated %}
+			{% trans "Welcome" %} <a href="{% url user.views.show_user request.user.pk %}">{% if request.user.first_name %}{{ request.user.first_name}}{% else %}{{request.user}}{% endif %}</a> |
+			<a href="{% url user_signout %}">{% trans "Sign out" %}</a>
+			{% else %}
+			<a href="{% url user_signin %}">{% trans "Sign in" %}</a>
+			{% endif %}
+		</strong></p><!-- /account -->
+
+		<p id="feeds">{% block feeds %}{% endblock %}</p><!-- /feeds -->
+
+	</div><!-- /nav -->
+
+	<hr class="noscreen" />
+
+	<div id="cols">
+		<div id="cols-in" class="box">
+			<div id="content">
+				<div class="in">
+					<p id="breadcrumbs">{% trans "You are here" %}: <a href="/">{% trans "Home" %}</a> / {% block breadcrumbs %}{% endblock %}</p>
+				</div>
+
+				{% block content %}{% endblock %}
+			</div><!-- /content -->
+
+			<hr class="noscreen" />
+
+			<div id="aside">
+					{% block aside %}{% endblock %}
+			</div><!-- /aside -->
+		</div><!-- /cols-in -->
+	</div><!-- /cols -->
+
+	<hr class="noscreen" />
+
+	<div id="footer" class="box">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a>, Cheng Soon Ong, Mikio L. Braun, Soeren Sonnenburg, Patrik O. Hoyer, Jussi Lahtinen, Petri Myllymäki, Heikki Mannila<br />Version {% get_version %} | <a href="{% url about_impressum %}">Impressum</a> | {% trans "Hosting graciously provided by the" %} <a href="http://www.tu-berlin.de">TU Berlin</a>
+	</div><!-- /footer -->
+</div><!-- /main -->
+
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	try {
 		var pageTracker = _gat._getTracker("UA-11709073-1");
 		pageTracker._trackPageview();
-		} catch(err) {}</script>
-	</body>
+	} catch(err) {}
+	</script>
+
+</body>
 </html>

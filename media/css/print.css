@@ -1,0 +1,28 @@
+/* ----------------------------------------------------------------------------------------------------------
+
+    Output device: print
+
+    Author:     Nuvio (www.nuvio.cz)
+    Update:     2008-08-17, 13:17 GMT+1
+    Version:    2.2.6 (2008-07-13, 14:28 GMT+1)
+
+    Structure:
+        display; position; z-index; float; clear; width; height; overflow; margin; padding; border; background; align; font;
+
+---------------------------------------------------------------------------------------------------------- */
+
+body {margin:0; padding:0; border:0; font-size:12pt;}
+
+h1, h2, h3, h4, h5 {page-break-after:avoid; page-break-inside:avoid;}
+table {width:100%; border-collapse:collapse; border-spacing:0; border-top:0.5pt solid #000;}
+th, td {border-bottom:0.5pt solid #000;}
+blockquote {page-break-inside:avoid}
+ul, ol, dl {page-break-before:avoid}
+
+#main {width:100%;}
+#header {border-bottom:0.5pt solid #000;}
+#footer {border-top:0.5pt solid #000;}
+
+.noprint, .noscreen {display:none;}
+
+#slogan, #nav, #aside, #footer .f-right, #copy {display:none;}
