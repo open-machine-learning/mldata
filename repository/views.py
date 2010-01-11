@@ -1,10 +1,10 @@
 """
 Define the views of app Repository
 
-@var VERSIONS_PER_PAGE: how many versions of an item will be shown in the selector
-@type VERSIONS_PER_PAGE: integer
-@var OBJECTS_PER_PAGE: how many items will be shown on one page
-@type OBJECTS_PER_PAGE: integer
+@var NUM_HISTORY_PAGE: how many versions of an item will be shown on history page
+@type NUM_HISTORY_PAGE: integer
+@var NUM_INDEX_PAGE: how many items will be shown on index/my page
+@type NUM_INDEX_PAGE: integer
 """
 
 import datetime, os
@@ -23,8 +23,8 @@ from settings import MEDIA_ROOT, TAG_SPLITSTR
 from utils import hdf5conv
 
 
-VERSIONS_PER_PAGE = 5
-OBJECTS_PER_PAGE = 10
+NUM_HISTORY_PAGE = 20
+NUM_INDEX_PAGE = 10
 
 
 
@@ -97,22 +97,20 @@ def _get_versions_paginator(request, obj):
     @return: paginator for item versions
     @rtype: Django paginator
     """
-    versions = obj.__class__.objects.values('id', 'version').\
-        filter(slug__text=obj.slug.text).\
-        filter(is_deleted=False).order_by('version')
-    if not obj.is_owner:
-        versions = versions.filter(is_public=True)
-    paginator = Paginator(versions, VERSIONS_PER_PAGE)
+    qs = Q(slug__text=obj.slug.text) & Q(is_deleted=False)
+    items = obj.__class__.objects.filter(qs).order_by('version')
+    items = [i for i in items if i.is_public or _is_owner(request.user, i.user)]
+    paginator = Paginator(items, NUM_HISTORY_PAGE)
 
     try:
         # dunno a better way than looping thru, since index != obj.version
         index = 0
-        for v in versions:
-            if v['id'] == obj.id:
+        for v in items:
+            if v.id == obj.id:
                 break
             else:
                 index += 1
-        default_page = (index / VERSIONS_PER_PAGE) + 1
+        default_page = (index / NUM_HISTORY_PAGE) + 1
         page = int(request.GET.get('page', str(default_page)))
     except ValueError:
         page = 1
@@ -536,7 +534,7 @@ def _index(request, klass, my=False):
         unapproved = None
         my_or_archive = _('Public Archive')
 
-    paginator = Paginator(objects, OBJECTS_PER_PAGE)
+    paginator = Paginator(objects, NUM_INDEX_PAGE)
     try:
         num = int(request.GET.get('page', '1'))
     except ValueError:

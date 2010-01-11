@@ -42,14 +42,10 @@ $(function() {
 	<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-data">{% trans "Data" %}</a></li>
 {% endifequal %}
 	<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a></li>
+	<li><a title="{% trans "History of item" %}" href="#contents-history">{% trans "History" %}</a></li>
 </ul>
 <div class="info">
-	{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }} /
-	{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}">&laquo;</a>{% endif %}
-	{% for v in object.versions.object_list %}
-		{% ifequal object.version v.version %}-{% else %}<a href="{{ request.path }}../{{ v.id }}">{{ v.version }}</a>{% endifequal %}
-	{% endfor %}
-	{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}">&raquo;</a>{% endif %}
+	{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }}
 </div>
 <div class="actions">
 		{% if can_activate %}<a href="{{ object.url_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
@@ -138,6 +134,13 @@ $(function() {
 	<div class="title">{% trans "Usage Scenario" %}</div>
 	<div class="data">{{ object.usage_scenario|markdown }}</div>
 {% endifequal %}
+</div>
+<div id="contents-history">
+	{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
+	<ul>{% for v in object.versions.object_list %}
+		<li><a href="{{ request.path }}../{{ v.id }}">{{ v.version }}</a> by <a href="{% url user.views.show_user v.user.id %}">{{ v.user }}</a> on {{ v.pub_date|date:"Y-m-d H:i" }}</li><br />
+	{% endfor %}</ul>
+	{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
 </div>
 </div> <!-- // contents -->
 
