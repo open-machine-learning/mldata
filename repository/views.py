@@ -457,6 +457,10 @@ def _edit(request, slug_or_id, klass):
             next.slug_id = prev.slug_id
             next.version = next.get_next_version()
             next.user_id = request.user.id
+
+            if prev.is_public: # once public, always public
+                next.is_public = True
+
             if klass == Data:
                 next.format = prev.format
                 next.is_approved = prev.is_approved
