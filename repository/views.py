@@ -570,7 +570,7 @@ def index(request):
     @return: rendered response page
     @rtype: Django response
     """
-    qs = Q(is_deleted=False) & Q(is_public=True)
+    qs = Q(is_deleted=False) & (Q(is_public=True) | Q(user=request.user))
     latest = {}
     try:
         latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
