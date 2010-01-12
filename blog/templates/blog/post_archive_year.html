@@ -2,17 +2,15 @@
 {% load i18n %}
 
 {% block title %}{% trans "Blog" %} :: {{ year }}{% endblock %}
-
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="{% url blog_index %}{{year}}">{{ year }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / {{ year }}{% endblock %}
 
 {% block content %}
-
-<h1>{{ year }} {% trans "Archive" %}</h1>
-
-<ul class="linklist">
-{% for date in date_list %}
-<li><a href="{{ date|date:"m" }}/">{{ date|date:"F" }}</a></li>
-{% endfor %}
-</ul>
-
+<h2 class="title-01">{% trans "Archive" %} {{ year }}</h2>
+<div class="in">
+	<ul>
+	{% for date in date_list %}
+		<li><a href="{{ date|date:"m" }}/">{{ date|date:"F" }}</a></li>
+	{% endfor %}
+	</ul>
+</div><!-- /in -->
 {% endblock %}

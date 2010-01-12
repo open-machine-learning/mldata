@@ -3,15 +3,15 @@
 {% load i18n %}
 
 {% block title %}{% trans "Blog" %} :: {{ month|date:"Y/m" }}{% endblock %}
-
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="../">{{ month|date:"Y" }}</a> :: <a href="">{{ month|date:"m" }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / <a href="../">{{ month|date:"Y" }}</a> / {{ month|date:"m" }}{% endblock %}
 
 {% block content %}
-<h1>{{ month|date:"F Y" }} {% trans "Archive" %}</h1>
-
+<h2 class="title-01">{% trans "Archive" %} {{ month|date:"Y-m" }}</h2>
+<div class="in">
 <ul>
 {% for day in object_list|uniqdate:"day,True" %}
 	<li><a href="{{ day }}">{{ day }}</a></li>
 {% endfor %}
 </ul>
+</div><!-- /in -->
 {% endblock %}

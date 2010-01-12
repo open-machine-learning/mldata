@@ -3,17 +3,16 @@
 {% load markup %}
 
 {% block title %}{% trans "Blog" %} :: {{ day|date:"Y/m/d" }}{% endblock %}
-
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> ::
-<a href="../../">{{ day|date:"Y" }}</a> :: <a href="../">{{ day|date:"m" }}</a> :: <a href="">{{ day|date:"d" }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / <a href="../../">{{ day|date:"Y" }}</a> / <a href="../">{{ day|date:"m" }}</a> / {{ day|date:"d" }}{% endblock %}
 
 {% block content %}
-<h1>{{ day|date:"F j Y" }} {% trans "Archive" %}</h1>
-
-<ul>
-{% for object in object_list %}
-	<li><a href="{{ object.get_absolute_url }}">{{ object.headline|escape }}</a> ({% trans "by" %} {{ object.author }}, {{ object.pub_date|date:"H:i" }})</li>
-{% endfor %}
-</ul>
-
+<h2 class="title-01">{% trans "Archive" %} {{ day|date:"Y-m-d" }}</h2>
+<div class="in">
+	<dl id="news">
+	{% for object in object_list %}
+		<dt><a href="{{ object.get_absolute_url }}">{{ object.headline|escape }}</a>: {{ object.summary }}</dt>
+		<dd>({% trans "by" %} {{ object.author }}, {{ object.pub_date|date:"H:i" }})</dd>
+	{% endfor %}
+	</dl>
+</div><!-- /in -->
 {% endblock %}

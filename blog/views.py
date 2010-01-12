@@ -49,5 +49,7 @@ def new(request):
         'request': request,
         'form': form,
         'preview': preview,
+        'section': 'blog',
+        'user': request.user,
     }
     return render_to_response('blog/new.html', info_dict)

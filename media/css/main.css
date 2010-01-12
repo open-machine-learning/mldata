@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
         #slogan {position:absolute; top:30px; right:0; width:50%; padding:10px 10px 10px 15px; background:url("../images/pattern.gif");}
     
     #nav {position:relative; padding:0 20px; background:url("../images/nav.gif") 0 0 repeat-x;}
-    #nav ul {margin:0; list-style:none;}
+    #nav ul {margin:0; list-style:none; padding-left:0;}
     #nav ul li {display:inline;}
     #nav ul li a {display:block; float:left; padding:9px 15px; background:url("../images/nav-separator.gif") 100% 0 repeat-y; text-decoration:none;}
     #nav a:hover {text-decoration:underline;}

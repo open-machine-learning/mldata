@@ -4,37 +4,42 @@
 {% load uniqdate %}
 
 {% block title %}{% trans "Blog" %} :: {% trans "Archive" %}{% endblock %}
-
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %} :: {% trans "Archive" %}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / {% trans "Archive" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Latest blog entries" %}</h1>
-
-{% if latest %}
-<ul>
-	{% for latest_blog in latest %}
-	<li>
-		<a href="{{ latest_blog.get_absolute_url }}">{{ latest_blog.headline|escape }}</a>: {{ latest_blog.summary|escape }}<br />{% trans "by" %} <strong>{{ latest_blog.author }}</strong> {% trans "on" %} {{ latest_blog.pub_date|date:"F j, Y" }},
-		{% load comments %}
-		{% get_comment_list for blog.post latest_blog.id as comment_list %}
-		{% if comment_list %}
-		{% get_comment_count for blog.post latest_blog.id as comment_count %}
-		<a href="{{ latest_blog.get_comment_url }}">{{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}</a>
-		{% else %}
-		0 {% trans "comments" %}
-		{% endif %}
-	</li>
-	{% endfor %}
-</ul>
-{% endif %}
+<h2 class="title-01">{% trans "Latest Blog entries" %}</h2>
+<div class="in">
+	<div class="cols5050">
+		<div class="col">
+			{% if latest %}
+				<dl id="news">
+					{% for latest_blog in latest %}
+					<dt><a href="{{ latest_blog.get_absolute_url }}">{{ latest_blog.headline|escape }}</a>: {{ latest_blog.summary|escape }}</dt>
+					<dd>{% trans "by" %} <strong>{{ latest_blog.author }}</strong> {% trans "on" %} {{ latest_blog.pub_date|date:"Y-m-d H:i" }},
+						{% load comments %}
+						{% get_comment_list for blog.post latest_blog.id as comment_list %}
+						{% if comment_list %}
+						{% get_comment_count for blog.post latest_blog.id as comment_count %}
+						<a href="{{ latest_blog.get_comment_url }}">{{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}</a>
+						{% else %}
+						0 {% trans "comments" %}
+						{% endif %}
+					</dd>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div><!-- /left col -->
+		<div class="col f-right">
+			{% if date_list %}
+			<h3>{% trans "Archive" %}</h3>
+			<ul>
+				{% for year in date_list|uniqdate:"year,False" %}
+				<li><a href="{% url blog_index %}{{ year }}">{{ year }}</a></li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</div><!-- /right col -->
+	</div><!-- /cols5050 -->
+</div><!-- /in -->
 {% endblock %}
-
-{% block content-archive %}
-{% if date_list %}
-{% for year in date_list|uniqdate:"year,False" %}
-	<li><h3><a href="{% url blog_index %}{{ year }}">{{ year }}</a></h3></li>
-{% endfor %}
-{% endif %}
-{% endblock %}
-
 

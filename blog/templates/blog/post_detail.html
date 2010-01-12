@@ -3,24 +3,20 @@
 {% load i18n %}
 
 {% block title %}{% trans "Blog" %} :: {{ object.headline|escape }}{% endblock %}
-
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="../../../">{{ object.pub_date|date:"Y" }}</a> :: <a href="../../">{{ object.pub_date|date:"m" }}</a> :: <a href="../">{{ object.pub_date|date:"d" }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / <a href="../../../">{{ object.pub_date|date:"Y" }}</a> / <a href="../../">{{ object.pub_date|date:"m" }}</a> / <a href="../">{{ object.pub_date|date:"d" }}</a> / {{ object.headline }}{% endblock %}
 
 {% block content %}
-<table>
-<tr>
-	<th>{{ object.headline }} ({% trans "by" %} <strong>{{ object.author }}</strong> {% trans "on" %} {{ object.pub_date|date:"F j Y, H:i" }})</th>
-</tr>
-<tr>
-	<td>{{ object.body|markdown:"safe" }}</td>
-</tr>
-</table>
-<br />
+<h2 class="title-01">{% trans "View Post" %}</h2>
+<div class="in">
+	<dl>
+		<dt>{{ object.headline }} ({% trans "by" %} <strong>{{ object.author }}</strong> {% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }})</dt>
+		<dd>{{ object.body|markdown:"safe" }}</dd>
+	</dl>
+</div><!-- /in -->
 
 {% load comments %}
 {% get_comment_list for blog.post object.id as comment_list %}
 {% include "comments/list.html" %}
 {% get_comment_form for blog.post object.id as form %}
 {% include "comments/form.html" %}
-
 {% endblock %}

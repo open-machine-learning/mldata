@@ -3,39 +3,34 @@
 {% load i18n %}
 
 {% block title %}{% trans "Blog" %} :: {% trans "New Post" %}{% endblock %}
-
-{% block billboard %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> :: <a href="{% url blog.views.new %}">{% trans "New Post" %}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / {% trans "New Post" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Submit a new Post" %}</h1>
-
+<h2 class="title-01">{% trans "Submit a new Post" %}</h2>
+<div class="in">
 {% if preview %}
-<h2>{% trans "Preview" %}</h2>
-<table>
-<tr>
-	<th>{{ preview.headline }} ({% trans "by" %} <strong>{{ user }}</strong> {% trans "on" %} {% now "F j Y, H:i" %})</th>
-</tr>
-<tr>
-	<td>{{ preview.summary }}</td>
-</tr>
-<tr>
-	<td>{{ preview.body|markdown:"safe" }}</td>
-</tr>
-</table>
+	<h3 class="title-02">{% trans "Preview" %}</h3>
+	<dl>
+		<dt>{{ preview.headline }} ({% trans "by" %} <strong>{{ user }}</strong> {% trans "on" %} {% now "Y-m-d H:i" %})</dt>
+		<dd>{{ preview.summary }}</dd>
+		<dd>{{ preview.body|markdown:"safe" }}</dd>
+	</dl>
+	<hr />
 {% endif %}
 
 
-<form action="{% url blog.views.new %}" method="POST">
-<dl>
-	<dd>{{ form.headline.label }}: {{ form.headline.errors }}</dd>
-	<dt>{{ form.headline }}</dt>
-	<br />
-	<dd>{{ form.summary.label }}: {{ form.summary.errors }}</dd>
-	<dt>{{ form.summary }}<br /></dt>
-	<br />
-	<dd>{{ form.body.label }}: {{ form.body.errors }}</dd>
-	<dt>{{ form.body }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-	<dt><input type="submit" name="preview" class="submit-post" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
-</dl>
-</form>
+	<form action="{% url blog.views.new %}" method="POST">
+	<dl>
+		<dd>{{ form.headline.label }}: {{ form.headline.errors }}</dd>
+		<dt>{{ form.headline }}</dt>
+		<br />
+		<dd>{{ form.summary.label }}: {{ form.summary.errors }}</dd>
+		<dt>{{ form.summary }}<br /></dt>
+		<br />
+		<dd>{{ form.body.label }}: {{ form.body.errors }}</dd>
+		<dt>{{ form.body }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
+		<dt><input type="submit" name="preview" class="submit-post" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
+	</dl>
+	</form>
+</div><!-- /in -->
 {% endblock %}

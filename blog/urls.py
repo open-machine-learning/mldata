@@ -10,8 +10,10 @@ import blog.views
 info_dict = {
     'queryset' : Post.objects.all(),
     'date_field' : 'pub_date',
+    'extra_context': {
+        'section': 'blog',
+    }
 }
-
 
 urlpatterns = patterns('django.views.generic.date_based',
    (r'^$', 'archive_index', info_dict, 'blog_index'),
