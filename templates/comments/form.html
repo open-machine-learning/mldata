@@ -1,10 +1,9 @@
 {% load i18n %}
 {% load markup %}
 {% load comments %}
-
-<div>
+<div class="in">
+<h3 class="title-02">{% trans "Leave a comment" %}</h3>
 {% if request.user.is_authenticated %}
-	<h2>{% trans "Leave a comment" %}</h2>
 	<form action="{% comment_form_target %}" method="POST">
 		<dl>
 			<dt><textarea id="id_comment" rows="10" cols="40" name="comment">{{ comment }}</textarea></dt>
@@ -27,6 +26,6 @@
 		<input type="hidden" name="name" id="id_name" maxlength="50" value="{{ user.username }}" />
 	</form>
 {% else %}
-	<p>{% trans "To post a comment, please" %} <a href="{% url user_signin %}?next={{ object.get_absolute_url }}">login</a>.</p>
+	{% trans "To post a comment, please" %} <a href="{% url user_signin %}?next={{ object.get_absolute_url }}">sign in</a>.
 {% endif %}
-</div>
+</div><!-- /in -->
