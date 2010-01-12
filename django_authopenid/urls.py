@@ -21,11 +21,15 @@ from django.contrib.auth import views as auth_views
 from django_authopenid import views as oid_views
 from registration import views as reg_views
 
+extra_context = {
+    'section': 'accounts',
+}
 
 urlpatterns = patterns('',
     # django registration activate
     url(r'^activate/(?P<activation_key>\w+)/$', reg_views.activate,
-        {'template_name': 'registration/activated.html'},
+        {'template_name': 'registration/activated.html',
+        'extra_context': extra_context },
         name='registration_activate'
     ),
 
@@ -54,10 +58,12 @@ urlpatterns = patterns('',
     url(r'^signin/complete/$', oid_views.complete_signin, name='user_complete_signin'),
     url(r'^signin/$', oid_views.signin, name='user_signin'),
     url(r'^signup/$', reg_views.register, 
-        {'template_name': 'registration/signup.html'},
+        {'template_name': 'registration/signup.html',
+        'extra_context': extra_context},
         name='registration_register'),
     url(r'^signup/complete/$',direct_to_template, 
-        {'template': 'registration/activation_sent.html'},
+        {'template': 'registration/activation_sent.html',
+        'extra_context': extra_context},
         name='registration_complete'
     ),
 

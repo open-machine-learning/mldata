@@ -4,11 +4,18 @@
 
 {% block sectionid %}browse{% endblock %}
 {% block title %}{% trans "User List" %}{% endblock %}
-{% block billboard %}{% trans "User List" %}{% endblock %}
+{% block breadcrumbs %}{% trans "Accounts" %} / {% trans "List Users" %}{% endblock %}
 
 {% block content %}
+<h2 class="title-01">{% trans "List Users" %}</h2>
+<div class="in">
 	{% paginator 10 %}
 	<table>
+	<tr>
+		<th>{% trans "Username" %}</th>
+		<th>{% trans "Full name" %}</th>
+		<th>{% trans "Email address" %}</th>
+	</tr>
 	{% for user in object_list %}
 	<tr>
 		<td><a href="{% url user.views.show_user user.pk %}">{{ user.username }}</a></td>
@@ -18,9 +25,13 @@
 	{% endfor %}
 	</table>
 	{% paginator 10 %}
+</div><!-- /in -->
 {% endblock %}
 
-{% block content-related %}
-<dt>{% trans "Viewing List of Users" %}</dt>
+{% block aside %}
+<h4 class="title-03">{% trans "Accounts" %}</h4>
+<div class="in">
+{% trans "Viewing List of Users" %}
+</div><!-- /in -->
 {% endblock %}
 

@@ -2,8 +2,8 @@
 {% load i18n %}
 
 {% block sectionid %}accounts{% endblock %}
-{% block title %}{% trans "SignIn" %}{% endblock %}
-{% block billboard %}{% trans "SignIn" %}{% endblock %}
+{% block title %}{% trans "Sign in" %}{% endblock %}
+{% block breadcrumbs %}{% trans "Accounts" %} / {% trans "Sign in" %}{% endblock %}
 
 
 {% block extrahead %}
@@ -18,12 +18,13 @@ $(function() {
 {% endblock %}
 
 {% block content %}
-{% if msg %}
-<br />
-	<p class="warning">{{ msg }}</p>
-{% endif %}
+<h2 class="title-01">{% trans "Sign in" %}</h2>
+
+<div class="in">
+{% if msg %}<p class="warning">{{ msg }}</p>{% endif %}
+
 {% if form2.errors %}
-<div class="errors"><p>{% trans "Please correct errors below:" %}<br />
+<div class="error"><p>{% trans "Please correct errors below:" %}<br />
 	{% if form2.username.errors %} 
 		<span class="error">{{ form2.username.errors|join:", " }}</span>
 	{% endif %}
@@ -37,48 +38,46 @@ $(function() {
 <br>
 {% endif %}
 
-{% if form1.errors %}
-<div class="errors">
-    <p><span class="error">{{ form1.openid_url.errors|join:", " }}</span></p>
-</div>
-<br>
-{% endif %}
-<h2>Make a choice:</h2>
-<div class="login">
-    <form id="auth_form" name="auth_form" action="{% url user_signin %}" method="post">
-    <input type="hidden" name="next" value="{{ next }}" />
+<h3>{% trans "Sign In Using Your Account ID" %}</h3>
+<form id="auth_form" name="auth_form" action="{% url user_signin %}" method="post">
+	<input type="hidden" name="next" value="{{ next }}" />
 	<fieldset>
-	    
-	    
-		<legend>{% trans "Sign In Using Your Account ID" %}</legend>
 		<div class="form-row"><label for="id_username">{% trans "Username:" %}</label><br />{{ form2.username }}</div>
 		<div class="form-row"><label for="id_password">{% trans "Password" %}</label><br />{{ form2.password }}</div>
-		
-        <div class="submit-row"><input type="submit" name="blogin" value="{% trans "Sign in" %}"> </div>
+		<div class="submit-row"><input type="submit" name="blogin" value="{% trans "Sign in" %}"> </div>
 	</fieldset>	
 </form>
 
+<hr />
+
+{% if form1.errors %}
+<div class="error">
+    <p><span class="error">{{ form1.openid_url.errors|join:", " }}</span></p>
+</div>
+{% endif %}
+
+<h3>{% trans "Sign In Using Your OpenID URL" %}</h3>
 <form id="openid_form" name="openid_form" action="{% url user_signin %}" method="post">
-    <input type="hidden" name="action" value="verify" />
-    <input type="hidden" name="next" value="{{ next }}" />
+	<input type="hidden" name="action" value="verify" />
+	<input type="hidden" name="next" value="{{ next }}" />
 	<fieldset>
-		<legend>{% trans "Sign In Using Your OpenID URL" %}</legend>
 		<div id="openid_choice">
-    		<p>Please click your account provider:</p>
-    		<div id="openid_btns"></div>
-    	</div>
-    	    <div id="openid_input_area">
-                <label for="id_openid_url">{% trans "OpenId URL" %}</label>: {{ form1.openid_url }}
-                <input name="openid_submit" type="submit" value="{% trans "Sign in with OpenID" %}">
-            </div>
-		
+			Please click your account provider:
+			<div id="openid_btns"></div>
+		</div>
+		<div id="openid_input_area">
+			<label for="id_openid_url">{% trans "OpenId URL" %}</label>: {{ form1.openid_url }}
+			<input name="openid_submit" type="submit" value="{% trans "Sign in with OpenID" %}">
+		</div>
 	</fieldset>
 </form>	
-</div>	
-
+</div> <!-- /in -->
 {% endblock %}
 
 
-{% block content-related %}
-<p>{% trans "You have the choice between logging in the traditional way or using" %} <a href="http://openid.net">OpenID</a>.</p>
+{% block aside %}
+<h4 class="title-03">{% trans "Accounts" %}</h4>
+<div class="in">
+{% trans "You have the choice between logging in the traditional way or using" %} <a href="http://openid.net">OpenID</a>.
+</div>
 {% endblock %}

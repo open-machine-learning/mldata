@@ -2,13 +2,21 @@
 {% load i18n %}
 
 {% block sectionid %}accounts{% endblock %}
-
 {% block title %}{% trans "Registration" %}{% endblock %}
-
-{% block billboard %}{% trans "Registration" %} :: {% trans "Activation sent" %}{% endblock %}
+{% block breadcrumbs %}{% trans "Accounts" %} / {% trans "Activation sent" %}{% endblock %}
 
 {% block content %}
-<p>
+<h2 class="title-01">{% trans "Activation sent" %}</h2>
+<div class="in">
 {% trans "An activation link has been sent to the email address you supplied, along with instructions for activating your account." %}
+</div><!-- /in -->
 </p>
 {% endblock %}
+
+{% block aside %}
+<h4 class="title-03">{% trans "Accounts" %}</h4>
+<div class="in">
+{% trans "Check your mail" %}!
+</div><!-- /in -->
+{% endblock %}
+

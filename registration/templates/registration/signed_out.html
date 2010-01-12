@@ -2,19 +2,19 @@
 {% load i18n %}
 
 {% block sectionid %}accounts{% endblock %}
-
-{% block title %}{% trans "SignOut" %}{% endblock %}
-
-{% block billboard %}{% trans "SignOut" %}{% endblock %}
+{% block title %}{% trans "Sign out" %}{% endblock %}
+{% block breadcrumbs %}{% trans "Accounts" %} / {% trans "Sign out" %}{% endblock %}
 
 {% block content %}
-<p>
-{% trans "You have been signed out. Thanks for stopping by" %}!
-</p>
+<h2 class="title-01">{% trans "Sign out" %}</h2>
+<div class="in">
+	<p>{% trans "You have been signed out. Thanks for stopping by" %}!</p>
+</div><!-- /in -->
 {% endblock %}
 
-{% block content-related %}
-<p>
-{% trans "Maybe you would like to" %} <a href="{% url django_authopenid.views.signin %}">{% trans "sign in again" %}</a>?
-</p>
+{% block aside %}
+<h4 class="title-03">{% trans "Accounts" %}</h4>
+<div class="in">
+	<p>{% trans "Maybe you would like to" %} <a href="{% url django_authopenid.views.signin %}">{% trans "sign in again" %}</a>?</p>
+</div><!-- /in -->
 {% endblock %}

@@ -3,16 +3,22 @@
 
 {% block sectionid %}login{% endblock %}
 {% block title %}{% trans "User Change" %}{% endblock %}
-{% block billboard %}{% trans "User Change" %}{% endblock %}
+{% block breadcrumbs %}{% trans "Accounts" %} / {% trans "Change" %} {{ user }}{% endblock %}
 
 {% block content %}
-<h2>{% trans "User details changed successfully" %}</h2>
-
+<h2 class="title-01">{% trans "Change User details" %}</h2>
+<div class="in">
 <p>{% trans "Your user details were successfully updated. Click" %} <a href="{% url user.views.show_user object.pk %}">{% trans "here" %}</a> {% trans "to return to your user page" %}.</p>
+</div><!-- /in -->
 {% endblock %}
 
-{% block content-related %}
-{% if user.is_superuser %}
-<p>{% trans "To browse the currently registered users click" %} <a href="{% url user.views.show_user_list %}">{% trans "here" %}</a>.</p>
+{% block aside %}
+<h4 class="title-03">{% trans "Accounts" %}</h4>
+
+{% if user.is_superuser or user.is_staff %}
+<h4 class="title-04">{% trans "Admin" %}</h4>
+<ul id="subnav">
+<li><a href="{% url user.views.show_user_list %}">{% trans "Show registered users" %}</a></li>
+</ul>
 {% endif %}
 {% endblock %}

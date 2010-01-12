@@ -128,3 +128,8 @@ dl#news a:hover {text-decoration:none;}
 
 .more {padding-right:14px; background:url("../images/more.gif") 100% 5px no-repeat;}
 a:hover.more {text-decoration:none;}
+
+.warning {color:#F00;}
+.error {color:#F00;}
+
+td {border-width:1px; border-style: solid; margin:0; padding:4px;}

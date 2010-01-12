@@ -5,23 +5,16 @@
 
 {% block sectionid %}accounts{% endblock %}
 {% block title %}{% trans "OpenID Association" %}{% endblock %}
-{% block billboard %}<a href="{% url repository.views.index %}">{% trans "OpenID Association" %}</a>{% endblock %}
+{% block breadcrumbs %}{% trans "Accounts" %} / {% trans "OpenID Association" %}{% endblock %}
 
 
 {% block content %}
-	<div id="completetxt">
-	<h1>{% trans "Your OpenID is verified! " %}</h1>
+<h2 class="title-01">{% trans "OpenID Association" %}</h2>
+<div class="in">
+	<h2>{% trans "Your OpenID is verified! You can associate it now" %}:</h2>
 
-	<h2>{% trans "Associate your OpenID" %}</h2>
-	{% blocktrans %}
-	<p>If you're joining <strong>mldata.org</strong>, associate your OpenID with a new account. If you're already a member, associate with your existing account.</p>
-	{% endblocktrans %}
-	</div>
-
-		
-	
 	{% if form1.errors %}
-	<p class="errors">{% trans "Please correct errors below:" %}<br />
+	<p class="error">{% trans "Please correct errors below:" %}<br />
 		{% if form1.username.errors %} 
 			<span class="error">{{ form1.username.errors|join:", " }}</span>
 		{% endif %}
@@ -33,8 +26,9 @@
 		{% endif %}
 	</p>
 	{% endif %}
+
 	{% if form2.errors %}
-	<p class="errors">{% trans "Please correct errors below:" %}<br />
+	<p class="error">{% trans "Please correct errors below:" %}<br />
 		{% if form2.username.errors %} 
 			<span class="error">{{ form2.username.errors|join:", " }}</span>
 		{% endif %}
@@ -48,33 +42,34 @@
 	{% endif %}
 
 	<div class="login">
+		<h3>{% trans "A new account" %}</h3>
         <form name="fregister" action="{% url user_register %}" method="POST">
             <input type="hidden" name="next" value="{{ next }}" />
 			<fieldset>
-				<legend>{% trans "A new account" %}</legend>
 				<div class="form-row"><label for="id_username">{% trans "Username" %}</label><br />{{ form1.username }}</div>
 				<div class="form-row"><label for="id_email">{% trans "Email" %}</label><br />{{ form1.email }}</div>
 				<div class="submit-row"><input type="submit" name="bnewaccount" value="{% trans "Create account" %}"></div>
-				<hr class="clear" />
-            	</fieldset>
+            </fieldset>
 		</form>
 	</div>
 
-	
+	<hr />
 
 	<div class="login">
+		<h3>{% trans "An existing account" %}</h3>
         <form name="fverify" action="{% url user_register %}" method="POST">
             <input type="hidden" name="next" value="{{ next }}" />
 			<fieldset>
-				<legend>{% trans "An existing account" %}</legend>
 				<div class="form-row"><label for="id_username">{% trans "Username" %}</label><br />{{ form2.username }}</div>
 				<div class="form-row"><label for="id_passwordl">{% trans "Password" %}</label><br />{{ form2.password }}</div>
 				<div class="submit-row"><input type="submit" name="bverify" value="{% trans "Verify" %}"></div>
 			</fieldset>
 		</form>
 	</div>
+</div><!-- /in -->
 {% endblock %}
 
-{% block content-related %}
-<p>Your OpenID can now be associated with a new or existing membership. You can change the association later in your preferences.</p>
+{% block aside %}
+<h4 class="title-03">{% trans "Accounts" %}</h4>
+<div class="in">{% trans "Your OpenID can now be associated with a new or existing membership. You can change the association later in your preferences" %}.</div>
 {% endblock %}
