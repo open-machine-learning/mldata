@@ -3,47 +3,32 @@
 {% load i18n %}
 
 {% block title %}{% trans "Forum" %} :: {{ forum.title }} :: {{ thread.title }}{% endblock %}
-{% block billboard %}{% trans "Forum" %} :: {{ forum.title }} :: {{ thread.title }}{% endblock %}
-
+{% block breadcrumbs %}<a href="{% url forum_index %}">{% trans "Forum" %}</a> / <a href="{% url forum.views.forum forum.slug %}">{{ forum.title }}</a> / {{ thread.title }}{% endblock %}
 
 {% block content %}
-<table class="posts">
+<h2 class="title-01">{% trans "Thread" %} {{ thread.title }}</h2>
+<div class="in">
 {% if is_paginated %}
-<thead><tr>
-	<td class="paginator"><a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a></td>
-</thead></tr>
+	<a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a>
 {% endif %}
 
+	<dl id="news">
 	{% for post in post_list %}
-	<tr>
-		<th id='post{{ post.id }}'>{{ post.author }} ({% blocktrans with post.time|timesince as time %}{{ time }} ago{% endblocktrans %})</th>
-	</tr>
-	<tr>
-		<td>{{ post.body_html|safe }}</td>
-	</tr>
+		<dt id='post{{ post.id }}'>{{ post.author }} ({% blocktrans with post.time|timesince as time %}{{ time }} ago{% endblocktrans %})</dt>
+		<dd>{{ post.body_html|safe }}</dd>
 	{% endfor %}
+	</dl>
 
 {% if is_paginated %}
-<tfoot><tr>
-	<td class="paginator"><a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a></td>
-</tfoot></tr>
+	<a href="?page=1">&laquo;</a> {% for page_number in paginator.page_range %}{% ifequal page_number page %}{{ page_number }}{% else %}<a href="?page={{ page_number }}">{{ page_number }}</a>{% endifequal %} {% endfor %} <a href="?page={{ paginator.num_pages }}">&raquo;</a>
 {% endif %}
-</table>
+</div><!-- /in -->
 
 {% if thread.closed %}
-<h2>{% trans "Sorry, this thread is closed. No further replies are permitted." %}</h2>
+<div class="in">
+	{% trans "Sorry, this thread is closed. No further replies are permitted." %}
+</div>
 {% else %}
 {% include "forum/form_reply.html" %}
 {% endif %}
-{% endblock %}
-
-{% block content-related %}
-<dl><dd>{% trans "You are in Forum" %} <a href='{{ forum.get_absolute_url }}'><b>{{ forum.title }}</b></a> {% trans "looking at thread" %} <a href='{{thread.get_absolute_url}}'><b>{{ thread.title|escape }}</b></a>.
-</dd></dl>
-<dl>
-    <dd>
-    <h3><a href="{% url forum_index %}rss/{{ forum.slug }}"><img src="/media/images/rss.png" alt="RSS Feed" border="0" width="16" height="16" align="top"></img> {% trans "RSS Feed" %} - "{{ forum.title }}"</a></h3>
-     <h3> <script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cdelicious%2Cstumbleupon%2Cyahoo_buzz%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cfurl%2Cslashdot%2Cmagnolia%2Cmister_wong%2Cyigg&amp;style=default&amp;publisher=85555fbd-bb3a-4ab4-af6f-5dea32a6a5e4"></script></h3> 
-    </dd>
-</dl>
 {% endblock %}

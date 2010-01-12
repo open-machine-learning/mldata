@@ -36,7 +36,8 @@ def forums_list(request):
     """
     queryset = Forum.objects.for_groups(request.user.groups.all()).filter(parent__isnull=True)
     return object_list( request,
-                        queryset=queryset)
+                        queryset=queryset,
+                        extra_context={'section':'forum'})
 
 
 
@@ -72,6 +73,7 @@ def forum(request, slug):
                                 'reason': _('create a new thread'),
                                 'next': f.get_absolute_url(),
                             },
+                            'section': 'forum',
                         })
 
 def thread(request, thread):
@@ -122,6 +124,7 @@ def thread(request, thread):
                                 'reason': _('post a reply'),
                                 'next': t.get_absolute_url(),
                             },
+                            'section': 'forum',
                         })
 
 def reply(request, thread):
@@ -203,13 +206,14 @@ def reply(request, thread):
     else:
         preview = False
         form = ReplyForm()
-    
+
     return render_to_response('forum/reply.html',
         RequestContext(request, {
             'form': form,
             'forum': t.forum,
             'thread': t,
             'preview': preview,
+            'section': 'forum',
         }))
 
 
@@ -274,6 +278,7 @@ def newthread(request, forum):
             'form': form,
             'forum': f,
             'preview': preview,
+            'section': forum,
         }))
 
 
@@ -300,6 +305,6 @@ def updatesubs(request):
     return render_to_response('forum/updatesubs.html',
         RequestContext(request, {
             'subs': subs,
-            'next': request.GET.get('next')
+            'next': request.GET.get('next'),
+            'section': 'forum',
         }))
-
