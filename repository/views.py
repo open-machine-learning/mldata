@@ -334,6 +334,7 @@ def _view(request, slug_or_id, klass):
         'can_activate': _can_activate(obj),
         'can_delete': obj.is_owner,
         'rating_form': _get_rating_form(request, obj),
+        'section': 'repository',
     }
     if klass == Data:
         info_dict['extract'] = hdf5conv.get_extract(
@@ -418,6 +419,7 @@ def _new(request, klass):
         'url_new': url_new,
         'form': form,
         'request': request,
+        'section': 'repository',
     }
 
     return render_to_response('repository/item_new.html', info_dict)
@@ -501,6 +503,7 @@ def _edit(request, slug_or_id, klass):
         'form': form,
         'object': prev,
         'request': request,
+        'section': 'repository',
     }
 
     return render_to_response('repository/item_edit.html', info_dict)
@@ -559,6 +562,7 @@ def _index(request, klass, my=False):
         'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
+        'section': 'repository',
     }
     return render_to_response('repository/item_index.html', info_dict)
 
@@ -590,6 +594,7 @@ def index(request):
     info_dict = {
         'latest': latest,
         'request': request,
+        'section': 'repository',
     }
     return render_to_response('repository/index.html', info_dict)
 
@@ -921,6 +926,7 @@ def data_new_review(request, id):
     info_dict = {
         'object': obj,
         'request': request,
+        'section': 'repository',
         'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
@@ -956,6 +962,7 @@ def tags_index(request):
 
     info_dict = {
         'request': request,
+        'section': 'repository',
         'tags': tags,
     }
     return render_to_response('repository/tags_index.html', info_dict)
@@ -999,6 +1006,7 @@ def tags_view(request, tag):
 
     info_dict = {
         'request': request,
+        'section': 'repository',
         'tag': tag,
         'objects': objects,
     }

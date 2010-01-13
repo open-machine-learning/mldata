@@ -2,33 +2,40 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Repository" %}</h1>
-<p>{% trans "This is the repository where you can find and modify all available data, tasks and solutions." %}</p>
+<h2 class="title-01">{% trans "Repository" %}</h2>
+<div class="in">
+	<div class="cols5050">
+		<div class="col">
+			<p>The following kinds of objects are stored in the repository, we will illustrate each class with the MNIST5 data set:</p>
+			<dl id="news">
+				<dt>Data</dt>
+				<dd>This is &quot;raw data&quot;, available in any one of a number of standard formats (including, for example, CSV, ARFF, netCDF, HDF5, ODBC), together with a description of the data, sources, possibly publications. For MNIST, the data is the images with corresponding labels.</dd>
+				<dt>Task</dt>
+				<dd>This is a learning task, consisting of a formal description of input-output relationships based on a data set and methods for evaluating the results. This might also include fixed partitionings into training and test data for the base data set. For the MNIST example, a learning task might be to perform multiclass classification for all ten classes, using the F1-score as performance measure.</dd>
+				<dt>Solution</dt>
+				<dd>Essentially, a solution consists of a specific machine learning method applied to a learning task, but including all the other information, for example, what kind of feature processing has been applied, how parameters of the learning method have been selected, what operating system has been used, etc. Ideally, a solution also provides a single parameterless piece of code for others to re-run the experiments, preferably with source code.</dd>
+			</dl>
 
-<h2>{% trans "Latest Items" %}</h2>
-<ul>
-	{% if latest.data %}<li>{% trans "Data" %}: <a href="{% url repository.views.data_view latest.data.slug.text %}">{{ latest.data.name }}</a></li>{%endif %}
-	{% if latest.task %}<li>{% trans "Task" %}: <a href="{% url repository.views.task_view latest.task.slug.text %}">{{ latest.task.name }}</a></li>{%endif %}
-	{% if latest.solution %}<li>{% trans "Solution" %}: <a href="{% url repository.views.solution_view latest.solution.slug.text %}">{{ latest.solution.name }}</a></li>{%endif %}
-</ul>
+			<p>These descriptions boil down to the following properties for the respective object classes:</p>
+			<ul>
+				<li>Common to all: papers, external urls, free form description, version, time stamps, possibly also back links</li>
+				<li>Data: container format, source url, measurement details, usage scenario, links to tasks, links to solutions</li>
+				<li>Task: input format, output format, performance measure, links to data, links to solutions</li>
+				<li>Solution: numerical scores for given data and task, computational pipeline</li>
+			</ul>
 
-<p>The following kinds of objects are stored in the repository. We will illustrate each class with the MNIST5 data set:</p>
-<ul>
-	<li><strong>Data</strong> This is &quot;raw data&quot;, available in any one of a number of standard formats (including, for example, CSV, ARFF, netCDF, HDF5, ODBC), together with a description of the data, sources, possibly publications. For MNIST, the data is the images with corresponding labels.</li>
-	<li><strong>Task</strong> This is a learning task, consisting of a formal description of input-output relationships based on a data set and methods for evaluating the results. This might also include fixed partitionings into training and test data for the base data set. For the MNIST example, a learning task might be to perform multiclass classification for all ten classes, using the F1-score as performance measure.</li>
-	<li><strong>Solution</strong> Essentially, a solution consists of a specific machine learning method applied to a learning task, but including all the other information, for example, what kind of feature processing has been applied, how parameters of the learning method have been selected, what operating system has been used, etc. Ideally, a solution also provides a single parameterless piece of code for others to re-run the experiments, preferably with source code.</li>
-</ul>
+			<p>Between tasks and data sets, the relationship is many-to-many, as a data set can give rise to many different learning tasks, as well as a learning task potentially referencing several data sets. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task.</p>
+			<p>Given the described infrastructure, organising a challenge essentially boils down to selecting a group of datasets and appropriate data splits into training validation and test data, and choosing a machine learning task. As the data storage and evaluating mechanism is already taken care of by the basic data-repository one merely needs to add an administration interface and a challenge &quot;view&quot; on the data.</p>
+		</div><!-- /left col -->
 
-<p>These descriptions boil down to the following properties for the respective object classes:</p>
-<ul>
-	<li>Common to all: papers, external urls, free form description, version, time stamps, possibly also back links</li>
-	<li>Data: container format, source url, measurement details, usage scenario, links to tasks, links to solutions</li>
-	<li>Task: input format, output format, performance measure, links to data, links to solutions</li>
-	<li>Solution: numerical scores for given data and task, computational pipeline</li>
-</ul>
-
-<p>Between tasks and data sets, the relationship is many-to-many, as a data set can give rise to many different learning tasks, as well as a learning task potentially referencing several data sets. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task.</p>
-<p>Given the described infrastructure, organising a challenge essentially boils down to selecting a group of datasets and appropriate data splits into training validation and test data, and choosing a machine learning task. As the data storage and evaluating mechanism is already taken care of by the basic data-repository one merely needs to add an administration interface and a challenge &quot;view&quot; on the data.</p>
-
+		<div class="col f-right">
+			<h3 class="title-02">{% trans "Latest Items" %}</h3>
+			<ul>
+				{% if latest.data %}<li>{% trans "Data" %}: <a href="{% url repository.views.data_view latest.data.slug.text %}">{{ latest.data.name }}</a></li>{%endif %}
+				{% if latest.task %}<li>{% trans "Task" %}: <a href="{% url repository.views.task_view latest.task.slug.text %}">{{ latest.task.name }}</a></li>{%endif %}
+				{% if latest.solution %}<li>{% trans "Solution" %}: <a href="{% url repository.views.solution_view latest.solution.slug.text %}">{{ latest.solution.name }}</a></li>{%endif %}
+			</ul>
+		</div><!-- col right -->
+	</div><!-- cols5050 -->
+</div><!-- /in -->
 {% endblock %}
-

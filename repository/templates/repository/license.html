@@ -2,60 +2,62 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {% trans "License" %}{% endblock %}
-{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> / {% trans "License" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Licenses Explained" %}</h1>
-<h2>Data {% trans "Licenses" %}</h2>
-<p>{% trans "We currently offer the following licenses to be used with the Data items you supply" %}:</p>
+<h2 class="title-01">{% trans "Licenses Explained" %}</h2>
+<div class="in">
+	<h3 class="title-02">Data {% trans "Licenses" %}</h3>
+	<p>{% trans "We currently offer the following licenses to be used with the Data items you supply" %}:</p>
 
-<ul>
-	<li>
-		<strong>PDDL</strong> Public Domain Dedication and License:<br />
-		Place the data/database in the public domain (waiving all rights)<br />
-		(<a href="http://www.opendatacommons.org/licenses/pddl/">{% trans "website" %}</a>)
-	</li>
-	<li>
-		<strong>CC0</strong> &quot;No Rights Reserved&quot;:<br />
-		Enables scientists, educators, artists and other creators and owners of copyright-protected content to waive copyright interests in their works and thereby place them as completely as possible in the public domain, so that others may freely build upon, enhance and reuse the works for any purposes without restriction under copyright.<br />
-		(<a href="http://creativecommons.org/about/cc0">{% trans "website" %}</a>)
-	 </li>
-	<li>
-		<strong>ODbL</strong> Open Database License:<br />
-		You are free
-		<ul>
-			<li>To Share: To copy, distribute and use the database</li>
-			<li>To Create: To produce works from the database</li>
-			<li>To Adapt: To modify, transform and build upon the database</li>
-		</ul>
-		As long as you
-		<ul>
-			<li>Attribute: You must attribute any public use of the database, or works produced from the database, in the manner specified in the ODbL. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database</li>
-			<li>Share-Alike: If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL</li>
-			<li>Keep open: If you redistribute the database, or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.</li>
-		</ul>
-		(<a href="http://www.opendatacommons.org/licenses/odbl/">{% trans "website" %}</a>)
-	</li>
-</ul>
+	<ul>
+		<li>
+			<strong>PDDL</strong> Public Domain Dedication and License:<br />
+			Place the data/database in the public domain (waiving all rights)<br />
+			(<a href="http://www.opendatacommons.org/licenses/pddl/">{% trans "website" %}</a>)
+		</li>
+		<li>
+			<strong>CC0</strong> &quot;No Rights Reserved&quot;:<br />
+			Enables scientists, educators, artists and other creators and owners of copyright-protected content to waive copyright interests in their works and thereby place them as completely as possible in the public domain, so that others may freely build upon, enhance and reuse the works for any purposes without restriction under copyright.<br />
+			(<a href="http://creativecommons.org/about/cc0">{% trans "website" %}</a>)
+		 </li>
+		<li>
+			<strong>ODbL</strong> Open Database License:<br />
+			You are free
+			<ul>
+				<li>To Share: To copy, distribute and use the database</li>
+				<li>To Create: To produce works from the database</li>
+				<li>To Adapt: To modify, transform and build upon the database</li>
+			</ul>
+			As long as you
+			<ul>
+				<li>Attribute: You must attribute any public use of the database, or works produced from the database, in the manner specified in the ODbL. For any use or redistribution of the database, or works produced from it, you must make clear to others the license of the database and keep intact any notices on the original database</li>
+				<li>Share-Alike: If you publicly use any adapted version of this database, or works produced from an adapted database, you must also offer that adapted database under the ODbL</li>
+				<li>Keep open: If you redistribute the database, or an adapted version of it, then you may use technological measures that restrict the work (such as DRM) as long as you also redistribute a version without such measures.</li>
+			</ul>
+			(<a href="http://www.opendatacommons.org/licenses/odbl/">{% trans "website" %}</a>)
+		</li>
+	</ul>
 
 
-<a name="tasksolution" />
-<h2>Task + Solution {% trans "Licenses" %}</h2>
-<p>{% trans "These item types are fixed to" %} <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</a>.</p>
-<div>
-You are free:<br />
+	<a name="tasksolution"></a>
+	<h3 class="title-02">Task + Solution {% trans "Licenses" %}</h3>
+	<p>{% trans "These item types are fixed to" %} <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</a>.</p>
+	<div>
+	You are free:<br />
 
-<ul>
-	<li>to Share — to copy, distribute and transmit the work</li>
-	<li>to Remix — to adapt the work</li>
-</ul>
+	<ul>
+		<li>to Share — to copy, distribute and transmit the work</li>
+		<li>to Remix — to adapt the work</li>
+	</ul>
 
-Under the following conditions:<br />
+	Under the following conditions:<br />
 
-<ul>
-	<li>Attribution — You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).</li>
-	<li>Share Alike — If you alter, transform, or build upon this work, you may distribute the resulting work only under the same, similar or a compatible license.</li>
-</ul>
-</div>
+	<ul>
+		<li>Attribution — You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).</li>
+		<li>Share Alike — If you alter, transform, or build upon this work, you may distribute the resulting work only under the same, similar or a compatible license.</li>
+	</ul>
+	</div>
+</div><!-- /in -->
 {% endblock %}
 

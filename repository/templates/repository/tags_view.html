@@ -2,16 +2,16 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {% trans "Tags" %} :: {{ tag }}{% endblock %}
-{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> :: <a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a> :: {{ tag }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> / <a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a> / {{ tag }}{% endblock %}
 
 {% block content %}
-<h2>{% trans "Tagged Items" %}</h2>
-<p>{% trans "These items are tagged by" %} <strong>{{ tag }}</strong>:</p>
-
-<ul>
-{% for obj in objects %}
-<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
-{% endfor %}
-</ul>
+<h2 class="title-01">{% trans "Tagged Items" %}</h2>
+<div class="in">
+	<p>{% trans "These items are tagged by" %} <strong>{{ tag }}</strong>:</p>
+	<ul>
+	{% for obj in objects %}
+		<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
+	{% endfor %}
+	</ul>
+</div><!-- /in -->
 {% endblock %}
-

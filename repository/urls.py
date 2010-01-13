@@ -8,8 +8,14 @@ import repository.views as views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='repository_index'),
-    (r'^hdf5/$', direct_to_template, {'template':'repository/hdf5.html'}),
-    (r'^license$', direct_to_template, {'template':'repository/license.html'}),
+    url(r'^hdf5/$', direct_to_template, {
+        'template':'repository/hdf5.html',
+        'extra_context':{'section':'repository'}
+    }, name='repository_hdf5'),
+    url(r'^license$', direct_to_template, {
+        'template':'repository/license.html',
+        'extra_context':{'section':'repository'}
+    }, name='repository_license'),
     (r'^tags/$', views.tags_index),
     (r'^tags/(?P<tag>[A-Za-z0-9-_]+)/$', views.tags_view),
     (r'^data/$', views.data_index),

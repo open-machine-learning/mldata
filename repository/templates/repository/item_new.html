@@ -2,76 +2,64 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
-{% block billboard %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {% trans "New" %}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "Submit new" %} {{ klass }}</h1>
-<p>{% trans "Supply only the vital information about the item here. You can fill in additional information later on by editing." %}
-{% ifequal klass "Data" %}
-{% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}
-{% endifequal %}
-</p>
+<h2 class="title-01">{% trans "Submit new" %} {{ klass }}</h2>
+<div class="in">
+	{% trans "Supply only the vital information about the item here. You can fill in additional information later on by editing." %}
+	{% ifequal klass "Data" %}{% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}{% endifequal %}
 
-<form action="{{ url_new }}" method="post" enctype="multipart/form-data">
-<table>
-{% if form.errors %}
-<tr>
-	<td class="errorlist">{% trans "There had been errors, please see below" %}.</td>
-</tr>
-{% endif %}
-<tr>
-	<td style="vertical-align: top"><dl>
-		<dd><label for="id_name">{% trans "Name" %}</label> *: {{ form.name.errors }}</dd>
-		<dt>{{ form.name }}</dt>
-		<dd><label for="id_description">{% trans "Description" %}</label>: {{ form.description.errors }}</dd>
-		<dt>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dd>
-		<dt>{{ form.tags }}</dt>
-{% ifequal klass "Data" %}
-		<dd><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dd>
-		<dt>{{ form.license }}</dt>
-		<dd><label for="id_file">{% trans "Data file" %}</label> *: {{ form.file.errors }}</dd>
-		<dt>{{ form.file }}</dt>
-{% else %}{% ifequal klass "Task" %}
-		<dd>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA</a></dd>
-		<dd><label for="id_input">{% trans "Input format" %}</label> *: {{ form.input.errors }}</dd>
-		<dt>{{ form.input}}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_output">{% trans "Output format" %}</label> *: {{ form.output.errors }}</dd>
-		<dt>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_performance_measure">{% trans "Performance Measure" %}</label> *: {{ form.performance_measure.errors }}</dd>
-		<dt>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_type">{% trans "Type" %}</label> *: {{ form.type.errors }}{{ form.freeformtype.errors }}</dd>
-		<dt>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dt>
-		<dd><label for="id_data">{% trans "Data" %}</label>: {{ form.data.errors }}</dd>
-		<dt>{{ form.data }}</dt>
-		<dd><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dd>
-		<dt>{{ form.splits }}</dt>
-{% else %}{% ifequal klass "Solution" %}
-		<dd>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA 3.0</a></dd>
-		<dd><label for="id_feature_processing">{% trans "Feature Processing" %}</label>: {{ form.feature_processing.errors }}</dd>
-		<dt>{{ form.feature_processing }}</dt>
-		<dd><label for="id_parameters">{% trans "Parameters" %}</label>: {{ form.parameters.errors }}</dd>
-		<dt>{{ form.parameters }}</dt>
-		<dd><label for="id_os">{% trans "Operating System" %}</label>: {{ form.os.errors }}</dd>
-		<dt>{{ form.os }}</dt>
-		<dd><label for="id_code">{% trans "Code" %}</label>: {{ form.code.errors }}</dd>
-		<dt>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
-		<dd><label for="id_task">{% trans "Task" %}</label> *: {{ form.task.errors }}</dd>
-		<dt>{{ form.task }}</dt>
-		<dd><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dd>
-		<dt>{{ form.score }}</dt>
-
-{% endifequal %}{% endifequal %}{% endifequal %}
-
+	<form action="{{ url_new }}" method="post" enctype="multipart/form-data">
+	{% if form.errors %}<p class="error">{% trans "There had been errors, please see below" %}.</td>{% endif %}
+	<dl>
+		<dt><label for="id_name">{% trans "Name" %}</label> *: {{ form.name.errors }}</dt>
+		<dd>{{ form.name }}</dd>
+		<dt><label for="id_description">{% trans "Description" %}</label>: {{ form.description.errors }}</dt>
+		<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dt>
+		<dd>{{ form.tags }}</dd>
+	{% ifequal klass "Data" %}
+		<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dt>
+		<dd>{{ form.license }}</dd>
+		<dt><label for="id_file">{% trans "Data file" %}</label> *: {{ form.file.errors }}</dt>
+		<dd>{{ form.file }}</dd>
+	{% else %}{% ifequal klass "Task" %}
+		<dt>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA</a></dt>
+		<dt><label for="id_input">{% trans "Input format" %}</label> *: {{ form.input.errors }}</dt>
+		<dd>{{ form.input}}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><label for="id_output">{% trans "Output format" %}</label> *: {{ form.output.errors }}</dt>
+		<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> *: {{ form.performance_measure.errors }}</dt>
+		<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><label for="id_type">{% trans "Type" %}</label> *: {{ form.type.errors }}{{ form.freeformtype.errors }}</dt>
+		<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
+		<dt><label for="id_data">{% trans "Data" %}</label>: {{ form.data.errors }}</dt>
+		<dd>{{ form.data }}</dd>
+		<dt><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dt>
+		<dd>{{ form.splits }}</dd>
+	{% else %}{% ifequal klass "Solution" %}
+		<dt>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA 3.0</a></dt>
+		<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label>: {{ form.feature_processing.errors }}</dt>
+		<dd>{{ form.feature_processing }}</dd>
+		<dt><label for="id_parameters">{% trans "Parameters" %}</label>: {{ form.parameters.errors }}</dt>
+		<dd>{{ form.parameters }}</dd>
+		<dt><label for="id_os">{% trans "Operating System" %}</label>: {{ form.os.errors }}</dt>
+		<dd>{{ form.os }}</dd>
+		<dt><label for="id_code">{% trans "Code" %}</label>: {{ form.code.errors }}</dt>
+		<dd>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><label for="id_task">{% trans "Task" %}</label> *: {{ form.task.errors }}</dt>
+		<dd>{{ form.task }}</dd>
+		<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
+		<dt>{{ form.score }}</dd>
+	{% endifequal %}{% endifequal %}{% endifequal %}
 		<br />
 		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
-	</dl></td>
-</tr>
-</table>
-</form>
+	</dl>
+	</form>
+</div><!-- /in -->
 {% endblock %}
-

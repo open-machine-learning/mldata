@@ -2,42 +2,42 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
-{% block billboard %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {{ my_or_archive }}{% endblock %}
 
 {% block content %}
-<h1>{{ my_or_archive }} {{ klass }}</h1>
+<h2 class="title-01">{{ my_or_archive }} {{ klass }}</h2>
+<div class="in">
+	{% if page.object_list %}
+	<ul>
+	{% for object in page.object_list %}
+		<li><a title="{{ object.repository.summary }}" href="{{ object.absolute_url }}">{{ object.repository.name }}</a> ({% trans "on" %} {{ object.repository.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.repository.user.username }})</li>
+	{% endfor %}
 
-{% if page.object_list %}
-<ul>
-{% for object in page.object_list %}
-	<li><a title="{{ object.repository.summary }}" href="{{ object.absolute_url }}">{{ object.repository.name }}</a> ({% trans "on" %} {{ object.repository.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.repository.user.username }})</li>
-{% endfor %}
+	{% ifnotequal page.paginator.num_pages 1 %}
+	{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">&laquo;</a>{% endif %}
+	{% for num in page.paginator.page_range %}
+		{% ifequal num page.number %}-{% else %}<a href="{{ request.path }}?page={{ num }}">{{ num }}</a>{% endifequal %}
+	{% endfor %}
+	{% if page.has_next %}<a href="?page={{ page.next_page_number }}">&raquo;</a>{% endif %}
+	{% endifnotequal %}
+	</ul>
+	{% else %}
+	<p>{% trans "Sorry, no items available" %}.</p>
+	{% endif %}
 
-{% ifnotequal page.paginator.num_pages 1 %}
-{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">&laquo;</a>{% endif %}
-{% for num in page.paginator.page_range %}
-	{% ifequal num page.number %}-{% else %}<a href="{{ request.path }}?page={{ num }}">{{ num }}</a>{% endifequal %}
-{% endfor %}
-{% if page.has_next %}<a href="?page={{ page.next_page_number }}">&raquo;</a>{% endif %}
-{% endifnotequal %}
-</ul>
-{% else %}
-<p>{% trans "Sorry, no items available" %}.</p>
-{% endif %}
-
-{% if unapproved %}
-<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-<ul>
-{% for object in unapproved %}
-	<li><a href="{% ifequal klass "Data" %}
-	{% url repository.views.data_new_review object.id %}
-{% else %}{% ifequal klass "Task" %}
-	{% url repository.views.task_index %}
-{% else %}
-	{% url repository.views.solution_index %}
-{% endifequal %}{% endifequal %}">{{object.name}}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
+	{% if unapproved %}
+	<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
+	<ul>
+	{% for object in unapproved %}
+		<li><a href="{% ifequal klass "Data" %}
+		{% url repository.views.data_new_review object.id %}
+	{% else %}{% ifequal klass "Task" %}
+		{% url repository.views.task_index %}
+	{% else %}
+		{% url repository.views.solution_index %}
+	{% endifequal %}{% endifequal %}">{{object.name}}</a></li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+</div><!-- /in -->
 {% endblock %}
-

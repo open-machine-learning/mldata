@@ -2,16 +2,17 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {% trans "Tags" %}{% endblock %}
-{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> :: {% trans "Tags" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> / {% trans "Tags" %}{% endblock %}
 
 {% block content %}
-<h2>{% trans "Used Tags" %}</h2>
-<p>{% if request.user.is_authenticated %}{% trans "These tags are currently used by public and your items in the repository" %}{% else %}{% trans "These tags are currently used by public items in the repository" %}{% endif %}:</p>
+<h2 class="title-01">{% trans "Used Tags" %}</h2>
+<div class="in">
+	<p>{% if request.user.is_authenticated %}{% trans "These tags are currently used by public and your items in the repository" %}{% else %}{% trans "These tags are currently used by public items in the repository" %}{% endif %}:</p>
 
-<ul>
-	{% for tag in tags %}
-		<li><a href="{% url repository.views.tags_view tag.name %}">{{ tag.name }} ({{ tag.count }})</a></li>
-	{% endfor %}
-</ul>
+	<ul>
+		{% for tag in tags %}
+			<li><a href="{% url repository.views.tags_view tag.name %}">{{ tag.name }} ({{ tag.count }})</a></li>
+		{% endfor %}
+	</ul>
+</div><!-- /in -->
 {% endblock %}
-

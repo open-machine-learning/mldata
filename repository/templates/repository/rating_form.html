@@ -1,16 +1,13 @@
 {% load i18n %}
-
 {% if rating_form %}
-<div class="widget">
-<div class="head">{% trans "Rating" %}</div>
-<p>{% trans "Rate this repository item. '0' means poor and '5' means excellent. Ratings can be changed later on" %}.</p>
-<div class="ratingform">
+<div class="in" id="rating-form">
+	<h3 class="title-02">{% trans "Rating" %}</h3>
+	<p>{% trans "Ratings can be changed later on, '0' means poor and '5' means excellent" %}.</p>
 	<form method="post" action="{{ rating_form.action }}">
-		<table>
-			{{ rating_form|safe }}
-		</table>
+		<ul class="rating-form">
+			{{ rating_form.as_ul }}
+		</ul>
 		<input type="submit" value="{% trans "Submit ratings" %}">
 	</form>
-</div>
-</div>
+</div><!-- /in -->
 {% endif %}

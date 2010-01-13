@@ -103,6 +103,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
 
 ul {margin-bottom:3px; padding-left:15px; }
 ol {margin-bottom:3px; padding-left:15px; }
+dl dd {margin-bottom:5px; }
 
 dl#news {margin:0; background:url("../images/dot-02.gif") 3px 0 repeat-y;}
 dl#news dt {margin-bottom:3px; padding-left:15px; background:url("../images/news-dt.gif") 0 50% no-repeat; font-weight:bold;}
@@ -129,7 +130,23 @@ dl#news a:hover {text-decoration:none;}
 .more {padding-right:14px; background:url("../images/more.gif") 100% 5px no-repeat;}
 a:hover.more {text-decoration:none;}
 
-.warning {color:#F00;}
-.error {color:#F00;}
+
 
 td {border-width:1px; border-style: solid; margin:0; padding:4px;}
+
+/* RATING */
+.rating-form {padding:0; margin:0}
+.rating-form ul {padding:0; margin:0; list-style-type:none;}
+.rating-form li {display:inline; font-size:small;}
+.rating-results {margin:0; padding:0; text-align:right;}
+.rating-results div {margin:0; padding:0; text-align:right; vertical-align:top;}
+.rating-results img {vertical-align:top;}
+
+/* TABS */
+.ui-tabs .ui-tabs-hide { display: none; }
+.ui-tabs-selected a { font-size:x-large; text-decoration:none;}
+
+.view-tabs {padding:0; margin: 0; font-size:large; list-style-type:none;}
+.view-tabs li { display:inline }
+.view-info { padding:0; margin:0; font-weight: bold; width:75%; float:left; text-align:left; }
+.view-actions { padding:0; margin:0; font-weight: bold; width:25%; float:right; text-align:right; }

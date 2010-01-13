@@ -1,8 +1,8 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %}{% endblock %}
-{% block billboard %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %}{% endblock %}
+{% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
+{% block breadcrumbs %}{% trans "Repository" %} / {{ object.klass }} / {% trans "Edit" %} / {{ object.name }}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -25,79 +25,80 @@ $(function() {
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "Edit" %} {{ object.klass }} {% trans "for" %} {{ object.name }} ({% trans "version" %} {{ object.version }})</h1>
+<h2 class="title-01">{% trans "Edit" %} {{ object.klass }} {% trans "for" %} {{ object.name }} ({% trans "version" %} {{ object.version }})</h2>
+<div class="in">
+	<form action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
+		{% if form.errors %}
+		<div class="error">{% trans "There had been errors, please see below" %}.</div>
+		{% endif %}
+		<div id="contents">
+			<ul class="view-tabs">
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a></li>
+			</ul>
 
-<form action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
-{% if form.errors %}
-<div class="errorlist">{% trans "There had been errors, please see below" %}.</div>
-{% endif %}
-<div id="contents" class="widget">
-<ul class="head">
-	<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
-	<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a></li>
-</ul>
+			<div id="contents-main"><dl>
+				{% if not object.is_public %}
+				<dt><label for="id_is_public">{% trans "Make item public? WARNING: Once it is public, it cannot be made private again!" %}</label> {{ form.is_public.errors }}</dt>
+				<dd>{{ form.is_public }}</dd>
+				{% endif %}
+				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
+				<dd>{{ form.tags }}</dd>
+				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
+				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 
-<div id="contents-main">
-	{% if not object.is_public %}
-	<div class="title"><label for="id_is_public">{% trans "Make item public? WARNING: Once it is public, it cannot be made private again!" %}</label> {{ form.is_public.errors }}</div>
-	<div class="data">{{ form.is_public }}</div>
-	{% endif %}
-	<div class="title"><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</div>
-	<div class="data">{{ form.tags }}</div>
-	<div class="title"><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</div>
-	<div class="data">{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
+			{% ifequal object.klass "Data" %}
+				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) {{ form.license.errors }}</dt>
+				<dd>{{ form.license }}</dd>
+			{% else %}{% ifequal object.klass "Task" %}
+				<dt><label for="id_input">{% trans "Input format" %}</label> {{ form.input.errors }}</dt>
+				<dd>{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_output">{% trans "Output format" %}</label> {{ form.output.errors }}</dt>
+				<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> {{ form.performance_measure.errors }}</dt>
+				<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_type">{% trans "Type" %}</label> {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
+				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
+				<dt><label for="id_data">{% trans "Data" %}</label> {{ form.data.errors }}</dt>
+				<dd>{{ form.data }}</dd>
+				<dt><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dt>
+				<dd>{{ form.splits }}{% if object.splits %}<br /><a href="{% url repository.views.splits_download object.id %}">{% trans "Download Splits" %}</a>{% endif %}</dd>
+			{% else %}{% ifequal object.klass "Solution" %}
+				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
+				<dd>{{ form.feature_processing }}</dd>
+				<dt><label for="id_parameters">{% trans "Parameters" %}</label> {{ form.parameters.errors }}</dt>
+				<dd>{{ form.parameters }}</dd>
+				<dt><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</dt>
+				<dd>{{ form.os }}</dd>
+				<dt><label for="id_code">{% trans "Code" %}</label> {{ form.os.errors }}</dt>
+				<dd>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_task">{% trans "Task" %}</label> {{ form.task.errors }}</dt>
+				<dd>{{ form.task }}</dd>
+				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
+				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</dd>
+			{% endifequal %}{% endifequal %}{% endifequal %}
+			</dl></div>
 
-{% ifequal object.klass "Data" %}
-	<div class="title"><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) {{ form.license.errors }}</div>
-	<div class="data">{{ form.license }}</div>
-{% else %}{% ifequal object.klass "Task" %}
-	<div class="title"><label for="id_input">{% trans "Input format" %}</label> {{ form.input.errors }}</div>
-	<div class="data">{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
-	<div class="title"><label for="id_output">{% trans "Output format" %}</label> {{ form.output.errors }}</div>
-	<div class="data">{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
-	<div class="title"><label for="id_performance_measure">{% trans "Performance Measure" %}</label> {{ form.performance_measure.errors }}</div>
-	<div class="data">{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
-	<div class="title"><label for="id_type">{% trans "Type" %}</label> {{ form.type.errors }} {{ form.freeformtype.errors }}</div>
-	<div class="data">{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></div>
-	<div class="title"><label for="id_data">{% trans "Data" %}</label> {{ form.data.errors }}</div>
-	<div class="data">{{ form.data }}</div>
-	<div class="title"><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</div>
-	<div class="data">{{ form.splits }}{% if object.splits %}<br /><a href="{% url repository.views.splits_download object.id %}">{% trans "Download Splits" %}</a>{% endif %}</div>
-{% else %}{% ifequal object.klass "Solution" %}
-	<div class="title"><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</div>
-	<div class="data">{{ form.feature_processing }}</div>
-	<div class="title"><label for="id_parameters">{% trans "Parameters" %}</label> {{ form.parameters.errors }}</div>
-	<div class="data">{{ form.parameters }}</div>
-	<div class="title"><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</div>
-	<div class="data">{{ form.os }}</div>
-	<div class="title"><label for="id_code">{% trans "Code" %}</label> {{ form.os.errors }}</div>
-	<div class="data">{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
-	<div class="title"><label for="id_task">{% trans "Task" %}</label> {{ form.task.errors }}</div>
-	<div class="data">{{ form.task }}</div>
-	<div class="title"><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</div>
-	<div class="data">{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</div>
-{% endifequal %}{% endifequal %}{% endifequal %}
-</div>
+			<div id="contents-other"><dl>
+				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
+				<dd>{{ form.summary }}</dd>
+				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
+				<dd>{{ form.urls }}</dd>
+				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
+				<dd>{{ form.publications }}</dd>
+			{% ifequal object.klass "Data" %}
+				<dt><label for="id_source">{% trans "Data Source" %}</label> {{ form.source.errors }}</dt>
+				<dd>{{ form.source }}</dd>
+				<dt><label for="id_measurement_details">{% trans "Measurement details" %}</label> {{ form.measurement_details.errors }}</dt>
+				<dd>{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
+				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+			{% endifequal %}
+			</dl></div>
 
-<div id="contents-other">
-	<div class="title"><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</div>
-	<div class="data">{{ form.summary }}</div>
-	<div class="title"><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</div>
-	<div class="data">{{ form.urls }}</div>
-	<div class="title"><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</div>
-	<div class="data">{{ form.publications }}</div>
-{% ifequal object.klass "Data" %}
-	<div class="title"><label for="id_source">{% trans "Data Source" %}</label> {{ form.source.errors }}</div>
-	<div class="data">{{ form.source }}</div>
-	<div class="title"><label for="id_measurement_details">{% trans "Measurement details" %}</label> {{ form.measurement_details.errors }}</div>
-	<div class="data">{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
-	<div class="title"><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</div>
-	<div class="data">{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></div>
-{% endifequal %}
-</div>
-
-<p><input type="submit" id="post" name="post" class="submit-post" value="{% trans "Edit" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /></p>
-</div>
-</form>
+			<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Edit" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" />
+		</div>
+	</form>
+</div><!-- /in -->
 {% endblock %}
 

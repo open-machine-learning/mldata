@@ -1,36 +1,57 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block sectionid %}repository{% endblock %}
 {% block title %}{% trans "Repository" %}{% endblock %}
-{% block billboard %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a>{% endblock %}
+{% block breadcrumbs %}{% trans "Repository" %}{% endblock %}
 
-{% block content-related %}
-<h2>{% trans "Data" %}</h2>
-<ul>
-	<li><a href="{% url repository.views.data_index %}">{% trans "Public Archive" %}</a></li>
-	{% if request.user.is_authenticated %}<li><a href="{% url repository.views.data_my %}">{% trans "My Data" %}</li>{% endif %}
-	<li><a href="{% url repository.views.data_new %}">{% trans "Submit new Data" %}</a></li>
-</ul>
+{% block aside %}
+<h4 class="title-03">{% trans "Repository" %}</h4>
 
-<h2>{% trans "Task" %}</h2>
-<ul>
-	<li><a href="{% url repository.views.task_index %}">{% trans "Public Archive" %}</a></li>
-	{% if request.user.is_authenticated %}<li><a href="{% url repository.views.task_my %}">{% trans "My Task" %}</li>{% endif %}
-	<li><a href="{% url repository.views.task_new %}">{% trans "Submit new Task" %}</a></li>
-</ul>
+<h4 class="title-04">{% trans "Data" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		{% url repository.views.data_index as url_index %}
+		{% url repository.views.data_my as url_my %}
+		{% url repository.views.data_new as url_new %}
+		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data" %}</li>{% endif %}
+		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
+	</ul>
+</div><!-- /in -->
 
-<h2>{% trans "Solution" %}</h2>
-<ul>
-	<li><a href="{% url repository.views.solution_index %}">{% trans "Public Archive" %}</a></li>
-	{% if request.user.is_authenticated %}<li><a href="{% url repository.views.solution_my %}">{% trans "My Solution" %}</li>{% endif %}
-	<li><a href="{% url repository.views.solution_new %}">{% trans "Submit new Solution" %}</a></li>
-</ul>
+<h4 class="title-04">{% trans "Task" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		{% url repository.views.task_index as url_index %}
+		{% url repository.views.task_my as url_my %}
+		{% url repository.views.task_new as url_new %}
+		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Task" %}</li>{% endif %}
+		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Task" %}</a></li>
+	</ul>
+</div><!-- /in -->
 
-<h2>{% trans "Misc" %}</h2>
-<ul>
-	<li><a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a></li>
-	<li><a href="{% url repository.views.index %}license">{% trans "License" %}</a></li>
-	<li><a href="{% url repository.views.index %}hdf5">{% trans "Our HDF5" %}</a></li>
-</ul>
+<h4 class="title-04">{% trans "Solution" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		{% url repository.views.solution_index as url_index %}
+		{% url repository.views.solution_my as url_my %}
+		{% url repository.views.solution_new as url_new %}
+		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Solution" %}</li>{% endif %}
+		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Solution" %}</a></li>
+	</ul>
+</div><!-- /in -->
+
+<h4 class="title-04">{% trans "Misc" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		{% url repository.views.tags_index as url_tags %}
+		{% url repository_license as url_license %}
+		{% url repository_hdf5 as url_hdf5 %}
+		<li{% ifequal request.path url_tags %} class="active"{% endifequal %}><a href="{{ url_tags }}">{% trans "Tags" %}</a></li>
+		<li{% ifequal request.path url_license %} class="active"{% endifequal %}><a href="{{ url_license }}">{% trans "License" %}</a></li>
+		<li{% ifequal request.path url_hdf5 %} class="active"{% endifequal %}><a href="{{ url_hdf5 }}">{% trans "Our HDF5 Format" %}</a></li>
+	</ul>
+</div><!-- /in -->
 {% endblock %}
