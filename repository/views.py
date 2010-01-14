@@ -176,6 +176,32 @@ def _get_rating_form(request, obj):
     return rating_form
 
 
+def _get_latest(request):
+    """Get latest items of each type.
+
+    @param request: request data
+    @type request: Django request
+    @return: latest items of each type
+    @rtype: dict
+    """
+    qs = Q(is_deleted=False) & (Q(is_public=True) | Q(user=request.user))
+    latest = {}
+    try:
+        latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['data'] = None
+    try:
+        latest['task'] = Task.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['task'] = None
+    try:
+        latest['solution'] = Solution.objects.filter(qs).order_by('-pub_date')[0]
+    except IndexError:
+        latest['solution'] = None
+
+    return latest
+
+
 def _can_activate(obj):
     """Determine if given item can be activated by the user.
 
@@ -576,23 +602,8 @@ def index(request):
     @return: rendered response page
     @rtype: Django response
     """
-    qs = Q(is_deleted=False) & (Q(is_public=True) | Q(user=request.user))
-    latest = {}
-    try:
-        latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['data'] = None
-    try:
-        latest['task'] = Task.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['task'] = None
-    try:
-        latest['solution'] = Solution.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['solution'] = None
-
     info_dict = {
-        'latest': latest,
+#        'latest': _get_latest(request),
         'request': request,
         'section': 'repository',
     }

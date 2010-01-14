@@ -146,7 +146,7 @@ td {border-width:1px; border-style: solid; margin:0; padding:4px;}
 .ui-tabs .ui-tabs-hide { display: none; }
 .ui-tabs-selected a { font-size:x-large; text-decoration:none;}
 
-.view-tabs {padding:0; margin: 0; font-size:large; list-style-type:none;}
+.view-tabs {padding:5px; margin: 0; list-style-type:none;}
 .view-tabs li { display:inline }
 .view-info { padding:0; margin:0; font-weight: bold; width:75%; float:left; text-align:left; }
 .view-actions { padding:0; margin:0; font-weight: bold; width:25%; float:right; text-align:right; }

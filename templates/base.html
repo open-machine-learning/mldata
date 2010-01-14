@@ -34,10 +34,10 @@
 	<hr class="noscreen" />
 
 	<div id="nav" class="box"><ul>
+		<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
 		<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
 		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
 		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
-		<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
 		{% if not request.user.is_authenticated %}<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>{% endif %}
 	</ul></span>
 
