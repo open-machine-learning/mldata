@@ -5,9 +5,7 @@
 {% block breadcrumbs %}{% trans "Repository" %}{% endblock %}
 
 {% block aside %}
-<h4 class="title-03">{% trans "Repository" %}</h4>
-
-<h4 class="title-04">{% trans "Data" %}</h4>
+<h4 class="title-03">{% trans "Data" %}</h4>
 <div class="in">
 	<ul id="subnav">
 		{% url repository.views.data_index as url_index %}
@@ -19,7 +17,7 @@
 	</ul>
 </div><!-- /in -->
 
-<h4 class="title-04">{% trans "Task" %}</h4>
+<h4 class="title-03">{% trans "Task" %}</h4>
 <div class="in">
 	<ul id="subnav">
 		{% url repository.views.task_index as url_index %}
@@ -31,7 +29,7 @@
 	</ul>
 </div><!-- /in -->
 
-<h4 class="title-04">{% trans "Solution" %}</h4>
+<h4 class="title-03">{% trans "Solution" %}</h4>
 <div class="in">
 	<ul id="subnav">
 		{% url repository.views.solution_index as url_index %}
@@ -43,7 +41,7 @@
 	</ul>
 </div><!-- /in -->
 
-<h4 class="title-04">{% trans "Misc" %}</h4>
+<h4 class="title-03">{% trans "Misc" %}</h4>
 <div class="in">
 	<ul id="subnav">
 		{% url repository.views.tags_index as url_tags %}
