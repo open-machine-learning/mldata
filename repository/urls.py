@@ -12,7 +12,7 @@ urlpatterns = patterns('',
         'template':'repository/hdf5.html',
         'extra_context':{'section':'repository'}
     }, name='repository_hdf5'),
-    url(r'^license$', direct_to_template, {
+    url(r'^license/$', direct_to_template, {
         'template':'repository/license.html',
         'extra_context':{'section':'repository'}
     }, name='repository_license'),
