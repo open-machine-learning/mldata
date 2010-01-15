@@ -3,13 +3,16 @@
 {% block title %}Page unavailable{% endblock %}
 
 {% block content %}
+<h2 class="title-01">Page unavailable</h2>
+<div class="in">
+<p>
+	We're sorry, but the requested page is currently unavailable.<br />
+	We're messing around with things internally, and the server had a bit of a hiccup.<br />
+	Please try again later.
+</p>
+</div><!-- /in -->
+{% endblock %}
 
-<h2>Page unavailable</h2>
-
-<p>We're sorry, but the requested page is currently unavailable.</p>
-
-<p>We're messing around with things internally, and the server had a bit of a hiccup.</p>
-
-<p>Please try again later.</p>
-
+{% block aside %}
+<h3 class="title-03">Page unavailable</h3>
 {% endblock %}

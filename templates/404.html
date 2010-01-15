@@ -3,11 +3,13 @@
 {% block title %}Page not found{% endblock %}
 
 {% block content %}
+<h2 class="title-01">Page not found</h2>
+<div class="in">
+	<p>Looks like you followed a bad link. If you think it's our fault, please <a href="mailto://mldata@kodeaffe.de">let us know</a>.</p>
+	<p>Here's a link to the <a href="/">homepage</a>. You know, just in case.</p>
+</div><!-- /in -->
+{% endblock %}
 
-<h2>Page not found</h2>
-
-<p>Looks like you followed a bad link. If you think it's our fault, please <a href="mailto://shogun@kodeaffe.de">let us know</a>.</p>
-
-<p>Here's a link to the <a href="/">homepage</a>. You know, just in case.</p>
-
+{% block aside %}
+<h3 class="title-03">Page not found</h3>
 {% endblock %}
