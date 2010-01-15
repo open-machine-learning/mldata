@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "about/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "About" %}{% endblock %}
@@ -23,28 +23,3 @@
 <p>{% trans "Recently, <a href='http://mloss.org'>mloss.org</a> has enabled machine learning researchers to register their software and allow other researchers to easily find, download, and reuse software matching their interests.  Currently, more than 200 projects are listed. Furthermore, the Journal of Machine Learning Research now accepts papers to its special Open Source Software track, in which papers describing peer-reviewed software can be published, as a further incentive for researchers to publish their software under an open source license. Since its inception, in October 2007, seven papers have been published in this track with more papers currently under review.  So far, the initiative has been highly successful, but has focused mostly on the ”method” side of the problem to make machine learning research more reproducible. Hence we see the need to initiate a companion project to <a href='http://mloss.org'>mloss.org</a> which focuses on the free exchange and benchmarking of datasets. Additionally, this new repository will emphasise the precise specification of machine learning tasks: detailed definitions of datasets to be used (possibly including feature extraction or other preprocessing steps) together with the desired operation to be performed and the relevant performance metric. Finally, a solution to such a task would provide details of how to apply a general software package (such as on <a href='http://mloss.org'>mloss.org</a>) to this particular problem instance, as well as the obtained numerical performance measures. This project will thus focus on providing a platform for publishing, exchanging, collecting, and discussing such data sets, tasks, and solutions for challenging machine learning problems" %}.</p>
 </div>
 {% endblock %}
-
-{% block aside %}
-<h4 class="title-03">{% trans "About" %}</h4>
-<div class="in">
-	<ul id="subnav">
-		{% url about_index as url_index %}
-		{% url about_impressum as url_impressum %}
-		{% url about_tos as url_tos %}
-		{% url about_related as url_related %}
-		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a title="{% trans "About this site" %}" href="{{ url_index }}">{% trans "Motivation" %}</a></li>
-		<li{% ifequal request.path url_impressum %} class="active"{% endifequal %}><a title="{% trans "Impressum as required by law" %}" href="{{ url_impressum }}">{% trans "Impressum" %}</a></li>
-		<li{% ifequal request.path url_tos %} class="active"{% endifequal %}><a title="{% trans "Terms of Service" %}" href="{{ url_tos }}">{% trans "TOS" %}</a></li>
-		<li{% ifequal request.path url_related %} class="active"{% endifequal %}><a title="{% trans "Related projects" %}" href="{{ url_related }}">{% trans "Related" %}</a></li>
-	</ul>
-</div>
-
-<h4 class="title-04">{% trans "Acknowledgements" %}</h4>
-<div class="in">
-{% trans "This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)" %}
-<br />
-<a href="http://www.pascal-network.org/">http://www.pascal-network.org/</a>.
-</div>
-{% endblock %}
-
-

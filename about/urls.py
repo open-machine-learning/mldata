@@ -9,7 +9,7 @@ extra_context = { 'section': 'about' }
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template,
-        {'template':'about/index.html', 'extra_context':extra_context},
+        {'template':'about/motivation.html', 'extra_context':extra_context},
         name='about_index'),
     url(r'^impressum/$', direct_to_template,
         {'template':'about/impressum.html', 'extra_context':extra_context},

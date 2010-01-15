@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a>{% endblock %}
+
+{% block aside %}
+<h4 class="title-03">{% trans "Contents" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		{% url about_index as url_index %}
+		{% url about_impressum as url_impressum %}
+		{% url about_tos as url_tos %}
+		{% url about_related as url_related %}
+		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a title="{% trans "Why this site?" %}" href="{{ url_index }}">{% trans "Motivation" %}</a></li>
+		<li{% ifequal request.path url_impressum %} class="active"{% endifequal %}><a title="{% trans "Impressum as required by law" %}" href="{{ url_impressum }}">{% trans "Impressum" %}</a></li>
+		<li{% ifequal request.path url_tos %} class="active"{% endifequal %}><a title="{% trans "Terms of Service" %}" href="{{ url_tos }}">{% trans "TOS" %}</a></li>
+		<li{% ifequal request.path url_related %} class="active"{% endifequal %}><a title="{% trans "Related projects" %}" href="{{ url_related }}">{% trans "Related" %}</a></li>
+	</ul>
+</div>
+
+<h4 class="title-04">{% trans "Acknowledgements" %}</h4>
+<div class="in">
+{% trans "This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)" %}
+<br />
+<a href="http://www.pascal-network.org/">http://www.pascal-network.org/</a>.
+</div>
+{% endblock %}
