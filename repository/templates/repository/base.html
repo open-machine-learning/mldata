@@ -41,15 +41,8 @@
 	</ul>
 </div><!-- /in -->
 
-<h4 class="title-03">{% trans "Misc" %}</h4>
+<h4 class="title-04">{% trans "Tag Cloud" %}</h4>
 <div class="in">
-	<ul id="subnav">
-		{% url repository.views.tags_index as url_tags %}
-		{% url repository_license as url_license %}
-		{% url repository_hdf5 as url_hdf5 %}
-		<li{% ifequal request.path url_tags %} class="active"{% endifequal %}><a href="{{ url_tags }}">{% trans "Tags" %}</a></li>
-		<li{% ifequal request.path url_license %} class="active"{% endifequal %}><a href="{{ url_license }}">{% trans "License" %}</a></li>
-		<li{% ifequal request.path url_hdf5 %} class="active"{% endifequal %}><a href="{{ url_hdf5 }}">{% trans "Our HDF5 Format" %}</a></li>
-	</ul>
+{% for t in tagcloud %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 </div><!-- /in -->
 {% endblock %}

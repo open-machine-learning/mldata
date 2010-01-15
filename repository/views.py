@@ -7,7 +7,7 @@ Define the views of app Repository
 @type NUM_INDEX_PAGE: integer
 """
 
-import datetime, os
+import datetime, os, random
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.servers.basehttp import FileWrapper
 from django.shortcuts import render_to_response, get_object_or_404
@@ -17,6 +17,7 @@ from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
 from django.db.models import Q
 from tagging.models import Tag, TaggedItem
+from tagging.utils import calculate_cloud
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
@@ -202,6 +203,52 @@ def _get_latest(request):
     return latest
 
 
+
+def _get_current_tags(request):
+    """Get current tags available to user.
+
+    @param request: request data
+    @type request: Django request
+    @return: current tags available to user
+    @rtype: list of tagging.Tag
+    """
+    current = CurrentVersion.objects.filter(
+            Q(repository__user=request.user.id) | Q(repository__is_public=True)
+    )
+    if current:
+        all = Tag.objects.all()
+        tags = []
+        for tag in all:
+            found = False
+            tag.count = 0
+            for item in tag.items.values():
+                for object in current:
+                    if item['object_id'] == object.repository.id:
+                        found = True
+                        tag.count += 1
+            if found:
+                tags.append(tag)
+    else:
+        tags = None
+
+    return tags
+
+
+
+def _get_tag_cloud(request):
+    """Retrieve a cloud of tags of all item types.
+
+    @param request: request data
+    @type request: Django request
+    @return: list of tags with attributes font_size
+    @rtype: list of tagging.Tag
+    """
+    cloud = calculate_cloud(_get_current_tags(request), steps=2)
+    random.shuffle(cloud)
+    return cloud
+
+
+
 def _can_activate(obj):
     """Determine if given item can be activated by the user.
 
@@ -360,6 +407,7 @@ def _view(request, slug_or_id, klass):
         'can_activate': _can_activate(obj),
         'can_delete': obj.is_owner,
         'rating_form': _get_rating_form(request, obj),
+        'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
     if klass == Data:
@@ -445,6 +493,7 @@ def _new(request, klass):
         'url_new': url_new,
         'form': form,
         'request': request,
+        'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
 
@@ -529,6 +578,7 @@ def _edit(request, slug_or_id, klass):
         'form': form,
         'object': prev,
         'request': request,
+        'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
 
@@ -588,6 +638,7 @@ def _index(request, klass, my=False):
         'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
+        'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
     return render_to_response('repository/item_index.html', info_dict)
@@ -606,6 +657,7 @@ def index(request):
 #        'latest': _get_latest(request),
         'request': request,
         'section': 'repository',
+        'tagcloud': _get_tag_cloud(request),
     }
     return render_to_response('repository/index.html', info_dict)
 
@@ -937,6 +989,7 @@ def data_new_review(request, id):
     info_dict = {
         'object': obj,
         'request': request,
+        'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
         'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
@@ -952,29 +1005,10 @@ def tags_index(request):
     @return: rendered response page
     @rtype: Django response
     """
-    current = CurrentVersion.objects.filter(
-            Q(repository__user=request.user.id) | Q(repository__is_public=True)
-    )
-    if current:
-        all = Tag.objects.all()
-        tags = []
-        for tag in all:
-            found = False
-            tag.count = 0
-            for item in tag.items.values():
-                for object in current:
-                    if item['object_id'] == object.repository.id:
-                        found = True
-                        tag.count += 1
-            if found:
-                tags.append(tag)
-    else:
-        tags = None
-
     info_dict = {
         'request': request,
         'section': 'repository',
-        'tags': tags,
+        'tags': _get_current_tags(request),
     }
     return render_to_response('repository/tags_index.html', info_dict)
 
@@ -1019,6 +1053,7 @@ def tags_view(request, tag):
         'request': request,
         'section': 'repository',
         'tag': tag,
+        'tagcloud': _get_tag_cloud(request),
         'objects': objects,
     }
     return render_to_response('repository/tags_view.html', info_dict)
