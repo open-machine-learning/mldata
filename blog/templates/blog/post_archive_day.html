@@ -16,3 +16,9 @@
 	</dl>
 </div><!-- /in -->
 {% endblock %}
+
+{% block aside-info %}
+<div class="in">
+{% trans "Drill through the year" %} {{ day|date:"Y, F d" }}.
+</div><!-- /in -->
+{% endblock %}

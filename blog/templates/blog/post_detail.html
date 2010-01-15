@@ -20,3 +20,9 @@
 {% get_comment_form for blog.post object.id as form %}
 {% include "comments/form.html" %}
 {% endblock %}
+
+{% block aside-info %}
+<div class="in">
+{% trans "Viewing post" %} {{ object.headline }}.
+</div><!-- /in -->
+{% endblock %}

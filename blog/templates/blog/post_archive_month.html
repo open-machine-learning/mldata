@@ -15,3 +15,9 @@
 </ul>
 </div><!-- /in -->
 {% endblock %}
+
+{% block aside-info %}
+<div class="in">
+{% trans "Drill through the year" %} {{ month|date:"Y, F" }}.
+</div><!-- /in -->
+{% endblock %}

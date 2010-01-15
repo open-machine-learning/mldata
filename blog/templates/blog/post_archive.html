@@ -7,7 +7,7 @@
 {% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / {% trans "Archive" %}{% endblock %}
 
 {% block content %}
-<h2 class="title-01">{% trans "Latest Blog entries" %}</h2>
+<h2 class="title-01">{% trans "Latest Posts" %}</h2>
 <div class="in">
 	<div class="cols5050">
 		<div class="col">
@@ -43,3 +43,8 @@
 </div><!-- /in -->
 {% endblock %}
 
+{% block aside-info %}
+<div class="in">
+{% trans "This is the archive, showing the latest blog entries and links to drill through all years" %}.
+</div><!-- /in -->
+{% endblock %}

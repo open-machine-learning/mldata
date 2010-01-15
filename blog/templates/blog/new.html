@@ -18,7 +18,6 @@
 	<hr />
 {% endif %}
 
-
 	<form action="{% url blog.views.new %}" method="POST">
 	<dl>
 		<dd>{{ form.headline.label }}: {{ form.headline.errors }}</dd>
@@ -32,5 +31,11 @@
 		<dt><input type="submit" name="preview" class="submit-post" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
 	</dl>
 	</form>
+</div><!-- /in -->
+{% endblock %}
+
+{% block aside-info %}
+<div class="in">
+{% trans "Post a new blog entry here" %}.
 </div><!-- /in -->
 {% endblock %}
