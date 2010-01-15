@@ -32,3 +32,11 @@
 {% include "forum/form_reply.html" %}
 {% endif %}
 {% endblock %}
+
+{% block aside-info %}
+<div class="in">
+	{% trans "View this thread and post a reply." %}
+</div><!-- /in -->
+
+{% include "forum/feed.html" %}
+{% endblock %}

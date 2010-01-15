@@ -5,15 +5,14 @@
 {% block breadcrumbs %}{% trans "Forum" %}{% endblock %}
 
 {% block aside %}
-<h3 class="title-03">{% trans "Forum"%}</h3>
+<h3 class="title-03">{% trans "Contents" %}</h3>
 <div class="in">
-	<p>{% trans "You are in Forum" %} <a href='{{ forum.get_absolute_url }}'><b>{{ forum.title }}</b></a>.</p>
-	<p>{% trans "Choose the thread you would like to read or contribute to. Or simply create a new one if the existing threads do not fit." %}</p>
+<ul id="subnav">
+	{% url forum_index as url_forumlist %}
+	<li{% ifequal request.path url_forumlist %} class="active"{% endifequal %}><a title="List available forums" href="{{ url_forumlist }}">{% trans "Forums" %}</a></li>
+</ul>
 </div><!-- /in -->
 
-<h4 class="title-04">{% trans "Feeds"%}</h4>
-<div class="in">
-	<img src="/media/images/rss.png" alt="RSS Feed" border="0" width="16" height="16" align="top" /> <a href="{% url forum_index %}rss/{{ forum.slug }}">RSS Feed - "{{ forum.title }}"</a>
-	<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cdelicious%2Cstumbleupon%2Cyahoo_buzz%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cfurl%2Cslashdot%2Cmagnolia%2Cmister_wong%2Csimpy%2Cyigg&amp;offsetTop=-336&amp;style=default&amp;publisher=85555fbd-bb3a-4ab4-af6f-5dea32a6a5e4"></script>
-</div><!-- /in -->
+<h3 class="title-04">{% trans "Info" %}</h3>
+{% block aside-info %}{% endblock %}
 {% endblock %}

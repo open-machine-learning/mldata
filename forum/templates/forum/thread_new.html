@@ -10,3 +10,11 @@
 <h2 class="title-01">{% trans "New Thread" %}</h2>
 {% include "forum/form_thread_new.html" %}
 {% endblock %}
+
+{% block aside-info %}
+<div class="in">
+	{% trans "Create a new thread in forum" %} <a href="{% url forum.views.forum forum.slug %}">{{ forum.title }}</a>.
+</div><!-- /in -->
+
+{% include "forum/feed.html" %}
+{% endblock %}

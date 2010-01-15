@@ -2,10 +2,10 @@
 {% load i18n %}
 
 {% block title %}{% trans "Forum" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url forum_index %}">{% trans "Forum" %}</a>{% endblock %}
+{% block breadcrumbs %}{% trans "Forum" %}{% endblock %}
 
 {% block content %}
-<h2 class="title-01">{% trans "List Forums" %}</h2>
+<h2 class="title-01">{% trans "View Forums" %}</h2>
 <div class="in">
 	<table>
 	<tr>
@@ -26,9 +26,8 @@
 </div><!-- /in -->
 {% endblock %}
 
-{% block aside %}
-<h3 class="title-03">{% trans "Forum"%}</h3>
+{% block aside-info %}
 <div class="in">
 {% trans "Use the discussion forums to inform us about problems with this site, missing features or just discuss general mldata issues." %}
-</div>
+</div><!-- /in -->
 {% endblock %}

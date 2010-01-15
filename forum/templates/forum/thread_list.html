@@ -7,7 +7,7 @@
 
 
 {% block content %}
-<h2 class="title-01">{% trans "List Threads" %}</h2>
+<h2 class="title-01">{% trans "View Threads" %}</h2>
 <div class="in">
 	{% if thread_list %}
 	{% if is_paginated %}
@@ -37,4 +37,12 @@
 </div><!-- /in -->
 
 {% include "forum/form_thread_new.html" %}
+{% endblock %}
+
+{% block aside-info %}
+<div class="in">
+	{% trans "Choose the thread you would like to read or contribute to. Or simply create a new one if the existing threads do not fit." %}
+</div><!-- /in -->
+
+{% include "forum/feed.html" %}
 {% endblock %}

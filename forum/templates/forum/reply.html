@@ -15,3 +15,11 @@
 {% include "forum/form_reply.html" %}
 {% endif %}
 {% endblock %}
+
+{% block aside-info %}
+<div class="in">
+	{% trans "Post a reply to thread" %} <a href="{% url forum.views.thread thread.id %}">{{ thread.title }}</a>.
+</div><!-- /in -->
+
+{% include "forum/feed.html" %}
+{% endblock %}
