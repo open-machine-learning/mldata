@@ -28,11 +28,11 @@ $(function() {
 <div class="in">
 	<div id="contents">
 		<ul class="view-tabs">
-			<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
+			<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a> | </li>
 		{% ifequal object.klass "Data" %}
-			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-data">{% trans "Data" %}</a></li>
+			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-data">{% trans "Data" %}</a> |</li>
 		{% endifequal %}
-			<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a></li>
+			<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a> | </li>
 			<li><a title="{% trans "History of item" %}" href="#contents-history">{% trans "History" %}</a></li>
 		</ul>
 		<div class="view-info">

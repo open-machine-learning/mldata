@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / {{ object.name }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / <a href="{% url repository.views.data_view object.id %}">{{ object.name }}</a>{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -33,7 +33,7 @@ $(function() {
 		{% endif %}
 		<div id="contents">
 			<ul class="view-tabs">
-				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a></li>
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a> | </li>
 				<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a></li>
 			</ul>
 
