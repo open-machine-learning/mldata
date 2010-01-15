@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}{% trans "Repository" %} / {{ object.klass }} / {% trans "Edit" %} / {{ object.name }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / {{ object.name }}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
