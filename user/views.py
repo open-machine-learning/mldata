@@ -150,7 +150,8 @@ def show_user_list(request):
     return object_list(request,
             paginate_by=10,
             queryset=User.objects.all(),
-            template_name='user/user_list.html')
+            template_name='user/user_list.html',
+            extra_context={'section': 'accounts'})
 
 
 def show_user(request, user_id):
@@ -180,7 +181,7 @@ def show_user(request, user_id):
 
     return render_to_response(
         'user/user_detail.html',
-        { 'object': entry, 'form' : form },
+        { 'object': entry, 'form' : form, 'section': 'accounts'},
         context_instance=RequestContext(request)
     )
 
@@ -213,12 +214,12 @@ def update_user(request, user_id):
             form.save(entry)
             return render_to_response(
                 'user/user_change_done.html',
-                { 'object': entry, },
+                { 'object': entry, 'section': 'accounts'},
                 context_instance=RequestContext(request)
             )
 
     return render_to_response(
         'user/user_detail.html',
-        { 'object': entry, 'form' : form, },
+        { 'object': entry, 'form' : form, 'section': 'accounts'},
         context_instance=RequestContext(request)
     )

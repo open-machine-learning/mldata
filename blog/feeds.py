@@ -21,9 +21,9 @@ def RssBlogFeed(request):
         object_list = Post.objects.all().order_by('-pub_date')[:10]
     except documents.DocumentDoesNotExist:
         raise Http404
-    feed = WellFormedWebRss( u"The mldata.org community blog",
-            "http://mldata.org/community",
-            u'Some thoughts about machine learning open source software',
+    feed = WellFormedWebRss( u"mldata.org's blog",
+            "http://mldata.org/blog",
+            u'Some thoughts about the machine learning benchmark repository',
             language=u"en")
 
     for object in object_list:
