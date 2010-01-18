@@ -6,6 +6,16 @@
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
+
+<script type="text/javascript">
+$(function() {
+	$('#form-new').submit(function() {
+		if (!$('#id_keep_private').is(':checked')) {
+			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+		}
+	});
+});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +24,7 @@
 	{% trans "Supply only the vital information about the item here. You can fill in additional information later on by editing." %}
 	{% ifequal klass "Data" %}{% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}{% endifequal %}
 
-	<form action="{{ url_new }}" method="post" enctype="multipart/form-data">
+	<form id="form-new" action="{{ url_new }}" method="post" enctype="multipart/form-data">
 	{% if form.errors %}<p class="error">{% trans "There had been errors, please see below" %}.</td>{% endif %}
 	<dl>
 		<dt><label for="id_name">{% trans "Name" %}</label> *: {{ form.name.errors }}</dt>
@@ -58,7 +68,7 @@
 		<dt>{{ form.score }}</dd>
 	{% endifequal %}{% endifequal %}{% endifequal %}
 		<br />
-		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /></dt>
+		<dt><input type="submit" name="post" class="submit-post" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}</dt>
 	</dl>
 	</form>
 </div><!-- /in -->

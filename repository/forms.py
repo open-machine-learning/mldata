@@ -20,6 +20,7 @@ class RepositoryForm(forms.ModelForm):
     @type tags: tagging.forms.TagField
     """
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
+    keep_private = BooleanField(required=False)
 
 
     def clean_name(self):

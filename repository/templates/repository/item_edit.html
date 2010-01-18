@@ -13,9 +13,9 @@ $(function() {
 	$('#cancel').click(function() {
 		window.history.back(-1);
 	});
-	$('#id_is_public').click(function() {
-		if ($('#id_is_public').is(':checked')) {
-			window.alert('{% trans "WARNING: It cannot be made private again!" %}');
+	$('#form-edit').submit(function() {
+		if (!$('#id_keep_private').is(':checked')) {
+			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
 		}
 	});
 
@@ -25,9 +25,9 @@ $(function() {
 {% endblock %}
 
 {% block content %}
-<h2 class="title-01">{% trans "Edit" %} {{ object.klass }} {% trans "for" %} {{ object.name }} ({% trans "version" %} {{ object.version }})</h2>
+<h2 class="title-01">{% trans "Edit" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h2>
 <div class="in">
-	<form action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
+	<form id="form-edit" action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
 		{% if form.errors %}
 		<div class="error">{% trans "There had been errors, please see below" %}.</div>
 		{% endif %}
@@ -38,10 +38,6 @@ $(function() {
 			</ul>
 
 			<div id="contents-main"><dl>
-				{% if not object.is_public %}
-				<dt><label for="id_is_public">{% trans "Make item public? WARNING: Once it is public, it cannot be made private again!" %}</label> {{ form.is_public.errors }}</dt>
-				<dd>{{ form.is_public }}</dd>
-				{% endif %}
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}</dd>
 				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
@@ -96,7 +92,7 @@ $(function() {
 			{% endifequal %}
 			</dl></div>
 
-			<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" />
+			<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 		</div>
 	</form>
 </div><!-- /in -->

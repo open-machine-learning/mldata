@@ -454,6 +454,9 @@ def _new(request, klass):
                 new.is_public = False
                 new.user = request.user
 
+                if not form.cleaned_data['keep_private']:
+                    new.is_public = True
+
                 if klass == Data:
                     new.file = request.FILES['file']
                     new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
@@ -532,6 +535,8 @@ def _edit(request, slug_or_id, klass):
             next.user_id = request.user.id
 
             if prev.is_public: # once public, always public
+                next.is_public = True
+            elif not form.cleaned_data['keep_private']:
                 next.is_public = True
 
             if klass == Data:
