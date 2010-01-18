@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.http import Http404
+from django.http import HttpResponseForbidden
 from django_authopenid.models import UserAssociation
 from openid.consumer import consumer
 
@@ -142,79 +142,83 @@ class ChangeUserDetailsForm(forms.Form):
             )
             ua.save()
 
+
 def show_user_list(request):
-    if request.user.is_superuser:
-        return object_list(request,
-                paginate_by=10,
-                queryset=User.objects.all(),
-                template_name='user/user_list.html')
-    raise Http404
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    return object_list(request,
+            paginate_by=10,
+            queryset=User.objects.all(),
+            template_name='user/user_list.html')
+
 
 def show_user(request, user_id):
-    if request.user.is_authenticated():
-        entry = get_object_or_404(User, pk=user_id)
-        if not request.user.is_superuser and not entry == request.user:
-            raise Http404
+    if not request.user.is_authenticated():
+        return HttpResponseForbidden()
 
-        try:
-            entry.openid_url = UserAssociation.objects.get(user=entry).openid_url
-        except UserAssociation.DoesNotExist:
-            entry.openid_url = ''
+    entry = get_object_or_404(User, pk=user_id)
+    if not request.user.is_superuser and not entry == request.user:
+        return HttpResponseForbidden()
 
-        form = ChangeUserDetailsForm(initial={
-            'firstname': entry.first_name,
-            'lastname': entry.last_name,
-            'email': entry.email,
-            'openid_url': entry.openid_url,
-            'password1': '',
-            'password2': '',
-        })
+    try:
+        entry.openid_url = UserAssociation.objects.get(user=entry).openid_url
+    except UserAssociation.DoesNotExist:
+        entry.openid_url = ''
 
-        entry.last_login = entry.last_login.__str__().split('.')[0]
-        entry.date_joined = entry.date_joined.__str__().split('.')[0]
+    form = ChangeUserDetailsForm(initial={
+        'firstname': entry.first_name,
+        'lastname': entry.last_name,
+        'email': entry.email,
+        'openid_url': entry.openid_url,
+        'password1': '',
+        'password2': '',
+    })
 
-        return render_to_response(
-            'user/user_detail.html',
-            { 'object': entry, 'form' : form },
-            context_instance=RequestContext(request)
-        )
+    entry.last_login = entry.last_login.__str__().split('.')[0]
+    entry.date_joined = entry.date_joined.__str__().split('.')[0]
 
-    raise Http404
+    return render_to_response(
+        'user/user_detail.html',
+        { 'object': entry, 'form' : form },
+        context_instance=RequestContext(request)
+    )
+
 
 def update_user(request, user_id):
-    if request.user.is_authenticated():
-        entry = get_object_or_404(User, pk=user_id)
-        if not request.user.is_superuser and not entry == request.user:
-            raise Http404
+    if not request.user.is_authenticated():
+        return HttpResponseForbidden()
 
-        try:
-            entry.openid_url = UserAssociation.objects.get(user=entry).openid_url
-        except UserAssociation.DoesNotExist:
-            entry.openid_url = ''
+    entry = get_object_or_404(User, pk=user_id)
+    if not request.user.is_superuser and not entry == request.user:
+        return HttpResponseForbidden()
 
-        form = ChangeUserDetailsForm(initial={
-            'firstname': entry.first_name,
-            'lastname': entry.last_name,
-            'email': entry.email,
-            'openid_url': entry.openid_url,
-            'password1': entry.password,
-            'password2': entry.password,
-        })
+    try:
+        entry.openid_url = UserAssociation.objects.get(user=entry).openid_url
+    except UserAssociation.DoesNotExist:
+        entry.openid_url = ''
 
-        if request.method == 'POST':
-            form = ChangeUserDetailsForm(request.POST)
-            if form.is_valid():
-                form.save(entry)
-                return render_to_response(
-                    'user/user_change_done.html',
-                    { 'object': entry, },
-                    context_instance=RequestContext(request)
-                )
+    form = ChangeUserDetailsForm(initial={
+        'firstname': entry.first_name,
+        'lastname': entry.last_name,
+        'email': entry.email,
+        'openid_url': entry.openid_url,
+        'password1': entry.password,
+        'password2': entry.password,
+    })
 
-        return render_to_response(
-            'user/user_detail.html',
-            { 'object': entry, 'form' : form, },
-            context_instance=RequestContext(request)
-        )
+    if request.method == 'POST':
+        form = ChangeUserDetailsForm(request.POST)
+        if form.is_valid():
+            form.save(entry)
+            return render_to_response(
+                'user/user_change_done.html',
+                { 'object': entry, },
+                context_instance=RequestContext(request)
+            )
 
-    raise Http404
+    return render_to_response(
+        'user/user_detail.html',
+        { 'object': entry, 'form' : form, },
+        context_instance=RequestContext(request)
+    )

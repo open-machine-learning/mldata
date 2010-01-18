@@ -8,7 +8,7 @@ and posts, adding new threads, and adding replies.
 
 from datetime import datetime
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotAllowed
+from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, HttpResponseForbidden
 from django.template import RequestContext, Context, loader
 from django import forms
 from django.core.mail import EmailMessage
@@ -86,12 +86,12 @@ def thread(request, thread):
     @type thread: integer
     @return a thread's view
     @rtype: Django object_list
-    @raise Http404: if thread doesn't exist or user has no access to it.
+    @raise Http404: if thread doesn't exist
     """
     try:
         t = Thread.objects.select_related().get(pk=thread)
         if not Forum.objects.has_access(t.forum, request.user.groups.all()):
-            raise Http404
+            return HttpResponseForbidden()
     except Thread.DoesNotExist:
         raise Http404
 

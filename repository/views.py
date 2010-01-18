@@ -11,7 +11,7 @@ import datetime, os, random
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.servers.basehttp import FileWrapper
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.db import IntegrityError, transaction
 from django.utils.translation import ugettext as _
 from django.forms.util import ErrorDict
@@ -60,9 +60,7 @@ def _get_object_or_404(request, slug_or_id, klass):
     @type klass: either Data, Task or Solution
     @return: retrieved item
     @rtype: klass
-    @raise Http404:
-        - user is not owner if item is not public
-        - item could not be found
+    @raise Http404: item could not be found
     """
     obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
         repository__is_deleted=False)
@@ -70,7 +68,7 @@ def _get_object_or_404(request, slug_or_id, klass):
     if obj: # slug + current version
         is_owner = _is_owner(request.user, obj[0].repository.user)
         if not is_owner and not obj[0].repository.is_public:
-            raise Http404
+            return HttpResponseForbidden()
         obj = getattr(obj[0].repository, klass.__name__.lower())
     else: # id
         try:
@@ -81,7 +79,7 @@ def _get_object_or_404(request, slug_or_id, klass):
             raise Http404
         is_owner = _is_owner(request.user, obj.user)
         if not is_owner and not obj.is_public:
-            raise Http404
+            return HttpResponseForbidden()
 
     obj.is_owner = is_owner
     obj.slug_or_id = slug_or_id
@@ -284,7 +282,6 @@ def _activate(request, id, klass):
     @type klass: either Data, Task or Solution
     @return: redirect user to login page or item's page
     @rtype: Django response
-    @raise Http404: if user doesn't own the item
     """
     if not request.user.is_authenticated():
         func = eval(klass.__name__.lower() + '_activate')
@@ -293,7 +290,7 @@ def _activate(request, id, klass):
 
     obj = _get_object_or_404(request, id, klass)
     if not obj.is_owner:
-        raise Http404
+        return HttpResponseForbidden()
     obj.is_public = True
     obj.save()
     CurrentVersion.set(obj)
@@ -313,7 +310,6 @@ def _delete(request, id, klass):
     @type klass: either Data, Task or Solution
     @return: redirect user to login page or item's page or user's my page
     @rtype: Django response
-    @raise Http404: if user doesn't own the item
     """
     if not request.user.is_authenticated():
         func = eval(klass.__name__.lower() + '_delete')
@@ -322,7 +318,7 @@ def _delete(request, id, klass):
 
     obj = _get_object_or_404(request, id, klass)
     if not obj.is_owner:
-        raise Http404
+        return HttpResponseForbidden()
     obj.is_deleted = True
     obj.save()
 
@@ -947,7 +943,6 @@ def data_new_review(request, id):
     @type id: integer
     @return: redirect user to login page or item's view page after approval or review form
     @rtype: Django response
-    @raise Http404: if already approved
     """
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new_review, args=[id])
@@ -956,7 +951,7 @@ def data_new_review(request, id):
     obj = _get_object_or_404(request, id, Data)
     # don't want users to be able to remove items once approved
     if obj.is_approved:
-        raise Http404
+        return HttpResponseForbidden()
 
     if request.method == 'POST':
         if request.POST.has_key('revert'):
