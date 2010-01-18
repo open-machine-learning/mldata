@@ -42,7 +42,7 @@
 		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
 		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
 	{% if request.user.is_authenticated %}
-		<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %}</a></li>
+		<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ user.username }}</a></li>
 		<li><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
 	{% else %}
 		<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>
@@ -79,7 +79,7 @@
 	<hr class="noscreen" />
 
 	<div id="footer" class="box">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a>, Cheng Soon Ong, Mikio L. Braun, Soeren Sonnenburg, Patrik O. Hoyer, Jussi Lahtinen, Petri Myllymäki, Heikki Mannila<br />Version {% get_version %} | <a href="{% url about_impressum %}">Impressum</a> | {% trans "Hosting graciously provided by the" %} <a href="http://www.tu-berlin.de">TU Berlin</a><br />
-	Visual styles provided by <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">http://www.nuviotemplates.com</a>.
+	Visual styles based on <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">http://www.nuviotemplates.com</a>.
 	</div><!-- /footer -->
 </div><!-- /main -->
 
