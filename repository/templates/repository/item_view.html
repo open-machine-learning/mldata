@@ -1,6 +1,7 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
 {% load markup %}
+{% load show_stars %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "View" %} / {{ object.name }}{% endblock %}
@@ -16,6 +17,14 @@ $(function() {
 		} else {
 			return false;
 		}
+	});
+
+	$('#rating').hover(function() {
+		$('#rating-hide').css('visibility', 'visible');
+	});
+	$('#rating-hide-close').click(function() {
+		$('#rating-hide').css('visibility', 'hidden');
+		return false;
 	});
 
 	$('#contents').tabs();
@@ -36,7 +45,8 @@ $(function() {
 			<li><a title="{% trans "History of item" %}" href="#contents-history">{% trans "History" %}</a></li>
 		</ul>
 		<div class="view-info">
-			{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }}
+			{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }}; <span id="rating"><a href="#">{% trans "Rating" %}</a>: {% show_stars object.average_rating of 5 round to half %}</span>
+			<div id="rating-hide">{% include "repository/rating_hide.html" %}</div>
 		</div>
 		<div class="view-actions">
 				{% if can_activate %}<a href="{{ object.url_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
@@ -145,19 +155,11 @@ $(function() {
 	</div><!-- /contents -->
 	<hr />
 
-	<div class="cols5050 box">
-		<div class="col">
-			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-			{% trans "You can" %} <a href="{{ object.url_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
-		</div><!-- /left col -->
-		<div class="col f-right">
-			{% include "repository/rating_results.html" %}
-		</div><!-- /right col -->
-	</div><!-- /cols5050 -->
-
+	<div>
+		{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
+		{% trans "You can" %} <a href="{{ object.url_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
+	</div>
 </div><!-- /in -->
-
-{% include "repository/rating_form.html" %}
 
 {% load comments %}
 {% ifequal object.klass "Data" %}

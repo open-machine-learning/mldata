@@ -1,0 +1,20 @@
+{% load show_stars %}
+{% load i18n %}
+<div id="rating-hide-close"><a href="#">X</a></div>
+<div id="rating-hide-results">
+	{% trans "Rating" %}
+	<div><nobr>{% show_stars object.average_rating of 5 round to half %}</nobr> {% trans "Overall" %} ({% trans "based on" %} {{ object.total_number_of_votes }} {% trans "vote" %}{{ object.total_number_of_votes|pluralize }})</div>
+	<div><nobr>{% show_stars object.average_interesting_rating of 5 round to half %}</nobr> {% trans "Interesting" %}</div>
+	<div><nobr>{% show_stars object.average_documentation_rating of 5 round to half %}</nobr> {% trans "Documentation" %}</div>
+</div>
+{% if rating_form %}
+<div id="rating-hide-form">
+	{% trans "Ratings can be changed later on, '0' means poor and '5' means excellent" %}.</p>
+	<form method="post" action="{{ rating_form.action }}">
+		<ul class="rating-form">
+			{{ rating_form.as_ul }}
+		</ul>
+		<input type="submit" value="{% trans "Submit ratings" %}">
+	</form>
+</div>
+{% endif %}
