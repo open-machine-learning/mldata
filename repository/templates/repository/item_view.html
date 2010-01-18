@@ -138,7 +138,7 @@ $(function() {
 			{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
 			<dl id="news">{% for v in object.versions.object_list %}
 				<dt><a href="{{ request.path }}../{{ v.id }}">{{ v.version }}</a></dt>
-				<dd>by <a href="{% url user.views.show_user v.user.id %}">{{ v.user }}</a> on {{ v.pub_date|date:"Y-m-d H:i" }}</dd>
+				<dd>by {{ v.user }} on {{ v.pub_date|date:"Y-m-d H:i" }}</dd>
 			{% endfor %}</dl>
 			{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
 		</div><!-- /contents-history -->
