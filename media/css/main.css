@@ -120,11 +120,11 @@ dl#news a:hover {text-decoration:none;}
 5) Others
 ---------------------------------------------------------------------------------------------------------- */
 
-.title-01 {margin:0; padding:15px 15px 15px 45px; background:url("../images/arrow-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
+.title-01 {margin:0; padding:15px 15px 15px 45px; background:url("../images/square-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
 .title-02 {background:url("../images/dot-01.gif") 0 60% repeat-x; font-size:100%;}
 .title-02 span {padding-right:5px;}
-.title-03 {margin:0; padding:13px 10px 13px 15px; background:url("../images/arrow-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
-.title-03.gallery {background:url("../images/arrow-02.gif") 903px 50% no-repeat;}
+.title-03 {margin:0; padding:13px 10px 13px 15px; background:url("../images/square-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
+.title-03.gallery {background:url("../images/square-02.gif") 903px 50% no-repeat;}
 .title-04 {margin:0 5px; padding:13px 30px 13px 15px; background:url("../images/title-04.gif") 0 0  repeat-x; font-size:100%; font-weight:bold;}
 
 .more {padding-right:14px; background:url("../images/more.gif") 100% 5px no-repeat;}
