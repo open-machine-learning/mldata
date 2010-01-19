@@ -215,8 +215,12 @@ def _get_tag_cloud(request):
     @return: list of tags with attributes font_size
     @rtype: list of tagging.Tag
     """
-    cloud = calculate_cloud(_get_current_tags(request), steps=2)
-    random.shuffle(cloud)
+    current = _get_current_tags(request)
+    if current:
+        cloud = calculate_cloud(current, steps=2)
+        random.shuffle(cloud)
+    else:
+        cloud = None
     return cloud
 
 
@@ -347,6 +351,9 @@ def _download(request, id, klass):
     for chunk in fileobj.chunks():
         response.write(chunk)
 
+    obj.downloads += 1
+    obj.save()
+
     return response
 
 
@@ -368,6 +375,9 @@ def _view(request, slug_or_id, klass):
         return HttpResponseForbidden()
     if klass == Data and not obj.is_approved:
         return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
+
+    obj.hits += 1
+    obj.save()
 
     obj.completeness = _get_completeness(obj)
     obj.klass = klass.__name__

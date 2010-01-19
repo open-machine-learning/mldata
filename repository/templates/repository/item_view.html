@@ -53,6 +53,7 @@ $(function() {
 			<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-more"><span>{% trans "More Info" %}</a><span></li>
 			<li><a title="{% trans "History of item" %}" href="#contents-tabs-history"><span>{% trans "History" %}</a><span></li>
 			<li><a title="{% trans "Comments on item" %}" href="#contents-tabs-comments"><span>{% trans "Comments" %}</a><span></li>
+			<li><a title="{% trans "Statistics about item" %}" href="#contents-tabs-stats"><span>{% trans "Stats" %}</a><span></li>
 		</ul>&nbsp;<!-- need nbsp; to see first bullet point ... -->
 
 		<div id="contents-tabs-summary"><dl id="news">
@@ -167,6 +168,11 @@ $(function() {
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}
 		</div><!-- /contents-comments -->
+
+		<div id="contents-tabs-stats">
+			<p>This item was downloaded {{ object.downloads }} times and viewed {{ object.hits }} times.</p>
+		</div><!-- /contents-stats -->
+
 	</div><!-- /contents -->
 
 	<div>

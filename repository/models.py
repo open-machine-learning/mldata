@@ -130,6 +130,8 @@ class Repository(models.Model):
     average_interesting_rating = models.FloatField(editable=False, default=-1)
     average_documentation_rating = models.FloatField(editable=False, default=-1)
     total_number_of_votes = models.IntegerField(editable=False, default=0)
+    downloads = models.IntegerField(editable=False, default=0)
+    hits = models.IntegerField(editable=False, default=0)
 
 
     class Meta:
