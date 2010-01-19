@@ -19,7 +19,7 @@ $(function() {
 		}
 	});
 
-	$('#contents').tabs();
+	$('#contents-tabs').tabs();
 });
 </script>
 {% endblock %}
@@ -31,13 +31,13 @@ $(function() {
 		{% if form.errors %}
 		<div class="error">{% trans "There had been errors, please see below" %}.</div>
 		{% endif %}
-		<div id="contents">
-			<ul class="view-tabs">
-				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a> | </li>
-				<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a></li>
+		<div id="contents-tabs">
+			<ul class="item-tabs">
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-main"><span>{% trans "Main" %}</span></a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-other"><span>{% trans "Other" %}</span></a></li>
 			</ul>
 
-			<div id="contents-main"><dl>
+			<div id="contents-tabs-main"><dl>
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}</dd>
 				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
@@ -75,7 +75,7 @@ $(function() {
 			{% endifequal %}{% endifequal %}{% endifequal %}
 			</dl></div>
 
-			<div id="contents-other"><dl>
+			<div id="contents-tabs-other"><dl>
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
 				<dd>{{ form.summary }}</dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
@@ -91,9 +91,9 @@ $(function() {
 				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 			{% endifequal %}
 			</dl></div>
-
-			<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 		</div>
+
+		<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 	</form>
 </div><!-- /in -->
 {% endblock %}

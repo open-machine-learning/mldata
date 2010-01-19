@@ -27,7 +27,7 @@ $(function() {
 		return false;
 	});
 
-	$('#contents').tabs();
+	$('#contents-tabs').tabs();
 });
 </script>
 {% endblock %}
@@ -35,28 +35,26 @@ $(function() {
 {% block content %}
 <h2 class="title-01">{% trans "View" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h2>
 <div class="in">
-	<div id="contents">
-		<ul class="view-tabs">
-			<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-main">{% trans "Main" %}</a> | </li>
-		{% ifequal object.klass "Data" %}
-			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-data">{% trans "Data" %}</a> |</li>
-		{% endifequal %}
-			<li><a title="{% trans "Other attributes of item" %}" href="#contents-other">{% trans "Other" %}</a> | </li>
-			<li><a title="{% trans "History of item" %}" href="#contents-history">{% trans "History" %}</a></li>
-		</ul>
-		<div class="view-info">
-			{% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }}, {% trans "version" %} {{ object.version }}; <span id="rating"><a href="#">{% trans "Rating" %}</a>: {% show_stars object.average_rating of 5 round to half %}</span>
+		<div class="item-info">
+			{{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }} | {% trans "Version" %} {{ object.version }} | <span id="rating"><a href="#">{% trans "Rating" %}</a> {% show_stars object.average_rating of 5 round to half %}</span>
 			<div id="rating-hide">{% include "repository/rating_hide.html" %}</div>
 		</div>
-		<div class="view-actions">
+		<div class="item-actions">
 				{% if can_activate %}<a href="{{ object.url_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
 				<a href="{{ object.url_edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
 				{% if can_delete %}<a id="delete" href="{{ object.url_delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 		</div>
 		<br style="clear:both" />
-		<hr />
 
-		<div id="contents-main"><dl id="news">
+	<div id="contents-tabs">
+		<ul class="item-tabs">
+			<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-main"><span>{% trans "Main" %}</a><span></li>
+{% ifequal object.klass "Data" %}			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-tabs-data"><span>{% trans "Data" %}</a><span></li>{% endifequal %}
+			<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-other"><span>{% trans "Other" %}</a><span></li>
+			<li><a title="{% trans "History of item" %}" href="#contents-tabs-history"><span>{% trans "History" %}</a><span></li>
+		</ul>&nbsp;<!-- need nbsp; to see first bullet point ... -->
+
+		<div id="contents-tabs-main"><dl id="news">
 			<dt>{% trans "Tags" %}</dt>
 			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Description" %}</dt>
@@ -99,7 +97,7 @@ $(function() {
 		{% endifequal %}{% endifequal %}{% endifequal %}
 		</dl></div><!-- /contents-main -->
 		{% ifequal object.klass "Data" %}
-		<div id="contents-data"><dl id="news">
+		<div id="contents-tabs-data"><dl id="news">
 			<dt>{% trans "Format" %}</dt>
 			<dd>{{ object.format }}</dd>
 			<dt>{% trans "Name" %}</dt>
@@ -128,7 +126,7 @@ $(function() {
 			</ol></dd>
 		</dl></div><!-- /contents-data -->
 		{% endifequal %}
-		<div id="contents-other"><dl id="news">
+		<div id="contents-tabs-other"><dl id="news">
 			<dt>{% trans "Summary" %}</dt>
 			<dd>{{ object.summary }}</dd>
 			<dt>{% trans "URLs" %}</dt>
@@ -144,7 +142,7 @@ $(function() {
 			<dd>{{ object.usage_scenario|markdown }}</dd>
 		{% endifequal %}
 		</dl></div><!-- /contents-other -->
-		<div id="contents-history">
+		<div id="contents-tabs-history">
 			{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
 			<dl id="news">{% for v in object.versions.object_list %}
 				<dt><a href="{{ request.path }}../{{ v.id }}">{{ v.version }}</a></dt>
@@ -153,7 +151,6 @@ $(function() {
 			{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
 		</div><!-- /contents-history -->
 	</div><!-- /contents -->
-	<hr />
 
 	<div>
 		{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />

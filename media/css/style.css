@@ -82,9 +82,9 @@ dl#news dd a {color:#3f3f3f;}
 
 .comment, .more {color:#3F3F3F;}
 
-.view-tabs {font-size:large; background-color:#0081C7;}
-.view-tabs li a {color:#FFF; background-color:#0081C7;}
 .warning {color:#F00;}
 .error {color:#F00;}
 
 .helptext {font-size:x-small; font-weight:normal;}
+
+hr {color:#0081C7;}
