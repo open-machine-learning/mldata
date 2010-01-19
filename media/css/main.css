@@ -163,10 +163,12 @@ li.ui-tabs-selected a span {color:#0081C7;}
 
 /* RATING */
 #rating-hide {visibility: hidden; position:absolute; background:#FFF; z-index:42; border: 3px solid #0081C7;}
-#rating-hide-close {width:100%; text-align:right; background:#0081C7}
-#rating-hide-close a {text-decoration:none; color:#FFF; font-size:large;}
+#rating-hide-title {width:100%; background:#0081C7; font-size:large; color:#FFF;}
+#rating-hide-head {text-align:left; width:90%; background:#0081C7;}
+#rating-hide-close {text-align:right; width:10%; background:#0081C7;}
+#rating-hide-close a {text-decoration:none; color:#FFF;}
 #rating-hide-close a:hover {text-decoration:blink;}
-#rating-hide-results {margin:.5em; padding:0; text-align:left;}
+#rating-hide-results {margin:.5em; padding:0; padding-top:.5em; text-align:left;}
 #rating-hide-results div {margin:0; padding:0; text-align:left; vertical-align:top;}
 #rating-hide-results img {vertical-align:top;}
 #rating-hide-form {margin:.5em; margin-top:1em;}

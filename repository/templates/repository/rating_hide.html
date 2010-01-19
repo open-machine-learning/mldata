@@ -1,8 +1,10 @@
 {% load show_stars %}
 {% load i18n %}
-<div id="rating-hide-close"><a href="#">X</a></div>
-<div id="rating-hide-results">
-	{% trans "Rating" %}
+<div id="rating-hide-title">
+	<div style="float:left" id="rating-hide-head">{% trans "Rating" %}</div>
+	<div style="float:right" id="rating-hide-close"><a href="#">X</a></div>
+</div>
+<div style="clear:both" id="rating-hide-results">
 	<div><nobr>{% show_stars object.average_rating of 5 round to half %}</nobr> {% trans "Overall" %} ({% trans "based on" %} {{ object.total_number_of_votes }} {% trans "vote" %}{{ object.total_number_of_votes|pluralize }})</div>
 	<div><nobr>{% show_stars object.average_interesting_rating of 5 round to half %}</nobr> {% trans "Interesting" %}</div>
 	<div><nobr>{% show_stars object.average_documentation_rating of 5 round to half %}</nobr> {% trans "Documentation" %}</div>
