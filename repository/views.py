@@ -513,7 +513,7 @@ def _edit(request, slug_or_id, klass):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(
             reverse('user_signin') + '?next=' + prev.url_edit)
-    if not prev.is_writeable(request.user):
+    if not prev.is_writeable(request.user) and not prev.is_public:
         return HttpResponseForbidden()
 
     formfunc = eval(klass.__name__ + 'Form')
