@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load markup %}
 {% load comments %}
-<div class="in">
 <h3 class="title-02">{% trans "Leave a comment" %}</h3>
 {% if request.user.is_authenticated %}
 	<form action="{% comment_form_target %}" method="POST">
@@ -28,4 +27,3 @@
 {% else %}
 	{% trans "To post a comment, please" %} <a href="{% url user_signin %}?next={{ object.get_absolute_url }}">sign in</a>.
 {% endif %}
-</div><!-- /in -->

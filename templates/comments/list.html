@@ -1,16 +1,13 @@
 {% load i18n %}
 {% load markup %}
 {% load comments %}
-<div class="in">
-	<h3 class="title-02" id="comments">{% trans "Comments" %}</h3>
-	{% if comment_list %}
-	<dl id="news">
-	{% for comment in comment_list %}
-		<dt id="c{{ comment.id }}"><strong>{{ comment.user }}</strong> ({{ comment.submit_date|date:"Y-m-d H:i" }}):</dt>
-		<dd>{{ comment.comment|markdown }}</dd>
-	{% endfor %}
-	</dl>
-	{% else %}
-		{% trans "No one has posted any comments yet. Perhaps you would like to be the first?" %}
-	{% endif %}
-</div><!-- /in -->
+{% if comment_list %}
+<dl id="news">
+{% for comment in comment_list %}
+	<dt id="c{{ comment.id }}"><strong>{{ comment.user }}</strong> ({{ comment.submit_date|date:"Y-m-d H:i" }}):</dt>
+	<dd>{{ comment.comment|markdown }}</dd>
+{% endfor %}
+</dl>
+{% else %}
+	{% trans "No one has posted any comments yet. Perhaps you would like to be the first?" %}
+{% endif %}

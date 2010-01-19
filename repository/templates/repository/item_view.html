@@ -52,6 +52,7 @@ $(function() {
 {% ifequal object.klass "Data" %}			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-tabs-data"><span>{% trans "Data" %}</a><span></li>{% endifequal %}
 			<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-more"><span>{% trans "More Info" %}</a><span></li>
 			<li><a title="{% trans "History of item" %}" href="#contents-tabs-history"><span>{% trans "History" %}</a><span></li>
+			<li><a title="{% trans "Comments on item" %}" href="#contents-tabs-comments"><span>{% trans "Comments" %}</a><span></li>
 		</ul>&nbsp;<!-- need nbsp; to see first bullet point ... -->
 
 		<div id="contents-tabs-summary"><dl id="news">
@@ -150,14 +151,8 @@ $(function() {
 			{% endfor %}</dl>
 			{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
 		</div><!-- /contents-history -->
-	</div><!-- /contents -->
 
-	<div>
-		{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-		{% trans "You can" %} <a href="{{ object.url_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
-	</div>
-</div><!-- /in -->
-
+		<div id="contents-tabs-comments">
 {% load comments %}
 {% ifequal object.klass "Data" %}
 {% get_comment_list for repository.data object.id as comment_list %}
@@ -171,5 +166,13 @@ $(function() {
 {% endifequal %}{% endifequal %}{% endifequal %}
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}
+		</div><!-- /contents-comments -->
+	</div><!-- /contents -->
+
+	<div>
+		{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
+		{% trans "You can" %} <a href="{{ object.url_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
+	</div>
+</div><!-- /in -->
 
 {% endblock %}
