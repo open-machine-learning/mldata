@@ -29,8 +29,8 @@ $(function() {
 	<dl>
 		<dt><label for="id_name">{% trans "Name" %}</label> *: {{ form.name.errors }}</dt>
 		<dd>{{ form.name }}</dd>
-		<dt><label for="id_description">{% trans "Description" %}</label>: {{ form.description.errors }}</dt>
-		<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+		<dt><label for="id_summary">{% trans "Summary" %}</label>: {{ form.summary.errors }}</dt>
+		<dd>{{ form.summary }}</dd>
 		<dt><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dt>
 		<dd>{{ form.tags }}</dd>
 	{% ifequal klass "Data" %}

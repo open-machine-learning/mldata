@@ -48,17 +48,17 @@ $(function() {
 
 	<div id="contents-tabs">
 		<ul class="item-tabs">
-			<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-main"><span>{% trans "Main" %}</a><span></li>
+			<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-summary"><span>{% trans "Summary" %}</a><span></li>
 {% ifequal object.klass "Data" %}			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-tabs-data"><span>{% trans "Data" %}</a><span></li>{% endifequal %}
-			<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-other"><span>{% trans "Other" %}</a><span></li>
+			<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-more"><span>{% trans "More Info" %}</a><span></li>
 			<li><a title="{% trans "History of item" %}" href="#contents-tabs-history"><span>{% trans "History" %}</a><span></li>
 		</ul>&nbsp;<!-- need nbsp; to see first bullet point ... -->
 
-		<div id="contents-tabs-main"><dl id="news">
+		<div id="contents-tabs-summary"><dl id="news">
+			<dt>{% trans "Summary" %}</dt>
+			<dd>{{ object.summary }}</dd>
 			<dt>{% trans "Tags" %}</dt>
 			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
-			<dt>{% trans "Description" %}</dt>
-			<dd>{{ object.description|markdown }}</dd>
 			<dt>{% trans "License" %}</dt>
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
 		{% ifequal object.klass "Data" %}
@@ -126,9 +126,9 @@ $(function() {
 			</ol></dd>
 		</dl></div><!-- /contents-data -->
 		{% endifequal %}
-		<div id="contents-tabs-other"><dl id="news">
-			<dt>{% trans "Summary" %}</dt>
-			<dd>{{ object.summary }}</dd>
+		<div id="contents-tabs-more"><dl id="news">
+			<dt>{% trans "Description" %}</dt>
+			<dd>{{ object.description|markdown }}</dd>
 			<dt>{% trans "URLs" %}</dt>
 			<dd>{{ object.urls }}</dd>
 			<dt>{% trans "Publications" %}</dt>

@@ -34,15 +34,15 @@ $(function() {
 		{% endif %}
 		<div id="contents-tabs">
 			<ul class="item-tabs">
-				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-main"><span>{% trans "Main" %}</span></a></li>
-				<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-other"><span>{% trans "Other" %}</span></a></li>
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-summary"><span>{% trans "Summary" %}</span></a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-more"><span>{% trans "More Info" %}</span></a></li>
 			</ul>
 
-			<div id="contents-tabs-main"><dl>
+			<div id="contents-tabs-summary"><dl>
+				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
+				<dd>{{ form.summary }}</dd>
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}</dd>
-				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
-				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 
 			{% ifequal object.klass "Data" %}
 				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) {{ form.license.errors }}</dt>
@@ -76,9 +76,9 @@ $(function() {
 			{% endifequal %}{% endifequal %}{% endifequal %}
 			</dl></div>
 
-			<div id="contents-tabs-other"><dl>
-				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
-				<dd>{{ form.summary }}</dd>
+			<div id="contents-tabs-more"><dl>
+				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
+				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
 				<dd>{{ form.urls }}</dd>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
