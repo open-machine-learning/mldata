@@ -45,7 +45,7 @@ $(function() {
 				<dd>{{ form.tags }}</dd>
 
 			{% ifequal object.klass "Data" %}
-				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) {{ form.license.errors }}</dt>
+				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url about_license %}">{% trans "more info" %}</a>) {{ form.license.errors }}</dt>
 				<dd>{{ form.license }}</dd>
 			{% else %}{% ifequal object.klass "Task" %}
 				<dt><label for="id_input">{% trans "Input format" %}</label> {{ form.input.errors }}</dt>

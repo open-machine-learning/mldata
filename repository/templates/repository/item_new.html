@@ -34,12 +34,12 @@ $(function() {
 		<dt><label for="id_tags">{% trans "Tags" %}</label>: {{ form.tags.errors }}</dt>
 		<dd>{{ form.tags }}</dd>
 	{% ifequal klass "Data" %}
-		<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url repository.views.index %}license">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dt>
+		<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url about_license %}">{% trans "more info" %}</a>) *: {{ form.license.errors }}</dt>
 		<dd>{{ form.license }}</dd>
 		<dt><label for="id_file">{% trans "Data file" %}</label> *: {{ form.file.errors }}</dt>
 		<dd>{{ form.file }}</dd>
 	{% else %}{% ifequal klass "Task" %}
-		<dt>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA</a></dt>
+		<dt>{% trans "License" %} (<a href="{% url about_license %}#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA</a></dt>
 		<dt><label for="id_input">{% trans "Input format" %}</label> *: {{ form.input.errors }}</dt>
 		<dd>{{ form.input}}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 		<dt><label for="id_output">{% trans "Output format" %}</label> *: {{ form.output.errors }}</dt>
@@ -53,7 +53,7 @@ $(function() {
 		<dt><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dt>
 		<dd>{{ form.splits }}</dd>
 	{% else %}{% ifequal klass "Solution" %}
-		<dt>{% trans "License" %} (<a href="{% url repository.views.index %}license#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA 3.0</a></dt>
+		<dt>{% trans "License" %} (<a href="{% url about_license %}#tasksolution">{% trans "more info" %}</a>): <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY_SA 3.0</a></dt>
 		<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label>: {{ form.feature_processing.errors }}</dt>
 		<dd>{{ form.feature_processing }}</dd>
 		<dt><label for="id_parameters">{% trans "Parameters" %}</label>: {{ form.parameters.errors }}</dt>
