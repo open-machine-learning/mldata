@@ -219,6 +219,32 @@ class Repository(models.Model):
         return reverse(view, args=[self.slug.text])
 
 
+    def is_readable(self, user):
+        """Determine if the given user can view this item.
+
+        @param user: user to determine access for
+        @type user: Django User
+        @return: if user has access or not
+        @rtype: boolean
+        """
+        if self.is_public:
+            return True
+        return self.is_writeable(user)
+
+
+    def is_writeable(self, user):
+        """Determine if the given user can activate/edit/delete this item.
+
+        @param user: user to determine access for
+        @type user: Django User
+        @return: if user has access or not
+        @rtype: boolean
+        """
+        if user.is_staff or user.is_superuser or user == self.user:
+            return True
+        return False
+
+
 
 class CurrentVersion(models.Model):
     """Lookup model to find current version of an item quickly.

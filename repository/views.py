@@ -29,24 +29,6 @@ NUM_INDEX_PAGE = 10
 
 
 
-def _is_owner(request_user, obj_user):
-    """Determine if given user is the owner of the given item.
-
-    @param request_user: request's user object
-    @type request_user: user object
-    @param obj_user: item's user object
-    @type obj_user: user object
-    @return: if request user owns the item or not
-    @rtype: boolean
-    """
-    if request_user.is_staff or\
-        request_user.is_superuser or\
-        request_user == obj_user:
-        return True
-    else:
-        return False
-
-
 def _get_object_or_404(request, slug_or_id, klass):
     """Wrapper for Django's get_object_or_404.
 
@@ -64,11 +46,7 @@ def _get_object_or_404(request, slug_or_id, klass):
     """
     obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
         repository__is_deleted=False)
-
     if obj: # slug + current version
-        is_owner = _is_owner(request.user, obj[0].repository.user)
-        if not is_owner and not obj[0].repository.is_public:
-            return HttpResponseForbidden()
         obj = getattr(obj[0].repository, klass.__name__.lower())
     else: # id
         try:
@@ -77,11 +55,7 @@ def _get_object_or_404(request, slug_or_id, klass):
             raise Http404
         if not obj or obj.is_deleted:
             raise Http404
-        is_owner = _is_owner(request.user, obj.user)
-        if not is_owner and not obj.is_public:
-            return HttpResponseForbidden()
 
-    obj.is_owner = is_owner
     obj.slug_or_id = slug_or_id
     return obj
 
@@ -98,7 +72,7 @@ def _get_versions_paginator(request, obj):
     """
     qs = Q(slug__text=obj.slug.text) & Q(is_deleted=False)
     items = obj.__class__.objects.filter(qs).order_by('version')
-    items = [i for i in items if i.is_public or _is_owner(request.user, i.user)]
+    items = [i for i in items if i.is_readable(request.user)]
     paginator = Paginator(items, NUM_HISTORY_PAGE)
 
     try:
@@ -247,20 +221,22 @@ def _get_tag_cloud(request):
 
 
 
-def _can_activate(obj):
+def _can_activate(request, obj):
     """Determine if given item can be activated by the user.
 
+    @param request: request data
+    @type request: Django request
     @param obj: item to be activated
     @type obj: either Data, Task or Solution
     @return: if user can activate given item
     @rtype: boolean
     """
-    if not obj.is_owner:
+    if not obj.is_writeable(request.user):
         return False
-
     if not obj.is_public:
         return True
 
+    # if obj is public, but not current version:
     try:
         cv = CurrentVersion.objects.get(slug=obj.slug)
         if not cv.repository_id == obj.id:
@@ -269,6 +245,7 @@ def _can_activate(obj):
         pass
 
     return False
+
 
 @transaction.commit_on_success
 def _activate(request, id, klass):
@@ -289,7 +266,7 @@ def _activate(request, id, klass):
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = _get_object_or_404(request, id, klass)
-    if not obj.is_owner:
+    if not obj.is_writeable(request.user):
         return HttpResponseForbidden()
     obj.is_public = True
     obj.save()
@@ -317,7 +294,7 @@ def _delete(request, id, klass):
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = _get_object_or_404(request, id, klass)
-    if not obj.is_owner:
+    if not obj.is_writeable(request.user):
         return HttpResponseForbidden()
     obj.is_deleted = True
     obj.save()
@@ -346,6 +323,9 @@ def _download(request, id, klass):
     @raise Http404: if given klass is unexpected
     """
     obj = _get_object_or_404(request, id, klass)
+    if not obj.is_readable(request.user):
+        return HttpResponseForbidden()
+
     if klass == Data:
         fileobj = obj.file
     elif klass == Task:
@@ -384,6 +364,8 @@ def _view(request, slug_or_id, klass):
     @rtype: Django response
     """
     obj = _get_object_or_404(request, slug_or_id, klass)
+    if not obj.is_readable(request.user):
+        return HttpResponseForbidden()
     if klass == Data and not obj.is_approved:
         return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
 
@@ -400,8 +382,8 @@ def _view(request, slug_or_id, klass):
     info_dict = {
         'object': obj,
         'request': request,
-        'can_activate': _can_activate(obj),
-        'can_delete': obj.is_owner,
+        'can_activate': _can_activate(request, obj),
+        'can_delete': obj.is_writeable(request.user),
         'rating_form': _get_rating_form(request, obj),
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
@@ -521,6 +503,8 @@ def _edit(request, slug_or_id, klass):
     if not request.user.is_authenticated():
         return HttpResponseRedirect(
             reverse('user_signin') + '?next=' + prev.url_edit)
+    if not prev.is_writeable(request.user):
+        return HttpResponseForbidden()
 
     formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
@@ -955,7 +939,7 @@ def data_new_review(request, id):
 
     obj = _get_object_or_404(request, id, Data)
     # don't want users to be able to remove items once approved
-    if obj.is_approved:
+    if not obj.is_writeable(request.user) or obj.is_approved:
         return HttpResponseForbidden()
 
     if request.method == 'POST':
