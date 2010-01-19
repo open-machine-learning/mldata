@@ -1,8 +1,8 @@
 .ac_results {
 	padding: 0px;
-	border: 1px solid #883300;
-	background-color: #883300;
-	color: #ffffcc;
+	border: 1px solid #006095;
+	background-color: #006095;
+	color: #fff;
 	overflow: hidden;
 	z-index: 99999;
 }
@@ -40,11 +40,11 @@
 }
 
 .ac_odd {
-	background-color: #883300;
-	color: #ffffcc;
+	background-color: #006095;
+	color: #fff;
 }
 
 .ac_over {
-	background-color: #994400;
-	color: #ffff99;
+	background-color: #0081C7;
+	color: #fff;
 }

@@ -89,3 +89,8 @@ dl#news dd a {color:#3f3f3f;}
 .helptext {font-size:x-small; font-weight:normal;}
 
 hr {color:#0081C7;}
+
+input {border: 1px solid #0081C7;}
+input:focus {border: 2px solid #006095;}
+textarea {border: 1px solid #0081C7;}
+textarea:focus {border: 2px solid #006095;}
