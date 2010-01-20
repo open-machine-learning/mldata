@@ -48,7 +48,7 @@ $(function() {
 	<div id="tabs">
 		<ul class="tabs-tabs">
 			<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary"><span>{% trans "Summary" %}</a><span></li>
-{% ifequal object.klass "Data" %}			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#contents-tabs-data"><span>{% trans "Data" %}</a><span></li>{% endifequal %}
+{% ifequal object.klass "Data" %}			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#tabs-data"><span>{% trans "Data" %}</a><span></li>{% endifequal %}
 			<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more"><span>{% trans "More Info" %}</a><span></li>
 			<li><a title="{% trans "History of item" %}" href="#tabs-history"><span>{% trans "History" %}</a><span></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments"><span>{% trans "Comments" %}</a><span></li>
