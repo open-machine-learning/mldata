@@ -134,34 +134,23 @@ a:hover.more {text-decoration:none;}
 
 td {border-width:1px; border-style: solid; margin:0; padding:4px;}
 
-.rating-form {padding:0; margin:0}
-.rating-form ul {padding:0; margin:0; list-style-type:none;}
-.rating-form li {display:inline; font-size:small;}
-.rating-results {margin:0; padding:0; text-align:right;}
-.rating-results div {margin:0; padding:0; text-align:right; vertical-align:top;}
-.rating-results img {vertical-align:top;}
-
-/* TABS */
-#contents-tabs {margin-bottom:5px; border-bottom:1px solid #0081C7;}
+/* tabs */
 .ui-tabs .ui-tabs-hide {display: none;}
 /* only works when set to li.ui-tabs-selected */
 li.ui-tabs-selected a span {color:#0081C7;}
-.item-tabs {float:left; width:100%; background:#FFF; line-height:normal; border-bottom:1px solid #0081C7;}
-.item-tabs {margin:0; padding:10px 10px 0 0; list-style:none;}
-.item-tabs li {display:inline; margin:0; padding:0;}
-.item-tabs a {float:left; background:url('../images/tab-left.gif') no-repeat left top; margin:0; padding:0 0 0 4px; text-decoration:none;}
-.item-tabs a span {float:left; display:block; background:url('../images/tab-right.gif') no-repeat right top; padding:5px 15px 4px 6px; color:#000;}
+.tabs-tabs {float:left; width:100%; background:#FFF; line-height:normal; border-bottom:1px solid #0081C7; margin:0; padding:10px 10px 0 0; list-style:none;}
+.tabs-tabs li {display:inline; margin:0; padding:0;}
+.tabs-tabs a {float:left; background:url('../images/tab-left.gif') no-repeat left top; margin:0; padding:0 0 0 4px; text-decoration:none;}
+.tabs-tabs a span {float:left; display:block; background:url('../images/tab-right.gif') no-repeat right top; padding:5px 15px 4px 6px; color:#000;}
 /* Commented Backslash Hack hides rule from IE5-Mac \*/
-.item-tabs a span {float:none;}
+.tabs-tabs a span {float:none;}
 /* End IE5-Mac hack */
-.item-tabs a:hover span {color:#0081C7;}
-.item-tabs a:hover {background-position:0% -42px;}
-.item-tabs a:hover span { background-position:100% -42px;}
+.tabs-tabs a:hover span {color:#0081C7;}
+.tabs-tabs a:hover {background-position:0% -42px;}
+.tabs-tabs a:hover span { background-position:100% -42px;}
+#tabs-summary, #tabs-data, #tabs-more, #tabs-history, #tabs-comments, #tabs-stats {margin-top:10px;}
 
-.item-info { padding:0; margin:0; font-weight: bold; width:75%; float:left; text-align:left; vertical-align:bottom;}
-.item-actions { padding:0; margin:0; font-weight: bold; width:25%; float:right; text-align:right; vertical-align:bottom;}
-
-/* RATING */
+/* rating */
 #rating-hide {visibility: hidden; position:absolute; background:#FFF; z-index:42; border: 3px solid #0081C7;}
 #rating-hide-title {width:100%; background:#0081C7; font-size:large; color:#FFF;}
 #rating-hide-head {text-align:left; width:90%; background:#0081C7;}
@@ -175,5 +164,8 @@ li.ui-tabs-selected a span {color:#0081C7;}
 #rating-hide-form ul {padding:0; margin:0; list-style-type:none;}
 #rating-hide-form li {display:inline; font-size:small;}
 
+/* other item styles */
+#info { padding:0; margin:0; font-weight: bold; width:75%; float:left; text-align:left; vertical-align:bottom;}
+#actions { padding:0; margin:0; font-weight: bold; width:25%; float:right; text-align:right; vertical-align:bottom;}
 
 

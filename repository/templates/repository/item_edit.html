@@ -20,7 +20,7 @@ $(function() {
 		return true;
 	});
 
-	$('#contents-tabs').tabs();
+	$('#tabs').tabs();
 });
 </script>
 {% endblock %}
@@ -32,13 +32,13 @@ $(function() {
 		{% if form.errors %}
 		<div class="error">{% trans "There had been errors, please see below" %}.</div>
 		{% endif %}
-		<div id="contents-tabs">
-			<ul class="item-tabs">
-				<li><a title="{% trans "Primary attributes of item + download" %}" href="#contents-tabs-summary"><span>{% trans "Summary" %}</span></a></li>
-				<li><a title="{% trans "Other attributes of item" %}" href="#contents-tabs-more"><span>{% trans "More Info" %}</span></a></li>
+		<div id="tabs">
+			<ul class="tabs-tabs">
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary"><span>{% trans "Summary" %}</span></a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more"><span>{% trans "More Info" %}</span></a></li>
 			</ul>
 
-			<div id="contents-tabs-summary"><dl>
+			<div id="tabs-summary"><dl>
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
 				<dd>{{ form.summary }}</dd>
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
@@ -74,9 +74,9 @@ $(function() {
 				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
 				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</dd>
 			{% endifequal %}{% endifequal %}{% endifequal %}
-			</dl></div>
+			</dl></div><!-- /tabs-summary -->
 
-			<div id="contents-tabs-more"><dl>
+			<div id="tabs-more"><dl>
 				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
 				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
@@ -91,7 +91,7 @@ $(function() {
 				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
 				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 			{% endifequal %}
-			</dl></div>
+			</dl></div><!-- /tabs-more -->
 		</div>
 
 		<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
