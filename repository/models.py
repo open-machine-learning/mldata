@@ -221,30 +221,81 @@ class Repository(models.Model):
         return reverse(view, args=[self.slug.text])
 
 
-    def is_readable(self, user):
-        """Determine if the given user can view this item.
+    def is_owner(self, user):
+        """Is given user owner of this
 
-        @param user: user to determine access for
+        @param user: user to check for
         @type user: Django User
-        @return: if user has access or not
-        @rtype: boolean
-        """
-        if self.is_public:
-            return True
-        return self.is_writeable(user)
-
-
-    def is_writeable(self, user):
-        """Determine if the given user can activate/edit/delete this item.
-
-        @param user: user to determine access for
-        @type user: Django User
-        @return: if user has access or not
+        @return: if user owns this
         @rtype: boolean
         """
         if user.is_staff or user.is_superuser or user == self.user:
             return True
         return False
+
+    def can_activate(self, user):
+        """Can given user activate this.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can activate this
+        @rtype: boolean
+        """
+        if not self.is_owner(user):
+            return False
+        if not self.is_public:
+            return True
+        # if obj is public, but not current version:
+        try:
+            cv = CurrentVersion.objects.get(slug=self.slug)
+            if not cv.repository_id == self.id:
+                return True
+        except CurrentVersion.DoesNotExist:
+            pass
+
+        return False
+
+    def can_delete(self, user):
+        """Can given user activate this.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can activate this
+        @rtype: boolean
+        """
+        return self.is_owner(user)
+
+    def can_view(self, user):
+        """Can given user view this.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can view this
+        @rtype: boolean
+        """
+        if self.is_public or self.is_owner(user):
+            return True
+        return False
+
+    def can_download(self, user):
+        """Can given user download this.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can download this
+        @rtype: boolean
+        """
+        return self.can_view(user)
+
+    def can_edit(self, user):
+        """Can given user edit this.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can edit this
+        @rtype: boolean
+        """
+        return self.can_view(user)
 
 
 

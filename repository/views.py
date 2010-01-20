@@ -72,7 +72,7 @@ def _get_versions_paginator(request, obj):
     """
     qs = Q(slug__text=obj.slug.text) & Q(is_deleted=False)
     items = obj.__class__.objects.filter(qs).order_by('version')
-    items = [i for i in items if i.is_readable(request.user)]
+    items = [i for i in items if i.can_view(request.user)]
     paginator = Paginator(items, NUM_HISTORY_PAGE)
 
     try:
@@ -225,32 +225,6 @@ def _get_tag_cloud(request):
 
 
 
-def _can_activate(request, obj):
-    """Determine if given item can be activated by the user.
-
-    @param request: request data
-    @type request: Django request
-    @param obj: item to be activated
-    @type obj: either Data, Task or Solution
-    @return: if user can activate given item
-    @rtype: boolean
-    """
-    if not obj.is_writeable(request.user):
-        return False
-    if not obj.is_public:
-        return True
-
-    # if obj is public, but not current version:
-    try:
-        cv = CurrentVersion.objects.get(slug=obj.slug)
-        if not cv.repository_id == obj.id:
-            return True
-    except CurrentVersion.DoesNotExist:
-        pass
-
-    return False
-
-
 @transaction.commit_on_success
 def _activate(request, id, klass):
     """Activate item given by id and klass.
@@ -270,11 +244,10 @@ def _activate(request, id, klass):
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = _get_object_or_404(request, id, klass)
-    if not obj.is_writeable(request.user):
-        return HttpResponseForbidden()
-    obj.is_public = True
-    obj.save()
-    CurrentVersion.set(obj)
+    if obj.can_activate(request.user):
+        obj.is_public = True
+        obj.save()
+        CurrentVersion.set(obj)
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 
@@ -298,7 +271,7 @@ def _delete(request, id, klass):
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = _get_object_or_404(request, id, klass)
-    if not obj.is_writeable(request.user):
+    if not obj.can_delete(request.user):
         return HttpResponseForbidden()
     obj.is_deleted = True
     obj.save()
@@ -327,7 +300,7 @@ def _download(request, id, klass):
     @raise Http404: if given klass is unexpected
     """
     obj = _get_object_or_404(request, id, klass)
-    if not obj.is_readable(request.user):
+    if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
     if klass == Data:
@@ -371,7 +344,7 @@ def _view(request, slug_or_id, klass):
     @rtype: Django response
     """
     obj = _get_object_or_404(request, slug_or_id, klass)
-    if not obj.is_readable(request.user):
+    if not obj.can_view(request.user):
         return HttpResponseForbidden()
     if klass == Data and not obj.is_approved:
         return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
@@ -392,8 +365,8 @@ def _view(request, slug_or_id, klass):
     info_dict = {
         'object': obj,
         'request': request,
-        'can_activate': _can_activate(request, obj),
-        'can_delete': obj.is_writeable(request.user),
+        'can_activate': obj.can_activate(request.user),
+        'can_delete': obj.can_delete(request.user),
         'rating_form': _get_rating_form(request, obj),
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
@@ -511,9 +484,8 @@ def _edit(request, slug_or_id, klass):
     prev.url_edit = reverse(
         eval(klass.__name__.lower() + '_edit'), args=[prev.id])
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(
-            reverse('user_signin') + '?next=' + prev.url_edit)
-    if not prev.is_writeable(request.user) and not prev.is_public:
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + prev.url_edit)
+    if not prev.can_edit(request.user):
         return HttpResponseForbidden()
 
     formfunc = eval(klass.__name__ + 'Form')
