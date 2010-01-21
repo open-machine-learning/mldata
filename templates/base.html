@@ -36,19 +36,20 @@
 
 	<hr class="noscreen" />
 
-	<div id="nav" class="box"><ul>
-		<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
-		<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
-		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
-		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
-	{% if request.user.is_authenticated %}
-		<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
-		<li><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
-	{% else %}
-		<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>
-		<li><a href="{% url user_signin %}">{% trans "Sign in" %}</a></li>
-	{% endif %}
-	</ul></span>
+	<div id="nav" class="box">
+		<ul>
+			<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
+			<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
+			<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
+			<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
+		{% if request.user.is_authenticated %}
+			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
+			<li><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
+		{% else %}
+			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>
+			<li><a href="{% url user_signin %}">{% trans "Sign in" %}</a></li>
+		{% endif %}
+		</ul>
 
 		<p id="feeds">
 			{% block feeds %}{% endblock %}

@@ -23,7 +23,7 @@
 1) HTML tags
 ---------------------------------------------------------------------------------------------------------- */
 
-body {padding:25px 0; background:url("../images/bg.gif") 0 0 repeat-x; font:0.75em/1.5 "arial", sans-serif;}
+body {padding:5px 0; background:url("../images/bg.gif") 0 0 repeat-x; font:0.75em/1.5 "arial", sans-serif;}
 
 h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px 0;}
 
@@ -36,7 +36,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
 3) Layout
 ---------------------------------------------------------------------------------------------------------- */
 
-#main {width:940px; padding:10px; margin:0 auto; overflow:hidden;}
+#main {width:940px; padding:5px; margin:0 auto; overflow:hidden;}
 
     #header {position:relative; height:100px; padding:0 0 0 35px; background:url("../images/header.gif") 0 0 no-repeat; overflow:hidden;}
     #header #logo {margin:0;}
@@ -51,15 +51,13 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     #nav ul li.active, #nav ul li.active a {font-weight:bold;}
     #nav #feeds {position:absolute; top:9px; right:25px; margin:0;}
     #nav #feeds a:hover {text-decoration:none;}
-    #nav #account {position:absolute; top:9px; right:25px; margin:0;}
-    #nav #account a:hover {text-decoration:none;}
 
     #cols {margin-bottom:10px; background:url("../images/cols.gif") 0 0 no-repeat;}
-    #cols-in {min-height:430px; padding:20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
+    #cols-in {min-height:430px; padding:5px 20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
     
-        #content {float:left; width:600px;}
+        #content {float:left; width:600px; background:#FFF;}
         #aside {float:right; width:280px;}
-        #content .in, #aside .in {padding:15px; padding-top:5px;}
+        #content .in, #aside .in {padding:5px 15px;}
 
     #footer {padding:15px 15px 5px 15px;}
     #footer p {margin:0;}
