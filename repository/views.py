@@ -993,24 +993,27 @@ def tags_view(request, tag):
     try:
         current = CurrentVersion.objects.filter(
                 Q(repository__user=request.user.id) | Q(repository__is_public=True)
-        )
+        ).order_by('repository__name')
         tag = Tag.objects.get(name=tag)
         tagged = TaggedItem.objects.filter(tag=tag)
-        objects = []
+        objects = {
+            'data': [],
+            'task': [],
+            'solution': [],
+        }
         for c in current:
             for t in tagged:
                 if t.object_id == c.repository.id:
                     try:
-                        o = c.repository.data
+                        objects['data'].append(c.repository.data)
                     except:
                         try:
-                            o = c.repository.task
+                            objects['task'].append(c.repository.task)
                         except:
                             try:
-                                o = c.repository.solution
+                                objects['solution'].append(c.repository.solution)
                             except:
                                 raise Http404
-                    objects.append(o)
                     break
     except Tag.DoesNotExist:
         objects = None

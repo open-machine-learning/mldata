@@ -165,5 +165,4 @@ li.ui-tabs-selected a span {color:#0081C7;}
 /* other item styles */
 #info { padding:0; margin:0; font-weight: bold; width:75%; float:left; text-align:left; vertical-align:bottom;}
 #actions { padding:0; margin:0; font-weight: bold; width:25%; float:right; text-align:right; vertical-align:bottom;}
-
-
+.fullwidth {width:100%; height:100%;}
