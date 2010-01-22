@@ -921,7 +921,7 @@ def data_new_review(request, id):
 
     obj = _get_object_or_404(request, id, Data)
     # don't want users to be able to remove items once approved
-    if not obj.is_writeable(request.user) or obj.is_approved:
+    if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
 
     if request.method == 'POST':
