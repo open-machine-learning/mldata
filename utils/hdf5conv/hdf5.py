@@ -267,6 +267,8 @@ def hdf5_extract(filename):
             extract['attributes'].append(h['attributes'][i])
     except KeyError:
         pass
+    except ValueError:
+        pass
 
     h.close()
     return extract
