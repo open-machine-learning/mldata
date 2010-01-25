@@ -48,7 +48,7 @@ $(function() {
 		<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 		<dt><label for="id_type">{% trans "Type" %}</label> *: {{ form.type.errors }}{{ form.freeformtype.errors }}</dt>
 		<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
-		<dt><label for="id_data">{% trans "Data" %}</label>: {{ form.data.errors }}</dt>
+		<dt><label for="id_data">{% trans "Data" %}</label> *: {{ form.data.errors }}</dt>
 		<dd>{{ form.data }}</dd>
 		<dt><label for="id_splits">{% trans "Splits file" %}</label>: {{ form.splits.errors }}</dt>
 		<dd>{{ form.splits }}</dd>

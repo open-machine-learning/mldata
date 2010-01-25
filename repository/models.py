@@ -365,7 +365,7 @@ class Task(Repository):
     output = models.TextField(blank=True)
     performance_measure = models.TextField(blank=True)
     type = models.ForeignKey(TaskType)
-    data = models.ManyToManyField(Data, blank=True)
+    data = models.ManyToManyField(Data)
     splits = models.FileField(upload_to=SPLITPATH)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
