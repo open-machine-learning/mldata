@@ -14,11 +14,13 @@
 	</dl>
 </div><!-- /in -->
 
+<div class="in">
 {% load comments %}
 {% get_comment_list for blog.post object.id as comment_list %}
 {% include "comments/list.html" %}
 {% get_comment_form for blog.post object.id as form %}
 {% include "comments/form.html" %}
+</div><!-- /in -->
 {% endblock %}
 
 {% block aside-info %}
