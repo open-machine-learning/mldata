@@ -916,21 +916,21 @@ def score_download(request, id):
 
 
 @transaction.commit_on_success
-def data_new_review(request, id):
+def data_new_review(request, slug):
     """Review Data item to check if uploaded file is as expected.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the item to review
-    @type id: integer
+    @param slug: slug of the item to review
+    @type slug: string
     @return: redirect user to login page or item's view page after approval or review form
     @rtype: Django response
     """
     if not request.user.is_authenticated():
-        next = '?next=' + reverse(data_new_review, args=[id])
+        next = '?next=' + reverse(data_new_review, args=[slug])
         return HttpResponseRedirect(reverse('user_signin') + next)
 
-    obj = _get_object_or_404(id, Data)
+    obj = _get_object_or_404(slug, Data)
     # don't want users to be able to remove items once approved
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
