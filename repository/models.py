@@ -1,8 +1,5 @@
 """
 Model classes for app Repository
-
-@var TYPE: available item types - mainly used as a crutch
-@type TYPE: dict
 """
 
 from django.db import models
@@ -12,12 +9,6 @@ from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
 from settings import DATAPATH, SPLITPATH, SCOREPATH
-
-TYPE = {
-    'Data': 0,
-    'Task': 1,
-    'Solution': 2,
-}
 
 
 
@@ -104,6 +95,8 @@ class Repository(models.Model):
     @type is_public: boolean / models.BooleanField
     @cvar is_deleted: if item is deleted
     @type is_deleted: boolean / models.BooleanField
+    @cvar is_current: if item is the current one
+    @type is_current: boolean / models.BooleanField
     @cvar user: user who created the item
     @type user: Django User
     @cvar average_rating: item's average overal rating
@@ -124,7 +117,8 @@ class Repository(models.Model):
     urls = models.CharField(max_length=255, blank=True)
     publications = models.CharField(max_length=255, blank=True)
     is_public = models.BooleanField(default=True)
-    is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False, editable=False)
+    is_current = models.BooleanField(default=False, editable=False)
     user = models.ForeignKey(User)
     average_rating = models.FloatField(editable=False, default=-1)
     average_interesting_rating = models.FloatField(editable=False, default=-1)
@@ -173,18 +167,18 @@ class Repository(models.Model):
         #super(Repository, self).delete()
 
 
-    def get_slug_id(self):
-        """Get the id of the slug generated for the item's name.
+    def make_slug(self):
+        """Make a slug generated for the item's name.
 
-        @return: slug's id
-        @rtype: integer
+        @return: a slug
+        @rtype: Slug
         @raise AttributeError: if item's name is not set
         """
         if not self.name:
             raise AttributeError, 'Attribute name is not set!'
         slug = Slug(text=slugify(self.name))
         slug.save()
-        return slug.id
+        return slug
 
 
     def get_next_version(self):
@@ -221,6 +215,16 @@ class Repository(models.Model):
         return reverse(view, args=[self.slug.text])
 
 
+    def set_current(self):
+        """Set this item to be the current one for this slug."""
+        prev = self.__class__.objects.filter(slug=self.slug, is_current=True)
+        if prev:
+            prev[0].is_current = False
+            prev[0].save()
+        self.is_current = True
+        self.save()
+
+
     def is_owner(self, user):
         """Is given user owner of this
 
@@ -245,13 +249,8 @@ class Repository(models.Model):
             return False
         if not self.is_public:
             return True
-        # if obj is public, but not current version:
-        try:
-            cv = CurrentVersion.objects.get(slug=self.slug)
-            if not cv.repository_id == self.id:
-                return True
-        except CurrentVersion.DoesNotExist:
-            pass
+        if not self.is_current:
+            return True
 
         return False
 
@@ -297,46 +296,6 @@ class Repository(models.Model):
         """
         return self.can_view(user)
 
-
-
-class CurrentVersion(models.Model):
-    """Lookup model to find current version of an item quickly.
-
-    @cvar slug: slug of the item
-    @type slug: Slug
-    @cvar repository: related item
-    @type repository: Repository (indirectly: Data, Task or Solution)
-    @cvar type: crutch for lookups in Data, Task or Solution
-    @type type: integer / models.IntegerField
-    """
-    slug = models.ForeignKey(Slug)
-    repository = models.ForeignKey(Repository)
-    type = models.IntegerField() # 
-
-
-    @classmethod
-    def set(klass, repository):
-        """Class method to set the current item.
-
-        @param klass: item's class
-        @type klass: Data, Task or Solution
-        @param repository: item
-        @type repository: Repository
-        """
-        try:
-            cv = klass.objects.get(slug=repository.slug)
-        except klass.DoesNotExist:
-            cv = klass()
-            # can't put foreign key id into constructor
-            cv.slug = repository.slug
-            cv.type = TYPE[repository.__class__.__name__]
-
-        cv.repository = repository
-        cv.save()
-
-
-    def __unicode__(self):
-        return unicode('%s %s' % (self.repository.version, self.slug.text))
 
 
 class Data(Repository):

@@ -107,11 +107,10 @@ class TaskForm(RepositoryForm):
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
-            cv = CurrentVersion.objects.filter(
-                Q(type=TYPE['Data']) &
-                (Q(repository__user=request.user) | Q(repository__is_public=True))
+            cv = Data.objects.filter(Q(is_current=True) &
+                (Q(user=request.user) | Q(is_public=True))
             )
-            ids = [d.repository.id for d in cv]
+            ids = [d.id for d in cv]
             qs = Data.objects.filter(pk__in=ids)
             self.fields['data'].queryset = qs
             self.fields['data'].choices = [(d.id, d.name) for d in qs]
@@ -170,11 +169,10 @@ class SolutionForm(RepositoryForm):
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
-            cv = CurrentVersion.objects.filter(
-                Q(type=TYPE['Task']) &
-                (Q(repository__user=request.user) | Q(repository__is_public=True))
+            cv = Task.objects.filter(Q(is_current=True) &
+                (Q(user=request.user) | Q(is_public=True))
             )
-            ids = [t.repository.id for t in cv]
+            ids = [t.id for t in cv]
             qs = Task.objects.filter(pk__in=ids)
             self.fields['task'].queryset = qs
             self.fields['task'].choices = [(t.id, t.name) for t in qs]

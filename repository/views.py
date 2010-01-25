@@ -29,25 +29,23 @@ NUM_INDEX_PAGE = 10
 
 
 
-def _get_object_or_404(request, slug_or_id, klass):
+def _get_object_or_404(slug_or_id, klass):
     """Wrapper for Django's get_object_or_404.
 
     Retrieves an item by slug or id and checks for ownership.
 
-    @param request: request data
-    @type request: Django request
     @param slug_or_id: item's slug or id for lookup
     @type slug_or_id: string or integer
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
     @return: retrieved item
     @rtype: klass
-    @raise Http404: item could not be found
+    @raise Http404: if item could not be found
     """
-    obj = CurrentVersion.objects.filter(slug__text=slug_or_id,
-        repository__is_deleted=False)
+    obj = klass.objects.filter(
+        slug__text=slug_or_id, is_deleted=False, is_current=True)
     if obj: # slug + current version
-        obj = getattr(obj[0].repository, klass.__name__.lower())
+        obj = obj[0]
     else: # id
         try:
             obj = klass.objects.get(pk=slug_or_id)
@@ -176,17 +174,42 @@ def _get_latest(request):
 
 
 
+def _get_current_tagged_items(request, tagged, klass):
+    """Get current items with specific tag.
+
+    @param tagged: tagged items
+    @type tagged: list of TaggedItem
+    @param klass: klass to find current items for
+    @type klass: one of Data, Task, Solution
+    @return: current tagged items
+    @rtype: list of Data, Task, Solution
+    """
+    qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
+    current = klass.objects.filter(qs).order_by('name')
+    l = []
+    for c in current:
+        for t in tagged:
+            if t.object_id == c.id:
+                l.append(c)
+                break
+    return l
+
+
+
 def _get_current_tags(request):
     """Get current tags available to user.
+
+    # FIXME: looks inefficient
 
     @param request: request data
     @type request: Django request
     @return: current tags available to user
     @rtype: list of tagging.Tag
     """
-    current = CurrentVersion.objects.filter(
-            Q(repository__user=request.user.id) | Q(repository__is_public=True)
-    )
+    qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
+    current = list(Data.objects.filter(qs))
+    current.extend(list(Task.objects.filter(qs)))
+    current.extend(list(Solution.objects.filter(qs)))
     if current:
         all = Tag.objects.all()
         tags = []
@@ -194,8 +217,8 @@ def _get_current_tags(request):
             found = False
             tag.count = 0
             for item in tag.items.values():
-                for object in current:
-                    if item['object_id'] == object.repository.id:
+                for c in current:
+                    if item['object_id'] == c.id:
                         found = True
                         tag.count += 1
             if found:
@@ -243,11 +266,11 @@ def _activate(request, id, klass):
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = _get_object_or_404(request, id, klass)
+    obj = _get_object_or_404(id, klass)
     if obj.can_activate(request.user):
+        obj.set_current()
         obj.is_public = True
         obj.save()
-        CurrentVersion.set(obj)
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 
@@ -270,17 +293,18 @@ def _delete(request, id, klass):
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = _get_object_or_404(request, id, klass)
+    obj = _get_object_or_404(id, klass)
     if not obj.can_delete(request.user):
         return HttpResponseForbidden()
     obj.is_deleted = True
     obj.save()
 
-    current = klass.objects.filter(slug=obj.slug).\
+    # set new current
+    obj = klass.objects.filter(slug=obj.slug).\
         filter(is_deleted=False).order_by('-version')
-    if current:
-        CurrentVersion.set(current[0])
-        return HttpResponseRedirect(current[0].get_absolute_slugurl())
+    if obj:
+        obj[0].set_current()
+        return HttpResponseRedirect(obj[0].get_absolute_slugurl())
 
     func = eval(klass.__name__.lower() + '_my')
     return HttpResponseRedirect(reverse(func))
@@ -299,7 +323,7 @@ def _download(request, id, klass):
     @rtype: binary file
     @raise Http404: if given klass is unexpected
     """
-    obj = _get_object_or_404(request, id, klass)
+    obj = _get_object_or_404(id, klass)
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
@@ -343,7 +367,7 @@ def _view(request, slug_or_id, klass):
     @return: view page or review page if klass Data and item not approved
     @rtype: Django response
     """
-    obj = _get_object_or_404(request, slug_or_id, klass)
+    obj = _get_object_or_404(slug_or_id, klass)
     if not obj.can_view(request.user):
         return HttpResponseForbidden()
     if klass == Data and not obj.is_approved:
@@ -407,7 +431,7 @@ def _new(request, klass):
             new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
             try:
-                new.slug_id = new.get_slug_id()
+                new.slug = new.make_slug()
             except IntegrityError:
                 # looks quirky...
                 d = ErrorDict({'':
@@ -415,7 +439,7 @@ def _new(request, klass):
                 form.errors['name'] = d.as_ul()
             else:
                 new.version = 1
-                # set to invisible for public until activated / made public
+                new.is_current = True
                 new.is_public = False
                 new.user = request.user
 
@@ -435,7 +459,6 @@ def _new(request, klass):
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
                     form.save_m2m() # a bit odd
-                    CurrentVersion.set(new)
                     func = eval(klass.__name__.lower() + '_view')
                 elif klass == Solution:
                     if 'score' in request.FILES:
@@ -443,12 +466,10 @@ def _new(request, klass):
                         new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
-                    new.save()
-                    CurrentVersion.set(new)
                     func = eval(klass.__name__.lower() + '_view')
                 else:
                     raise Http404
-                return HttpResponseRedirect(reverse(func, args=[new.id]))
+                return HttpResponseRedirect(reverse(func, args=[new.slug]))
     else:
         form = formfunc(request=request)
 
@@ -479,7 +500,7 @@ def _edit(request, slug_or_id, klass):
     @rtype: Django response
     @raise Http404: if given klass is unexpected
     """
-    prev = _get_object_or_404(request, slug_or_id, klass)
+    prev = _get_object_or_404(slug_or_id, klass)
     prev.klass = klass.__name__
     prev.url_edit = reverse(
         eval(klass.__name__.lower() + '_edit'), args=[prev.id])
@@ -496,9 +517,9 @@ def _edit(request, slug_or_id, klass):
         if form.is_valid():
             next = form.save(commit=False)
             next.pub_date = datetime.datetime.now()
-            next.slug_id = prev.slug_id
+            next.slug = prev.slug
             next.version = next.get_next_version()
-            next.user_id = request.user.id
+            next.user = request.user
 
             if prev.is_public: # once public, always public
                 next.is_public = True
@@ -536,7 +557,7 @@ def _edit(request, slug_or_id, klass):
                 next.save()
             else:
                 raise Http404
-            CurrentVersion.set(next)
+            next.set_current()
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
         form = formfunc(instance=prev, request=request)
@@ -564,23 +585,18 @@ def _index(request, klass, my=False):
     @return: section's index or My page
     @rtype: Django response
     """
-    objects = CurrentVersion.objects.filter(
-        type=TYPE[klass.__name__],
-        repository__is_deleted=False
-    ).order_by('-repository__pub_date')
-
+    objects = klass.objects.filter(is_deleted=False, is_current=True).order_by('-pub_date')
     if my:
-        objects = objects.filter(repository__user=request.user)
+        objects = objects.filter(user=request.user)
         if klass == Data:
             unapproved = klass.objects.filter(
-                user=request.user,
-                is_approved=False
+                user=request.user, is_approved=False
             )
         else:
             unapproved = None
         my_or_archive = _('My')
     else:
-        objects = objects.filter(repository__is_public=True)
+        objects = objects.filter(is_public=True)
         unapproved = None
         my_or_archive = _('Public Archive')
 
@@ -593,11 +609,6 @@ def _index(request, klass, my=False):
         page = paginator.page(num)
     except (EmptyPage, InvalidPage):
         page = paginator.page(paginator.num_pages)
-
-    # quirky, but simplifies templates
-    for obj in page.object_list:
-        obj.absolute_url = getattr(obj.repository, klass.__name__.lower()).\
-            get_absolute_slugurl()
 
     info_dict = {
         'request': request,
@@ -919,7 +930,7 @@ def data_new_review(request, id):
         next = '?next=' + reverse(data_new_review, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + next)
 
-    obj = _get_object_or_404(request, id, Data)
+    obj = _get_object_or_404(id, Data)
     # don't want users to be able to remove items once approved
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
@@ -949,7 +960,6 @@ def data_new_review(request, id):
 
             obj.is_approved = True
             obj.save()
-            CurrentVersion.set(obj)
             return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
 
     info_dict = {
@@ -991,30 +1001,13 @@ def tags_view(request, tag):
     @raise Http404: if an item's class is unexpected
     """
     try:
-        current = CurrentVersion.objects.filter(
-                Q(repository__user=request.user.id) | Q(repository__is_public=True)
-        ).order_by('repository__name')
         tag = Tag.objects.get(name=tag)
         tagged = TaggedItem.objects.filter(tag=tag)
         objects = {
-            'data': [],
-            'task': [],
-            'solution': [],
+            'data': _get_current_tagged_items(request, tagged, Data),
+            'task': _get_current_tagged_items(request, tagged, Task),
+            'solution': _get_current_tagged_items(request, tagged, Solution),
         }
-        for c in current:
-            for t in tagged:
-                if t.object_id == c.repository.id:
-                    try:
-                        objects['data'].append(c.repository.data)
-                    except:
-                        try:
-                            objects['task'].append(c.repository.task)
-                        except:
-                            try:
-                                objects['solution'].append(c.repository.solution)
-                            except:
-                                raise Http404
-                    break
     except Tag.DoesNotExist:
         objects = None
 
