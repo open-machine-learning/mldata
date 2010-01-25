@@ -29,7 +29,7 @@ NUM_INDEX_PAGE = 10
 
 
 
-def _get_object_or_404(slug_or_id, klass):
+def _get_object_or_404(klass, slug_or_id, version=None):
     """Wrapper for Django's get_object_or_404.
 
     Retrieves an item by slug or id and checks for ownership.
@@ -42,11 +42,16 @@ def _get_object_or_404(slug_or_id, klass):
     @rtype: klass
     @raise Http404: if item could not be found
     """
-    obj = klass.objects.filter(
-        slug__text=slug_or_id, is_deleted=False, is_current=True)
-    if obj: # slug + current version
+    if version:
+        obj = klass.objects.filter(
+            slug__text=slug_or_id, is_deleted=False, version=version)
+    else:
+        obj = klass.objects.filter(
+            slug__text=slug_or_id, is_deleted=False, is_current=True)
+
+    if obj: # by slug
         obj = obj[0]
-    else: # id
+    else: # by id
         try:
             obj = klass.objects.get(pk=slug_or_id)
         except klass.DoesNotExist:
@@ -54,7 +59,6 @@ def _get_object_or_404(slug_or_id, klass):
         if not obj or obj.is_deleted:
             raise Http404
 
-    obj.slug_or_id = slug_or_id
     return obj
 
 
@@ -174,17 +178,22 @@ def _get_latest(request):
 
 
 
-def _get_current_tagged_items(request, tagged, klass):
+def _get_current_tagged_items(request, klass, tagged):
     """Get current items with specific tag.
 
-    @param tagged: tagged items
-    @type tagged: list of TaggedItem
     @param klass: klass to find current items for
     @type klass: one of Data, Task, Solution
+    @param tagged: tagged items
+    @type tagged: list of TaggedItem
     @return: current tagged items
     @rtype: list of Data, Task, Solution
     """
-    qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
+    # without if-construct sqlite3 barfs on AnonymousUser
+    if request.user.id:
+        qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
+    else:
+        qs = Q(is_public=True) & Q(is_current=True)
+
     current = klass.objects.filter(qs).order_by('name')
     l = []
     for c in current:
@@ -206,7 +215,12 @@ def _get_current_tags(request):
     @return: current tags available to user
     @rtype: list of tagging.Tag
     """
-    qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
+    # without if-construct sqlite3 barfs on AnonymousUser
+    if request.user.id:
+        qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
+    else:
+        qs = Q(is_public=True) & Q(is_current=True)
+
     current = list(Data.objects.filter(qs))
     current.extend(list(Task.objects.filter(qs)))
     current.extend(list(Solution.objects.filter(qs)))
@@ -249,15 +263,15 @@ def _get_tag_cloud(request):
 
 
 @transaction.commit_on_success
-def _activate(request, id, klass):
+def _activate(request, klass, id):
     """Activate item given by id and klass.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the item to activate
-    @type id: integer
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
+    @param id: id of the item to activate
+    @type id: integer
     @return: redirect user to login page or item's page
     @rtype: Django response
     """
@@ -266,7 +280,7 @@ def _activate(request, id, klass):
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = _get_object_or_404(id, klass)
+    obj = _get_object_or_404(klass, id)
     if obj.can_activate(request.user):
         obj.set_current()
         obj.is_public = True
@@ -276,15 +290,15 @@ def _activate(request, id, klass):
 
 
 @transaction.commit_on_success
-def _delete(request, id, klass):
+def _delete(request, klass, id):
     """Delete item given by id and klass.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the item to delete
-    @type id: integer
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
+    @param id: id of the item to delete
+    @type id: integer
     @return: redirect user to login page or item's page or user's my page
     @rtype: Django response
     """
@@ -293,7 +307,7 @@ def _delete(request, id, klass):
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = _get_object_or_404(id, klass)
+    obj = _get_object_or_404(klass, id)
     if not obj.can_delete(request.user):
         return HttpResponseForbidden()
     obj.is_deleted = True
@@ -310,20 +324,20 @@ def _delete(request, id, klass):
     return HttpResponseRedirect(reverse(func))
 
 
-def _download(request, id, klass):
+def _download(request, klass, id):
     """Download file relating to item given by id and klass.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
+    @param id: id of the relating item
+    @type id: integer
     @return: contents of file related to object
     @rtype: binary file
     @raise Http404: if given klass is unexpected
     """
-    obj = _get_object_or_404(id, klass)
+    obj = _get_object_or_404(klass, id)
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
@@ -355,23 +369,23 @@ def _download(request, id, klass):
 
 
 
-def _view(request, slug_or_id, klass):
-    """View item given by slug or id and klass.
+def _view(request, klass, slug_or_id, version=None):
+    """View item given by slug and klass.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of the item to activate
-    @type slug_or_id: string or integer
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
+    @param slug_or_id: slug or id of the item to view
+    @type slug_or_id: string or integer
     @return: view page or review page if klass Data and item not approved
     @rtype: Django response
     """
-    obj = _get_object_or_404(slug_or_id, klass)
+    obj = _get_object_or_404(klass, slug_or_id, version)
     if not obj.can_view(request.user):
         return HttpResponseForbidden()
     if klass == Data and not obj.is_approved:
-        return HttpResponseRedirect(reverse(data_new_review, args=[slug_or_id]))
+        return HttpResponseRedirect(reverse(data_new_review, args=[obj.slug]))
 
     obj.hits += 1
     obj.save()
@@ -385,6 +399,12 @@ def _view(request, slug_or_id, klass):
     obj.url_activate = reverse(eval(klassname + '_activate'), args=[obj.id])
     obj.url_edit = reverse(eval(klassname + '_edit'), args=[obj.id])
     obj.url_delete = reverse(eval(klassname + '_delete'), args=[obj.id])
+
+    # breadcrumbs
+    if klass == Solution:
+        obj.d = obj.task.data.all()[0]
+    elif klass == Task:
+        obj.d = obj.data.all()[0]
 
     info_dict = {
         'object': obj,
@@ -451,7 +471,6 @@ def _new(request, klass):
                     new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
                     new.save()
-                    func = eval(klass.__name__.lower() + '_new_review')
                 elif klass == Task:
                     if 'splits' in request.FILES:
                         new.splits = request.FILES['splits']
@@ -459,17 +478,15 @@ def _new(request, klass):
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
                     form.save_m2m() # a bit odd
-                    func = eval(klass.__name__.lower() + '_view')
                 elif klass == Solution:
                     if 'score' in request.FILES:
                         new.score = request.FILES['score']
                         new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
-                    func = eval(klass.__name__.lower() + '_view')
                 else:
                     raise Http404
-                return HttpResponseRedirect(reverse(func, args=[new.slug]))
+                return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
         form = formfunc(request=request)
 
@@ -487,20 +504,20 @@ def _new(request, klass):
 
 
 @transaction.commit_on_success
-def _edit(request, slug_or_id, klass):
+def _edit(request, klass, id):
     """Edit existing item given by slug or id and klass.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of the item to activate
-    @type slug_or_id: string or integer
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
+    @param id: id of the item to activate
+    @type id: integer
     @return: user login page, item's view page or this page again on failed form validation
     @rtype: Django response
     @raise Http404: if given klass is unexpected
     """
-    prev = _get_object_or_404(slug_or_id, klass)
+    prev = _get_object_or_404(klass, id)
     prev.klass = klass.__name__
     prev.url_edit = reverse(
         eval(klass.__name__.lower() + '_edit'), args=[prev.id])
@@ -671,29 +688,44 @@ def data_new(request):
     """
     return _new(request, Data)
 
-def data_view(request, slug_or_id):
-    """View page of Data section.
+def data_view(request, id):
+    """View Data item by id.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of item to view
-    @type slug_or_id: string or integer
+    @param id: id of item to view
+    @type id: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return _view(request, slug_or_id, Data)
+    return _view(request, Data, id)
 
-def data_edit(request, slug_or_id):
+
+def data_view_slug(request, slug, version=None):
+    """View Data item by slug.
+
+    @param request: request data
+    @type request: Django request
+    @param slug: slug of item to view
+    @type slug: string
+    @param version: version of item to view
+    @type version: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _view(request, Data, slug, version)
+
+def data_edit(request, id):
     """Edit page of Data section.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of item to edit
-    @type slug_or_id: string or integer
+    @param id: id of item to edit
+    @type id: string or integer
     @return: rendered response page
     @rtype: Django response
     """
-    return _edit(request, slug_or_id, Data)
+    return _edit(request, Data, id)
 
 def data_delete(request, id):
     """Delete of Data section.
@@ -705,7 +737,7 @@ def data_delete(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _delete(request, id, Data)
+    return _delete(request, Data, id)
 
 def data_activate(request, id):
     """Activate of Data section.
@@ -717,7 +749,7 @@ def data_activate(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _activate(request, id, Data)
+    return _activate(request, Data, id)
 
 def data_download(request, id):
     """Download of Data section.
@@ -729,7 +761,7 @@ def data_download(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _download(request, id, Data)
+    return _download(request, Data, id)
 
 
 def task_index(request):
@@ -762,29 +794,45 @@ def task_new(request):
     """
     return _new(request, Task)
 
-def task_view(request, slug_or_id):
-    """View page of Task section.
+def task_view(request, id):
+    """View Task item by id.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of the item to view
-    @type slug_or_id: string or integer
+    @param id: id of item to view
+    @type id: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return _view(request, slug_or_id, Task)
+    return _view(request, Task, id)
 
-def task_edit(request, slug_or_id):
+def task_view_slug(request, slug_data, slug_task, version=None):
+    """View Task item by slug.
+
+    @param request: request data
+    @type request: Django request
+    @param slug_data: data slug  of the item to view
+    @type slug_data: string
+    @param slug_task: task slug  of the item to view
+    @type slug_task: string
+    @param version: version of item to view
+    @type version: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _view(request, Task, slug_task, version)
+
+def task_edit(request, id):
     """Edit page of Task section.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of item to edit
-    @type slug_or_id: string or integer
+    @param id: id of item to edit
+    @type id: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return _edit(request, slug_or_id, Task)
+    return _edit(request, Task, id)
 
 def task_delete(request, id):
     """Delete of Task section.
@@ -796,7 +844,7 @@ def task_delete(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _delete(request, id, Task)
+    return _delete(request, Task, id)
 
 def task_activate(request, id):
     """Activate of Task section.
@@ -808,7 +856,7 @@ def task_activate(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _activate(request, id, Task)
+    return _activate(request, Task, id)
 
 def splits_download(request, id):
     """Download of Task section.
@@ -820,7 +868,7 @@ def splits_download(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _download(request, id, Task)
+    return _download(request, Task, id)
 
 
 def solution_index(request):
@@ -853,29 +901,47 @@ def solution_new(request):
     """
     return _new(request, Solution)
 
-def solution_view(request, slug_or_id):
+def solution_view(request, id):
+    """View Solution item by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to view
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _view(request, Solution, id)
+
+def solution_view_slug(request, slug_data, slug_task, slug_solution, version=None):
     """View page of Solution section.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of the item to view
-    @type slug_or_id: string or integer
+    @param slug_data: data slug of the item to view
+    @type slug_data: string
+    @param slug_task: task slug of the item to view
+    @type slug_task: string
+    @param slug_solution: solution slug of the item to view
+    @type slug_solution: string
+    @param version: version of item to view
+    @type version: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return _view(request, slug_or_id, Solution)
+    return _view(request, Solution, slug_solution, version)
 
-def solution_edit(request, slug_or_id):
+def solution_edit(request, id):
     """Edit page of Solution section.
 
     @param request: request data
     @type request: Django request
-    @param slug_or_id: slug or id of item to edit
-    @type slug_or_id: string or integer
+    @param id: id of item to edit
+    @type id: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return _edit(request, slug_or_id, Solution)
+    return _edit(request, Solution, id)
 
 def solution_activate(request, id):
     """Activate of Solution section.
@@ -887,7 +953,7 @@ def solution_activate(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _activate(request, id, Solution)
+    return _activate(request, Solution, id)
 
 def solution_delete(request, id):
     """Delete of Solution section.
@@ -899,7 +965,7 @@ def solution_delete(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _delete(request, id, Solution)
+    return _delete(request, Solution, id)
 
 def score_download(request, id):
     """Download of Solution section.
@@ -911,7 +977,7 @@ def score_download(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return _download(request, id, Solution)
+    return _download(request, Solution, id)
 
 
 
@@ -930,7 +996,7 @@ def data_new_review(request, slug):
         next = '?next=' + reverse(data_new_review, args=[slug])
         return HttpResponseRedirect(reverse('user_signin') + next)
 
-    obj = _get_object_or_404(slug, Data)
+    obj = _get_object_or_404(Data, slug)
     # don't want users to be able to remove items once approved
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
@@ -1004,9 +1070,9 @@ def tags_view(request, tag):
         tag = Tag.objects.get(name=tag)
         tagged = TaggedItem.objects.filter(tag=tag)
         objects = {
-            'data': _get_current_tagged_items(request, tagged, Data),
-            'task': _get_current_tagged_items(request, tagged, Task),
-            'solution': _get_current_tagged_items(request, tagged, Solution),
+            'data': _get_current_tagged_items(request, Data, tagged),
+            'task': _get_current_tagged_items(request, Task, tagged),
+            'solution': _get_current_tagged_items(request, Solution, tagged),
         }
     except Tag.DoesNotExist:
         objects = None
@@ -1022,13 +1088,15 @@ def tags_view(request, tag):
 
 
 
-def _rate(request, id, klass):
+def _rate(request, klass, id):
     """Rate an item given by id and klass.
 
-    @param id: item's id
-    @type id: integer
+    @param request: request data
+    @type request: Django request
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
+    @param id: item's id
+    @type id: integer
     @return: redirect to item's view page
     @rtype: Django response
     """
@@ -1044,13 +1112,13 @@ def _rate(request, id, klass):
                     form.cleaned_data['documentation'],
                 )
 
-    return HttpResponseRedirect(obj.get_absolute_url())
+    return HttpResponseRedirect(obj.get_absolute_slugurl())
 
 
 def data_rate(request, id):
-    return _rate(request, id, Data)
+    return _rate(request, Data, id)
 def task_rate(request, id):
-    return _rate(request, id, Task)
+    return _rate(request, Task, id)
 def solution_rate(request, id):
-    return _rate(request, id, Solution)
+    return _rate(request, Solution, id)
 

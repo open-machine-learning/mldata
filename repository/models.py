@@ -205,16 +205,6 @@ class Repository(models.Model):
         return reverse(view, args=[self.id])
 
 
-    def get_absolute_slugurl(self):
-        """Get absolute URL for this item, using its slug.
-
-        @return: an absolute URL
-        @rtype: string
-        """
-        view = 'repository.views.' + self.__class__.__name__.lower() + '_view'
-        return reverse(view, args=[self.slug.text])
-
-
     def set_current(self):
         """Set this item to be the current one for this slug."""
         prev = self.__class__.objects.filter(slug=self.slug, is_current=True)
@@ -327,6 +317,17 @@ class Data(Repository):
     is_approved = models.BooleanField(default=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
+
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
+
+        @return: an absolute URL
+        @rtype: string
+        """
+        view = 'repository.views.data_view_slug'
+        return reverse(view, args=[self.slug.text])
+
+
     def get_filename(self):
         """Construct filename for Data file.
 
@@ -369,6 +370,16 @@ class Task(Repository):
     splits = models.FileField(upload_to=SPLITPATH)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
+
+
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
+
+        @return: an absolute URL
+        @rtype: string
+        """
+        view = 'repository.views.task_view_slug'
+        return reverse(view, args=[self.data.all()[0].slug.text, self.slug.text])
 
 
     def get_splitname(self):
@@ -415,6 +426,17 @@ class Solution(Repository):
     task = models.ForeignKey(Task)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
+
+
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
+
+        @return: an absolute URL
+        @rtype: string
+        """
+        view = 'repository.views.solution_view_slug'
+        return reverse(view, args=[
+            self.task.data.all()[0].slug.text, self.task.slug.text, self.slug.text])
 
 
     def get_scorename(self):

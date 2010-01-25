@@ -69,7 +69,7 @@ code {font-family:"Courier";}
 dl dt {font-weight:bold;}
 dl#news dt {background-color:#FFF;}
 dl#news dd a {color:#3f3f3f;}
-
+dl#news dt.active {background-color:#e2f4ff;}
 
 #gallery-in {border-bottom:1px solid #DDDDDD; background-color:#EFEFEF;}
 

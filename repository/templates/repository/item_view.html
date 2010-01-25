@@ -4,7 +4,15 @@
 {% load show_stars %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "View" %} / {{ object.name }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
+{% ifequal object.klass "Data" %}
+{{object.name }}
+{% else %}{% ifequal object.klass "Task" %}
+<a href="{{ object.d.get_absolute_slugurl }}">{{ object.d.name }}</a> / {{ object.name }}
+{% else %}{% ifequal object.klass "Solution" %}
+<a href="{{ object.d.get_absolute_slugurl }}">{{ object.d.name }}</a> / <a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a> / {{ object.name }}
+{% endifequal %}{% endifequal %}{% endifequal %}
+{% endblock %}
 {% block extrahead %}
 <script type="text/javascript" src="/media/js/jquery/jquery.js"></script>
 <script type="text/javascript" src="/media/js/jquery/ui.core.js"></script>
@@ -75,7 +83,7 @@ $(function() {
 			<dt>{% trans "Type" %}</dt>
 			<dd>{{ object.type }}</dd>
 			<dt>{% trans "Data" %}</dt>
-			<dd>{% for d in object.data.all %}<a href="{{ d.get_absolute_url }}">{{ d.name }}</a> {% endfor %}</dd>
+			<dd>{% for d in object.data.all %}<a href="{{ d.get_absolute_slugurl }}">{{ d.name }}</a> {% endfor %}</dd>
 			{% if object.splits %}
 			<dt>{% trans "Download" %}</dt>
 			<dd><a href="{% url repository.views.splits_download object.id %}">{% trans "These Splits" %}</a></dd>
@@ -90,7 +98,7 @@ $(function() {
 			<dt>{% trans "Code" %}</dt>
 			<dd>{{ object.code|markdown }}</dd>
 			<dt>{% trans "Task" %}</dt>
-			<dd><a href="{{ object.task.get_absolute_url }}">{{ object.task.name }}</a></dd>
+			<dd><a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></dd>
 			{% if object.score %}
 			<dt>{% trans "Download" %}</dt>
 			<dd><a href="{% url repository.views.score_download object.id %}">{% trans "This Score" %}</a></dd>
@@ -154,7 +162,8 @@ $(function() {
 		<div id="tabs-history">
 			{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
 			<dl id="news">{% for v in object.versions.object_list %}
-				<dt><a href="{{ request.path }}../{{ v.id }}">{{ v.version }}</a></dt>
+				
+				<dt{% if v.is_current %} class="active"{% endif %}><a href="{{ v.get_absolute_slugurl }}{{ v.version }}">{{ v.version }}</a></dt>
 				<dd>by {{ v.user }} on {{ v.pub_date|date:"Y-m-d H:i" }}</dd>
 			{% endfor %}</dl>
 			{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
