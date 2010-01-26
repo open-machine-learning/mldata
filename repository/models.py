@@ -362,9 +362,9 @@ class Task(Repository):
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
     """
-    input = models.TextField(blank=True)
-    output = models.TextField(blank=True)
-    performance_measure = models.TextField(blank=True)
+    input = models.TextField()
+    output = models.TextField()
+    performance_measure = models.TextField()
     type = models.ForeignKey(TaskType)
     data = models.ManyToManyField(Data)
     splits = models.FileField(upload_to=SPLITPATH)
