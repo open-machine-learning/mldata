@@ -213,9 +213,12 @@ class Repository(models.Model):
             return
 
         rklass = eval(self.__class__.__name__ + 'Rating')
-        rating = rklass.objects.get(user=self.user, repository=current)
-        rating.repository = self
-        rating.save()
+        try:
+            rating = rklass.objects.get(user=self.user, repository=current)
+            rating.repository = self
+            rating.save()
+        except rklass.DoesNotExist:
+            pass
         self.rating_avg = current.rating_avg
         self.rating_avg_interest = current.rating_avg_interest
         self.rating_avg_doc = current.rating_avg_doc
