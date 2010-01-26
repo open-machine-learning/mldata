@@ -44,7 +44,7 @@ $(function() {
 <h2 class="title-01">{% trans "View" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h2>
 <div class="in">
 		<div id="info">
-			{{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }} | {% trans "Version" %} {{ object.version }} | <span id="rating"><a href="#">{% trans "Rating" %}</a> {% show_stars object.average_rating of 5 round to half %}</span>
+			{{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }} | {% trans "Version" %} {{ object.version }} | <span id="rating"><a href="#">{% trans "Rating" %}</a> {% show_stars current.rating_avg of 5 round to half %}</span>
 			<div id="rating-hide">{% include "repository/rating_hide.html" %}</div>
 		</div>
 		<div id="actions">
@@ -172,21 +172,21 @@ $(function() {
 		<div id="tabs-comments">
 {% load comments %}
 {% ifequal object.klass "Data" %}
-{% get_comment_list for repository.data object.id as comment_list %}
-{% get_comment_form for repository.data object.id as form %}
+{% get_comment_list for repository.data current.id as comment_list %}
+{% get_comment_form for repository.data current.id as form %}
 {% else %}{% ifequal object.klass "Task" %}
-{% get_comment_list for repository.task object.id as comment_list %}
-{% get_comment_form for repository.task object.id as form %}
+{% get_comment_list for repository.task current.id as comment_list %}
+{% get_comment_form for repository.task current.id as form %}
 {% else %}{% ifequal object.klass "Solution" %}
-{% get_comment_list for repository.solution object.id as comment_list %}
-{% get_comment_form for repository.solution object.id as form %}
+{% get_comment_list for repository.solution current.id as comment_list %}
+{% get_comment_form for repository.solution current.id as form %}
 {% endifequal %}{% endifequal %}{% endifequal %}
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}
 		</div><!-- /tabs-comments -->
 
 		<div id="tabs-stats">
-			<p>This item was downloaded {{ object.downloads }} times and viewed {{ object.hits }} times.</p>
+			<p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
 		</div><!-- /tabs-stats -->
 	</div><!-- /tabs -->
 

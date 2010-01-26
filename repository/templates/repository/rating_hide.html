@@ -5,9 +5,9 @@
 	<div style="float:right" id="rating-hide-close"><a href="#">X</a></div>
 </div>
 <div style="clear:both" id="rating-hide-results">
-	<div><nobr>{% show_stars object.rating_avg of 5 round to half %}</nobr> {% trans "Overall" %} ({% trans "based on" %} {{ object.rating_votes }} {% trans "vote" %}{{ object.rating_votes|pluralize }})</div>
-	<div><nobr>{% show_stars object.rating_avg_interest of 5 round to half %}</nobr> {% trans "Interesting" %}</div>
-	<div><nobr>{% show_stars object.rating_avg_doc of 5 round to half %}</nobr> {% trans "Documentation" %}</div>
+	<div><nobr>{% show_stars current.rating_avg of 5 round to half %}</nobr> {% trans "Overall" %} ({% trans "based on" %} {{ current.rating_votes }} {% trans "vote" %}{{ current.rating_votes|pluralize }})</div>
+	<div><nobr>{% show_stars current.rating_avg_interest of 5 round to half %}</nobr> {% trans "Interesting" %}</div>
+	<div><nobr>{% show_stars current.rating_avg_doc of 5 round to half %}</nobr> {% trans "Documentation" %}</div>
 </div>
 {% if rating_form %}
 <div id="rating-hide-form">

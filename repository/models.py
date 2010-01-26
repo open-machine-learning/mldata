@@ -4,6 +4,7 @@ Model classes for app Repository
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
@@ -207,11 +208,29 @@ class Repository(models.Model):
 
     def set_current(self):
         """Set this item to be the current one for this slug."""
-        prev = self.__class__.objects.filter(slug=self.slug, is_current=True)
-        if prev:
-            prev[0].is_current = False
-            prev[0].save()
+        current = self.__class__.objects.get(slug=self.slug, is_current=True)
+        if not current:
+            return
+
+        rklass = eval(self.__class__.__name__ + 'Rating')
+        rating = rklass.objects.get(user=self.user, repository=current)
+        rating.repository = self
+        rating.save()
+        self.rating_avg = current.rating_avg
+        self.rating_avg_interest = current.rating_avg_interest
+        self.rating_avg_doc = current.rating_avg_doc
+        self.rating_votes = current.rating_votes
+
+        self.hits = current.hits
+        self.downloads = current.downloads
+
+        Comment.objects.filter(object_pk=current.pk).update(object_pk=self.pk)
+
+        current.is_current = False
         self.is_current = True
+
+        # this should be atomic:
+        current.save()
         self.save()
 
 

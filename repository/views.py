@@ -133,18 +133,24 @@ def _get_rating_form(request, obj):
     @return: a rating form
     @rtype: forms.RatingForm
     """
-    if not request.user.is_authenticated() or request.user == obj.user:
+    if not request.user.is_authenticated():
         return None
 
-    klassname = obj.__class__.__name__
+    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
+    if not current:
+        return None
+
+    klassname = current.__class__.__name__
     rklass = eval(klassname + 'Rating')
     try:
-        r = rklass.objects.get(user=request.user, repository=obj)
+        r = rklass.objects.get(user=request.user, repository=current)
         rating_form = RatingForm({'interest': r.interest, 'doc': r.doc})
+        print 'got it'
     except rklass.DoesNotExist:
+        print 'excepted'
         rating_form = RatingForm()
     rating_form.action = reverse(
-        eval(klassname.lower() + '_rate'), args=[obj.id])
+        eval(klassname.lower() + '_rate'), args=[current.id])
 
     return rating_form
 
@@ -280,9 +286,8 @@ def _activate(request, klass, id):
 
     obj = _get_object_or_404(klass, id)
     if obj.can_activate(request.user):
-        obj.set_current()
         obj.is_public = True
-        obj.save()
+        obj.set_current()
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 
@@ -360,8 +365,10 @@ def _download(request, klass, id):
     for chunk in fileobj.chunks():
         response.write(chunk)
 
-    obj.downloads += 1
-    obj.save()
+
+    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
+    current.downloads += 1
+    current.save()
 
     return response
 
@@ -385,8 +392,9 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Data and not obj.is_approved:
         return HttpResponseRedirect(reverse(data_new_review, args=[obj.slug]))
 
-    obj.hits += 1
-    obj.save()
+    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
+    current.hits += 1
+    current.save()
 
     obj.completeness = _get_completeness(obj)
     obj.klass = klass.__name__
@@ -409,6 +417,7 @@ def _view(request, klass, slug_or_id, version=None):
         'request': request,
         'can_activate': obj.can_activate(request.user),
         'can_delete': obj.can_delete(request.user),
+        'current': current,
         'rating_form': _get_rating_form(request, obj),
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
@@ -498,7 +507,6 @@ def _new(request, klass):
     }
 
     return render_to_response('repository/item_new.html', info_dict)
-
 
 
 @transaction.commit_on_success
@@ -1104,9 +1112,6 @@ def _rate(request, klass, id):
 
     rklass = eval(klass.__name__ + 'Rating')
     obj = get_object_or_404(klass, pk=id)
-    if request.user == obj.user:
-        return HttpResponseRedirect(obj.get_absolute_slugurl())
-
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
