@@ -1026,7 +1026,7 @@ def data_new_review(request, slug):
 
             obj.is_approved = True
             obj.save()
-            return HttpResponseRedirect(reverse(data_view, args=[obj.id]))
+            return HttpResponseRedirect(reverse(data_view_slug, args=[obj.slug]))
 
     info_dict = {
         'object': obj,
