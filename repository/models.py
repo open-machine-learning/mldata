@@ -99,14 +99,14 @@ class Repository(models.Model):
     @type is_current: boolean / models.BooleanField
     @cvar user: user who created the item
     @type user: Django User
-    @cvar average_rating: item's average overal rating
-    @type average_rating: float / models.FloatField
-    @cvar average_interesting_rating: item's average interesting rating
-    @type average_interesting_rating: float / models.FloatField
-    @cvar average_documentation_rating: item's average documentation rating
-    @type average_documentation_rating: float / models.FloatField
-    @cvar total_number_of_votes: item's total number of votes
-    @type total_number_of_votes: integer / models.IntegerField
+    @cvar rating_avg: item's average overal rating
+    @type rating_avg: float / models.FloatField
+    @cvar rating_avg_interest: item's average interesting rating
+    @type rating_avg_interest: float / models.FloatField
+    @cvar rating_avg_doc: item's average documentation rating
+    @type rating_avg_doc: float / models.FloatField
+    @cvar rating_votes: item's total number of rating votes
+    @type rating_votes: integer / models.IntegerField
     """
     pub_date = models.DateTimeField()
     version = models.IntegerField()
@@ -120,10 +120,10 @@ class Repository(models.Model):
     is_deleted = models.BooleanField(default=False, editable=False)
     is_current = models.BooleanField(default=False, editable=False)
     user = models.ForeignKey(User)
-    average_rating = models.FloatField(editable=False, default=-1)
-    average_interesting_rating = models.FloatField(editable=False, default=-1)
-    average_documentation_rating = models.FloatField(editable=False, default=-1)
-    total_number_of_votes = models.IntegerField(editable=False, default=0)
+    rating_avg = models.FloatField(editable=False, default=-1)
+    rating_avg_interest = models.FloatField(editable=False, default=-1)
+    rating_avg_doc = models.FloatField(editable=False, default=-1)
+    rating_votes = models.IntegerField(editable=False, default=0)
     downloads = models.IntegerField(editable=False, default=0)
     hits = models.IntegerField(editable=False, default=0)
 
@@ -464,25 +464,25 @@ class Rating(models.Model):
 
     @cvar user: rating user
     @type user: Django User
-    @cvar interesting: how interesting the item is
-    @type interesting: integer / models.IntegerField
-    @cvar documentation: how well the item is documented
-    @type documentation: integer / models.IntegerField
+    @cvar interest: how interesting the item is
+    @type interest: integer / models.IntegerField
+    @cvar doc: how well the item is documented
+    @type doc: integer / models.IntegerField
     """
     user = models.ForeignKey(User)
-    interesting = models.IntegerField(default=0)
-    documentation = models.IntegerField(default=0)
+    interest = models.IntegerField(default=0)
+    doc = models.IntegerField(default=0)
 
-    def update_rating(self, i, d):
+    def update(self, interest, doc):
         """Update rating for an item.
 
-        @param i: interesting value
-        @type i: integer
-        @param d: documentation value
-        @type d: integer
+        @param interest: interesting value
+        @type interest: integer
+        @param doc: documentation value
+        @type doc: integer
         """
-        self.interesting = i
-        self.documentation = d
+        self.interest = interest
+        self.doc = doc
         self.save()
 
         repo = self.repository
@@ -490,14 +490,14 @@ class Rating(models.Model):
         l = float(len(ratings))
         i = d = 0
         for r in ratings:
-            i += r.interesting
-            d += r.documentation
+            i += r.interest
+            d += r.doc
 
         num_scores = 2.0
-        repo.average_rating = (i + d) / (num_scores * l)
-        repo.average_interesting_rating = float(i) / l
-        repo.average_documentation_rating = float(d) / l
-        repo.total_number_of_votes = l
+        repo.rating_avg = (i + d) / (num_scores * l)
+        repo.rating_avg_interest = float(i) / l
+        repo.rating_avg_doc = float(d) / l
+        repo.rating_votes = l
         repo.save()
 
     def __unicode__(self):

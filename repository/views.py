@@ -133,20 +133,18 @@ def _get_rating_form(request, obj):
     @return: a rating form
     @rtype: forms.RatingForm
     """
-    rating_form = None
-    if request.user.is_authenticated() and not request.user == obj.user:
-        klassname = obj.__class__.__name__
-        rklass = eval(klassname + 'Rating')
-        try:
-            r = rklass.objects.get(user__id=request.user.id, repository=obj)
-            rating_form = RatingForm({
-                'interesting': r.interesting,
-                'documentation': r.documentation,
-            })
-        except rklass.DoesNotExist:
-            rating_form = RatingForm()
-        rating_form.action = reverse(
-            eval(klassname.lower() + '_rate'), args=[obj.id])
+    if not request.user.is_authenticated() or request.user == obj.user:
+        return None
+
+    klassname = obj.__class__.__name__
+    rklass = eval(klassname + 'Rating')
+    try:
+        r = rklass.objects.get(user=request.user, repository=obj)
+        rating_form = RatingForm({'interest': r.interest, 'doc': r.doc})
+    except rklass.DoesNotExist:
+        rating_form = RatingForm()
+    rating_form.action = reverse(
+        eval(klassname.lower() + '_rate'), args=[obj.id])
 
     return rating_form
 
@@ -1100,17 +1098,20 @@ def _rate(request, klass, id):
     @return: redirect to item's view page
     @rtype: Django response
     """
+    if not request.user.is_authenticated():
+        next = '?next=' + reverse(eval(klass.__name__.lower() + '_rate'), args=[id])
+        return HttpResponseRedirect(reverse('user_signin') + next)
+
     rklass = eval(klass.__name__ + 'Rating')
     obj = get_object_or_404(klass, pk=id)
-    if request.user.is_authenticated() and not request.user == obj.user:
-        if request.method == 'POST':
-            form=RatingForm(request.POST)
-            if form.is_valid():
-                r, fail = rklass.objects.get_or_create(user=request.user, repository=obj)
-                r.update_rating(
-                    form.cleaned_data['interesting'],
-                    form.cleaned_data['documentation'],
-                )
+    if request.user == obj.user:
+        return HttpResponseRedirect(obj.get_absolute_slugurl())
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            r, fail = rklass.objects.get_or_create(user=request.user, repository=obj)
+            r.update(form.cleaned_data['interest'], form.cleaned_data['doc'])
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 

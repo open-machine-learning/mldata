@@ -182,10 +182,10 @@ class SolutionForm(RepositoryForm):
 class RatingForm(forms.Form):
     """Form used for rating an item.
 
-    @cvar interesting: radio selection of values 0 to 5 if an item is interesting
-    @type interesting: forms.IntegerField
-    @cvar documentation: radio selection of values 0 to 5 if an item is well documented
-    @type documentation: forms.IntegerField
+    @cvar interest: radio selection of values 0 to 5 if an item is interesting
+    @type interest: forms.IntegerField
+    @cvar doc: radio selection of values 0 to 5 if an item is well documented
+    @type doc: forms.IntegerField
     """
-    interesting = forms.IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
-    documentation = forms.IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
+    interest = forms.IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
+    doc = forms.IntegerField(widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
