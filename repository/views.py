@@ -145,9 +145,7 @@ def _get_rating_form(request, obj):
     try:
         r = rklass.objects.get(user=request.user, repository=current)
         rating_form = RatingForm({'interest': r.interest, 'doc': r.doc})
-        print 'got it'
     except rklass.DoesNotExist:
-        print 'excepted'
         rating_form = RatingForm()
     rating_form.action = reverse(
         eval(klassname.lower() + '_rate'), args=[current.id])
