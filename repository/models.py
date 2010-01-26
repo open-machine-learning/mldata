@@ -264,14 +264,28 @@ class Repository(models.Model):
         return False
 
     def can_delete(self, user):
-        """Can given user activate this.
+        """Can given user delete this item.
 
         @param user: user to check for
         @type user: Django User
         @return: if user can activate this
         @rtype: boolean
         """
-        return self.is_owner(user)
+        ret = self.is_owner(user)
+        if not ret:
+            return False
+        # don't delete if this is last item and something depends on it
+        siblings = self.__class__.objects.filter(slug=self.slug)
+        if len(siblings) == 1:
+            if self.__class__ == Data:
+                dependencies = Task.objects.filter(data=self)
+                if len(dependencies) > 0:
+                    return False
+            elif self.__class__ == Task:
+                dependencies = Solution.objects.filter(task=self)
+                if len(dependencies) > 0:
+                    return False
+        return True
 
     def can_view(self, user):
         """Can given user view this.
