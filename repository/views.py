@@ -351,7 +351,7 @@ def _download(request, klass, id):
     else:
         raise Http404
 
-    if not fileobj: # maybe no file existing
+    if not fileobj: # maybe no file attached to this item
         raise Http404
 
     # fails to work when OpenID Middleware is activated
@@ -361,10 +361,13 @@ def _download(request, klass, id):
     # not sure if this alternative is a memory hog...
     response = HttpResponse()
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Length'] = fileobj.size
-    response['Content-Disposition'] = 'attachment; filename=' + fileobj.name
-    for chunk in fileobj.chunks():
-        response.write(chunk)
+    try:
+        response['Content-Length'] = fileobj.size
+        response['Content-Disposition'] = 'attachment; filename=' + fileobj.name
+        for chunk in fileobj.chunks():
+            response.write(chunk)
+    except OSError: # something wrong with file, maybe not existing
+        raise Http404
 
 
     current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
