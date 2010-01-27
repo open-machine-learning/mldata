@@ -336,7 +336,7 @@ def _download(request, klass, id):
     @type id: integer
     @return: contents of file related to object
     @rtype: binary file
-    @raise Http404: if given klass is unexpected
+    @raise Http404: if given klass is unexpected or file doesn't exist
     """
     obj = _get_object_or_404(klass, id)
     if not obj.can_download(request.user):
@@ -349,6 +349,9 @@ def _download(request, klass, id):
     elif klass == Solution:
         fileobj = obj.score
     else:
+        raise Http404
+
+    if not fileobj: # maybe no file existing
         raise Http404
 
     # fails to work when OpenID Middleware is activated
