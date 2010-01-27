@@ -48,13 +48,13 @@ $(function() {
 				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url about_license %}">{% trans "more info" %}</a>) {{ form.license.errors }}</dt>
 				<dd>{{ form.license }}</dd>
 			{% else %}{% ifequal object.klass "Task" %}
-				<dt><label for="id_input">{% trans "Input format" %}</label> {{ form.input.errors }}</dt>
+				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
 				<dd>{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_output">{% trans "Output format" %}</label> {{ form.output.errors }}</dt>
+				<dt><label for="id_output">{% trans "Output format" %}</label> * {{ form.output.errors }}</dt>
 				<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> {{ form.performance_measure.errors }}</dt>
+				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
 				<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_type">{% trans "Type" %}</label> {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
+				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
 				<dt><label for="id_data">{% trans "Data" %}</label> *{{ form.data.errors }}</dt>
 				<dd>{{ form.data }}</dd>
