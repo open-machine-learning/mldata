@@ -11,38 +11,37 @@ class LibSVMToolsHTMLParser(HTMLParser):
     def _reset(self):
         self.current = None
         self.is_name = False
-        self.is_description = False
+        self.is_source = False
         self.is_file = False
-        self.in_ul = False
+
 
     def __init__(self, *args, **kwargs):
         HTMLParser.__init__(self, *args, **kwargs)
         self.datasets = []
         self._reset()
 
+
     def handle_starttag(self, tag, attrs):
         if tag == 'h2': # new data starts here
             self.is_name = True
             self.current = {
                 'name': '',
+                'source': '',
                 'description': '',
                 'files': [],
             }
-        elif tag == 'ul' and not self.in_ul:
-            self.in_ul = True
-        elif tag == 'li' and not self.is_file:
-            self.is_description = True
-        elif tag == 'ul' and self.in_ul:
-            self.is_description = False
-            self.is_file = True
         elif tag == 'a' and self.is_file:
             self.current['files'].append(attrs[0][1])
+        elif tag == 'a' and self.is_source:
+            self.current['source'] += ' ' + attrs[0][1] + ' '
 
 
     def handle_endtag(self, tag):
         if tag == 'h2':
             self.is_name = False
         elif tag == 'ul' and self.current: # new data ends here
+            self.current['source'] = self.current['source'].strip()
+            self.current['description'] = self.current['description'].strip()
             self.datasets.append(self.current)
             self._reset()
 
@@ -50,8 +49,22 @@ class LibSVMToolsHTMLParser(HTMLParser):
     def handle_data(self, data):
         if self.is_name:
             self.current['name'] = data
-        elif self.is_description:
+            return
+
+        if data.startswith('Source'):
+            self.is_source = True
+            return
+        elif data.startswith('Files'):
+            self.is_file = True
+            return
+        elif data.startswith('Preprocessing') or data.startswith('# '):
+            self.is_source = False
+
+        if self.current and self.is_source:
+            self.current['source'] += data
+        elif self.current and not self.is_file:
             self.current['description'] += data
+
 
 
 class Slurper:
@@ -95,8 +108,8 @@ class Slurper:
         write('Parsing ' + url + '.')
         response = urllib.urlopen(url)
         parser.feed(''.join(response.readlines()))
-        #parser.feed(self.fromfile('binary.html'))
         response.close()
+        #parser.feed(self.fromfile('multilabel.html'))
         parser.close()
         for d in parser.datasets:
             for f in d['files']:
