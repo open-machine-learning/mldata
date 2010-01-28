@@ -8,20 +8,17 @@ from HTMLParser import HTMLParser
 
 
 class LibSVMToolsHTMLParser(HTMLParser):
-    datasets = []
-    current = None
-    is_name = False
-    is_description = False
-    is_file = False
-    in_ul = False
-
-
     def _reset(self):
         self.current = None
         self.is_name = False
         self.is_description = False
         self.is_file = False
         self.in_ul = False
+
+    def __init__(self, *args, **kwargs):
+        HTMLParser.__init__(self, *args, **kwargs)
+        self.datasets = []
+        self._reset()
 
     def handle_starttag(self, tag, attrs):
         if tag == 'h2': # new data starts here
@@ -76,11 +73,37 @@ class Slurper:
         if not os.path.exists(self.output):
             os.mkdir(self.output)
 
-        self.download()
+        print self.collect()
         if not Options.download_only:
             self.add()
 
-    def download(self):
+
+    def download(self, filename):
+        src = self.source + filename
+        dst = self.output + filename
+        if not Options.force_download and os.path.exists(dst):
+            write(dst + ' already exists, skipping download.')
+        else:
+            dst_dir = os.path.dirname(dst)
+            if not os.path.exists(dst_dir):
+                os.makedirs(dst_dir)
+            write('Downloading ' + src + ' to ' + dst + '.')
+            urllib.urlretrieve(src, dst)
+
+
+    def parse_download(self, parser, url):
+        write('Parsing ' + url + '.')
+        response = urllib.urlopen(url)
+        parser.feed(''.join(response.readlines()))
+        #parser.feed(self.fromfile('binary.html'))
+        response.close()
+        parser.close()
+        for d in parser.datasets:
+            for f in d['files']:
+                self.download(f)
+
+
+    def collect(self):
         raise NotImplementedError('Abstract method!')
 
     def add(self):
@@ -90,39 +113,39 @@ class Slurper:
 class LibSVMTools(Slurper):
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
 
-    def download(self):
-        write('Downloading from section binary.')
+    def collect(self):
+        datasets = []
+
+        write('Collecting from section binary.')
         parser = LibSVMToolsHTMLParser()
-        response = urllib.urlopen(self.source + 'binary.html')
-        parser.feed(''.join(response.readlines()))
-        #parser.feed(self.fromfile('binary.html'))
-        response.close()
-        parser.close()
-        for d in parser.datasets:
-            for f in d['files']:
-                src = self.source + f
-                dst = self.output + f
-                if not Options.force_download and os.path.exists(dst):
-                    write(dst + ' already exists, skipping download.')
-                else:
-                    dst_dir = os.path.dirname(dst)
-                    if not os.path.exists(dst_dir):
-                        os.mkdir(dst_dir)
-                    write('Downloading ' + src + ' to ' + dst + '.')
-                    urllib.urlretrieve(src, dst)
+        self.parse_download(parser, self.source + 'binary.html')
+        datasets.extend(parser.datasets)
         write('...')
 
+        write('Collecting from section multi-class.')
+        parser = LibSVMToolsHTMLParser()
+        self.parse_download(parser, self.source + 'multiclass.html')
+        datasets.extend(parser.datasets)
+        write('...')
 
-        write('Downloading from section multi-class.')
-        write('Downloading from section regression.')
-        write('Downloading from section multi-label.')
+        write('Collecting from section regression.')
+        parser = LibSVMToolsHTMLParser()
+        self.parse_download(parser, self.source + 'regression.html')
+        datasets.extend(parser.datasets)
+        write('...')
+
+        write('Collecting from section multi-label.')
+        parser = LibSVMToolsHTMLParser()
+        self.parse_download(parser, self.source + 'multilabel.html')
+        datasets.extend(parser.datasets)
+        write('...')
+
+        return datasets
+
 
 
 class Weka(Slurper):
     source = 'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'
-
-    def download(self):
-        write('Downloading.')
 
 
 

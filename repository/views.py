@@ -366,8 +366,8 @@ def _download(request, klass, id):
         response['Content-Disposition'] = 'attachment; filename=' + fileobj.name
         for chunk in fileobj.chunks():
             response.write(chunk)
-    except OSError: # something wrong with file, maybe not existing
-        raise Http404
+    except OSError, err: # something wrong with file, maybe not existing
+        raise OSError(_('Missing file') + ': ' + fileobj.name)
 
 
     current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
@@ -427,8 +427,11 @@ def _view(request, klass, slug_or_id, version=None):
         'section': 'repository',
     }
     if klass == Data:
-        info_dict['extract'] = hdf5conv.get_extract(
-            os.path.join(MEDIA_ROOT, obj.file.name))
+        try:
+            info_dict['extract'] = hdf5conv.get_extract(
+                os.path.join(MEDIA_ROOT, obj.file.name))
+        except IOError, err:
+            raise IOError(err.message + ': ' + obj.file.name)
 
     return render_to_response('repository/item_view.html', info_dict)
 
