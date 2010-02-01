@@ -55,7 +55,7 @@ from hdf5
 ARFF
 """
 
-import h5py, numpy
+import h5py, numpy, os
 
 NAME = 'hdf5conv'
 VERSION = '0.1'
@@ -115,8 +115,8 @@ class Converter():
 
         progress('writing datasets')
         for key, val in kwargs.iteritems():
-            if val: # h5py doesn't like writing empty datasets
-                h.create_dataset(key, data=numpy.array(val))
+            print val.dtype
+            h.create_dataset(key, data=val)
 
         progress('writing attributes')
         for key, val in self.attrs.iteritems():
@@ -132,35 +132,61 @@ class LibSVM2HDF5(Converter):
     This is simple enough, so it doesn't need its own module.
     """
 
-    def run(self):
-        """Run the actual conversion process."""
-        progress('reading in-file ' + self.in_filename)
-        infile = open(self.in_filename, 'r')
-        attributes = []
-        #attributes = numpy.array([])
-        for line in infile:
-            items = line.strip().split(' ')
-            try:
-                items.remove('')
-            except ValueError:
-                pass
+    def _get_items(self, line):
+        items = line.strip().split(' ')
+        try:
+            items.remove('')
+        except ValueError:
+            pass
 
-            attribute = []
-            # label/target
-            attribute.append(numpy.double(items.pop(0)))
-            # features
-            prev_idx = 0
+        return items
+
+
+    def _get_dimensions(self, infile):
+        rows = 0
+        cols = 0
+        for line in infile:
+            items = self._get_items(line)
+            items.pop(0) # don't need target
             for item in items:
                 idx, val = item.split(':')
-                if int(idx) > (prev_idx + 1):
-                    attribute.append(0) # sparse values!
-                prev_idx = int(idx)
-                attribute.append(numpy.double(val))
-            attributes.append(attribute)
+                idx = int(idx)
+                if idx > cols:
+                    cols = idx
+            rows += 1
+        infile.seek(0)
+        cols += 1 # would be index otherwise
+
+        return (rows, cols)
+
+
+    def run(self):
+        """Run the actual conversion process."""
+
+        progress('reading in-file ' + self.in_filename)
+        infile = open(self.in_filename, 'r')
+        dims = self._get_dimensions(infile)
+        h = h5py.File(self.out_filename, 'w')
+        dset = h.create_dataset('attributes', dims, compression='gzip')
+        lineno = 0
+        for line in infile:
+            if lineno % 100 == 0:
+                progress('processing line ' + str(lineno))
+            items = self._get_items(line)
+            dset[lineno, 0] = numpy.double(items.pop(0))
+            for item in items:
+                idx, val = item.split(':')
+                dset[lineno, int(idx)] = numpy.double(val)
+            lineno += 1
         infile.close()
 
-        progress('emtpy values for attribute_names, attribute_types, name, comment.')
-        self.write_hdf5(attributes=attributes)
+        self.attrs['name'] = os.path.basename(self.out_filename).split('.')[0]
+        self.attrs['comment'] = 'libsvm'
+        for key, val in self.attrs.iteritems():
+            h.attrs[key] = str(val)
+
+        progress('emtpy values for attribute_names, attribute_types.')
+        h.close()
 
 
 
