@@ -3,8 +3,17 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib
+import getopt, sys, os, urllib, datetime
 from HTMLParser import HTMLParser
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'mldata.settings'
+from django.core.files import File
+from repository.models import *
+from utils import hdf5conv
+from settings import MEDIA_ROOT
+
 
 
 class LibSVMToolsHTMLParser(HTMLParser):
@@ -70,6 +79,7 @@ class LibSVMToolsHTMLParser(HTMLParser):
 class Slurper:
     source = None
     output = None
+    format = 'hdf5'
 
     def fromfile(self, name):
         f = open(name, 'r')
@@ -79,38 +89,41 @@ class Slurper:
 
 
     def run(self):
-        write('Slurping from ' + self.source + '.')
+        progress('Slurping from ' + self.source + '.')
 
         self.output = Options.output + os.path.sep +\
             self.__class__.__name__ + os.path.sep
         if not os.path.exists(self.output):
-            os.mkdir(self.output)
+            os.makedirs(self.output)
 
-        print self.collect()
+        datasets = self.collect()
         if not Options.download_only:
-            self.add()
+            self.add(datasets)
 
 
     def download(self, filename):
         src = self.source + filename
         dst = self.output + filename
         if not Options.force_download and os.path.exists(dst):
-            write(dst + ' already exists, skipping download.')
+            progress(dst + ' already exists, skipping download.')
         else:
             dst_dir = os.path.dirname(dst)
             if not os.path.exists(dst_dir):
                 os.makedirs(dst_dir)
-            write('Downloading ' + src + ' to ' + dst + '.')
+            progress('Downloading ' + src + ' to ' + dst + '.')
             urllib.urlretrieve(src, dst)
 
 
     def parse_download(self, parser, url):
-        write('Parsing ' + url + '.')
+        progress('Parsing ' + url + '.')
         response = urllib.urlopen(url)
         parser.feed(''.join(response.readlines()))
         response.close()
-        #parser.feed(self.fromfile('multilabel.html'))
+        #parser.feed(self.fromfile('binary.html'))
         parser.close()
+
+        if Options.add_only:
+            return
         for d in parser.datasets:
             for f in d['files']:
                 self.download(f)
@@ -119,39 +132,65 @@ class Slurper:
     def collect(self):
         raise NotImplementedError('Abstract method!')
 
-    def add(self):
-        write('Adding to repository.')
+    def add(self, datasets):
+        progress('Adding to repository:')
+        for d in datasets:
+            progress('Item ' + d['name'] + '.')
+            obj = Data(
+                pub_date=datetime.datetime.now(),
+                name=d['name'],
+                source=d['source'],
+                description=d['description'],
+                version=1,
+                is_public=True,
+                is_current=True,
+                is_approved=True,
+                user_id=1,
+                license_id=1,
+            )
+            obj.slug = obj.make_slug()
+            obj.format = 'hdf5'
+            src = os.path.join(self.output, d['files'][0])
+            obj.file = File(open(src))
+            obj.file.name = obj.get_filename()
+            obj.save()
+
+            progress('Converting to HDF5.')
+            hdf5conv.convert(src, self.format,
+                os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
+            return
 
 
 class LibSVMTools(Slurper):
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
+    format = 'libsvm'
 
     def collect(self):
         datasets = []
 
-        write('Collecting from section binary.')
+        progress('Collecting from section binary.')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'binary.html')
         datasets.extend(parser.datasets)
-        write('...')
+        progress('...')
 
-        write('Collecting from section multi-class.')
+        progress('Collecting from section multi-class.')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'multiclass.html')
         datasets.extend(parser.datasets)
-        write('...')
+        progress('...')
 
-        write('Collecting from section regression.')
+        progress('Collecting from section regression.')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'regression.html')
         datasets.extend(parser.datasets)
-        write('...')
+        progress('...')
 
-        write('Collecting from section multi-label.')
+        progress('Collecting from section multi-label.')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'multilabel.html')
         datasets.extend(parser.datasets)
-        write('...')
+        progress('...')
 
         return datasets
 
@@ -166,6 +205,7 @@ class Options:
     output = './slurped'
     verbose = False
     download_only = False
+    add_only = False
     force_download = False
     source = 0
     sources=[LibSVMTools.source, Weka.source]
@@ -173,7 +213,7 @@ class Options:
 
 
 
-def write(msg):
+def progress(msg):
     if Options.verbose:
         print '>>> ' + msg
 
@@ -202,6 +242,10 @@ Options:
         only download data, don't add to repository
         default: ''' + str(Options.download_only) + '''
 
+-a, --add-only
+        only add to repository, don't download
+        default: ''' + str(Options.add_only) + '''
+
 -f, --force-download
         download even if file already exists
         default: ''' + str(Options.force_download) + '''
@@ -213,9 +257,9 @@ Options:
 
 def parse_options():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'o:s:vdfh',
+        opts, args = getopt.getopt(sys.argv[1:], 'o:s:vdafh',
             ['output=', 'source=', 'verbose', 'download-only',
-            'force-download', 'help'])
+            'add-only', 'force-download', 'help'])
     except getopt.GetoptError, err: # print help information and exit
         print str(err) + "\n"
         usage()
@@ -235,6 +279,8 @@ def parse_options():
             Options.verbose = True
         elif o in ('-d', '--download-only'):
             Options.download_only = True
+        elif o in ('-a', '--add-only'):
+            Options.add_only = True
         elif o in ('-f', '--force-download'):
             Options.force_download = True
         elif o in ('-h', '--help'):
@@ -244,8 +290,12 @@ def parse_options():
             print 'Unhandled option: ' + o
             sys.exit(2)
 
+    if Options.add_only and Options.download_only:
+        print 'Options add-only and download-only are mutually exclusive, please reconsider!'
+        sys.exit(3)
+
     if not os.path.exists(Options.output):
-        write('Creating directory ' + Options.output)
+        progress('Creating directory ' + Options.output)
         os.mkdir(Options.output)
 
 
@@ -258,6 +308,6 @@ if __name__ == '__main__':
     elif Options.source == 1:
         slurper = Weka()
     slurper.run()
-    write('Done.')
+    progress('Done.')
 
     sys.exit(0)
