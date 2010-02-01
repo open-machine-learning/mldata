@@ -151,7 +151,7 @@ class Repository(models.Model):
         Creates a slug if necessary.
         """
         if not self.slug_id:
-            self.slug_id = self.get_slug_id()
+            self.slug = self.make_slug()
         super(Repository, self).save()
 
 
