@@ -58,9 +58,10 @@ ARFF
 import h5py, numpy, os
 
 NAME = 'hdf5conv'
-VERSION = '0.1'
+VERSION = '0.2'
 VERSION_MLDATA = '0'
 NUM_EXTRACT = 23
+COMPRESSION = 'gzip'
 
 
 def progress(msg):
@@ -167,7 +168,7 @@ class LibSVM2HDF5(Converter):
         infile = open(self.in_filename, 'r')
         dims = self._get_dimensions(infile)
         h = h5py.File(self.out_filename, 'w')
-        dset = h.create_dataset('attributes', dims, compression='gzip')
+        dset = h.create_dataset('attributes', dims, compression=COMPRESSION)
         lineno = 0
         for line in infile:
             if lineno % 100 == 0:

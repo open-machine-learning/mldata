@@ -1,4 +1,5 @@
 from hdf5 import *
+import numpy
 
 
 def convert(in_filename, in_format, out_filename, out_format):
@@ -102,3 +103,22 @@ def get_extract(in_filename):
         filename = in_filename
 
     return hdf5_extract(filename)
+
+
+def create_split(filename, name, indices):
+    h = h5py.File(filename, 'w')
+    for k,v in indices.iteritems():
+        dims = (len(v), len(v[0]))
+        dset = h.create_dataset(k, dims, compression=COMPRESSION)
+        idx_row = 0
+        for row in v:
+            idx_col = 0
+            for col in row:
+                dset[idx_row, idx_col] = numpy.double(col)
+                idx_col += 1
+            idx_row += 1
+
+    h.attrs['name'] = name
+    h.attrs['mldata'] = 0
+    h.attrs['comment'] = 'splitfile'
+    h.close()

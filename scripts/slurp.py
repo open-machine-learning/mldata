@@ -3,7 +3,7 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib, datetime
+import getopt, sys, os, urllib, datetime, shutil
 from HTMLParser import HTMLParser
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
@@ -114,7 +114,7 @@ class Slurper:
             urllib.urlretrieve(src, dst)
 
 
-    def parse_download(self, parser, url):
+    def parse_download(self, parser, url, type=''):
         progress('Parsing ' + url + '.')
         response = urllib.urlopen(url)
         parser.feed(''.join(response.readlines()))
@@ -122,43 +122,117 @@ class Slurper:
         #parser.feed(self.fromfile('binary.html'))
         parser.close()
 
-        if Options.add_only:
-            return
         for d in parser.datasets:
-            for f in d['files']:
-                self.download(f)
+            d['type'] = type
+            if not Options.add_only:
+                for f in d['files']:
+                    self.download(f)
 
 
     def collect(self):
         raise NotImplementedError('Abstract method!')
 
+
+    def _create_data(self, dataset, datafile):
+        progress('Creating Data item.')
+        obj = Data(
+            pub_date=datetime.datetime.now(),
+            name=dataset['name'],
+            source=dataset['source'],
+            description=dataset['description'],
+            version=1,
+            is_public=True,
+            is_current=True,
+            is_approved=True,
+            user_id=1,
+            license_id=1,
+        )
+        obj.slug = obj.make_slug()
+        obj.format = 'hdf5'
+        obj.file = File(open(datafile))
+        obj.file.name = obj.get_filename()
+        obj.save()
+
+        progress('Converting to HDF5.')
+        #hdf5conv.convert(datafile, self.format,
+        #    os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
+
+        return obj
+
+
+    def _create_task(self, dataset, item, num_data, num_train):
+        progress('Creating Task item.')
+        name = 'task_' + dataset['name']
+        obj = Task(
+            pub_date=datetime.datetime.now(),
+            name=name,
+            description=dataset['description'],
+            version=1,
+            is_public=True,
+            is_current=True,
+            user_id=1,
+            license_id=1,
+            tags=dataset['type'],
+        )
+        obj.slug = obj.make_slug()
+
+        if dataset['type'] in ('Binary', 'MultiClass'):
+            dataset['type'] = 'Classification'
+        obj.type, created = TaskType.objects.get_or_create(name=dataset['type'])
+
+        progress('Creating HDF5 split file.')
+        splitfile = os.path.join(self.output, name + '.hdf5')
+        indices = {'train': [range(num_data, num_data+num_train)]}
+        # hdf5conv.create_split(splitfile, name, indices)
+
+        obj.splits = File(open(splitfile))
+        obj.splits.name = obj.get_splitname()
+        obj.save()
+
+        # obj needs pk first for many-to-many
+        obj.data.add(item)
+        obj.save()
+
+        return obj
+
+
+    def _concat_datafile(self, datafile, trainfile):
+        tmpfile = datafile + '.tmp'
+        tmp = open(tmpfile, 'w')
+
+        d = open(datafile,'r')
+        num_data = len(d.readlines())
+        d.seek(0)
+        shutil.copyfileobj(d, tmp)
+
+        t = open(trainfile,'r')
+        num_train = len(t.readlines())
+        t.seek(0)
+        shutil.copyfileobj(t, tmp)
+
+        d.close()
+        t.close()
+        tmp.close()
+
+        return (tmpfile, num_data, num_train)
+
+
     def add(self, datasets):
         progress('Adding to repository:')
         for d in datasets:
             progress('Item ' + d['name'] + '.')
-            obj = Data(
-                pub_date=datetime.datetime.now(),
-                name=d['name'],
-                source=d['source'],
-                description=d['description'],
-                version=1,
-                is_public=True,
-                is_current=True,
-                is_approved=True,
-                user_id=1,
-                license_id=1,
-            )
-            obj.slug = obj.make_slug()
-            obj.format = 'hdf5'
-            src = os.path.join(self.output, d['files'][0])
-            obj.file = File(open(src))
-            obj.file.name = obj.get_filename()
-            obj.save()
-
-            progress('Converting to HDF5.')
-            hdf5conv.convert(src, self.format,
-                os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
-            return
+            datafile = os.path.join(self.output, d['files'][0])
+            num_files = len(d['files'])
+            if num_files == 1:
+                self._create_data(d, datafile)
+            elif num_files == 2:
+                if d['files'][1].endswith('.t'):
+                    tmp, num_data, num_train = self._concat_datafile(
+                        datafile, os.path.join(self.output, d['files'][1]))
+                    item = self._create_data(d, tmp)
+                    self._create_task(d, item, num_data, num_train)
+                    os.remove(tmp)
+            return # return after 1st item for the time being
 
 
 class LibSVMTools(Slurper):
@@ -170,23 +244,24 @@ class LibSVMTools(Slurper):
 
         progress('Collecting from section binary.')
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'binary.html')
+        self.parse_download(parser, self.source + 'binary.html', 'Binary')
         datasets.extend(parser.datasets)
         progress('...')
+        return datasets
 
         progress('Collecting from section multi-class.')
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'multiclass.html')
+        self.parse_download(parser, self.source + 'multiclass.html', 'MultiClass')
         datasets.extend(parser.datasets)
         progress('...')
 
         progress('Collecting from section regression.')
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'regression.html')
+        self.parse_download(parser, self.source + 'regression.html', 'Regression')
         datasets.extend(parser.datasets)
         progress('...')
 
-        progress('Collecting from section multi-label.')
+        progress('Collecting from section multi-label.', 'MultiLabel')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'multilabel.html')
         datasets.extend(parser.datasets)
