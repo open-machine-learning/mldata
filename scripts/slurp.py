@@ -154,8 +154,8 @@ class Slurper:
         obj.save()
 
         progress('Converting to HDF5.')
-        #hdf5conv.convert(datafile, self.format,
-        #    os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
+        hdf5conv.convert(datafile, self.format,
+            os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
         return obj
 
@@ -183,7 +183,7 @@ class Slurper:
         progress('Creating HDF5 split file.')
         splitfile = os.path.join(self.output, name + '.hdf5')
         indices = {'train': [range(num_data, num_data+num_train)]}
-        # hdf5conv.create_split(splitfile, name, indices)
+        hdf5conv.create_split(splitfile, name, indices)
 
         obj.splits = File(open(splitfile))
         obj.splits.name = obj.get_splitname()
