@@ -88,58 +88,26 @@ class Slurper:
         return data
 
 
-    def run(self):
-        progress('Slurping from ' + self.source + '.')
-
-        self.output = Options.output + os.path.sep +\
-            self.__class__.__name__ + os.path.sep
-        if not os.path.exists(self.output):
-            os.makedirs(self.output)
-
-        datasets = self.collect()
-        if not Options.download_only:
-            self.add(datasets)
-
-
-    def download(self, filename):
+    def _download(self, filename):
         src = self.source + filename
-        dst = self.output + filename
+        dst = os.path.join(self.output, filename)
         if not Options.force_download and os.path.exists(dst):
-            progress(dst + ' already exists, skipping download.')
+            progress(dst + ' already exists, skipping download.', 3)
         else:
             dst_dir = os.path.dirname(dst)
             if not os.path.exists(dst_dir):
                 os.makedirs(dst_dir)
-            progress('Downloading ' + src + ' to ' + dst + '.')
+            progress('Downloading ' + src + ' to ' + dst + '.', 3)
             urllib.urlretrieve(src, dst)
 
 
-    def parse_download(self, parser, url, type=''):
-        progress('Parsing ' + url + '.')
-        response = urllib.urlopen(url)
-        parser.feed(''.join(response.readlines()))
-        response.close()
-        #parser.feed(self.fromfile('binary.html'))
-        parser.close()
-
-        for d in parser.datasets:
-            d['type'] = type
-            if not Options.add_only:
-                for f in d['files']:
-                    self.download(f)
-
-
-    def collect(self):
-        raise NotImplementedError('Abstract method!')
-
-
-    def _create_data(self, dataset, datafile):
-        progress('Creating Data item.')
+    def _create_data(self, parsed, datafile):
+        progress('Creating Data item.', 4)
         obj = Data(
             pub_date=datetime.datetime.now(),
-            name=dataset['name'],
-            source=dataset['source'],
-            description=dataset['description'],
+            name=parsed['name'],
+            source=parsed['source'],
+            description=parsed['description'],
             version=1,
             is_public=True,
             is_current=True,
@@ -153,34 +121,34 @@ class Slurper:
         obj.file.name = obj.get_filename()
         obj.save()
 
-        progress('Converting to HDF5.')
+        progress('Converting to HDF5.', 5)
         hdf5conv.convert(datafile, self.format,
             os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
         return obj
 
 
-    def _create_task(self, dataset, item, num_data, num_train):
-        progress('Creating Task item.')
-        name = 'task_' + dataset['name']
+    def _create_task(self, parsed, data, num_data, num_train):
+        progress('Creating Task item.', 4)
+        name = 'task_' + parsed['name']
         obj = Task(
             pub_date=datetime.datetime.now(),
             name=name,
-            description=dataset['description'],
+            description=parsed['description'],
             version=1,
             is_public=True,
             is_current=True,
             user_id=1,
             license_id=1,
-            tags=dataset['type'],
+            tags=parsed['type'],
         )
         obj.slug = obj.make_slug()
 
-        if dataset['type'] in ('Binary', 'MultiClass'):
-            dataset['type'] = 'Classification'
-        obj.type, created = TaskType.objects.get_or_create(name=dataset['type'])
+        if parsed['type'] in ('Binary', 'MultiClass'):
+            parsed['type'] = 'Classification'
+        obj.type, created = TaskType.objects.get_or_create(name=parsed['type'])
 
-        progress('Creating HDF5 split file.')
+        progress('Creating HDF5 split file.', 5)
         splitfile = os.path.join(self.output, name + '.hdf5')
         indices = {'train': [range(num_data, num_data+num_train)]}
         hdf5conv.create_split(splitfile, name, indices)
@@ -190,7 +158,7 @@ class Slurper:
         obj.save()
 
         # obj needs pk first for many-to-many
-        obj.data.add(item)
+        obj.data.add(data)
         obj.save()
 
         return obj
@@ -217,57 +185,83 @@ class Slurper:
         return (tmpfile, num_data, num_train)
 
 
-    def add(self, datasets):
-        progress('Adding to repository:')
-        for d in datasets:
-            progress('Item ' + d['name'] + '.')
-            datafile = os.path.join(self.output, d['files'][0])
-            num_files = len(d['files'])
-            if num_files == 1:
-                self._create_data(d, datafile)
-            elif num_files == 2:
-                if d['files'][1].endswith('.t'):
-                    tmp, num_data, num_train = self._concat_datafile(
-                        datafile, os.path.join(self.output, d['files'][1]))
-                    item = self._create_data(d, tmp)
-                    self._create_task(d, item, num_data, num_train)
-                    os.remove(tmp)
-            return # return after 1st item for the time being
+    def _add(self, parsed):
+        progress('Adding to repository.', 3)
+        num_files = len(parsed['files'])
+        if num_files == 1:
+            self._create_data(parsed,
+                os.path.join(self.output, parsed['files'][0]))
+        elif num_files == 2:
+            if parsed['files'][1].endswith('.t'):
+                tmp, num_data, num_train = self._concat_datafile(
+                    os.path.join(self.output, parsed['files'][0]),
+                    os.path.join(self.output, parsed['files'][1])
+                )
+                data = self._create_data(parsed, tmp)
+                self._create_task(parsed, data, num_data, num_train)
+                os.remove(tmp)
+        else:
+            raise NotImplementedError('Got more files than expected!')
+
+
+    def handle(self, parser, url, type=None):
+        progress('Handling ' + url + '.', 1)
+        #response = urllib.urlopen(url)
+        #parser.feed(''.join(response.readlines()))
+        #response.close()
+        parser.feed(self.fromfile('binary.html'))
+        parser.close()
+
+        for parsed in parser.datasets:
+            progress('Item: ' + parsed['name'], 2)
+            if not Options.add_only:
+                for f in parsed['files']:
+                    self._download(f)
+
+            if not Options.download_only:
+                parsed['type'] = type
+                self._add(parsed)
+
+
+    def slurp(self):
+        raise NotImplementedError('Abstract method!')
+
+
+    def run(self):
+        progress('Slurping from ' + self.source + '.')
+
+        self.output = Options.output + os.path.sep +\
+            self.__class__.__name__ + os.path.sep
+        if not os.path.exists(self.output):
+            os.makedirs(self.output)
+
+        self.slurp() # implemented in child class
+
 
 
 class LibSVMTools(Slurper):
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
     format = 'libsvm'
 
-    def collect(self):
-        datasets = []
-
-        progress('Collecting from section binary.')
+    def slurp(self):
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'binary.html', 'Binary')
-        datasets.extend(parser.datasets)
-        progress('...')
-        return datasets
+        self.handle(parser, self.source + 'binary.html', 'Binary')
+        return
 
         progress('Collecting from section multi-class.')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'multiclass.html', 'MultiClass')
         datasets.extend(parser.datasets)
-        progress('...')
 
         progress('Collecting from section regression.')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'regression.html', 'Regression')
         datasets.extend(parser.datasets)
-        progress('...')
 
         progress('Collecting from section multi-label.', 'MultiLabel')
         parser = LibSVMToolsHTMLParser()
         self.parse_download(parser, self.source + 'multilabel.html')
         datasets.extend(parser.datasets)
-        progress('...')
-
-        return datasets
 
 
 
@@ -288,9 +282,9 @@ class Options:
 
 
 
-def progress(msg):
+def progress(msg, lvl=0):
     if Options.verbose:
-        print '>>> ' + msg
+        print '  '*lvl + msg
 
 
 
@@ -383,6 +377,4 @@ if __name__ == '__main__':
     elif Options.source == 1:
         slurper = Weka()
     slurper.run()
-    progress('Done.')
-
     sys.exit(0)
