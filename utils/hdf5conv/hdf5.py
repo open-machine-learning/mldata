@@ -163,26 +163,54 @@ class LibSVM2HDF5(Converter):
 
     def run(self):
         """Run the actual conversion process."""
-
         progress('reading in-file ' + self.in_filename)
-        infile = open(self.in_filename, 'r')
-        dims = self._get_dimensions(infile)
         h = h5py.File(self.out_filename, 'w')
-        dset = h.create_dataset('attributes', dims, compression=COMPRESSION)
-        lineno = 0
+        from scipy.sparse import csc_matrix, lil_matrix
+        infile = open(self.in_filename, 'r')
+
+#        dims = self._get_dimensions(infile)
+#        attributes=lil_matrix(dims, dtype=numpy.double)
+#        row = 0
+#        for line in infile:
+#            items = self._get_items(line)
+#            attributes[row, 0] = numpy.double(items.pop(0))
+#            for item in items:
+#                idx, val = item.split(':')
+#                attributes[row, int(idx)] = numpy.double(val)
+#            row += 1
+#        attributes = csc_matrix(attributes)
+#        infile.seek(0)
+#        print attributes.indptr[:20]
+#        print attributes.indices[:20]
+
+        targets = []
+        indices = []
+        indptr = [0]
+        data = []
+        ptr = 0
         for line in infile:
-            if lineno % 100 == 0:
-                progress('processing line ' + str(lineno))
             items = self._get_items(line)
-            dset[lineno, 0] = numpy.double(items.pop(0))
+            targets.append(numpy.double(items.pop(0)))
             for item in items:
                 idx, val = item.split(':')
-                dset[lineno, int(idx)] = numpy.double(val)
-            lineno += 1
+                data.append(numpy.double(val))
+                indices.append(int(idx))
+                ptr += 1
+            indptr.append(ptr)
+#        A=csc_matrix((numpy.array(data), numpy.array(indices), numpy.array(indptr)))
+#        print A.indptr[:20]
+#        print A.indices[:20]
+#        print A[0:2]
+
+
         infile.close()
+        h.create_dataset('attributes_targets', data=targets, compression=COMPRESSION)
+        h.create_dataset('attributes_indices', data=indices, compression=COMPRESSION)
+        h.create_dataset('attributes_indptr', data=indptr, compression=COMPRESSION)
+        h.create_dataset('attributes_data', data=data, compression=COMPRESSION)
 
         self.attrs['name'] = os.path.basename(self.out_filename).split('.')[0]
-        self.attrs['comment'] = 'libsvm'
+        self.attrs['comment'] = 'sparse libsvm'
         for key, val in self.attrs.iteritems():
             h.attrs[key] = str(val)
 
@@ -299,3 +327,29 @@ def hdf5_extract(filename):
 
     h.close()
     return extract
+
+
+def hdf5_split(filename, name, indices):
+    """Create an HDF5 split file.
+
+    @param filename: name of the split file
+    @type filename: string
+    @param name: name of the Task item
+    @type name: string
+    @param indices: split indices
+    @type indices: dict
+    """
+    h = h5py.File(filename, 'w')
+    for k,v in indices.iteritems():
+        data = []
+        for row in v:
+            r = []
+            for col in row:
+                r.append(numpy.double(col))
+            data.append(r)
+        h.create_dataset(k, data=data, compression=COMPRESSION)
+
+    h.attrs['name'] = name
+    h.attrs['mldata'] = 0
+    h.attrs['comment'] = 'splitfile'
+    h.close()

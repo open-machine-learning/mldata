@@ -206,10 +206,10 @@ class Slurper:
 
     def handle(self, parser, url, type=None):
         progress('Handling ' + url + '.', 1)
-        #response = urllib.urlopen(url)
-        #parser.feed(''.join(response.readlines()))
-        #response.close()
-        parser.feed(self.fromfile('binary.html'))
+        response = urllib.urlopen(url)
+        parser.feed(''.join(response.readlines()))
+        response.close()
+        #parser.feed(self.fromfile('binary.html'))
         parser.close()
 
         for parsed in parser.datasets:
@@ -221,6 +221,7 @@ class Slurper:
             if not Options.download_only:
                 parsed['type'] = type
                 self._add(parsed)
+            return
 
 
     def slurp(self):

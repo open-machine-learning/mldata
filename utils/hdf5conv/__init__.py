@@ -106,19 +106,13 @@ def get_extract(in_filename):
 
 
 def create_split(filename, name, indices):
-    h = h5py.File(filename, 'w')
-    for k,v in indices.iteritems():
-        dims = (len(v), len(v[0]))
-        dset = h.create_dataset(k, dims, compression=COMPRESSION)
-        idx_row = 0
-        for row in v:
-            idx_col = 0
-            for col in row:
-                dset[idx_row, idx_col] = numpy.double(col)
-                idx_col += 1
-            idx_row += 1
+    """Create an split file, using HDF5.
 
-    h.attrs['name'] = name
-    h.attrs['mldata'] = 0
-    h.attrs['comment'] = 'splitfile'
-    h.close()
+    @param filename: name of the split file
+    @type filename: string
+    @param name: name of the Task item
+    @type name: string
+    @param indices: split indices
+    @type indices: dict
+    """
+    hdf5_split(filename, name, indices)
