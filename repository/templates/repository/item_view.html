@@ -136,7 +136,7 @@ $(function() {
 			<dt>{% trans "Attributes (extract)" %}</dt>
 			<dd><ol>
 			{% for attr in extract.attributes %}
-				<li>{{ attr|join:' / ' }}</li>
+				<li>{{ attr|join:', ' }}</li>
 			{% endfor %}
 			</ol></dd>
 		</dl></div><!-- /tabs-data -->

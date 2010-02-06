@@ -56,11 +56,13 @@ ARFF
 """
 
 import h5py, numpy, os
+from scipy.sparse import csc_matrix
+
 
 NAME = 'hdf5conv'
 VERSION = '0.2'
 VERSION_MLDATA = '0'
-NUM_EXTRACT = 23
+NUM_EXTRACT = 10
 COMPRESSION = 'gzip'
 
 
@@ -133,88 +135,56 @@ class LibSVM2HDF5(Converter):
     This is simple enough, so it doesn't need its own module.
     """
 
-    def _get_items(self, line):
-        items = line.strip().split(' ')
-        try:
-            items.remove('')
-        except ValueError:
-            pass
-
-        return items
-
-
-    def _get_dimensions(self, infile):
-        rows = 0
-        cols = 0
-        for line in infile:
-            items = self._get_items(line)
-            items.pop(0) # don't need target
-            for item in items:
-                idx, val = item.split(':')
-                idx = int(idx)
-                if idx > cols:
-                    cols = idx
-            rows += 1
-        infile.seek(0)
-        cols += 1 # would be index otherwise
-
-        return (rows, cols)
-
-
-    def run(self):
-        """Run the actual conversion process."""
-        progress('reading in-file ' + self.in_filename)
-        h = h5py.File(self.out_filename, 'w')
-        from scipy.sparse import csc_matrix, lil_matrix
-        infile = open(self.in_filename, 'r')
-
-#        dims = self._get_dimensions(infile)
-#        attributes=lil_matrix(dims, dtype=numpy.double)
-#        row = 0
-#        for line in infile:
-#            items = self._get_items(line)
-#            attributes[row, 0] = numpy.double(items.pop(0))
-#            for item in items:
-#                idx, val = item.split(':')
-#                attributes[row, int(idx)] = numpy.double(val)
-#            row += 1
-#        attributes = csc_matrix(attributes)
-#        infile.seek(0)
-#        print attributes.indptr[:20]
-#        print attributes.indices[:20]
-
-        targets = []
+    def get_matrix(self):
+        """Retrieves a SciPy Compressed Sparse Column matrix from infile."""
+        progress('constructing csc matrix from ' + self.in_filename)
         indices = []
         indptr = [0]
         data = []
         ptr = 0
+        infile = open(self.in_filename, 'r')
         for line in infile:
-            items = self._get_items(line)
-            targets.append(numpy.double(items.pop(0)))
+            items = line.strip().split(' ')
+            try:
+                items.remove('')
+            except ValueError:
+                pass
+
+            data.append(numpy.double(items.pop(0)))
+            ptr += 1
+            indices.append(0)
             for item in items:
                 idx, val = item.split(':')
                 data.append(numpy.double(val))
                 indices.append(int(idx))
                 ptr += 1
             indptr.append(ptr)
-#        A=csc_matrix((numpy.array(data), numpy.array(indices), numpy.array(indptr)))
-#        print A.indptr[:20]
-#        print A.indices[:20]
-#        print A[0:2]
-
-
         infile.close()
-        h.create_dataset('attributes_targets', data=targets, compression=COMPRESSION)
-        h.create_dataset('attributes_indices', data=indices, compression=COMPRESSION)
-        h.create_dataset('attributes_indptr', data=indptr, compression=COMPRESSION)
-        h.create_dataset('attributes_data', data=data, compression=COMPRESSION)
+
+        return csc_matrix((numpy.array(data), numpy.array(indices), numpy.array(indptr)))
+
+
+    def run(self):
+        """Run the actual conversion process."""
+        progress('running the conversion')
+        A = self.get_matrix()
+        h = h5py.File(self.out_filename, 'w')
+        if A.nnz/numpy.double(A.shape[0]*A.shape[1]) < 0.5: # sparse
+            h.create_dataset('attributes_indices', data=A.indices, compression=COMPRESSION)
+            h.create_dataset('attributes_indptr', data=A.indptr, compression=COMPRESSION)
+            h.create_dataset('attributes_data', data=A.data, compression=COMPRESSION)
+            self.attrs['comment'] = 'libsvm sparse'
+        else: # dense
+            h.create_dataset('attributes', data=A.todense(), compression=COMPRESSION)
+            self.attrs['comment'] = 'libsvm dense'
+
+        attribute_names = ['label / target',
+            'dim 1', '...', 'dim ' + str(numpy.max(A.indices))]
+        h.create_dataset('attribute_names', data=attribute_names, compression=COMPRESSION)
 
         self.attrs['name'] = os.path.basename(self.out_filename).split('.')[0]
-        self.attrs['comment'] = 'sparse libsvm'
         for key, val in self.attrs.iteritems():
             h.attrs[key] = str(val)
-
-        progress('emtpy values for attribute_names, attribute_types.')
         h.close()
 
 
@@ -317,9 +287,20 @@ def hdf5_extract(filename):
 
     # only first NUM_EXTRACT items of attributes
     try:
+        if 'attributes_indptr' in h: # sparse
+            # taking all data takes to long for quick viewing, but having just
+            # this extract may result in less columns displayed than indicated
+            # by attributes_names
+            data = h['attributes_data'][:h['attributes_indptr'][NUM_EXTRACT+1]]
+            indices = h['attributes_indices'][:h['attributes_indptr'][NUM_EXTRACT+1]]
+            indptr = h['attributes_indptr'][:NUM_EXTRACT+1]
+            A=csc_matrix((data, indices, indptr)).todense().T
+        else: # dense
+            A=h['attributes']
+
         extract['attributes'] = []
         for i in xrange(NUM_EXTRACT):
-            extract['attributes'].append(h['attributes'][i])
+            extract['attributes'].append(A[i].tolist()[0])
     except KeyError:
         pass
     except ValueError:
