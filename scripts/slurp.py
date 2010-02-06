@@ -271,6 +271,11 @@ class Weka(Slurper):
 
 
 
+class Sonnenburgs(Slurper):
+    # string stuff
+    source = 'http://sonnenburgs.de/media/projects/mkl_splice/'
+
+
 class Options:
     output = './slurped'
     verbose = False
@@ -278,7 +283,7 @@ class Options:
     add_only = False
     force_download = False
     source = 0
-    sources=[LibSVMTools.source, Weka.source]
+    sources=[LibSVMTools.source, Weka.source, Sonnenburgs.source]
 
 
 
