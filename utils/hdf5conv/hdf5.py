@@ -174,12 +174,14 @@ class LibSVM2HDF5(Converter):
             h.create_dataset('attributes_indptr', data=A.indptr, compression=COMPRESSION)
             h.create_dataset('attributes_data', data=A.data, compression=COMPRESSION)
             self.attrs['comment'] = 'libsvm sparse'
+            dim_max = numpy.max(A.indices)
         else: # dense
-            h.create_dataset('attributes', data=A.todense(), compression=COMPRESSION)
+            A = A.todense()
+            h.create_dataset('attributes', data=A, compression=COMPRESSION)
             self.attrs['comment'] = 'libsvm dense'
+            dim_max = len(A[0])
 
-        attribute_names = ['label / target',
-            'dim 1', '...', 'dim ' + str(numpy.max(A.indices))]
+        attribute_names = ['label / target', 'dim 1', '...', 'dim ' + str(dim_max)]
         h.create_dataset('attribute_names', data=attribute_names, compression=COMPRESSION)
 
         self.attrs['name'] = os.path.basename(self.out_filename).split('.')[0]
@@ -287,6 +289,7 @@ def hdf5_extract(filename):
 
     # only first NUM_EXTRACT items of attributes
     try:
+        extract['attributes'] = []
         if 'attributes_indptr' in h: # sparse
             # taking all data takes to long for quick viewing, but having just
             # this extract may result in less columns displayed than indicated
@@ -295,12 +298,12 @@ def hdf5_extract(filename):
             indices = h['attributes_indices'][:h['attributes_indptr'][NUM_EXTRACT+1]]
             indptr = h['attributes_indptr'][:NUM_EXTRACT+1]
             A=csc_matrix((data, indices, indptr)).todense().T
+            for i in xrange(NUM_EXTRACT):
+                extract['attributes'].append(A[i].tolist()[0])
         else: # dense
             A=h['attributes']
-
-        extract['attributes'] = []
-        for i in xrange(NUM_EXTRACT):
-            extract['attributes'].append(A[i].tolist()[0])
+            for i in xrange(NUM_EXTRACT):
+                extract['attributes'].append(A[i])
     except KeyError:
         pass
     except ValueError:

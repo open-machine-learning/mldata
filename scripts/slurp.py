@@ -3,7 +3,7 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib, datetime, shutil
+import getopt, sys, os, urllib, datetime, shutil, bz2
 from HTMLParser import HTMLParser
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
@@ -88,6 +88,10 @@ class Slurper:
         return data
 
 
+    def skippable(self, name):
+        return False
+
+
     def _download(self, filename):
         src = self.source + filename
         dst = os.path.join(self.output, filename)
@@ -109,7 +113,7 @@ class Slurper:
             source=parsed['source'],
             description=parsed['description'],
             version=1,
-            is_public=True,
+            is_public=False,
             is_current=True,
             is_approved=True,
             user_id=1,
@@ -125,6 +129,10 @@ class Slurper:
         hdf5conv.convert(datafile, self.format,
             os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
+        # make it available after everythin went alright
+        obj.is_public = True
+        obj.save()
+
         return obj
 
 
@@ -136,7 +144,7 @@ class Slurper:
             name=name,
             description=parsed['description'],
             version=1,
-            is_public=True,
+            is_public=False,
             is_current=True,
             user_id=1,
             license_id=1,
@@ -156,9 +164,11 @@ class Slurper:
         obj.splits = File(open(splitfile))
         obj.splits.name = obj.get_splitname()
         obj.save()
+        os.remove(splitfile)
 
         # obj needs pk first for many-to-many
         obj.data.add(data)
+        obj.is_public = True
         obj.save()
 
         return obj
@@ -185,23 +195,69 @@ class Slurper:
         return (tmpfile, num_data, num_train)
 
 
+    def _decompress(self, oldnames):
+        newnames = []
+        for o in oldnames:
+            o = os.path.join(self.output, o)
+            n = o.replace('.bz2', '')
+            if o.endswith('.bz2'):
+                progress('Decompressing ' + o, 4)
+                old = bz2.BZ2File(o, 'r')
+                new = open(n, 'w')
+                new.write(old.read())
+                old.close()
+                new.close()
+            newnames.append(n)
+        return newnames
+
+
+    def _rm_decompressed(self, filenames):
+        for fname in filenames:
+            if fname.endswith('.bz2'):
+                os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
+
+
+    def _add_single(self, parsed):
+        self._create_data(parsed, parsed['files'][0])
+
+
+    def _add_training(self, parsed):
+        tmp, num_data, num_train = self._concat_datafile(
+            parsed['files'][0], parsed['files'][1]
+        )
+        data = self._create_data(parsed, tmp)
+        self._create_task(parsed, data, num_data, num_train)
+        os.remove(tmp)
+
+
+    def _add_scale(self, parsed):
+        self._add_single(parsed)
+        parsed['name'] += '_scale'
+        self._add_single(parsed)
+
+
     def _add(self, parsed):
         progress('Adding to repository.', 3)
         num_files = len(parsed['files'])
+        if num_files > 2:
+            progress('got more files than expeced, skipping')
+            return
+
+        oldnames = parsed['files']
+        parsed['files'] = self._decompress(parsed['files'])
         if num_files == 1:
-            self._create_data(parsed,
-                os.path.join(self.output, parsed['files'][0]))
-        elif num_files == 2:
-            if parsed['files'][1].endswith('.t'):
-                tmp, num_data, num_train = self._concat_datafile(
-                    os.path.join(self.output, parsed['files'][0]),
-                    os.path.join(self.output, parsed['files'][1])
-                )
-                data = self._create_data(parsed, tmp)
-                self._create_task(parsed, data, num_data, num_train)
-                os.remove(tmp)
+            self._add_single(parsed)
         else:
-            raise NotImplementedError('Got more files than expected!')
+            fname = parsed['files'][1]
+            if fname.endswith('.t'):
+                self._add_training(parsed)
+            elif fname.endswith('scale'):
+                self._add_scale(parsed)
+            else:
+                progress('unknown ending of file ' + fname)
+                #raise NotImplementedError('Unknown ending of second file!')
+
+        self._rm_decompressed(oldnames)
 
 
     def handle(self, parser, url, type=None):
@@ -212,16 +268,19 @@ class Slurper:
         #parser.feed(self.fromfile('binary.html'))
         parser.close()
 
-        for parsed in parser.datasets:
-            progress('Item: ' + parsed['name'], 2)
-            if not Options.add_only:
-                for f in parsed['files']:
-                    self._download(f)
+        for d in parser.datasets:
+            if self.skippable(d['name']):
+                progress('Skipped item ' + d['name'], 2)
+                continue
+            else:
+                progress('Item ' + d['name'], 2)
 
+            if not Options.add_only:
+                for f in d['files']:
+                    self._download(f)
             if not Options.download_only:
-                parsed['type'] = type
-                self._add(parsed)
-            return
+                d['type'] = type
+                self._add(d)
 
 
     def slurp(self):
@@ -243,6 +302,15 @@ class Slurper:
 class LibSVMTools(Slurper):
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
     format = 'libsvm'
+
+    def skippable(self, name):
+        if name.startswith('rcv1'):
+            return True
+        elif name.startswith('webspam'):
+            return True
+
+        return False
+
 
     def slurp(self):
         parser = LibSVMToolsHTMLParser()
