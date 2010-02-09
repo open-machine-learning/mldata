@@ -212,22 +212,21 @@ class Slurper:
                 os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
 
 
-    def _add_single(self, parsed, index=0):
+    def _add_1(self, parsed, index=0):
         self._create_data(parsed, parsed['files'][index])
 
 
-    def _add_double(self, parsed, indices=(0,1)):
+    def _add_2(self, parsed, indices=(0,1)):
         fname = parsed['files'][indices[1]]
-        if fname.endswith('.t'):
-            self._add_split(parsed, indices)
-        elif fname.endswith('scale'):
-            self._add_scale_single(parsed, indices)
+        if fname.endswith('scale'):
+            self._add_1(parsed, indices[0])
+            parsed['name'] += '_scale'
+            self._add_1(parsed, indices[1])
         else:
-            progress('unknown ending of file ' + fname)
-            #raise NotImplementedError('Unknown ending of second file!')
+            self._add_split(parsed, indices)
 
 
-    def _add_triple(self, parsed, indices=(0,1,2)):
+    def _add_3(self, parsed, indices=(0,1,2)):
         fname = parsed['files'][indices[2]]
         if fname.endswith('.r'):
             self._add_split(parsed, indices, ['validation', 'remaining'])
@@ -236,42 +235,56 @@ class Slurper:
         elif fname.endswith('.t'): # bit of a weird case: binary splice
             self._add_split(parsed, (indices[0], indices[2]))
             parsed['name'] += '_scale'
-            self._add_single(parsed, indices[1])
+            self._add_1(parsed, indices[1])
+        elif fname.endswith('scale'): # another weird case: multiclass covtype
+            self._add_1(parsed, indices[0])
+            parsed['name'] += '_scale01'
+            self._add_1(parsed, indices[1])
+            parsed['name'] += '_scale'
+            self._add_1(parsed, indices[2])
         else:
             progress('unknown ending of file ' + fname)
 
 
-    def _add_quadruple(self, parsed, indices=(0,1,2,3)):
+    def _add_4(self, parsed, indices=(0,1,2,3)):
         fname = parsed['files'][indices[3]]
         if fname.endswith('.val'):
             self._add_split(
                 parsed, indices, ['testing', 'training', 'validation'])
         else:
-            self._add_scale_split(parsed, indices)
+            self._add_split(parsed, (indices[0], indices[1]))
+            parsed['name'] += '_scale'
+            self._add_split(parsed, (indices[2], indices[3]))
 
 
-    def _add_split(self, parsed, indices=(0,1), names=['training']):
-        tmp, counts = self._concat(parsed['files'][indices[0]:indices[-1]+1])
+    def _add_5(self, parsed, indices=(0,1,2,3,4)):
+        self._add_split(parsed, indices, ['test0', 'test1', 'test2', 'test3'])
+
+
+    def _add_10(self, parsed, indices=(0,1,2,3,4,5,6,7,8,9)):
+        self._add_split(
+            parsed, indices, ['test1', 'test2', 'test3', 'test4', 'test5'])
+
+
+    def _add_split(self, parsed, indices=(0,1), names=['testing']):
+        slice = parsed['files'][indices[0]:indices[-1]+1]
+        tmp, counts = self._concat(slice)
         data = self._create_data(parsed, tmp)
 
         split_indices = {}
+        offset = len(slice) - len(names)
+        prev_count = 0
+        for i in xrange(offset):
+            prev_count += counts[i]
         for i in xrange(len(names)):
-            split_indices[names[i]] = [range(counts[i], counts[i]+counts[i+1])]
+            idx = offset + i
+            split_indices[names[i]] = [
+                range(prev_count, prev_count+counts[idx])
+            ]
+            prev_count += counts[idx]
 
         self._create_task(parsed, data, split_indices)
         os.remove(tmp)
-
-
-    def _add_scale_single(self, parsed, indices=(0,1)):
-        self._add_single(parsed, indices[0])
-        parsed['name'] += '_scale'
-        self._add_single(parsed, indices[1])
-
-
-    def _add_scale_split(self, parsed, indices=(0,1,2,3)):
-        self._add_split(parsed, (indices[0], indices[1]))
-        parsed['name'] += '_scale'
-        self._add_split(parsed, (indices[2], indices[3]))
 
 
     def _add(self, parsed):
@@ -279,14 +292,19 @@ class Slurper:
 
         oldnames = parsed['files']
         parsed['files'] = self._decompress(parsed['files'])
-        adders = [
-            self._add_single, self._add_double,
-            self._add_triple, self._add_quadruple,
-        ]
-#        try:
-        adders[len(parsed['files'])-1](parsed)
-#        except IndexError:
-#            print 'skipping unknown'
+        num = len(parsed['files'])
+        if num == 1:
+            self._add_1(parsed)
+        elif num == 2:
+            self._add_2(parsed)
+        elif num == 3:
+            self._add_3(parsed)
+        elif num == 4:
+            self._add_4(parsed)
+        elif num == 5:
+            self._add_5(parsed)
+        elif num == 10:
+            self._add_10(parsed)
 
         self._rm_decompressed(oldnames)
 
@@ -296,15 +314,15 @@ class Slurper:
         response = urllib.urlopen(url)
         parser.feed(''.join(response.readlines()))
         response.close()
-        #parser.feed(self.fromfile('binary.html'))
+        #parser.feed(self.fromfile('multiclass.html'))
         parser.close()
 
         for d in parser.datasets:
             if self.skippable(d['name']):
-                progress('Skipped item ' + d['name'], 2)
+                progress('Skipped dataset ' + d['name'], 2)
                 continue
             else:
-                progress('Item ' + d['name'], 2)
+                progress('Dataset ' + d['name'], 2)
 
             if not Options.add_only:
                 for f in d['files']:
@@ -346,13 +364,12 @@ class LibSVMTools(Slurper):
 
 
     def slurp(self):
-        parser = LibSVMToolsHTMLParser()
-        self.handle(parser, self.source + 'binary.html', 'Binary')
-        return
-        parser = LibSVMToolsHTMLParser()
-        self.handle(parser, self.source + 'multiclass.html', 'MultiClass')
-        parser = LibSVMToolsHTMLParser()
-        self.handle(parser, self.source + 'regression.html', 'Regression')
+        #parser = LibSVMToolsHTMLParser()
+        #self.handle(parser, self.source + 'binary.html', 'Binary')
+        #parser = LibSVMToolsHTMLParser()
+        #self.handle(parser, self.source + 'multiclass.html', 'MultiClass')
+        #parser = LibSVMToolsHTMLParser()
+        #self.handle(parser, self.source + 'regression.html', 'Regression')
         parser = LibSVMToolsHTMLParser()
         self.handle(parser, self.source + 'multilabel.html', 'MultiLabel')
 
