@@ -106,7 +106,7 @@ class Slurper:
 
 
     def _create_data(self, parsed, datafile):
-        progress('Creating Data item.', 4)
+        progress('Creating Data item ' + parsed['name'] + '.', 4)
         obj = Data(
             pub_date=datetime.datetime.now(),
             name=parsed['name'],
@@ -118,6 +118,7 @@ class Slurper:
             is_approved=True,
             user_id=1,
             license_id=1,
+            tags=parsed['type'],
         )
         obj.slug = obj.make_slug()
         obj.format = 'hdf5'
@@ -136,9 +137,9 @@ class Slurper:
         return obj
 
 
-    def _create_task(self, parsed, data, num_data, num_train):
-        progress('Creating Task item.', 4)
+    def _create_task(self, parsed, data, indices={}):
         name = 'task_' + parsed['name']
+        progress('Creating Task item ' + name + '.', 4)
         obj = Task(
             pub_date=datetime.datetime.now(),
             name=name,
@@ -158,7 +159,6 @@ class Slurper:
 
         progress('Creating HDF5 split file.', 5)
         splitfile = os.path.join(self.output, name + '.hdf5')
-        indices = {'train': [range(num_data, num_data+num_train)]}
         hdf5conv.create_split(splitfile, name, indices)
 
         obj.splits = File(open(splitfile))
@@ -174,25 +174,20 @@ class Slurper:
         return obj
 
 
-    def _concat_datafile(self, datafile, trainfile):
-        tmpfile = datafile + '.tmp'
+    def _concat(self, files):
+        tmpfile = files[0] + '.tmp'
         tmp = open(tmpfile, 'w')
+        counts = []
 
-        d = open(datafile,'r')
-        num_data = len(d.readlines())
-        d.seek(0)
-        shutil.copyfileobj(d, tmp)
+        for f in files:
+            fh = open(f, 'r')
+            shutil.copyfileobj(fh, tmp)
+            fh.seek(0)
+            counts.append(len(fh.readlines()))
+            fh.close()
 
-        t = open(trainfile,'r')
-        num_train = len(t.readlines())
-        t.seek(0)
-        shutil.copyfileobj(t, tmp)
-
-        d.close()
-        t.close()
         tmp.close()
-
-        return (tmpfile, num_data, num_train)
+        return (tmpfile, counts)
 
 
     def _decompress(self, oldnames):
@@ -217,45 +212,81 @@ class Slurper:
                 os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
 
 
-    def _add_single(self, parsed):
-        self._create_data(parsed, parsed['files'][0])
+    def _add_single(self, parsed, index=0):
+        self._create_data(parsed, parsed['files'][index])
 
 
-    def _add_training(self, parsed):
-        tmp, num_data, num_train = self._concat_datafile(
-            parsed['files'][0], parsed['files'][1]
-        )
+    def _add_double(self, parsed, indices=(0,1)):
+        fname = parsed['files'][indices[1]]
+        if fname.endswith('.t'):
+            self._add_split(parsed, indices)
+        elif fname.endswith('scale'):
+            self._add_scale_single(parsed, indices)
+        else:
+            progress('unknown ending of file ' + fname)
+            #raise NotImplementedError('Unknown ending of second file!')
+
+
+    def _add_triple(self, parsed, indices=(0,1,2)):
+        fname = parsed['files'][indices[2]]
+        if fname.endswith('.r'):
+            self._add_split(parsed, indices, ['validation', 'remaining'])
+        elif fname.endswith('.val'):
+            self._add_split(parsed, indices, ['training', 'validation'])
+        elif fname.endswith('.t'): # bit of a weird case: binary splice
+            self._add_split(parsed, (indices[0], indices[2]))
+            parsed['name'] += '_scale'
+            self._add_single(parsed, indices[1])
+        else:
+            progress('unknown ending of file ' + fname)
+
+
+    def _add_quadruple(self, parsed, indices=(0,1,2,3)):
+        fname = parsed['files'][indices[3]]
+        if fname.endswith('.val'):
+            self._add_split(
+                parsed, indices, ['testing', 'training', 'validation'])
+        else:
+            self._add_scale_split(parsed, indices)
+
+
+    def _add_split(self, parsed, indices=(0,1), names=['training']):
+        tmp, counts = self._concat(parsed['files'][indices[0]:indices[-1]+1])
         data = self._create_data(parsed, tmp)
-        self._create_task(parsed, data, num_data, num_train)
+
+        split_indices = {}
+        for i in xrange(len(names)):
+            split_indices[names[i]] = [range(counts[i], counts[i]+counts[i+1])]
+
+        self._create_task(parsed, data, split_indices)
         os.remove(tmp)
 
 
-    def _add_scale(self, parsed):
-        self._add_single(parsed)
+    def _add_scale_single(self, parsed, indices=(0,1)):
+        self._add_single(parsed, indices[0])
         parsed['name'] += '_scale'
-        self._add_single(parsed)
+        self._add_single(parsed, indices[1])
+
+
+    def _add_scale_split(self, parsed, indices=(0,1,2,3)):
+        self._add_split(parsed, (indices[0], indices[1]))
+        parsed['name'] += '_scale'
+        self._add_split(parsed, (indices[2], indices[3]))
 
 
     def _add(self, parsed):
         progress('Adding to repository.', 3)
-        num_files = len(parsed['files'])
-        if num_files > 2:
-            progress('got more files than expeced, skipping')
-            return
 
         oldnames = parsed['files']
         parsed['files'] = self._decompress(parsed['files'])
-        if num_files == 1:
-            self._add_single(parsed)
-        else:
-            fname = parsed['files'][1]
-            if fname.endswith('.t'):
-                self._add_training(parsed)
-            elif fname.endswith('scale'):
-                self._add_scale(parsed)
-            else:
-                progress('unknown ending of file ' + fname)
-                #raise NotImplementedError('Unknown ending of second file!')
+        adders = [
+            self._add_single, self._add_double,
+            self._add_triple, self._add_quadruple,
+        ]
+#        try:
+        adders[len(parsed['files'])-1](parsed)
+#        except IndexError:
+#            print 'skipping unknown'
 
         self._rm_decompressed(oldnames)
 
@@ -308,6 +339,8 @@ class LibSVMTools(Slurper):
             return True
         elif name.startswith('webspam'):
             return True
+        elif name.startswith('mnist8m'):
+            return True
 
         return False
 
@@ -316,21 +349,12 @@ class LibSVMTools(Slurper):
         parser = LibSVMToolsHTMLParser()
         self.handle(parser, self.source + 'binary.html', 'Binary')
         return
-
-        progress('Collecting from section multi-class.')
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'multiclass.html', 'MultiClass')
-        datasets.extend(parser.datasets)
-
-        progress('Collecting from section regression.')
+        self.handle(parser, self.source + 'multiclass.html', 'MultiClass')
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'regression.html', 'Regression')
-        datasets.extend(parser.datasets)
-
-        progress('Collecting from section multi-label.', 'MultiLabel')
+        self.handle(parser, self.source + 'regression.html', 'Regression')
         parser = LibSVMToolsHTMLParser()
-        self.parse_download(parser, self.source + 'multilabel.html')
-        datasets.extend(parser.datasets)
+        self.handle(parser, self.source + 'multilabel.html', 'MultiLabel')
 
 
 

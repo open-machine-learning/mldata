@@ -335,5 +335,5 @@ def hdf5_split(filename, name, indices):
 
     h.attrs['name'] = name
     h.attrs['mldata'] = 0
-    h.attrs['comment'] = 'splitfile'
+    h.attrs['comment'] = 'split file'
     h.close()
