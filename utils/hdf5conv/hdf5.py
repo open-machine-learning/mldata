@@ -118,7 +118,6 @@ class Converter():
 
         progress('writing datasets')
         for key, val in kwargs.iteritems():
-            print val.dtype
             h.create_dataset(key, data=val)
 
         progress('writing attributes')
@@ -135,6 +134,43 @@ class LibSVM2HDF5(Converter):
     This is simple enough, so it doesn't need its own module.
     """
 
+    def _parse_line(self, line):
+        need_label = True
+        need_idx = False
+        need_val = False
+        in_val = False
+        idx = []
+        val = []
+        label = []
+        items = []
+        for c in line:
+            if need_label:
+                if c.isspace():
+                    need_label = False
+                    need_idx = True
+                else:
+                    label.append(c)
+            elif need_idx:
+                if c == ':':
+                    need_idx = False
+                    need_val = True
+                elif not c.isspace():
+                    idx.append(c)
+            elif need_val:
+                if not c.isspace():
+                    in_val = True
+                    val.append(c)
+                elif in_val:
+                    in_val = False
+                    need_val = False
+                    need_idx = True
+                    items.append([''.join(idx), ''.join(val)])
+                    idx = []
+                    val = []
+
+        return (''.join(label), items)
+
+
     def get_matrix(self):
         """Retrieves a SciPy Compressed Sparse Column matrix from infile."""
         progress('constructing csc matrix from ' + self.in_filename)
@@ -144,19 +180,13 @@ class LibSVM2HDF5(Converter):
         ptr = 0
         infile = open(self.in_filename, 'r')
         for line in infile:
-            items = line.strip().split(' ')
-            try:
-                items.remove('')
-            except ValueError:
-                pass
-
-            data.append(numpy.double(items.pop(0)))
+            label, items = self._parse_line(line)
+            data.append(numpy.double(label))
             ptr += 1
             indices.append(0)
             for item in items:
-                idx, val = item.split(':')
-                data.append(numpy.double(val))
-                indices.append(int(idx))
+                indices.append(int(item[0]))
+                data.append(numpy.double(item[1]))
                 ptr += 1
             indptr.append(ptr)
         infile.close()
