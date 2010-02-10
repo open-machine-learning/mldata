@@ -72,7 +72,7 @@ $(function() {
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
 		{% ifequal object.klass "Data" %}
 			<dt>{% trans "Download" %}</a></dd>
-			<dd><a href="{% url repository.views.data_download object.id %}">{% trans "This File" %}</a></dd>
+			<dd><a href="{% url repository.views.data_download object.id %}">{% trans "This File" %} ({{ object.file.size|filesizeformat }})</a></dd>
 		{% else %}{% ifequal object.klass "Task" %}
 			<dt>{% trans "Input format" %}</dt>
 			<dd>{{ object.input|markdown }}</dd>
@@ -86,7 +86,7 @@ $(function() {
 			<dd>{% for d in object.data.all %}<a href="{{ d.get_absolute_slugurl }}">{{ d.name }}</a> {% endfor %}</dd>
 			{% if object.splits %}
 			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.splits_download object.id %}">{% trans "These Splits" %}</a></dd>
+			<dd><a href="{% url repository.views.splits_download object.id %}">{% trans "These Splits" %} ({{ object.splits.size|filesizeformat }})</a></dd>
 			{% endif %}
 		{% else %}{% ifequal object.klass "Solution" %}
 			<dt>{% trans "Feature Processing" %}</dt>
@@ -101,7 +101,7 @@ $(function() {
 			<dd><a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></dd>
 			{% if object.score %}
 			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.score_download object.id %}">{% trans "This Score" %}</a></dd>
+			<dd><a href="{% url repository.views.score_download object.id %}">{% trans "This Score" %} ({{ object.score.size|filesizeformat }})</a></dd>
 			{% endif %}
 		{% endifequal %}{% endifequal %}{% endifequal %}
 		</dl>
