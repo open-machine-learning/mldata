@@ -181,7 +181,10 @@ class LibSVM2HDF5(Converter):
         infile = open(self.in_filename, 'r')
         for line in infile:
             label, items = self._parse_line(line)
-            data.append(numpy.double(label))
+            try:
+                data.append(numpy.double(label))
+            except ValueError:
+                data.append(label)
             ptr += 1
             indices.append(0)
             for item in items:
@@ -328,12 +331,11 @@ def hdf5_extract(filename):
             indices = h['attributes_indices'][:h['attributes_indptr'][NUM_EXTRACT+1]]
             indptr = h['attributes_indptr'][:NUM_EXTRACT+1]
             A=csc_matrix((data, indices, indptr)).todense().T
-            for i in xrange(NUM_EXTRACT):
-                extract['attributes'].append(A[i].tolist()[0])
         else: # dense
-            A=h['attributes']
-            for i in xrange(NUM_EXTRACT):
-                extract['attributes'].append(A[i])
+            A=numpy.matrix(h['attributes']).T
+
+        for i in xrange(NUM_EXTRACT):
+            extract['attributes'].append(A[i].tolist()[0])
     except KeyError:
         pass
     except ValueError:
