@@ -105,7 +105,7 @@ class Slurper:
             urllib.urlretrieve(src, dst)
 
 
-    def _create_data(self, parsed, datafile):
+    def create_data(self, parsed, datafile):
         progress('Creating Data item ' + parsed['name'] + '.', 4)
         obj = Data(
             pub_date=datetime.datetime.now(),
@@ -137,7 +137,7 @@ class Slurper:
         return obj
 
 
-    def _create_task(self, parsed, data, indices={}):
+    def create_task(self, parsed, data, indices={}):
         name = 'task_' + parsed['name']
         progress('Creating Task item ' + name + '.', 4)
         obj = Task(
@@ -154,8 +154,10 @@ class Slurper:
         obj.slug = obj.make_slug()
 
         if parsed['type'] in ('Binary', 'MultiClass'):
-            parsed['type'] = 'Classification'
-        obj.type, created = TaskType.objects.get_or_create(name=parsed['type'])
+            type = 'Classification'
+        else:
+            type = parsed['type']
+        obj.type, created = TaskType.objects.get_or_create(name=type)
 
         progress('Creating HDF5 split file.', 5)
         splitfile = os.path.join(self.output, name + '.hdf5')
@@ -174,23 +176,7 @@ class Slurper:
         return obj
 
 
-    def _concat(self, files):
-        tmpfile = files[0] + '.tmp'
-        tmp = open(tmpfile, 'w')
-        counts = []
-
-        for f in files:
-            fh = open(f, 'r')
-            shutil.copyfileobj(fh, tmp)
-            fh.seek(0)
-            counts.append(len(fh.readlines()))
-            fh.close()
-
-        tmp.close()
-        return (tmpfile, counts)
-
-
-    def _decompress(self, oldnames):
+    def decompress(self, oldnames):
         newnames = []
         for o in oldnames:
             o = os.path.join(self.output, o)
@@ -206,14 +192,88 @@ class Slurper:
         return newnames
 
 
-    def _rm_decompressed(self, filenames):
+    def rm_decompressed(self, filenames):
         for fname in filenames:
             if fname.endswith('.bz2'):
                 os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
 
 
+
+    def handle(self, parser, url, type=None):
+        progress('Handling ' + url + '.', 1)
+        response = urllib.urlopen(url)
+        parser.feed(''.join(response.readlines()))
+        response.close()
+        #parser.feed(self.fromfile('multiclass.html'))
+        parser.close()
+
+        for d in parser.datasets:
+            if self.skippable(d['name']):
+                progress('Skipped dataset ' + d['name'], 2)
+                continue
+            else:
+                progress('Dataset ' + d['name'], 2)
+
+            if not Options.add_only:
+                for f in d['files']:
+                    self._download(f)
+            if not Options.download_only:
+                d['type'] = type
+                self.add(d)
+
+
+    def slurp(self):
+        raise NotImplementedError('Abstract method!')
+
+
+    def run(self):
+        progress('Slurping from ' + self.source + '.')
+
+        self.output = Options.output + os.path.sep +\
+            self.__class__.__name__ + os.path.sep
+        if not os.path.exists(self.output):
+            os.makedirs(self.output)
+
+        self.slurp() # implemented in child class
+
+
+
+class LibSVMTools(Slurper):
+    source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
+    format = 'libsvm'
+
+    def skippable(self, name):
+        if not name.startswith('splice'):
+            return True
+        if name.startswith('rcv1'):
+            return True
+        elif name.startswith('webspam'):
+            return True
+        elif name.startswith('mnist8m'):
+            return True
+
+        return False
+
+
+    def _concat(self, files):
+        tmpfile = files[0] + '.tmp'
+        tmp = open(tmpfile, 'w')
+        counts = []
+
+        for f in files:
+            fh = open(f, 'r')
+            shutil.copyfileobj(fh, tmp)
+            fh.seek(0)
+            counts.append(len(fh.readlines()))
+            #counts.append(sum(1 for line in fh))
+            fh.close()
+
+        tmp.close()
+        return (tmpfile, counts)
+
+
     def _add_1(self, parsed, index=0):
-        self._create_data(parsed, parsed['files'][index])
+        self.create_data(parsed, parsed['files'][index])
 
 
     def _add_2(self, parsed, indices=(0,1)):
@@ -269,7 +329,7 @@ class Slurper:
     def _add_split(self, parsed, indices=(0,1), names=['testing']):
         slice = parsed['files'][indices[0]:indices[-1]+1]
         tmp, counts = self._concat(slice)
-        data = self._create_data(parsed, tmp)
+        data = self.create_data(parsed, tmp)
 
         split_indices = {}
         offset = len(slice) - len(names)
@@ -283,15 +343,15 @@ class Slurper:
             ]
             prev_count += counts[idx]
 
-        self._create_task(parsed, data, split_indices)
+        self.create_task(parsed, data, split_indices)
         os.remove(tmp)
 
 
-    def _add(self, parsed):
+    def add(self, parsed):
         progress('Adding to repository.', 3)
 
         oldnames = parsed['files']
-        parsed['files'] = self._decompress(parsed['files'])
+        parsed['files'] = self.decompress(parsed['files'])
         num = len(parsed['files'])
         if num == 1:
             self._add_1(parsed)
@@ -306,72 +366,19 @@ class Slurper:
         elif num == 10:
             self._add_10(parsed)
 
-        self._rm_decompressed(oldnames)
+        self.rm_decompressed(oldnames)
 
-
-    def handle(self, parser, url, type=None):
-        progress('Handling ' + url + '.', 1)
-        response = urllib.urlopen(url)
-        parser.feed(''.join(response.readlines()))
-        response.close()
-        #parser.feed(self.fromfile('multiclass.html'))
-        parser.close()
-
-        for d in parser.datasets:
-            if self.skippable(d['name']):
-                progress('Skipped dataset ' + d['name'], 2)
-                continue
-            else:
-                progress('Dataset ' + d['name'], 2)
-
-            if not Options.add_only:
-                for f in d['files']:
-                    self._download(f)
-            if not Options.download_only:
-                d['type'] = type
-                self._add(d)
 
 
     def slurp(self):
-        raise NotImplementedError('Abstract method!')
-
-
-    def run(self):
-        progress('Slurping from ' + self.source + '.')
-
-        self.output = Options.output + os.path.sep +\
-            self.__class__.__name__ + os.path.sep
-        if not os.path.exists(self.output):
-            os.makedirs(self.output)
-
-        self.slurp() # implemented in child class
-
-
-
-class LibSVMTools(Slurper):
-    source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
-    format = 'libsvm'
-
-    def skippable(self, name):
-        if name.startswith('rcv1'):
-            return True
-        elif name.startswith('webspam'):
-            return True
-        elif name.startswith('mnist8m'):
-            return True
-
-        return False
-
-
-    def slurp(self):
-        #parser = LibSVMToolsHTMLParser()
-        #self.handle(parser, self.source + 'binary.html', 'Binary')
+        parser = LibSVMToolsHTMLParser()
+        self.handle(parser, self.source + 'binary.html', 'Binary')
         #parser = LibSVMToolsHTMLParser()
         #self.handle(parser, self.source + 'multiclass.html', 'MultiClass')
         #parser = LibSVMToolsHTMLParser()
         #self.handle(parser, self.source + 'regression.html', 'Regression')
-        parser = LibSVMToolsHTMLParser()
-        self.handle(parser, self.source + 'multilabel.html', 'MultiLabel')
+        #parser = LibSVMToolsHTMLParser()
+        #self.handle(parser, self.source + 'multilabel.html', 'MultiLabel')
 
 
 
