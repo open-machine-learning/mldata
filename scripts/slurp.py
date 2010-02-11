@@ -16,29 +16,35 @@ from settings import MEDIA_ROOT
 
 
 
-class LibSVMToolsHTMLParser(HTMLParser):
-    def _reset(self):
+class SlurpHTMLParser(HTMLParser):
+    def reinit(self):
         self.current = None
         self.is_name = False
         self.is_source = False
         self.is_file = False
 
 
+    def init_current(self):
+        self.current = {
+            'name': '',
+            'source': '',
+            'description': '',
+            'files': [],
+        }
+
+
     def __init__(self, *args, **kwargs):
         HTMLParser.__init__(self, *args, **kwargs)
         self.datasets = []
-        self._reset()
+        self.reinit()
 
 
+
+class LibSVMToolsHTMLParser(SlurpHTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == 'h2': # new data starts here
             self.is_name = True
-            self.current = {
-                'name': '',
-                'source': '',
-                'description': '',
-                'files': [],
-            }
+            self.init_current()
         elif tag == 'a' and self.is_file:
             self.current['files'].append(attrs[0][1])
         elif tag == 'a' and self.is_source:
@@ -52,7 +58,7 @@ class LibSVMToolsHTMLParser(HTMLParser):
             self.current['source'] = self.current['source'].strip()
             self.current['description'] = self.current['description'].strip()
             self.datasets.append(self.current)
-            self._reset()
+            self.reinit()
 
 
     def handle_data(self, data):
@@ -76,6 +82,56 @@ class LibSVMToolsHTMLParser(HTMLParser):
 
 
 
+class WekaHTMLParser(SlurpHTMLParser):
+    def __init__(self, *args, **kwargs):
+        SlurpHTMLParser.__init__(self, *args, **kwargs)
+        self.ignore = False
+        self.is_description = True
+
+    def handle_starttag(self, tag, attrs):
+        if self.ignore:
+            return
+
+        if tag == 'li':
+            self.init_current()
+            self.is_description = True
+        elif tag == 'a':
+            href = None
+            for a in attrs:
+                if a[0] == 'href':
+                    href = a[1]
+            if href:
+                if href.endswith('gz') or href.endswith('jar') or\
+                    href.endswith('?download') or href.find('?use_mirror=') > -1:
+                    self.current['files'].append(href)
+                    self.current['name'] = href.split('/')[-1].split('.')[0]
+                else:
+                    self.current['source'] += href + ' '
+
+    def handle_endtag(self, tag):
+        if tag == 'ul': # ignore everything after first ul has ended
+            self.ignore = True
+            return
+
+        if self.ignore or not self.current:
+            return
+
+        if tag == 'li':
+            self.datasets.append(self.current)
+            self.reinit()
+        elif tag == 'a':
+            self.is_description = False
+
+
+    def handle_data(self, data):
+        if self.ignore or not self.current:
+            return
+
+        if self.is_description:
+            self.current['description'] += data
+
+
+
 class Slurper:
     source = None
     output = None
@@ -92,9 +148,24 @@ class Slurper:
         return False
 
 
+    def _get_src(self, filename):
+        if filename.startswith('http://'):
+            return filename
+        else:
+            return self.source + filename
+
+
+    def _get_dst(self, filename):
+        if filename.startswith('http://'):
+            f = filename.split('/')[-1].split('?')[0]
+            return os.path.join(self.output, f)
+        else:
+            return os.path.join(self.output, filename)
+
+
     def _download(self, filename):
-        src = self.source + filename
-        dst = os.path.join(self.output, filename)
+        src = self._get_src(filename)
+        dst = self._get_dst(filename)
         if not Options.force_download and os.path.exists(dst):
             progress(dst + ' already exists, skipping download.', 3)
         else:
@@ -179,7 +250,7 @@ class Slurper:
     def decompress(self, oldnames):
         newnames = []
         for o in oldnames:
-            o = os.path.join(self.output, o)
+            o = self._get_dst(o)
             n = o.replace('.bz2', '')
             if o.endswith('.bz2'):
                 progress('Decompressing ' + o, 4)
@@ -201,10 +272,10 @@ class Slurper:
 
     def handle(self, parser, url, type=None):
         progress('Handling ' + url + '.', 1)
-        response = urllib.urlopen(url)
-        parser.feed(''.join(response.readlines()))
-        response.close()
-        #parser.feed(self.fromfile('multiclass.html'))
+        #response = urllib.urlopen(url)
+        #parser.feed(''.join(response.readlines()))
+        #response.close()
+        parser.feed(self.fromfile('index_datasets.html'))
         parser.close()
 
         for d in parser.datasets:
@@ -223,6 +294,9 @@ class Slurper:
 
 
     def slurp(self):
+        raise NotImplementedError('Abstract method!')
+
+    def add(self):
         raise NotImplementedError('Abstract method!')
 
 
@@ -385,6 +459,9 @@ class LibSVMTools(Slurper):
 class Weka(Slurper):
     source = 'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'
 
+    def slurp(self):
+        parser = WekaHTMLParser()
+        self.handle(parser, self.source)
 
 
 class Sonnenburgs(Slurper):
@@ -398,7 +475,7 @@ class Options:
     download_only = False
     add_only = False
     force_download = False
-    source = 0
+    source = 1
     sources=[LibSVMTools.source, Weka.source, Sonnenburgs.source]
 
 
