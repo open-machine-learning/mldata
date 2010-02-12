@@ -3,7 +3,7 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib, datetime, shutil, bz2
+import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess
 from HTMLParser import HTMLParser
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
@@ -148,14 +148,14 @@ class Slurper:
         return False
 
 
-    def _get_src(self, filename):
+    def get_src(self, filename):
         if filename.startswith('http://'):
             return filename
         else:
             return self.source + filename
 
 
-    def _get_dst(self, filename):
+    def get_dst(self, filename):
         if filename.startswith('http://'):
             f = filename.split('/')[-1].split('?')[0]
             return os.path.join(self.output, f)
@@ -164,8 +164,8 @@ class Slurper:
 
 
     def _download(self, filename):
-        src = self._get_src(filename)
-        dst = self._get_dst(filename)
+        src = self.get_src(filename)
+        dst = self.get_dst(filename)
         if not Options.force_download and os.path.exists(dst):
             progress(dst + ' already exists, skipping download.', 3)
         else:
@@ -247,29 +247,6 @@ class Slurper:
         return obj
 
 
-    def decompress(self, oldnames):
-        newnames = []
-        for o in oldnames:
-            o = self._get_dst(o)
-            n = o.replace('.bz2', '')
-            if o.endswith('.bz2'):
-                progress('Decompressing ' + o, 4)
-                old = bz2.BZ2File(o, 'r')
-                new = open(n, 'w')
-                new.write(old.read())
-                old.close()
-                new.close()
-            newnames.append(n)
-        return newnames
-
-
-    def rm_decompressed(self, filenames):
-        for fname in filenames:
-            if fname.endswith('.bz2'):
-                os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
-
-
-
     def handle(self, parser, url, type=None):
         progress('Handling ' + url + '.', 1)
         #response = urllib.urlopen(url)
@@ -292,6 +269,12 @@ class Slurper:
                 d['type'] = type
                 self.add(d)
 
+    def decompress(self):
+        raise NotImplementedError('Abstract method!')
+
+    def rm_decompressed(self):
+        raise NotImplementedError('Abstract method!')
+
 
     def slurp(self):
         raise NotImplementedError('Abstract method!')
@@ -303,8 +286,7 @@ class Slurper:
     def run(self):
         progress('Slurping from ' + self.source + '.')
 
-        self.output = Options.output + os.path.sep +\
-            self.__class__.__name__ + os.path.sep
+        self.output = os.path.join(Options.output, self.__class__.__name__)
         if not os.path.exists(self.output):
             os.makedirs(self.output)
 
@@ -327,6 +309,28 @@ class LibSVMTools(Slurper):
             return True
 
         return False
+
+
+    def decompress(self, oldnames):
+        newnames = []
+        for o in oldnames:
+            o = self.get_dst(o)
+            n = o.replace('.bz2', '')
+            if o.endswith('.bz2'):
+                progress('Decompressing ' + o, 4)
+                old = bz2.BZ2File(o, 'r')
+                new = open(n, 'w')
+                new.write(old.read())
+                old.close()
+                new.close()
+            newnames.append(n)
+        return newnames
+
+
+    def rm_decompressed(self, filenames):
+        for fname in filenames:
+            if fname.endswith('.bz2'):
+                os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
 
 
     def _concat(self, files):
@@ -459,6 +463,44 @@ class LibSVMTools(Slurper):
 class Weka(Slurper):
     source = 'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'
 
+    def decompress(self, oldnames):
+        newnames = []
+        for o in oldnames:
+            o = self.get_dst(o)
+            progress('Decompressing ' + o, 4)
+            ndir = os.path.join(self.output, o.split(os.sep)[-1].split('.')[0])
+            if not os.path.exists(ndir):
+                os.makedirs(ndir)
+            cmd = 'cd ' + ndir + ' && jar -xf ' + o
+            if not subprocess.call(cmd, shell=True) == 0:
+                raise IOError('Unsuccessful execution of ' + cmd)
+            n = o.replace('.bz2', '')
+#            if o.endswith('.bz2'):
+#                progress('Decompressing ' + o, 4)
+#                old = bz2.BZ2File(o, 'r')
+#                new = open(n, 'w')
+#                new.write(old.read())
+#                old.close()
+#                new.close()
+            newnames.append(n)
+        return newnames
+
+
+    def rm_decompressed(self, filenames):
+        for fname in filenames:
+            if fname.endswith('.bz2'):
+                os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
+
+
+    def add(self, parsed):
+        progress('Adding to repository.', 3)
+
+        oldnames = parsed['files']
+        parsed['files'] = self.decompress(parsed['files'])
+        print parsed['files']
+        #self.rm_decompressed(oldnames)
+
+
     def slurp(self):
         parser = WekaHTMLParser()
         self.handle(parser, self.source)
@@ -470,7 +512,7 @@ class Sonnenburgs(Slurper):
 
 
 class Options:
-    output = './slurped'
+    output = os.path.join(os.getcwd(), 'slurped')
     verbose = False
     download_only = False
     add_only = False
