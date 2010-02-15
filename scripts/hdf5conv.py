@@ -34,5 +34,6 @@ if __name__ == "__main__":
         usage()
         sys.exit(1)
 
-    hdf5conv.convert(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    h = hdf5conv.HDF5()
+    h.convert(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
 

@@ -428,7 +428,8 @@ def _view(request, klass, slug_or_id, version=None):
     }
     if klass == Data:
         try:
-            info_dict['extract'] = hdf5conv.get_extract(
+            h = hdf5conv.HDF5()
+            info_dict['extract'] = h.get_extract(
                 os.path.join(MEDIA_ROOT, obj.file.name))
         except IOError, err:
             raise IOError(err.message + ': ' + obj.file.name)
@@ -482,7 +483,8 @@ def _new(request, klass):
 
                 if klass == Data:
                     new.file = request.FILES['file']
-                    new.format = hdf5conv.get_fileformat(request.FILES['file'].name)
+                    h = hdf5conv.HDF5()
+                    new.format = h.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
                     new.save()
                 elif klass == Task:
@@ -1014,6 +1016,7 @@ def data_new_review(request, slug):
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
 
+    hdf5 = hdf5conv.HDF5()
     if request.method == 'POST':
         if request.POST.has_key('revert'):
             os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
@@ -1021,12 +1024,12 @@ def data_new_review(request, slug):
             return HttpResponseRedirect(reverse(data_new))
         elif request.POST.has_key('approve'):
             uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
-            converted = hdf5conv.get_filename(uploaded)
+            converted = hdf5.get_filename(uploaded)
 
             format = request.POST['id_format'].lower()
             if format != 'hdf5':
                 try:
-                    hdf5conv.convert(uploaded, format, converted, 'hdf5')
+                    hdf5.convert(uploaded, format, converted, 'hdf5')
                     format = 'hdf5'
                 except Exception:
                     pass
@@ -1046,7 +1049,7 @@ def data_new_review(request, slug):
         'request': request,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
-        'extract': hdf5conv.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
+        'extract': hdf5.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
 
