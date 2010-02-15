@@ -15,6 +15,8 @@ from utils import hdf5conv
 from settings import MEDIA_ROOT
 
 
+FILESIZE_MAX = 1024*1024 # 1 MB
+
 
 class SlurpHTMLParser(HTMLParser):
     def reinit(self):
@@ -137,6 +139,10 @@ class Slurper:
     output = None
     format = 'hdf5'
 
+    def __init__(self, *args, **kwargs):
+        self.hdf5 = hdf5conv.HDF5()
+
+
     def fromfile(self, name):
         f = open(name, 'r')
         data = f.read()
@@ -198,7 +204,7 @@ class Slurper:
         obj.save()
 
         progress('Converting to HDF5.', 5)
-        hdf5conv.convert(datafile, self.format,
+        self.hdf5.convert(datafile, self.format,
             os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
         # make it available after everythin went alright
@@ -232,7 +238,7 @@ class Slurper:
 
         progress('Creating HDF5 split file.', 5)
         splitfile = os.path.join(self.output, name + '.hdf5')
-        hdf5conv.create_split(splitfile, name, indices)
+        self.hdf5.create_split(splitfile, name, indices)
 
         obj.splits = File(open(splitfile))
         obj.splits.name = obj.get_splitname()
@@ -249,10 +255,10 @@ class Slurper:
 
     def handle(self, parser, url, type=None):
         progress('Handling ' + url + '.', 1)
-        #response = urllib.urlopen(url)
-        #parser.feed(''.join(response.readlines()))
-        #response.close()
-        parser.feed(self.fromfile('index_datasets.html'))
+        response = urllib.urlopen(url)
+        parser.feed(''.join(response.readlines()))
+        response.close()
+        #parser.feed(self.fromfile('multilabel.html'))
         parser.close()
 
         for d in parser.datasets:
@@ -299,8 +305,6 @@ class LibSVMTools(Slurper):
     format = 'libsvm'
 
     def skippable(self, name):
-        if not name.startswith('splice'):
-            return True
         if name.startswith('rcv1'):
             return True
         elif name.startswith('webspam'):
@@ -426,8 +430,13 @@ class LibSVMTools(Slurper):
 
 
     def add(self, parsed):
-        progress('Adding to repository.', 3)
 
+        for f in parsed['files']:
+            if os.path.getsize(self.get_dst(f)) > FILESIZE_MAX:
+                progress('Not adding, dataset too large.', 3)
+                return
+
+        progress('Adding to repository.', 3)
         oldnames = parsed['files']
         parsed['files'] = self.decompress(parsed['files'])
         num = len(parsed['files'])
@@ -451,12 +460,12 @@ class LibSVMTools(Slurper):
     def slurp(self):
         parser = LibSVMToolsHTMLParser()
         self.handle(parser, self.source + 'binary.html', 'Binary')
-        #parser = LibSVMToolsHTMLParser()
-        #self.handle(parser, self.source + 'multiclass.html', 'MultiClass')
-        #parser = LibSVMToolsHTMLParser()
-        #self.handle(parser, self.source + 'regression.html', 'Regression')
-        #parser = LibSVMToolsHTMLParser()
-        #self.handle(parser, self.source + 'multilabel.html', 'MultiLabel')
+        parser = LibSVMToolsHTMLParser()
+        self.handle(parser, self.source + 'multiclass.html', 'MultiClass')
+        parser = LibSVMToolsHTMLParser()
+        self.handle(parser, self.source + 'regression.html', 'Regression')
+        parser = LibSVMToolsHTMLParser()
+        self.handle(parser, self.source + 'multilabel.html', 'MultiLabel')
 
 
 
@@ -517,7 +526,7 @@ class Options:
     download_only = False
     add_only = False
     force_download = False
-    source = 1
+    source = 0
     sources=[LibSVMTools.source, Weka.source, Sonnenburgs.source]
 
 
