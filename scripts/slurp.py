@@ -255,10 +255,10 @@ class Slurper:
 
     def handle(self, parser, url, type=None):
         progress('Handling ' + url + '.', 1)
-        response = urllib.urlopen(url)
-        parser.feed(''.join(response.readlines()))
-        response.close()
-        #parser.feed(self.fromfile('multilabel.html'))
+        #response = urllib.urlopen(url)
+        #parser.feed(''.join(response.readlines()))
+        #response.close()
+        parser.feed(self.fromfile('index_datasets.html'))
         parser.close()
 
         for d in parser.datasets:
@@ -275,10 +275,10 @@ class Slurper:
                 d['type'] = type
                 self.add(d)
 
-    def decompress(self):
+    def unzip(self):
         raise NotImplementedError('Abstract method!')
 
-    def rm_decompressed(self):
+    def unzip_rm(self):
         raise NotImplementedError('Abstract method!')
 
 
@@ -315,7 +315,7 @@ class LibSVMTools(Slurper):
         return False
 
 
-    def decompress(self, oldnames):
+    def unzip(self, oldnames):
         newnames = []
         for o in oldnames:
             o = self.get_dst(o)
@@ -331,7 +331,7 @@ class LibSVMTools(Slurper):
         return newnames
 
 
-    def rm_decompressed(self, filenames):
+    def unzip_rm(self, filenames):
         for fname in filenames:
             if fname.endswith('.bz2'):
                 os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
@@ -438,7 +438,7 @@ class LibSVMTools(Slurper):
 
         progress('Adding to repository.', 3)
         oldnames = parsed['files']
-        parsed['files'] = self.decompress(parsed['files'])
+        parsed['files'] = self.unzip(parsed['files'])
         num = len(parsed['files'])
         if num == 1:
             self._add_1(parsed)
@@ -453,7 +453,7 @@ class LibSVMTools(Slurper):
         elif num == 10:
             self._add_10(parsed)
 
-        self.rm_decompressed(oldnames)
+        self.unzip_rm(oldnames)
 
 
 
@@ -471,43 +471,77 @@ class LibSVMTools(Slurper):
 
 class Weka(Slurper):
     source = 'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'
+    format = 'arff'
 
-    def decompress(self, oldnames):
+    def skippable(self, name):
+        #if not name.startswith('agridatasets'):
+        #    return True
+        return False
+
+
+
+    def _unzip_traverse(self, dir, can_unzip=False):
+        items = []
+        for item in os.listdir(dir):
+            item = os.path.join(dir, item)
+            if os.path.isdir(item):
+                items.extend(self._unzip_traverse(item, True))
+            elif item.endswith('.arff'):
+                items.append(item)
+            elif can_unzip: # assuming another archive
+                items.extend(self._unzip_do(item))
+        return items
+
+
+    def _unzip_do(self, zip):
+        dir = os.path.join(self.output, zip.split(os.sep)[-1].split('.')[0])
+
+        cmd = 'cd ' + dir + ' && '
+        if zip.endswith('.jar'):
+            cmd += 'jar -xf ' + zip
+        elif zip.endswith('.bz2'):
+            cmd += 'tar -xjf ' + zip
+        elif zip.endswith('.gz'):
+            cmd += 'tar -xzf ' + zip
+        elif zip.endswith('.zip'):
+            cmd += 'unzip -o -qq ' + zip
+        else:
+            return []
+
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        if not subprocess.call(cmd, shell=True) == 0:
+            raise IOError('Unsuccessful execution of ' + cmd)
+
+        return self._unzip_traverse(dir, False)
+
+
+
+    def unzip(self, oldnames):
         newnames = []
         for o in oldnames:
             o = self.get_dst(o)
             progress('Decompressing ' + o, 4)
-            ndir = os.path.join(self.output, o.split(os.sep)[-1].split('.')[0])
-            if not os.path.exists(ndir):
-                os.makedirs(ndir)
-            cmd = 'cd ' + ndir + ' && jar -xf ' + o
-            if not subprocess.call(cmd, shell=True) == 0:
-                raise IOError('Unsuccessful execution of ' + cmd)
-            n = o.replace('.bz2', '')
-#            if o.endswith('.bz2'):
-#                progress('Decompressing ' + o, 4)
-#                old = bz2.BZ2File(o, 'r')
-#                new = open(n, 'w')
-#                new.write(old.read())
-#                old.close()
-#                new.close()
-            newnames.append(n)
+            newnames.extend(self._unzip_do(o))
+
         return newnames
 
 
-    def rm_decompressed(self, filenames):
-        for fname in filenames:
-            if fname.endswith('.bz2'):
-                os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
+    def unzip_rm(self, fnames):
+        for f in fnames:
+            dir = os.path.join(self.output, f.split(os.sep)[-1].split('.')[0])
+            shutil.rmtree(dir)
 
 
     def add(self, parsed):
         progress('Adding to repository.', 3)
 
-        oldnames = parsed['files']
-        parsed['files'] = self.decompress(parsed['files'])
-        print parsed['files']
-        #self.rm_decompressed(oldnames)
+        orig = parsed['name']
+        for f in self.unzip(parsed['files']):
+            splitname = ''.join(f.split(os.sep)[-1].split('.')[:-1])
+            parsed['name'] = orig + ' ' + splitname
+            self.create_data(parsed, f)
+        self.unzip_rm(parsed['files'])
 
 
     def slurp(self):
@@ -526,7 +560,7 @@ class Options:
     download_only = False
     add_only = False
     force_download = False
-    source = 0
+    source = 1
     sources=[LibSVMTools.source, Weka.source, Sonnenburgs.source]
 
 

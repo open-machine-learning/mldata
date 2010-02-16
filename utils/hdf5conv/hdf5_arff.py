@@ -17,8 +17,10 @@ class ARFF2HDF5():
         h.attrs['mldata'] = config.VERSION_MLDATA
         h.attrs['name'] = a.relation
         h.attrs['comment'] = a.comment
-        h.create_dataset('attribute_names', data=a.attributes)
-        h.create_dataset('attributes', data=a.data)
+        if a.attributes:
+            h.create_dataset('attribute_names', data=a.attributes)
+        if a.data:
+            h.create_dataset('attributes', data=a.data)
 
         attribute_types = []
         for key, val in a.attribute_types.iteritems():
@@ -27,7 +29,8 @@ class ARFF2HDF5():
                 val = val + '(' + data + ')'
             val = key + ':' + val
             attribute_types.append(val)
-        h.create_dataset('attribute_types', data=attribute_types)
+        if attribute_types:
+            h.create_dataset('attribute_types', data=attribute_types)
 
         h.close()
 
