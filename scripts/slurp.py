@@ -19,44 +19,50 @@ FILESIZE_MAX = 1024*1024 # 1 MB
 
 
 class SlurpHTMLParser(HTMLParser):
+    """Base class for slurping HTMLParser."""
+
     def reinit(self):
-        self.current = None
-        self.is_name = False
-        self.is_source = False
-        self.is_file = False
-
-
-    def init_current(self):
+        """Reset a few instance variables."""
         self.current = {
             'name': '',
             'source': '',
             'description': '',
             'files': [],
         }
+        self.state = None
 
 
     def __init__(self, *args, **kwargs):
+        """Constructor to initialise instance variables.
+
+        @ivar datasets: collection of datasets
+        @type datasets: list of dicts
+        @ivar current: current dataset
+        @type current: dict with fields name, source, description, files
+        @ivar state: state of parser
+        @type state: string
+        """
         HTMLParser.__init__(self, *args, **kwargs)
         self.datasets = []
         self.reinit()
 
 
-
 class LibSVMToolsHTMLParser(SlurpHTMLParser):
+    """HTMLParser class for LibSVMTools."""
+
     def handle_starttag(self, tag, attrs):
         if tag == 'h2': # new data starts here
-            self.is_name = True
-            self.init_current()
-        elif tag == 'a' and self.is_file:
+            self.state = 'name'
+        elif tag == 'a' and self.state == 'file':
             self.current['files'].append(attrs[0][1])
-        elif tag == 'a' and self.is_source:
+        elif tag == 'a' and self.state == 'source':
             self.current['source'] += ' ' + attrs[0][1] + ' '
 
 
     def handle_endtag(self, tag):
         if tag == 'h2':
-            self.is_name = False
-        elif tag == 'ul' and self.current: # new data ends here
+            self.state = None
+        elif tag == 'ul' and self.state: # new data ends here
             self.current['source'] = self.current['source'].strip()
             self.current['description'] = self.current['description'].strip()
             self.datasets.append(self.current)
@@ -64,44 +70,40 @@ class LibSVMToolsHTMLParser(SlurpHTMLParser):
 
 
     def handle_data(self, data):
-        if self.is_name:
+        if self.state == 'name':
             self.current['name'] = data
             return
-
-        if data.startswith('Source'):
-            self.is_source = True
+        elif data.startswith('Source'):
+            self.state = 'source'
             return
         elif data.startswith('Files'):
-            self.is_file = True
+            self.state = 'file'
             return
         elif data.startswith('Preprocessing') or data.startswith('# '):
-            self.is_source = False
+            self.state = None
 
-        if self.current and self.is_source:
+        if self.state == 'source':
             self.current['source'] += data
-        elif self.current and not self.is_file:
+        elif not self.state == 'file':
             self.current['description'] += data
 
 
 
 class WekaHTMLParser(SlurpHTMLParser):
-    def __init__(self, *args, **kwargs):
-        SlurpHTMLParser.__init__(self, *args, **kwargs)
-        self.ignore = False
-        self.is_description = True
+    """HTMLParser class for Weka."""
 
     def handle_starttag(self, tag, attrs):
-        if self.ignore:
+        if self.state == 'done':
             return
 
         if tag == 'li':
-            self.init_current()
-            self.is_description = True
+            self.state = 'description'
         elif tag == 'a':
             href = None
             for a in attrs:
                 if a[0] == 'href':
                     href = a[1]
+                    break
             if href:
                 if href.endswith('gz') or href.endswith('jar') or\
                     href.endswith('?download') or href.find('?use_mirror=') > -1:
@@ -111,35 +113,47 @@ class WekaHTMLParser(SlurpHTMLParser):
                     self.current['source'] += href + ' '
 
     def handle_endtag(self, tag):
+        if self.state == 'done':
+            return
+
         if tag == 'ul': # ignore everything after first ul has ended
-            self.ignore = True
-            return
-
-        if self.ignore or not self.current:
-            return
-
-        if tag == 'li':
+            self.state = 'done'
+        elif tag == 'li':
             self.datasets.append(self.current)
             self.reinit()
-        elif tag == 'a':
-            self.is_description = False
 
 
     def handle_data(self, data):
-        if self.ignore or not self.current:
+        if self.state == 'done':
             return
 
-        if self.is_description:
+        if self.state == 'description':
             self.current['description'] += data
 
 
 
 class Slurper:
+    """
+    The slurper class to suck in data from all over the internet into
+    mldata.org.
+
+    @cvar source: source to slurp from
+    @type source: string
+    @cvar output: output directory for downloaded files
+    @type output: string
+    @cvar format: format of converted files
+    @type format: string
+    """
     source = None
     output = None
     format = 'hdf5'
 
     def __init__(self, *args, **kwargs):
+        """Construct a slurper.
+
+        @ivar hdf5: hdf5 converter object
+        @type hdf5: hdf5conv.HDF5
+        """
         self.hdf5 = hdf5conv.HDF5()
 
 
@@ -151,10 +165,20 @@ class Slurper:
 
 
     def skippable(self, name):
+        """Decide if item of given name should be skipped.
+
+        @param name: name of item to decide on
+        @type name: string
+        """
         return False
 
 
     def get_src(self, filename):
+        """Get source URL for given filename.
+
+        @param filename: filename to retrieve URL for.
+        @type filename: string
+        """
         if filename.startswith('http://'):
             return filename
         else:
@@ -162,6 +186,11 @@ class Slurper:
 
 
     def get_dst(self, filename):
+        """Get full local destination for given filename.
+
+        @param filename: filename to retrieve destination for.
+        @type filename: string
+        """
         if filename.startswith('http://'):
             f = filename.split('/')[-1].split('?')[0]
             return os.path.join(self.output, f)
@@ -170,6 +199,11 @@ class Slurper:
 
 
     def _download(self, filename):
+        """Download helper function.
+
+        @param filename: filename to download
+        @type: string
+        """
         src = self.get_src(filename)
         dst = self.get_dst(filename)
         if not Options.force_download and os.path.exists(dst):
@@ -183,6 +217,15 @@ class Slurper:
 
 
     def create_data(self, parsed, datafile):
+        """Create a repository Data object.
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param datafile: filename of data file (often != parsed['files'])
+        @type datafile: string
+        @return: a repository Data object
+        @rtype: repository.Data
+        """
         progress('Creating Data item ' + parsed['name'] + '.', 4)
         obj = Data(
             pub_date=datetime.datetime.now(),
@@ -215,6 +258,17 @@ class Slurper:
 
 
     def create_task(self, parsed, data, indices={}):
+        """Create a repository Task object.
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param data: Data object
+        @type data: repository.Data
+        @param indices: names of indices for split file
+        @type indices: dict with fields according to split: name + index
+        @return: a repository Task object
+        @rtype: repository.Task
+        """
         name = 'task_' + parsed['name']
         progress('Creating Task item ' + name + '.', 4)
         obj = Task(
@@ -254,10 +308,21 @@ class Slurper:
 
 
     def handle(self, parser, url, type=None):
+        """Handle the given URL with given parser.
+
+        This includes downloading + adding objects.
+
+        @param parser: parser to use for handling the document from url
+        @type parser: childclass of SlurpHTMLParser
+        @param url: URL to slurp from
+        @type url: string
+        @param type: type of items, like regression, classification, etc.
+        @type type: string
+        """
         progress('Handling ' + url + '.', 1)
-        #response = urllib.urlopen(url)
-        #parser.feed(''.join(response.readlines()))
-        #response.close()
+        response = urllib.urlopen(url)
+        parser.feed(''.join(response.readlines()))
+        response.close()
         parser.feed(self.fromfile('index_datasets.html'))
         parser.close()
 
@@ -276,20 +341,29 @@ class Slurper:
                 self.add(d)
 
     def unzip(self):
+        """Unzip downloaded files.
+
+        @return: unzipped filenames
+        @rtype: list of strings
+        """
         raise NotImplementedError('Abstract method!')
 
     def unzip_rm(self):
+        """Remove unzipped files."""
         raise NotImplementedError('Abstract method!')
 
 
     def slurp(self):
+        """Commence slurping."""
         raise NotImplementedError('Abstract method!')
 
     def add(self):
+        """Add objects from parsed document to mldata.org."""
         raise NotImplementedError('Abstract method!')
 
 
     def run(self):
+        """Run the slurper - called by the class' users."""
         progress('Slurping from ' + self.source + '.')
 
         self.output = os.path.join(Options.output, self.__class__.__name__)
@@ -301,6 +375,7 @@ class Slurper:
 
 
 class LibSVMTools(Slurper):
+    """Slurp from LibSVMTools."""
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
     format = 'libsvm'
 
@@ -338,6 +413,15 @@ class LibSVMTools(Slurper):
 
 
     def _concat(self, files):
+        """Concatenate given files to one large file.
+
+        Also counts the line numbers for each file - to be used in split
+        files.
+
+        @param files: filenames to concatenate
+        @type files: list of strings
+        @return: tuple with name of large file and line number counts
+        """
         tmpfile = files[0] + '.tmp'
         tmp = open(tmpfile, 'w')
         counts = []
@@ -355,10 +439,26 @@ class LibSVMTools(Slurper):
 
 
     def _add_1(self, parsed, index=0):
+        """Add one object.
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param index: index in parsed['files'] to use for data file
+        @type index: int
+        """
         self.create_data(parsed, parsed['files'][index])
 
 
     def _add_2(self, parsed, indices=(0,1)):
+        """Add two objects.
+
+        Either 1 + scaled version or 1 + split file.
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param indices: indices in parsed['files'] to use for data + other file
+        @type indices: tuple of ints
+        """
         fname = parsed['files'][indices[1]]
         if fname.endswith('scale'):
             self._add_1(parsed, indices[0])
@@ -369,6 +469,15 @@ class LibSVMTools(Slurper):
 
 
     def _add_3(self, parsed, indices=(0,1,2)):
+        """Add three objects.
+
+        Either 1 + 2 splits, or 1 + split + scaled or 1 + 2 scaled
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param indices: indices in parsed['files'] to use for data + other file
+        @type indices: tuple of ints
+        """
         fname = parsed['files'][indices[2]]
         if fname.endswith('.r'):
             self._add_split(parsed, indices, ['validation', 'remaining'])
@@ -389,6 +498,15 @@ class LibSVMTools(Slurper):
 
 
     def _add_4(self, parsed, indices=(0,1,2,3)):
+        """Add four objects.
+
+        Either 1 + 3 splits, or 1 + split + scaled + scaled split
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param indices: indices in parsed['files'] to use for data + other file
+        @type indices: tuple of ints
+        """
         fname = parsed['files'][indices[3]]
         if fname.endswith('.val'):
             self._add_split(
@@ -400,15 +518,39 @@ class LibSVMTools(Slurper):
 
 
     def _add_5(self, parsed, indices=(0,1,2,3,4)):
+        """Add five objects, 1 + 4 splits.
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param indices: indices in parsed['files'] to use for data + other file
+        @type indices: tuple of ints
+        """
+
         self._add_split(parsed, indices, ['test0', 'test1', 'test2', 'test3'])
 
 
     def _add_10(self, parsed, indices=(0,1,2,3,4,5,6,7,8,9)):
+        """Add ten objects, 1 + 9 splits
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param indices: indices in parsed['files'] to use for data + other file
+        @type indices: tuple of ints
+        """
         self._add_split(
             parsed, indices, ['test1', 'test2', 'test3', 'test4', 'test5'])
 
 
     def _add_split(self, parsed, indices=(0,1), names=['testing']):
+        """Add a split / task to mldata.org
+
+        @param parsed: parsed information from HTML
+        @type parsed: dict with fields name, source, description, type, files
+        @param indices: indices in parsed['files'] to use for data + other file
+        @type indices: tuple of ints
+        @param names: names of split indices
+        @type names: list of strings
+        """
         slice = parsed['files'][indices[0]:indices[-1]+1]
         tmp, counts = self._concat(slice)
         data = self.create_data(parsed, tmp)
@@ -430,7 +572,6 @@ class LibSVMTools(Slurper):
 
 
     def add(self, parsed):
-
         for f in parsed['files']:
             if os.path.getsize(self.get_dst(f)) > FILESIZE_MAX:
                 progress('Not adding, dataset too large.', 3)
@@ -470,17 +611,20 @@ class LibSVMTools(Slurper):
 
 
 class Weka(Slurper):
+    """Slurp from Weka."""
     source = 'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'
     format = 'arff'
 
-    def skippable(self, name):
-        #if not name.startswith('agridatasets'):
-        #    return True
-        return False
+    def _unzip_traverse(self, dir, may_unzip=False):
+        """Traverse directories to recursively unzip archives.
 
-
-
-    def _unzip_traverse(self, dir, can_unzip=False):
+        @param dir: directory to look in
+        @type dir: string
+        @param may_unzip: if this dir may unzip files (to prevent endless loop)
+        @type may_unzip: boolean
+        @return: unzipped filenames
+        @rtype: list of strings
+        """
         items = []
         for item in os.listdir(dir):
             item = os.path.join(dir, item)
@@ -488,12 +632,19 @@ class Weka(Slurper):
                 items.extend(self._unzip_traverse(item, True))
             elif item.endswith('.arff'):
                 items.append(item)
-            elif can_unzip: # assuming another archive
+            elif may_unzip: # assuming another archive
                 items.extend(self._unzip_do(item))
         return items
 
 
     def _unzip_do(self, zip):
+        """Actually perform the unzip process.
+
+        @param zip: name of zipped file
+        @type zip: string
+        @return: unzipped filenames
+        @rtype: list of strings
+        """
         dir = os.path.join(self.output, zip.split(os.sep)[-1].split('.')[0])
 
         cmd = 'cd ' + dir + ' && '
@@ -550,29 +701,57 @@ class Weka(Slurper):
 
 
 class Sonnenburgs(Slurper):
+    """Slurp from Sonnenburgs."""
     # string stuff
     source = 'http://sonnenburgs.de/media/projects/mkl_splice/'
 
 
 class Options:
+    """Options to the slurper.
+
+    Should not be instantiated.
+
+    @cvar output: output directory of downloads
+    @type output: string
+    @cvar verbose: if slurper shall run in verbose mode
+    @type verbose: boolean
+    @cvar download_only: if slurper shall only download files, not adding
+    @type download_only: boolean
+    @cvar add_only: if slurper shall only add files, not downloading
+    @type add_only: boolean
+    @cvar force_download: force download, even if file already exists.
+    @type force_download: boolean
+    @cvar source: active source to slurp from
+    @type soruce: int
+    @cvar sources: list of available sources
+    @type sources: list of strings
+    """
     output = os.path.join(os.getcwd(), 'slurped')
     verbose = False
     download_only = False
     add_only = False
     force_download = False
-    source = 1
+    source = 0
     sources=[LibSVMTools.source, Weka.source, Sonnenburgs.source]
 
 
 
 
 def progress(msg, lvl=0):
+    """Print a progress message.
+
+    @param msg: message to print
+    @type msg: string
+    @param lvl: indentation level of msg
+    @type lvl: int
+    """
     if Options.verbose:
         print '  '*lvl + msg
 
 
 
 def usage():
+    """Print usage of slurper."""
     print 'Usage: ' + sys.argv[0] + ''' [options]
 
 Options:
@@ -609,6 +788,7 @@ Options:
 
 
 def parse_options():
+    """Parse options given to slurper."""
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'o:s:vdafh',
             ['output=', 'source=', 'verbose', 'download-only',
