@@ -30,8 +30,8 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-import re
-import sys
+import re, sys, numpy
+
 
 class ArffFile(object):
     """An ARFF File object describes a data set consisting of a number
@@ -105,7 +105,6 @@ class ArffFile(object):
     def write(self):
         """Write an arff structure to a string."""
         o = []
-        #print self.comment
         o.append('% ' + re.sub("\n", "\n% ", self.comment))
         o.append("@relation " + self.esc(self.relation))
         for a in self.attributes:
@@ -190,14 +189,13 @@ class ArffFile(object):
             values = [s.strip () for s in atype[1:-1].split(',')]
             self.define_attribute(name, 'nominal', values)
         else:
-            #print "Unsupported type " + atype + " for attribute " + name + "."
-            pass
+            self.__print_warning("unsupported type " + atype + " for attribute " + name + ".")
 
     def __parse_data(self, l):
         l = [s.strip() for s in l.split(',')]
         if len(l) != len(self.attributes):
-            #print "Warning: line %d contains wrong number of values" % self.lineno
-            return 
+            self.__print_warning("contains wrong number of values")
+            return
 
         datum = []
         for n, v in zip(self.attributes, l):
@@ -205,6 +203,8 @@ class ArffFile(object):
             if at == 'numeric':
                 if re.match(r'[+-]?[0-9]+(?:\.[0-9]*(?:[eE]-?[0-9]+)?)?', v):
                     datum.append(float(v))
+                elif v == '?':
+                    datum.append(numpy.nan)
                 else:
                     self.__print_warning('non-numeric value %s for numeric attribute %s' % (v, n))
                     return
@@ -213,6 +213,8 @@ class ArffFile(object):
             elif at == 'nominal':
                 if v in self.attribute_data[n]:
                     datum.append(v)
+                elif v == '?':
+                    datum.append(numpy.nan)
                 else:
                     self.__print_warning('incorrect value %s for nomial attribute %s' % (v, n))
                     return
