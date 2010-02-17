@@ -24,40 +24,36 @@ class LIBSVM2HDF5():
 
 
     def _parse_line(self, line):
-        need_label = True
-        need_idx = False
-        need_val = False
-        in_val = False
+        state = 'label'
         idx = []
         val = []
         label = []
         attributes = []
-        offset = 0
         for c in line:
-            if need_label:
+            if state == 'label':
                 if c.isspace():
-                    need_label = False
-                    need_idx = True
+                    state = 'idx'
                     attributes.extend(self._explode_labels(label))
                 else:
                     label.append(c)
-            elif need_idx:
-                if c == ':':
-                    need_idx = False
-                    need_val = True
-                elif not c.isspace():
-                    idx.append(c)
-            elif need_val:
+            elif state == 'idx':
                 if not c.isspace():
-                    in_val = True
+                    if c == ':':
+                        state = 'preval'
+                    else:
+                        idx.append(c)
+            elif state == 'preval':
+                if not c.isspace():
                     val.append(c)
-                elif in_val:
-                    in_val = False
-                    need_val = False
-                    need_idx = True
+                    state = 'val'
+            elif state == 'val':
+                if c.isspace():
                     attributes.append([int(''.join(idx)) + self.offset_labels[-1], ''.join(val)])
                     idx = []
                     val = []
+                    state = 'idx'
+                else:
+                    val.append(c)
 
         return attributes
 
