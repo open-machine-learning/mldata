@@ -3,7 +3,7 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess
+import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess, random
 from HTMLParser import HTMLParser
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
@@ -216,6 +216,26 @@ class Slurper:
             urllib.urlretrieve(src, dst)
 
 
+    def _add_slug(self, obj):
+        """Add a slug to given object.
+
+        If the slug derived from the object's name already exists, it attaches
+        a random number to the name and tries to add the slug anew,
+        recursively if necessary.
+
+        @param obj: object to add slug for
+        @type obj: repository.Data or repository.Task
+        @return: the object with slug
+        @rtype: repository.Data or repository.Task
+        """
+        try:
+            obj.slug = obj.make_slug()
+        except: # wouldn't make sense to catch sqlite3.IntegrityError only
+            obj.name = obj.name + '-' + str(int(random.random() * 10000))
+            return self._add_slug(obj)
+        return obj
+
+
     def create_data(self, parsed, datafile):
         """Create a repository Data object.
 
@@ -226,7 +246,6 @@ class Slurper:
         @return: a repository Data object
         @rtype: repository.Data
         """
-        progress('Creating Data item ' + parsed['name'] + '.', 4)
         obj = Data(
             pub_date=datetime.datetime.now(),
             name=parsed['name'],
@@ -240,7 +259,9 @@ class Slurper:
             license_id=1,
             tags=parsed['type'],
         )
-        obj.slug = obj.make_slug()
+        obj = self._add_slug(obj)
+        progress('Creating Data item ' + obj.name + '.', 4)
+
         obj.format = 'hdf5'
         obj.file = File(open(datafile))
         obj.file.name = obj.get_filename()
@@ -270,7 +291,6 @@ class Slurper:
         @rtype: repository.Task
         """
         name = 'task_' + parsed['name']
-        progress('Creating Task item ' + name + '.', 4)
         obj = Task(
             pub_date=datetime.datetime.now(),
             name=name,
@@ -282,7 +302,8 @@ class Slurper:
             license_id=1,
             tags=parsed['type'],
         )
-        obj.slug = obj.make_slug()
+        obj = self._add_slug(obj)
+        progress('Creating Task item ' + obj.name + '.', 4)
 
         if parsed['type'] in ('Binary', 'MultiClass'):
             type = 'Classification'
