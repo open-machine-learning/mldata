@@ -167,10 +167,49 @@ class Slurper:
     def skippable(self, name):
         """Decide if item of given name should be skipped.
 
+        This is a hand-selected assortment of datasets now.
+
         @param name: name of item to decide on
         @type name: string
         """
-        return False
+        if name == 'australian':
+            return False
+        elif name == 'cod-rna':
+            return False
+        elif name == 'colon-cancer':
+            return False
+        elif name.startswith('duke'):
+            return False
+        elif name == 'ijcnn1':
+            return False
+        elif name == 'splice':
+            return False
+
+        elif name == 'connect-4':
+            return False
+        elif name == 'dna':
+            return False
+        elif name == 'poker':
+            return False
+        elif name == 'sector':
+            return False
+
+        elif name == 'yeast':
+            return False
+        elif name == 'mediamill':
+            return False
+
+        elif name == 'cadata':
+            return False
+        elif name == 'triazines':
+            return False
+
+        elif name == 'Drug-datasets':
+            return False
+        elif name == 'agridatasets':
+            return False
+
+        return True
 
 
     def get_src(self, filename):
@@ -400,17 +439,6 @@ class LibSVMTools(Slurper):
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
     format = 'libsvm'
 
-    def skippable(self, name):
-        if name.startswith('rcv1'):
-            return True
-        elif name.startswith('webspam'):
-            return True
-        elif name.startswith('mnist8m'):
-            return True
-
-        return False
-
-
     def unzip(self, oldnames):
         newnames = []
         for o in oldnames:
@@ -593,10 +621,10 @@ class LibSVMTools(Slurper):
 
 
     def add(self, parsed):
-        for f in parsed['files']:
-            if os.path.getsize(self.get_dst(f)) > FILESIZE_MAX:
-                progress('Not adding, dataset too large.', 3)
-                return
+#        for f in parsed['files']:
+#            if os.path.getsize(self.get_dst(f)) > FILESIZE_MAX:
+#                progress('Not adding, dataset too large.', 3)
+#                return
 
         progress('Adding to repository.', 3)
         oldnames = parsed['files']
