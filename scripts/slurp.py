@@ -383,7 +383,7 @@ class Slurper:
         response = urllib.urlopen(url)
         parser.feed(''.join(response.readlines()))
         response.close()
-        parser.feed(self.fromfile('index_datasets.html'))
+        #parser.feed(self.fromfile('index_datasets.html'))
         parser.close()
 
         for d in parser.datasets:
