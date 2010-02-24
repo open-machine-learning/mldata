@@ -4,7 +4,7 @@ Slurp data objects from the interwebz and add them to the repository
 """
 
 import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess, random
-from HTMLParser import HTMLParser
+from HTMLParser import HTMLParser, HTMLParseError
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
@@ -23,10 +23,17 @@ class SlurpHTMLParser(HTMLParser):
 
     def reinit(self):
         """Reset a few instance variables."""
+        if hasattr(self, 'current') and self.current['name']:
+            self.current['summary'] = self.current['summary'].strip()
+            self.current['description'] = self.current['description'].strip()
+            self.current['source'] = self.current['source'].strip()
+            self.datasets.append(self.current)
+
         self.current = {
             'name': '',
             'source': '',
             'description': '',
+            'summary': '',
             'files': [],
         }
         self.state = None
@@ -65,7 +72,6 @@ class LibSVMToolsHTMLParser(SlurpHTMLParser):
         elif tag == 'ul' and self.state: # new data ends here
             self.current['source'] = self.current['source'].strip()
             self.current['description'] = self.current['description'].strip()
-            self.datasets.append(self.current)
             self.reinit()
 
 
@@ -119,7 +125,6 @@ class WekaHTMLParser(SlurpHTMLParser):
         if tag == 'ul': # ignore everything after first ul has ended
             self.state = 'done'
         elif tag == 'li':
-            self.datasets.append(self.current)
             self.reinit()
 
 
@@ -129,6 +134,120 @@ class WekaHTMLParser(SlurpHTMLParser):
 
         if self.state == 'description':
             self.current['description'] += data
+
+
+
+class UCIIndexParser(HTMLParser):
+    """HTMLParser for UCI index page."""
+
+    def __init__(self, *args, **kwargs):
+        """Constructor to initialise instance variables.
+
+        @ivar uris: collection of data URIs
+        @type uris: list of strings
+        """
+        HTMLParser.__init__(self, *args, **kwargs)
+        self.uris = []
+
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a':
+            for a in attrs:
+                if a[0] == 'href' and a[1].startswith('datasets/'):
+                    self.uris.append(a[1])
+                    break
+
+
+
+class UCIDirectoryParser(HTMLParser):
+    """HTMLParser for UCI download directory page."""
+
+    def __init__(self, *args, **kwargs):
+        """Constructor to initialise instance variables.
+
+        @ivar filenames: collection of filenames
+        @type filenames: list of strings
+        """
+        HTMLParser.__init__(self, *args[1:], **kwargs)
+        self.dir = args[0]
+        self.filenames = []
+        self.state = None
+
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a' and self.state == 'files':
+            for a in attrs:
+                if a[0] == 'href' and a[1] != 'Index':
+                    self.filenames.append(self.dir + a[1])
+
+    def handle_data(self, data):
+        if data == 'Parent Directory':
+            self.state = 'files'
+
+
+
+class UCIHTMLParser(SlurpHTMLParser):
+    """HTMLParser class for UCI."""
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'span' and not self.state:
+            for a in attrs:
+                if a[0] == 'class' and a[1] == 'heading':
+                    self.state = 'name'
+                    break
+        elif tag == 'b':
+            if self.state == 'predescription':
+                self.state = 'description'
+            elif self.state == 'presummary':
+                self.state = 'summary'
+        elif tag == 'p':
+            for a in attrs:
+                if a[0] == 'class' and a[1] == 'small-heading':
+                    if self.state == 'presource':
+                        self.state = 'source'
+                    elif self.state == 'source':
+                        self.state = 'description'
+                    break
+        elif tag == 'a' and self.state == 'files':
+            for a in attrs:
+                if a[0] == 'href':
+                    self.current['files'].append(a[1])
+                    self.state = 'presummary'
+                    break
+        elif tag == 'a' and self.state in ('source', 'description'):
+            for a in attrs:
+                if a[0] == 'href' and a[1].startswith('http://'):
+                    self.current[self.state] += "\n" + a[1] + ' '
+                    break
+
+
+
+    def handle_endtag(self, tag):
+        if tag == 'span' and self.state == 'name':
+            self.state = 'files'
+        elif tag == 'p' and self.state == 'summary':
+            self.state = 'predescription'
+        if tag == 'table' and self.state == 'description':
+            self.state = 'presource'
+
+
+    def handle_data(self, data):
+        if data.startswith('Citation Request'): # end of data
+            self.current['description'] =\
+                self.current['description'].replace('  [View Context].', '')
+            self.current['source'] =\
+                self.current['source'].replace('Source:', '')
+            self.reinit()
+            return
+
+        if self.state == 'name':
+            self.current['name'] = data.replace(' Data Set', '')
+        elif self.state == 'summary':
+            self.current['summary'] = data[2:]
+        elif self.state == 'description':
+            self.current['description'] += data
+        elif self.state == 'source':
+            self.current['source'] += data
 
 
 
@@ -172,6 +291,8 @@ class Slurper:
         @param name: name of item to decide on
         @type name: string
         """
+        return False
+
         if name == 'australian':
             return False
         elif name == 'cod-rna':
@@ -221,7 +342,10 @@ class Slurper:
         if filename.startswith('http://'):
             return filename
         else:
-            return self.source + filename
+            if self.source.endswith('/'):
+                return self.source + filename
+            else:
+                return self.source + '/' + filename
 
 
     def get_dst(self, filename):
@@ -230,11 +354,7 @@ class Slurper:
         @param filename: filename to retrieve destination for.
         @type filename: string
         """
-        if filename.startswith('http://'):
-            f = filename.split('/')[-1].split('?')[0]
-            return os.path.join(self.output, f)
-        else:
-            return os.path.join(self.output, filename)
+        return os.path.join(self.output, filename)
 
 
     def _download(self, filename):
@@ -251,8 +371,9 @@ class Slurper:
             dst_dir = os.path.dirname(dst)
             if not os.path.exists(dst_dir):
                 os.makedirs(dst_dir)
-            progress('Downloading ' + src + ' to ' + dst + '.', 3)
-            urllib.urlretrieve(src, dst)
+            if not os.path.isdir(dst):
+                progress('Downloading ' + src + ' to ' + dst + '.', 3)
+                urllib.urlretrieve(src, dst)
 
 
     def _add_slug(self, obj):
@@ -290,6 +411,7 @@ class Slurper:
             name=parsed['name'],
             source=parsed['source'],
             description=parsed['description'],
+            summary=parsed['summary'],
             version=1,
             is_public=False,
             is_current=True,
@@ -334,6 +456,7 @@ class Slurper:
             pub_date=datetime.datetime.now(),
             name=name,
             description=parsed['description'],
+            summary=parsed['summary'],
             version=1,
             is_public=False,
             is_current=True,
@@ -367,6 +490,21 @@ class Slurper:
         return obj
 
 
+    def expand_dir(self, dirnames):
+        """Expand given directory names to point to downloadable files.
+
+        Sites like UCI don't link directly to data files, so this method
+        will take care of collecting the necessary filenames from the given
+        directory.
+
+        @param dirnames: directory names to expand
+        @type dirnames: list of strings
+        @return: filenames in given directory
+        @rtype: list of strings
+        """
+        return dirnames
+
+
     def handle(self, parser, url, type=None):
         """Handle the given URL with given parser.
 
@@ -380,11 +518,16 @@ class Slurper:
         @type type: string
         """
         progress('Handling ' + url + '.', 1)
-        response = urllib.urlopen(url)
-        parser.feed(''.join(response.readlines()))
-        response.close()
-        #parser.feed(self.fromfile('index_datasets.html'))
-        parser.close()
+        try:
+            response = urllib.urlopen(url)
+            # replacement thanks to incorrect code @ UCI
+            parser.feed(''.join(response.readlines()).replace('\\"', '"'))
+            response.close()
+            #parser.feed(self.fromfile('Bach+Chorales'))
+            parser.close()
+        except HTMLParseError, e:
+            warn('HTMLParseError: ' + str(e))
+            return
 
         for d in parser.datasets:
             if self.skippable(d['name']):
@@ -394,22 +537,32 @@ class Slurper:
                 progress('Dataset ' + d['name'], 2)
 
             if not Options.add_only:
+                d['files'] = self.expand_dir(d['files']) # due to UCI
                 for f in d['files']:
                     self._download(f)
+
             if not Options.download_only:
                 d['type'] = type
                 self.add(d)
 
-    def unzip(self):
+
+    def unzip(self, oldnames):
         """Unzip downloaded files.
 
+        @param oldnames: old filenames
+        @type oldnames: list of strings
         @return: unzipped filenames
         @rtype: list of strings
         """
-        raise NotImplementedError('Abstract method!')
+        return oldnames
 
-    def unzip_rm(self):
-        """Remove unzipped files."""
+
+    def unzip_rm(self, filenames):
+        """Remove unzipped files.
+
+        @param filenames: filenames to remove
+        @type filenames: list of strings
+        """
         raise NotImplementedError('Abstract method!')
 
 
@@ -621,11 +774,6 @@ class LibSVMTools(Slurper):
 
 
     def add(self, parsed):
-#        for f in parsed['files']:
-#            if os.path.getsize(self.get_dst(f)) > FILESIZE_MAX:
-#                progress('Not adding, dataset too large.', 3)
-#                return
-
         progress('Adding to repository.', 3)
         oldnames = parsed['files']
         parsed['files'] = self.unzip(parsed['files'])
@@ -733,6 +881,11 @@ class Weka(Slurper):
             shutil.rmtree(dir)
 
 
+    def get_dst(self, filename):
+        f = filename.split('/')[-1].split('?')[0]
+        return os.path.join(self.output, f)
+
+
     def add(self, parsed):
         progress('Adding to repository.', 3)
 
@@ -749,10 +902,68 @@ class Weka(Slurper):
         self.handle(parser, self.source)
 
 
+
+class UCI(Slurper):
+    """Slurp from UCI."""
+    source = 'http://archive.ics.uci.edu/ml/datasets.html'
+    format = 'uci'
+
+
+    def get_dst(self, filename):
+        try:
+            f = filename.split('machine-learning-databases/')[1]
+        except IndexError:
+            f = filename.split('databases/')[1]
+        return os.path.join(self.output, f)
+
+
+    def expand_dir(self, dirnames):
+        filenames = []
+        for d in dirnames:
+            if not d.endswith('/'):
+                d += '/'
+            url = self.source + '/' + d
+            p = UCIDirectoryParser(d)
+            r = urllib.urlopen(url)
+            p.feed(''.join(r.readlines()).replace('\\"', '"'))
+            r.close()
+            p.close()
+            filenames.extend(p.filenames)
+        return filenames
+
+
+    def add(self, parsed):
+        return
+        progress('Adding to repository.', 3)
+
+        orig = parsed['name']
+        for f in self.unzip(parsed['files']):
+            splitname = ''.join(f.split(os.sep)[-1].split('.')[:-1])
+            parsed['name'] = orig + ' ' + splitname
+            self.create_data(parsed, f)
+        self.unzip_rm(parsed['files'])
+
+
+    def slurp(self):
+        parser = UCIIndexParser()
+        response = urllib.urlopen(self.source)
+        parser.feed(''.join(response.readlines()).replace('\\"', '"'))
+        response.close()
+        #parser.feed(self.fromfile('datasets.html'))
+        parser.close()
+        for u in set(parser.uris):
+            p = UCIHTMLParser()
+            url = '/'.join(self.source.split('/')[:-1]) + '/' + u
+            self.handle(p, url)
+
+
+
+
 class Sonnenburgs(Slurper):
     """Slurp from Sonnenburgs."""
     # string stuff
     source = 'http://sonnenburgs.de/media/projects/mkl_splice/'
+
 
 
 class Options:
@@ -780,9 +991,19 @@ class Options:
     download_only = False
     add_only = False
     force_download = False
-    source = 0
-    sources=[LibSVMTools.source, Weka.source, Sonnenburgs.source]
+    source = 2
+    sources=[LibSVMTools.source, Weka.source, UCI.source, Sonnenburgs.source]
 
+
+
+
+def warn(msg):
+    """Print a warning message.
+
+    @param msg: message to print
+    @type msg: string
+    """
+    print 'WARNING: ' + msg
 
 
 
@@ -813,6 +1034,8 @@ Options:
         source of where to slurp data from. Available sources are:
         0 - ''' + Options.sources[0] + '''
         1 - ''' + Options.sources[1] + '''
+        2 - ''' + Options.sources[2] + '''
+        3 - ''' + Options.sources[3] + '''
         default: ''' + str(Options.source) + '''
 
 -v, --verbose
@@ -885,9 +1108,11 @@ def parse_options():
 if __name__ == '__main__':
     parse_options()
 
-    if Options.source == 0:
-        slurper = LibSVMTools()
-    elif Options.source == 1:
-        slurper = Weka()
+    slurpers = [LibSVMTools, Weka, UCI, Sonnenburgs]
+    try:
+        slurper = slurpers[Options.source]()
+    except IndexError:
+        print 'Unknown slurping source!'
+        sys.exit(1)
     slurper.run()
     sys.exit(0)
