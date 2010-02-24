@@ -24,9 +24,13 @@ class SlurpHTMLParser(HTMLParser):
     def reinit(self):
         """Reset a few instance variables."""
         if hasattr(self, 'current') and self.current['name']:
-            self.current['summary'] = self.current['summary'].strip()
-            self.current['description'] = self.current['description'].strip()
-            self.current['source'] = self.current['source'].strip()
+            # unicode conversion prevents django errors when adding to DB
+            self.current['summary'] =\
+                unicode(self.current['summary'].strip(), 'latin-1')
+            self.current['description'] =\
+                unicode(self.current['description'].strip(), 'latin-1')
+            self.current['source'] =\
+                unicode(self.current['source'].strip(), 'latin-1')
             self.datasets.append(self.current)
 
         self.current = {
@@ -291,7 +295,9 @@ class Slurper:
         @param name: name of item to decide on
         @type name: string
         """
-        return False
+        if name == 'Abalone':
+            return False
+        return True
 
         if name == 'australian':
             return False
@@ -519,11 +525,11 @@ class Slurper:
         """
         progress('Handling ' + url + '.', 1)
         try:
-            response = urllib.urlopen(url)
+            #response = urllib.urlopen(url)
             # replacement thanks to incorrect code @ UCI
-            parser.feed(''.join(response.readlines()).replace('\\"', '"'))
-            response.close()
-            #parser.feed(self.fromfile('Bach+Chorales'))
+            #parser.feed(''.join(response.readlines()).replace('\\"', '"'))
+            #response.close()
+            parser.feed(self.fromfile('Abalone'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))
@@ -563,7 +569,7 @@ class Slurper:
         @param filenames: filenames to remove
         @type filenames: list of strings
         """
-        raise NotImplementedError('Abstract method!')
+        return
 
 
     def slurp(self):
@@ -933,28 +939,35 @@ class UCI(Slurper):
 
 
     def add(self, parsed):
-        return
         progress('Adding to repository.', 3)
 
-        orig = parsed['name']
-        for f in self.unzip(parsed['files']):
-            splitname = ''.join(f.split(os.sep)[-1].split('.')[:-1])
-            parsed['name'] = orig + ' ' + splitname
-            self.create_data(parsed, f)
-        self.unzip_rm(parsed['files'])
+        # only accept bla.data + bla.names
+        if len(parsed['files']) != 2:
+            return
+        files = {}
+        for f in parsed['files']:
+            if f.endswith('.data'):
+                files['data'] = f
+            elif f.endswith('.names'):
+                files['names'] = f
+        if not files:
+            return
+
+        self.create_data(parsed, self.get_dst(files['data']))
 
 
     def slurp(self):
         parser = UCIIndexParser()
-        response = urllib.urlopen(self.source)
-        parser.feed(''.join(response.readlines()).replace('\\"', '"'))
-        response.close()
-        #parser.feed(self.fromfile('datasets.html'))
+        #response = urllib.urlopen(self.source)
+        #parser.feed(''.join(response.readlines()).replace('\\"', '"'))
+        #response.close()
+        parser.feed(self.fromfile('datasets.html'))
         parser.close()
         for u in set(parser.uris):
             p = UCIHTMLParser()
             url = '/'.join(self.source.split('/')[:-1]) + '/' + u
             self.handle(p, url)
+            break
 
 
 

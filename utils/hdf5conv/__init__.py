@@ -50,6 +50,7 @@ Currently supported formats
 to hdf5
 LibSVM
 ARFF
+UCI
 
 from hdf5
 ARFF
@@ -60,6 +61,7 @@ import h5py, numpy, os
 from scipy.sparse import csc_matrix
 from hdf5_arff import ARFF2HDF5, HDF52ARFF
 from hdf5_libsvm import LIBSVM2HDF5
+from hdf5_uci import UCI2HDF5
 import config
 
 
@@ -96,6 +98,8 @@ class HDF5():
             self.converter = LIBSVM2HDF5()
         elif in_format == 'arff' and out_format == 'hdf5':
             self.converter = ARFF2HDF5()
+        elif in_format == 'uci' and out_format == 'hdf5':
+            self.converter = UCI2HDF5()
         elif in_format == 'hdf5' and out_format == 'arff':
             self.converter = HDF52ARFF()
         if not self.converter:

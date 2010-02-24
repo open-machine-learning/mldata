@@ -7,6 +7,7 @@ Currently supported formats:
 to hdf5
 LibSVM
 ARFF
+UCI
 
 from hdf5
 ARFF
@@ -24,6 +25,7 @@ def usage():
 Supported conversions are:
 libsvm -> hdf5
 arff -> hdf5
+uci -> hdf5
 hdf5 -> arff
 """
 
