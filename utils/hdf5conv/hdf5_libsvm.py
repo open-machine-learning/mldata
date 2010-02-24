@@ -7,7 +7,6 @@ class LIBSVM2HDF5():
 
     def __init__(self, *args, **kwargs):
         self.offset_labels = []
-        self.none = []
 
 
     def _explode_labels(self, label):
