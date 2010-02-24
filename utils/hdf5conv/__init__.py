@@ -163,7 +163,7 @@ class HDF5():
             f.close()
         else:
             intro = 'Unparseable Data'
-            if is_binary(fname):
+            if self.is_binary(fname):
                 data = ''
             else:
                 file = open(fame, 'r')
