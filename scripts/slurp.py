@@ -21,23 +21,30 @@ FILESIZE_MAX = 1024*1024 # 1 MB
 class SlurpHTMLParser(HTMLParser):
     """Base class for slurping HTMLParser."""
 
+    def _clean(self, fieldnames):
+        """Clean the parsed fieldnames.
+
+        @param field: the fieldnames to clean
+        @type field: string
+        """
+        for f in fieldnames:
+            # unicode conversion prevents django errors when adding to DB
+            self.current[f] = unicode(self.current[f].strip(), 'latin-1')
+
+
     def reinit(self):
         """Reset a few instance variables."""
         if hasattr(self, 'current') and self.current['name']:
-            # unicode conversion prevents django errors when adding to DB
-            self.current['summary'] =\
-                unicode(self.current['summary'].strip(), 'latin-1')
-            self.current['description'] =\
-                unicode(self.current['description'].strip(), 'latin-1')
-            self.current['source'] =\
-                unicode(self.current['source'].strip(), 'latin-1')
+            self._clean(['summary', 'description', 'source', 'publications'])
             self.datasets.append(self.current)
 
         self.current = {
             'name': '',
             'source': '',
+            'publications': '',
             'description': '',
             'summary': '',
+            'task': '',
             'files': [],
         }
         self.state = None
@@ -218,7 +225,7 @@ class UCIHTMLParser(SlurpHTMLParser):
                     self.current['files'].append(a[1])
                     self.state = 'presummary'
                     break
-        elif tag == 'a' and self.state in ('source', 'description'):
+        elif tag == 'a' and self.state in ('source', 'description', 'publications'):
             for a in attrs:
                 if a[0] == 'href' and a[1].startswith('http://'):
                     self.current[self.state] += "\n" + a[1] + ' '
@@ -231,7 +238,9 @@ class UCIHTMLParser(SlurpHTMLParser):
             self.state = 'files'
         elif tag == 'p' and self.state == 'summary':
             self.state = 'predescription'
-        if tag == 'table' and self.state == 'description':
+        elif tag == 'br' and self.state == 'publications':
+            self.state = 'description'
+        elif tag == 'table' and self.state == 'description':
             self.state = 'presource'
 
 
@@ -239,6 +248,9 @@ class UCIHTMLParser(SlurpHTMLParser):
         if data.startswith('Citation Request'): # end of data
             self.current['description'] =\
                 self.current['description'].replace('  [View Context].', '')
+            self.current['publications'] =\
+                self.current['publications'].replace('  [View Context].', '').\
+                    replace('[Web Link]', '')
             self.current['source'] =\
                 self.current['source'].replace('Source:', '')
             self.reinit()
@@ -248,8 +260,18 @@ class UCIHTMLParser(SlurpHTMLParser):
             self.current['name'] = data.replace(' Data Set', '')
         elif self.state == 'summary':
             self.current['summary'] = data[2:]
+        elif self.state == 'task' and data.strip():
+            self.current['task'] = data
+            self.state = 'description'
+        elif self.state == 'publications' and data.strip():
+            self.current['publications'] += data
         elif self.state == 'description':
-            self.current['description'] += data
+            if data.startswith('Associated Tasks'):
+                self.state = 'task'
+            elif data.startswith('Relevant Papers') or data.startswith('Papers That Cite This'):
+                self.state = 'publications'
+            else:
+                self.current['description'] += data
         elif self.state == 'source':
             self.current['source'] += data
 
@@ -295,9 +317,7 @@ class Slurper:
         @param name: name of item to decide on
         @type name: string
         """
-        if name == 'Abalone':
-            return False
-        return True
+        return False
 
         if name == 'australian':
             return False
@@ -418,13 +438,14 @@ class Slurper:
             source=parsed['source'],
             description=parsed['description'],
             summary=parsed['summary'],
+            publications=parsed['publications'],
             version=1,
             is_public=False,
             is_current=True,
             is_approved=True,
             user_id=1,
             license_id=1,
-            tags=parsed['type'],
+            tags=parsed['task'].replace('/', ''), # django url no like args wit slash
         )
         obj = self._add_slug(obj)
         progress('Creating Data item ' + obj.name + '.', 4)
@@ -438,7 +459,7 @@ class Slurper:
         self.hdf5.convert(datafile, self.format,
             os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
-        # make it available after everythin went alright
+        # make it available after everything went alright
         obj.is_public = True
         obj.save()
 
@@ -463,30 +484,34 @@ class Slurper:
             name=name,
             description=parsed['description'],
             summary=parsed['summary'],
+            publications=parsed['publications'],
             version=1,
             is_public=False,
             is_current=True,
             user_id=1,
             license_id=1,
-            tags=parsed['type'],
+            tags=parsed['task'].replace('/', ''), # django url no like args wit slash
         )
         obj = self._add_slug(obj)
         progress('Creating Task item ' + obj.name + '.', 4)
 
-        if parsed['type'] in ('Binary', 'MultiClass'):
-            type = 'Classification'
+        if parsed['task'] in ('Binary', 'MultiClass'):
+            ttype = 'Classification'
         else:
-            type = parsed['type']
-        obj.type, created = TaskType.objects.get_or_create(name=type)
+            ttype = parsed['task']
+        obj.type, created = TaskType.objects.get_or_create(name=ttype)
 
-        progress('Creating HDF5 split file.', 5)
-        splitfile = os.path.join(self.output, name + '.hdf5')
-        self.hdf5.create_split(splitfile, name, indices)
+        if indices:
+            progress('Creating HDF5 split file.', 5)
+            splitfile = os.path.join(self.output, name + '.hdf5')
+            self.hdf5.create_split(splitfile, name, indices)
 
-        obj.splits = File(open(splitfile))
-        obj.splits.name = obj.get_splitname()
+            obj.splits = File(open(splitfile))
+            obj.splits.name = obj.get_splitname()
+
         obj.save()
-        os.remove(splitfile)
+        if indices:
+            os.remove(splitfile)
 
         # obj needs pk first for many-to-many
         obj.data.add(data)
@@ -511,7 +536,7 @@ class Slurper:
         return dirnames
 
 
-    def handle(self, parser, url, type=None):
+    def handle(self, parser, url, task=None):
         """Handle the given URL with given parser.
 
         This includes downloading + adding objects.
@@ -520,16 +545,16 @@ class Slurper:
         @type parser: childclass of SlurpHTMLParser
         @param url: URL to slurp from
         @type url: string
-        @param type: type of items, like regression, classification, etc.
-        @type type: string
+        @param task: task type of items, like regression, classification, etc.
+        @type task: string
         """
         progress('Handling ' + url + '.', 1)
         try:
-            #response = urllib.urlopen(url)
+            response = urllib.urlopen(url)
             # replacement thanks to incorrect code @ UCI
-            #parser.feed(''.join(response.readlines()).replace('\\"', '"'))
-            #response.close()
-            parser.feed(self.fromfile('Abalone'))
+            parser.feed(''.join(response.readlines()).replace('\\"', '"'))
+            response.close()
+            #parser.feed(self.fromfile('Abalone'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))
@@ -548,7 +573,8 @@ class Slurper:
                     self._download(f)
 
             if not Options.download_only:
-                d['type'] = type
+                if not d['task']:
+                    d['task'] = task
                 self.add(d)
 
 
@@ -939,21 +965,24 @@ class UCI(Slurper):
 
 
     def add(self, parsed):
-        progress('Adding to repository.', 3)
-
-        # only accept bla.data + bla.names
-        if len(parsed['files']) != 2:
-            return
+        # only accept bla.data + bla.names for the time being...
         files = {}
+        ignore_data = False
         for f in parsed['files']:
-            if f.endswith('.data'):
+            if (f.endswith('.data') or f.endswith('-data')) and not ignore_data:
                 files['data'] = f
-            elif f.endswith('.names'):
+                ignore_data = True
+            elif f.endswith('.names') and 'data' in files and\
+                files['data'].split('.')[:-1] == f.split('.')[:-1]:
                 files['names'] = f
-        if not files:
+        if len(files) != 2:
+            progress('Unknown composition of data files, skipping.', 3)
             return
 
-        self.create_data(parsed, self.get_dst(files['data']))
+        progress('Adding to repository.', 3)
+        data = self.create_data(parsed, self.get_dst(files['data']))
+        if parsed['task'] != 'N/A':
+            self.create_task(parsed, data)
 
 
     def slurp(self):
@@ -967,7 +996,6 @@ class UCI(Slurper):
             p = UCIHTMLParser()
             url = '/'.join(self.source.split('/')[:-1]) + '/' + u
             self.handle(p, url)
-            break
 
 
 
