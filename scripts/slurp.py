@@ -388,9 +388,20 @@ class Slurper:
         return obj
 
 
-    def _add_tags(self, tags):
-        """Add class-constant tags for current item."""
-        return ', '.join([tags, self.format, self.__class__.__name__])
+    def _get_tags(self, tags):
+        """Add class-constant tags to current item.
+
+        @param tags: item-specific tags
+        @type tags: string
+        @return: item-specific + class-constant tags
+        @rtype: string
+        """
+        classname = self.__class__.__name__
+        # MySQL / django-tagging fix.
+        if self.format.lower() != classname.lower():
+            return ', '.join([tags, self.format, classname])
+        else:
+            return ', '.join([tags, self.format])
 
 
     def create_data(self, parsed, datafile):
@@ -416,7 +427,7 @@ class Slurper:
             is_approved=True,
             user_id=1,
             license_id=1,
-            tags=self._add_tags(parsed['tags']),
+            tags=self._get_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
         progress('Creating Data item ' + obj.name + '.', 4)
@@ -462,7 +473,7 @@ class Slurper:
             is_current=True,
             user_id=1,
             license_id=1,
-            tags=self._add_tags(parsed['tags']),
+            tags=self._get_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
         progress('Creating Task item ' + obj.name + '.', 4)
