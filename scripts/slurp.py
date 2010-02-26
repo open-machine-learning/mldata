@@ -34,8 +34,12 @@ class SlurpHTMLParser(HTMLParser):
 
     def reinit(self):
         """Reset a few instance variables."""
-        if hasattr(self, 'current') and self.current['name']:
-            self._clean(['summary', 'description', 'source', 'publications'])
+        if hasattr(self, 'current'):
+            if self.current['name']:
+                self._clean(['summary', 'description', 'source', 'publications'])
+            if self.current['task']:
+                # django url doesn't like args with slash, needs replace for tag
+                self.current['tags'] = self.current['task'].replace('/', '')
             self.datasets.append(self.current)
 
         self.current = {
@@ -45,6 +49,7 @@ class SlurpHTMLParser(HTMLParser):
             'description': '',
             'summary': '',
             'task': '',
+            'tags': '',
             'files': [],
         }
         self.state = None
@@ -319,45 +324,6 @@ class Slurper:
         """
         return False
 
-        if name == 'australian':
-            return False
-        elif name == 'cod-rna':
-            return False
-        elif name == 'colon-cancer':
-            return False
-        elif name.startswith('duke'):
-            return False
-        elif name == 'ijcnn1':
-            return False
-        elif name == 'splice':
-            return False
-
-        elif name == 'connect-4':
-            return False
-        elif name == 'dna':
-            return False
-        elif name == 'poker':
-            return False
-        elif name == 'sector':
-            return False
-
-        elif name == 'yeast':
-            return False
-        elif name == 'mediamill':
-            return False
-
-        elif name == 'cadata':
-            return False
-        elif name == 'triazines':
-            return False
-
-        elif name == 'Drug-datasets':
-            return False
-        elif name == 'agridatasets':
-            return False
-
-        return True
-
 
     def get_src(self, filename):
         """Get source URL for given filename.
@@ -422,6 +388,11 @@ class Slurper:
         return obj
 
 
+    def _add_tags(self, tags):
+        """Add class-constant tags for current item."""
+        return ', '.join([tags, self.format, self.__class__.__name__])
+
+
     def create_data(self, parsed, datafile):
         """Create a repository Data object.
 
@@ -445,7 +416,7 @@ class Slurper:
             is_approved=True,
             user_id=1,
             license_id=1,
-            tags=parsed['task'].replace('/', ''), # django url no like args wit slash
+            tags=self._add_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
         progress('Creating Data item ' + obj.name + '.', 4)
@@ -463,6 +434,7 @@ class Slurper:
         obj.is_public = True
         obj.save()
 
+        parsed['name'] = obj.name # in case it changed due to slug
         return obj
 
 
@@ -490,7 +462,7 @@ class Slurper:
             is_current=True,
             user_id=1,
             license_id=1,
-            tags=parsed['task'].replace('/', ''), # django url no like args wit slash
+            tags=self._add_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
         progress('Creating Task item ' + obj.name + '.', 4)
@@ -554,7 +526,7 @@ class Slurper:
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
             response.close()
-            #parser.feed(self.fromfile('Abalone'))
+            #parser.feed(self.fromfile('Sponge'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))
@@ -623,6 +595,42 @@ class LibSVMTools(Slurper):
     """Slurp from LibSVMTools."""
     source = 'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'
     format = 'libsvm'
+
+    def skippable(self, name):
+        if name == 'australian':
+            return False
+        elif name == 'cod-rna':
+            return False
+        elif name == 'colon-cancer':
+            return False
+        elif name.startswith('duke'):
+            return False
+        elif name == 'ijcnn1':
+            return False
+        elif name == 'splice':
+            return False
+
+        elif name == 'connect-4':
+            return False
+        elif name == 'dna':
+            return False
+        elif name == 'poker':
+            return False
+        elif name == 'sector':
+            return False
+
+        elif name == 'yeast':
+            return False
+        elif name == 'mediamill':
+            return False
+
+        elif name == 'cadata':
+            return False
+        elif name == 'triazines':
+            return False
+
+        return True
+
 
     def unzip(self, oldnames):
         newnames = []
@@ -844,6 +852,16 @@ class Weka(Slurper):
     source = 'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'
     format = 'arff'
 
+    def skippable(self, name):
+        if name == 'datasets-arie_ben_david':
+            return False
+        elif name == 'agridatasets':
+            return False
+
+        return True
+
+
+
     def _unzip_traverse(self, dir, may_unzip=False):
         """Traverse directories to recursively unzip archives.
 
@@ -941,6 +959,21 @@ class UCI(Slurper):
     format = 'uci'
 
 
+    def skippable(self, name):
+        if name == 'Abalone':
+            return False
+        elif name == 'Cylinder Bands':
+            return False
+        elif name == 'Iris':
+            return False
+        elif name == 'Sponge':
+            return False
+        elif name == 'Zoo':
+            return False
+
+        return True
+
+
     def get_dst(self, filename):
         try:
             f = filename.split('machine-learning-databases/')[1]
@@ -972,7 +1005,7 @@ class UCI(Slurper):
             if (f.endswith('.data') or f.endswith('-data')) and not ignore_data:
                 files['data'] = f
                 ignore_data = True
-            elif f.endswith('.names') and 'data' in files and\
+            elif (f.endswith('.names') or f.endswith('.info')) and 'data' in files and\
                 files['data'].split('.')[:-1] == f.split('.')[:-1]:
                 files['names'] = f
         if len(files) != 2:
@@ -987,10 +1020,10 @@ class UCI(Slurper):
 
     def slurp(self):
         parser = UCIIndexParser()
-        #response = urllib.urlopen(self.source)
-        #parser.feed(''.join(response.readlines()).replace('\\"', '"'))
-        #response.close()
-        parser.feed(self.fromfile('datasets.html'))
+        response = urllib.urlopen(self.source)
+        parser.feed(''.join(response.readlines()).replace('\\"', '"'))
+        response.close()
+        #parser.feed(self.fromfile('datasets.html'))
         parser.close()
         for u in set(parser.uris):
             p = UCIHTMLParser()

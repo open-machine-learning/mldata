@@ -120,7 +120,7 @@ $(function() {
 			<dt>{% trans "Version" %} mldata</dt>
 			<dd>{{ extract.mldata }}</dd>
 			<dt>{% trans "Comment" %}</dt>
-			<dd>{{ extract.comment }}</dd>
+			<dd>{{ extract.comment|markdown }}</dd>
 			<dt>{% trans "Attribute Names" %}</dt>
 			<dd><ol>
 			{% for name in extract.attribute_names %}

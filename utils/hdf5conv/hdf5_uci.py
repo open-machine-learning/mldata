@@ -9,7 +9,13 @@ class UCI2HDF5():
         if not name:
             name = '.'.join(in_fname.split('-')[:-1])
 
-        f = open(name + '.names', 'r')
+        if os.path.exists(name + '.names'):
+            f = open(name + '.names', 'r')
+        elif os.path.exists(name + '.info'):
+            f = open(name + '.info', 'r')
+        else:
+            return None
+
         comment = ''.join(f.readlines())
         f.close()
         return comment
