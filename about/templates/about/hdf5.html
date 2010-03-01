@@ -10,19 +10,62 @@
 	<p><a href="http://www.hdfgroup.org/HDF5/">HDF5</a> {% trans "is a data model, library, and file format for storing and managing data. It supports an unlimited variety of datatypes, and is designed for flexible and efficient I/O and for high volume and complex data. HDF5 is portable and is extensible, allowing applications to evolve in their use of HDF5. The HDF5 Technology suite includes tools and applications for managing, manipulating, viewing, and analyzing data in the HDF5 format." %}</p>
 	<p>{% trans "Internally, we make use of HDF5 because of its hierarchical structure which allows for efficient access of data attributes. It also allows for storing data in a flexible way which seems paramount to us in the current state of the machine learning community and its wild bunch of file formats used." %}</p>
 
+	<p>{% trans "The basic abstraction is that a data set is a large collection of objects having the same type, so to say a large array." %}</p>
+
 	<p>{% trans "We defined the following HDF5 attributes in our files" %}:</p>
 	<ul>
-		<li>mldata ({% trans "Internal mldata version, currently set to" %} 0)</li>
-		<li>name ({% trans "Name to describe the item as found in the file" %})</li>
-		<li>comment ({% trans "Any comment in the file" %})</li>
+		<li>mldata: {% trans "Internal mldata version" %}; <code>{% trans "Integer, currently" %} 0</code></li>
+		<li>name: {% trans "Name to describe the item as found in the file" %}; <code>{% trans "String" %}</code></li>
+		<li>comment: {% trans "Any comment or description in the file" %}; <code>{% trans "String" %}</code></li>
 	</ul>
 
-	<p>{% trans "The following datasets may be defined in our HDF5 files" %}:</p>
+	<p>{% trans "The following datasets may be defined in our HDF5 data files" %}:</p>
 	<ul>
-		<li>attribute_names ({% trans "Names of the data attributes" %})</li>
-		<li>attribute_types ({% trans "Types of the data attributes" %})</li>
-		<li>attributes ({% trans "The data attributes themselves" %})</li>
+		<li>attribute_names: {% trans "Names of the data attributes, if available" %}; <code>{% trans "Array of Strings" %}</code></li>
+		<li>attribute_types: {% trans "Types of the data attributes, if available" %}; <code>{% trans "Array of Strings" %}</code></li>
+		<li>attributes: {% trans "The data attributes themselves for dense matrices" %}; <code>{% trans "Array of Objects as described by attribute_types" %}</code></li>
+		<li>attributes_indices: {% trans "The indices of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>attributes_indptr: {% trans "The index pointers of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>attributes_data: {% trans "The data attributes themselves for sparse matrices" %}; <code>{% trans "Array of Objects as described by attribute_types" %}</code></li>
 	</ul>
+	<p>{% trans "Please note that attributes and attributes_indices + attributes_indptr + attributes_data are mutually exclusive." %}</p>
+
+	<h3>{% trans "Attribute Types" %}</h3>
+	<p>
+		{% trans "We make a distinction between the actual binary format and the attribute type stored in the file. For example, nominal data might be stored as integers or even bytes for efficiency, although they are mapped to symbolic names to the outside." %}<br />
+		{% trans "The attribute type is specified by a string which has to be parsed for better flexibility." %}
+	</p>
+
+	<p>{% trans "Supported types are:" %}:</p>
+	<ul>
+		<li>"NUMERIC"<br />Numerical values<br />Array of Numerical type</li>
+		<li>"NOMINAL(VALUE1, VALUE2, ...)"<br />Enumeration type<br />Array of small Integer types</li>
+		<li>"STRING"<br /><br />Array of Strings </li>
+	</ul>
+	<p>{% trans "As we see more data types, more type descriptors will be added." %}</p>
+
+
+	<h3>{% trans "Split files and Tasks" %}</h3>
+	<p>{% trans "Note that the distinction what is input/output, label/target depends on the TASK, not on the data set itself! We do have a mechanism in place to create automatic split files while slurping datasets from other repositories, though. These datasets may be defined in the split files:" %}</p>
+	<ul>
+		<li>labels: {% trans "Index of labels/target for each data row" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>testing/training/validation/whatever the slurper could derive from the dataset: {% trans "Indices of input/output/whatever task requires" %}; <code>{% trans "Array of Integers" %}</code></li>
+	</ul>
+
+
+	<h3>{% trans "Currently supported formats" %}</h3>
+	<h4>{% trans "to" %} HDF5</h4>
+	<ul>
+		<li>LibSVM</li>
+		<li>ARFF</li>
+		<li>UCI ({% trans "Not really a dataformat, but a collection of algorithms to parse datasets from that repository." %})</li>
+	</ul>
+	<h4>{% trans "from" %} HDF5</h4>
+	<ul>
+		<li>ARFF</li>
+	</ul>
+
+	<p>{% trans "You will find an implementation of a converter in Python in the source tarball, utils/hdf5conv (and scripts/hdf5conv.py as an example how to use the converter). You can also download an " %}<a href="{{ MEDIA_URL }}example.hdf5">{% trans "example file" %}</a>.</p>
 </div><!-- /in -->
 {% endblock %}
 

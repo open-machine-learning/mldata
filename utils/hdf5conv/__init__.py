@@ -8,15 +8,25 @@ This will be the generic storage for all kinds of data sets. The basic
 abstraction is that a data set is a large collection of objects having
 the same type, so to say a large array.
 
-/mldata           integer = 0
-/name             Name of the data set
-/comment          Initial comment
-/attribute_names  Array of Strings: names of the attributes
-/attribute_types  Array of Strings: description of the attribute types (see below)
-/attributes       Array of Objects as described by attribute_types
+/mldata
+ version of the file format
+ Integer = 0
+/name
+ Name of the data set
+ String
+/comment
+ Initial comment
+ String
+/attribute_names
+ Nnames of the attributes
+ Array of Strings
+/attribute_types
+ Description of the attribute types (see below)
+ Array of Strings
+/attributes
+ as described by attribute_types
+ Array of Objects
 
-Note that the distinction what is input/output, label/target depends
-on the TASK, not on the data set itself!
 
 Attribute Types
 ---------------
@@ -33,16 +43,33 @@ Supported types are:
 
 "NUMERIC"
 Numerical values
-Stored as: array of numerical type
+Array of Numerical type
 
 "NOMINAL(VALUE1, VALUE2, ...)"
 Enumeration type
-Stored as: array of small integer types
+Aarray of small Integer types
 
 "STRING"
-Stored as: an array of strings
+Array of Strings
 
 As we see more data types, more type descriptors will be added.
+
+
+Split files and Tasks
+=====================
+
+Note that the distinction what is input/output, label/target depends
+on the TASK, not on the data set itself!
+We do have a mechanism in place to create automatic split files while slurping
+datasets from other repositories, though. These datasets may be defined in the
+split files:
+
+/labels
+ Index of labels/target for each data row
+ Array of Integers
+/testing|training|validation|whatever the slurper could derive from the dataset
+ Indices of input/output/whatever task requires
+ Array of Integers
 
 
 Currently supported formats
@@ -71,6 +98,11 @@ class HDF5():
 
         The object can convert, extract data, create split
         files and much more.
+
+        @ivar attrs: attributes of HDF5 file
+        @type attrs: dict with keys mldata, name, comment
+        @ivar converter: actual converter object
+        @type converter: depending on required conversion, e.g. ARFF2HDF5.
         """
         self.attrs = {
             'mldata': config.VERSION_MLDATA,
@@ -110,7 +142,13 @@ class HDF5():
 
 
     def is_binary(self, fname):
-        """Return true if the given filename is binary."""
+        """Return true if the given filename is binary.
+
+        @param fname: filename to check if binary
+        @type fname: string
+        @return: if file is binary
+        @rtype: boolean
+        """
         f = open(fname, 'rb')
         try:
             CHUNKSIZE = 1024
@@ -128,11 +166,24 @@ class HDF5():
 
 
     def get_filename(self, orig):
+        """Convert a given filename to something that indicates HDF5.
+
+        @param orig: original filename
+        @type orig: string
+        @return: HDF5-ified filename
+        @rtype: string
+        """
         return orig + '.hdf5'
 
 
     def get_fileformat(self, fname):
-        """Determine fileformat by given filenname."""
+        """Determine fileformat by given filenname.
+
+        @param fname: filename to get format from
+        @type fname: string
+        @return: format of given file(name)
+        @rtype: string
+        """
         suffix = fname.split('.')[-1]
         if suffix == 'txt':
             return 'libsvm'
@@ -149,7 +200,14 @@ class HDF5():
             return suffix
 
 
-    def get_unparseable(self, fname, format):
+    def get_unparseable(self, fname):
+        """Get data from unparseable files
+
+        @param fname: filename to get data from
+        @type fname: string
+        @return: raw extract from unparseable file
+        @rtype: dict with 'attribute' data
+        """
         import tarfile, zipfile
         if zipfile.is_zipfile(fname):
             intro = 'ZIP archive'
@@ -180,13 +238,20 @@ class HDF5():
 
 
     def get_extract(self, fname):
+        """Get an extract of an HDF5 file.
+
+        @param fname: filename to get get extract from
+        @type fname: string
+        @return: extract of an HDF5 file
+        @rtype: dict with HDF5 attribute/dataset names as keys and their data as values
+        """
         format = self.get_fileformat(fname)
         if format != 'hdf5':
             hdf5_fname = self.get_filename(fname)
             try:
                 self.convert(fname, format, hdf5_fname, 'hdf5')
             except Exception:
-                return self.get_unparseable(fname, format)
+                return self.get_unparseable(fname)
         else:
             hdf5_fname = fname
 

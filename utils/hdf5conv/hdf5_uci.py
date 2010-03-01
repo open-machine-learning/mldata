@@ -4,10 +4,17 @@ import config
 class UCI2HDF5():
     """Convert a file from UCI to HDF5."""
 
-    def _get_comment(self, in_fname):
-        name = '.'.join(in_fname.split('.')[:-1])
+    def _get_comment(self, fname):
+        """Get comment from given file.
+
+        @param fname: filename to retrieve comment from
+        @type fname: string
+        @return: comment
+        @rtype: string
+        """
+        name = '.'.join(fname.split('.')[:-1])
         if not name:
-            name = '.'.join(in_fname.split('-')[:-1])
+            name = '.'.join(fname.split('-')[:-1])
 
         if os.path.exists(name + '.names'):
             f = open(name + '.names', 'r')
@@ -21,8 +28,15 @@ class UCI2HDF5():
         return comment
 
 
-    def _get_data(self, in_fname):
-        f = open(in_fname, 'r')
+    def _get_data(self, fname):
+        """Get data from given file.
+
+        @param fname: filename to get data from
+        @type fname: string
+        @return: list of data attributes
+        @rtype: list of list of strings/numbers/...
+        """
+        f = open(fname, 'r')
         data = []
         for line in f:
             l = []
@@ -36,9 +50,14 @@ class UCI2HDF5():
 
 
     def run(self, in_fname, out_fname):
-        """Run the actual conversion process."""
+        """Run the actual conversion process.
+
+        @param in_fname: filename to read data from
+        @type in_fname: string
+        @param out_fname: filename to write converted data to
+        @type out_fname: string
+        """
         h = h5py.File(out_fname, 'w')
-        print in_fname
 
         h.attrs['comment'] = self._get_comment(in_fname)
 

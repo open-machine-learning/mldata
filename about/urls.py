@@ -4,8 +4,9 @@ URLconf for app About
 
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
+from settings import MEDIA_URL
 
-extra_context = { 'section': 'about' }
+extra_context = { 'section': 'about', 'MEDIA_URL': MEDIA_URL }
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template,

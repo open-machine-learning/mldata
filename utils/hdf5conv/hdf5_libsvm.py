@@ -6,10 +6,24 @@ class LIBSVM2HDF5():
     """Convert a file from LibSVM to HDF5."""
 
     def __init__(self, *args, **kwargs):
+        """Constructor.
+
+        @ivar offset_labels: indices for labels for each row
+        @type offset_labels: list of integers
+        """
         self.offset_labels = []
 
 
     def _explode_labels(self, label):
+        """Explode labels to be prepended to data row.
+
+        This is needed for multilabel support.
+
+        @param label: labels read from data file
+        @type label: list of characters
+        @return: exploded labels
+        @rtype: list of integers
+        """
         label = numpy.double(''.join(label).split(','))
         ll = []
         if len(label) > 1:
@@ -23,6 +37,13 @@ class LIBSVM2HDF5():
 
 
     def _parse_line(self, line):
+        """Parse a LibSVM input line and return attributes.
+
+        @param line: line to parse
+        @type line: string
+        @return: attributes in this line
+        @rtype: list of attributes
+        """
         state = 'label'
         idx = []
         val = []
@@ -83,7 +104,14 @@ class LIBSVM2HDF5():
 
 
     def run(self, in_fname, out_fname):
-        """Run the actual conversion process."""
+        """Run the actual conversion process.
+
+        @param in_fname: filename to read data from
+        @type in_fname: string
+        @param out_fname: filename to write converted data to
+        @type out_fname: string
+        """
+
         self.offset_labels = []
         A = self.get_matrix(in_fname)
         h = h5py.File(out_fname, 'w')

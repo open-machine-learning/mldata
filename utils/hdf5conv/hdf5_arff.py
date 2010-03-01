@@ -10,7 +10,13 @@ class ARFF2HDF5():
     """
 
     def run(self, in_fname, out_fname):
-        """Run the actual conversion process."""
+        """Run the actual conversion process.
+
+        @param in_fname: filename to read data from
+        @type in_fname: string
+        @param out_fname: filename to write converted data to
+        @type out_fname: string
+        """
         a = arff.ArffFile.load(in_fname)
         h = h5py.File(out_fname, 'w')
 
@@ -43,7 +49,13 @@ class HDF52ARFF():
     """
 
     def run(self, in_fname, out_fname):
-        """Run the actual conversion process."""
+        """Run the actual conversion process.
+
+        @param in_fname: filename to read data from
+        @type in_fname: string
+        @param out_fname: filename to write converted data to
+        @type out_fname: string
+        """
         a = arff.ArffFile()
         h = h5py.File(in_fname, 'r')
 
@@ -68,4 +80,3 @@ class HDF52ARFF():
 
         h.close()
         a.save(out_fname)
-
