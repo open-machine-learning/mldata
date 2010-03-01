@@ -537,7 +537,7 @@ class Slurper:
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
             response.close()
-            #parser.feed(self.fromfile('Sponge'))
+            #parser.feed(self.fromfile('Iris'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))
@@ -970,7 +970,14 @@ class UCI(Slurper):
     format = 'uci'
 
 
+    def __init__(self, *args, **kwargs):
+        Slurper.__init__(self, args, kwargs)
+        self.problematic = []
+
+
     def skippable(self, name):
+        return False
+
         if name == 'Abalone':
             return False
         elif name == 'Cylinder Bands':
@@ -1021,12 +1028,17 @@ class UCI(Slurper):
                 files['names'] = f
         if len(files) != 2:
             progress('Unknown composition of data files, skipping.', 3)
+            self.problematic.append(parsed['name'])
             return
 
         progress('Adding to repository.', 3)
-        data = self.create_data(parsed, self.get_dst(files['data']))
-        if parsed['task'] != 'N/A':
-            self.create_task(parsed, data)
+        try:
+            data = self.create_data(parsed, self.get_dst(files['data']))
+            if parsed['task'] != 'N/A':
+                self.create_task(parsed, data)
+        except ValueError:
+            progress('Cannot convert this dataset.', 3)
+            self.problematic.append(parsed['name'])
 
 
     def slurp(self):
@@ -1040,6 +1052,11 @@ class UCI(Slurper):
             p = UCIHTMLParser()
             url = '/'.join(self.source.split('/')[:-1]) + '/' + u
             self.handle(p, url)
+            break
+
+        print 'Problematic datasets are:'
+        for p in self.problematic:
+            print p
 
 
 
