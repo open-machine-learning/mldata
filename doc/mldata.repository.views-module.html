@@ -83,31 +83,13 @@
 </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">boolean</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_is_owner" class="summary-sig-name" onclick="show_private();">_is_owner</a>(<span class="summary-sig-arg">request_user</span>,
-        <span class="summary-sig-arg">obj_user</span>)</span><br />
-      Determine if given user is the owner of the given item.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_is_owner">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">klass</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_object_or_404" class="summary-sig-name" onclick="show_private();">_get_object_or_404</a>(<span class="summary-sig-arg">request</span>,
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_object_or_404" class="summary-sig-name" onclick="show_private();">_get_object_or_404</a>(<span class="summary-sig-arg">klass</span>,
         <span class="summary-sig-arg">slug_or_id</span>,
-        <span class="summary-sig-arg">klass</span>)</span><br />
+        <span class="summary-sig-arg">version</span>=<span class="summary-sig-default">None</span>)</span><br />
       Wrapper for Django's get_object_or_404.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_object_or_404">source&nbsp;code</a></span>
@@ -173,14 +155,67 @@
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">boolean</span>
+      <span class="summary-type">dict</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_can_activate" class="summary-sig-name" onclick="show_private();">_can_activate</a>(<span class="summary-sig-arg">obj</span>)</span><br />
-      Determine if given item can be activated by the user.</td>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_latest" class="summary-sig-name" onclick="show_private();">_get_latest</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Get latest items of each type.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_can_activate">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_latest">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of Data, Task, Solution</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_current_tagged_items" class="summary-sig-name" onclick="show_private();">_get_current_tagged_items</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">klass</span>,
+        <span class="summary-sig-arg">tagged</span>)</span><br />
+      Get current items with specific tag.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tagged_items">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of tagging.Tag</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_current_tags" class="summary-sig-name" onclick="show_private();">_get_current_tags</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Get current tags available to user.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tags">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of tagging.Tag</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_tag_cloud" class="summary-sig-name" onclick="show_private();">_get_tag_cloud</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Retrieve a cloud of tags of all item types.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_tag_cloud">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -231,8 +266,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_download" class="summary-sig-name" onclick="show_private();">_download</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">id</span>,
-        <span class="summary-sig-arg">klass</span>)</span><br />
+        <span class="summary-sig-arg">klass</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
       Download file relating to item given by id and klass.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_download">source&nbsp;code</a></span>
@@ -250,9 +285,10 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_view" class="summary-sig-name" onclick="show_private();">_view</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">klass</span>,
         <span class="summary-sig-arg">slug_or_id</span>,
-        <span class="summary-sig-arg">klass</span>)</span><br />
-      View item given by slug or id and klass.</td>
+        <span class="summary-sig-arg">version</span>=<span class="summary-sig-default">None</span>)</span><br />
+      View item given by slug and klass.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_view">source&nbsp;code</a></span>
             
@@ -392,8 +428,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_view" class="summary-sig-name">data_view</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">slug_or_id</span>)</span><br />
-      View page of Data section.</td>
+        <span class="summary-sig-arg">id</span>)</span><br />
+      View Data item by id.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_view">source&nbsp;code</a></span>
             
@@ -409,8 +445,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_view_slug" class="summary-sig-name">data_view_slug</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">slug</span>,
+        <span class="summary-sig-arg">version</span>=<span class="summary-sig-default">None</span>)</span><br />
+      View Data item by slug.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_view_slug">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_edit" class="summary-sig-name">data_edit</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">slug_or_id</span>)</span><br />
+        <span class="summary-sig-arg">id</span>)</span><br />
       Edit page of Data section.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_edit">source&nbsp;code</a></span>
@@ -533,8 +588,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#task_view" class="summary-sig-name">task_view</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">slug_or_id</span>)</span><br />
-      View page of Task section.</td>
+        <span class="summary-sig-arg">id</span>)</span><br />
+      View Task item by id.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#task_view">source&nbsp;code</a></span>
             
@@ -550,8 +605,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#task_view_slug" class="summary-sig-name">task_view_slug</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">slug_data</span>,
+        <span class="summary-sig-arg">slug_task</span>,
+        <span class="summary-sig-arg">version</span>=<span class="summary-sig-default">None</span>)</span><br />
+      View Task item by slug.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#task_view_slug">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#task_edit" class="summary-sig-name">task_edit</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">slug_or_id</span>)</span><br />
+        <span class="summary-sig-arg">id</span>)</span><br />
       Edit page of Task section.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#task_edit">source&nbsp;code</a></span>
@@ -674,8 +749,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#solution_view" class="summary-sig-name">solution_view</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">slug_or_id</span>)</span><br />
-      View page of Solution section.</td>
+        <span class="summary-sig-arg">id</span>)</span><br />
+      View Solution item by id.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_view">source&nbsp;code</a></span>
             
@@ -691,8 +766,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#solution_view_slug" class="summary-sig-name">solution_view_slug</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">slug_data</span>,
+        <span class="summary-sig-arg">slug_task</span>,
+        <span class="summary-sig-arg">slug_solution</span>,
+        <span class="summary-sig-arg">version</span>=<span class="summary-sig-default">None</span>)</span><br />
+      View page of Solution section.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_view_slug">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#solution_edit" class="summary-sig-name">solution_edit</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">slug_or_id</span>)</span><br />
+        <span class="summary-sig-arg">id</span>)</span><br />
       Edit page of Solution section.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_edit">source&nbsp;code</a></span>
@@ -817,8 +913,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_rate" class="summary-sig-name" onclick="show_private();">_rate</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">id</span>,
-        <span class="summary-sig-arg">klass</span>)</span><br />
+        <span class="summary-sig-arg">klass</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
       Rate an item given by id and klass.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_rate">source&nbsp;code</a></span>
@@ -902,16 +998,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">integer</span>
     </td><td class="summary">
-        <a name="VERSIONS_PER_PAGE"></a><span class="summary-name">VERSIONS_PER_PAGE</span> = <code title="5">5</code><br />
-      how many versions of an item will be shown in the selector
+        <a name="NUM_HISTORY_PAGE"></a><span class="summary-name">NUM_HISTORY_PAGE</span> = <code title="20">20</code><br />
+      how many versions of an item will be shown on history page
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">integer</span>
     </td><td class="summary">
-        <a name="OBJECTS_PER_PAGE"></a><span class="summary-name">OBJECTS_PER_PAGE</span> = <code title="10">10</code><br />
-      how many items will be shown on one page
+        <a name="NUM_INDEX_PAGE"></a><span class="summary-name">NUM_INDEX_PAGE</span> = <code title="10">10</code><br />
+      how many items will be shown on index/my page
     </td>
   </tr>
 <tr>
@@ -983,13 +1079,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="TYPE"></a><span class="summary-name">TYPE</span> = <code title="{'Data': 0, 'Solution': 2, 'Task': 1}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">Data</code><code class="variable-quote">'</code><code class="variable-op">: </code>0<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Solution</code><code class="variable-quote">'</code><code class="variable-op">: </code>2<code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Task</code><code class="variable-quote">'</code><code class="variable-op">: </code>1<code class="variable-group">}</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'mldata.repository'"><code class="variable-quote">'</code><code class="variable-string">mldata.repository</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
@@ -1012,33 +1101,6 @@
   </td>
 </tr>
 </table>
-<a name="_is_owner"></a>
-<div class="private">
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_is_owner</span>(<span class="sig-arg">request_user</span>,
-        <span class="sig-arg">obj_user</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_is_owner">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Determine if given user is the owner of the given item.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>request_user</code></strong> (user object) - request's user object</li>
-        <li><strong class="pname"><code>obj_user</code></strong> (user object) - item's user object</li>
-    </ul></dd>
-    <dt>Returns: boolean</dt>
-        <dd>if request user owns the item or not</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="_get_object_or_404"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
@@ -1046,9 +1108,9 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_object_or_404</span>(<span class="sig-arg">request</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_object_or_404</span>(<span class="sig-arg">klass</span>,
         <span class="sig-arg">slug_or_id</span>,
-        <span class="sig-arg">klass</span>)</span>
+        <span class="sig-arg">version</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_object_or_404">source&nbsp;code</a></span>&nbsp;
@@ -1060,7 +1122,6 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
         <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - item's slug or id for lookup</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
     </ul></dd>
@@ -1068,14 +1129,7 @@
         <dd>retrieved item</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - <ul>
-          <li>
-            user is not owner if item is not public
-          </li>
-          <li>
-            item could not be found
-          </li>
-        </ul></li>
+        <li><code><strong class='fraise'>Http404</strong></code> - if item could not be found</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1163,28 +1217,107 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="_can_activate"></a>
+<a name="_get_latest"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_can_activate</span>(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_latest</span>(<span class="sig-arg">request</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_can_activate">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_latest">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Determine if given item can be activated by the user.</p>
+  <p>Get latest items of each type.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>obj</code></strong> (either Data, Task or Solution) - item to be activated</li>
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
     </ul></dd>
-    <dt>Returns: boolean</dt>
-        <dd>if user can activate given item</dd>
+    <dt>Returns: dict</dt>
+        <dd>latest items of each type</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_get_current_tagged_items"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_current_tagged_items</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">klass</span>,
+        <span class="sig-arg">tagged</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tagged_items">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get current items with specific tag.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>klass</code></strong> (one of Data, Task, Solution) - klass to find current items for</li>
+        <li><strong class="pname"><code>tagged</code></strong> (list of TaggedItem) - tagged items</li>
+    </ul></dd>
+    <dt>Returns: list of Data, Task, Solution</dt>
+        <dd>current tagged items</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_get_current_tags"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_current_tags</span>(<span class="sig-arg">request</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tags">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get current tags available to user.</p>
+  <p># FIXME: looks inefficient</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+    </ul></dd>
+    <dt>Returns: list of tagging.Tag</dt>
+        <dd>current tags available to user</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_get_tag_cloud"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_tag_cloud</span>(<span class="sig-arg">request</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_tag_cloud">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Retrieve a cloud of tags of all item types.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+    </ul></dd>
+    <dt>Returns: list of tagging.Tag</dt>
+        <dd>list of tags with attributes font_size</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1208,18 +1341,14 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>id</code></strong> (integer) - id of the item to activate</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the item to activate</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>redirect user to login page or item's page</dd>
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@transaction.commit_on_success</code></li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - if user doesn't own the item</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1244,18 +1373,14 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>id</code></strong> (integer) - id of the item to delete</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the item to delete</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>redirect user to login page or item's page or user's my page</dd>
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@transaction.commit_on_success</code></li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - if user doesn't own the item</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1268,8 +1393,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_download</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">id</span>,
-        <span class="sig-arg">klass</span>)</span>
+        <span class="sig-arg">klass</span>,
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_download">source&nbsp;code</a></span>&nbsp;
@@ -1281,14 +1406,14 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
     </ul></dd>
     <dt>Returns: binary file</dt>
         <dd>contents of file related to object</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - if given klass is unexpected</li>
+        <li><code><strong class='fraise'>Http404</strong></code> - if given klass is unexpected or file doesn't exist</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1301,21 +1426,22 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_view</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">klass</span>,
         <span class="sig-arg">slug_or_id</span>,
-        <span class="sig-arg">klass</span>)</span>
+        <span class="sig-arg">version</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_view">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>View item given by slug or id and klass.</p>
+  <p>View item given by slug and klass.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of the item to activate</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of the item to view</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>view page or review page if klass Data and item not approved</dd>
@@ -1378,8 +1504,8 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of the item to activate</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the item to activate</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>user login page, item's view page or this page again on failed 
@@ -1533,19 +1659,48 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">data_view</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">slug_or_id</span>)</span>
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_view">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>View page of Data section.</p>
+  <p>View Data item by id.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of item to view</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of item to view</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>rendered response page</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_view_slug"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_view_slug</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">slug</span>,
+        <span class="sig-arg">version</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_view_slug">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View Data item by slug.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>slug</code></strong> (string) - slug of item to view</li>
+        <li><strong class="pname"><code>version</code></strong> (integer) - version of item to view</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -1560,7 +1715,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">data_edit</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">slug_or_id</span>)</span>
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_edit">source&nbsp;code</a></span>&nbsp;
@@ -1572,7 +1727,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of item to edit</li>
+        <li><strong class="pname"><code>id</code></strong> (string or integer) - id of item to edit</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -1743,19 +1898,50 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">task_view</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">slug_or_id</span>)</span>
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#task_view">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>View page of Task section.</p>
+  <p>View Task item by id.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of the item to view</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of item to view</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>rendered response page</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="task_view_slug"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">task_view_slug</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">slug_data</span>,
+        <span class="sig-arg">slug_task</span>,
+        <span class="sig-arg">version</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#task_view_slug">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View Task item by slug.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>slug_data</code></strong> (string) - data slug  of the item to view</li>
+        <li><strong class="pname"><code>slug_task</code></strong> (string) - task slug  of the item to view</li>
+        <li><strong class="pname"><code>version</code></strong> (integer) - version of item to view</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -1770,7 +1956,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">task_edit</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">slug_or_id</span>)</span>
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#task_edit">source&nbsp;code</a></span>&nbsp;
@@ -1782,7 +1968,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of item to edit</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of item to edit</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -1953,10 +2139,40 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">solution_view</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">slug_or_id</span>)</span>
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_view">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View Solution item by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of item to view</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>rendered response page</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="solution_view_slug"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">solution_view_slug</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">slug_data</span>,
+        <span class="sig-arg">slug_task</span>,
+        <span class="sig-arg">slug_solution</span>,
+        <span class="sig-arg">version</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_view_slug">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
@@ -1965,7 +2181,10 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of the item to view</li>
+        <li><strong class="pname"><code>slug_data</code></strong> (string) - data slug of the item to view</li>
+        <li><strong class="pname"><code>slug_task</code></strong> (string) - task slug of the item to view</li>
+        <li><strong class="pname"><code>slug_solution</code></strong> (string) - solution slug of the item to view</li>
+        <li><strong class="pname"><code>version</code></strong> (integer) - version of item to view</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -1980,7 +2199,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">solution_edit</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">slug_or_id</span>)</span>
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#solution_edit">source&nbsp;code</a></span>&nbsp;
@@ -1992,7 +2211,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>slug_or_id</code></strong> (string or integer) - slug or id of item to edit</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of item to edit</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -2100,7 +2319,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>id</code></strong> (integer) - id of the item to review</li>
+        <li><strong class="pname"><code>slug</code></strong> (string) - slug of the item to review</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>redirect user to login page or item's view page after approval or
@@ -2108,10 +2327,6 @@
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@transaction.commit_on_success</code></li>
-    </ul></dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - if already approved</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2180,8 +2395,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_rate</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">id</span>,
-        <span class="sig-arg">klass</span>)</span>
+        <span class="sig-arg">klass</span>,
+        <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_rate">source&nbsp;code</a></span>&nbsp;
@@ -2192,8 +2407,9 @@
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>id</code></strong> (integer) - item's id</li>
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - item's id</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>redirect to item's view page</dd>
@@ -2303,7 +2519,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:19 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:02 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

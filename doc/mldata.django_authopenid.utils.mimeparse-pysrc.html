@@ -101,15 +101,13 @@
 mldata.blog.wfwfeed.WellFormedWebRss.mime_type" class="py-name" href="#" onclick="return doclink('link-2', 'mime_type', 'link-2');">mime_type</a></tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">";"</tt><tt class="py-op">)</tt> </tt>
 <a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt class="py-name">params</tt> <tt class="py-op">=</tt> <tt class="py-name">dict</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">tuple</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">s</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">s</tt> <tt class="py-keyword">in</tt> <tt class="py-name">param</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">"="</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">)</tt>\ </tt>
 <a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">param</tt> <tt class="py-keyword">in</tt> <tt class="py-name">parts</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt> <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
-<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt id="link-3" class="py-name" targets="Variable mldata.repository.forms.TaskForm.type=mldata.repository.forms.TaskForm-class.html#type,Variable mldata.repository.models.CurrentVersion.type=mldata.repository.models.CurrentVersion-class.html#type,Variable mldata.repository.models.Task.type=mldata.repository.models.Task-class.html#type,Variable mldata.utils.markdown.CDATA.type=mldata.utils.markdown.CDATA-class.html#type,Variable mldata.utils.markdown.Element.type=mldata.utils.markdown.Element-class.html#type,Variable mldata.utils.markdown.EntityReference.type=mldata.utils.markdown.EntityReference-class.html#type,Variable mldata.utils.markdown.TextNode.type=mldata.utils.markdown.TextNode-class.html#type"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt id="link-3" class="py-name" targets="Variable mldata.repository.forms.TaskForm.type=mldata.repository.forms.TaskForm-class.html#type,Variable mldata.repository.models.Task.type=mldata.repository.models.Task-class.html#type,Variable mldata.utils.markdown.CDATA.type=mldata.utils.markdown.CDATA-class.html#type,Variable mldata.utils.markdown.Element.type=mldata.utils.markdown.Element-class.html#type,Variable mldata.utils.markdown.EntityReference.type=mldata.utils.markdown.EntityReference-class.html#type,Variable mldata.utils.markdown.TextNode.type=mldata.utils.markdown.TextNode-class.html#type"><a title="mldata.repository.forms.TaskForm.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
 mldata.utils.markdown.EntityReference.type
 mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return doclink('link-3', 'type', 'link-3');">type</a></tt><tt class="py-op">,</tt> <tt class="py-name">subtype</tt><tt class="py-op">)</tt> <tt class="py-op">=</tt> <tt class="py-name">parts</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">"/"</tt><tt class="py-op">)</tt> </tt>
 <a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt id="link-4" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
@@ -130,7 +128,6 @@ mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return do
 <a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt class="py-docstring">       in with a proper default if necessary.</tt> </tt>
 <a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-docstring">       """</tt> </tt>
 <a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt id="link-5" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
@@ -141,7 +138,6 @@ mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return do
 <a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">            <tt class="py-keyword">or</tt> <tt class="py-name">float</tt><tt class="py-op">(</tt><tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">'q'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-op">&lt;</tt> <tt class="py-number">0</tt><tt class="py-op">:</tt> </tt>
 <a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-string">'q'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-string">'1'</tt> </tt>
 <a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-op">(</tt><tt id="link-7" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
@@ -163,7 +159,6 @@ mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return do
 <a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">            <tt id="link-9" class="py-name" targets="Function mldata.django_authopenid.utils.mimeparse.parse_media_range()=mldata.django_authopenid.utils.mimeparse-module.html#parse_media_range"><a title="mldata.django_authopenid.utils.mimeparse.parse_media_range" class="py-name" href="#" onclick="return doclink('link-9', 'parse_media_range', 'link-9');">parse_media_range</a></tt><tt class="py-op">(</tt><tt id="link-10" class="py-name"><a title="django.utils.feedgenerator.Atom1Feed.mime_type
 mldata.blog.wfwfeed.WellFormedWebRss.mime_type" class="py-name" href="#" onclick="return doclink('link-10', 'mime_type', 'link-2');">mime_type</a></tt><tt class="py-op">)</tt> </tt>
 <a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-op">(</tt><tt id="link-11" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
@@ -173,13 +168,11 @@ mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return do
 <a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">                <tt class="py-name">target_params</tt><tt class="py-op">.</tt><tt class="py-name">iteritems</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-op">!=</tt> <tt class="py-string">'q'</tt> <tt class="py-keyword">and</tt> \ </tt>
 <a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">                <tt class="py-name">params</tt><tt class="py-op">.</tt><tt class="py-name">has_key</tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">)</tt> <tt class="py-keyword">and</tt> <tt class="py-name">value</tt> <tt class="py-op">==</tt> <tt class="py-name">params</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
 <a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-op">(</tt><tt id="link-12" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
 mldata.utils.markdown.EntityReference.type
 mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return doclink('link-12', 'type', 'link-3');">type</a></tt> <tt class="py-op">==</tt> <tt class="py-name">target_type</tt> <tt class="py-keyword">or</tt> <tt id="link-13" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
@@ -187,7 +180,6 @@ mldata.utils.markdown.EntityReference.type
 mldata.utils.markdown.TextNode.type" class="py-name" href="#" onclick="return doclink('link-13', 'type', 'link-3');">type</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'*'</tt> <tt class="py-keyword">or</tt> <tt class="py-name">target_type</tt> <tt class="py-op">==</tt> <tt class="py-string">'*'</tt><tt class="py-op">)</tt> <tt class="py-keyword">and</tt> \ </tt>
 <a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">                <tt class="py-op">(</tt><tt class="py-name">subtype</tt> <tt class="py-op">==</tt> <tt class="py-name">target_subtype</tt> <tt class="py-keyword">or</tt> <tt class="py-name">subtype</tt> <tt class="py-op">==</tt> <tt class="py-string">'*'</tt> <tt class="py-keyword">or</tt> <tt class="py-name">target_subtype</tt> <tt class="py-op">==</tt> <tt class="py-string">'*'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 <a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">            <tt class="py-name">fitness</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt id="link-14" class="py-name"><a title="mldata.repository.forms.TaskForm.type
-mldata.repository.models.CurrentVersion.type
 mldata.repository.models.Task.type
 mldata.utils.markdown.CDATA.type
 mldata.utils.markdown.Element.type
@@ -320,7 +312,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:23:04 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:50 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

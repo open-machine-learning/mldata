@@ -62,6 +62,93 @@
 </table>
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
 <h1 class="epydoc">Package hdf5conv</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html">source&nbsp;code</a></span></p>
+<pre class="literalblock">
+
+Convert from and to HDF5 (spec of mldata.org)
+
+Structure of the HDF5 Format
+============================
+
+This will be the generic storage for all kinds of data sets. The basic
+abstraction is that a data set is a large collection of objects having
+the same type, so to say a large array.
+
+/mldata
+ version of the file format
+ Integer = 0
+/name
+ Name of the data set
+ String
+/comment
+ Initial comment
+ String
+/attribute_names
+ Nnames of the attributes
+ Array of Strings
+/attribute_types
+ Description of the attribute types (see below)
+ Array of Strings
+/attributes
+ as described by attribute_types
+ Array of Objects
+
+
+Attribute Types
+---------------
+
+We make a distinction between the actual binary format and the
+attribute type stored in the file. For example, nominal data might be
+stored as integers or even bytes for efficiency, although they are
+mapped to symbolic names to the outside.
+
+The attribute type is specified by a string which has to be parsed for
+better flexibility.
+
+Supported types are:
+
+&quot;NUMERIC&quot;
+Numerical values
+Array of Numerical type
+
+&quot;NOMINAL(VALUE1, VALUE2, ...)&quot;
+Enumeration type
+Aarray of small Integer types
+
+&quot;STRING&quot;
+Array of Strings
+
+As we see more data types, more type descriptors will be added.
+
+
+Split files and Tasks
+=====================
+
+Note that the distinction what is input/output, label/target depends
+on the TASK, not on the data set itself!
+We do have a mechanism in place to create automatic split files while slurping
+datasets from other repositories, though. These datasets may be defined in the
+split files:
+
+/labels
+ Index of labels/target for each data row
+ Array of Integers
+/testing|training|validation|whatever the slurper could derive from the dataset
+ Indices of input/output/whatever task requires
+ Array of Integers
+
+
+Currently supported formats
+===========================
+to hdf5
+LibSVM
+ARFF
+UCI
+
+from hdf5
+ARFF
+
+</pre>
+
 <!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -82,22 +169,25 @@
   <tr><td class="summary">
   <ul class="nomargin">
     <li> <strong class="uidlink"><a href="mldata.utils.hdf5conv.arff-module.html">mldata.utils.hdf5conv.arff</a></strong>    </li>
-    <li> <strong class="uidlink"><a href="mldata.utils.hdf5conv.hdf5-module.html">mldata.utils.hdf5conv.hdf5</a></strong>: <em class="summary">Convert from and to HDF5 (spec of mldata.org)</em>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.hdf5conv.config-module.html">mldata.utils.hdf5conv.config</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.hdf5conv.hdf5_arff-module.html">mldata.utils.hdf5conv.hdf5_arff</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.hdf5conv.hdf5_libsvm-module.html">mldata.utils.hdf5conv.hdf5_libsvm</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.hdf5conv.hdf5_uci-module.html">mldata.utils.hdf5conv.hdf5_uci</a></strong>    </li>
   </ul></td></tr>
 </table>
 
 <br />
-<!-- ==================== FUNCTIONS ==================== -->
-<a name="section-Functions"></a>
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td colspan="2" class="table-header">
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr valign="top">
-        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="left"><span class="table-header">Classes</span></td>
         <td align="right" valign="top"
-         ><span class="options">[<a href="#section-Functions"
+         ><span class="options">[<a href="#section-Classes"
          class="privatelink" onclick="toggle_private();"
          >hide private</a>]</span></td>
       </tr>
@@ -108,103 +198,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="convert"></a><span class="summary-sig-name">convert</span>(<span class="summary-sig-arg">in_filename</span>,
-        <span class="summary-sig-arg">in_format</span>,
-        <span class="summary-sig-arg">out_filename</span>,
-        <span class="summary-sig-arg">out_format</span>)</span><br />
-      Convert the given file in given format to given file in given format.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html#convert">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="is_binary"></a><span class="summary-sig-name">is_binary</span>(<span class="summary-sig-arg">filename</span>)</span><br />
-      Return true if the given filename is binary.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html#is_binary">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_filename"></a><span class="summary-sig-name">get_filename</span>(<span class="summary-sig-arg">orig</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html#get_filename">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_fileformat"></a><span class="summary-sig-name">get_fileformat</span>(<span class="summary-sig-arg">filename</span>)</span><br />
-      Determine fileformat by given filenname.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html#get_fileformat">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_unparseable"></a><span class="summary-sig-name">get_unparseable</span>(<span class="summary-sig-arg">filename</span>,
-        <span class="summary-sig-arg">format</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html#get_unparseable">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="get_extract"></a><span class="summary-sig-name">get_extract</span>(<span class="summary-sig-arg">in_filename</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.hdf5conv-pysrc.html#get_extract">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
+        <a href="mldata.utils.hdf5conv.HDF5-class.html" class="summary-name">HDF5</a>
     </td>
   </tr>
 </table>
@@ -225,34 +219,6 @@
     </table>
   </td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="NAME"></a><span class="summary-name">NAME</span> = <code title="'hdf5conv'"><code class="variable-quote">'</code><code class="variable-string">hdf5conv</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="NUM_EXTRACT"></a><span class="summary-name">NUM_EXTRACT</span> = <code title="23">23</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="VERSION"></a><span class="summary-name">VERSION</span> = <code title="'0.1'"><code class="variable-quote">'</code><code class="variable-string">0.1</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="VERSION_MLDATA"></a><span class="summary-name">VERSION_MLDATA</span> = <code title="'0'"><code class="variable-quote">'</code><code class="variable-string">0</code><code class="variable-quote">'</code></code>
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -292,7 +258,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:19 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:02 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

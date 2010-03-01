@@ -64,8 +64,7 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Task</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.repository.models-pysrc.html#Task">source&nbsp;code</a></span></p>
 <center>
-<center>  <map id="uml_class_diagram_for_mldata_r_53" name="uml_class_diagram_for_mldata_r_53">
-<area shape="rect" href="mldata.repository.models.TaskType-class.html" title="Type of a Task." alt="" coords="196,1107,265,1133"/>
+<center>  <map id="uml_class_diagram_for_mldata_r_50" name="uml_class_diagram_for_mldata_r_50">
 <area shape="rect" href="mldata.repository.models.Repository-class.html#pub_date" title="publication date (item creation date)" alt="" coords="131,308,445,327"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#version" title="version number to flip between different incarnations of the item" alt="" coords="131,327,445,345"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#name" title="item&#39;s name" alt="" coords="131,345,445,364"/>
@@ -76,43 +75,41 @@
 <area shape="rect" href="mldata.repository.models.Repository-class.html#publications" title="publications where item is mentioned or used" alt="" coords="131,439,445,457"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#is_public" title="if item is public" alt="" coords="131,457,445,476"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#is_deleted" title="if item is deleted" alt="" coords="131,476,445,495"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#user" title="user who created the item" alt="" coords="131,495,445,513"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#average_rating" title="item&#39;s average overal rating" alt="" coords="131,513,445,532"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#average_interesting_rating" title="item&#39;s average interesting rating" alt="" coords="131,532,445,551"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#is_current" title="if item is the current one" alt="" coords="131,495,445,513"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#user" title="user who created the item" alt="" coords="131,513,445,532"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#rating_avg" title="item&#39;s average overal rating" alt="" coords="131,532,445,551"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#task" title="mldata.repository.models.Repository.task" alt="" coords="131,569,445,588"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#__unicode__" title="mldata.repository.models.Repository.__unicode__" alt="" coords="131,591,445,609"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#save" title="Save item." alt="" coords="131,609,445,628"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#delete" title="Delete item." alt="" coords="131,628,445,647"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#get_slug_id" title="Get the id of the slug generated for the item&#39;s name." alt="" coords="131,647,445,665"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#make_slug" title="Make a slug generated for the item&#39;s name." alt="" coords="131,647,445,665"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#get_next_version" title="Get next available version for this item." alt="" coords="131,665,445,684"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#get_absolute_slugurl" title="Get absolute URL for this item, using its slug." alt="" coords="131,684,445,703"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#get_next_by_pub_date" title="mldata.repository.models.Repository.get_next_by_pub_date" alt="" coords="131,703,445,721"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html#get_previous_by_pub_date" title="mldata.repository.models.Repository.get_previous_by_pub_date" alt="" coords="131,721,445,740"/>
-<area shape="rect" href="mldata.repository.models.Repository-class.html" title="Base class for Repository items: Data, Task, Solution" alt="" coords="129,291,447,741"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#input" title="item&#39;s input format" alt="" coords="145,793,431,812"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#output" title="item&#39;s output format" alt="" coords="145,812,431,831"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#performance_measure" title="item&#39;s performance measure" alt="" coords="145,831,431,849"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#data" title="related Data item(s)" alt="" coords="145,849,431,868"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#splits" title="item&#39;s data splits" alt="" coords="145,868,431,887"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#tags" title="item&#39;s tags" alt="" coords="145,887,431,905"/>
-<area shape="rect" href="mldata.repository.models.Task.DoesNotExist-class.html" title="mldata.repository.models.Task.DoesNotExist" alt="" coords="145,905,431,924"/>
-<area shape="rect" href="mldata.repository.models.Task.MultipleObjectsReturned-class.html" title="mldata.repository.models.Task.MultipleObjectsReturned" alt="" coords="145,924,431,943"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#repository_ptr" title="mldata.repository.models.Task.repository_ptr" alt="" coords="145,943,431,961"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#solution_set" title="mldata.repository.models.Task.solution_set" alt="" coords="145,961,431,980"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#taskrating_set" title="mldata.repository.models.Task.taskrating_set" alt="" coords="145,980,431,999"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#get_splitname" title="Construct filename for splits file." alt="" coords="145,1001,431,1020"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#get_absolute_url" title="Get absolute URL for this item, using its id." alt="" coords="145,1020,431,1039"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#objects" title="mldata.repository.models.Task.objects" alt="" coords="145,1039,431,1057"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html" title="Repository item Task." alt="" coords="144,776,432,1059"/>
-<area shape="rect" href="mldata.repository.models.License-class.html" title="License to be used by Task or Solution items." alt="" coords="316,1107,375,1133"/>
-<area shape="poly" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="251,1059 241,1094 236,1093 245,1058"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="244,1055,252,1063"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="231,1103,239,1111"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="type" alt="" coords="245,1075,270,1091"/>
-<area shape="poly" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="331,1058 340,1093 335,1094 325,1059"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="324,1055,332,1063"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="337,1103,345,1111"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="license" alt="" coords="333,1075,374,1091"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#set_current" title="Set this item to be the current one for this slug." alt="" coords="131,684,445,703"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#is_owner" title="Is given user owner of this" alt="" coords="131,703,445,721"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#can_activate" title="Can given user activate this." alt="" coords="131,721,445,740"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#can_delete" title="Can given user delete this item." alt="" coords="131,740,445,759"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#can_view" title="Can given user view this." alt="" coords="131,759,445,777"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#can_download" title="Can given user download this." alt="" coords="131,777,445,796"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#can_edit" title="Can given user edit this." alt="" coords="131,796,445,815"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#get_next_by_pub_date" title="mldata.repository.models.Repository.get_next_by_pub_date" alt="" coords="131,815,445,833"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html#get_previous_by_pub_date" title="mldata.repository.models.Repository.get_previous_by_pub_date" alt="" coords="131,833,445,852"/>
+<area shape="rect" href="mldata.repository.models.Repository-class.html" title="Base class for Repository items: Data, Task, Solution" alt="" coords="129,291,447,853"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#input" title="item&#39;s input format" alt="" coords="145,905,431,924"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#output" title="item&#39;s output format" alt="" coords="145,924,431,943"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#performance_measure" title="item&#39;s performance measure" alt="" coords="145,943,431,961"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#data" title="related Data item(s)" alt="" coords="145,961,431,980"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#splits" title="item&#39;s data splits" alt="" coords="145,980,431,999"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#tags" title="item&#39;s tags" alt="" coords="145,999,431,1017"/>
+<area shape="rect" href="mldata.repository.models.Task.DoesNotExist-class.html" title="mldata.repository.models.Task.DoesNotExist" alt="" coords="145,1017,431,1036"/>
+<area shape="rect" href="mldata.repository.models.Task.MultipleObjectsReturned-class.html" title="mldata.repository.models.Task.MultipleObjectsReturned" alt="" coords="145,1036,431,1055"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#repository_ptr" title="mldata.repository.models.Task.repository_ptr" alt="" coords="145,1055,431,1073"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#solution_set" title="mldata.repository.models.Task.solution_set" alt="" coords="145,1073,431,1092"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#taskrating_set" title="mldata.repository.models.Task.taskrating_set" alt="" coords="145,1092,431,1111"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#get_absolute_slugurl" title="Get absolute URL for this item, using its slug." alt="" coords="145,1113,431,1132"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#get_splitname" title="Construct filename for splits file." alt="" coords="145,1132,431,1151"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#get_absolute_url" title="Get absolute URL for this item, using its id." alt="" coords="145,1151,431,1169"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#objects" title="mldata.repository.models.Task.objects" alt="" coords="145,1169,431,1188"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html" title="Repository item Task." alt="" coords="144,888,432,1189"/>
 <area shape="rect" href="django.db.models.base.ModelBase-class.html" title="Metaclass for all models." alt="" coords="17,28,559,47"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.pk" alt="" coords="17,47,559,65"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.__eq__" alt="" coords="17,68,559,87"/>
@@ -126,8 +123,18 @@
 <area shape="rect" href="javascript:void(0);" title="Does the heavy&#45;lifting involved in saving." alt="" coords="17,217,559,236"/>
 <area shape="rect" href="javascript:void(0);" title="Returns the value of the field name for this instance." alt="" coords="17,236,559,255"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model" alt="" coords="16,11,560,256"/>
+<area shape="rect" href="mldata.repository.models.TaskType-class.html" title="Type of a Task." alt="" coords="188,1237,257,1264"/>
+<area shape="poly" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="244,1190 233,1225 228,1223 239,1189"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="237,1185,245,1193"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="223,1233,231,1241"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="type" alt="" coords="239,1205,265,1221"/>
+<area shape="rect" href="mldata.repository.models.FixedLicense-class.html" title="License to be used by Task or Solution items." alt="" coords="308,1237,399,1264"/>
+<area shape="poly" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="337,1189 348,1223 343,1225 332,1190"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="331,1185,339,1193"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="345,1233,353,1241"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="license" alt="" coords="342,1205,383,1221"/>
 </map>
-  <img src="uml_class_diagram_for_mldata_r_53.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_53" ismap="ismap" class="graph-without-title" />
+  <img src="uml_class_diagram_for_mldata_r_50.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_50" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
@@ -198,6 +205,23 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.models.Task-class.html#get_absolute_slugurl" class="summary-sig-name">get_absolute_slugurl</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get absolute URL for this item, using its slug.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.models-pysrc.html#Task.get_absolute_slugurl">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mldata.repository.models.Task-class.html#get_splitname" class="summary-sig-name">get_splitname</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Construct filename for splits file.</td>
           <td align="right" valign="top">
@@ -247,13 +271,19 @@
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.repository.models.Repository-class.html">Repository</a></code></b>:
       <code><a href="mldata.repository.models.Repository-class.html#__unicode__">__unicode__</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#can_activate">can_activate</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#can_delete">can_delete</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#can_download">can_download</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#can_edit">can_edit</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#can_view">can_view</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#delete">delete</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#get_absolute_slugurl">get_absolute_slugurl</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#get_next_by_pub_date">get_next_by_pub_date</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#get_next_version">get_next_version</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#get_previous_by_pub_date">get_previous_by_pub_date</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#get_slug_id">get_slug_id</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#save">save</a></code>
+      <code><a href="mldata.repository.models.Repository-class.html#is_owner">is_owner</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#make_slug">make_slug</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#save">save</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#set_current">set_current</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>django.db.models.base.Model</code></b>:
       <code>__eq__</code>,
@@ -309,7 +339,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">string / models.TextField</span>
     </td><td class="summary">
-        <a name="input"></a><span class="summary-name">input</span> = <code title="models.TextField(blank= True)">models.TextField(blank= True)</code><br />
+        <a name="input"></a><span class="summary-name">input</span> = <code title="models.TextField()">models.TextField()</code><br />
       item's input format
     </td>
   </tr>
@@ -317,7 +347,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">string / models.TextField</span>
     </td><td class="summary">
-        <a name="output"></a><span class="summary-name">output</span> = <code title="models.TextField(blank= True)">models.TextField(blank= True)</code><br />
+        <a name="output"></a><span class="summary-name">output</span> = <code title="models.TextField()">models.TextField()</code><br />
       item's output format
     </td>
   </tr>
@@ -325,7 +355,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">string / models.TextField</span>
     </td><td class="summary">
-        <a name="performance_measure"></a><span class="summary-name">performance_measure</span> = <code title="models.TextField(blank= True)">models.TextField(blank= True)</code><br />
+        <a name="performance_measure"></a><span class="summary-name">performance_measure</span> = <code title="models.TextField()">models.TextField()</code><br />
       item's performance measure
     </td>
   </tr>
@@ -341,7 +371,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">Data / models.ManyToManyField</span>
     </td><td class="summary">
-        <a name="data"></a><span class="summary-name">data</span> = <code title="models.ManyToManyField(Data, blank= True)">models.ManyToManyField(Data, blank= True)</code><br />
+        <a name="data"></a><span class="summary-name">data</span> = <code title="models.ManyToManyField(Data)">models.ManyToManyField(Data)</code><br />
       related Data item(s)
     </td>
   </tr>
@@ -355,9 +385,9 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">License</span>
+      <span class="summary-type">FixedLicense</span>
     </td><td class="summary">
-        <a name="license"></a><span class="summary-name">license</span> = <code title="models.ForeignKey(License)">models.ForeignKey(License)</code><br />
+        <a name="license"></a><span class="summary-name">license</span> = <code title="models.ForeignKey(FixedLicense, editable= False)">models.ForeignKey(FixedLicense, editable= False)</code><br />
       item's license
     </td>
   </tr>
@@ -373,14 +403,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.models.Task-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x9fc5b4c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.models.Task-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xaaa6bac&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.models.Task-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x9fc5b4c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.models.Task-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0xaaa6bac&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -395,7 +425,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Task-class.html#repository_ptr" class="summary-name">repository_ptr</a> = <code title="&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor \
-object at 0x9fc5e2c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
+object at 0xaaa6f6c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -403,7 +433,7 @@ object at 0x9fc5e2c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code c
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Task-class.html#solution_set" class="summary-name">solution_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x9fcc58c&gt;">&lt;django.db.models.fields.related.ForeignRelated<code class="variable-ellipsis">...</code></code>
+t at 0xaaac82c&gt;">&lt;django.db.models.fields.related.ForeignRelated<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -411,27 +441,29 @@ t at 0x9fcc58c&gt;">&lt;django.db.models.fields.related.ForeignRelated<code clas
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Task-class.html#taskrating_set" class="summary-name">taskrating_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x9fd052c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
+t at 0xaab080c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.repository.models.Repository-class.html">Repository</a></code></b>:
-      <code><a href="mldata.repository.models.Repository-class.html#average_documentation_rating">average_documentation_rating</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#average_interesting_rating">average_interesting_rating</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#average_rating">average_rating</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#currentversion_set">currentversion_set</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#description">description</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#downloads">downloads</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#hits">hits</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#is_current">is_current</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#is_deleted">is_deleted</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#is_public">is_public</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#name">name</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#pub_date">pub_date</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#publications">publications</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#rating_avg">rating_avg</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#rating_avg_doc">rating_avg_doc</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#rating_avg_interest">rating_avg_interest</a></code>,
+      <code><a href="mldata.repository.models.Repository-class.html#rating_votes">rating_votes</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#slug">slug</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#solution">solution</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#summary">summary</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#task">task</a></code>,
-      <code><a href="mldata.repository.models.Repository-class.html#total_number_of_votes">total_number_of_votes</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#urls">urls</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#user">user</a></code>,
       <code><a href="mldata.repository.models.Repository-class.html#version">version</a></code>
@@ -488,6 +520,27 @@ t at 0x9fd052c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class=
   </td>
 </tr>
 </table>
+<a name="get_absolute_slugurl"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_absolute_slugurl</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.models-pysrc.html#Task.get_absolute_slugurl">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get absolute URL for this item, using its slug.</p>
+  <dl class="fields">
+    <dt>Returns: string</dt>
+        <dd>an absolute URL</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="get_splitname"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -612,7 +665,7 @@ models.ForeignKey(TaskType)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x9fc5b4c&gt;
+&lt;django.db.models.manager.Manager object at 0xaaa6bac&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -630,7 +683,7 @@ models.ForeignKey(TaskType)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x9fc5b4c&gt;
+&lt;django.db.models.manager.Manager object at 0xaaa6bac&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -649,7 +702,7 @@ models.ForeignKey(TaskType)
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-object at 0x9fc5e2c&gt;
+object at 0xaaa6f6c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -668,7 +721,7 @@ object at 0x9fc5e2c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x9fcc58c&gt;
+t at 0xaaac82c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -687,7 +740,7 @@ t at 0x9fcc58c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x9fd052c&gt;
+t at 0xaab080c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -725,7 +778,7 @@ t at 0x9fd052c&gt;
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:45 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:35 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

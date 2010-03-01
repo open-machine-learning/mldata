@@ -65,6 +65,13 @@
 <h1 class="epydoc">Class RatingForm</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.repository.forms-pysrc.html#RatingForm">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_r_19" name="uml_class_diagram_for_mldata_r_19">
+<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
+<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
+<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#interest" title="radio selection of values 0 to 5 if an item is interesting" alt="" coords="431,545,591,564"/>
+<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#doc" title="radio selection of values 0 to 5 if an item is well documented" alt="" coords="431,564,591,583"/>
+<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#base_fields" title="mldata.repository.forms.RatingForm.base_fields" alt="" coords="431,583,591,601"/>
+<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="431,601,591,620"/>
+<area shape="rect" href="mldata.repository.forms.RatingForm-class.html" title="Form used for rating an item." alt="" coords="429,528,592,629"/>
 <area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="404,36,617,55"/>
 <area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="403,11,619,56"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm.changed_data" alt="" coords="17,103,1004,121"/>
@@ -84,13 +91,6 @@
 <area shape="rect" href="javascript:void(0);" title="Returns a list of all the BoundField objects that are hidden fields." alt="" coords="17,367,1004,385"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a list of BoundField objects that aren&#39;t hidden fields." alt="" coords="17,404,1004,423"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm" alt="" coords="16,85,1005,424"/>
-<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
-<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
-<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#interesting" title="radio selection of values 0 to 5 if an item is interesting" alt="" coords="409,545,612,564"/>
-<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#documentation" title="radio selection of values 0 to 5 if an item is well documented" alt="" coords="409,564,612,583"/>
-<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#base_fields" title="mldata.repository.forms.RatingForm.base_fields" alt="" coords="409,583,612,601"/>
-<area shape="rect" href="mldata.repository.forms.RatingForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="409,601,612,620"/>
-<area shape="rect" href="mldata.repository.forms.RatingForm-class.html" title="Form used for rating an item." alt="" coords="408,528,613,629"/>
 </map>
   <img src="uml_class_diagram_for_mldata_r_19.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_19" ismap="ismap" class="graph-without-title" />
 </center>
@@ -208,8 +208,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">forms.IntegerField</span>
     </td><td class="summary">
-        <a href="mldata.repository.forms.RatingForm-class.html#interesting" class="summary-name">interesting</a> = <code title="forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (\
-2, '2'), (3, '3'), (4, '4'), (5, '5'))))">forms.IntegerField(widget= RadioSelect(choices= <code class="variable-ellipsis">...</code></code><br />
+        <a href="mldata.repository.forms.RatingForm-class.html#interest" class="summary-name">interest</a> = <code title="forms.IntegerField(label= _(&quot;Interesting&quot;), widget= RadioSelect(choice\
+s= ((0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))))">forms.IntegerField(label= _(&quot;Interesting&quot;), widget=<code class="variable-ellipsis">...</code></code><br />
       radio selection of values 0 to 5 if an item is interesting
     </td>
   </tr>
@@ -217,8 +217,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">forms.IntegerField</span>
     </td><td class="summary">
-        <a href="mldata.repository.forms.RatingForm-class.html#documentation" class="summary-name">documentation</a> = <code title="forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (\
-2, '2'), (3, '3'), (4, '4'), (5, '5'))))">forms.IntegerField(widget= RadioSelect(choices<code class="variable-ellipsis">...</code></code><br />
+        <a href="mldata.repository.forms.RatingForm-class.html#doc" class="summary-name">doc</a> = <code title="forms.IntegerField(label= _(&quot;Documentation&quot;), widget= RadioSelect(choi\
+ces= ((0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))))">forms.IntegerField(label= _(&quot;Documentation&quot;), widget= Ra<code class="variable-ellipsis">...</code></code><br />
       radio selection of values 0 to 5 if an item is well documented
     </td>
   </tr>
@@ -226,9 +226,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.forms.RatingForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'interesting': &lt;django.forms.fields.IntegerField object at 0xa5f260c&gt;\
-, 'documentation': &lt;django.forms.fields.IntegerField object at 0xa5f28\
-6c&gt;}">{'interesting': &lt;django.forms.fields.IntegerFiel<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.forms.RatingForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'interest': &lt;django.forms.fields.IntegerField object at 0xb1da10c&gt;, '\
+doc': &lt;django.forms.fields.IntegerField object at 0xb1da2cc&gt;}">{'interest': &lt;django.forms.fields.IntegerField o<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -288,12 +287,12 @@
   </td>
 </tr>
 </table>
-<a name="interesting"></a>
+<a name="interest"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">interesting</h3>
+  <h3 class="epydoc">interest</h3>
   radio selection of values 0 to 5 if an item is interesting
   <dl class="fields">
     <dt>Type:</dt>
@@ -302,19 +301,19 @@
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-2, '2'), (3, '3'), (4, '4'), (5, '5'))))
+forms.IntegerField(label= _(&quot;Interesting&quot;), widget= RadioSelect(choice<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+s= ((0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))))
 </pre></td></tr></table>
 </dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="documentation"></a>
+<a name="doc"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">documentation</h3>
+  <h3 class="epydoc">doc</h3>
   radio selection of values 0 to 5 if an item is well documented
   <dl class="fields">
     <dt>Type:</dt>
@@ -323,8 +322,8 @@ forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-2, '2'), (3, '3'), (4, '4'), (5, '5'))))
+forms.IntegerField(label= _(&quot;Documentation&quot;), widget= RadioSelect(choi<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ces= ((0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'))))
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -342,9 +341,8 @@ forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'interesting': &lt;django.forms.fields.IntegerField object at 0xa5f260c&gt;<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, 'documentation': &lt;django.forms.fields.IntegerField object at 0xa5f28<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-6c&gt;}
+{'interest': &lt;django.forms.fields.IntegerField object at 0xb1da10c&gt;, '<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+doc': &lt;django.forms.fields.IntegerField object at 0xb1da2cc&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -416,7 +414,7 @@ forms.IntegerField(widget= RadioSelect(choices= ((0, '0'), (1, '1'), (<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:38 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:27 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -65,6 +65,14 @@
 <h1 class="epydoc">Class AssociateOpenID</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.django_authopenid.forms-pysrc.html#AssociateOpenID">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_d_2" name="uml_class_diagram_for_mldata_d_2">
+<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="52,471,196,489"/>
+<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="51,453,197,499"/>
+<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#openid_url" title="mldata.django_authopenid.forms.AssociateOpenID.openid_url" alt="" coords="20,545,228,564"/>
+<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#base_fields" title="mldata.django_authopenid.forms.AssociateOpenID.base_fields" alt="" coords="20,564,228,583"/>
+<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="20,583,228,601"/>
+<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="20,604,228,623"/>
+<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#clean_openid_url" title="test if openid is accepted" alt="" coords="20,623,228,641"/>
+<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html" title="new openid association form" alt="" coords="19,528,229,643"/>
 <area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="17,36,231,55"/>
 <area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="16,11,232,56"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm.changed_data" alt="" coords="24,103,224,121"/>
@@ -84,14 +92,6 @@
 <area shape="rect" href="javascript:void(0);" title="Returns True if the form needs to be multipart&#45;encrypted, i.e." alt="" coords="24,367,224,385"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a list of BoundField objects that aren&#39;t hidden fields." alt="" coords="24,404,224,423"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm" alt="" coords="23,85,225,424"/>
-<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="52,471,196,489"/>
-<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="51,453,197,499"/>
-<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#openid_url" title="mldata.django_authopenid.forms.AssociateOpenID.openid_url" alt="" coords="20,545,228,564"/>
-<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#base_fields" title="mldata.django_authopenid.forms.AssociateOpenID.base_fields" alt="" coords="20,564,228,583"/>
-<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="20,583,228,601"/>
-<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="20,604,228,623"/>
-<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html#clean_openid_url" title="test if openid is accepted" alt="" coords="20,623,228,641"/>
-<area shape="rect" href="mldata.django_authopenid.forms.AssociateOpenID-class.html" title="new openid association form" alt="" coords="19,528,229,643"/>
 </map>
   <img src="uml_class_diagram_for_mldata_d_2.gif" alt='' usemap="#uml_class_diagram_for_mldata_d_2" ismap="ismap" class="graph-without-title" />
 </center>
@@ -253,7 +253,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.django_authopenid.forms.AssociateOpenID-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'openid_url': &lt;django.forms.fields.CharField object at 0xabac44c&gt;}">{'openid_url': &lt;django.forms.fields.CharField ob<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.django_authopenid.forms.AssociateOpenID-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'openid_url': &lt;django.forms.fields.CharField object at 0xb78a26c&gt;}">{'openid_url': &lt;django.forms.fields.CharField ob<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -391,7 +391,7 @@ forms.CharField(max_length= 255, widget= forms.widgets.TextInput(attrs<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'openid_url': &lt;django.forms.fields.CharField object at 0xabac44c&gt;}
+{'openid_url': &lt;django.forms.fields.CharField object at 0xb78a26c&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -463,7 +463,7 @@ forms.CharField(max_length= 255, widget= forms.widgets.TextInput(attrs<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:22:26 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:11 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

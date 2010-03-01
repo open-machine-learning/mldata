@@ -79,7 +79,7 @@
 <a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">ValueError</tt><tt class="py-op">:</tt> </tt>
 <a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">ValueError</tt><tt class="py-op">(</tt><tt class="py-string">"attempted relative import beyond top-level "</tt> </tt>
 <a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">                              <tt class="py-string">"package"</tt><tt class="py-op">)</tt> </tt>
-<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-string">"%s.%s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">package</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-name">dot</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Variable mldata.repository.models.DataLicense.name=mldata.repository.models.DataLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.DataLicense.name
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-string">"%s.%s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">package</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-name">dot</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Variable mldata.repository.models.FixedLicense.name=mldata.repository.models.FixedLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
@@ -95,7 +95,7 @@ mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return 
 <a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt class="py-docstring">    relative import to an absolute import.</tt> </tt>
 <a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
 <a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
-<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-1" class="py-name"><a title="mldata.repository.models.DataLicense.name
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-1" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
@@ -104,7 +104,7 @@ mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return 
 <a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">package</tt><tt class="py-op">:</tt> </tt>
 <a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">TypeError</tt><tt class="py-op">(</tt><tt class="py-string">"relative imports require the 'package' argument"</tt><tt class="py-op">)</tt> </tt>
 <a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">level</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
-<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">character</tt> <tt class="py-keyword">in</tt> <tt id="link-2" class="py-name"><a title="mldata.repository.models.DataLicense.name
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">character</tt> <tt class="py-keyword">in</tt> <tt id="link-2" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
@@ -113,24 +113,24 @@ mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return 
 <a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">character</tt> <tt class="py-op">!=</tt> <tt class="py-string">'.'</tt><tt class="py-op">:</tt> </tt>
 <a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">                <tt class="py-keyword">break</tt> </tt>
 <a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">            <tt class="py-name">level</tt> <tt class="py-op">+=</tt> <tt class="py-number">1</tt> </tt>
-<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt id="link-3" class="py-name"><a title="mldata.repository.models.DataLicense.name
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt id="link-3" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-3', 'name', 'link-0');">name</a></tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name" targets="Function mldata.django_authopenid.utils.importlib._resolve_name()=mldata.django_authopenid.utils.importlib-module.html#_resolve_name"><a title="mldata.django_authopenid.utils.importlib._resolve_name" class="py-name" href="#" onclick="return doclink('link-4', '_resolve_name', 'link-4');">_resolve_name</a></tt><tt class="py-op">(</tt><tt id="link-5" class="py-name"><a title="mldata.repository.models.DataLicense.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-3', 'name', 'link-0');">name</a></tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name" targets="Function mldata.django_authopenid.utils.importlib._resolve_name()=mldata.django_authopenid.utils.importlib-module.html#_resolve_name"><a title="mldata.django_authopenid.utils.importlib._resolve_name" class="py-name" href="#" onclick="return doclink('link-4', '_resolve_name', 'link-4');">_resolve_name</a></tt><tt class="py-op">(</tt><tt id="link-5" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
 mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-5', 'name', 'link-0');">name</a></tt><tt class="py-op">[</tt><tt class="py-name">level</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">package</tt><tt class="py-op">,</tt> <tt class="py-name">level</tt><tt class="py-op">)</tt> </tt>
-<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-name">__import__</tt><tt class="py-op">(</tt><tt id="link-6" class="py-name"><a title="mldata.repository.models.DataLicense.name
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-name">__import__</tt><tt class="py-op">(</tt><tt id="link-6" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
 mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-6', 'name', 'link-0');">name</a></tt><tt class="py-op">)</tt> </tt>
-<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">modules</tt><tt class="py-op">[</tt><tt id="link-7" class="py-name"><a title="mldata.repository.models.DataLicense.name
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">modules</tt><tt class="py-op">[</tt><tt id="link-7" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
@@ -174,7 +174,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Dec 28 17:23:03 2009
+    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:50 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
