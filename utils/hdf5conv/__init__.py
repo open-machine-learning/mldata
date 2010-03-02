@@ -224,7 +224,7 @@ class HDF5():
             if self.is_binary(fname):
                 data = ''
             else:
-                file = open(fame, 'r')
+                file = open(fname, 'r')
                 i = 0
                 data = []
                 for line in file:
