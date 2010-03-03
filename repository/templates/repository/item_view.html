@@ -148,7 +148,9 @@ $(function() {
 			<dt>{% trans "URLs" %}</dt>
 			<dd>{{ object.urls }}</dd>
 			<dt>{% trans "Publications" %}</dt>
-			<dd>{{ object.publications }}</dd>
+			<dd><ul>{% for p in object.publications.all %}
+				<li>{{ p.content|markdown }}</li>
+			{% endfor %}</ul></dd>
 		{% ifequal object.klass "Data" %}
 			<dt>{% trans "Data Source" %}</dt>
 			<dd>{{ object.source }}</dd>

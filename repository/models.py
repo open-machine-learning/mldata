@@ -73,6 +73,47 @@ class TaskType(models.Model):
 
 
 
+class Publication(models.Model):
+#    title = models.CharField(max_length=80)
+#    slug = models.SlugField(unique=True)
+    content = models.TextField()
+#    firstauthor = models.CharField(max_length=256)
+#    bibtype = models.CharField(max_length=256)
+#    authors = models.CharField(max_length=2048)
+#    year = models.IntegerField()
+#    bibitem = models.TextField()
+#    category = models.ForeignKey(Category)
+#    abstract = models.TextField()
+#    month = models.CharField(max_length=20, blank=True, null=True)
+#    journal = models.CharField(max_length=256, blank=True, null=True)
+#    number = models.CharField(max_length=256, blank=True, null=True)
+#    institution = models.CharField(max_length=256, blank=True, null=True)
+#    subcategory = models.ForeignKey('self', blank=True, null=True)
+#    editor = models.CharField(max_length=2048, blank=True, null=True)
+#    publisher = models.CharField(max_length=256, blank=True, null=True)
+#    booktitle = models.CharField(max_length=256, blank=True, null=True)
+#    pages = models.CharField(max_length=256, blank=True, null=True)
+#    pdf = models.CharField(max_length=256, blank=True, null=True)
+#    ps = models.CharField(max_length=256, blank=True, null=True)
+#    url = models.CharField(max_length=256, blank=True, null=True)
+#    note = models.CharField(max_length=256, blank=True, null=True)
+#    pubtype = models.CharField(max_length=256, blank=True, null=True)
+#    school = models.CharField(max_length=256, blank=True, null=True)
+#    dataset = models.CharField(max_length=256, blank=True, null=True)
+#    address = models.CharField(max_length=256, blank=True, null=True)
+
+#    class Meta:
+#        ordering = ('-year',)
+
+    def __unicode__(self):
+        max = 60
+        if len(self.content) < max:
+            return self.content
+        else:
+            return self.content[:max]
+
+
+
 class Repository(models.Model):
     """Base class for Repository items: Data, Task, Solution
 
@@ -91,7 +132,7 @@ class Repository(models.Model):
     @cvar urls: URLs linking to more information about item
     @type urls: string / models.CharField
     @cvar publications: publications where item is mentioned or used
-    @type publications: string / models.CharField
+    @type publications: models.ManyToManyField
     @cvar is_public: if item is public
     @type is_public: boolean / models.BooleanField
     @cvar is_deleted: if item is deleted
@@ -116,7 +157,7 @@ class Repository(models.Model):
     summary = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     urls = models.CharField(max_length=255, blank=True)
-    publications = models.CharField(max_length=255, blank=True)
+    publications = models.ManyToManyField(Publication, blank=True)
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False, editable=False)
     is_current = models.BooleanField(default=False, editable=False)
@@ -551,3 +592,7 @@ class TaskRating(Rating):
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)
+
+
+
+

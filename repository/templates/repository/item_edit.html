@@ -20,6 +20,22 @@ $(function() {
 		return true;
 	});
 
+	$('#tabs-publications select').removeAttr('multiple');
+	$('#tabs-publications select').prepend($("<option></option>").attr("value", 0).text('')); 
+	$("#tabs-publications select option[value='0']").attr('selected', 'selected')
+	$('#tabs-publications select').change(function() {
+		id = $('#tabs-publications #id_publications').val()
+		// trickery to use django's URL function
+		url = "{% url repository.views.publication_get 0 %}"
+		url = url.substr(0, url.length - 2) + id;
+		$.get(url, function(data){
+			$('#tabs-publications #id_content').val(data);
+			$('#tabs-publications #id_id').val(id);
+		});
+	});
+	$('#tabs-publications #id_content').val('');
+
+
 	$('#tabs').tabs();
 });
 </script>
@@ -28,7 +44,6 @@ $(function() {
 {% block content %}
 <h2 class="title-01">{% trans "Edit" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h2>
 <div class="in">
-	<form id="form-edit" action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
 		{% if form.errors %}
 		<div class="error">{% trans "There had been errors, please see below" %}.</div>
 		{% endif %}
@@ -36,8 +51,10 @@ $(function() {
 			<ul class="tabs-tabs">
 				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary"><span>{% trans "Summary" %}</span></a></li>
 				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more"><span>{% trans "More Info" %}</span></a></li>
+				<li><a title="{% trans "Add or edit a publication" %}" href="#tabs-publications"><span>{% trans "Publications" %}</span></a></li>
 			</ul>
 
+			<form id="form-edit" action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
 			<div id="tabs-summary"><dl>
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
 				<dd>{{ form.summary }}</dd>
@@ -74,6 +91,7 @@ $(function() {
 				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
 				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</dd>
 			{% endifequal %}{% endifequal %}{% endifequal %}
+				<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
 
 			<div id="tabs-more"><dl>
@@ -91,11 +109,20 @@ $(function() {
 				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
 				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 			{% endifequal %}
+				<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-more -->
-		</div>
+			</form>
 
-		<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
-	</form>
+			<div id="tabs-publications"><form method="post" action="{% url repository.views.publication_edit %}"><dl>
+				<dt><label for="id_publications">{% trans "Select an existing publication to edit or leave it blank to create a new one" %}</label></dt>
+				<dd>{{ form.publications }}</dd>
+				<dt><label for="id_content">{% trans "Content" %}</label> {{ publication_form.content.errors }}</dt>
+				<dd>{{ publication_form.content }}</dd>
+				<input type="hidden" name="next" id="id_next" value="{{ request.path }}#tabs-more" />
+				<input type="hidden" name="id" id="id_id" value="0" />
+				<input type="submit" value="{% trans "Submit Publication" %}" />
+			</dl></form></div>
+		</div><!-- /tabs -->
 </div><!-- /in -->
 {% endblock %}
 

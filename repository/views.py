@@ -575,7 +575,6 @@ def _edit(request, klass, id):
 
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
-                form.save_m2m() # a bit odd
             elif klass == Solution:
                 if 'score' in request.FILES:
                     next.score = request.FILES['score']
@@ -589,6 +588,8 @@ def _edit(request, klass, id):
                 next.save()
             else:
                 raise Http404
+
+            form.save_m2m() # requirement of django
             next.set_current()
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
@@ -598,6 +599,7 @@ def _edit(request, klass, id):
         'form': form,
         'object': prev,
         'request': request,
+        'publication_form': PublicationForm(),
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
@@ -1138,3 +1140,62 @@ def task_rate(request, id):
 def solution_rate(request, id):
     return _rate(request, Solution, id)
 
+
+
+@transaction.commit_on_success
+def publication_edit(request):
+    """Edit/New page of a publication.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
+    if not request.user.is_authenticated():
+        if request.method == 'POST':
+            next = '?next=' + request.POST['next']
+        else:
+            next = ''
+        return HttpResponseRedirect(reverse('user_signin') + next)
+
+    if request.method == 'POST':
+        # work around a peculiarity within django
+        pub = None
+        id = int(request.POST['id'])
+        if id > 0:
+            try:
+                pub = Publication.objects.get(pk=id)
+                form = PublicationForm(request.POST, instance=pub)
+            except Publication.DoesNotExist:
+                form = PublicationForm(request.POST)
+        else:
+            form = PublicationForm(request.POST)
+
+        if form.is_valid():
+            if not pub:
+                pub = Publication()
+            pub.content = form.cleaned_data['content']
+            pub.save()
+            return HttpResponseRedirect(form.cleaned_data['next'])
+        else:
+            print request.POST
+            print form.errors
+            return HttpResponseRedirect(form.cleaned_data['next'])
+    return HttpResponseRedirect(reverse('repository_index'))
+
+
+def publication_get(request, id):
+    """AJAX: Get publication specified by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to edit
+    @type id: integer
+    @return: publication content in response page
+    @rtype: Django response
+    """
+    try:
+        pub = Publication.objects.get(pk=id)
+        return HttpResponse(pub.content, mimetype='text/plain')
+    except Publication.DoesNotExist:
+        return HttpResponse('', mimetype='text/plain')

@@ -44,4 +44,7 @@ urlpatterns = patterns('',
     (r'^solution/activate/(?P<id>\d+)/$', views.solution_activate),
     (r'^solution/rate/(?P<id>\d+)/$', views.solution_rate),
     (r'^score/download/(?P<id>\d+)/$', views.score_download),
+    (r'^publication/edit/$', views.publication_edit),
+    (r'^publication/get/(?P<id>\d+)/$', views.publication_get),
+
 )

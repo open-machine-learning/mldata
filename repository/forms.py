@@ -158,7 +158,7 @@ class SolutionForm(RepositoryForm):
 
 
     def __init__(self, *args, **kwargs):
-        """Initialize TaskForm.
+        """Initialize SolutionForm.
 
         Filter available choices of Task items.
         """
@@ -189,3 +189,18 @@ class RatingForm(forms.Form):
     """
     interest = forms.IntegerField(label=_("Interesting"), widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
     doc = forms.IntegerField(label=_("Documentation"), widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
+
+
+
+class PublicationForm(forms.ModelForm):
+    """Form used for publications."""
+    id = forms.IntegerField()
+    next = forms.CharField()
+
+    class Meta:
+        """Inner meta class to specify model options.
+
+        @cvar model: model to use
+        @type model: models.Solution
+        """
+        model = Publication

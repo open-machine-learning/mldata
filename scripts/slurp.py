@@ -29,7 +29,13 @@ class SlurpHTMLParser(HTMLParser):
         """
         for f in fieldnames:
             # unicode conversion prevents django errors when adding to DB
-            self.current[f] = unicode(self.current[f].strip(), 'latin-1')
+            if f == 'publications':
+                pubs = []
+                for p in self.current[f]:
+                    pubs.append(unicode(p.strip(), 'latin-1'))
+                self.current[f] = pubs
+            else:
+                self.current[f] = unicode(self.current[f].strip(), 'latin-1')
 
 
     def reinit(self):
@@ -45,7 +51,7 @@ class SlurpHTMLParser(HTMLParser):
         self.current = {
             'name': '',
             'source': '',
-            'publications': '',
+            'publications': [],
             'description': '',
             'summary': '',
             'task': '',
@@ -134,6 +140,7 @@ class WekaHTMLParser(SlurpHTMLParser):
                 else:
                     self.current['source'] += href + ' '
 
+
     def handle_endtag(self, tag):
         if self.state == 'done':
             return
@@ -203,7 +210,13 @@ class UCIDirectoryParser(HTMLParser):
 
 
 class UCIHTMLParser(SlurpHTMLParser):
-    """HTMLParser class for UCI."""
+    """HTMLParser class for UCI.
+
+    @ivar pub: temporary single publication variable
+    @type pub: string
+    @ivar brcount: count to keep track of publication 'divisor' (== <br>)'
+    @type brcount: integer
+    """
 
     def handle_starttag(self, tag, attrs):
         if tag == 'span' and not self.state:
@@ -233,8 +246,19 @@ class UCIHTMLParser(SlurpHTMLParser):
         elif tag == 'a' and self.state in ('source', 'description', 'publications'):
             for a in attrs:
                 if a[0] == 'href' and a[1].startswith('http://'):
-                    self.current[self.state] += "\n" + a[1] + ' '
+                    link = '<a href="' + a[1] + '">' + a[1] + '</a> '
+                    if self.state == 'publications':
+                        self.pub += link
+                    else:
+                        self.current[self.state] += "\n" + link
                     break
+        elif tag == 'br' and self.state == 'publications':
+            if self.brcount == 0:
+                self.brcount = 1
+            elif self.brcount == 1:
+                self.current['publications'].append(self.pub)
+                self.pub = ''
+                self.brcount = 0
 
 
 
@@ -253,9 +277,10 @@ class UCIHTMLParser(SlurpHTMLParser):
         if data.startswith('Citation Request'): # end of data
             self.current['description'] =\
                 self.current['description'].replace('  [View Context].', '')
-            self.current['publications'] =\
-                self.current['publications'].replace('  [View Context].', '').\
-                    replace('[Web Link]', '')
+            pubs = []
+            for p in self.current['publications']:
+                pubs.append(p.replace('  [View Context].', '').replace('[Web Link]', ''))
+            self.current['publications'] = pubs
             self.current['source'] =\
                 self.current['source'].replace('Source:', '')
             self.reinit()
@@ -269,12 +294,14 @@ class UCIHTMLParser(SlurpHTMLParser):
             self.current['task'] = data
             self.state = 'description'
         elif self.state == 'publications' and data.strip():
-            self.current['publications'] += data
+            self.pub += data
         elif self.state == 'description':
             if data.startswith('Associated Tasks'):
                 self.state = 'task'
             elif data.startswith('Relevant Papers') or data.startswith('Papers That Cite This'):
                 self.state = 'publications'
+                self.pub = ''
+                self.brcount = 0
             else:
                 self.current['description'] += data
         elif self.state == 'source':
@@ -404,6 +431,12 @@ class Slurper:
             return ', '.join([tags, self.format])
 
 
+    def _add_publications(self, obj, publications):
+        for p in publications:
+            pub, failed = Publication.objects.get_or_create(content=p)
+            obj.publications.add(pub)
+
+
     def create_data(self, parsed, datafile):
         """Create a repository Data object.
 
@@ -420,7 +453,6 @@ class Slurper:
             source=parsed['source'],
             description=parsed['description'],
             summary=parsed['summary'],
-            publications=parsed['publications'],
             version=1,
             is_public=False,
             is_current=True,
@@ -435,7 +467,9 @@ class Slurper:
         obj.format = 'hdf5'
         obj.file = File(open(datafile))
         obj.file.name = obj.get_filename()
+
         obj.save()
+        self._add_publications(obj, parsed['publications'])
 
         progress('Converting to HDF5.', 5)
         self.hdf5.convert(datafile, self.format,
@@ -467,7 +501,6 @@ class Slurper:
             name=name,
             description=parsed['description'],
             summary=parsed['summary'],
-            publications=parsed['publications'],
             version=1,
             is_public=False,
             is_current=True,
@@ -493,6 +526,7 @@ class Slurper:
             obj.splits.name = obj.get_splitname()
 
         obj.save()
+        self._add_publications(obj, parsed['publications'])
         if indices:
             os.remove(splitfile)
 
@@ -537,7 +571,7 @@ class Slurper:
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
             response.close()
-            #parser.feed(self.fromfile('Iris'))
+            #parser.feed(self.fromfile('Sponge'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))
@@ -1052,11 +1086,11 @@ class UCI(Slurper):
             p = UCIHTMLParser()
             url = '/'.join(self.source.split('/')[:-1]) + '/' + u
             self.handle(p, url)
-            break
 
-        print 'Problematic datasets are:'
-        for p in self.problematic:
-            print p
+        if len(self.problematic) > 0:
+            print 'Problematic datasets are:'
+            for p in self.problematic:
+                print p
 
 
 
