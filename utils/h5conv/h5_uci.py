@@ -1,4 +1,4 @@
-import h5py, os
+import h5py, os, numpy
 import config
 
 class UCI2H5():
@@ -28,25 +28,44 @@ class UCI2H5():
         return comment
 
 
+    def _get_dtype(self, line):
+        dtype = []
+        str_type = h5py.new_vlen(numpy.str)
+        for item in line:
+            try:
+                numpy.int(item)
+                dtype.append(('', numpy.int))
+            except ValueError:
+                try:
+                    numpy.double(item)
+                    dtype.append(('', numpy.double))
+                except ValueError:
+                    dtype.append(('', str_type))
+        return numpy.dtype(dtype)
+
+
     def _get_data(self, fname):
         """Get data from given file.
 
         @param fname: filename to get data from
         @type fname: string
         @return: list of data attributes
-        @rtype: list of list of strings/numbers/...
+        @rtype: tuple of (list of tuples of data) and their types
         """
         f = open(fname, 'r')
         data = []
+        dtype = None
         for line in f:
             l = []
             for item in line.strip().split(','):
                 if item:
                     l.append(item.strip())
             if l:
-                data.append(l)
+                if not dtype:
+                    dtype = self._get_dtype(l)
+                data.append(tuple(l)) # conv to tuple for h5py
         f.close()
-        return data
+        return (data, dtype)
 
 
     def run(self, in_fname, out_fname):
@@ -59,18 +78,17 @@ class UCI2H5():
         """
         h = h5py.File(out_fname, 'w')
 
-        h.attrs['comment'] = self._get_comment(in_fname)
-
-        data = self._get_data(in_fname)
+        data, dtype = self._get_data(in_fname)
         if data:
-#            try:
-            h.create_dataset('attributes', data=data, compression=config.COMPRESSION)
-#            except ValueError:
-                # flatten data - can take ages, so better don't do it per default
-#                h.create_dataset('attributes', data=sum(data, []), compression=config.COMPRESSION)
+            # doesn't work directly 'no appropriate function for conversion path'
+            #h.create_dataset('attributes', data=data, dtype=dtype, compression=config.COMPRESSION)
+            shape = (len(data),)
+            ds = h.create_dataset('attributes', shape, dtype=dtype, compression=config.COMPRESSION)
+            ds[...] = data
 
         # without str(), h5py might barf
         h.attrs['name'] = str(os.path.basename(out_fname).split('.')[0])
         h.attrs['mldata'] = config.VERSION_MLDATA
+        h.attrs['comment'] = self._get_comment(in_fname)
 
         h.close()
