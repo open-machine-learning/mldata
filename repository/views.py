@@ -21,7 +21,7 @@ from tagging.utils import calculate_cloud
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
-from utils import hdf5conv
+from utils import h5conv
 
 
 NUM_HISTORY_PAGE = 20
@@ -428,7 +428,7 @@ def _view(request, klass, slug_or_id, version=None):
     }
     if klass == Data:
         try:
-            h = hdf5conv.HDF5()
+            h = h5conv.HDF5()
             info_dict['extract'] = h.get_extract(
                 os.path.join(MEDIA_ROOT, obj.file.name))
         except IOError, err:
@@ -483,7 +483,7 @@ def _new(request, klass):
 
                 if klass == Data:
                     new.file = request.FILES['file']
-                    h = hdf5conv.HDF5()
+                    h = h5conv.HDF5()
                     new.format = h.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
                     new.save()
@@ -1018,7 +1018,7 @@ def data_new_review(request, slug):
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
 
-    hdf5 = hdf5conv.HDF5()
+    hdf5 = h5conv.HDF5()
     if request.method == 'POST':
         if request.POST.has_key('revert'):
             os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
@@ -1029,10 +1029,10 @@ def data_new_review(request, slug):
             converted = hdf5.get_filename(uploaded)
 
             format = request.POST['id_format'].lower()
-            if format != 'hdf5':
+            if format != 'h5':
                 try:
-                    hdf5.convert(uploaded, format, converted, 'hdf5')
-                    format = 'hdf5'
+                    hdf5.convert(uploaded, format, converted, 'h5')
+                    format = 'h5'
                 except Exception:
                     pass
             obj.format = format

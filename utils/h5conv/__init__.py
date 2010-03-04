@@ -86,9 +86,9 @@ ARFF
 
 import h5py, numpy, os
 from scipy.sparse import csc_matrix
-from hdf5_arff import ARFF2HDF5, HDF52ARFF
-from hdf5_libsvm import LIBSVM2HDF5
-from hdf5_uci import UCI2HDF5
+from h5_arff import ARFF2H5, H52ARFF
+from h5_libsvm import LIBSVM2H5
+from h5_uci import UCI2H5
 import config
 
 
@@ -102,7 +102,7 @@ class HDF5():
         @ivar attrs: attributes of HDF5 file
         @type attrs: dict with keys mldata, name, comment
         @ivar converter: actual converter object
-        @type converter: depending on required conversion, e.g. ARFF2HDF5.
+        @type converter: depending on required conversion, e.g. ARFF2H5.
         """
         self.attrs = {
             'mldata': config.VERSION_MLDATA,
@@ -126,14 +126,14 @@ class HDF5():
         """
 
         self.converter = None
-        if in_format == 'libsvm' and out_format == 'hdf5':
-            self.converter = LIBSVM2HDF5()
-        elif in_format == 'arff' and out_format == 'hdf5':
-            self.converter = ARFF2HDF5()
-        elif in_format == 'uci' and out_format == 'hdf5':
-            self.converter = UCI2HDF5()
-        elif in_format == 'hdf5' and out_format == 'arff':
-            self.converter = HDF52ARFF()
+        if in_format == 'libsvm' and out_format == 'h5':
+            self.converter = LIBSVM2H5()
+        elif in_format == 'arff' and out_format == 'h5':
+            self.converter = ARFF2H5()
+        elif in_format == 'uci' and out_format == 'h5':
+            self.converter = UCI2H5()
+        elif in_format == 'h5' and out_format == 'arff':
+            self.converter = H52ARFF()
         if not self.converter:
             raise RuntimeError('Unknown conversion pair %s to %s!' % (in_format, out_format))
 
@@ -173,7 +173,7 @@ class HDF5():
         @return: HDF5-ified filename
         @rtype: string
         """
-        return orig + '.hdf5'
+        return orig + '.h5'
 
 
     def get_fileformat(self, fname):
@@ -189,7 +189,7 @@ class HDF5():
             return 'libsvm'
         elif suffix == 'arff':
             return suffix
-        elif suffix == 'hdf5':
+        elif suffix == 'h5':
             return suffix
         elif suffix in ('bz2', 'gz'):
             presuffix = fname.split('.')[-2]
@@ -246,16 +246,16 @@ class HDF5():
         @rtype: dict with HDF5 attribute/dataset names as keys and their data as values
         """
         format = self.get_fileformat(fname)
-        if format != 'hdf5':
-            hdf5_fname = self.get_filename(fname)
+        if format != 'h5':
+            h5_fname = self.get_filename(fname)
             try:
-                self.convert(fname, format, hdf5_fname, 'hdf5')
+                self.convert(fname, format, h5_fname, 'h5')
             except Exception:
                 return self.get_unparseable(fname)
         else:
-            hdf5_fname = fname
+            h5_fname = fname
 
-        h = h5py.File(hdf5_fname, 'r')
+        h = h5py.File(h5_fname, 'r')
         extract = {}
 
         attrs = ['mldata', 'name', 'comment']

@@ -1,7 +1,7 @@
 import h5py, os
 import config
 
-class UCI2HDF5():
+class UCI2H5():
     """Convert a file from UCI to HDF5."""
 
     def _get_comment(self, fname):

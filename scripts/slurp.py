@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mldata.settings'
 from django.core.files import File
 from repository.models import *
-from utils import hdf5conv
+from utils import h5conv
 from settings import MEDIA_ROOT
 
 
@@ -323,15 +323,15 @@ class Slurper:
     """
     source = None
     output = None
-    format = 'hdf5'
+    format = 'h5'
 
     def __init__(self, *args, **kwargs):
         """Construct a slurper.
 
         @ivar hdf5: hdf5 converter object
-        @type hdf5: hdf5conv.HDF5
+        @type hdf5: h5conv.HDF5
         """
-        self.hdf5 = hdf5conv.HDF5()
+        self.hdf5 = h5conv.HDF5()
 
 
     def fromfile(self, name):
@@ -464,7 +464,7 @@ class Slurper:
         obj = self._add_slug(obj)
         progress('Creating Data item ' + obj.name + '.', 4)
 
-        obj.format = 'hdf5'
+        obj.format = 'h5'
         obj.file = File(open(datafile))
         obj.file.name = obj.get_filename()
 
@@ -519,7 +519,7 @@ class Slurper:
 
         if indices:
             progress('Creating HDF5 split file.', 5)
-            splitfile = os.path.join(self.output, name + '.hdf5')
+            splitfile = os.path.join(self.output, name + '.h5')
             self.hdf5.create_split(splitfile, name, indices)
 
             obj.splits = File(open(splitfile))

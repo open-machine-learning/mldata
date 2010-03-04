@@ -2,7 +2,7 @@ import numpy, h5py, os
 from scipy.sparse import csc_matrix
 import config
 
-class LIBSVM2HDF5():
+class LIBSVM2H5():
     """Convert a file from LibSVM to HDF5."""
 
     def __init__(self, *args, **kwargs):

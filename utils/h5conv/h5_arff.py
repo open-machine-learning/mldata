@@ -2,7 +2,7 @@ import h5py
 import arff, config
 
 
-class ARFF2HDF5():
+class ARFF2H5():
     """Convert a file from ARFF to HDF5 (spec of mldata.org).
 
     It uses the module arff provided by the dataformat project:
@@ -41,7 +41,7 @@ class ARFF2HDF5():
         h.close()
 
 
-class HDF52ARFF():
+class H52ARFF():
     """Convert a file from HDF5 (spec of mldata.org) to ARFF
 
     It uses the module arff provided by the dataformat project:
