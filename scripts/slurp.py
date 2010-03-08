@@ -409,8 +409,11 @@ class Slurper:
         """
         try:
             obj.slug = obj.make_slug()
-        except: # wouldn't make sense to catch sqlite3.IntegrityError only
-            obj.name = obj.name + '-' + str(int(random.random() * 10000))
+        except IntegrityError:
+            max_num = 10000
+            rand_name = str(int(random.random() * max_num))
+            max_name = Repository._meta.get_field('name').max_length - len(str(max_num-1)) - 1
+            obj.name = obj.name[:max_name] + '-' + rand_name
             return self._add_slug(obj)
         return obj
 
