@@ -91,7 +91,7 @@ $(function() {
 				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
 				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</dd>
 			{% endifequal %}{% endifequal %}{% endifequal %}
-				<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
+				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
 
 			<div id="tabs-more"><dl>
@@ -109,7 +109,7 @@ $(function() {
 				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
 				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 			{% endifequal %}
-				<input type="submit" id="post" name="post" class="submit-post" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit-post" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
+				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-more -->
 			</form>
 
@@ -120,7 +120,7 @@ $(function() {
 				<dd>{{ publication_form.content }}</dd>
 				<input type="hidden" name="next" id="id_next" value="{{ request.path }}#tabs-more" />
 				<input type="hidden" name="id" id="id_id" value="0" />
-				<input type="submit" value="{% trans "Submit Publication" %}" />
+				<input type="submit" class="submit" value="{% trans "Submit Publication" %}" />
 			</dl></form></div>
 		</div><!-- /tabs -->
 </div><!-- /in -->

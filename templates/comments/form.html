@@ -7,7 +7,7 @@
 		<dl>
 			<dt><textarea id="id_comment" rows="10" cols="40" name="comment">{{ comment }}</textarea></dt>
 			<dd><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-			<dt><input type="submit" name="preview" class="submit-post" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}" /></dt>
+			<dt><input type="submit" name="preview" class="submit" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit" value="{% trans "Post" %}" /></dt>
 		</dl>
 		<span style="display:none">
 			<label for="id_honeypot">{% trans "If you enter anything in this field your comment will be treated as spam" %}:</label>
