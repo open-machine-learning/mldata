@@ -7,10 +7,11 @@ Define the views of app Repository
 @type NUM_INDEX_PAGE: integer
 """
 
-import datetime, os, random
+import datetime, os, random, subprocess
 from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.servers.basehttp import FileWrapper
+from django.core.files import File
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.db import IntegrityError, transaction
@@ -326,6 +327,18 @@ def _delete(request, klass, id):
     return HttpResponseRedirect(reverse(func))
 
 
+def _download_hit(obj):
+    """Increase hit counter for given object.
+
+    @param obj: object to increase counter for
+    @type obj: Repository
+    """
+    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
+    current.downloads += 1
+    current.save()
+
+
+
 def _download(request, klass, id):
     """Download file relating to item given by id and klass.
 
@@ -364,17 +377,58 @@ def _download(request, klass, id):
     response['Content-Type'] = 'application/octet-stream'
     try:
         response['Content-Length'] = fileobj.size
-        response['Content-Disposition'] = 'attachment; filename=' + fileobj.name
+        response['Content-Disposition'] = 'attachment; filename=' +\
+            fileobj.name.split(os.sep)[-1]
         for chunk in fileobj.chunks():
             response.write(chunk)
     except OSError, err: # something wrong with file, maybe not existing
         raise OSError(_('Missing file') + ': ' + fileobj.name)
 
 
-    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
-    current.downloads += 1
-    current.save()
+    _download_hit(obj)
+    return response
 
+
+
+def data_download_xml(request, id):
+    """Download XML file relating to item given by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @return: contents of file related to object
+    @rtype: binary file
+    @raise Http404: file doesn't exist
+    """
+    obj = _get_object_or_404(Data, id)
+    if not obj.can_download(request.user):
+        return HttpResponseForbidden()
+
+    if not obj.file: # maybe no file attached to this item
+        raise Http404
+
+
+    try:
+        fname = os.path.join(MEDIA_ROOT, obj.file.name + '.xml')
+        if not os.path.exists(fname):
+            cmd = 'h5dump --xml ' + os.path.join(MEDIA_ROOT, obj.file.name) + ' > ' + fname
+            if not subprocess.call(cmd, shell=True) == 0:
+                raise IOError('Unsuccessful conversion to XML: ' + cmd)
+        fileobj = File(open(fname, 'r'))
+
+        response = HttpResponse()
+        response['Content-Type'] = 'application/xml'
+        response['Content-Length'] = fileobj.size
+        response['Content-Disposition'] = 'attachment; filename=' +\
+            fileobj.name.split(os.sep)[-1]
+        for chunk in fileobj.chunks():
+            response.write(chunk)
+    except OSError, err: # something wrong with file, maybe not existing
+        raise OSError(_('Missing file') + ': ' + fileobj.name)
+
+
+    _download_hit(obj)
     return response
 
 
