@@ -74,7 +74,7 @@ class TaskType(models.Model):
 
 
 class Publication(models.Model):
-#    title = models.CharField(max_length=80)
+    title = models.CharField(max_length=80)
 #    slug = models.SlugField(unique=True)
     content = models.TextField()
 #    firstauthor = models.CharField(max_length=256)
@@ -102,15 +102,11 @@ class Publication(models.Model):
 #    dataset = models.CharField(max_length=256, blank=True, null=True)
 #    address = models.CharField(max_length=256, blank=True, null=True)
 
-#    class Meta:
-#        ordering = ('-year',)
+    class Meta:
+        ordering = ('title',)
 
     def __unicode__(self):
-        max = 60
-        if len(self.content) < max:
-            return self.content
-        else:
-            return self.content[:max]
+        return self.title
 
 
 

@@ -8,6 +8,7 @@ Define the views of app Repository
 """
 
 import datetime, os, random
+from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.servers.basehttp import FileWrapper
 from django.shortcuts import render_to_response, get_object_or_404
@@ -1175,6 +1176,7 @@ def publication_edit(request):
             if not pub:
                 pub = Publication()
             pub.content = form.cleaned_data['content']
+            pub.title = form.cleaned_data['title']
             pub.save()
             return HttpResponseRedirect(form.cleaned_data['next'])
         else:
@@ -1195,7 +1197,8 @@ def publication_get(request, id):
     @rtype: Django response
     """
     try:
-        pub = Publication.objects.get(pk=id)
-        return HttpResponse(pub.content, mimetype='text/plain')
+        data = serializers.serialize('json',
+            [Publication.objects.get(pk=id)], fields=('title', 'content'))
+        return HttpResponse(data, mimetype='text/plain')
     except Publication.DoesNotExist:
         return HttpResponse('', mimetype='text/plain')
