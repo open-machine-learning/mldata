@@ -8,9 +8,10 @@
 <h2 class="title-01">{% trans "Our HDF5 Format Explained" %}</h2>
 <div class="in">
 	<p><a href="http://www.hdfgroup.org/HDF5/">HDF5</a> {% trans "is a data model, library, and file format for storing and managing data. It supports an unlimited variety of datatypes, and is designed for flexible and efficient I/O and for high volume and complex data. HDF5 is portable and is extensible, allowing applications to evolve in their use of HDF5. The HDF5 Technology suite includes tools and applications for managing, manipulating, viewing, and analyzing data in the HDF5 format." %}</p>
-	<p>{% trans "Internally, we make use of HDF5 because of its hierarchical structure which allows for efficient access of data attributes. It also allows for storing data in a flexible way which seems paramount to us in the current state of the machine learning community and its wild bunch of file formats used." %}</p>
+	<p>{% trans "Internally, we make use of HDF5 because of its hierarchical structure which allows for efficient access of data attributes. It also allows for storing data in a flexible way which seems paramount to us in the current state of the machine learning community and its wild bunch of file formats used. We store two different types of files in hdf5 format. The dataset itself and the split file. More details on this in the sections below." %}</p>
 
-	<p>{% trans "The basic abstraction is that a data set is a large collection of objects having the same type, so to say a large array." %}</p>
+	<h2>{% trans "HDF5 Attributes and Datasets" %}</h2>
+	<p>{% trans "The basic abstraction is that a data set is a large collection of objects having the same type. Each object is a fixed length array of features which may be of different types. For example, each object can be an array of mixed categorical and numerical data, but all objects in the dataset have the same mix." %}</p>
 
 	<p>{% trans "We defined the following HDF5 attributes in our files" %}:</p>
 	<ul>
@@ -30,7 +31,7 @@
 	</ul>
 	<p>{% trans "Please note that attributes and attributes_indices + attributes_indptr + attributes_data are mutually exclusive." %}</p>
 
-	<h3>{% trans "Attribute Types" %}</h3>
+	<h2>{% trans "Attribute Types" %}</h2>
 	<p>
 		{% trans "We make a distinction between the actual binary format and the attribute type stored in the file. For example, nominal data might be stored as integers or even bytes for efficiency, although they are mapped to symbolic names to the outside." %}<br />
 		{% trans "The attribute type is specified by a string which has to be parsed for better flexibility." %}
@@ -45,7 +46,7 @@
 	<p>{% trans "As we see more data types, more type descriptors will be added." %}</p>
 
 
-	<h3>{% trans "Split files and Tasks" %}</h3>
+	<h2>{% trans "Split files and Tasks" %}</h2>
 	<p>{% trans "Note that the distinction what is input/output, label/target depends on the TASK, not on the data set itself! We do have a mechanism in place to create automatic split files while slurping datasets from other repositories, though. These datasets may be defined in the split files:" %}</p>
 	<ul>
 		<li>labels: {% trans "Index of labels/target for each data row" %}; <code>{% trans "Array of Integers" %}</code></li>
@@ -53,7 +54,7 @@
 	</ul>
 
 
-	<h3>{% trans "Currently supported formats" %}</h3>
+	<h2>{% trans "Currently supported formats" %}</h2>
 	<h4>{% trans "to" %} HDF5</h4>
 	<ul>
 		<li>LibSVM</li>
