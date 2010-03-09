@@ -28,20 +28,34 @@ class UCI2H5():
         return comment
 
 
-    def _get_dtype(self, line):
-        dtype = []
+    def _get_dtype(self, fp):
+        """This seems a bit mad, Ted."""
         str_type = h5py.new_vlen(numpy.str)
-        for item in line:
-            try:
-                numpy.int(item)
-                dtype.append(('', numpy.int))
-            except ValueError:
+        num_items = len(fp.readline().strip().split(','))
+        fp.seek(0)
+        dtype = []
+
+        for l in fp:
+            line = l.strip().split(',')
+            for i in xrange(num_items):
+                item = line[i].strip()
+                if item == '?':
+                    continue
+
                 try:
-                    numpy.double(item)
-                    dtype.append(('', numpy.double))
+                    numpy.int(item)
+                    dtype.insert(i, ('', numpy.int))
                 except ValueError:
-                    dtype.append(('', str_type))
-        return numpy.dtype(dtype)
+                    try:
+                        numpy.double(item)
+                        dtype.insert(i, ('', numpy.double))
+                    except ValueError:
+                        dtype.insert(i, ('', str_type))
+
+                if len(dtype) == num_items:
+                    fp.seek(0)
+                    return numpy.dtype(dtype)
+
 
 
     def _get_data(self, fname):
@@ -52,19 +66,29 @@ class UCI2H5():
         @return: list of data attributes
         @rtype: tuple of (list of tuples of data) and their types
         """
-        f = open(fname, 'r')
+        fp = open(fname, 'r')
         data = []
-        dtype = None
-        for line in f:
+        dtype = self._get_dtype(fp)
+        for line in fp:
             l = []
             for item in line.strip().split(','):
                 if item:
-                    l.append(item.strip())
+                    if item == '?': # missing value
+                        dt = dtype[len(l)]
+                        # converting nan to the appropriate dtype
+                        l.append(numpy.array([numpy.nan]).astype(dt)[0])
+                    else:
+                        try:
+                            item = numpy.int(item)
+                        except ValueError:
+                            try:
+                                item = numpy.double(item)
+                            except ValueError:
+                                item = item.strip()
+                        l.append(item)
             if l:
-                if not dtype:
-                    dtype = self._get_dtype(l)
-                data.append(tuple(l)) # conv to tuple for h5py
-        f.close()
+                data.append(tuple(l)) # tuple required to please numpy
+        fp.close()
         return (data, dtype)
 
 
@@ -86,7 +110,7 @@ class UCI2H5():
             ds = h.create_dataset('attributes', shape, dtype=dtype, compression=config.COMPRESSION)
             ds[...] = data
 
-        # without str(), h5py might barf
+        # without str() it might barf
         h.attrs['name'] = str(os.path.basename(out_fname).split('.')[0])
         h.attrs['mldata'] = config.VERSION_MLDATA
         h.attrs['comment'] = self._get_comment(in_fname)
