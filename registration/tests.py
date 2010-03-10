@@ -195,7 +195,8 @@ class RegistrationFormTests(RegistrationTestCase):
         form = forms.RegistrationForm(data={ 'username': 'foo',
                                              'email': 'foo@example.com',
                                              'password1': 'foo',
-                                             'password2': 'foo' })
+                                             'password2': 'foo',
+                                             'tos': True })
         self.failUnless(form.is_valid())
 
     def test_registration_form_tos(self):
@@ -234,7 +235,8 @@ class RegistrationFormTests(RegistrationTestCase):
         form = forms.RegistrationFormUniqueEmail(data={ 'username': 'foo',
                                                         'email': 'foo@example.com',
                                                         'password1': 'foo',
-                                                        'password2': 'foo' })
+                                                        'password2': 'foo',
+                                                        'tos': True })
         self.failUnless(form.is_valid())
 
     def test_registration_form_no_free_email(self):
@@ -245,7 +247,8 @@ class RegistrationFormTests(RegistrationTestCase):
         """
         base_data = { 'username': 'foo',
                       'password1': 'foo',
-                      'password2': 'foo' }
+                      'password2': 'foo',
+                      'tos': True}
         for domain in ('aim.com', 'aol.com', 'email.com', 'gmail.com',
                        'googlemail.com', 'hotmail.com', 'hushmail.com',
                        'msn.com', 'mail.ru', 'mailinator.com', 'live.com'):
@@ -285,7 +288,8 @@ class RegistrationViewTests(RegistrationTestCase):
                                     data={ 'username': 'foo',
                                            'email': 'foo@example.com',
                                            'password1': 'foo',
-                                           'password2': 'foo' })
+                                           'password2': 'foo',
+                                           'tos': True })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['Location'], 'http://testserver%s' % reverse('registration_complete'))
         self.assertEqual(RegistrationProfile.objects.count(), 3)
