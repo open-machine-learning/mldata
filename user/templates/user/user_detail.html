@@ -56,7 +56,7 @@
 		<dd>{{ form.password1|safe }}</dd>
 		<dt><label for="id_password2">{% trans "Password (type again to catch any typos)" %}:</label>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
 		<dd>{{ form.password2|safe }}</dd>
-		<dt><input type="submit" value="{% trans "Update" %}" /></dt>
+		<dt><input type="submit" class="submit" value="{% trans "Update" %}" /></dt>
 	</dl>
 	</form>
 </div><!-- /in -->

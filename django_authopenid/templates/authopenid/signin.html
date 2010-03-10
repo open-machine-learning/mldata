@@ -42,7 +42,8 @@ $(function() {
 	<fieldset>
 		<div class="form-row"><label for="id_username">{% trans "Username:" %}</label><br />{{ form2.username }}</div>
 		<div class="form-row"><label for="id_password">{% trans "Password" %}</label><br />{{ form2.password }}</div>
-		<div class="submit-row"><input type="submit" name="blogin" value="{% trans "Sign in" %}"> </div>
+		<br />
+		<div class="submit-row"><input type="submit" class="submit" name="blogin" value="{% trans "Sign in" %}"> </div>
 	</fieldset>	
 </form>
 
@@ -65,7 +66,8 @@ $(function() {
 		</div>
 		<div id="openid_input_area">
 			<label for="id_openid_url">{% trans "OpenId URL" %}</label>: {{ form1.openid_url }}
-			<input name="openid_submit" type="submit" value="{% trans "Sign in with OpenID" %}">
+			<br />
+			<input name="openid_submit" type="submit" class="submit" value="{% trans "Sign in with OpenID" %}">
 		</div>
 	</fieldset>
 </form>	
