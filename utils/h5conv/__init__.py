@@ -89,7 +89,8 @@ from scipy.sparse import csc_matrix
 from h5_arff import ARFF2H5, H52ARFF
 from h5_libsvm import LIBSVM2H5
 from h5_uci import UCI2H5
-import config
+import base
+
 
 
 class HDF5():
@@ -99,16 +100,9 @@ class HDF5():
         The object can convert, extract data, create split
         files and much more.
 
-        @ivar attrs: attributes of HDF5 file
-        @type attrs: dict with keys mldata, name, comment
         @ivar converter: actual converter object
         @type converter: depending on required conversion, e.g. ARFF2H5.
         """
-        self.attrs = {
-            'mldata': config.VERSION_MLDATA,
-            'name': '',
-            'comment': '',
-        }
         self.converter = None
 
 
@@ -224,14 +218,15 @@ class HDF5():
             if self.is_binary(fname):
                 data = ''
             else:
-                file = open(fname, 'r')
+                f = open(fname, 'r')
                 i = 0
                 data = []
-                for line in file:
-                    data.append(line)
+                for l in f:
+                    data.append(l)
                     i += 1
-                    if i > config.NUM_EXTRACT:
+                    if i > base.NUM_EXTRACT:
                         break
+                f.close()
                 data = "\n".join(data)
 
         return {'attributes': [[intro, data]]}
@@ -255,48 +250,52 @@ class HDF5():
         else:
             h5_fname = fname
 
-        h = h5py.File(h5_fname, 'r')
+        h5file = h5py.File(h5_fname, 'r')
         extract = {}
 
         attrs = ['mldata', 'name', 'comment']
         for attr in attrs:
             try:
-                extract[attr] = h.attrs[attr]
+                extract[attr] = h5file.attrs[attr]
             except KeyError:
                 pass
 
-        dsets = ['attribute_names', 'attribute_types']
-        for dset in dsets:
-            try:
-                extract[dset] = h[dset][:]
-            except KeyError:
-                pass
+        try:
+            extract['names'] = h5file['data/names'][:]
+        except KeyError:
+            pass
 
         # only first NUM_EXTRACT items of attributes
         try:
-            extract['attributes'] = []
-            ne = config.NUM_EXTRACT
-            if 'attributes_indptr' in h: # sparse
-                # taking all data takes to long for quick viewing, but having just
-                # this extract may result in less columns displayed than indicated
-                # by attributes_names
-                data = h['attributes_data'][:h['attributes_indptr'][ne+1]]
-                indices = h['attributes_indices'][:h['attributes_indptr'][ne+1]]
-                indptr = h['attributes_indptr'][:ne+1]
-                A=csc_matrix((data, indices, indptr)).todense().T
-                for i in xrange(ne):
-                    extract['attributes'].append(A[i].tolist()[0])
+            extract['data'] = {}
+            ne = base.NUM_EXTRACT
+            for dset in h5file['data/order']:
+                path = 'data/' + dset
+                extract['data'][dset] = []
+                if path + '_indptr' in h5file: # sparse
+                    # taking all data takes to long for quick viewing, but having just
+                    # this extract may result in less columns displayed than indicated
+                    # by attributes_names
+                    pdata = path + '_data'
+                    pindptr = path + '_indptr'
+                    pind = path + '_indices'
+                    data = h5file[pdata][:h5file[pindptr][ne+1]]
+                    indices = h5file[pind][:h5file[pindptr][ne+1]]
+                    indptr = h5file[pindptr][:ne+1]
+                    A=csc_matrix((data, indices, indptr)).todense().T
+                    for i in xrange(ne):
+                        extract['data'][dset].append(A[i].tolist()[0])
 
-            else: # dense
-                A=h['attributes']
-                for i in xrange(ne):
-                    extract['attributes'].append(A[i])
+                else: # dense
+                    A=h5file[path]
+                    for i in xrange(ne):
+                        extract['data'][dset].append(A[i])
         except KeyError:
             pass
         except ValueError:
             pass
 
-        h.close()
+        h5file.close()
         return extract
 
 
@@ -310,10 +309,10 @@ class HDF5():
         @param indices: split indices
         @type indices: dict
         """
-        h = h5py.File(fname, 'w')
+        h5file = h5py.File(fname, 'w')
 
         if self.converter.offset_labels and max(self.converter.offset_labels) > 0:
-            h.create_dataset('labels', data=self.converter.offset_labels, compression=config.COMPRESSION)
+            h5file.create_dataset('labels', data=self.converter.offset_labels, compression=base.COMPRESSION)
 
         for k,v in indices.iteritems():
             data = []
@@ -322,9 +321,9 @@ class HDF5():
                 for col in row:
                     r.append(numpy.double(col))
                 data.append(r)
-            h.create_dataset(k, data=data, compression=config.COMPRESSION)
+            h5file.create_dataset(k, data=data, compression=base.COMPRESSION)
 
-        h.attrs['name'] = name
-        h.attrs['mldata'] = config.VERSION_MLDATA
-        h.attrs['comment'] = 'split file'
-        h.close()
+        h5file.attrs['name'] = name
+        h5file.attrs['mldata'] = base.VERSION_MLDATA
+        h5file.attrs['comment'] = 'split file'
+        h5file.close()

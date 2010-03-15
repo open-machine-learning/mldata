@@ -594,7 +594,7 @@ class Slurper:
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
             response.close()
-            #parser.feed(self.fromfile('Sponge'))
+            #parser.feed(self.fromfile('Census+Income'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))

@@ -126,22 +126,16 @@ $(function() {
 			<dd>{{ extract.mldata }}</dd>
 			<dt>{% trans "Comment" %}</dt>
 			<dd>{{ extract.comment|markdown }}</dd>
-			<dt>{% trans "Attribute Names" %}</dt>
+			<dt>{% trans "Names" %}</dt>
 			<dd><ol>
-			{% for name in extract.attribute_names %}
+			{% for name in extract.names %}
 				<li>{{ name }}</li>
 			{% endfor %}
 			</ol></dd>
-			<dt>{% trans "Attribute Types" %}</dt>
+			<dt>{% trans "Data (extract)" %}</dt>
 			<dd><ol>
-			{% for type in extract.attribute_types %}
-				<li>{{ type }}</li>
-			{% endfor %}
-			</ol></dd>
-			<dt>{% trans "Attributes (extract)" %}</dt>
-			<dd><ol>
-			{% for attr in extract.attributes %}
-				<li>{{ attr|join:', ' }}</li>
+			{% for v in extract.data.values %}
+				<li>{{ v|join:', ' }}</li>
 			{% endfor %}
 			</ol></dd>
 		</dl></div><!-- /tabs-data -->
