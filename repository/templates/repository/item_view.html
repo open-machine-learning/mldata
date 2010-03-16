@@ -134,8 +134,8 @@ $(function() {
 			</ol></dd>
 			<dt>{% trans "Data (extract)" %}</dt>
 			<dd><ol>
-			{% for v in extract.data.values %}
-				<li>{{ v|join:', ' }}</li>
+			{% for d in extract.data %}
+				<li>{{ d|join:', ' }}</li>
 			{% endfor %}
 			</ol></dd>
 		</dl></div><!-- /tabs-data -->

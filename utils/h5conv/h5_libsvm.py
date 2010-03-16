@@ -2,7 +2,9 @@ import numpy, h5py, os
 from scipy.sparse import csc_matrix
 import base
 
-class LIBSVM2H5():
+
+
+class LIBSVM2H5(base.H5Converter):
     """Convert a file from LibSVM to HDF5."""
 
     def __init__(self, *args, **kwargs):
@@ -11,6 +13,7 @@ class LIBSVM2H5():
         @ivar offset_labels: indices for labels for each row
         @type offset_labels: list of integers
         """
+        super(LIBSVM2H5, self).__init__(*args, **kwargs)
         self.offset_labels = []
 
 
@@ -78,19 +81,19 @@ class LIBSVM2H5():
         return attributes
 
 
-    def get_matrix(self, fname):
+    def get_matrix(self):
         """Retrieves a SciPy Compressed Sparse Column matrix from file.
 
-        @param fname: filename to retrieve matrix from
-        @type fname: string
         @return: compressed sparse column matrix
         @rtype: scipy.sparse.csc_matrix
         """
+        self.offset_labels = []
         indices = []
         indptr = [0]
         data = []
         ptr = 0
-        infile = open(fname, 'r')
+        infile = open(self.fname_in, 'r')
+
         for line in infile:
             attributes = self._parse_line(line)
             for a in attributes:
@@ -103,34 +106,24 @@ class LIBSVM2H5():
         return csc_matrix((numpy.array(data), numpy.array(indices), numpy.array(indptr)))
 
 
-    def run(self, in_fname, out_fname):
-        """Run the actual conversion process.
+    def get_comment(self):
+        return 'LibSVM'
 
-        @param in_fname: filename to read data from
-        @type in_fname: string
-        @param out_fname: filename to write converted data to
-        @type out_fname: string
-        """
 
-        self.offset_labels = []
-        A = self.get_matrix(in_fname)
-        h = h5py.File(out_fname, 'w')
-
+    def get_data(self):
+        A = self.get_matrix()
+        data = {}
         if A.nnz/numpy.double(A.shape[0]*A.shape[1]) < 0.5: # sparse
-            h.create_dataset('attributes_indices', data=A.indices, compression=base.COMPRESSION)
-            h.create_dataset('attributes_indptr', data=A.indptr, compression=base.COMPRESSION)
-            h.create_dataset('attributes_data', data=A.data, compression=base.COMPRESSION)
-            h.attrs['comment'] = 'libsvm sparse'
+            data['indices'] = A.indices
+            data['indptr'] = A.indptr
+            data['data'] = A.data
+            order = ['data_indices', 'data_indptr', 'data_data']
         else: # dense
-            A = A.todense().T
-            h.create_dataset('attributes', data=A, compression=base.COMPRESSION)
-            h.attrs['comment'] = 'libsvm dense'
+            data['data'] = A.todense().T
+            order = ['data']
 
-        attribute_names = ['dim 1', '...', 'dim ' + str(A.shape[1])]
-        h.create_dataset('attribute_names', data=attribute_names, compression=base.COMPRESSION)
+        names = []
+        for i in xrange(A.shape[0]):
+            names.append('dim' + str(i))
 
-        # without str(), h5py might barf
-        h.attrs['name'] = str(os.path.basename(out_fname).split('.')[0])
-        h.attrs['mldata'] = base.VERSION_MLDATA
-
-        h.close()
+        return {'order':order, 'names':names, 'data':data}

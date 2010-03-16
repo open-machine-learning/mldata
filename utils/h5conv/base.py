@@ -57,7 +57,7 @@ class H5Converter(object):
 
     def get_types(self):
         """Get attribute/data types, if available."""
-        return []
+        return None
 
 
     def get_data(self):
@@ -82,8 +82,11 @@ class H5Converter(object):
         h5file.create_dataset('names', data=names, compression=COMPRESSION)
         order = numpy.array(data['order']).astype(self.str_type)
         h5file.create_dataset('order', data=order, compression=COMPRESSION)
-        types = numpy.array(self.get_types()).astype(self.str_type)
-        h5file.create_dataset('types', data=types, compression=COMPRESSION)
+
+        types = self.get_types()
+        if types:
+            types = numpy.array(types).astype(self.str_type)
+            h5file.create_dataset('types', data=types, compression=COMPRESSION)
 
         group = h5file.create_group('/data')
         for name in data['order']:

@@ -261,17 +261,19 @@ class HDF5():
                 pass
 
         try:
-            extract['names'] = h5file['data/names'][:]
+            extract['names'] = h5file['names'][:]
         except KeyError:
             pass
 
         # only first NUM_EXTRACT items of attributes
         try:
-            extract['data'] = {}
+            extract['data'] = []
             ne = base.NUM_EXTRACT
-            for dset in h5file['data/order']:
+            for i in xrange(ne):
+                extract['data'].append([])
+
+            for dset in h5file['order']:
                 path = 'data/' + dset
-                extract['data'][dset] = []
                 if path + '_indptr' in h5file: # sparse
                     # taking all data takes to long for quick viewing, but having just
                     # this extract may result in less columns displayed than indicated
@@ -283,13 +285,18 @@ class HDF5():
                     indices = h5file[pind][:h5file[pindptr][ne+1]]
                     indptr = h5file[pindptr][:ne+1]
                     A=csc_matrix((data, indices, indptr)).todense().T
-                    for i in xrange(ne):
-                        extract['data'][dset].append(A[i].tolist()[0])
-
+                    data = A[:ne].tolist()
                 else: # dense
-                    A=h5file[path]
-                    for i in xrange(ne):
-                        extract['data'][dset].append(A[i])
+                    data = h5file[path][:ne]
+
+                for i in xrange(ne):
+                    extract['data'][i].append(data[i])
+
+            # convert from numpy array to list, if necessary
+            if type(extract['data'][0][0]) == numpy.ndarray:
+                for i in xrange(ne):
+                    extract['data'][i] = extract['data'][i][0].tolist()
+
         except KeyError:
             pass
         except ValueError:
