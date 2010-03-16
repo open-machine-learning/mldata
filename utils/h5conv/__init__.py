@@ -98,7 +98,7 @@ class HDF5():
         """Construct an HDF5 object.
 
         The object can convert, extract data, create split
-        files and much more.
+        files and more.
 
         @ivar converter: actual converter object
         @type converter: depending on required conversion, e.g. ARFF2H5.
@@ -121,17 +121,17 @@ class HDF5():
 
         self.converter = None
         if in_format == 'libsvm' and out_format == 'h5':
-            self.converter = LIBSVM2H5()
+            self.converter = LIBSVM2H5(in_fname, out_fname)
         elif in_format == 'arff' and out_format == 'h5':
-            self.converter = ARFF2H5()
+            self.converter = ARFF2H5(in_fname, out_fname)
         elif in_format == 'uci' and out_format == 'h5':
-            self.converter = UCI2H5()
+            self.converter = UCI2H5(in_fname, out_fname)
         elif in_format == 'h5' and out_format == 'arff':
-            self.converter = H52ARFF()
+            self.converter = H52ARFF(in_fname, out_fname)
         if not self.converter:
             raise RuntimeError('Unknown conversion pair %s to %s!' % (in_format, out_format))
 
-        self.converter.run(in_fname, out_fname)
+        self.converter.run()
 
 
 

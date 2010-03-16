@@ -1,6 +1,6 @@
 import numpy, h5py, os
 from scipy.sparse import csc_matrix
-import config
+import base
 
 class LIBSVM2H5():
     """Convert a file from LibSVM to HDF5."""
@@ -117,20 +117,20 @@ class LIBSVM2H5():
         h = h5py.File(out_fname, 'w')
 
         if A.nnz/numpy.double(A.shape[0]*A.shape[1]) < 0.5: # sparse
-            h.create_dataset('attributes_indices', data=A.indices, compression=config.COMPRESSION)
-            h.create_dataset('attributes_indptr', data=A.indptr, compression=config.COMPRESSION)
-            h.create_dataset('attributes_data', data=A.data, compression=config.COMPRESSION)
+            h.create_dataset('attributes_indices', data=A.indices, compression=base.COMPRESSION)
+            h.create_dataset('attributes_indptr', data=A.indptr, compression=base.COMPRESSION)
+            h.create_dataset('attributes_data', data=A.data, compression=base.COMPRESSION)
             h.attrs['comment'] = 'libsvm sparse'
         else: # dense
             A = A.todense().T
-            h.create_dataset('attributes', data=A, compression=config.COMPRESSION)
+            h.create_dataset('attributes', data=A, compression=base.COMPRESSION)
             h.attrs['comment'] = 'libsvm dense'
 
         attribute_names = ['dim 1', '...', 'dim ' + str(A.shape[1])]
-        h.create_dataset('attribute_names', data=attribute_names, compression=config.COMPRESSION)
+        h.create_dataset('attribute_names', data=attribute_names, compression=base.COMPRESSION)
 
         # without str(), h5py might barf
         h.attrs['name'] = str(os.path.basename(out_fname).split('.')[0])
-        h.attrs['mldata'] = config.VERSION_MLDATA
+        h.attrs['mldata'] = base.VERSION_MLDATA
 
         h.close()

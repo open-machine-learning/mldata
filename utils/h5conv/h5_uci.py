@@ -3,24 +3,29 @@ import base
 
 
 
-class UCI2H5(base.Converter):
+class UCI2H5(base.H5Converter):
     """Convert a file from UCI to HDF5."""
 
-    def get_comment(self, fname):
-        name = '.'.join(fname.split('.')[:-1])
-        if not name:
-            name = '.'.join(fname.split('-')[:-1])
+    def get_comment(self):
+        try:
+            name = '.'.join(self.fname_in.split('.')[:-1])
+            if not name:
+                name = '.'.join(self.fname_in.split('-')[:-1])
 
-        if os.path.exists(name + '.names'):
-            fp = open(name + '.names', 'r')
-        elif os.path.exists(name + '.info'):
-            fp = open(name + '.info', 'r')
-        else:
-            return None
+            if os.path.exists(name + '.names'):
+                fp = open(name + '.names', 'r')
+            elif os.path.exists(name + '.info'):
+                fp = open(name + '.info', 'r')
+            else:
+                return ''
 
-        comment = ''.join(fp.readlines())
-        fp.close()
-        return comment
+            comment = ''.join(fp.readlines())
+            fp.close()
+            return comment
+        except ValueError:
+            return ''
+        except IOError:
+            return ''
 
 
     def _ignore_line(self, line):
@@ -33,8 +38,8 @@ class UCI2H5(base.Converter):
         return False
 
 
-    def _parse(self, fname):
-        fp = open(fname, 'r')
+    def _parse(self):
+        fp = open(self.fname_in, 'r')
         lineno = 0
         num_items = None
         data = []
@@ -67,9 +72,9 @@ class UCI2H5(base.Converter):
         return data
 
 
-    def get_data(self, fname):
+    def get_data(self):
         order = []
-        predata = self._parse(fname)
+        predata = self._parse()
         data = {}
 
         for i in xrange(len(predata)):
