@@ -10,12 +10,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mldata.settings'
 from django.core.files import File
+from django.db import IntegrityError
 from repository.models import *
 from utils import h5conv
 from settings import MEDIA_ROOT
 
-
-FILESIZE_MAX = 1024*1024 # 1 MB
 
 
 class SlurpHTMLParser(HTMLParser):
@@ -594,7 +593,7 @@ class Slurper:
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
             response.close()
-            #parser.feed(self.fromfile('Census+Income'))
+            #parser.feed(self.fromfile('Kinship'))
             parser.close()
         except HTMLParseError, e:
             warn('HTMLParseError: ' + str(e))
@@ -1033,13 +1032,11 @@ class UCI(Slurper):
 
 
     def skippable(self, name):
-        return False
-
         if name == 'Abalone':
             return False
         elif name == 'Cylinder Bands':
             return False
-        elif name == 'Iris':
+        elif name == 'Kinship':
             return False
         elif name == 'Sponge':
             return False
@@ -1231,7 +1228,10 @@ def parse_options():
 
     for o, a in opts:
         if o in ('-o', '--output'):
-            Options.output = a
+            if a.startswith(os.sep): # absolute
+                Options.output = a
+            else: # relative
+                Options.output = os.path.join(os.getcwd(), a)
         elif o in ('-s', '--source'):
             a = int(a)
             if a > len(Options.sources)-1:

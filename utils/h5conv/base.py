@@ -90,6 +90,11 @@ class H5Converter(object):
 
         group = h5file.create_group('/data')
         for name in data['order']:
-            group.create_dataset(name, data=data['data'][name], compression=COMPRESSION)
+            if len(data['data'][name]) > 0:
+                if name.find('/') != -1: # / sep belongs to hdf5 path
+                    path = name.replace('/', '+')
+                else:
+                    path = name
+                group.create_dataset(path, data=data['data'][name], compression=COMPRESSION)
 
         h5file.close()

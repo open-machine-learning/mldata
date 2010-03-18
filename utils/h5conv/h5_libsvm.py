@@ -117,7 +117,7 @@ class LIBSVM2H5(base.H5Converter):
             data['indices'] = A.indices
             data['indptr'] = A.indptr
             data['data'] = A.data
-            order = ['data_indices', 'data_indptr', 'data_data']
+            order = ['indices', 'indptr', 'data']
         else: # dense
             data['data'] = A.todense().T
             order = ['data']

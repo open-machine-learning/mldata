@@ -51,8 +51,11 @@ class ARFF2H5(base.H5Converter):
             # a few attributes are designated strings by "'"
             if item[0] == "'" and item[-1] == "'":
                 return item[1:-1]
+
         except TypeError:
-            return item
+            pass
+
+        return item
 
 
     def get_data(self):
