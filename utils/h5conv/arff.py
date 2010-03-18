@@ -174,7 +174,7 @@ class ArffFile(object):
         self.relation = l[1]
 
     def __parse_attribute(self, l):
-        p = re.compile(r'[a-zA-Z_][a-zA-Z0-9_-]*|\{[^\}]+\}|\'[^\']+\'|\"[^\"]+\"')
+        p = re.compile(r'[a-zA-Z_][a-zA-Z0-9_/+-]*|\{[^\}]+\}|\'[^\']+\'|\"[^\"]+\"')
         l = [s.strip() for s in p.findall(l)]
         name = l[1]
         atype = l[2]
