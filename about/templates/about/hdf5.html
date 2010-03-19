@@ -13,37 +13,36 @@
 	<h2>{% trans "HDF5 Attributes and Datasets" %}</h2>
 	<p>{% trans "The basic abstraction is that a data set is a large collection of objects having the same type. Each object is a fixed length array of features which may be of different types. For example, each object can be an array of mixed categorical and numerical data, but all objects in the dataset have the same mix." %}</p>
 
-	<p>{% trans "We defined the following HDF5 attributes in our files" %}:</p>
+	<h3>{% trans "We defined the following HDF5 attributes in our files" %}</h3>
 	<ul>
 		<li>mldata: {% trans "Internal mldata version" %}; <code>{% trans "Integer, currently" %} 0</code></li>
 		<li>name: {% trans "Name to describe the item as found in the file" %}; <code>{% trans "String" %}</code></li>
 		<li>comment: {% trans "Any comment or description in the file" %}; <code>{% trans "String" %}</code></li>
 	</ul>
 
-	<p>{% trans "The following datasets may be defined in our HDF5 data files" %}:</p>
+	<h3>{% trans "The following datasets may be defined in our HDF5 data files" %}</h3>
 	<ul>
-		<li>attribute_names: {% trans "Names of the data attributes, if available" %}; <code>{% trans "Array of Strings" %}</code></li>
-		<li>attribute_types: {% trans "Types of the data attributes, if available" %}; <code>{% trans "Array of Strings" %}</code></li>
-		<li>attributes: {% trans "The data attributes themselves for dense matrices" %}; <code>{% trans "Array of Objects as described by attribute_types" %}</code></li>
-		<li>attributes_indices: {% trans "The indices of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
-		<li>attributes_indptr: {% trans "The index pointers of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
-		<li>attributes_data: {% trans "The data attributes themselves for sparse matrices" %}; <code>{% trans "Array of Objects as described by attribute_types" %}</code></li>
+		<li>names: {% trans "Names of the data attributes" %}; <code>{% trans "Array of Strings" %}</code></li>
+		<li>order: {% trans "Order of the datasets in the group, specified by the attributes' short names" %}; <code>{% trans "Array of Strings" %}</code></li>
 	</ul>
-	<p>{% trans "Please note that attributes and attributes_indices + attributes_indptr + attributes_data are mutually exclusive." %}</p>
 
-	<h2>{% trans "Attribute Types" %}</h2>
-	<p>
-		{% trans "We make a distinction between the actual binary format and the attribute type stored in the file. For example, nominal data might be stored as integers or even bytes for efficiency, although they are mapped to symbolic names to the outside." %}<br />
-		{% trans "The attribute type is specified by a string which has to be parsed for better flexibility." %}
-	</p>
-
-	<p>{% trans "Supported types are:" %}:</p>
+	<h3>{% trans "The actual data is contained in a group called 'data', containing these datasets" %}</h3>
+	<p>{% trans "Single sparse matrix when all attributes types are the same" %}:</p>
 	<ul>
-		<li>"NUMERIC"<br />Numerical values<br />Array of Numerical type</li>
-		<li>"NOMINAL(VALUE1, VALUE2, ...)"<br />Enumeration type<br />Array of small Integer types</li>
-		<li>"STRING"<br /><br />Array of Strings </li>
+		<li>data: {% trans "The data attributes themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
+		<li>indices: {% trans "The indices of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>indptr: {% trans "The index pointers of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
 	</ul>
-	<p>{% trans "As we see more data types, more type descriptors will be added." %}</p>
+	<p>{% trans "Single dense matrix when all attribute types are the same" %}:</p>
+	<ul>
+		<li>data: {% trans "The data attributes themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
+	</ul>
+	<p>{% trans "Multiple arrays/datasets when attribute types are mixed. If possible short names are used for the array names for better recognition, otherwise the data type (int, double, str) is used. In the latter case the arrays are also numbered for uniqueness" %}:</p>
+	<ul>
+		<li>&lt;shortname&gt;: {% trans "Attribute of given name" %}; <code>{% trans "Array of Objects" %}</code></li>
+		<li>OR</li>
+		<li>&lt;type&gt;&lt;no&gt;: {% trans "Attribute of given type" %}; <code>{% trans "Array of Objects" %}</code></li>
+	</ul>
 
 
 	<h2>{% trans "Split files and Tasks" %}</h2>
