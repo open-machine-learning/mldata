@@ -428,9 +428,9 @@ class Slurper:
         classname = self.__class__.__name__
         # MySQL / django-tagging fix.
         if self.format.lower() != classname.lower():
-            return ', '.join([tags, self.format, classname])
+            return ', '.join([tags, self.format, classname, 'slurped'])
         else:
-            return ', '.join([tags, self.format])
+            return ', '.join([tags, self.format, 'slurped'])
 
 
     def _add_publications(self, obj, publications):
