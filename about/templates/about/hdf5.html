@@ -13,43 +13,57 @@
 	<h2>{% trans "HDF5 Attributes and Datasets" %}</h2>
 	<p>{% trans "The basic abstraction is that a data set is a large collection of objects having the same type. Each object is a fixed length array of features which may be of different types. For example, each object can be an array of mixed categorical and numerical data, but all objects in the dataset have the same mix." %}</p>
 
-	<h3>{% trans "We defined the following HDF5 attributes in our files" %}</h3>
+	<a name="attributes"></a>
+	<h3>{% trans "HDF5 attributes on the root level" %}</h3>
 	<ul>
 		<li>mldata: {% trans "Internal mldata version" %}; <code>{% trans "Integer, currently" %} 0</code></li>
-		<li>name: {% trans "Name to describe the item as found in the file" %}; <code>{% trans "String" %}</code></li>
-		<li>comment: {% trans "Any comment or description in the file" %}; <code>{% trans "String" %}</code></li>
+		<li>name: {% trans "Name to briefly describe the dataset" %}; <code>{% trans "String" %}</code></li>
+		<li>comment: {% trans "Any extended comment or description of the dataset" %}; <code>{% trans "String" %}</code></li>
 	</ul>
 
-	<h3>{% trans "The following datasets may be defined in our HDF5 data files" %}</h3>
+	<h3>{% trans "HDF5 group 'data_descr'" %}</h3>
 	<ul>
-		<li>names: {% trans "Names of the data attributes" %}; <code>{% trans "Array of Strings" %}</code></li>
-		<li>order: {% trans "Order of the datasets in the group, specified by the attributes' short names" %}; <code>{% trans "Array of Strings" %}</code></li>
+		<li>names: {% trans "Dataset with names of the variables" %}; <code>{% trans "Array of Strings" %}</code></li>
+		<li>ordering: {% trans "Dataset with ordering of the variables in the original dataset, using short names for each variable" %}; <code>{% trans "Array of Strings" %}</code></li>
 	</ul>
 
-	<h3>{% trans "The actual data is contained in a group called 'data', containing these datasets" %}</h3>
-	<p>{% trans "Single sparse matrix when all attributes types are the same" %}:</p>
+	<h3>{% trans "HDF5 group 'data'" %}</h3>
+	<h4>{% trans "Single sparse matrix when all attributes types are the same" %}</h4>
 	<ul>
-		<li>data: {% trans "The data attributes themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
-		<li>indices: {% trans "The indices of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
-		<li>indptr: {% trans "The index pointers of data attributes for sparse matrices" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>data: {% trans "The variables themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
+		<li>indices: {% trans "The indices of non-zero values" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>indptr: {% trans "The index pointers for the variables' columns" %}; <code>{% trans "Array of Integers" %}</code></li>
 	</ul>
-	<p>{% trans "Single dense matrix when all attribute types are the same" %}:</p>
+	<p>{% trans "This represents the Compressed Sparse Column format described at" %} <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html">scipy.org</a> {% trans "and" %} <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_Sparse_Column_.28CSC_or_CCS.29">Wikipedia</a>.</p>
+	<h4>{% trans "Single dense matrix when all attribute types are the same" %}</h4>
 	<ul>
-		<li>data: {% trans "The data attributes themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
+		<li>data: {% trans "The variables themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
 	</ul>
-	<p>{% trans "Multiple arrays/datasets when attribute types are mixed. If possible short names are used for the array names for better recognition, otherwise the data type (int, double, str) is used. In the latter case the arrays are also numbered for uniqueness" %}:</p>
+	<h4>{% trans "Multiple datasets when variable types are mixed" %}</h4>
 	<ul>
-		<li>&lt;shortname&gt;: {% trans "Attribute of given name" %}; <code>{% trans "Array of Objects" %}</code></li>
+		<li>&lt;shortname&gt;: {% trans "Variable of given name" %}; <code>{% trans "Array of Objects" %}</code></li>
 		<li>OR</li>
-		<li>&lt;type&gt;&lt;no&gt;: {% trans "Attribute of given type" %}; <code>{% trans "Array of Objects" %}</code></li>
+		<li>&lt;type&gt;&lt;no&gt;: {% trans "Variable of given type" %}; <code>{% trans "Array of Objects" %}</code></li>
 	</ul>
+	<p>{% trans "If possible short names are used for the dataset names for better recognition, otherwise the variable type (int, double, str) is used. In the latter case the datasets are also numbered for uniqueness" %}</h4>
 
 
 	<h2>{% trans "Split files and Tasks" %}</h2>
 	<p>{% trans "Note that the distinction what is input/output, label/target depends on the TASK, not on the data set itself! We do have a mechanism in place to create automatic split files while slurping datasets from other repositories, though. These datasets may be defined in the split files:" %}</p>
+
+	<h3>{% trans "HDF5 attributes on the root level" %}</h3>
+	<p>{% trans "See" %} <a href="#attributes">{% trans "above" %}</a></p>
+
+	<h3>{% trans "HDF5 group 'task_descr'" %}</h3>
 	<ul>
-		<li>labels: {% trans "Index of labels/target for each data row" %}; <code>{% trans "Array of Integers" %}</code></li>
-		<li>testing/training/validation/whatever the slurper could derive from the dataset: {% trans "Indices of input/output/whatever task requires" %}; <code>{% trans "Array of Integers" %}</code></li>
+		<li>{% trans "undefined yet" %}</li>
+	</ul>
+
+
+	<h3>{% trans "HDF5 group 'task'" %}</h3>
+	<ul>
+		<li>labels: {% trans "Dataset with the index of the labels/target value for the examples, possibly multiple values in case of multi labels" %}; <code>{% trans "Array of Integers (but usually only 1 value in the array)" %}</code></li>
+		<li>testing/training/validation: {% trans "Dataset with indices of where the examples are split. Row indices in the original files == column indices in our data file. It may be a matrix in case of permuations, that is if there are multiple ways of splitting defined." %}; <code>{% trans "Array (or matrix) of Integers" %}</code></li>
 	</ul>
 
 
