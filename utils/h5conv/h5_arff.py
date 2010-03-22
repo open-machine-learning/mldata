@@ -61,7 +61,7 @@ class ARFF2H5(base.H5Converter):
     def get_data(self):
         data = {}
         names = []
-        order = []
+        ordering = []
 
         for name in self.arff.attributes:
             n = self._rm_ticks(name)
@@ -84,7 +84,7 @@ class ARFF2H5(base.H5Converter):
                 except ValueError:
                     data[name] = arr.astype(self.str_type)
 
-        return {'names':names, 'order':names, 'data':data}
+        return {'names':names, 'ordering':names, 'data':data}
 
 
 
@@ -119,18 +119,18 @@ class H52ARFF():
 
         a.relation = h.attrs['name']
         a.comment = h.attrs['comment']
-        a.attributes = list(h['names'])
+        a.attributes = list(h['data_descr/names'])
 
         a.data = []
-        for i in xrange(len(h['data/' + h['order'][0]])):
+        for i in xrange(len(h['data/' + h['data_descr/ordering'][0]])):
             a.data.append([])
-        for name in h['order']:
+        for name in h['data_descr/ordering']:
             path = 'data/' + name
             for j in xrange(len(h[path])):
                 a.data[j].append(h[path][j])
 
-        for i in xrange(len(h['types'])):
-            t = h['types'][i].split(':')
+        for i in xrange(len(h['data_descr/types'])):
+            t = h['data_descr/types'][i].split(':')
             a.attribute_types[a.attributes[i]] = t[0]
             if len(t) == 1:
                 a.attribute_data[a.attributes[i]] = None

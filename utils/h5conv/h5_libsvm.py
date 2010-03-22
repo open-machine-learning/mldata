@@ -117,13 +117,13 @@ class LIBSVM2H5(base.H5Converter):
             data['indices'] = A.indices
             data['indptr'] = A.indptr
             data['data'] = A.data
-            order = ['indices', 'indptr', 'data']
+            ordering = ['indices', 'indptr', 'data']
         else: # dense
             data['data'] = A.todense().T
-            order = ['data']
+            ordering = ['data']
 
         names = []
         for i in xrange(A.shape[0]):
             names.append('dim' + str(i))
 
-        return {'order':order, 'names':names, 'data':data}
+        return {'ordering':ordering, 'names':names, 'data':data}

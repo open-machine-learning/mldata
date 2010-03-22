@@ -261,7 +261,7 @@ class HDF5():
                 pass
 
         try:
-            extract['names'] = h5file['names'][:]
+            extract['names'] = h5file['data_descr/names'][:]
         except KeyError:
             pass
 
@@ -272,7 +272,7 @@ class HDF5():
             for i in xrange(ne):
                 extract['data'].append([])
 
-            for dset in h5file['order']:
+            for dset in h5file['data_descr/ordering']:
                 path = 'data/' + dset
                 if path + '_indptr' in h5file: # sparse
                     # taking all data takes to long for quick viewing, but having just

@@ -73,7 +73,7 @@ class UCI2H5(base.H5Converter):
 
 
     def get_data(self):
-        order = []
+        ordering = []
         predata = self._parse()
         data = {}
 
@@ -89,6 +89,6 @@ class UCI2H5(base.H5Converter):
                 except ValueError:
                     name = 'str' + str(i)
                     data[name] = arr.astype(self.str_type)
-            order.append(name)
+            ordering.append(name)
 
-        return {'names':order, 'order':order, 'data':data}
+        return {'ordering':ordering, 'names':ordering, 'data':data}

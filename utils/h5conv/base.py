@@ -63,8 +63,8 @@ class H5Converter(object):
     def get_data(self):
         """Get data from given file.
 
-        @return: data names, order and attributes
-        @rtype: dict of: list of data names, list of data order and dict of data points
+        @return: data names, ordering and examples
+        @rtype: dict of: list of names, list of ordering and dict of examples
         """
         raise NotImplementedError('Abstract method!')
 
@@ -78,18 +78,19 @@ class H5Converter(object):
         h5file.attrs['comment'] = self.get_comment()
 
         data = self.get_data()
-        names = numpy.array(data['names']).astype(self.str_type)
-        h5file.create_dataset('names', data=names, compression=COMPRESSION)
-        order = numpy.array(data['order']).astype(self.str_type)
-        h5file.create_dataset('order', data=order, compression=COMPRESSION)
 
+        group = h5file.create_group('/data_descr')
+        names = numpy.array(data['names']).astype(self.str_type)
+        group.create_dataset('names', data=names, compression=COMPRESSION)
+        ordering = numpy.array(data['ordering']).astype(self.str_type)
+        group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
         types = self.get_types()
         if types:
             types = numpy.array(types).astype(self.str_type)
-            h5file.create_dataset('types', data=types, compression=COMPRESSION)
+            group.create_dataset('types', data=types, compression=COMPRESSION)
 
         group = h5file.create_group('/data')
-        for name in data['order']:
+        for name in data['ordering']:
             if len(data['data'][name]) > 0:
                 if name.find('/') != -1: # / sep belongs to hdf5 path
                     path = name.replace('/', '+')
