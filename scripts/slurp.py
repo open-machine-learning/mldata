@@ -666,8 +666,6 @@ class LibSVMTools(Slurper):
     def skippable(self, name):
         if name == 'australian':
             return False
-        elif name == 'cod-rna':
-            return False
         elif name == 'colon-cancer':
             return False
         elif name.startswith('duke'):
@@ -680,8 +678,6 @@ class LibSVMTools(Slurper):
         elif name == 'connect-4':
             return False
         elif name == 'dna':
-            return False
-        elif name == 'poker':
             return False
         elif name == 'sector':
             return False
