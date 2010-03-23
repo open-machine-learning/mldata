@@ -10,33 +10,37 @@ class LIBSVM2H5(base.H5Converter):
     def __init__(self, *args, **kwargs):
         """Constructor.
 
-        @ivar offset_labels: indices for labels for each row
-        @type offset_labels: list of integers
+        @ivar labels_maxidx: highest index for a label
+        @type labels_maxidx: integer
+        @ivar is_multilabel: if data is of type multilabel
+        @type is_multilabel: boolean
         """
         super(LIBSVM2H5, self).__init__(*args, **kwargs)
-        self.offset_labels = []
+        self.labels_maxidx = 0
+        self.is_multilabel = False
 
 
-    def _explode_labels(self, label):
-        """Explode labels to be prepended to data row.
+    def _scrub_labels(self, labels):
+        """Convert labels to integers and determine max index
 
-        This is needed for multilabel support.
-
-        @param label: labels read from data file
-        @type label: list of characters
-        @return: exploded labels
-        @rtype: list of integers
+        @param labels: labels read from data file
+        @type labels: list of characters
+        @return: labels converted to int
+        @rtype: list of integer
         """
-        label = numpy.double(''.join(label).split(','))
-        ll = []
-        if len(label) > 1:
-            for l in label:
-                ll.append([l, 1])
-            self.offset_labels.append(int(max(label)))
+        str_labels = ''.join(labels)
+        if not self.is_multilabel and str_labels.find(',') == -1:
+            self.labels_maxidx = 0
+            return [int(float(str_labels))]
         else:
-            ll.append([0, label[0]])
-            self.offset_labels.append(0)
-        return ll
+            self.is_multilabel = True
+            lab = str_labels.split(',')
+            for i in xrange(len(lab)):
+                # float conversion to prevent error msg
+                lab[i] = int(float(lab[i]))
+                if lab[i] > self.labels_maxidx:
+                    self.labels_maxidx = lab[i]
+            return lab
 
 
     def _parse_line(self, line):
@@ -44,21 +48,21 @@ class LIBSVM2H5(base.H5Converter):
 
         @param line: line to parse
         @type line: string
-        @return: attributes in this line
-        @rtype: list of attributes
+        @return: variables in this line
+        @rtype: list of variables
         """
         state = 'label'
         idx = []
         val = []
-        label = []
-        attributes = []
+        labels = []
+        variables = []
         for c in line:
             if state == 'label':
                 if c.isspace():
                     state = 'idx'
-                    attributes.extend(self._explode_labels(label))
+                    labels = self._scrub_labels(labels)
                 else:
-                    label.append(c)
+                    labels.append(c)
             elif state == 'idx':
                 if not c.isspace():
                     if c == ':':
@@ -71,14 +75,14 @@ class LIBSVM2H5(base.H5Converter):
                     state = 'val'
             elif state == 'val':
                 if c.isspace():
-                    attributes.append([int(''.join(idx)) + self.offset_labels[-1], ''.join(val)])
+                    variables.append([int(''.join(idx)), ''.join(val)])
                     idx = []
                     val = []
                     state = 'idx'
                 else:
                     val.append(c)
 
-        return attributes
+        return {'labels':labels, 'variables':variables}
 
 
     def get_matrix(self):
@@ -87,21 +91,34 @@ class LIBSVM2H5(base.H5Converter):
         @return: compressed sparse column matrix
         @rtype: scipy.sparse.csc_matrix
         """
-        self.offset_labels = []
+        self.labels_idx = []
+        parsed = []
+        infile = open(self.fname_in, 'r')
+        for line in infile:
+            parsed.append(self._parse_line(line))
+        infile.close()
+        self.labels_idx = range(self.labels_maxidx + 1)
+
         indices = []
         indptr = [0]
         data = []
         ptr = 0
-        infile = open(self.fname_in, 'r')
+        for i in xrange(len(parsed)):
+            if len(parsed[i]['labels']) > 1: # multi label -> values are indices
+                for idx in parsed[i]['labels']:
+                    indices.append(int(idx))
+                    data.append(1.)
+                    ptr += 1
+            else: # only single label -> value is actual value
+                indices.append(0)
+                data.append(numpy.double(parsed[i]['labels'][0]))
+                ptr += 1
 
-        for line in infile:
-            attributes = self._parse_line(line)
-            for a in attributes:
-                indices.append(int(a[0]))
-                data.append(numpy.double(a[1]))
+            for v in parsed[i]['variables']:
+                indices.append(int(v[0]) + self.labels_maxidx + 1)
+                data.append(numpy.double(v[1]))
                 ptr += 1
             indptr.append(ptr)
-        infile.close()
 
         return csc_matrix((numpy.array(data), numpy.array(indices), numpy.array(indptr)))
 

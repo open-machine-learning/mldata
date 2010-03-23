@@ -1,86 +1,5 @@
 """
 Convert from and to HDF5 (spec of mldata.org)
-
-Structure of the HDF5 Format
-============================
-
-This will be the generic storage for all kinds of data sets. The basic
-abstraction is that a data set is a large collection of objects having
-the same type, so to say a large array.
-
-/mldata
- version of the file format
- Integer = 0
-/name
- Name of the data set
- String
-/comment
- Initial comment
- String
-/attribute_names
- Nnames of the attributes
- Array of Strings
-/attribute_types
- Description of the attribute types (see below)
- Array of Strings
-/attributes
- as described by attribute_types
- Array of Objects
-
-
-Attribute Types
----------------
-
-We make a distinction between the actual binary format and the
-attribute type stored in the file. For example, nominal data might be
-stored as integers or even bytes for efficiency, although they are
-mapped to symbolic names to the outside.
-
-The attribute type is specified by a string which has to be parsed for
-better flexibility.
-
-Supported types are:
-
-"NUMERIC"
-Numerical values
-Array of Numerical type
-
-"NOMINAL(VALUE1, VALUE2, ...)"
-Enumeration type
-Aarray of small Integer types
-
-"STRING"
-Array of Strings
-
-As we see more data types, more type descriptors will be added.
-
-
-Split files and Tasks
-=====================
-
-Note that the distinction what is input/output, label/target depends
-on the TASK, not on the data set itself!
-We do have a mechanism in place to create automatic split files while slurping
-datasets from other repositories, though. These datasets may be defined in the
-split files:
-
-/labels
- Index of labels/target for each data row
- Array of Integers
-/testing|training|validation|whatever the slurper could derive from the dataset
- Indices of input/output/whatever task requires
- Array of Integers
-
-
-Currently supported formats
-===========================
-to hdf5
-LibSVM
-ARFF
-UCI
-
-from hdf5
-ARFF
 """
 
 
@@ -318,8 +237,8 @@ class HDF5():
         """
         h5file = h5py.File(fname, 'w')
 
-        if self.converter.offset_labels and max(self.converter.offset_labels) > 0:
-            h5file.create_dataset('labels', data=self.converter.offset_labels, compression=base.COMPRESSION)
+        if self.converter.labels_idx:
+            h5file.create_dataset('labels', data=self.converter.labels_idx, compression=base.COMPRESSION)
 
         for k,v in indices.iteritems():
             data = []

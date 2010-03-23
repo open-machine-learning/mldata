@@ -16,6 +16,8 @@ class H5Converter(object):
     @type fname_in: string
     @ivar fname_out: filename to write converted data to
     @type fname_out: string
+    @ivar labels_idx: indices for labels for each row
+    @type labels_idx: list of integers
     """
 
     str_type = h5py.new_vlen(numpy.str)
@@ -24,6 +26,7 @@ class H5Converter(object):
     def __init__(self, fname_in, fname_out):
         self.fname_in = fname_in
         self.fname_out = fname_out
+        self.labels_idx = None
 
 
     def warn(self, msg):
