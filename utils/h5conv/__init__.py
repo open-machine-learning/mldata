@@ -237,8 +237,9 @@ class HDF5():
         """
         h5file = h5py.File(fname, 'w')
 
+        group = h5file.create_group('/task')
         if self.converter.labels_idx:
-            h5file.create_dataset('labels', data=self.converter.labels_idx, compression=base.COMPRESSION)
+            group.create_dataset('labels', data=self.converter.labels_idx, compression=base.COMPRESSION)
 
         for k,v in indices.iteritems():
             data = []
@@ -247,7 +248,7 @@ class HDF5():
                 for col in row:
                     r.append(numpy.double(col))
                 data.append(r)
-            h5file.create_dataset(k, data=data, compression=base.COMPRESSION)
+            group.create_dataset(k, data=data, compression=base.COMPRESSION)
 
         h5file.attrs['name'] = name
         h5file.attrs['mldata'] = base.VERSION_MLDATA
