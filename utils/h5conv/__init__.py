@@ -225,30 +225,24 @@ class HDF5():
         return extract
 
 
-    def create_split(self, fname, name, indices):
+    def create_split(self, fname, name, data):
         """Create a split file, using HDF5.
 
         @param fname: name of the split file
         @type fname: string
         @param name: name of the Task item
         @type name: string
-        @param indices: split indices
-        @type indices: dict
+        @param data: split data
+        @type data: dict of (named) list of integers
         """
         h5file = h5py.File(fname, 'w')
 
         group = h5file.create_group('/task')
-        if self.converter.labels_idx:
+        if self.converter and self.converter.labels_idx:
             group.create_dataset('labels', data=self.converter.labels_idx, compression=base.COMPRESSION)
 
-        for k,v in indices.iteritems():
-            data = []
-            for row in v:
-                r = []
-                for col in row:
-                    r.append(numpy.double(col))
-                data.append(r)
-            group.create_dataset(k, data=data, compression=base.COMPRESSION)
+        for k,v in data.iteritems():
+            group.create_dataset(k, data=v, compression=base.COMPRESSION)
 
         h5file.attrs['name'] = name
         h5file.attrs['mldata'] = base.VERSION_MLDATA

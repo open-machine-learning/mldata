@@ -3,7 +3,7 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess, random
+import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess, random, tempfile
 from HTMLParser import HTMLParser, HTMLParseError
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
@@ -366,13 +366,80 @@ class Slurper:
                 return self.source + '/' + filename
 
 
-    def get_dst(self, filename):
+    def get_dst(self, fname):
         """Get full local destination for given filename.
 
-        @param filename: filename to retrieve destination for.
-        @type filename: string
+        @param fname: filename to retrieve destination for.
+        @type fname: string
+        @return: destination filename
+        @rtype: string
         """
-        return os.path.join(self.output, filename)
+        return os.path.join(self.output, fname)
+
+
+    def concat(self, fnames):
+        """Concatenate given files to one large file.
+
+        @param fnames: filenames to concatenate
+        @type fnames: list of strings
+        @return: name of created large file
+        """
+        tmp, fname = tempfile.mkstemp()
+        tmp = os.fdopen(tmp, 'w')
+        for f in fnames:
+            fh = open(f, 'r')
+            shutil.copyfileobj(fh, tmp)
+            fh.close()
+        tmp.close()
+
+        return fname
+
+
+
+    def _get_splitnames(self, fnames):
+        """Helper function to get names of splits.
+
+        Get names like testing, training,
+        validation, etc. from given filenames.
+
+        @param fnames: filenames to get splitnames from
+        @type fnames: list of strings
+        @return: splitnames
+        @rtype: list of strings
+        """
+        names = []
+        for name in fnames:
+            n = name.split(os.sep)[-1]
+            if n.find('train') != -1 or n.find('.tr') != -1:
+                names.append('training')
+            elif n.find('.val') != -1:
+                names.append('validation')
+            elif n.find('.r') != -1:
+                names.append('remaining')
+            elif n.find('test') != -1 or n.find('.t') != -1:
+                names.append('testing')
+            else:
+                names.append('unknown')
+
+        return names
+
+
+    def _get_splitdata(self, fnames):
+        """Get split data.
+
+        @param fnames: filenames of related data files
+        @type fnames: list of strings
+        """
+        names = self._get_splitnames(fnames)
+        data = {}
+        offset = 0
+        for i in xrange(len(names)):
+            count = sum(1 for line in open(fnames[i]))
+            data[names[i]] = range(offset, offset+count)
+            offset += count
+
+        return data
+
 
 
     def _download(self, filename):
@@ -433,6 +500,22 @@ class Slurper:
             return ', '.join([tags, self.format, 'slurped'])
 
 
+    def _create_splitfile(self, name, fnames):
+        """Create a split file.
+
+        @param name: name of the item
+        @type name: string
+        @param fnames: filenames related to this task
+        @type fnames: list of strings
+        """
+        progress('Creating HDF5 split file.', 5)
+        data = self._get_splitdata(fnames)
+        fname = os.path.join(self.output, self.hdf5.get_filename(name))
+        self.hdf5.create_split(fname, name, data)
+
+        return fname
+
+
     def _add_publications(self, obj, publications):
         for p in publications:
             if p.startswith('<a') and p.endswith('</a>'):
@@ -459,13 +542,13 @@ class Slurper:
             obj.publications.add(pub)
 
 
-    def create_data(self, parsed, datafile):
+    def create_data(self, parsed, fname):
         """Create a repository Data object.
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param datafile: filename of data file (often != parsed['files'])
-        @type datafile: string
+        @param fname: filename of data file (often != parsed['files'])
+        @type fname: string
         @return: a repository Data object
         @rtype: repository.Data
         """
@@ -487,14 +570,14 @@ class Slurper:
         progress('Creating Data item ' + obj.name + '.', 4)
 
         obj.format = 'h5'
-        obj.file = File(open(datafile))
+        obj.file = File(open(fname))
         obj.file.name = obj.get_filename()
 
         obj.save()
         self._add_publications(obj, parsed['publications'])
 
         progress('Converting to HDF5.', 5)
-        self.hdf5.convert(datafile, self.format,
+        self.hdf5.convert(fname, self.format,
             os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
         # make it available after everything went alright
@@ -505,15 +588,15 @@ class Slurper:
         return obj
 
 
-    def create_task(self, parsed, data, indices={}):
+    def create_task(self, parsed, data, fnames):
         """Create a repository Task object.
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
         @param data: Data object
         @type data: repository.Data
-        @param indices: names of indices for split file
-        @type indices: dict with fields according to split: name + index
+        @param fnames: filenames related to this task
+        @type fnames: list of strings
         @return: a repository Task object
         @rtype: repository.Task
         """
@@ -539,20 +622,14 @@ class Slurper:
             ttype = parsed['task']
         obj.type, created = TaskType.objects.get_or_create(name=ttype)
 
-        if indices:
-            progress('Creating HDF5 split file.', 5)
-            splitfile = os.path.join(self.output, name + '.h5')
-            self.hdf5.create_split(splitfile, name, indices)
-
-            obj.splits = File(open(splitfile))
-            obj.splits.name = obj.get_splitname()
-
+        splitname = self._create_splitfile(name, fnames)
+        obj.splits = File(open(splitname))
+        obj.splits.name = obj.get_splitname() # name in $SPLITFILE_HOME
         obj.save()
-        self._add_publications(obj, parsed['publications'])
-        if indices:
-            os.remove(splitfile)
+        os.remove(splitname)
 
         # obj needs pk first for many-to-many
+        self._add_publications(obj, parsed['publications'])
         obj.data.add(data)
         obj.is_public = True
         obj.save()
@@ -684,7 +761,7 @@ class LibSVMTools(Slurper):
 
         elif name == 'yeast':
             return False
-        elif name == 'mediamill':
+        elif name == 'scene-classification':
             return False
 
         elif name == 'cadata':
@@ -717,162 +794,104 @@ class LibSVMTools(Slurper):
                 os.remove(os.path.join(self.output, fname.replace('.bz2', '')))
 
 
-    def _concat(self, files):
-        """Concatenate given files to one large file.
-
-        Also counts the line numbers for each file - to be used in split
-        files.
-
-        @param files: filenames to concatenate
-        @type files: list of strings
-        @return: tuple with name of large file and line number counts
-        """
-        tmpfile = files[0] + '.tmp'
-        tmp = open(tmpfile, 'w')
-        counts = []
-
-        for f in files:
-            fh = open(f, 'r')
-            shutil.copyfileobj(fh, tmp)
-            fh.seek(0)
-            counts.append(len(fh.readlines()))
-            #counts.append(sum(1 for line in fh))
-            fh.close()
-
-        tmp.close()
-        return (tmpfile, counts)
-
-
-    def _add_1(self, parsed, index=0):
+    def _add_1(self, parsed, fname):
         """Add one object.
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param index: index in parsed['files'] to use for data file
-        @type index: int
+        @param fname: name of file to add
+        @type fname: string
         """
-        self.create_data(parsed, parsed['files'][index])
+        self.create_data(parsed, fname)
 
 
-    def _add_2(self, parsed, indices=(0,1)):
+    def _add_2(self, parsed):
         """Add two objects.
 
         Either 1 + scaled version or 1 + split file.
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param indices: indices in parsed['files'] to use for data + other file
-        @type indices: tuple of ints
         """
-        fname = parsed['files'][indices[1]]
-        if fname.endswith('scale'):
-            self._add_1(parsed, indices[0])
+        if parsed['files'][1].endswith('scale'):
+            self._add_1(parsed, parsed['files'][0])
             parsed['name'] += '_scale'
-            self._add_1(parsed, indices[1])
+            self._add_1(parsed, parsed['files'][1])
         else:
-            self._add_split(parsed, indices)
+            self._add_datatask(parsed, parsed['files'])
 
 
-    def _add_3(self, parsed, indices=(0,1,2)):
+    def _add_3(self, parsed):
         """Add three objects.
 
         Either 1 + 2 splits, or 1 + split + scaled or 1 + 2 scaled
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param indices: indices in parsed['files'] to use for data + other file
-        @type indices: tuple of ints
         """
-        fname = parsed['files'][indices[2]]
-        if fname.endswith('.r'):
-            self._add_split(parsed, indices, ['validation', 'remaining'])
-        elif fname.endswith('.val'):
-            self._add_split(parsed, indices, ['training', 'validation'])
+        fname = parsed['files'][2]
+        if fname.endswith('.r') or fname.endswith('.val'):
+            self._add_datatask(parsed, parsed['files'])
         elif fname.endswith('.t'): # bit of a weird case: binary splice
-            self._add_split(parsed, (indices[0], indices[2]))
+            self._add_datatask(parsed, [parsed['files'][0], parsed['files'][2]])
             parsed['name'] += '_scale'
-            self._add_1(parsed, indices[1])
+            self._add_1(parsed, parsed['files'][1])
         elif fname.endswith('scale'): # another weird case: multiclass covtype
-            self._add_1(parsed, indices[0])
+            self._add_1(parsed, parsed['files'][0])
             parsed['name'] += '_scale01'
-            self._add_1(parsed, indices[1])
+            self._add_1(parsed, parsed['files'][1])
             parsed['name'] += '_scale'
-            self._add_1(parsed, indices[2])
+            self._add_1(parsed, parsed['files'][2])
         else:
             progress('unknown ending of file ' + fname)
 
 
-    def _add_4(self, parsed, indices=(0,1,2,3)):
+    def _add_4(self, parsed):
         """Add four objects.
 
         Either 1 + 3 splits, or 1 + split + scaled + scaled split
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param indices: indices in parsed['files'] to use for data + other file
-        @type indices: tuple of ints
         """
-        fname = parsed['files'][indices[3]]
-        if fname.endswith('.val'):
-            self._add_split(
-                parsed, indices, ['testing', 'training', 'validation'])
+        if parsed['files'][3].endswith('.val'):
+            self._add_datatask(parsed, parsed['files'])
         else:
-            self._add_split(parsed, (indices[0], indices[1]))
+            self._add_datatask(parsed, parsed['files'][0:2])
             parsed['name'] += '_scale'
-            self._add_split(parsed, (indices[2], indices[3]))
+            self._add_datatask(parsed, parsed['files'][2:4])
 
 
-    def _add_5(self, parsed, indices=(0,1,2,3,4)):
+    def _add_5(self, parsed):
         """Add five objects, 1 + 4 splits.
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param indices: indices in parsed['files'] to use for data + other file
-        @type indices: tuple of ints
         """
 
-        self._add_split(parsed, indices, ['test0', 'test1', 'test2', 'test3'])
+        self._add_datatask(parsed, parsed['files'])
 
 
-    def _add_10(self, parsed, indices=(0,1,2,3,4,5,6,7,8,9)):
+    def _add_10(self, parsed):
         """Add ten objects, 1 + 9 splits
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param indices: indices in parsed['files'] to use for data + other file
-        @type indices: tuple of ints
         """
-        self._add_split(
-            parsed, indices, ['test1', 'test2', 'test3', 'test4', 'test5'])
+        self._add_datatask(parsed, parsed['files'])
 
 
-    def _add_split(self, parsed, indices=(0,1), names=['testing']):
-        """Add a split / task to mldata.org
+    def _add_datatask(self, parsed, fnames):
+        """Add Data + Task to mldata.org
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
-        @param indices: indices in parsed['files'] to use for data + other file
-        @type indices: tuple of ints
-        @param names: names of split indices
-        @type names: list of strings
+        @param fnames: filenames of related to this task
+        @type fnames: list of strings
         """
-        slice = parsed['files'][indices[0]:indices[-1]+1]
-        tmp, counts = self._concat(slice)
+        tmp = self.concat(fnames)
         data = self.create_data(parsed, tmp)
-
-        split_indices = {}
-        offset = len(slice) - len(names)
-        prev_count = 0
-        for i in xrange(offset):
-            prev_count += counts[i]
-        for i in xrange(len(names)):
-            idx = offset + i
-            split_indices[names[i]] = [
-                range(prev_count, prev_count+counts[idx])
-            ]
-            prev_count += counts[idx]
-
-        self.create_task(parsed, data, split_indices)
+        self.create_task(parsed, data, fnames)
         os.remove(tmp)
 
 
@@ -882,7 +901,7 @@ class LibSVMTools(Slurper):
         parsed['files'] = self.unzip(parsed['files'])
         num = len(parsed['files'])
         if num == 1:
-            self._add_1(parsed)
+            self._add_1(parsed, parsed['files'][0])
         elif num == 2:
             self._add_2(parsed)
         elif num == 3:
