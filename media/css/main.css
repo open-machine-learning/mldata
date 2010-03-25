@@ -133,20 +133,21 @@ a:hover.more {text-decoration:none;}
 td {border-width:1px; border-style: solid; margin:0; padding:4px;}
 
 /* tabs */
-.ui-tabs .ui-tabs-hide {display: none;}
-/* only works when set to li.ui-tabs-selected */
-li.ui-tabs-selected a span {color:#0081C7;}
-.tabs-tabs {float:left; width:100%; background:#FFF; line-height:normal; border-bottom:1px solid #0081C7; margin:0; padding:10px 10px 0 0; list-style:none;}
-.tabs-tabs li {display:inline; margin:0; padding:0;}
-.tabs-tabs a {float:left; background:url('../images/tab-left.gif') no-repeat left top; margin:0; padding:0 0 0 4px; text-decoration:none;}
-.tabs-tabs a span {float:left; display:block; background:url('../images/tab-right.gif') no-repeat right top; padding:5px 15px 4px 6px; color:#000;}
-/* Commented Backslash Hack hides rule from IE5-Mac \*/
-.tabs-tabs a span {float:none;}
-/* End IE5-Mac hack */
-.tabs-tabs a:hover span {color:#0081C7;}
-.tabs-tabs a:hover {background-position:0% -42px;}
-.tabs-tabs a:hover span { background-position:100% -42px;}
-#tabs-summary, #tabs-data, #tabs-more, #tabs-history, #tabs-comments, #tabs-stats {margin-top:10px;}
+.ui-tabs .ui-tabs-nav {border-bottom:1px solid #0081c7; margin:10px 0; width:100%; padding:0;}
+.ui-tabs .ui-tabs-nav li {border:1px solid #0081c7; float:left; list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px; -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px; background-color:#eeeeee;}
+.ui-tabs .ui-tabs-nav li a {float:left; text-decoration:none; padding:3px 5px; margin:3px;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {background-color:#fff; border-color:#0081c7;border-bottom-color:#fff;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a {background-color:#fff; color:#000;}
+.ui-tabs .ui-tabs-panel {background:#fff;}
+.ui-tabs .ui-tabs-hide {display: none !important;}
+
+/* don't understand, but seems to be necessary for tabs to work properly */
+.clearfix:after {clear:both; content:'.'; display:block; visibility:hidden; height:0;}
+.clearfix {display:inline-block;}
+* html .clearfix {height:1%;}
+.clearfix {display:block;}
+
+
 
 /* rating */
 #rating-hide {visibility: hidden; position:absolute; background:#FFF; z-index:42; border: 3px solid #0081C7;}

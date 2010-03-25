@@ -49,10 +49,10 @@ $(function() {
 		<div class="error">{% trans "There had been errors, please see below" %}.</div>
 		{% endif %}
 		<div id="tabs">
-			<ul class="tabs-tabs">
-				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary"><span>{% trans "Summary" %}</span></a></li>
-				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more"><span>{% trans "More Info" %}</span></a></li>
-				<li><a title="{% trans "Add or edit a publication" %}" href="#tabs-publications"><span>{% trans "Publications" %}</span></a></li>
+			<ul class="clearfix">
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+				<li><a title="{% trans "Add or edit a publication" %}" href="#tabs-publications">{% trans "Publications" %}</a></li>
 			</ul>
 
 			<form id="form-edit" action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
