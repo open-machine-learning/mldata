@@ -1253,6 +1253,7 @@ def publication_get(request, id):
     try:
         data = serializers.serialize('json',
             [Publication.objects.get(pk=id)], fields=('title', 'content'))
-        return HttpResponse(data, mimetype='text/plain')
     except Publication.DoesNotExist:
-        return HttpResponse('', mimetype='text/plain')
+        data = '[{"pk": 0, "model": "repository.publication", "fields": {"content": "", "title": ""}}]'
+
+    return HttpResponse(data, mimetype='text/plain')
