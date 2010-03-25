@@ -29,7 +29,7 @@ class AutoCompleteInput(forms.TextInput):
             'all': ('css/jquery.autocomplete.css',)
         }
         js = (
-            'js/jquery/jquery.js',
+            'js/jquery/jquery.min.js',
             'js/jquery/jquery.bgiframe.min.js',
             'js/jquery/jquery.ajaxQueue.js',
             'js/jquery/jquery.autocomplete.js'
