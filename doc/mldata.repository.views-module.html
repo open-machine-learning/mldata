@@ -261,6 +261,23 @@
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_download_hit" class="summary-sig-name" onclick="show_private();">_download_hit</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+      Increase hit counter for given object.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_download_hit">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">binary file</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -271,6 +288,24 @@
       Download file relating to item given by id and klass.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_download">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">binary file</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_download_xml" class="summary-sig-name">data_download_xml</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      Download XML file relating to item given by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_xml">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -976,6 +1011,42 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#publication_edit" class="summary-sig-name">publication_edit</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kw</span>)</span><br />
+      Edit/New page of a publication.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#publication_edit">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#publication_get" class="summary-sig-name">publication_get</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      AJAX: Get publication specified by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#publication_get">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 </table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
@@ -1385,6 +1456,29 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="_download_hit"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_download_hit</span>(<span class="sig-arg">obj</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_download_hit">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Increase hit counter for given object.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (Repository) - object to increase counter for</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="_download"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
@@ -1414,6 +1508,37 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>Http404</strong></code> - if given klass is unexpected or file doesn't exist</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_download_xml"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_download_xml</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_xml">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download XML file relating to item given by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
+    </ul></dd>
+    <dt>Returns: binary file</dt>
+        <dd>contents of file related to object</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Http404</strong></code> - file doesn't exist</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2416,6 +2541,63 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="publication_edit"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">publication_edit</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kw</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#publication_edit">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Edit/New page of a publication.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>rendered response page</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@transaction.commit_on_success</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="publication_get"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">publication_get</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#publication_get">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>AJAX: Get publication specified by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of item to edit</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>publication content in response page</dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== VARIABLES DETAILS ==================== -->
 <a name="section-VariablesDetails"></a>
@@ -2519,7 +2701,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:02 2010
+    Generated by Epydoc 3.0.1 on Thu Mar 25 19:45:46 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -62,7 +62,7 @@
 </table>
 <h1 class="epydoc">Source Code for <a href="mldata.user.views-module.html">Module mldata.user.views</a></h1>
 <pre class="py-src">
-<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module mldata.blog.views=mldata.blog.views-module.html,Module mldata.django_authopenid.views=mldata.django_authopenid.views-module.html,Variable mldata.forum.models.Thread.views=mldata.forum.models.Thread-class.html#views,Module mldata.forum.views=mldata.forum.views-module.html,Module mldata.registration.views=mldata.registration.views-module.html,Module mldata.repository.views=mldata.repository.views-module.html,Module mldata.tagging.views=mldata.tagging.views-module.html,Module mldata.user.views=mldata.user.views-module.html"><a title="mldata.blog.views
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module mldata.blog.views=mldata.blog.views-module.html,Module mldata.django_authopenid.views=mldata.django_authopenid.views-module.html,Variable mldata.forum.models.Thread.views=mldata.forum.models.Thread-class.html#views,Module mldata.forum.views=mldata.forum.views-module.html,Module mldata.registration.views=mldata.registration.views-module.html,Module mldata.repository.views=mldata.repository.views-module.html,Module mldata.tagging.views=mldata.tagging.views-module.html,Module mldata.user.views=mldata.user.views-module.html"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
@@ -70,197 +70,52 @@ mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
 mldata.user.views" class="py-name" href="#" onclick="return doclink('link-0', 'views', 'link-0');">views</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module mldata.tagging.generic=mldata.tagging.generic-module.html"><a title="mldata.tagging.generic" class="py-name" href="#" onclick="return doclink('link-1', 'generic', 'link-1');">generic</a></tt><tt class="py-op">.</tt><tt class="py-name">list_detail</tt> <tt class="py-keyword">import</tt> <tt class="py-name">object_list</tt> </tt>
-<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">shortcuts</tt> <tt class="py-keyword">import</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">,</tt> <tt class="py-name">render_to_response</tt> </tt>
-<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">template</tt> <tt class="py-keyword">import</tt> <tt class="py-name">RequestContext</tt> </tt>
-<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Module mldata.django_authopenid.forms=mldata.django_authopenid.forms-module.html,Module mldata.forum.forms=mldata.forum.forms-module.html,Module mldata.registration.forms=mldata.registration.forms-module.html,Module mldata.repository.forms=mldata.repository.forms-module.html,Module mldata.tagging.forms=mldata.tagging.forms-module.html"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-2', 'forms', 'link-2');">forms</a></tt> </tt>
-<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt> <tt class="py-keyword">import</tt> <tt class="py-name">authenticate</tt><tt class="py-op">,</tt> <tt class="py-name">login</tt> </tt>
-<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.blog.models
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">shortcuts</tt> <tt class="py-keyword">import</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">,</tt> <tt class="py-name">render_to_response</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">template</tt> <tt class="py-keyword">import</tt> <tt class="py-name">RequestContext</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html,Module mldata.user.models=mldata.user.models-module.html"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-3', 'models', 'link-3');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt> </tt>
-<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">contenttypes</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="mldata.blog.models
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-2');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">http</tt> <tt class="py-keyword">import</tt> <tt class="py-name">HttpResponseForbidden</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-3" class="py-name" targets="Package mldata.django_authopenid=mldata.django_authopenid-module.html"><a title="mldata.django_authopenid" class="py-name" href="#" onclick="return doclink('link-3', 'django_authopenid', 'link-3');">django_authopenid</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-4', 'models', 'link-3');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">ContentType</tt> </tt>
-<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">http</tt> <tt class="py-keyword">import</tt> <tt class="py-name">HttpResponseForbidden</tt> </tt>
-<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Package mldata.django_authopenid=mldata.django_authopenid-module.html"><a title="mldata.django_authopenid" class="py-name" href="#" onclick="return doclink('link-5', 'django_authopenid', 'link-5');">django_authopenid</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="mldata.blog.models
-mldata.django_authopenid.models
-mldata.forum.models
-mldata.registration.models
-mldata.repository.models
-mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-6', 'models', 'link-3');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-7" class="py-name" targets="Class django_authopenid.models.UserAssociation=django_authopenid.models.UserAssociation-class.html"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-7', 'UserAssociation', 'link-7');">UserAssociation</a></tt> </tt>
-<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">openid</tt><tt class="py-op">.</tt><tt class="py-name">consumer</tt> <tt class="py-keyword">import</tt> <tt class="py-name">consumer</tt> </tt>
-<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
-<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">re</tt> </tt>
-<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"> </tt>
-<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt id="link-8" class="py-name" targets="Variable mldata.django_authopenid.forms.attrs_dict=mldata.django_authopenid.forms-module.html#attrs_dict,Variable mldata.django_authopenid.views.attrs_dict=mldata.django_authopenid.views-module.html#attrs_dict,Variable mldata.registration.forms.attrs_dict=mldata.registration.forms-module.html#attrs_dict,Variable mldata.user.views.attrs_dict=mldata.user.views-module.html#attrs_dict"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-8', 'attrs_dict', 'link-8');">attrs_dict</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> <tt class="py-string">'class'</tt><tt class="py-op">:</tt> <tt class="py-string">'required'</tt> <tt class="py-op">}</tt> </tt>
-<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt id="link-9" class="py-name" targets="Variable mldata.django_authopenid.forms.username_re=mldata.django_authopenid.forms-module.html#username_re,Variable mldata.django_authopenid.views.username_re=mldata.django_authopenid.views-module.html#username_re,Variable mldata.user.views.username_re=mldata.user.views-module.html#username_re"><a title="mldata.django_authopenid.forms.username_re
-mldata.django_authopenid.views.username_re
-mldata.user.views.username_re" class="py-name" href="#" onclick="return doclink('link-9', 'username_re', 'link-9');">username_re</a></tt> <tt class="py-op">=</tt> <tt class="py-name">re</tt><tt class="py-op">.</tt><tt class="py-name">compile</tt><tt class="py-op">(</tt><tt class="py-string">r'^\w+$'</tt><tt class="py-op">)</tt> </tt>
-<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm"></a><div id="ChangeUserDetailsForm-def"><a name="L17"></a><tt class="py-lineno"> 17</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm-toggle" onclick="return toggle('ChangeUserDetailsForm');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html">ChangeUserDetailsForm</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">Form</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="ChangeUserDetailsForm-expanded"><a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
-<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-docstring">    Form for registering a new user account.</tt> </tt>
-<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
-<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring">    Validates that the password is entered twice and matches,</tt> </tt>
-<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring">    and that the username is not already taken.</tt> </tt>
-<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
-<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
-<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">    <tt id="link-10" class="py-name" targets="Variable mldata.user.views.ChangeUserDetailsForm.firstname=mldata.user.views.ChangeUserDetailsForm-class.html#firstname"><a title="mldata.user.views.ChangeUserDetailsForm.firstname" class="py-name" href="#" onclick="return doclink('link-10', 'firstname', 'link-10');">firstname</a></tt> <tt class="py-op">=</tt> <tt id="link-11" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-11', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">30</tt><tt class="py-op">,</tt> </tt>
-<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">            <tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-12" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-12', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Class django.forms.widgets.TextInput=django.forms.widgets.TextInput-class.html"><a title="django.forms.widgets.TextInput" class="py-name" href="#" onclick="return doclink('link-13', 'TextInput', 'link-13');">TextInput</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">=</tt><tt id="link-14" class="py-name"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-14', 'attrs_dict', 'link-8');">attrs_dict</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">            <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">u'First Name'</tt><tt class="py-op">,</tt> <tt class="py-name">required</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
-<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt id="link-15" class="py-name" targets="Variable mldata.user.views.ChangeUserDetailsForm.lastname=mldata.user.views.ChangeUserDetailsForm-class.html#lastname"><a title="mldata.user.views.ChangeUserDetailsForm.lastname" class="py-name" href="#" onclick="return doclink('link-15', 'lastname', 'link-15');">lastname</a></tt> <tt class="py-op">=</tt> <tt id="link-16" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-16', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">30</tt><tt class="py-op">,</tt> </tt>
-<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">            <tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-17" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-17', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="django.forms.widgets.TextInput" class="py-name" href="#" onclick="return doclink('link-18', 'TextInput', 'link-13');">TextInput</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">=</tt><tt id="link-19" class="py-name"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-19', 'attrs_dict', 'link-8');">attrs_dict</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">            <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">u'Last Name'</tt><tt class="py-op">,</tt> <tt class="py-name">required</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
-<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt id="link-20" class="py-name" targets="Variable mldata.django_authopenid.forms.OpenidRegisterForm.email=mldata.django_authopenid.forms.OpenidRegisterForm-class.html#email,Variable mldata.registration.forms.RegistrationForm.email=mldata.registration.forms.RegistrationForm-class.html#email,Variable mldata.user.views.ChangeUserDetailsForm.email=mldata.user.views.ChangeUserDetailsForm-class.html#email"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.email
-mldata.registration.forms.RegistrationForm.email
-mldata.user.views.ChangeUserDetailsForm.email" class="py-name" href="#" onclick="return doclink('link-20', 'email', 'link-20');">email</a></tt> <tt class="py-op">=</tt> <tt id="link-21" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-21', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">EmailField</tt><tt class="py-op">(</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-22" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-22', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="django.forms.widgets.TextInput" class="py-name" href="#" onclick="return doclink('link-23', 'TextInput', 'link-13');">TextInput</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">=</tt><tt class="py-name">dict</tt><tt class="py-op">(</tt><tt id="link-24" class="py-name"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-24', 'attrs_dict', 'link-8');">attrs_dict</a></tt><tt class="py-op">,</tt> </tt>
-<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">        <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">200</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">        <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">u'Email address'</tt><tt class="py-op">)</tt> </tt>
-<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">    <tt id="link-25" class="py-name" targets="Variable mldata.django_authopenid.forms.AssociateOpenID.openid_url=mldata.django_authopenid.forms.AssociateOpenID-class.html#openid_url,Variable mldata.django_authopenid.forms.OpenidDissociateForm.openid_url=mldata.django_authopenid.forms.OpenidDissociateForm-class.html#openid_url,Variable mldata.django_authopenid.forms.OpenidSigninForm.openid_url=mldata.django_authopenid.forms.OpenidSigninForm-class.html#openid_url,Variable mldata.user.views.ChangeUserDetailsForm.openid_url=mldata.user.views.ChangeUserDetailsForm-class.html#openid_url"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-25', 'openid_url', 'link-25');">openid_url</a></tt> <tt class="py-op">=</tt> <tt id="link-26" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-26', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">255</tt><tt class="py-op">,</tt> </tt>
-<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">            <tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-27" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-27', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="django.forms.widgets.TextInput" class="py-name" href="#" onclick="return doclink('link-28', 'TextInput', 'link-13');">TextInput</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">=</tt><tt id="link-29" class="py-name"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-29', 'attrs_dict', 'link-8');">attrs_dict</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">            <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">u'OpenID URL'</tt><tt class="py-op">,</tt> <tt class="py-name">required</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
-<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">    <tt id="link-30" class="py-name" targets="Variable mldata.registration.forms.RegistrationForm.password1=mldata.registration.forms.RegistrationForm-class.html#password1,Variable mldata.user.views.ChangeUserDetailsForm.password1=mldata.user.views.ChangeUserDetailsForm-class.html#password1"><a title="mldata.registration.forms.RegistrationForm.password1
-mldata.user.views.ChangeUserDetailsForm.password1" class="py-name" href="#" onclick="return doclink('link-30', 'password1', 'link-30');">password1</a></tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-31', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-32" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-32', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">=</tt><tt id="link-33" class="py-name"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-33', 'attrs_dict', 'link-8');">attrs_dict</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">            <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">u'Password'</tt><tt class="py-op">,</tt> <tt class="py-name">required</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
-<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt id="link-34" class="py-name" targets="Variable mldata.registration.forms.RegistrationForm.password2=mldata.registration.forms.RegistrationForm-class.html#password2,Variable mldata.user.views.ChangeUserDetailsForm.password2=mldata.user.views.ChangeUserDetailsForm-class.html#password2"><a title="mldata.registration.forms.RegistrationForm.password2
-mldata.user.views.ChangeUserDetailsForm.password2" class="py-name" href="#" onclick="return doclink('link-34', 'password2', 'link-34');">password2</a></tt> <tt class="py-op">=</tt> <tt id="link-35" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-35', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-36" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-36', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">=</tt><tt id="link-37" class="py-name"><a title="mldata.django_authopenid.forms.attrs_dict
-mldata.django_authopenid.views.attrs_dict
-mldata.registration.forms.attrs_dict
-mldata.user.views.attrs_dict" class="py-name" href="#" onclick="return doclink('link-37', 'attrs_dict', 'link-8');">attrs_dict</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">            <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">u'Password (again, to catch typos)'</tt><tt class="py-op">,</tt> <tt class="py-name">required</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
-<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.clean_firstname"></a><div id="ChangeUserDetailsForm.clean_firstname-def"><a name="L42"></a><tt class="py-lineno"> 42</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.clean_firstname-toggle" onclick="return toggle('ChangeUserDetailsForm.clean_firstname');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#clean_firstname">clean_firstname</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.clean_firstname-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.clean_firstname-expanded"><a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"><tt class="py-docstring">        Validates that the first is alphanumeric</tt> </tt>
-<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'firstname'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">:</tt> </tt>
-<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'firstname'</tt><tt class="py-op">]</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt id="link-38" class="py-name"><a title="mldata.django_authopenid.forms.username_re
-mldata.django_authopenid.views.username_re
-mldata.user.views.username_re" class="py-name" href="#" onclick="return doclink('link-38', 'username_re', 'link-9');">username_re</a></tt><tt class="py-op">.</tt><tt class="py-name">search</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'firstname'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-39" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-39', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'First name can only contain letters, numbers and underscores'</tt><tt class="py-op">)</tt> </tt>
-<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'firstname'</tt><tt class="py-op">]</tt> </tt>
-</div><a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.clean_lastname"></a><div id="ChangeUserDetailsForm.clean_lastname-def"><a name="L51"></a><tt class="py-lineno"> 51</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.clean_lastname-toggle" onclick="return toggle('ChangeUserDetailsForm.clean_lastname');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#clean_lastname">clean_lastname</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.clean_lastname-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.clean_lastname-expanded"><a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-docstring">        Validates that the lastname is alphanumeric</tt> </tt>
-<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'firstname'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">:</tt> </tt>
-<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'lastname'</tt><tt class="py-op">]</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt id="link-40" class="py-name"><a title="mldata.django_authopenid.forms.username_re
-mldata.django_authopenid.views.username_re
-mldata.user.views.username_re" class="py-name" href="#" onclick="return doclink('link-40', 'username_re', 'link-9');">username_re</a></tt><tt class="py-op">.</tt><tt class="py-name">search</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'lastname'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-41" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-41', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'Last name can only contain letters, numbers and underscores'</tt><tt class="py-op">)</tt> </tt>
-<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'lastname'</tt><tt class="py-op">]</tt> </tt>
-</div><a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.clean_username"></a><div id="ChangeUserDetailsForm.clean_username-def"><a name="L60"></a><tt class="py-lineno"> 60</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.clean_username-toggle" onclick="return toggle('ChangeUserDetailsForm.clean_username');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#clean_username">clean_username</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.clean_username-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.clean_username-expanded"><a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt class="py-docstring">        Validates that the username is alphanumeric and is not already</tt> </tt>
-<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"><tt class="py-docstring">        in use.</tt> </tt>
-<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
-<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'username'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">:</tt> </tt>
-<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-42" class="py-name"><a title="mldata.django_authopenid.forms.username_re
-mldata.django_authopenid.views.username_re
-mldata.user.views.username_re" class="py-name" href="#" onclick="return doclink('link-42', 'username_re', 'link-9');">username_re</a></tt><tt class="py-op">.</tt><tt class="py-name">search</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'username'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-43" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-43', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'Usernames can only contain letters, numbers and underscores'</tt><tt class="py-op">)</tt> </tt>
-<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">                <tt id="link-44" class="py-name" targets="Variable django_authopenid.models.UserAssociation.user=django_authopenid.models.UserAssociation-class.html#user,Variable mldata.registration.models.RegistrationProfile.user=mldata.registration.models.RegistrationProfile-class.html#user,Variable mldata.repository.models.Rating.user=mldata.repository.models.Rating-class.html#user,Variable mldata.repository.models.Repository.user=mldata.repository.models.Repository-class.html#user,Package mldata.user=mldata.user-module.html"><a title="django_authopenid.models.UserAssociation.user
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-4', 'models', 'link-2');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name" targets="Class django_authopenid.models.UserAssociation=django_authopenid.models.UserAssociation-class.html"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-5', 'UserAssociation', 'link-5');">UserAssociation</a></tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-6" class="py-name" targets="Variable django_authopenid.models.UserAssociation.user=django_authopenid.models.UserAssociation-class.html#user,Variable mldata.registration.models.RegistrationProfile.user=mldata.registration.models.RegistrationProfile-class.html#user,Variable mldata.repository.models.Rating.user=mldata.repository.models.Rating-class.html#user,Variable mldata.repository.models.Repository.user=mldata.repository.models.Repository-class.html#user,Package mldata.user=mldata.user-module.html"><a title="django_authopenid.models.UserAssociation.user
 mldata.registration.models.RegistrationProfile.user
 mldata.repository.models.Rating.user
 mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-44', 'user', 'link-44');">user</a></tt> <tt class="py-op">=</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-45" class="py-name" targets="Method mldata.blog.models.Post.objects()=mldata.blog.models.Post-class.html#objects,Method mldata.forum.models.Forum.objects()=mldata.forum.models.Forum-class.html#objects,Method mldata.forum.models.Post.objects()=mldata.forum.models.Post-class.html#objects,Method mldata.forum.models.Subscription.objects()=mldata.forum.models.Subscription-class.html#objects,Method mldata.forum.models.Thread.objects()=mldata.forum.models.Thread-class.html#objects,Method mldata.registration.models.RegistrationProfile.objects()=mldata.registration.models.RegistrationProfile-class.html#objects,Method mldata.repository.models.Data.objects()=mldata.repository.models.Data-class.html#objects,Method mldata.repository.models.DataRating.objects()=mldata.repository.models.DataRating-class.html#objects,Method mldata.repository.models.FixedLicense.objects()=mldata.repository.models.FixedLicense-class.html#objects,Method mldata.repository.models.License.objects()=mldata.repository.models.License-class.html#objects,Method mldata.repository.models.Rating.objects()=mldata.repository.models.Rating-class.html#objects,Method mldata.repository.models.Repository.objects()=mldata.repository.models.Repository-class.html#objects,Method mldata.repository.models.Slug.objects()=mldata.repository.models.Slug-class.html#objects,Method mldata.repository.models.Solution.objects()=mldata.repository.models.Solution-class.html#objects,Method mldata.repository.models.SolutionRating.objects()=mldata.repository.models.SolutionRating-class.html#objects,Method mldata.repository.models.Task.objects()=mldata.repository.models.Task-class.html#objects,Method mldata.repository.models.TaskRating.objects()=mldata.repository.models.TaskRating-class.html#objects,Method mldata.repository.models.TaskType.objects()=mldata.repository.models.TaskType-class.html#objects,Method mldata.tagging.tests.models.Article.objects()=mldata.tagging.tests.models.Article-class.html#objects,Method mldata.tagging.tests.models.FormTest.objects()=mldata.tagging.tests.models.FormTest-class.html#objects,Method mldata.tagging.tests.models.Link.objects()=mldata.tagging.tests.models.Link-class.html#objects,Method mldata.tagging.tests.models.Parrot.objects()=mldata.tagging.tests.models.Parrot-class.html#objects,Method mldata.tagging.tests.models.Perch.objects()=mldata.tagging.tests.models.Perch-class.html#objects"><a title="mldata.blog.models.Post.objects
+mldata.user" class="py-name" href="#" onclick="return doclink('link-6', 'user', 'link-6');">user</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Module mldata.django_authopenid.forms=mldata.django_authopenid.forms-module.html,Module mldata.forum.forms=mldata.forum.forms-module.html,Module mldata.registration.forms=mldata.registration.forms-module.html,Module mldata.repository.forms=mldata.repository.forms-module.html,Module mldata.tagging.forms=mldata.tagging.forms-module.html,Module mldata.user.forms=mldata.user.forms-module.html"><a title="mldata.django_authopenid.forms
+mldata.forum.forms
+mldata.registration.forms
+mldata.repository.forms
+mldata.tagging.forms
+mldata.user.forms" class="py-name" href="#" onclick="return doclink('link-7', 'forms', 'link-7');">forms</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="show_user_list"></a><div id="show_user_list-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="show_user_list-toggle" onclick="return toggle('show_user_list');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views-module.html#show_user_list">show_user_list</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="show_user_list-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="show_user_list-expanded"><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-8', 'user', 'link-6');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_superuser</tt><tt class="py-op">:</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">object_list</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">            <tt class="py-name">paginate_by</tt><tt class="py-op">=</tt><tt class="py-number">10</tt><tt class="py-op">,</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">            <tt class="py-name">queryset</tt><tt class="py-op">=</tt><tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method mldata.blog.models.Post.objects()=mldata.blog.models.Post-class.html#objects,Method mldata.forum.models.Forum.objects()=mldata.forum.models.Forum-class.html#objects,Method mldata.forum.models.Post.objects()=mldata.forum.models.Post-class.html#objects,Method mldata.forum.models.Subscription.objects()=mldata.forum.models.Subscription-class.html#objects,Method mldata.forum.models.Thread.objects()=mldata.forum.models.Thread-class.html#objects,Method mldata.registration.models.RegistrationProfile.objects()=mldata.registration.models.RegistrationProfile-class.html#objects,Method mldata.repository.models.Data.objects()=mldata.repository.models.Data-class.html#objects,Method mldata.repository.models.DataRating.objects()=mldata.repository.models.DataRating-class.html#objects,Method mldata.repository.models.FixedLicense.objects()=mldata.repository.models.FixedLicense-class.html#objects,Method mldata.repository.models.License.objects()=mldata.repository.models.License-class.html#objects,Method mldata.repository.models.Publication.objects()=mldata.repository.models.Publication-class.html#objects,Method mldata.repository.models.Rating.objects()=mldata.repository.models.Rating-class.html#objects,Method mldata.repository.models.Repository.objects()=mldata.repository.models.Repository-class.html#objects,Method mldata.repository.models.Slug.objects()=mldata.repository.models.Slug-class.html#objects,Method mldata.repository.models.Solution.objects()=mldata.repository.models.Solution-class.html#objects,Method mldata.repository.models.SolutionRating.objects()=mldata.repository.models.SolutionRating-class.html#objects,Method mldata.repository.models.Task.objects()=mldata.repository.models.Task-class.html#objects,Method mldata.repository.models.TaskRating.objects()=mldata.repository.models.TaskRating-class.html#objects,Method mldata.repository.models.TaskType.objects()=mldata.repository.models.TaskType-class.html#objects,Method mldata.tagging.tests.models.Article.objects()=mldata.tagging.tests.models.Article-class.html#objects,Method mldata.tagging.tests.models.FormTest.objects()=mldata.tagging.tests.models.FormTest-class.html#objects,Method mldata.tagging.tests.models.Link.objects()=mldata.tagging.tests.models.Link-class.html#objects,Method mldata.tagging.tests.models.Parrot.objects()=mldata.tagging.tests.models.Parrot-class.html#objects,Method mldata.tagging.tests.models.Perch.objects()=mldata.tagging.tests.models.Perch-class.html#objects"><a title="mldata.blog.models.Post.objects
 mldata.forum.models.Forum.objects
 mldata.forum.models.Post.objects
 mldata.forum.models.Subscription.objects
@@ -270,6 +125,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -282,8 +138,68 @@ mldata.tagging.tests.models.Article.objects
 mldata.tagging.tests.models.FormTest.objects
 mldata.tagging.tests.models.Link.objects
 mldata.tagging.tests.models.Parrot.objects
-mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-45', 'objects', 'link-45');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-name">username__exact</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'username'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
-<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name" targets="Class django_authopenid.models.Association.DoesNotExist=django_authopenid.models.Association.DoesNotExist-class.html,Class django_authopenid.models.Nonce.DoesNotExist=django_authopenid.models.Nonce.DoesNotExist-class.html,Class django_authopenid.models.UserAssociation.DoesNotExist=django_authopenid.models.UserAssociation.DoesNotExist-class.html,Class mldata.blog.models.Post.DoesNotExist=mldata.blog.models.Post.DoesNotExist-class.html,Class mldata.forum.models.Forum.DoesNotExist=mldata.forum.models.Forum.DoesNotExist-class.html,Class mldata.forum.models.Post.DoesNotExist=mldata.forum.models.Post.DoesNotExist-class.html,Class mldata.forum.models.Subscription.DoesNotExist=mldata.forum.models.Subscription.DoesNotExist-class.html,Class mldata.forum.models.Thread.DoesNotExist=mldata.forum.models.Thread.DoesNotExist-class.html,Class mldata.registration.models.RegistrationProfile.DoesNotExist=mldata.registration.models.RegistrationProfile.DoesNotExist-class.html,Class mldata.repository.models.Data.DoesNotExist=mldata.repository.models.Data.DoesNotExist-class.html,Class mldata.repository.models.DataRating.DoesNotExist=mldata.repository.models.DataRating.DoesNotExist-class.html,Class mldata.repository.models.FixedLicense.DoesNotExist=mldata.repository.models.FixedLicense.DoesNotExist-class.html,Class mldata.repository.models.License.DoesNotExist=mldata.repository.models.License.DoesNotExist-class.html,Class mldata.repository.models.Rating.DoesNotExist=mldata.repository.models.Rating.DoesNotExist-class.html,Class mldata.repository.models.Repository.DoesNotExist=mldata.repository.models.Repository.DoesNotExist-class.html,Class mldata.repository.models.Slug.DoesNotExist=mldata.repository.models.Slug.DoesNotExist-class.html,Class mldata.repository.models.Solution.DoesNotExist=mldata.repository.models.Solution.DoesNotExist-class.html,Class mldata.repository.models.SolutionRating.DoesNotExist=mldata.repository.models.SolutionRating.DoesNotExist-class.html,Class mldata.repository.models.Task.DoesNotExist=mldata.repository.models.Task.DoesNotExist-class.html,Class mldata.repository.models.TaskRating.DoesNotExist=mldata.repository.models.TaskRating.DoesNotExist-class.html,Class mldata.repository.models.TaskType.DoesNotExist=mldata.repository.models.TaskType.DoesNotExist-class.html,Class mldata.tagging.tests.models.Article.DoesNotExist=mldata.tagging.tests.models.Article.DoesNotExist-class.html,Class mldata.tagging.tests.models.FormTest.DoesNotExist=mldata.tagging.tests.models.FormTest.DoesNotExist-class.html,Class mldata.tagging.tests.models.Link.DoesNotExist=mldata.tagging.tests.models.Link.DoesNotExist-class.html,Class mldata.tagging.tests.models.Parrot.DoesNotExist=mldata.tagging.tests.models.Parrot.DoesNotExist-class.html,Class mldata.tagging.tests.models.Perch.DoesNotExist=mldata.tagging.tests.models.Perch.DoesNotExist-class.html,Class tagging.models.Tag.DoesNotExist=tagging.models.Tag.DoesNotExist-class.html"><a title="django_authopenid.models.Association.DoesNotExist
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-9', 'objects', 'link-9');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">all</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">            <tt class="py-name">template_name</tt><tt class="py-op">=</tt><tt class="py-string">'user/user_list.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">            <tt id="link-10" class="py-name" targets="Variable mldata.about.urls.extra_context=mldata.about.urls-module.html#extra_context,Variable mldata.django_authopenid.urls.extra_context=mldata.django_authopenid.urls-module.html#extra_context"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-10', 'extra_context', 'link-10');">extra_context</a></tt><tt class="py-op">=</tt><tt class="py-op">{</tt><tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"> </tt>
+<a name="show_user"></a><div id="show_user-def"><a name="L23"></a><tt class="py-lineno">23</tt> <a class="py-toggle" href="#" id="show_user-toggle" onclick="return toggle('show_user');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views-module.html#show_user">show_user</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">user_id</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="show_user-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="show_user-expanded"><a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-11', 'user', 'link-6');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_authenticated</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-name">entry</tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">user_id</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-12', 'user', 'link-6');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_superuser</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">entry</tt> <tt class="py-op">==</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-13', 'user', 'link-6');">user</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Variable mldata.django_authopenid.forms.AssociateOpenID.openid_url=mldata.django_authopenid.forms.AssociateOpenID-class.html#openid_url,Variable mldata.django_authopenid.forms.OpenidDissociateForm.openid_url=mldata.django_authopenid.forms.OpenidDissociateForm-class.html#openid_url,Variable mldata.django_authopenid.forms.OpenidSigninForm.openid_url=mldata.django_authopenid.forms.OpenidSigninForm-class.html#openid_url,Variable mldata.user.forms.ChangeUserDetailsForm.openid_url=mldata.user.forms.ChangeUserDetailsForm-class.html#openid_url"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-14', 'openid_url', 'link-14');">openid_url</a></tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-15', 'UserAssociation', 'link-5');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.FixedLicense.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-16', 'objects', 'link-9');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-17" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-17', 'user', 'link-6');">user</a></tt><tt class="py-op">=</tt><tt class="py-name">entry</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-18', 'openid_url', 'link-14');">openid_url</a></tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt id="link-19" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-19', 'UserAssociation', 'link-5');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Class django_authopenid.models.Association.DoesNotExist=django_authopenid.models.Association.DoesNotExist-class.html,Class django_authopenid.models.Nonce.DoesNotExist=django_authopenid.models.Nonce.DoesNotExist-class.html,Class django_authopenid.models.UserAssociation.DoesNotExist=django_authopenid.models.UserAssociation.DoesNotExist-class.html,Class mldata.blog.models.Post.DoesNotExist=mldata.blog.models.Post.DoesNotExist-class.html,Class mldata.forum.models.Forum.DoesNotExist=mldata.forum.models.Forum.DoesNotExist-class.html,Class mldata.forum.models.Post.DoesNotExist=mldata.forum.models.Post.DoesNotExist-class.html,Class mldata.forum.models.Subscription.DoesNotExist=mldata.forum.models.Subscription.DoesNotExist-class.html,Class mldata.forum.models.Thread.DoesNotExist=mldata.forum.models.Thread.DoesNotExist-class.html,Class mldata.registration.models.RegistrationProfile.DoesNotExist=mldata.registration.models.RegistrationProfile.DoesNotExist-class.html,Class mldata.repository.models.Data.DoesNotExist=mldata.repository.models.Data.DoesNotExist-class.html,Class mldata.repository.models.DataRating.DoesNotExist=mldata.repository.models.DataRating.DoesNotExist-class.html,Class mldata.repository.models.FixedLicense.DoesNotExist=mldata.repository.models.FixedLicense.DoesNotExist-class.html,Class mldata.repository.models.License.DoesNotExist=mldata.repository.models.License.DoesNotExist-class.html,Class mldata.repository.models.Publication.DoesNotExist=mldata.repository.models.Publication.DoesNotExist-class.html,Class mldata.repository.models.Rating.DoesNotExist=mldata.repository.models.Rating.DoesNotExist-class.html,Class mldata.repository.models.Repository.DoesNotExist=mldata.repository.models.Repository.DoesNotExist-class.html,Class mldata.repository.models.Slug.DoesNotExist=mldata.repository.models.Slug.DoesNotExist-class.html,Class mldata.repository.models.Solution.DoesNotExist=mldata.repository.models.Solution.DoesNotExist-class.html,Class mldata.repository.models.SolutionRating.DoesNotExist=mldata.repository.models.SolutionRating.DoesNotExist-class.html,Class mldata.repository.models.Task.DoesNotExist=mldata.repository.models.Task.DoesNotExist-class.html,Class mldata.repository.models.TaskRating.DoesNotExist=mldata.repository.models.TaskRating.DoesNotExist-class.html,Class mldata.repository.models.TaskType.DoesNotExist=mldata.repository.models.TaskType.DoesNotExist-class.html,Class mldata.tagging.tests.models.Article.DoesNotExist=mldata.tagging.tests.models.Article.DoesNotExist-class.html,Class mldata.tagging.tests.models.FormTest.DoesNotExist=mldata.tagging.tests.models.FormTest.DoesNotExist-class.html,Class mldata.tagging.tests.models.Link.DoesNotExist=mldata.tagging.tests.models.Link.DoesNotExist-class.html,Class mldata.tagging.tests.models.Parrot.DoesNotExist=mldata.tagging.tests.models.Parrot.DoesNotExist-class.html,Class mldata.tagging.tests.models.Perch.DoesNotExist=mldata.tagging.tests.models.Perch.DoesNotExist-class.html,Class tagging.models.Tag.DoesNotExist=tagging.models.Tag.DoesNotExist-class.html"><a title="django_authopenid.models.Association.DoesNotExist
 django_authopenid.models.Nonce.DoesNotExist
 django_authopenid.models.UserAssociation.DoesNotExist
 mldata.blog.models.Post.DoesNotExist
@@ -296,6 +212,7 @@ mldata.repository.models.Data.DoesNotExist
 mldata.repository.models.DataRating.DoesNotExist
 mldata.repository.models.FixedLicense.DoesNotExist
 mldata.repository.models.License.DoesNotExist
+mldata.repository.models.Publication.DoesNotExist
 mldata.repository.models.Rating.DoesNotExist
 mldata.repository.models.Repository.DoesNotExist
 mldata.repository.models.Slug.DoesNotExist
@@ -309,449 +226,161 @@ mldata.tagging.tests.models.FormTest.DoesNotExist
 mldata.tagging.tests.models.Link.DoesNotExist
 mldata.tagging.tests.models.Parrot.DoesNotExist
 mldata.tagging.tests.models.Perch.DoesNotExist
-tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-46', 'DoesNotExist', 'link-46');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'username'</tt><tt class="py-op">]</tt> </tt>
-<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-47" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-47', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'This username is already taken. Please choose another.'</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"> </tt>
-<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.clean_openid_url"></a><div id="ChangeUserDetailsForm.clean_openid_url-def"><a name="L76"></a><tt class="py-lineno"> 76</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.clean_openid_url-toggle" onclick="return toggle('ChangeUserDetailsForm.clean_openid_url');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#clean_openid_url">clean_openid_url</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.clean_openid_url-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.clean_openid_url-expanded"><a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt class="py-docstring">        Validates that OpenID URL starts with 'http' and verifies that given</tt> </tt>
-<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-docstring">        ID exists.</tt> </tt>
-<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">        <tt class="py-name">item</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'openid_url'</tt><tt class="py-op">]</tt> </tt>
-<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">item</tt><tt class="py-op">:</tt> </tt>
-<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">item</tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">'http'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-48" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-48', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'OpenID URL must start with "http"'</tt><tt class="py-op">)</tt> </tt>
-<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
-<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">            <tt class="py-comment"># access OpenID provider to get verified identity_url</tt> </tt>
-<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">            <tt class="py-comment"># this looks winged...</tt> </tt>
-<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">            <tt class="py-name">c</tt> <tt class="py-op">=</tt> <tt class="py-name">consumer</tt><tt class="py-op">.</tt><tt class="py-name">Consumer</tt><tt class="py-op">(</tt><tt class="py-op">{</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-name">None</tt><tt class="py-op">)</tt> </tt>
-<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">                <tt class="py-name">c</tt><tt class="py-op">.</tt><tt class="py-name">begin</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt> </tt>
-<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">                <tt class="py-name">r</tt> <tt class="py-op">=</tt> <tt class="py-name">c</tt><tt class="py-op">.</tt><tt id="link-49" class="py-name" targets="Function mldata.django_authopenid.views.complete()=mldata.django_authopenid.views-module.html#complete"><a title="mldata.django_authopenid.views.complete" class="py-name" href="#" onclick="return doclink('link-49', 'complete', 'link-49');">complete</a></tt><tt class="py-op">(</tt><tt class="py-op">{</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-name">item</tt><tt class="py-op">)</tt> </tt>
-<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">                <tt class="py-name">item</tt> <tt class="py-op">=</tt> <tt class="py-name">r</tt><tt class="py-op">.</tt><tt class="py-name">identity_url</tt> </tt>
-<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt class="py-name">consumer</tt><tt class="py-op">.</tt><tt class="py-name">DiscoveryFailure</tt><tt class="py-op">,</tt> <tt class="py-name">e</tt><tt class="py-op">:</tt> </tt>
-<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">                <tt class="py-keyword">raise</tt> <tt id="link-50" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-50', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-name">e</tt><tt class="py-op">)</tt> </tt>
-<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"> </tt>
-<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">item</tt> </tt>
-</div><a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
-<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"> </tt>
-<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.clean_password1"></a><div id="ChangeUserDetailsForm.clean_password1-def"><a name="L100"></a><tt class="py-lineno">100</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.clean_password1-toggle" onclick="return toggle('ChangeUserDetailsForm.clean_password1');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#clean_password1">clean_password1</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.clean_password1-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.clean_password1-expanded"><a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"><tt class="py-docstring">        Validates that a password is given if no OpenID URL is supplied.</tt> </tt>
-<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'password1'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">:</tt> </tt>
-<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">            <tt class="py-name">item</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password1'</tt><tt class="py-op">]</tt> </tt>
-<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
-<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">            <tt class="py-name">item</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
-<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"> </tt>
-<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'openid_url'</tt><tt class="py-op">]</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">item</tt><tt class="py-op">:</tt> </tt>
-<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-51" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-51', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'You must use a password when not supplying an OpenID URL'</tt><tt class="py-op">)</tt> </tt>
-<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line"> </tt>
-<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">item</tt> </tt>
-</div><a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line"> </tt>
-<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.clean_password2"></a><div id="ChangeUserDetailsForm.clean_password2-def"><a name="L115"></a><tt class="py-lineno">115</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.clean_password2-toggle" onclick="return toggle('ChangeUserDetailsForm.clean_password2');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#clean_password2">clean_password2</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.clean_password2-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.clean_password2-expanded"><a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"><tt class="py-docstring">        Validates that the two password inputs match.</tt> </tt>
-<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
-<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'password1'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt> <tt class="py-keyword">and</tt> <tt class="py-string">'password2'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt> <tt class="py-keyword">and</tt> \ </tt>
-<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password1'</tt><tt class="py-op">]</tt> <tt class="py-op">==</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password2'</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
-<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">                    <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password2'</tt><tt class="py-op">]</tt> </tt>
-<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt id="link-52" class="py-name"><a title="mldata.django_authopenid.forms
-mldata.forum.forms
-mldata.registration.forms
-mldata.repository.forms
-mldata.tagging.forms" class="py-name" href="#" onclick="return doclink('link-52', 'forms', 'link-2');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">u'You must type the same password each time'</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"> </tt>
-<a name="ChangeUserDetailsForm.save"></a><div id="ChangeUserDetailsForm.save-def"><a name="L125"></a><tt class="py-lineno">125</tt> <a class="py-toggle" href="#" id="ChangeUserDetailsForm.save-toggle" onclick="return toggle('ChangeUserDetailsForm.save');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views.ChangeUserDetailsForm-class.html#save">save</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">u</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="ChangeUserDetailsForm.save-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="ChangeUserDetailsForm.save-expanded"><a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">        <tt class="py-name">u</tt><tt class="py-op">.</tt><tt class="py-name">first_name</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'firstname'</tt><tt class="py-op">]</tt> </tt>
-<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line">        <tt class="py-name">u</tt><tt class="py-op">.</tt><tt class="py-name">last_name</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'lastname'</tt><tt class="py-op">]</tt> </tt>
-<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">        <tt class="py-name">u</tt><tt class="py-op">.</tt><tt id="link-53" class="py-name"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.email
+tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-20', 'DoesNotExist', 'link-20');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-21', 'openid_url', 'link-14');">openid_url</a></tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-22" class="py-name" targets="Class mldata.user.forms.ChangeUserDetailsForm=mldata.user.forms.ChangeUserDetailsForm-class.html"><a title="mldata.user.forms.ChangeUserDetailsForm" class="py-name" href="#" onclick="return doclink('link-22', 'ChangeUserDetailsForm', 'link-22');">ChangeUserDetailsForm</a></tt><tt class="py-op">(</tt><tt class="py-name">initial</tt><tt class="py-op">=</tt><tt class="py-op">{</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-string">'firstname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">first_name</tt><tt class="py-op">,</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-string">'lastname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_name</tt><tt class="py-op">,</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-string">'email'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name" targets="Variable mldata.django_authopenid.forms.OpenidRegisterForm.email=mldata.django_authopenid.forms.OpenidRegisterForm-class.html#email,Variable mldata.registration.forms.RegistrationForm.email=mldata.registration.forms.RegistrationForm-class.html#email,Variable mldata.user.forms.ChangeUserDetailsForm.email=mldata.user.forms.ChangeUserDetailsForm-class.html#email"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.email
 mldata.registration.forms.RegistrationForm.email
-mldata.user.views.ChangeUserDetailsForm.email" class="py-name" href="#" onclick="return doclink('link-53', 'email', 'link-20');">email</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'email'</tt><tt class="py-op">]</tt> </tt>
-<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">        <tt class="py-name">u</tt><tt class="py-op">.</tt><tt class="py-name">set_password</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password1'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
-<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">        <tt class="py-name">u</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name" targets="Method mldata.blog.models.Post.save()=mldata.blog.models.Post-class.html#save,Method mldata.forum.models.Forum.save()=mldata.forum.models.Forum-class.html#save,Method mldata.forum.models.Post.save()=mldata.forum.models.Post-class.html#save,Method mldata.forum.models.Thread.save()=mldata.forum.models.Thread-class.html#save,Method mldata.registration.forms.RegistrationForm.save()=mldata.registration.forms.RegistrationForm-class.html#save,Method mldata.repository.models.Repository.save()=mldata.repository.models.Repository-class.html#save,Method mldata.user.views.ChangeUserDetailsForm.save()=mldata.user.views.ChangeUserDetailsForm-class.html#save,Method mldata.utils.hdf5conv.arff.ArffFile.save()=mldata.utils.hdf5conv.arff.ArffFile-class.html#save"><a title="mldata.blog.models.Post.save
+mldata.user.forms.ChangeUserDetailsForm.email" class="py-name" href="#" onclick="return doclink('link-23', 'email', 'link-23');">email</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-string">'openid_url'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-24', 'openid_url', 'link-14');">openid_url</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">        <tt class="py-string">'password1'</tt><tt class="py-op">:</tt> <tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">        <tt class="py-string">'password2'</tt><tt class="py-op">:</tt> <tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">    <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_login</tt> <tt class="py-op">=</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_login</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Method mldata.django_authopenid.utils.OpenID.__str__()=mldata.django_authopenid.utils.OpenID-class.html#__str__"><a title="mldata.django_authopenid.utils.OpenID.__str__" class="py-name" href="#" onclick="return doclink('link-25', '__str__', 'link-25');">__str__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">    <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">date_joined</tt> <tt class="py-op">=</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">date_joined</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="mldata.django_authopenid.utils.OpenID.__str__" class="py-name" href="#" onclick="return doclink('link-26', '__str__', 'link-25');">__str__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">        <tt class="py-string">'user/user_detail.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-op">{</tt> <tt class="py-string">'object'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">,</tt> <tt class="py-string">'form'</tt> <tt class="py-op">:</tt> <tt class="py-name">form</tt><tt class="py-op">,</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-name">context_instance</tt><tt class="py-op">=</tt><tt class="py-name">RequestContext</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">    <tt class="py-op">)</tt> </tt>
+</div><a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line"> </tt>
+<a name="update_user"></a><div id="update_user-def"><a name="L55"></a><tt class="py-lineno">55</tt> <a class="py-toggle" href="#" id="update_user-toggle" onclick="return toggle('update_user');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views-module.html#update_user">update_user</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">user_id</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="update_user-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="update_user-expanded"><a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-27', 'user', 'link-6');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_authenticated</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line"> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">    <tt class="py-name">entry</tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">user_id</tt><tt class="py-op">)</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-28', 'user', 'link-6');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_superuser</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">entry</tt> <tt class="py-op">==</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-29', 'user', 'link-6');">user</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line"> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-30', 'openid_url', 'link-14');">openid_url</a></tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-31', 'UserAssociation', 'link-5');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-32" class="py-name"><a title="mldata.blog.models.Post.objects
+mldata.forum.models.Forum.objects
+mldata.forum.models.Post.objects
+mldata.forum.models.Subscription.objects
+mldata.forum.models.Thread.objects
+mldata.registration.models.RegistrationProfile.objects
+mldata.repository.models.Data.objects
+mldata.repository.models.DataRating.objects
+mldata.repository.models.FixedLicense.objects
+mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
+mldata.repository.models.Rating.objects
+mldata.repository.models.Repository.objects
+mldata.repository.models.Slug.objects
+mldata.repository.models.Solution.objects
+mldata.repository.models.SolutionRating.objects
+mldata.repository.models.Task.objects
+mldata.repository.models.TaskRating.objects
+mldata.repository.models.TaskType.objects
+mldata.tagging.tests.models.Article.objects
+mldata.tagging.tests.models.FormTest.objects
+mldata.tagging.tests.models.Link.objects
+mldata.tagging.tests.models.Parrot.objects
+mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-32', 'objects', 'link-9');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-33" class="py-name"><a title="django_authopenid.models.UserAssociation.user
+mldata.registration.models.RegistrationProfile.user
+mldata.repository.models.Rating.user
+mldata.repository.models.Repository.user
+mldata.user" class="py-name" href="#" onclick="return doclink('link-33', 'user', 'link-6');">user</a></tt><tt class="py-op">=</tt><tt class="py-name">entry</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-34', 'openid_url', 'link-14');">openid_url</a></tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt id="link-35" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-35', 'UserAssociation', 'link-5');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-36" class="py-name"><a title="django_authopenid.models.Association.DoesNotExist
+django_authopenid.models.Nonce.DoesNotExist
+django_authopenid.models.UserAssociation.DoesNotExist
+mldata.blog.models.Post.DoesNotExist
+mldata.forum.models.Forum.DoesNotExist
+mldata.forum.models.Post.DoesNotExist
+mldata.forum.models.Subscription.DoesNotExist
+mldata.forum.models.Thread.DoesNotExist
+mldata.registration.models.RegistrationProfile.DoesNotExist
+mldata.repository.models.Data.DoesNotExist
+mldata.repository.models.DataRating.DoesNotExist
+mldata.repository.models.FixedLicense.DoesNotExist
+mldata.repository.models.License.DoesNotExist
+mldata.repository.models.Publication.DoesNotExist
+mldata.repository.models.Rating.DoesNotExist
+mldata.repository.models.Repository.DoesNotExist
+mldata.repository.models.Slug.DoesNotExist
+mldata.repository.models.Solution.DoesNotExist
+mldata.repository.models.SolutionRating.DoesNotExist
+mldata.repository.models.Task.DoesNotExist
+mldata.repository.models.TaskRating.DoesNotExist
+mldata.repository.models.TaskType.DoesNotExist
+mldata.tagging.tests.models.Article.DoesNotExist
+mldata.tagging.tests.models.FormTest.DoesNotExist
+mldata.tagging.tests.models.Link.DoesNotExist
+mldata.tagging.tests.models.Parrot.DoesNotExist
+mldata.tagging.tests.models.Perch.DoesNotExist
+tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-36', 'DoesNotExist', 'link-20');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-37', 'openid_url', 'link-14');">openid_url</a></tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line"> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">    <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-38" class="py-name"><a title="mldata.user.forms.ChangeUserDetailsForm" class="py-name" href="#" onclick="return doclink('link-38', 'ChangeUserDetailsForm', 'link-22');">ChangeUserDetailsForm</a></tt><tt class="py-op">(</tt><tt class="py-name">initial</tt><tt class="py-op">=</tt><tt class="py-op">{</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">        <tt class="py-string">'firstname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">first_name</tt><tt class="py-op">,</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">        <tt class="py-string">'lastname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_name</tt><tt class="py-op">,</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">        <tt class="py-string">'email'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.email
+mldata.registration.forms.RegistrationForm.email
+mldata.user.forms.ChangeUserDetailsForm.email" class="py-name" href="#" onclick="return doclink('link-39', 'email', 'link-23');">email</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">        <tt class="py-string">'openid_url'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
+mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
+mldata.django_authopenid.forms.OpenidSigninForm.openid_url
+mldata.user.forms.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-40', 'openid_url', 'link-14');">openid_url</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">        <tt class="py-string">'password1'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">password</tt><tt class="py-op">,</tt> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">        <tt class="py-string">'password2'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">password</tt><tt class="py-op">,</tt> </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line"> </tt>
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">method</tt> <tt class="py-op">==</tt> <tt class="py-string">'POST'</tt><tt class="py-op">:</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line">        <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-41" class="py-name"><a title="mldata.user.forms.ChangeUserDetailsForm" class="py-name" href="#" onclick="return doclink('link-41', 'ChangeUserDetailsForm', 'link-22');">ChangeUserDetailsForm</a></tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">POST</tt><tt class="py-op">)</tt> </tt>
+<a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">form</tt><tt class="py-op">.</tt><tt class="py-name">is_valid</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line">            <tt class="py-name">form</tt><tt class="py-op">.</tt><tt id="link-42" class="py-name" targets="Method mldata.blog.models.Post.save()=mldata.blog.models.Post-class.html#save,Method mldata.forum.models.Forum.save()=mldata.forum.models.Forum-class.html#save,Method mldata.forum.models.Post.save()=mldata.forum.models.Post-class.html#save,Method mldata.forum.models.Thread.save()=mldata.forum.models.Thread-class.html#save,Method mldata.registration.forms.RegistrationForm.save()=mldata.registration.forms.RegistrationForm-class.html#save,Method mldata.repository.models.Repository.save()=mldata.repository.models.Repository-class.html#save,Method mldata.user.forms.ChangeUserDetailsForm.save()=mldata.user.forms.ChangeUserDetailsForm-class.html#save,Method mldata.utils.h5conv.arff.ArffFile.save()=mldata.utils.h5conv.arff.ArffFile-class.html#save"><a title="mldata.blog.models.Post.save
 mldata.forum.models.Forum.save
 mldata.forum.models.Post.save
 mldata.forum.models.Thread.save
 mldata.registration.forms.RegistrationForm.save
 mldata.repository.models.Repository.save
-mldata.user.views.ChangeUserDetailsForm.save
-mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-54', 'save', 'link-54');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"> </tt>
-<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">        <tt class="py-comment"># for some strange reason (primary key == openid_url != int?), a new</tt> </tt>
-<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">        <tt class="py-comment"># item is created when saving an existing one, so delete the old</tt> </tt>
-<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">            <tt id="link-55" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-55', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-56" class="py-name"><a title="mldata.blog.models.Post.objects
-mldata.forum.models.Forum.objects
-mldata.forum.models.Post.objects
-mldata.forum.models.Subscription.objects
-mldata.forum.models.Thread.objects
-mldata.registration.models.RegistrationProfile.objects
-mldata.repository.models.Data.objects
-mldata.repository.models.DataRating.objects
-mldata.repository.models.FixedLicense.objects
-mldata.repository.models.License.objects
-mldata.repository.models.Rating.objects
-mldata.repository.models.Repository.objects
-mldata.repository.models.Slug.objects
-mldata.repository.models.Solution.objects
-mldata.repository.models.SolutionRating.objects
-mldata.repository.models.Task.objects
-mldata.repository.models.TaskRating.objects
-mldata.repository.models.TaskType.objects
-mldata.tagging.tests.models.Article.objects
-mldata.tagging.tests.models.FormTest.objects
-mldata.tagging.tests.models.Link.objects
-mldata.tagging.tests.models.Parrot.objects
-mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-56', 'objects', 'link-45');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-57" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-57', 'user', 'link-44');">user</a></tt><tt class="py-op">=</tt><tt class="py-name">u</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-58" class="py-name" targets="Method mldata.forum.models.Post.delete()=mldata.forum.models.Post-class.html#delete,Method mldata.forum.models.Thread.delete()=mldata.forum.models.Thread-class.html#delete,Method mldata.repository.models.Repository.delete()=mldata.repository.models.Repository-class.html#delete"><a title="mldata.forum.models.Post.delete
-mldata.forum.models.Thread.delete
-mldata.repository.models.Repository.delete" class="py-name" href="#" onclick="return doclink('link-58', 'delete', 'link-58');">delete</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt id="link-59" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-59', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-60" class="py-name"><a title="django_authopenid.models.Association.DoesNotExist
-django_authopenid.models.Nonce.DoesNotExist
-django_authopenid.models.UserAssociation.DoesNotExist
-mldata.blog.models.Post.DoesNotExist
-mldata.forum.models.Forum.DoesNotExist
-mldata.forum.models.Post.DoesNotExist
-mldata.forum.models.Subscription.DoesNotExist
-mldata.forum.models.Thread.DoesNotExist
-mldata.registration.models.RegistrationProfile.DoesNotExist
-mldata.repository.models.Data.DoesNotExist
-mldata.repository.models.DataRating.DoesNotExist
-mldata.repository.models.FixedLicense.DoesNotExist
-mldata.repository.models.License.DoesNotExist
-mldata.repository.models.Rating.DoesNotExist
-mldata.repository.models.Repository.DoesNotExist
-mldata.repository.models.Slug.DoesNotExist
-mldata.repository.models.Solution.DoesNotExist
-mldata.repository.models.SolutionRating.DoesNotExist
-mldata.repository.models.Task.DoesNotExist
-mldata.repository.models.TaskRating.DoesNotExist
-mldata.repository.models.TaskType.DoesNotExist
-mldata.tagging.tests.models.Article.DoesNotExist
-mldata.tagging.tests.models.FormTest.DoesNotExist
-mldata.tagging.tests.models.Link.DoesNotExist
-mldata.tagging.tests.models.Parrot.DoesNotExist
-mldata.tagging.tests.models.Perch.DoesNotExist
-tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-60', 'DoesNotExist', 'link-46');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
-<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">        <tt class="py-keyword">finally</tt><tt class="py-op">:</tt> </tt>
-<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">            <tt class="py-name">ua</tt> <tt class="py-op">=</tt> <tt id="link-61" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-61', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">(</tt> </tt>
-<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">                <tt id="link-62" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-62', 'openid_url', 'link-25');">openid_url</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'openid_url'</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
-<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">                <tt id="link-63" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-63', 'user', 'link-44');">user</a></tt><tt class="py-op">=</tt><tt class="py-name">u</tt> </tt>
-<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">            <tt class="py-op">)</tt> </tt>
-<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">            <tt class="py-name">ua</tt><tt class="py-op">.</tt><tt id="link-64" class="py-name"><a title="mldata.blog.models.Post.save
-mldata.forum.models.Forum.save
-mldata.forum.models.Post.save
-mldata.forum.models.Thread.save
-mldata.registration.forms.RegistrationForm.save
-mldata.repository.models.Repository.save
-mldata.user.views.ChangeUserDetailsForm.save
-mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-64', 'save', 'link-54');">save</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-</div></div><a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"> </tt>
-<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"> </tt>
-<a name="show_user_list"></a><div id="show_user_list-def"><a name="L146"></a><tt class="py-lineno">146</tt> <a class="py-toggle" href="#" id="show_user_list-toggle" onclick="return toggle('show_user_list');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views-module.html#show_user_list">show_user_list</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="show_user_list-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="show_user_list-expanded"><a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-65" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-65', 'user', 'link-44');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_superuser</tt><tt class="py-op">:</tt> </tt>
-<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"> </tt>
-<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">object_list</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> </tt>
-<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">            <tt class="py-name">paginate_by</tt><tt class="py-op">=</tt><tt class="py-number">10</tt><tt class="py-op">,</tt> </tt>
-<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">            <tt class="py-name">queryset</tt><tt class="py-op">=</tt><tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-66" class="py-name"><a title="mldata.blog.models.Post.objects
-mldata.forum.models.Forum.objects
-mldata.forum.models.Post.objects
-mldata.forum.models.Subscription.objects
-mldata.forum.models.Thread.objects
-mldata.registration.models.RegistrationProfile.objects
-mldata.repository.models.Data.objects
-mldata.repository.models.DataRating.objects
-mldata.repository.models.FixedLicense.objects
-mldata.repository.models.License.objects
-mldata.repository.models.Rating.objects
-mldata.repository.models.Repository.objects
-mldata.repository.models.Slug.objects
-mldata.repository.models.Solution.objects
-mldata.repository.models.SolutionRating.objects
-mldata.repository.models.Task.objects
-mldata.repository.models.TaskRating.objects
-mldata.repository.models.TaskType.objects
-mldata.tagging.tests.models.Article.objects
-mldata.tagging.tests.models.FormTest.objects
-mldata.tagging.tests.models.Link.objects
-mldata.tagging.tests.models.Parrot.objects
-mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-66', 'objects', 'link-45');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">all</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">            <tt class="py-name">template_name</tt><tt class="py-op">=</tt><tt class="py-string">'user/user_list.html'</tt><tt class="py-op">,</tt> </tt>
-<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">            <tt id="link-67" class="py-name" targets="Variable mldata.about.urls.extra_context=mldata.about.urls-module.html#extra_context,Variable mldata.django_authopenid.urls.extra_context=mldata.django_authopenid.urls-module.html#extra_context"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-67', 'extra_context', 'link-67');">extra_context</a></tt><tt class="py-op">=</tt><tt class="py-op">{</tt><tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line"> </tt>
-<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"> </tt>
-<a name="show_user"></a><div id="show_user-def"><a name="L157"></a><tt class="py-lineno">157</tt> <a class="py-toggle" href="#" id="show_user-toggle" onclick="return toggle('show_user');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views-module.html#show_user">show_user</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">user_id</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="show_user-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="show_user-expanded"><a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-68" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-68', 'user', 'link-44');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_authenticated</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"> </tt>
-<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">    <tt class="py-name">entry</tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">user_id</tt><tt class="py-op">)</tt> </tt>
-<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-69" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-69', 'user', 'link-44');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_superuser</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">entry</tt> <tt class="py-op">==</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-70" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-70', 'user', 'link-44');">user</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line"> </tt>
-<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-71" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-71', 'openid_url', 'link-25');">openid_url</a></tt> <tt class="py-op">=</tt> <tt id="link-72" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-72', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-73" class="py-name"><a title="mldata.blog.models.Post.objects
-mldata.forum.models.Forum.objects
-mldata.forum.models.Post.objects
-mldata.forum.models.Subscription.objects
-mldata.forum.models.Thread.objects
-mldata.registration.models.RegistrationProfile.objects
-mldata.repository.models.Data.objects
-mldata.repository.models.DataRating.objects
-mldata.repository.models.FixedLicense.objects
-mldata.repository.models.License.objects
-mldata.repository.models.Rating.objects
-mldata.repository.models.Repository.objects
-mldata.repository.models.Slug.objects
-mldata.repository.models.Solution.objects
-mldata.repository.models.SolutionRating.objects
-mldata.repository.models.Task.objects
-mldata.repository.models.TaskRating.objects
-mldata.repository.models.TaskType.objects
-mldata.tagging.tests.models.Article.objects
-mldata.tagging.tests.models.FormTest.objects
-mldata.tagging.tests.models.Link.objects
-mldata.tagging.tests.models.Parrot.objects
-mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-73', 'objects', 'link-45');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-74" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-74', 'user', 'link-44');">user</a></tt><tt class="py-op">=</tt><tt class="py-name">entry</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-75" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-75', 'openid_url', 'link-25');">openid_url</a></tt> </tt>
-<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt id="link-76" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-76', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-77" class="py-name"><a title="django_authopenid.models.Association.DoesNotExist
-django_authopenid.models.Nonce.DoesNotExist
-django_authopenid.models.UserAssociation.DoesNotExist
-mldata.blog.models.Post.DoesNotExist
-mldata.forum.models.Forum.DoesNotExist
-mldata.forum.models.Post.DoesNotExist
-mldata.forum.models.Subscription.DoesNotExist
-mldata.forum.models.Thread.DoesNotExist
-mldata.registration.models.RegistrationProfile.DoesNotExist
-mldata.repository.models.Data.DoesNotExist
-mldata.repository.models.DataRating.DoesNotExist
-mldata.repository.models.FixedLicense.DoesNotExist
-mldata.repository.models.License.DoesNotExist
-mldata.repository.models.Rating.DoesNotExist
-mldata.repository.models.Repository.DoesNotExist
-mldata.repository.models.Slug.DoesNotExist
-mldata.repository.models.Solution.DoesNotExist
-mldata.repository.models.SolutionRating.DoesNotExist
-mldata.repository.models.Task.DoesNotExist
-mldata.repository.models.TaskRating.DoesNotExist
-mldata.repository.models.TaskType.DoesNotExist
-mldata.tagging.tests.models.Article.DoesNotExist
-mldata.tagging.tests.models.FormTest.DoesNotExist
-mldata.tagging.tests.models.Link.DoesNotExist
-mldata.tagging.tests.models.Parrot.DoesNotExist
-mldata.tagging.tests.models.Perch.DoesNotExist
-tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-77', 'DoesNotExist', 'link-46');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-78" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-78', 'openid_url', 'link-25');">openid_url</a></tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt> </tt>
-<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line"> </tt>
-<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line">    <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-79" class="py-name" targets="Class mldata.user.views.ChangeUserDetailsForm=mldata.user.views.ChangeUserDetailsForm-class.html"><a title="mldata.user.views.ChangeUserDetailsForm" class="py-name" href="#" onclick="return doclink('link-79', 'ChangeUserDetailsForm', 'link-79');">ChangeUserDetailsForm</a></tt><tt class="py-op">(</tt><tt class="py-name">initial</tt><tt class="py-op">=</tt><tt class="py-op">{</tt> </tt>
-<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">        <tt class="py-string">'firstname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">first_name</tt><tt class="py-op">,</tt> </tt>
-<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">        <tt class="py-string">'lastname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_name</tt><tt class="py-op">,</tt> </tt>
-<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line">        <tt class="py-string">'email'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-80" class="py-name"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.email
-mldata.registration.forms.RegistrationForm.email
-mldata.user.views.ChangeUserDetailsForm.email" class="py-name" href="#" onclick="return doclink('link-80', 'email', 'link-20');">email</a></tt><tt class="py-op">,</tt> </tt>
-<a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line">        <tt class="py-string">'openid_url'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-81" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-81', 'openid_url', 'link-25');">openid_url</a></tt><tt class="py-op">,</tt> </tt>
-<a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">        <tt class="py-string">'password1'</tt><tt class="py-op">:</tt> <tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
-<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">        <tt class="py-string">'password2'</tt><tt class="py-op">:</tt> <tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
-<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
-<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line"> </tt>
-<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">    <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_login</tt> <tt class="py-op">=</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_login</tt><tt class="py-op">.</tt><tt id="link-82" class="py-name" targets="Method mldata.django_authopenid.utils.OpenID.__str__()=mldata.django_authopenid.utils.OpenID-class.html#__str__"><a title="mldata.django_authopenid.utils.OpenID.__str__" class="py-name" href="#" onclick="return doclink('link-82', '__str__', 'link-82');">__str__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
-<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">    <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">date_joined</tt> <tt class="py-op">=</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">date_joined</tt><tt class="py-op">.</tt><tt id="link-83" class="py-name"><a title="mldata.django_authopenid.utils.OpenID.__str__" class="py-name" href="#" onclick="return doclink('link-83', '__str__', 'link-82');">__str__</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
-<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line"> </tt>
-<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt> </tt>
-<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line">        <tt class="py-string">'user/user_detail.html'</tt><tt class="py-op">,</tt> </tt>
-<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line">        <tt class="py-op">{</tt> <tt class="py-string">'object'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">,</tt> <tt class="py-string">'form'</tt> <tt class="py-op">:</tt> <tt class="py-name">form</tt><tt class="py-op">,</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">        <tt class="py-name">context_instance</tt><tt class="py-op">=</tt><tt class="py-name">RequestContext</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">)</tt> </tt>
-<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line">    <tt class="py-op">)</tt> </tt>
-</div><a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line"> </tt>
-<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line"> </tt>
-<a name="update_user"></a><div id="update_user-def"><a name="L189"></a><tt class="py-lineno">189</tt> <a class="py-toggle" href="#" id="update_user-toggle" onclick="return toggle('update_user');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.user.views-module.html#update_user">update_user</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">user_id</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="update_user-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="update_user-expanded"><a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-84" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-84', 'user', 'link-44');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_authenticated</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line"> </tt>
-<a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line">    <tt class="py-name">entry</tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">user_id</tt><tt class="py-op">)</tt> </tt>
-<a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-85" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-85', 'user', 'link-44');">user</a></tt><tt class="py-op">.</tt><tt class="py-name">is_superuser</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">entry</tt> <tt class="py-op">==</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt id="link-86" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-86', 'user', 'link-44');">user</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseForbidden</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line"> </tt>
-<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-87" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-87', 'openid_url', 'link-25');">openid_url</a></tt> <tt class="py-op">=</tt> <tt id="link-88" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-88', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-89" class="py-name"><a title="mldata.blog.models.Post.objects
-mldata.forum.models.Forum.objects
-mldata.forum.models.Post.objects
-mldata.forum.models.Subscription.objects
-mldata.forum.models.Thread.objects
-mldata.registration.models.RegistrationProfile.objects
-mldata.repository.models.Data.objects
-mldata.repository.models.DataRating.objects
-mldata.repository.models.FixedLicense.objects
-mldata.repository.models.License.objects
-mldata.repository.models.Rating.objects
-mldata.repository.models.Repository.objects
-mldata.repository.models.Slug.objects
-mldata.repository.models.Solution.objects
-mldata.repository.models.SolutionRating.objects
-mldata.repository.models.Task.objects
-mldata.repository.models.TaskRating.objects
-mldata.repository.models.TaskType.objects
-mldata.tagging.tests.models.Article.objects
-mldata.tagging.tests.models.FormTest.objects
-mldata.tagging.tests.models.Link.objects
-mldata.tagging.tests.models.Parrot.objects
-mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-89', 'objects', 'link-45');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-90" class="py-name"><a title="django_authopenid.models.UserAssociation.user
-mldata.registration.models.RegistrationProfile.user
-mldata.repository.models.Rating.user
-mldata.repository.models.Repository.user
-mldata.user" class="py-name" href="#" onclick="return doclink('link-90', 'user', 'link-44');">user</a></tt><tt class="py-op">=</tt><tt class="py-name">entry</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-91" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-91', 'openid_url', 'link-25');">openid_url</a></tt> </tt>
-<a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt id="link-92" class="py-name"><a title="django_authopenid.models.UserAssociation" class="py-name" href="#" onclick="return doclink('link-92', 'UserAssociation', 'link-7');">UserAssociation</a></tt><tt class="py-op">.</tt><tt id="link-93" class="py-name"><a title="django_authopenid.models.Association.DoesNotExist
-django_authopenid.models.Nonce.DoesNotExist
-django_authopenid.models.UserAssociation.DoesNotExist
-mldata.blog.models.Post.DoesNotExist
-mldata.forum.models.Forum.DoesNotExist
-mldata.forum.models.Post.DoesNotExist
-mldata.forum.models.Subscription.DoesNotExist
-mldata.forum.models.Thread.DoesNotExist
-mldata.registration.models.RegistrationProfile.DoesNotExist
-mldata.repository.models.Data.DoesNotExist
-mldata.repository.models.DataRating.DoesNotExist
-mldata.repository.models.FixedLicense.DoesNotExist
-mldata.repository.models.License.DoesNotExist
-mldata.repository.models.Rating.DoesNotExist
-mldata.repository.models.Repository.DoesNotExist
-mldata.repository.models.Slug.DoesNotExist
-mldata.repository.models.Solution.DoesNotExist
-mldata.repository.models.SolutionRating.DoesNotExist
-mldata.repository.models.Task.DoesNotExist
-mldata.repository.models.TaskRating.DoesNotExist
-mldata.repository.models.TaskType.DoesNotExist
-mldata.tagging.tests.models.Article.DoesNotExist
-mldata.tagging.tests.models.FormTest.DoesNotExist
-mldata.tagging.tests.models.Link.DoesNotExist
-mldata.tagging.tests.models.Parrot.DoesNotExist
-mldata.tagging.tests.models.Perch.DoesNotExist
-tagging.models.Tag.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-93', 'DoesNotExist', 'link-46');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line">        <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-94" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-94', 'openid_url', 'link-25');">openid_url</a></tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt> </tt>
-<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line"> </tt>
-<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">    <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-95" class="py-name"><a title="mldata.user.views.ChangeUserDetailsForm" class="py-name" href="#" onclick="return doclink('link-95', 'ChangeUserDetailsForm', 'link-79');">ChangeUserDetailsForm</a></tt><tt class="py-op">(</tt><tt class="py-name">initial</tt><tt class="py-op">=</tt><tt class="py-op">{</tt> </tt>
-<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line">        <tt class="py-string">'firstname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">first_name</tt><tt class="py-op">,</tt> </tt>
-<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line">        <tt class="py-string">'lastname'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">last_name</tt><tt class="py-op">,</tt> </tt>
-<a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line">        <tt class="py-string">'email'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-96" class="py-name"><a title="mldata.django_authopenid.forms.OpenidRegisterForm.email
-mldata.registration.forms.RegistrationForm.email
-mldata.user.views.ChangeUserDetailsForm.email" class="py-name" href="#" onclick="return doclink('link-96', 'email', 'link-20');">email</a></tt><tt class="py-op">,</tt> </tt>
-<a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line">        <tt class="py-string">'openid_url'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt id="link-97" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.openid_url
-mldata.django_authopenid.forms.OpenidDissociateForm.openid_url
-mldata.django_authopenid.forms.OpenidSigninForm.openid_url
-mldata.user.views.ChangeUserDetailsForm.openid_url" class="py-name" href="#" onclick="return doclink('link-97', 'openid_url', 'link-25');">openid_url</a></tt><tt class="py-op">,</tt> </tt>
-<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line">        <tt class="py-string">'password1'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">password</tt><tt class="py-op">,</tt> </tt>
-<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line">        <tt class="py-string">'password2'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">.</tt><tt class="py-name">password</tt><tt class="py-op">,</tt> </tt>
-<a name="L209"></a><tt class="py-lineno">209</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
-<a name="L210"></a><tt class="py-lineno">210</tt>  <tt class="py-line"> </tt>
-<a name="L211"></a><tt class="py-lineno">211</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">method</tt> <tt class="py-op">==</tt> <tt class="py-string">'POST'</tt><tt class="py-op">:</tt> </tt>
-<a name="L212"></a><tt class="py-lineno">212</tt>  <tt class="py-line">        <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-98" class="py-name"><a title="mldata.user.views.ChangeUserDetailsForm" class="py-name" href="#" onclick="return doclink('link-98', 'ChangeUserDetailsForm', 'link-79');">ChangeUserDetailsForm</a></tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">POST</tt><tt class="py-op">)</tt> </tt>
-<a name="L213"></a><tt class="py-lineno">213</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">form</tt><tt class="py-op">.</tt><tt class="py-name">is_valid</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L214"></a><tt class="py-lineno">214</tt>  <tt class="py-line">            <tt class="py-name">form</tt><tt class="py-op">.</tt><tt id="link-99" class="py-name"><a title="mldata.blog.models.Post.save
-mldata.forum.models.Forum.save
-mldata.forum.models.Post.save
-mldata.forum.models.Thread.save
-mldata.registration.forms.RegistrationForm.save
-mldata.repository.models.Repository.save
-mldata.user.views.ChangeUserDetailsForm.save
-mldata.utils.hdf5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-99', 'save', 'link-54');">save</a></tt><tt class="py-op">(</tt><tt class="py-name">entry</tt><tt class="py-op">)</tt> </tt>
-<a name="L215"></a><tt class="py-lineno">215</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt> </tt>
-<a name="L216"></a><tt class="py-lineno">216</tt>  <tt class="py-line">                <tt class="py-string">'user/user_change_done.html'</tt><tt class="py-op">,</tt> </tt>
-<a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line">                <tt class="py-op">{</tt> <tt class="py-string">'object'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">,</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line">                <tt class="py-name">context_instance</tt><tt class="py-op">=</tt><tt class="py-name">RequestContext</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">)</tt> </tt>
-<a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line">            <tt class="py-op">)</tt> </tt>
-<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line"> </tt>
-<a name="L221"></a><tt class="py-lineno">221</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt> </tt>
-<a name="L222"></a><tt class="py-lineno">222</tt>  <tt class="py-line">        <tt class="py-string">'user/user_detail.html'</tt><tt class="py-op">,</tt> </tt>
-<a name="L223"></a><tt class="py-lineno">223</tt>  <tt class="py-line">        <tt class="py-op">{</tt> <tt class="py-string">'object'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">,</tt> <tt class="py-string">'form'</tt> <tt class="py-op">:</tt> <tt class="py-name">form</tt><tt class="py-op">,</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L224"></a><tt class="py-lineno">224</tt>  <tt class="py-line">        <tt class="py-name">context_instance</tt><tt class="py-op">=</tt><tt class="py-name">RequestContext</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">)</tt> </tt>
-<a name="L225"></a><tt class="py-lineno">225</tt>  <tt class="py-line">    <tt class="py-op">)</tt> </tt>
-</div><a name="L226"></a><tt class="py-lineno">226</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+mldata.user.forms.ChangeUserDetailsForm.save
+mldata.utils.h5conv.arff.ArffFile.save" class="py-name" href="#" onclick="return doclink('link-42', 'save', 'link-42');">save</a></tt><tt class="py-op">(</tt><tt class="py-name">entry</tt><tt class="py-op">)</tt> </tt>
+<a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt> </tt>
+<a name="L82"></a><tt class="py-lineno">82</tt>  <tt class="py-line">                <tt class="py-string">'user/user_change_done.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L83"></a><tt class="py-lineno">83</tt>  <tt class="py-line">                <tt class="py-op">{</tt> <tt class="py-string">'object'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">,</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L84"></a><tt class="py-lineno">84</tt>  <tt class="py-line">                <tt class="py-name">context_instance</tt><tt class="py-op">=</tt><tt class="py-name">RequestContext</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">)</tt> </tt>
+<a name="L85"></a><tt class="py-lineno">85</tt>  <tt class="py-line">            <tt class="py-op">)</tt> </tt>
+<a name="L86"></a><tt class="py-lineno">86</tt>  <tt class="py-line"> </tt>
+<a name="L87"></a><tt class="py-lineno">87</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt> </tt>
+<a name="L88"></a><tt class="py-lineno">88</tt>  <tt class="py-line">        <tt class="py-string">'user/user_detail.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L89"></a><tt class="py-lineno">89</tt>  <tt class="py-line">        <tt class="py-op">{</tt> <tt class="py-string">'object'</tt><tt class="py-op">:</tt> <tt class="py-name">entry</tt><tt class="py-op">,</tt> <tt class="py-string">'form'</tt> <tt class="py-op">:</tt> <tt class="py-name">form</tt><tt class="py-op">,</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'accounts'</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L90"></a><tt class="py-lineno">90</tt>  <tt class="py-line">        <tt class="py-name">context_instance</tt><tt class="py-op">=</tt><tt class="py-name">RequestContext</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">)</tt> </tt>
+<a name="L91"></a><tt class="py-lineno">91</tt>  <tt class="py-line">    <tt class="py-op">)</tt> </tt>
+</div><a name="L92"></a><tt class="py-lineno">92</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -789,7 +418,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:49 2010
+    Generated by Epydoc 3.0.1 on Thu Mar 25 19:46:27 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

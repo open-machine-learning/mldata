@@ -97,9 +97,9 @@
 <area shape="rect" href="mldata.registration.forms.RegistrationForm-class.html#clean" title="Verifiy that the values entered into the two password fields match." alt="" coords="413,697,608,716"/>
 <area shape="rect" href="mldata.registration.forms.RegistrationForm-class.html#save" title="Create the new ``User`` and ``RegistrationProfile``, and returns the &#160;``User``." alt="" coords="413,716,608,735"/>
 <area shape="rect" href="mldata.registration.forms.RegistrationForm-class.html" title="Form for registering a new user account." alt="" coords="412,528,609,736"/>
-<area shape="rect" href="mldata.registration.forms.RegistrationFormTermsOfService-class.html" title="Subclass of ``RegistrationForm`` which adds a required checkbox for agreeing to a site&#39;s Terms of Service." alt="" coords="163,765,365,792"/>
-<area shape="rect" href="mldata.registration.forms.RegistrationFormNoFreeEmail-class.html" title="Subclass of ``RegistrationForm`` which disallows registration with email addresses from popular free webmail services; moderately useful for preventing automated spam registrations." alt="" coords="416,765,605,792"/>
-<area shape="rect" href="mldata.registration.forms.RegistrationFormUniqueEmail-class.html" title="Subclass of ``RegistrationForm`` which enforces uniqueness of email addresses." alt="" coords="656,765,843,792"/>
+<area shape="rect" href="mldata.registration.forms.RegistrationFormNoFreeEmail-class.html" title="Subclass of ``RegistrationForm`` which disallows registration with email addresses from popular free webmail services; moderately useful for preventing automated spam registrations." alt="" coords="177,765,367,792"/>
+<area shape="rect" href="mldata.registration.forms.RegistrationFormUniqueEmail-class.html" title="Subclass of ``RegistrationForm`` which enforces uniqueness of email addresses." alt="" coords="417,765,604,792"/>
+<area shape="rect" href="mldata.registration.forms.RegistrationFormTermsOfService-class.html" title="Subclass of ``RegistrationForm`` which adds a required checkbox for agreeing to a site&#39;s Terms of Service." alt="" coords="655,765,857,792"/>
 </map>
   <img src="uml_class_diagram_for_mldata_r_2.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_2" ismap="ismap" class="graph-without-title" />
 </center>
@@ -316,11 +316,11 @@ el= u'I have read and agree to the Terms of Service')">forms.BooleanField(widget
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.registration.forms.RegistrationForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'username': &lt;django.forms.fields.RegexField object at 0xb5f59ec&gt;, 'em\
-ail': &lt;django.forms.fields.EmailField object at 0xb5f5a4c&gt;, 'password1\
-': &lt;django.forms.fields.CharField object at 0xb5f5b6c&gt;, 'password2': &lt;\
-django.forms.fields.CharField object at 0xb5f5bcc&gt;, 'tos': &lt;django.for\
-ms.fields.BooleanField object at 0xb5f5c0c&gt;}">{'username': &lt;django.forms.fields.RegexField obj<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.registration.forms.RegistrationForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'username': &lt;django.forms.fields.RegexField object at 0x97fbc8c&gt;, 'em\
+ail': &lt;django.forms.fields.EmailField object at 0x97fbd0c&gt;, 'password1\
+': &lt;django.forms.fields.CharField object at 0x97fbd6c&gt;, 'password2': &lt;\
+django.forms.fields.CharField object at 0x97fbdcc&gt;, 'tos': &lt;django.for\
+ms.fields.BooleanField object at 0x97fbe2c&gt;}">{'username': &lt;django.forms.fields.RegexField obj<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -555,11 +555,11 @@ el= u'I have read and agree to the Terms of Service')
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'username': &lt;django.forms.fields.RegexField object at 0xb5f59ec&gt;, 'em<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ail': &lt;django.forms.fields.EmailField object at 0xb5f5a4c&gt;, 'password1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-': &lt;django.forms.fields.CharField object at 0xb5f5b6c&gt;, 'password2': &lt;<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-django.forms.fields.CharField object at 0xb5f5bcc&gt;, 'tos': &lt;django.for<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ms.fields.BooleanField object at 0xb5f5c0c&gt;}
+{'username': &lt;django.forms.fields.RegexField object at 0x97fbc8c&gt;, 'em<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ail': &lt;django.forms.fields.EmailField object at 0x97fbd0c&gt;, 'password1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+': &lt;django.forms.fields.CharField object at 0x97fbd6c&gt;, 'password2': &lt;<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+django.forms.fields.CharField object at 0x97fbdcc&gt;, 'tos': &lt;django.for<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ms.fields.BooleanField object at 0x97fbe2c&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -631,7 +631,7 @@ ms.fields.BooleanField object at 0xb5f5c0c&gt;}
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:22 2010
+    Generated by Epydoc 3.0.1 on Thu Mar 25 19:46:01 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -72,6 +72,13 @@
 <area shape="rect" href="mldata.blog.models.PostForm-class.html#declared_fields" title="mldata.blog.models.PostForm.declared_fields" alt="" coords="511,751,604,769"/>
 <area shape="rect" href="mldata.blog.models.PostForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="511,769,604,788"/>
 <area shape="rect" href="mldata.blog.models.PostForm-class.html" title="Form class for model Post." alt="" coords="509,696,605,797"/>
+<area shape="rect" href="javascript:void(0);" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,479,1097,497"/>
+<area shape="rect" href="javascript:void(0);" title="Hook for doing any extra form&#45;wide cleaning after Field.clean() been called on every field." alt="" coords="17,497,1097,516"/>
+<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm.date_error_message" alt="" coords="17,516,1097,535"/>
+<area shape="rect" href="javascript:void(0);" title="Saves this ``form``&#39;s cleaned_data into model instance ``self.instance``." alt="" coords="17,535,1097,553"/>
+<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm.unique_error_message" alt="" coords="17,553,1097,572"/>
+<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm.validate_unique" alt="" coords="17,572,1097,591"/>
+<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm" alt="" coords="16,453,1099,592"/>
 <area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="451,36,664,55"/>
 <area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="449,11,665,56"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm.changed_data" alt="" coords="457,103,657,121"/>
@@ -92,13 +99,6 @@
 <area shape="rect" href="javascript:void(0);" title="Returns an ErrorList of errors that aren&#39;t associated with a particular &#160;field &#45;&#45; i.e., from Form.clean()." alt="" coords="457,385,657,404"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a list of BoundField objects that aren&#39;t hidden fields." alt="" coords="457,404,657,423"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm" alt="" coords="456,85,659,424"/>
-<area shape="rect" href="javascript:void(0);" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,479,1097,497"/>
-<area shape="rect" href="javascript:void(0);" title="Hook for doing any extra form&#45;wide cleaning after Field.clean() been called on every field." alt="" coords="17,497,1097,516"/>
-<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm.date_error_message" alt="" coords="17,516,1097,535"/>
-<area shape="rect" href="javascript:void(0);" title="Saves this ``form``&#39;s cleaned_data into model instance ``self.instance``." alt="" coords="17,535,1097,553"/>
-<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm.unique_error_message" alt="" coords="17,553,1097,572"/>
-<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm.validate_unique" alt="" coords="17,572,1097,591"/>
-<area shape="rect" href="javascript:void(0);" title="django.forms.models.BaseModelForm" alt="" coords="16,453,1099,592"/>
 </map>
   <img src="uml_class_diagram_for_mldata_b_5.gif" alt='' usemap="#uml_class_diagram_for_mldata_b_5" ismap="ismap" class="graph-without-title" />
 </center>
@@ -234,16 +234,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.blog.models.PostForm-class.html#_meta" class="summary-name" onclick="show_private();">_meta</a> = <code title="&lt;django.forms.models.ModelFormOptions object at 0xaa3b30c&gt;">&lt;django.forms.models.ModelFormOptions object at 0xaa3b<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.blog.models.PostForm-class.html#_meta" class="summary-name" onclick="show_private();">_meta</a> = <code title="&lt;django.forms.models.ModelFormOptions object at 0x8c303ac&gt;">&lt;django.forms.models.ModelFormOptions object at 0x8c30<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.blog.models.PostForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'headline': &lt;django.forms.fields.CharField object at 0xaa3b38c&gt;, 'sum\
-mary': &lt;django.forms.fields.CharField object at 0xaa3b40c&gt;, 'body': &lt;d\
-jango.forms.fields.CharField object at 0xaa3b4ac&gt;}">{'headline': &lt;django.forms.fields.CharField obje<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.blog.models.PostForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'headline': &lt;django.forms.fields.CharField object at 0x8c3042c&gt;, 'sum\
+mary': &lt;django.forms.fields.CharField object at 0x8c304ac&gt;, 'body': &lt;d\
+jango.forms.fields.CharField object at 0x8c3054c&gt;}">{'headline': &lt;django.forms.fields.CharField obje<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -322,7 +322,7 @@ jango.forms.fields.CharField object at 0xaa3b4ac&gt;}">{'headline': &lt;django.f
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.forms.models.ModelFormOptions object at 0xaa3b30c&gt;
+&lt;django.forms.models.ModelFormOptions object at 0x8c303ac&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -340,9 +340,9 @@ jango.forms.fields.CharField object at 0xaa3b4ac&gt;}">{'headline': &lt;django.f
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'headline': &lt;django.forms.fields.CharField object at 0xaa3b38c&gt;, 'sum<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-mary': &lt;django.forms.fields.CharField object at 0xaa3b40c&gt;, 'body': &lt;d<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-jango.forms.fields.CharField object at 0xaa3b4ac&gt;}
+{'headline': &lt;django.forms.fields.CharField object at 0x8c3042c&gt;, 'sum<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+mary': &lt;django.forms.fields.CharField object at 0x8c304ac&gt;, 'body': &lt;d<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+jango.forms.fields.CharField object at 0x8c3054c&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -414,7 +414,7 @@ jango.forms.fields.CharField object at 0xaa3b4ac&gt;}
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:10 2010
+    Generated by Epydoc 3.0.1 on Thu Mar 25 19:45:53 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

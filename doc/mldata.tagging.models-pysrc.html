@@ -72,27 +72,33 @@
 <a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line">    <tt class="py-keyword">from</tt> <tt class="py-name">sets</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Set</tt> <tt class="py-keyword">as</tt> <tt class="py-name">set</tt> </tt>
 <a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"> </tt>
 <a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">contenttypes</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module mldata.tagging.generic=mldata.tagging.generic-module.html"><a title="mldata.tagging.generic" class="py-name" href="#" onclick="return doclink('link-0', 'generic', 'link-0');">generic</a></tt> </tt>
-<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">contenttypes</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html"><a title="mldata.blog.models
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">contenttypes</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module mldata.about.models=mldata.about.models-module.html,Module mldata.blog.models=mldata.blog.models-module.html,Module mldata.django_authopenid.models=mldata.django_authopenid.models-module.html,Module mldata.forum.models=mldata.forum.models-module.html,Module mldata.registration.models=mldata.registration.models-module.html,Module mldata.repository.models=mldata.repository.models-module.html,Module mldata.tagging.models=mldata.tagging.models-module.html,Module mldata.tagging.tests.models=mldata.tagging.tests.models-module.html,Module mldata.user.models=mldata.user.models-module.html"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-1', 'models', 'link-1');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">ContentType</tt> </tt>
-<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt> <tt class="py-keyword">import</tt> <tt class="py-name">connection</tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name"><a title="mldata.blog.models
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-1', 'models', 'link-1');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">ContentType</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt> <tt class="py-keyword">import</tt> <tt class="py-name">connection</tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-1');">models</a></tt> </tt>
-<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="mldata.blog.models
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-1');">models</a></tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-3', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">query</tt> <tt class="py-keyword">import</tt> <tt class="py-name">QuerySet</tt> </tt>
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-3', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">query</tt> <tt class="py-keyword">import</tt> <tt class="py-name">QuerySet</tt> </tt>
 <a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Package mldata.django_authopenid.utils=mldata.django_authopenid.utils-module.html,Module mldata.tagging.utils=mldata.tagging.utils-module.html,Package mldata.utils=mldata.utils-module.html"><a title="mldata.django_authopenid.utils
 mldata.tagging.utils
 mldata.utils" class="py-name" href="#" onclick="return doclink('link-4', 'utils', 'link-4');">utils</a></tt><tt class="py-op">.</tt><tt class="py-name">translation</tt> <tt class="py-keyword">import</tt> <tt class="py-name">ugettext_lazy</tt> <tt class="py-keyword">as</tt> <tt class="py-name">_</tt> </tt>
@@ -118,7 +124,7 @@ mldata.utils" class="py-name" href="#" onclick="return doclink('link-14', 'utils
 </div><div id="TagManager.update_tags-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TagManager.update_tags-expanded"><a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
 <a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">        Update tags associated with an object.</tt> </tt>
 <a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">        <tt class="py-name">ctype</tt> <tt class="py-op">=</tt> <tt class="py-name">ContentType</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method mldata.blog.models.Post.objects()=mldata.blog.models.Post-class.html#objects,Method mldata.forum.models.Forum.objects()=mldata.forum.models.Forum-class.html#objects,Method mldata.forum.models.Post.objects()=mldata.forum.models.Post-class.html#objects,Method mldata.forum.models.Subscription.objects()=mldata.forum.models.Subscription-class.html#objects,Method mldata.forum.models.Thread.objects()=mldata.forum.models.Thread-class.html#objects,Method mldata.registration.models.RegistrationProfile.objects()=mldata.registration.models.RegistrationProfile-class.html#objects,Method mldata.repository.models.Data.objects()=mldata.repository.models.Data-class.html#objects,Method mldata.repository.models.DataRating.objects()=mldata.repository.models.DataRating-class.html#objects,Method mldata.repository.models.FixedLicense.objects()=mldata.repository.models.FixedLicense-class.html#objects,Method mldata.repository.models.License.objects()=mldata.repository.models.License-class.html#objects,Method mldata.repository.models.Rating.objects()=mldata.repository.models.Rating-class.html#objects,Method mldata.repository.models.Repository.objects()=mldata.repository.models.Repository-class.html#objects,Method mldata.repository.models.Slug.objects()=mldata.repository.models.Slug-class.html#objects,Method mldata.repository.models.Solution.objects()=mldata.repository.models.Solution-class.html#objects,Method mldata.repository.models.SolutionRating.objects()=mldata.repository.models.SolutionRating-class.html#objects,Method mldata.repository.models.Task.objects()=mldata.repository.models.Task-class.html#objects,Method mldata.repository.models.TaskRating.objects()=mldata.repository.models.TaskRating-class.html#objects,Method mldata.repository.models.TaskType.objects()=mldata.repository.models.TaskType-class.html#objects,Method mldata.tagging.tests.models.Article.objects()=mldata.tagging.tests.models.Article-class.html#objects,Method mldata.tagging.tests.models.FormTest.objects()=mldata.tagging.tests.models.FormTest-class.html#objects,Method mldata.tagging.tests.models.Link.objects()=mldata.tagging.tests.models.Link-class.html#objects,Method mldata.tagging.tests.models.Parrot.objects()=mldata.tagging.tests.models.Parrot-class.html#objects,Method mldata.tagging.tests.models.Perch.objects()=mldata.tagging.tests.models.Perch-class.html#objects"><a title="mldata.blog.models.Post.objects
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">        <tt class="py-name">ctype</tt> <tt class="py-op">=</tt> <tt class="py-name">ContentType</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method mldata.blog.models.Post.objects()=mldata.blog.models.Post-class.html#objects,Method mldata.forum.models.Forum.objects()=mldata.forum.models.Forum-class.html#objects,Method mldata.forum.models.Post.objects()=mldata.forum.models.Post-class.html#objects,Method mldata.forum.models.Subscription.objects()=mldata.forum.models.Subscription-class.html#objects,Method mldata.forum.models.Thread.objects()=mldata.forum.models.Thread-class.html#objects,Method mldata.registration.models.RegistrationProfile.objects()=mldata.registration.models.RegistrationProfile-class.html#objects,Method mldata.repository.models.Data.objects()=mldata.repository.models.Data-class.html#objects,Method mldata.repository.models.DataRating.objects()=mldata.repository.models.DataRating-class.html#objects,Method mldata.repository.models.FixedLicense.objects()=mldata.repository.models.FixedLicense-class.html#objects,Method mldata.repository.models.License.objects()=mldata.repository.models.License-class.html#objects,Method mldata.repository.models.Publication.objects()=mldata.repository.models.Publication-class.html#objects,Method mldata.repository.models.Rating.objects()=mldata.repository.models.Rating-class.html#objects,Method mldata.repository.models.Repository.objects()=mldata.repository.models.Repository-class.html#objects,Method mldata.repository.models.Slug.objects()=mldata.repository.models.Slug-class.html#objects,Method mldata.repository.models.Solution.objects()=mldata.repository.models.Solution-class.html#objects,Method mldata.repository.models.SolutionRating.objects()=mldata.repository.models.SolutionRating-class.html#objects,Method mldata.repository.models.Task.objects()=mldata.repository.models.Task-class.html#objects,Method mldata.repository.models.TaskRating.objects()=mldata.repository.models.TaskRating-class.html#objects,Method mldata.repository.models.TaskType.objects()=mldata.repository.models.TaskType-class.html#objects,Method mldata.tagging.tests.models.Article.objects()=mldata.tagging.tests.models.Article-class.html#objects,Method mldata.tagging.tests.models.FormTest.objects()=mldata.tagging.tests.models.FormTest-class.html#objects,Method mldata.tagging.tests.models.Link.objects()=mldata.tagging.tests.models.Link-class.html#objects,Method mldata.tagging.tests.models.Parrot.objects()=mldata.tagging.tests.models.Parrot-class.html#objects,Method mldata.tagging.tests.models.Perch.objects()=mldata.tagging.tests.models.Perch-class.html#objects"><a title="mldata.blog.models.Post.objects
 mldata.forum.models.Forum.objects
 mldata.forum.models.Post.objects
 mldata.forum.models.Subscription.objects
@@ -128,6 +134,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -158,7 +165,7 @@ mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
 mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-20', 'name', 'link-20');">name</a></tt> <tt class="py-keyword">not</tt> <tt class="py-keyword">in</tt> <tt class="py-name">updated_tag_names</tt><tt class="py-op">]</tt> </tt>
 <a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">tags_for_removal</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">            <tt class="py-name">TaggedItem</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Variable django_authopenid.models.Association._default_manager=django_authopenid.models.Association-class.html#_default_manager,Variable django_authopenid.models.Nonce._default_manager=django_authopenid.models.Nonce-class.html#_default_manager,Variable django_authopenid.models.UserAssociation._default_manager=django_authopenid.models.UserAssociation-class.html#_default_manager,Variable mldata.blog.models.Post._default_manager=mldata.blog.models.Post-class.html#_default_manager,Variable mldata.forum.models.Forum._default_manager=mldata.forum.models.Forum-class.html#_default_manager,Variable mldata.forum.models.Post._default_manager=mldata.forum.models.Post-class.html#_default_manager,Variable mldata.forum.models.Subscription._default_manager=mldata.forum.models.Subscription-class.html#_default_manager,Variable mldata.forum.models.Thread._default_manager=mldata.forum.models.Thread-class.html#_default_manager,Variable mldata.registration.models.RegistrationProfile._default_manager=mldata.registration.models.RegistrationProfile-class.html#_default_manager,Variable mldata.repository.models.Data._default_manager=mldata.repository.models.Data-class.html#_default_manager,Variable mldata.repository.models.DataRating._default_manager=mldata.repository.models.DataRating-class.html#_default_manager,Variable mldata.repository.models.FixedLicense._default_manager=mldata.repository.models.FixedLicense-class.html#_default_manager,Variable mldata.repository.models.License._default_manager=mldata.repository.models.License-class.html#_default_manager,Variable mldata.repository.models.Rating._default_manager=mldata.repository.models.Rating-class.html#_default_manager,Variable mldata.repository.models.Repository._default_manager=mldata.repository.models.Repository-class.html#_default_manager,Variable mldata.repository.models.Slug._default_manager=mldata.repository.models.Slug-class.html#_default_manager,Variable mldata.repository.models.Solution._default_manager=mldata.repository.models.Solution-class.html#_default_manager,Variable mldata.repository.models.SolutionRating._default_manager=mldata.repository.models.SolutionRating-class.html#_default_manager,Variable mldata.repository.models.Task._default_manager=mldata.repository.models.Task-class.html#_default_manager,Variable mldata.repository.models.TaskRating._default_manager=mldata.repository.models.TaskRating-class.html#_default_manager,Variable mldata.repository.models.TaskType._default_manager=mldata.repository.models.TaskType-class.html#_default_manager,Variable mldata.tagging.tests.models.Article._default_manager=mldata.tagging.tests.models.Article-class.html#_default_manager,Variable mldata.tagging.tests.models.FormTest._default_manager=mldata.tagging.tests.models.FormTest-class.html#_default_manager,Variable mldata.tagging.tests.models.Link._default_manager=mldata.tagging.tests.models.Link-class.html#_default_manager,Variable mldata.tagging.tests.models.Parrot._default_manager=mldata.tagging.tests.models.Parrot-class.html#_default_manager,Variable mldata.tagging.tests.models.Perch._default_manager=mldata.tagging.tests.models.Perch-class.html#_default_manager,Variable tagging.models.Tag._default_manager=tagging.models.Tag-class.html#_default_manager"><a title="django_authopenid.models.Association._default_manager
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">            <tt class="py-name">TaggedItem</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Variable django_authopenid.models.Association._default_manager=django_authopenid.models.Association-class.html#_default_manager,Variable django_authopenid.models.Nonce._default_manager=django_authopenid.models.Nonce-class.html#_default_manager,Variable django_authopenid.models.UserAssociation._default_manager=django_authopenid.models.UserAssociation-class.html#_default_manager,Variable mldata.blog.models.Post._default_manager=mldata.blog.models.Post-class.html#_default_manager,Variable mldata.forum.models.Forum._default_manager=mldata.forum.models.Forum-class.html#_default_manager,Variable mldata.forum.models.Post._default_manager=mldata.forum.models.Post-class.html#_default_manager,Variable mldata.forum.models.Subscription._default_manager=mldata.forum.models.Subscription-class.html#_default_manager,Variable mldata.forum.models.Thread._default_manager=mldata.forum.models.Thread-class.html#_default_manager,Variable mldata.registration.models.RegistrationProfile._default_manager=mldata.registration.models.RegistrationProfile-class.html#_default_manager,Variable mldata.repository.models.Data._default_manager=mldata.repository.models.Data-class.html#_default_manager,Variable mldata.repository.models.DataRating._default_manager=mldata.repository.models.DataRating-class.html#_default_manager,Variable mldata.repository.models.FixedLicense._default_manager=mldata.repository.models.FixedLicense-class.html#_default_manager,Variable mldata.repository.models.License._default_manager=mldata.repository.models.License-class.html#_default_manager,Variable mldata.repository.models.Publication._default_manager=mldata.repository.models.Publication-class.html#_default_manager,Variable mldata.repository.models.Rating._default_manager=mldata.repository.models.Rating-class.html#_default_manager,Variable mldata.repository.models.Repository._default_manager=mldata.repository.models.Repository-class.html#_default_manager,Variable mldata.repository.models.Slug._default_manager=mldata.repository.models.Slug-class.html#_default_manager,Variable mldata.repository.models.Solution._default_manager=mldata.repository.models.Solution-class.html#_default_manager,Variable mldata.repository.models.SolutionRating._default_manager=mldata.repository.models.SolutionRating-class.html#_default_manager,Variable mldata.repository.models.Task._default_manager=mldata.repository.models.Task-class.html#_default_manager,Variable mldata.repository.models.TaskRating._default_manager=mldata.repository.models.TaskRating-class.html#_default_manager,Variable mldata.repository.models.TaskType._default_manager=mldata.repository.models.TaskType-class.html#_default_manager,Variable mldata.tagging.tests.models.Article._default_manager=mldata.tagging.tests.models.Article-class.html#_default_manager,Variable mldata.tagging.tests.models.FormTest._default_manager=mldata.tagging.tests.models.FormTest-class.html#_default_manager,Variable mldata.tagging.tests.models.Link._default_manager=mldata.tagging.tests.models.Link-class.html#_default_manager,Variable mldata.tagging.tests.models.Parrot._default_manager=mldata.tagging.tests.models.Parrot-class.html#_default_manager,Variable mldata.tagging.tests.models.Perch._default_manager=mldata.tagging.tests.models.Perch-class.html#_default_manager,Variable tagging.models.Tag._default_manager=tagging.models.Tag-class.html#_default_manager"><a title="django_authopenid.models.Association._default_manager
 django_authopenid.models.Nonce._default_manager
 django_authopenid.models.UserAssociation._default_manager
 mldata.blog.models.Post._default_manager
@@ -171,6 +178,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -217,6 +225,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -262,6 +271,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -288,6 +298,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -319,6 +330,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -342,7 +354,7 @@ mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="ret
 <a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
 <a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">min_count</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> <tt class="py-name">counts</tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
 <a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"> </tt>
-<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">        <tt class="py-name">model_table</tt> <tt class="py-op">=</tt> <tt class="py-name">qn</tt><tt class="py-op">(</tt><tt class="py-name">model</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Variable django_authopenid.models.Association._meta=django_authopenid.models.Association-class.html#_meta,Variable django_authopenid.models.Nonce._meta=django_authopenid.models.Nonce-class.html#_meta,Variable django_authopenid.models.UserAssociation._meta=django_authopenid.models.UserAssociation-class.html#_meta,Variable mldata.blog.models.Post._meta=mldata.blog.models.Post-class.html#_meta,Variable mldata.blog.models.PostForm._meta=mldata.blog.models.PostForm-class.html#_meta,Variable mldata.forum.models.Forum._meta=mldata.forum.models.Forum-class.html#_meta,Variable mldata.forum.models.Post._meta=mldata.forum.models.Post-class.html#_meta,Variable mldata.forum.models.Subscription._meta=mldata.forum.models.Subscription-class.html#_meta,Variable mldata.forum.models.Thread._meta=mldata.forum.models.Thread-class.html#_meta,Variable mldata.registration.models.RegistrationProfile._meta=mldata.registration.models.RegistrationProfile-class.html#_meta,Variable mldata.repository.forms.DataForm._meta=mldata.repository.forms.DataForm-class.html#_meta,Variable mldata.repository.forms.RepositoryForm._meta=mldata.repository.forms.RepositoryForm-class.html#_meta,Variable mldata.repository.forms.SolutionForm._meta=mldata.repository.forms.SolutionForm-class.html#_meta,Variable mldata.repository.forms.TaskForm._meta=mldata.repository.forms.TaskForm-class.html#_meta,Variable mldata.repository.models.Data._meta=mldata.repository.models.Data-class.html#_meta,Variable mldata.repository.models.DataRating._meta=mldata.repository.models.DataRating-class.html#_meta,Variable mldata.repository.models.FixedLicense._meta=mldata.repository.models.FixedLicense-class.html#_meta,Variable mldata.repository.models.License._meta=mldata.repository.models.License-class.html#_meta,Variable mldata.repository.models.Rating._meta=mldata.repository.models.Rating-class.html#_meta,Variable mldata.repository.models.Repository._meta=mldata.repository.models.Repository-class.html#_meta,Variable mldata.repository.models.Slug._meta=mldata.repository.models.Slug-class.html#_meta,Variable mldata.repository.models.Solution._meta=mldata.repository.models.Solution-class.html#_meta,Variable mldata.repository.models.SolutionRating._meta=mldata.repository.models.SolutionRating-class.html#_meta,Variable mldata.repository.models.Task._meta=mldata.repository.models.Task-class.html#_meta,Variable mldata.repository.models.TaskRating._meta=mldata.repository.models.TaskRating-class.html#_meta,Variable mldata.repository.models.TaskType._meta=mldata.repository.models.TaskType-class.html#_meta,Variable mldata.tagging.forms.TagAdminForm._meta=mldata.tagging.forms.TagAdminForm-class.html#_meta,Variable mldata.tagging.tests.models.Article._meta=mldata.tagging.tests.models.Article-class.html#_meta,Variable mldata.tagging.tests.models.FormTest._meta=mldata.tagging.tests.models.FormTest-class.html#_meta,Variable mldata.tagging.tests.models.Link._meta=mldata.tagging.tests.models.Link-class.html#_meta,Variable mldata.tagging.tests.models.Parrot._meta=mldata.tagging.tests.models.Parrot-class.html#_meta,Variable mldata.tagging.tests.models.Perch._meta=mldata.tagging.tests.models.Perch-class.html#_meta,Variable tagging.forms.TagAdminForm._meta=tagging.forms.TagAdminForm-class.html#_meta,Variable tagging.models.Tag._meta=tagging.models.Tag-class.html#_meta"><a title="django_authopenid.models.Association._meta
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">        <tt class="py-name">model_table</tt> <tt class="py-op">=</tt> <tt class="py-name">qn</tt><tt class="py-op">(</tt><tt class="py-name">model</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Variable django_authopenid.models.Association._meta=django_authopenid.models.Association-class.html#_meta,Variable django_authopenid.models.Nonce._meta=django_authopenid.models.Nonce-class.html#_meta,Variable django_authopenid.models.UserAssociation._meta=django_authopenid.models.UserAssociation-class.html#_meta,Variable mldata.blog.models.Post._meta=mldata.blog.models.Post-class.html#_meta,Variable mldata.blog.models.PostForm._meta=mldata.blog.models.PostForm-class.html#_meta,Variable mldata.forum.models.Forum._meta=mldata.forum.models.Forum-class.html#_meta,Variable mldata.forum.models.Post._meta=mldata.forum.models.Post-class.html#_meta,Variable mldata.forum.models.Subscription._meta=mldata.forum.models.Subscription-class.html#_meta,Variable mldata.forum.models.Thread._meta=mldata.forum.models.Thread-class.html#_meta,Variable mldata.registration.models.RegistrationProfile._meta=mldata.registration.models.RegistrationProfile-class.html#_meta,Variable mldata.repository.forms.DataForm._meta=mldata.repository.forms.DataForm-class.html#_meta,Variable mldata.repository.forms.PublicationForm._meta=mldata.repository.forms.PublicationForm-class.html#_meta,Variable mldata.repository.forms.RepositoryForm._meta=mldata.repository.forms.RepositoryForm-class.html#_meta,Variable mldata.repository.forms.SolutionForm._meta=mldata.repository.forms.SolutionForm-class.html#_meta,Variable mldata.repository.forms.TaskForm._meta=mldata.repository.forms.TaskForm-class.html#_meta,Variable mldata.repository.models.Data._meta=mldata.repository.models.Data-class.html#_meta,Variable mldata.repository.models.DataRating._meta=mldata.repository.models.DataRating-class.html#_meta,Variable mldata.repository.models.FixedLicense._meta=mldata.repository.models.FixedLicense-class.html#_meta,Variable mldata.repository.models.License._meta=mldata.repository.models.License-class.html#_meta,Variable mldata.repository.models.Publication._meta=mldata.repository.models.Publication-class.html#_meta,Variable mldata.repository.models.Rating._meta=mldata.repository.models.Rating-class.html#_meta,Variable mldata.repository.models.Repository._meta=mldata.repository.models.Repository-class.html#_meta,Variable mldata.repository.models.Slug._meta=mldata.repository.models.Slug-class.html#_meta,Variable mldata.repository.models.Solution._meta=mldata.repository.models.Solution-class.html#_meta,Variable mldata.repository.models.SolutionRating._meta=mldata.repository.models.SolutionRating-class.html#_meta,Variable mldata.repository.models.Task._meta=mldata.repository.models.Task-class.html#_meta,Variable mldata.repository.models.TaskRating._meta=mldata.repository.models.TaskRating-class.html#_meta,Variable mldata.repository.models.TaskType._meta=mldata.repository.models.TaskType-class.html#_meta,Variable mldata.tagging.forms.TagAdminForm._meta=mldata.tagging.forms.TagAdminForm-class.html#_meta,Variable mldata.tagging.tests.models.Article._meta=mldata.tagging.tests.models.Article-class.html#_meta,Variable mldata.tagging.tests.models.FormTest._meta=mldata.tagging.tests.models.FormTest-class.html#_meta,Variable mldata.tagging.tests.models.Link._meta=mldata.tagging.tests.models.Link-class.html#_meta,Variable mldata.tagging.tests.models.Parrot._meta=mldata.tagging.tests.models.Parrot-class.html#_meta,Variable mldata.tagging.tests.models.Perch._meta=mldata.tagging.tests.models.Perch-class.html#_meta,Variable tagging.forms.TagAdminForm._meta=tagging.forms.TagAdminForm-class.html#_meta,Variable tagging.models.Tag._meta=tagging.models.Tag-class.html#_meta"><a title="django_authopenid.models.Association._meta
 django_authopenid.models.Nonce._meta
 django_authopenid.models.UserAssociation._meta
 mldata.blog.models.Post._meta
@@ -353,6 +365,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -360,6 +373,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -387,6 +401,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -394,6 +409,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -435,6 +451,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -442,6 +459,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -470,6 +488,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -477,6 +496,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -505,6 +525,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -580,6 +601,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -665,6 +687,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -672,6 +695,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -717,6 +741,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -724,6 +749,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -752,6 +778,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -873,6 +900,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -913,6 +941,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -937,6 +966,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -944,6 +974,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -977,6 +1008,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -984,6 +1016,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1011,6 +1044,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1018,6 +1052,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1074,6 +1109,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -1100,6 +1136,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1107,6 +1144,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1144,6 +1182,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1151,6 +1190,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1179,6 +1219,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1186,6 +1227,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1212,6 +1254,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -1252,6 +1295,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -1302,6 +1346,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -1328,6 +1373,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1335,6 +1381,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1371,6 +1418,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1378,6 +1426,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1406,6 +1455,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1413,6 +1463,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1439,6 +1490,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -1478,6 +1530,7 @@ mldata.repository.models.Data._default_manager
 mldata.repository.models.DataRating._default_manager
 mldata.repository.models.FixedLicense._default_manager
 mldata.repository.models.License._default_manager
+mldata.repository.models.Publication._default_manager
 mldata.repository.models.Rating._default_manager
 mldata.repository.models.Repository._default_manager
 mldata.repository.models.Slug._default_manager
@@ -1514,6 +1567,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1521,6 +1575,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1547,6 +1602,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -1570,6 +1626,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -1613,6 +1670,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1620,6 +1678,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1649,6 +1708,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1656,6 +1716,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1683,6 +1744,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1690,6 +1752,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1716,6 +1779,7 @@ mldata.forum.models.Subscription._meta
 mldata.forum.models.Thread._meta
 mldata.registration.models.RegistrationProfile._meta
 mldata.repository.forms.DataForm._meta
+mldata.repository.forms.PublicationForm._meta
 mldata.repository.forms.RepositoryForm._meta
 mldata.repository.forms.SolutionForm._meta
 mldata.repository.forms.TaskForm._meta
@@ -1723,6 +1787,7 @@ mldata.repository.models.Data._meta
 mldata.repository.models.DataRating._meta
 mldata.repository.models.FixedLicense._meta
 mldata.repository.models.License._meta
+mldata.repository.models.Publication._meta
 mldata.repository.models.Rating._meta
 mldata.repository.models.Repository._meta
 mldata.repository.models.Slug._meta
@@ -1774,13 +1839,15 @@ mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-109', 'name', 'link-20');">name</a></tt> <tt class="py-op">=</tt> <tt id="link-110" class="py-name"><a title="mldata.blog.models
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-109', 'name', 'link-20');">name</a></tt> <tt class="py-op">=</tt> <tt id="link-110" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-110', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'name'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">50</tt><tt class="py-op">,</tt> <tt class="py-name">unique</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">db_index</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-110', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'name'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">50</tt><tt class="py-op">,</tt> <tt class="py-name">unique</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">db_index</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
 <a name="L451"></a><tt class="py-lineno">451</tt>  <tt class="py-line"> </tt>
 <a name="L452"></a><tt class="py-lineno">452</tt>  <tt class="py-line">    <tt id="link-111" class="py-name"><a title="mldata.blog.models.Post.objects
 mldata.forum.models.Forum.objects
@@ -1792,6 +1859,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -1807,12 +1875,13 @@ mldata.tagging.tests.models.Parrot.objects
 mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="return doclink('link-111', 'objects', 'link-16');">objects</a></tt> <tt class="py-op">=</tt> <tt id="link-112" class="py-name" targets="Class mldata.tagging.models.TagManager=mldata.tagging.models.TagManager-class.html"><a title="mldata.tagging.models.TagManager" class="py-name" href="#" onclick="return doclink('link-112', 'TagManager', 'link-112');">TagManager</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
 <a name="L453"></a><tt class="py-lineno">453</tt>  <tt class="py-line"> </tt>
 <a name="Tag.Meta"></a><div id="Tag.Meta-def"><a name="L454"></a><tt class="py-lineno">454</tt> <a class="py-toggle" href="#" id="Tag.Meta-toggle" onclick="return toggle('Tag.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.tagging.models.Tag.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
-</div><div id="Tag.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Tag.Meta-expanded"><a name="L455"></a><tt class="py-lineno">455</tt>  <tt class="py-line">        <tt id="link-113" class="py-name" targets="Variable mldata.blog.models.Post.Meta.ordering=mldata.blog.models.Post.Meta-class.html#ordering,Variable mldata.forum.admin.ForumAdmin.ordering=mldata.forum.admin.ForumAdmin-class.html#ordering,Variable mldata.forum.models.Forum.Meta.ordering=mldata.forum.models.Forum.Meta-class.html#ordering,Variable mldata.forum.models.Forum.ordering=mldata.forum.models.Forum-class.html#ordering,Variable mldata.forum.models.Post.Meta.ordering=mldata.forum.models.Post.Meta-class.html#ordering,Variable mldata.forum.models.Thread.Meta.ordering=mldata.forum.models.Thread.Meta-class.html#ordering,Variable mldata.repository.models.Repository.Meta.ordering=mldata.repository.models.Repository.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Article.Meta.ordering=mldata.tagging.tests.models.Article.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Link.Meta.ordering=mldata.tagging.tests.models.Link.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Parrot.Meta.ordering=mldata.tagging.tests.models.Parrot.Meta-class.html#ordering"><a title="mldata.blog.models.Post.Meta.ordering
+</div><div id="Tag.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Tag.Meta-expanded"><a name="L455"></a><tt class="py-lineno">455</tt>  <tt class="py-line">        <tt id="link-113" class="py-name" targets="Variable mldata.blog.models.Post.Meta.ordering=mldata.blog.models.Post.Meta-class.html#ordering,Variable mldata.forum.admin.ForumAdmin.ordering=mldata.forum.admin.ForumAdmin-class.html#ordering,Variable mldata.forum.models.Forum.Meta.ordering=mldata.forum.models.Forum.Meta-class.html#ordering,Variable mldata.forum.models.Forum.ordering=mldata.forum.models.Forum-class.html#ordering,Variable mldata.forum.models.Post.Meta.ordering=mldata.forum.models.Post.Meta-class.html#ordering,Variable mldata.forum.models.Thread.Meta.ordering=mldata.forum.models.Thread.Meta-class.html#ordering,Variable mldata.repository.models.Publication.Meta.ordering=mldata.repository.models.Publication.Meta-class.html#ordering,Variable mldata.repository.models.Repository.Meta.ordering=mldata.repository.models.Repository.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Article.Meta.ordering=mldata.tagging.tests.models.Article.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Link.Meta.ordering=mldata.tagging.tests.models.Link.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Parrot.Meta.ordering=mldata.tagging.tests.models.Parrot.Meta-class.html#ordering"><a title="mldata.blog.models.Post.Meta.ordering
 mldata.forum.admin.ForumAdmin.ordering
 mldata.forum.models.Forum.Meta.ordering
 mldata.forum.models.Forum.ordering
 mldata.forum.models.Post.Meta.ordering
 mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Publication.Meta.ordering
 mldata.repository.models.Repository.Meta.ordering
 mldata.tagging.tests.models.Article.Meta.ordering
 mldata.tagging.tests.models.Link.Meta.ordering
@@ -1840,35 +1909,41 @@ mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return 
 </div><div id="TaggedItem-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="TaggedItem-expanded"><a name="L463"></a><tt class="py-lineno">463</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
 <a name="L464"></a><tt class="py-lineno">464</tt>  <tt class="py-line"><tt class="py-docstring">    Holds the relationship between a tag and the item being tagged.</tt> </tt>
 <a name="L465"></a><tt class="py-lineno">465</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
-<a name="L466"></a><tt class="py-lineno">466</tt>  <tt class="py-line">    <tt class="py-name">tag</tt>          <tt class="py-op">=</tt> <tt id="link-117" class="py-name"><a title="mldata.blog.models
+<a name="L466"></a><tt class="py-lineno">466</tt>  <tt class="py-line">    <tt class="py-name">tag</tt>          <tt class="py-op">=</tt> <tt id="link-117" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-117', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-118" class="py-name" targets="Class tagging.models.Tag=tagging.models.Tag-class.html"><a title="tagging.models.Tag" class="py-name" href="#" onclick="return doclink('link-118', 'Tag', 'link-118');">Tag</a></tt><tt class="py-op">,</tt> <tt id="link-119" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-117', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt id="link-118" class="py-name" targets="Class tagging.models.Tag=tagging.models.Tag-class.html"><a title="tagging.models.Tag" class="py-name" href="#" onclick="return doclink('link-118', 'Tag', 'link-118');">Tag</a></tt><tt class="py-op">,</tt> <tt id="link-119" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
 mldata.forum.models.Post.Meta.verbose_name
 mldata.forum.models.Subscription.Meta.verbose_name
 mldata.forum.models.Thread.Meta.verbose_name
 mldata.registration.models.RegistrationProfile.Meta.verbose_name" class="py-name" href="#" onclick="return doclink('link-119', 'verbose_name', 'link-114');">verbose_name</a></tt><tt class="py-op">=</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'tag'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">related_name</tt><tt class="py-op">=</tt><tt class="py-string">'items'</tt><tt class="py-op">)</tt> </tt>
-<a name="L467"></a><tt class="py-lineno">467</tt>  <tt class="py-line">    <tt class="py-name">content_type</tt> <tt class="py-op">=</tt> <tt id="link-120" class="py-name"><a title="mldata.blog.models
+<a name="L467"></a><tt class="py-lineno">467</tt>  <tt class="py-line">    <tt class="py-name">content_type</tt> <tt class="py-op">=</tt> <tt id="link-120" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-120', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt class="py-name">ContentType</tt><tt class="py-op">,</tt> <tt id="link-121" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-120', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">ForeignKey</tt><tt class="py-op">(</tt><tt class="py-name">ContentType</tt><tt class="py-op">,</tt> <tt id="link-121" class="py-name"><a title="mldata.forum.models.Forum.Meta.verbose_name
 mldata.forum.models.Post.Meta.verbose_name
 mldata.forum.models.Subscription.Meta.verbose_name
 mldata.forum.models.Thread.Meta.verbose_name
 mldata.registration.models.RegistrationProfile.Meta.verbose_name" class="py-name" href="#" onclick="return doclink('link-121', 'verbose_name', 'link-114');">verbose_name</a></tt><tt class="py-op">=</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'content type'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
-<a name="L468"></a><tt class="py-lineno">468</tt>  <tt class="py-line">    <tt class="py-name">object_id</tt>    <tt class="py-op">=</tt> <tt id="link-122" class="py-name"><a title="mldata.blog.models
+<a name="L468"></a><tt class="py-lineno">468</tt>  <tt class="py-line">    <tt class="py-name">object_id</tt>    <tt class="py-op">=</tt> <tt id="link-122" class="py-name"><a title="mldata.about.models
+mldata.blog.models
 mldata.django_authopenid.models
 mldata.forum.models
 mldata.registration.models
 mldata.repository.models
 mldata.tagging.models
-mldata.tagging.tests.models" class="py-name" href="#" onclick="return doclink('link-122', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">PositiveIntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'object id'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">db_index</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+mldata.tagging.tests.models
+mldata.user.models" class="py-name" href="#" onclick="return doclink('link-122', 'models', 'link-1');">models</a></tt><tt class="py-op">.</tt><tt class="py-name">PositiveIntegerField</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'object id'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">db_index</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
 <a name="L469"></a><tt class="py-lineno">469</tt>  <tt class="py-line">    <tt class="py-name">object</tt>       <tt class="py-op">=</tt> <tt id="link-123" class="py-name"><a title="mldata.tagging.generic" class="py-name" href="#" onclick="return doclink('link-123', 'generic', 'link-0');">generic</a></tt><tt class="py-op">.</tt><tt class="py-name">GenericForeignKey</tt><tt class="py-op">(</tt><tt class="py-string">'content_type'</tt><tt class="py-op">,</tt> <tt class="py-string">'object_id'</tt><tt class="py-op">)</tt> </tt>
 <a name="L470"></a><tt class="py-lineno">470</tt>  <tt class="py-line"> </tt>
 <a name="L471"></a><tt class="py-lineno">471</tt>  <tt class="py-line">    <tt id="link-124" class="py-name"><a title="mldata.blog.models.Post.objects
@@ -1881,6 +1956,7 @@ mldata.repository.models.Data.objects
 mldata.repository.models.DataRating.objects
 mldata.repository.models.FixedLicense.objects
 mldata.repository.models.License.objects
+mldata.repository.models.Publication.objects
 mldata.repository.models.Rating.objects
 mldata.repository.models.Repository.objects
 mldata.repository.models.Slug.objects
@@ -1949,7 +2025,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Mar  1 18:51:54 2010
+    Generated by Epydoc 3.0.1 on Thu Mar 25 19:46:28 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
