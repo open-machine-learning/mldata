@@ -492,12 +492,19 @@ class Slurper:
         @return: item-specific + class-constant tags
         @rtype: string
         """
-        classname = self.__class__.__name__
+        t = []
+        if tags:
+            t.append(tags)
+
         # MySQL / django-tagging fix.
+        classname = self.__class__.__name__
         if self.format.lower() != classname.lower():
-            return ', '.join([tags, self.format, classname, 'slurped'])
-        else:
-            return ', '.join([tags, self.format, 'slurped'])
+            t.append(classname)
+
+        t.append(self.format)
+        t.append('slurped')
+
+        return ', '.join(t)
 
 
     def _create_splitfile(self, name, fnames):
