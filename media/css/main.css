@@ -134,7 +134,8 @@ td {border-width:1px; border-style: solid; margin:0; padding:4px;}
 
 /* tabs */
 .ui-tabs .ui-tabs-nav {border-bottom:1px solid #0081c7; margin:10px 0; width:100%; padding:0;}
-.ui-tabs .ui-tabs-nav li {border:1px solid #0081c7; float:left; list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px; -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px; background-color:#eeeeee;}
+.ui-tabs .ui-tabs-nav li {border:1px solid #0081c7; float:left;
+list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px; -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px; border-top-left-radius:10px; border-top-right-radius:10px; background-color:#eeeeee;}
 .ui-tabs .ui-tabs-nav li a {float:left; text-decoration:none; padding:3px 5px; margin:3px;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected {background-color:#fff; border-color:#0081c7;border-bottom-color:#fff;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {background-color:#fff; color:#000;}
