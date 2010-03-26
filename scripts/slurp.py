@@ -595,7 +595,7 @@ class Slurper:
         return obj
 
 
-    def create_task(self, parsed, data, fnames):
+    def create_task(self, parsed, data, fnames=[]):
         """Create a repository Task object.
 
         @param parsed: parsed information from HTML
@@ -629,11 +629,15 @@ class Slurper:
             ttype = parsed['task']
         obj.type, created = TaskType.objects.get_or_create(name=ttype)
 
-        splitname = self._create_splitfile(name, fnames)
-        obj.splits = File(open(splitname))
-        obj.splits.name = obj.get_splitname() # name in $SPLITFILE_HOME
+        if fnames:
+            splitname = self._create_splitfile(name, fnames)
+            obj.splits = File(open(splitname))
+            obj.splits.name = obj.get_splitname() # name in $SPLITFILE_HOME
+
         obj.save()
-        os.remove(splitname)
+
+        if fnames:
+            os.remove(splitname)
 
         # obj needs pk first for many-to-many
         self._add_publications(obj, parsed['publications'])
