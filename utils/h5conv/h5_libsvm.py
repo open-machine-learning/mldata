@@ -21,23 +21,23 @@ class LIBSVM2H5(base.H5Converter):
 
 
     def _scrub_labels(self, labels):
-        """Convert labels to integers and determine max index
+        """Convert labels to doubles and determine max index
 
         @param labels: labels read from data file
         @type labels: list of characters
-        @return: labels converted to int
+        @return: labels converted to double
         @rtype: list of integer
         """
         str_labels = ''.join(labels)
         if not self.is_multilabel and str_labels.find(',') == -1:
             self.labels_maxidx = 0
-            return [int(float(str_labels))]
+            return [numpy.double(str_labels)]
         else:
             self.is_multilabel = True
             lab = str_labels.split(',')
             for i in xrange(len(lab)):
-                # float conversion to prevent error msg
-                lab[i] = int(float(lab[i]))
+                # int conversion to prevent error msg
+                lab[i] = int(float((lab[i])))
                 if lab[i] > self.labels_maxidx:
                     self.labels_maxidx = lab[i]
             return lab
@@ -115,7 +115,7 @@ class LIBSVM2H5(base.H5Converter):
                 ptr += 1
 
             for v in parsed[i]['variables']:
-                indices.append(int(v[0]) + self.labels_maxidx + 1)
+                indices.append(int(v[0]) + self.labels_maxidx)
                 data.append(numpy.double(v[1]))
                 ptr += 1
             indptr.append(ptr)
@@ -136,7 +136,7 @@ class LIBSVM2H5(base.H5Converter):
             data['data'] = A.data
             ordering = ['indices', 'indptr', 'data']
         else: # dense
-            data['data'] = A.todense().T
+            data['data'] = A.todense()
             ordering = ['data']
 
         names = []

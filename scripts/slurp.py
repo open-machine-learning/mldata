@@ -396,52 +396,6 @@ class Slurper:
 
 
 
-    def _get_splitnames(self, fnames):
-        """Helper function to get names of splits.
-
-        Get names like testing, training,
-        validation, etc. from given filenames.
-
-        @param fnames: filenames to get splitnames from
-        @type fnames: list of strings
-        @return: splitnames
-        @rtype: list of strings
-        """
-        names = []
-        for name in fnames:
-            n = name.split(os.sep)[-1]
-            if n.find('train') != -1 or n.find('.tr') != -1:
-                names.append('training')
-            elif n.find('.val') != -1:
-                names.append('validation')
-            elif n.find('.r') != -1:
-                names.append('remaining')
-            elif n.find('test') != -1 or n.find('.t') != -1:
-                names.append('testing')
-            else:
-                names.append('unknown')
-
-        return names
-
-
-    def _get_splitdata(self, fnames):
-        """Get split data.
-
-        @param fnames: filenames of related data files
-        @type fnames: list of strings
-        """
-        names = self._get_splitnames(fnames)
-        data = {}
-        offset = 0
-        for i in xrange(len(names)):
-            count = sum(1 for line in open(fnames[i]))
-            data[names[i]] = range(offset, offset+count)
-            offset += count
-
-        return data
-
-
-
     def _download(self, filename):
         """Download helper function.
 
@@ -505,22 +459,6 @@ class Slurper:
         t.append('slurped')
 
         return ', '.join(t)
-
-
-    def _create_splitfile(self, name, fnames):
-        """Create a split file.
-
-        @param name: name of the item
-        @type name: string
-        @param fnames: filenames related to this task
-        @type fnames: list of strings
-        """
-        progress('Creating HDF5 split file.', 5)
-        data = self._get_splitdata(fnames)
-        fname = os.path.join(self.output, self.hdf5.get_filename(name))
-        self.hdf5.create_split(fname, name, data)
-
-        return fname
 
 
     def _add_publications(self, obj, publications):
@@ -630,7 +568,8 @@ class Slurper:
         obj.type, created = TaskType.objects.get_or_create(name=ttype)
 
         if fnames:
-            splitname = self._create_splitfile(name, fnames)
+            progress('Creating Split file', 5)
+            splitname = self.hdf5.create_split(name, fnames)
             obj.splits = File(open(splitname))
             obj.splits.name = obj.get_splitname() # name in $SPLITFILE_HOME
 

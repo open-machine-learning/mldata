@@ -1,4 +1,5 @@
 import os, numpy, h5py
+from scipy.sparse import csc_matrix
 
 VERSION = '0.3'
 VERSION_MLDATA = '0'
@@ -72,6 +73,48 @@ class H5Converter(object):
         raise NotImplementedError('Abstract method!')
 
 
+    def _get_merged(self, data):
+        """Merge given data where appropriate.
+
+        String arrays are not merged, but all int and all double are merged
+        into one matrix.
+
+        @param data: data structure as returned by get_data()
+        @type data: dict
+        @return: merged data structure
+        @rtype: dict
+        """
+        # nothing to do if we have one sparse matrix
+        if 'data' and 'indices' and 'indptr' in data['ordering']:
+            return data
+
+        merged = {}
+        for name, val in data['data'].iteritems():
+            if len(val) < 1:
+                continue
+
+            t = type(val[0])
+            if t == numpy.int32:
+                path = 'int'
+            elif t == numpy.double:
+                path = 'double'
+            else:
+                if name.find('/') != -1: # / sep belongs to hdf5 path
+                    path = name.replace('/', '+')
+                    data['ordering'][data['ordering'].index(name)] = path
+                else:
+                    path = name
+                merged[path] = val
+                continue
+
+            if not path in merged:
+                merged[path] = []
+            merged[path].append(val)
+
+        data['data'] = merged
+        return data
+
+
     def run(self):
         """Run the actual conversion process."""
         h5file = h5py.File(self.fname_out, 'w')
@@ -80,7 +123,10 @@ class H5Converter(object):
         h5file.attrs['mldata'] = VERSION_MLDATA
         h5file.attrs['comment'] = self.get_comment()
 
-        data = self.get_data()
+        data = self._get_merged(self.get_data())
+        group = h5file.create_group('/data')
+        for path, val in data['data'].iteritems():
+            group.create_dataset(path, data=val, compression=COMPRESSION)
 
         group = h5file.create_group('/data_descr')
         names = numpy.array(data['names']).astype(self.str_type)
@@ -91,14 +137,5 @@ class H5Converter(object):
         if types:
             types = numpy.array(types).astype(self.str_type)
             group.create_dataset('types', data=types, compression=COMPRESSION)
-
-        group = h5file.create_group('/data')
-        for name in data['ordering']:
-            if len(data['data'][name]) > 0:
-                if name.find('/') != -1: # / sep belongs to hdf5 path
-                    path = name.replace('/', '+')
-                else:
-                    path = name
-                group.create_dataset(path, data=data['data'][name], compression=COMPRESSION)
 
         h5file.close()

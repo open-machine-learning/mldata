@@ -63,8 +63,8 @@
 
 	<h3>{% trans "HDF5 group 'task'" %}</h3>
 	<ul>
-		<li>labels: {% trans "Dataset with the index of the labels/target value for the examples, possibly multiple values in case of multi labels" %}; <code>{% trans "Array of Integers (but usually only 1 value in the array)" %}</code></li>
-		<li>testing/training/validation: {% trans "Dataset with indices of where the examples are split. Row indices in the original files == column indices in our data file. It may be a matrix in case of permuations, that is if there are multiple ways of splitting defined." %}; <code>{% trans "Array (or matrix) of Integers" %}</code></li>
+		<li>label_dims: {% trans "Dataset with the index of the labels/target value for the examples, possibly multiple values in case of multi labels" %}; <code>{% trans "Integer (in most cases) or Array of Integers" %}</code></li>
+		<li>test_idx/train_idx/validation_idx: {% trans "Dataset with indices of where the examples are split. Row indices in the original files == column indices in our data file. It may be a matrix in case of permuations, that is if there are multiple ways of splitting defined." %}; <code>{% trans "Array (or Matrix) of Integers" %}</code></li>
 	</ul>
 
 

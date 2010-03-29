@@ -188,34 +188,30 @@ class HDF5():
         try:
             extract['data'] = []
             ne = base.NUM_EXTRACT
-            for i in xrange(ne):
-                extract['data'].append([])
 
-            for dset in h5file['data_descr/ordering']:
-                path = 'data/' + dset
-                if path + '_indptr' in h5file: # sparse
-                    # taking all data takes to long for quick viewing, but having just
-                    # this extract may result in less columns displayed than indicated
-                    # by attributes_names
-                    pdata = path + '_data'
-                    pindptr = path + '_indptr'
-                    pind = path + '_indices'
-                    data = h5file[pdata][:h5file[pindptr][ne+1]]
-                    indices = h5file[pind][:h5file[pindptr][ne+1]]
-                    indptr = h5file[pindptr][:ne+1]
-                    A=csc_matrix((data, indices, indptr)).todense().T
-                    data = A[:ne].tolist()
-                else: # dense
-                    data = h5file[path][:ne]
-
-                for i in xrange(ne):
-                    extract['data'][i].append(data[i])
+            if ('indptr' and 'indices') in h5file['data']:
+                # taking all data takes to long for quick viewing, but having just
+                # this extract may result in less columns displayed than indicated
+                # by attributes_names
+                data = h5file['data/data'][:h5file['data/indptr'][ne+1]]
+                indices = h5file['data/indices'][:h5file['data/indptr'][ne+1]]
+                indptr = h5file['data/indptr'][:ne+1]
+                A=csc_matrix((data, indices, indptr)).todense().T
+                extract['data'] = A[:ne].tolist()
+            else:
+                for dset in h5file['data']:
+                    dset = 'data/' + dset
+                    if type(h5file[dset][0]) == numpy.ndarray:
+                        for i in xrange(len(h5file[dset])):
+                            extract['data'].append(h5file[dset][i][:ne])
+                    else:
+                        extract['data'].append(h5file[dset][:ne])
+                extract['data'] = numpy.matrix(extract['data']).T
 
             # convert from numpy array to list, if necessary
-            if type(extract['data'][0][0]) == numpy.ndarray:
-                for i in xrange(ne):
-                    extract['data'][i] = extract['data'][i][0].tolist()
-
+            t = type(extract['data'][0])
+            if t == numpy.ndarray or t == numpy.matrix:
+                extract['data'] = [y for x in extract['data'] for y in x.tolist()]
         except KeyError:
             pass
         except ValueError:
@@ -225,22 +221,76 @@ class HDF5():
         return extract
 
 
-    def create_split(self, fname, name, data):
+    def _get_splitnames(self, fnames):
+        """Helper function to get names of splits.
+
+        Get a name like test_idx, train_idx from given filenames.
+
+        @param fnames: filenames to get splitnames from
+        @type fnames: list of string
+        @return: names of splits
+        @rtype: list of strings
+        """
+        names = []
+        for name in fnames:
+            n = name.split(os.sep)[-1]
+            if n.find('train') != -1 or n.find('.tr') != -1:
+                names.append('train_idx')
+            elif n.find('.val') != -1:
+                names.append('validation_idx')
+            elif n.find('test') != -1 or n.find('.t') != -1 or n.find('.r') != -1:
+                names.append('test_idx')
+            else:
+                names.append(0)
+
+        # replace unknown name by test if train exists or train if test exists
+        if 0 in names:
+            if 'train_idx' in names:
+                names[names.index(0)] = 'test_idx'
+            elif 'test_idx' in names:
+                names[names.index(0)] = 'train_idx'
+
+        return names
+
+
+    def _get_splitdata(self, fnames):
+        """Get split data.
+
+        @param fnames: filenames of related data files
+        @type fnames: list of strings
+        """
+        names = self._get_splitnames(fnames)
+        data = {}
+        offset = 0
+        for i in xrange(len(fnames)):
+            count = sum(1 for line in open(fnames[i]))
+            if names[i] in data: # in case we have multiple train/test idx
+                data[names[i]].extend(range(offset, offset+count))
+            else:
+                data[names[i]] = range(offset, offset+count)
+            offset += count
+
+        return data
+
+
+    def create_split(self, name, fnames):
         """Create a split file, using HDF5.
 
-        @param fname: name of the split file
-        @type fname: string
         @param name: name of the Task item
         @type name: string
-        @param data: split data
-        @type data: dict of (named) list of integers
+        @param fnames: names of files to contain split data
+        @type fnames: list of strings
+        @return: name of created split file
+        @rtype: string
         """
+        fname = self.get_filename(name)
         h5file = h5py.File(fname, 'w')
 
         group = h5file.create_group('/task')
         if self.converter and self.converter.labels_idx:
-            group.create_dataset('labels', data=self.converter.labels_idx, compression=base.COMPRESSION)
+            group.create_dataset('label_dims', data=self.converter.labels_idx, compression=base.COMPRESSION)
 
+        data = self._get_splitdata(fnames)
         for k,v in data.iteritems():
             group.create_dataset(k, data=v, compression=base.COMPRESSION)
 
@@ -248,3 +298,5 @@ class HDF5():
         h5file.attrs['mldata'] = base.VERSION_MLDATA
         h5file.attrs['comment'] = 'split file'
         h5file.close()
+
+        return fname
