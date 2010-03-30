@@ -999,7 +999,7 @@ class UCI(Slurper):
     def skippable(self, name):
         if name == 'Abalone':
             return False
-        elif name == 'Cylinder Bands':
+        elif name == 'Dermatology':
             return False
         elif name == 'Kinship':
             return False
