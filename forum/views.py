@@ -239,6 +239,7 @@ def newthread(request, forum):
     if not Forum.objects.has_access(f, request.user.groups.all()):
         return HttpResponseForbidden()
 
+    preview = False
     if request.method == 'POST':
         form = CreateThreadForm(request.POST)
         if form.is_valid():
@@ -271,7 +272,6 @@ def newthread(request, forum):
                 return HttpResponseRedirect(t.get_absolute_url())
     else:
         form = CreateThreadForm()
-        preview = False
 
     return render_to_response('forum/thread_new.html',
         RequestContext(request, {

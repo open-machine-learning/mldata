@@ -20,7 +20,7 @@
 		{% if form.body.errors %}<dt><span class="error">{{ form.body.errors|join:", " }}</span></dt>{% endif %}
 		<dt>{{ form.body }}</dt>
 		<dd><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-		<dt><input type="submit" name="preview" value="{% trans "Preview" %}"/> <input type="submit" name="post" value="{% trans "Post Reply" %}"/></dt>
+		<dt><input class="submit" type="submit" name="preview" value="{% trans "Preview" %}"/> <input class="submit" type="submit" name="post" value="{% trans "Post Reply" %}"/></dt>
 	</dl>
 	</form>
 {% endif %}
