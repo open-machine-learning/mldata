@@ -47,12 +47,8 @@ class BlogTest(TestCase):
 
 
     def test_new_anon(self):
-        r = self.client.get(self.url['new'])
-        self.assertEqual(r.status_code, 302)
-        for item in r.items():
-            if item[0] == 'Location':
-                self.assertEqual(
-                    item[1].split('?')[-1], 'next=' + self.url['new'])
+        r = self.client.get(self.url['new'], follow=True)
+        self.assertTemplateUsed(r, 'authopenid/signin.html')
 
 
     def test_new_user(self):
@@ -64,12 +60,8 @@ class BlogTest(TestCase):
 
 
     def test_post_anon(self):
-        r = self.client.post(self.url['new'], self.entry)
-        self.assertEqual(r.status_code, 302)
-        for item in r.items():
-            if item[0] == 'Location':
-                self.assertEqual(
-                    item[1].split('?')[-1], 'next=' + self.url['new'])
+        r = self.client.post(self.url['new'], self.entry, follow=True)
+        self.assertTemplateUsed(r, 'authopenid/signin.html')
 
 
     def test_post_user(self):
