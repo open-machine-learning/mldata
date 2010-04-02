@@ -675,7 +675,7 @@ def _index(request, klass, my=False):
     @rtype: Django response
     """
     objects = klass.objects.filter(is_deleted=False, is_current=True).order_by('-pub_date')
-    if my:
+    if my and request.user.is_authenticated():
         objects = objects.filter(user=request.user)
         if klass == Data:
             unapproved = klass.objects.filter(
