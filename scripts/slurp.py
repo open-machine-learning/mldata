@@ -56,6 +56,7 @@ class SlurpHTMLParser(HTMLParser):
             'task': '',
             'tags': '',
             'files': [],
+            'license': 1,
         }
         self.state = None
 
@@ -93,6 +94,7 @@ class LibSVMToolsHTMLParser(SlurpHTMLParser):
         elif tag == 'ul' and self.state: # new data ends here
             self.current['source'] = self.current['source'].strip()
             self.current['description'] = self.current['description'].strip()
+            self.current['license'] = 4 # see repository/fixtures/license.json
             self.reinit()
 
 
@@ -147,6 +149,7 @@ class WekaHTMLParser(SlurpHTMLParser):
         if tag == 'ul': # ignore everything after first ul has ended
             self.state = 'done'
         elif tag == 'li':
+            self.current['license'] = 5 # see repository/fixtures/license.json
             self.reinit()
 
 
@@ -282,6 +285,7 @@ class UCIHTMLParser(SlurpHTMLParser):
             self.current['publications'] = pubs
             self.current['source'] =\
                 self.current['source'].replace('Source:', '')
+            self.current['license'] = 6 # see repository/fixtures/license.json
             self.reinit()
             return
 
@@ -508,7 +512,7 @@ class Slurper:
             is_current=True,
             is_approved=True,
             user_id=1,
-            license_id=1,
+            license_id=parsed['license'],
             tags=self._get_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)

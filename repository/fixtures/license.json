@@ -2,5 +2,8 @@
 {"pk": 1, "model": "repository.license", "fields": {"url": "http://www.opendatacommons.org/licenses/pddl/", "name": "PDDL"}},
 {"pk": 2, "model": "repository.license", "fields": {"url": "http://creativecommons.org/about/cc0", "name": "CC0"}},
 {"pk": 3, "model": "repository.license", "fields": {"url": "http://www.opendatacommons.org/licenses/odbl/", "name": "ODbL"}},
+{"pk": 4, "model": "repository.license", "fields": {"url": "http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/", "name": "unknown (from LibSVMTools repository)"}},
+{"pk": 5, "model": "repository.license", "fields": {"url": "http://www.cs.waikato.ac.nz/ml/weka/index_datasets.html", "name": "unknown (from Weka repository)"}},
+{"pk": 6, "model": "repository.license", "fields": {"url": "http://archive.ics.uci.edu/ml/", "name": "unknown (from UCI repository)"}},
 {"pk": 1, "model": "repository.fixedlicense", "fields": {"url": "http://creativecommons.org/licenses/by-sa/3.0/", "name": "CC-BY-SA 3.0"}}
 ]
