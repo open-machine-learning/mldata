@@ -3,7 +3,8 @@
 Slurp data objects from the interwebz and add them to the repository
 """
 
-import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess, random, tempfile
+import getopt, sys, os, urllib, datetime, shutil, bz2, subprocess, random
+import tempfile, tarfile
 from HTMLParser import HTMLParser, HTMLParseError
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../../'))
@@ -381,6 +382,27 @@ class Slurper:
         return os.path.join(self.output, fname)
 
 
+    def get_bagofstuff(self, fnames):
+        """Put given files into a big tarball.
+
+        Usually used when file composition doesn't make sense to slurper and
+        this tarball is used as Data file.
+
+        @param fnames: names of files to put into tarball
+        @type fnames: list of strings
+        @return: filename of tarball
+        @rtype: string
+        """
+        tmp, tname = tempfile.mkstemp()
+        tname += '.tar.bz2'
+        tarball = tarfile.open(name=tname, mode='w:bz2')
+        for f in fnames:
+            tarball.add(self.get_dst(f))
+        tarball.close()
+
+        return tname
+
+
     def concat(self, fnames):
         """Concatenate given files to one large file.
 
@@ -518,16 +540,21 @@ class Slurper:
         obj = self._add_slug(obj)
         progress('Creating Data item ' + obj.name + '.', 4)
 
-        obj.format = 'h5'
+        if 'noconvert' in parsed:
+            obj.format = 'tar.bz2'
+        else:
+            obj.format = 'h5'
+
         obj.file = File(open(fname))
         obj.file.name = obj.get_filename()
 
         obj.save()
         self._add_publications(obj, parsed['publications'])
 
-        progress('Converting to HDF5.', 5)
-        self.hdf5.convert(fname, self.format,
-            os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
+        if not 'noconvert' in parsed:
+            progress('Converting to HDF5.', 5)
+            self.hdf5.convert(fname, self.format,
+                os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
 
         # make it available after everything went alright
         obj.is_public = True
@@ -1011,6 +1038,10 @@ class UCI(Slurper):
             return False
         elif name == 'Zoo':
             return False
+        elif name == 'Statlog (Heart)':
+            return False
+        elif name == 'Gisette':
+            return False
 
         return True
 
@@ -1050,18 +1081,24 @@ class UCI(Slurper):
                 files['data'].split('.')[:-1] == f.split('.')[:-1]:
                 files['names'] = f
         if len(files) != 2:
-            progress('Unknown composition of data files, skipping.', 3)
+            progress('Unknown composition of data files!', 3)
+            parsed['noconvert'] = True
+            files['data'] = self.get_bagofstuff(parsed['files'])
             self.problematic.append(parsed['name'])
-            return
+        else:
+            files['data'] = self.get_dst(files['data'])
 
         progress('Adding to repository.', 3)
         try:
-            data = self.create_data(parsed, self.get_dst(files['data']))
+            data = self.create_data(parsed, files['data'])
             if parsed['task'] != 'N/A':
                 self.create_task(parsed, data)
         except ValueError:
             progress('Cannot convert this dataset.', 3)
             self.problematic.append(parsed['name'])
+
+        if 'noconvert' in parsed:
+            os.remove(files['data'])
 
 
     def slurp(self):
