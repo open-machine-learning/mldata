@@ -6,6 +6,8 @@ Replace these with more appropriate tests for your application.
 """
 from django.test import TestCase
 from django.contrib.auth.models import User
+from repository.models import License
+
 
 class RepositoryTest(TestCase):
     url = {
@@ -21,12 +23,30 @@ class RepositoryTest(TestCase):
         'new_data': '/repository/data/new/',
         'new_task': '/repository/task/new/',
         'new_solution': '/repository/solution/new/',
+        'new_data_review': '/repository/data/new/review/test/',
+    }
+    minimal_data = {
+        'license': '1',
+        'name': 'test',
+        'summary': 'summary',
+        'tags': 'test, data',
+        'file': open('dooby.arff', 'r'),
+    }
+    review_data_approve = {
+        'id_format': 'arff',
+        'approve': '1',
+    }
+    review_data_revert = {
+        'id_format': 'arff',
+        'revert': '1',
     }
 
 
     def setUp(self):
         user = User.objects.create_user('user', 'user@mldata.org', 'user')
         user.save()
+        license = License(name='foobar', url='http://foobar.com')
+        license.save()
 
 
     def test_index(self):
@@ -90,6 +110,30 @@ class RepositoryTest(TestCase):
         if not self.client.login(username='user', password='user'):
             raise Exception('Login unsuccessful')
         r = self.client.get(self.url['new_data'], follow=True)
+        self.assertTemplateUsed(r, 'repository/item_new.html')
+
+
+    def test_new_data_user_approve(self):
+        if not self.client.login(username='user', password='user'):
+            raise Exception('Login unsuccessful')
+        r = self.client.post(self.url['new_data'], self.minimal_data,
+            follow=True)
+        self.minimal_data['file'].seek(0)
+        self.assertTemplateUsed(r, 'repository/data_new_review.html')
+        r = self.client.post(self.url['new_data_review'],
+            self.review_data_approve, follow=True)
+        self.assertTemplateUsed(r, 'repository/item_view.html')
+
+
+    def test_new_data_user_revert(self):
+        if not self.client.login(username='user', password='user'):
+            raise Exception('Login unsuccessful')
+        r = self.client.post(self.url['new_data'], self.minimal_data,
+            follow=True)
+        self.minimal_data['file'].seek(0)
+        self.assertTemplateUsed(r, 'repository/data_new_review.html')
+        r = self.client.post(self.url['new_data_review'],
+            self.review_data_revert, follow=True)
         self.assertTemplateUsed(r, 'repository/item_new.html')
 
 
