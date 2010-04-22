@@ -426,8 +426,10 @@ class Task(Repository):
     @type performance_measure: string / models.TextField
     @cvar type: item's type, e.g. Regression, Classification
     @type type: TaskType
-    @cvar data: related Data item(s)
-    @type data: Data / models.ManyToManyField
+    @cvar data: related Data item
+    @type data: Data / models.ForeignKey
+    @cvar data_heldback: another optional, possibly private, Data item for challenge organisers
+    @type data_heldback: Data / models.ForeignKey
     @cvar file: the Task file with splits, targets, features
     @type file: models.FileField
     @cvar license: item's license
@@ -439,7 +441,8 @@ class Task(Repository):
     output = models.TextField()
     performance_measure = models.TextField()
     type = models.ForeignKey(TaskType)
-    data = models.ManyToManyField(Data)
+    data = models.ForeignKey(Data, related_name='task_data')
+    data_heldback = models.ForeignKey(Data, related_name='task_data_heldback', null=True, blank=True)
     file = models.FileField(upload_to=TASKPATH)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
@@ -452,7 +455,7 @@ class Task(Repository):
         @rtype: string
         """
         view = 'repository.views.task_view_slug'
-        return reverse(view, args=[self.data.all()[0].slug.text, self.slug.text])
+        return reverse(view, args=[self.data.slug.text, self.slug.text])
 
 
     def get_filename(self):

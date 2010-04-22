@@ -113,7 +113,12 @@ class TaskForm(RepositoryForm):
             ids = [d.id for d in cv]
             qs = Data.objects.filter(pk__in=ids)
             self.fields['data'].queryset = qs
-            self.fields['data'].choices = [(d.id, d.name) for d in qs]
+            self.fields['data_heldback'].queryset = qs
+            choices = [(d.id, d.name) for d in qs]
+            self.fields['data'].choices = choices
+            choices.insert(0, ('', '---------'))
+            #choices.append(('', '-----'))
+            self.fields['data_heldback'].choices = choices
 
 
     def clean_freeformtype(self):

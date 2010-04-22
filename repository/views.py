@@ -471,7 +471,7 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Solution:
         obj.d = obj.task.data.all()[0]
     elif klass == Task:
-        obj.d = obj.data.all()[0]
+        obj.d = obj.data
 
     info_dict = {
         'object': obj,
@@ -483,6 +483,9 @@ def _view(request, klass, slug_or_id, version=None):
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
+    if hasattr(obj, 'data_heldback') and obj.data_heldback:
+        info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
+
     if klass == Data:
         from h5py import h5e
         try:
@@ -553,7 +556,6 @@ def _new(request, klass):
                         new.file.name = new.get_filename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
-                    form.save_m2m() # a bit odd
                 elif klass == Solution:
                     if 'score' in request.FILES:
                         new.score = request.FILES['score']
@@ -649,7 +651,7 @@ def _edit(request, klass, id):
             else:
                 raise Http404
 
-            form.save_m2m() # requirement of django
+            form.save_m2m() # for publications
             next.set_current()
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:

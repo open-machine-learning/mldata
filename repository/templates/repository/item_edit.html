@@ -76,6 +76,8 @@ $(function() {
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
 				<dt><label for="id_data">{% trans "Data" %}</label> *{{ form.data.errors }}</dt>
 				<dd>{{ form.data }}</dd>
+				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
+				<dd>{{ form.data_heldback }}</dd>
 				<dt><label for="id_file">{% trans "Task file" %}</label>: {{ form.file.errors }}</dt>
 				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task_download object.id %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
 			{% else %}{% ifequal object.klass "Solution" %}

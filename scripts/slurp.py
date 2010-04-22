@@ -587,6 +587,7 @@ class Slurper:
             is_current=True,
             user_id=1,
             license_id=1,
+            data=data,
             tags=self._get_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
@@ -611,7 +612,6 @@ class Slurper:
 
         # obj needs pk first for many-to-many
         self._add_publications(obj, parsed['publications'])
-        obj.data.add(data)
         obj.is_public = True
         obj.save()
 
