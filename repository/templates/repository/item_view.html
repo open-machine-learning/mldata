@@ -17,6 +17,24 @@
 <script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript">
+var hover_timer = null;
+var hover_delay = 500;
+
+function hover_del_timer() {
+	if (hover_timer) {
+		clearTimeout(hover_timer);
+		hover_timer = null;
+	}
+}
+
+function hover_set_timer(elem) {
+	hover_del_timer();
+	hover_timer = setTimeout(function() {
+		$(elem).css('visibility', 'visible');
+	}, hover_delay);
+}
+
+
 $(function() {
 	$('#delete').click(function() {
 		if (confirm('{% trans "Do you really want to delete this version?" %}')) {
@@ -26,12 +44,11 @@ $(function() {
 		}
 	});
 
-	$('#rating').hover(function() {
-		$('#rating-hide').css('visibility', 'visible');
-	});
+	$('#rating').hover(function() { hover_set_timer('#rating-hide'); });
+	$('#rating').mouseleave(function() { hover_del_timer(); });
 	$('#rating-hide-close').click(function() {
 		$('#rating-hide').css('visibility', 'hidden');
-		return false;
+		return false; // otherwise browser would append '#' to url
 	});
 
 	$('#tabs').tabs();
