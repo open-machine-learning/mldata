@@ -482,6 +482,8 @@ class Solution(Repository):
     @type os: string / models.CharField
     @cvar code: computer source code to provide solution
     @type code: string / models.TextField
+    @cvar software_packages: software packages needed for evaluation
+    @type software_packages: string / models.TextField
     @cvar score: score file
     @type score: models.FileField
     @cvar task: related Task
@@ -495,6 +497,7 @@ class Solution(Repository):
     parameters = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
     code = models.TextField(blank=True)
+    software_packages = models.TextField(blank=True)
     score = models.FileField(upload_to=SCOREPATH)
     task = models.ForeignKey(Task)
     license = models.ForeignKey(FixedLicense, editable=False)

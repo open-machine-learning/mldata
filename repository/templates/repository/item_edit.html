@@ -85,8 +85,10 @@ $(function() {
 				<dd>{{ form.parameters }}</dd>
 				<dt><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</dt>
 				<dd>{{ form.os }}</dd>
-				<dt><label for="id_code">{% trans "Code" %}</label> {{ form.os.errors }}</dt>
+				<dt><label for="id_code">{% trans "Code" %}</label> {{ form.code.errors }}</dt>
 				<dd>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_software_packages">{% trans "Software Packages" %}</label> {{ form.software_packages.errors }}</dt>
+				<dd>{{ form.software_packages }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_task">{% trans "Task" %}</label> * {{ form.task.errors }}</dt>
 				<dd>{{ form.task }}</dd>
 				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>

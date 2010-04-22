@@ -109,11 +109,15 @@ def _get_completeness(obj):
     @raise Http404: if given item is not of expected class
     """
     if obj.__class__ == Data:
-        attrs = ['tags', 'description', 'license', 'summary', 'urls', 'publications', 'source', 'measurement_details', 'usage_scenario']
+        attrs = ['tags', 'description', 'license', 'summary', 'urls',
+            'publications', 'source', 'measurement_details', 'usage_scenario']
     elif obj.__class__ == Task:
-        attrs = ['tags', 'description', 'summary', 'urls', 'publications', 'input', 'output', 'performance_measure', 'type', 'splits']
+        attrs = ['tags', 'description', 'summary', 'urls', 'publications',
+            'input', 'output', 'performance_measure', 'type', 'splits']
     elif obj.__class__ == Solution:
-        attrs = ['tags', 'description', 'summary', 'urls', 'publications', 'feature_processing', 'parameters', 'os', 'code', 'score']
+        attrs = ['tags', 'description', 'summary', 'urls', 'publications',
+            'feature_processing', 'parameters', 'os', 'code',
+            'software_packages', 'score']
     else:
         raise Http404
 

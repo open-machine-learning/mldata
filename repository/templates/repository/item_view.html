@@ -101,11 +101,13 @@ $(function() {
 			<dt>{% trans "Feature Processing" %}</dt>
 			<dd>{{ object.feature_processing }}</dd>
 			<dt>{% trans "Parameters" %}</dt>
-			<dd>{{ object.Parameters }}</dd>
+			<dd>{{ object.parameters }}</dd>
 			<dt>{% trans "Operating System" %}</dt>
 			<dd>{{ object.os }}</dd>
 			<dt>{% trans "Code" %}</dt>
 			<dd>{{ object.code|markdown }}</dd>
+			<dt>{% trans "Software Packages" %}</dt>
+			<dd>{{ object.software_packages|markdown }}</dd>
 			<dt>{% trans "Task" %}</dt>
 			<dd><a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></dd>
 			{% if object.score %}
