@@ -1153,7 +1153,7 @@ class Options:
     download_only = False
     add_only = False
     force_download = False
-    source = 2
+    source = None
     sources=[LibSVMTools.source, Weka.source, UCI.source, Sonnenburgs.source]
 
 
@@ -1274,10 +1274,15 @@ if __name__ == '__main__':
     parse_options()
 
     slurpers = [LibSVMTools, Weka, UCI, Sonnenburgs]
-    try:
-        slurper = slurpers[Options.source]()
-    except IndexError:
-        print 'Unknown slurping source!'
-        sys.exit(1)
-    slurper.run()
+    if not Options.source:
+        for s in slurpers:
+            s().run()
+    else:
+        try:
+            slurper = slurpers[Options.source]()
+        except IndexError:
+            print 'Unknown slurping source!'
+            sys.exit(1)
+        slurper.run()
+
     sys.exit(0)
