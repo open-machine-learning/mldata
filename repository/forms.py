@@ -73,14 +73,14 @@ class DataForm(RepositoryForm):
 class TaskForm(RepositoryForm):
     """Form class for Task.
 
-    @cvar splits: is not required in form (but in model)
-    @type splits: forms.FileField
+    @cvar file: is not required in form (but in model)
+    @type file: forms.FileField
     @cvar type: needs a specific queryset for TaskType
     @type type: forms.ModelChoiceField
     @cvar freeformtype: user can also specify a new TaskType in this input field
     @type freeformtype: forms.CharField
     """
-    splits = forms.FileField(required=False)
+    file = forms.FileField(required=False)
     type = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
     freeformtype = forms.CharField(required=False)
 
