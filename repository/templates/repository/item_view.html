@@ -93,9 +93,9 @@ $(function() {
 			<dd>{{ object.type }}</dd>
 			<dt>{% trans "Data" %}</dt>
 			<dd>{% for d in object.data.all %}<a href="{{ d.get_absolute_slugurl }}">{{ d.name }}</a> {% endfor %}</dd>
-			{% if object.splits %}
+			{% if object.file %}
 			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.splits_download object.id %}">{% trans "These Splits" %} ({{ object.splits.size|filesizeformat }})</a></dd>
+			<dd><a href="{% url repository.views.task_download object.id %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
 			{% endif %}
 		{% else %}{% ifequal object.klass "Solution" %}
 			<dt>{% trans "Feature Processing" %}</dt>

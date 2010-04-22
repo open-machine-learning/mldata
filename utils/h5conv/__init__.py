@@ -16,7 +16,7 @@ class HDF5():
     def __init__(self, *args, **kwargs):
         """Construct an HDF5 object.
 
-        The object can convert, extract data, create split
+        The object can convert, extract data, create task
         files and more.
 
         @ivar converter: actual converter object
@@ -273,14 +273,14 @@ class HDF5():
         return data
 
 
-    def create_split(self, name, fnames):
-        """Create a split file, using HDF5.
+    def create_taskfile(self, name, fnames):
+        """Create a Task file, using HDF5.
 
         @param name: name of the Task item
         @type name: string
-        @param fnames: names of files to contain split data
+        @param fnames: names of files to contain Task data
         @type fnames: list of strings
-        @return: name of created split file
+        @return: name of created Task file
         @rtype: string
         """
         fname = self.get_filename(name)
@@ -296,7 +296,7 @@ class HDF5():
 
         h5file.attrs['name'] = name
         h5file.attrs['mldata'] = base.VERSION_MLDATA
-        h5file.attrs['comment'] = 'split file'
+        h5file.attrs['comment'] = 'Task file'
         h5file.close()
 
         return fname

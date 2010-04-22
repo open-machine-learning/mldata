@@ -113,7 +113,7 @@ def _get_completeness(obj):
             'publications', 'source', 'measurement_details', 'usage_scenario']
     elif obj.__class__ == Task:
         attrs = ['tags', 'description', 'summary', 'urls', 'publications',
-            'input', 'output', 'performance_measure', 'type', 'splits']
+            'input', 'output', 'performance_measure', 'type', 'file']
     elif obj.__class__ == Solution:
         attrs = ['tags', 'description', 'summary', 'urls', 'publications',
             'feature_processing', 'parameters', 'os', 'code',
@@ -360,10 +360,8 @@ def _download(request, klass, id):
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
-    if klass == Data:
+    if klass == Data or klass == Task:
         fileobj = obj.file
-    elif klass == Task:
-        fileobj = obj.splits
     elif klass == Solution:
         fileobj = obj.score
     else:
@@ -550,9 +548,9 @@ def _new(request, klass):
                     new.file.name = new.get_filename()
                     new.save()
                 elif klass == Task:
-                    if 'splits' in request.FILES:
-                        new.splits = request.FILES['splits']
-                        new.splits.name = new.get_splitname()
+                    if 'file' in request.FILES:
+                        new.file = request.FILES['file']
+                        new.file.name = new.get_filename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
                     form.save_m2m() # a bit odd
@@ -626,14 +624,14 @@ def _edit(request, klass, id):
                 next.file = prev.file
                 next.save()
             elif klass == Task:
-                if 'splits' in request.FILES:
-                    next.splits = request.FILES['splits']
-                    next.splits.name = next.get_splitname()
-                    filename = os.path.join(MEDIA_ROOT, prev.splits.name)
+                if 'file' in request.FILES:
+                    next.file = request.FILES['file']
+                    next.file.name = next.get_filename()
+                    filename = os.path.join(MEDIA_ROOT, prev.file.name)
                     if os.path.isfile(filename):
                         os.remove(filename)
                 else:
-                    next.splits = prev.splits
+                    next.file = prev.file
 
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
@@ -937,7 +935,7 @@ def task_activate(request, id):
     """
     return _activate(request, Task, id)
 
-def splits_download(request, id):
+def task_download(request, id):
     """Download of Task section.
 
     @param request: request data

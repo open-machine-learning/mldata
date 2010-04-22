@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
-from settings import DATAPATH, SPLITPATH, SCOREPATH
+from settings import DATAPATH, TASKPATH, SCOREPATH
 
 
 
@@ -428,8 +428,8 @@ class Task(Repository):
     @type type: TaskType
     @cvar data: related Data item(s)
     @type data: Data / models.ManyToManyField
-    @cvar splits: item's data splits
-    @type splits: models.FileField
+    @cvar file: the Task file with splits, targets, features
+    @type file: models.FileField
     @cvar license: item's license
     @type license: FixedLicense
     @cvar tags: item's tags
@@ -440,7 +440,7 @@ class Task(Repository):
     performance_measure = models.TextField()
     type = models.ForeignKey(TaskType)
     data = models.ManyToManyField(Data)
-    splits = models.FileField(upload_to=SPLITPATH)
+    file = models.FileField(upload_to=TASKPATH)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
@@ -455,17 +455,17 @@ class Task(Repository):
         return reverse(view, args=[self.data.all()[0].slug.text, self.slug.text])
 
 
-    def get_splitname(self):
-        """Construct filename for splits file.
+    def get_filename(self):
+        """Construct filename for Task file.
 
-        @return: filename for splits file
+        @return: filename for Task file
         @rtype: string
         @raise AttributeError: if slug is not set.
         """
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
 
-        suffix = self.splits.name.split('.')[-1]
+        suffix = self.file.name.split('.')[-1]
 
         return self.slug.text + '.' + suffix
 

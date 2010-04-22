@@ -599,15 +599,15 @@ class Slurper:
         obj.type, created = TaskType.objects.get_or_create(name=ttype)
 
         if fnames:
-            progress('Creating Split file', 5)
-            splitname = self.hdf5.create_split(name, fnames)
-            obj.splits = File(open(splitname))
-            obj.splits.name = obj.get_splitname() # name in $SPLITFILE_HOME
+            progress('Creating Task file', 5)
+            fname = self.hdf5.create_taskfile(name, fnames)
+            obj.file = File(open(fname))
+            obj.file.name = obj.get_filename() # name in $SPLITFILE_HOME
 
         obj.save()
 
         if fnames:
-            os.remove(splitname)
+            os.remove(fname)
 
         # obj needs pk first for many-to-many
         self._add_publications(obj, parsed['publications'])
