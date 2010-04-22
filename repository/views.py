@@ -469,7 +469,7 @@ def _view(request, klass, slug_or_id, version=None):
 
     # breadcrumbs
     if klass == Solution:
-        obj.d = obj.task.data.all()[0]
+        obj.d = obj.task.data
     elif klass == Task:
         obj.d = obj.data
 

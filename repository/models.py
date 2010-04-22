@@ -515,7 +515,7 @@ class Solution(Repository):
         """
         view = 'repository.views.solution_view_slug'
         return reverse(view, args=[
-            self.task.data.all()[0].slug.text, self.task.slug.text, self.slug.text])
+            self.task.data.slug.text, self.task.slug.text, self.slug.text])
 
 
     def get_scorename(self):
