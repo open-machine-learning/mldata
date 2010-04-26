@@ -1144,7 +1144,7 @@ class Options:
     @cvar force_download: force download, even if file already exists.
     @type force_download: boolean
     @cvar source: active source to slurp from
-    @type soruce: int
+    @type source: int
     @cvar sources: list of available sources
     @type sources: list of strings
     """
