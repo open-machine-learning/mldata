@@ -1098,6 +1098,8 @@ def data_new_review(request, slug):
                 except Exception:
                     pass
             obj.format = format
+            (obj.num_instances, obj.num_attributes) =\
+                hdf5.get_num_instattr(converted)
 
             if os.path.isfile(converted): # assign converted file to obj
                 os.remove(uploaded)

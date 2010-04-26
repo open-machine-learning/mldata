@@ -378,16 +378,22 @@ class Data(Repository):
     @type license: License
     @cvar is_approved: is_approved is necessary for 2-step creation, don't want to call review ever again once the item is approved - review can remove permanently via 'Back' button!
     @type is_approved: boolean / models.BooleanField
+    @cvar num_instances: number of instances in the Data file
+    @type num_instances: integer / models.IntegerField
+    @cvar num_attributes: number of attributes in the Data file
+    @type num_attributes: integer / models.IntegerField
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
     """
-    source = models.CharField(max_length=255, blank=True)
+    source = models.TextField(blank=True)
     format = models.CharField(max_length=16)
     measurement_details = models.TextField(blank=True)
     usage_scenario = models.TextField(blank=True)
     file = models.FileField(upload_to=DATAPATH)
     license = models.ForeignKey(License)
     is_approved = models.BooleanField(default=False)
+    num_instances = models.IntegerField(blank=True, default=0)
+    num_attributes = models.IntegerField(blank=True, default=0)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 

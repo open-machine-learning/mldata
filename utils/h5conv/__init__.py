@@ -221,6 +221,26 @@ class HDF5():
         return extract
 
 
+    def get_num_instattr(self, fname):
+        """Retrieve number of instances and number of attributes from given
+        file.
+
+        @param fname: filename to retrieve data from
+        @type fname: string
+        @return: number of instances and number of attributes
+        @rtype: tuple containing 2 integers
+        """
+        h5file = h5py.File(fname, 'r')
+        if not 'data' in h5file:
+            instattr = (0, 0)
+        else:
+            # FIXME!
+            instattr = (23, 42)
+
+        h5file.close()
+        return instattr
+
+
     def _get_splitnames(self, fnames):
         """Helper function to get names of splits.
 

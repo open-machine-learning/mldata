@@ -92,6 +92,7 @@ $(function() {
 			<dd>{% for t in object.task_data.all %}<a href="{% url repository.views.task_view_slug object.slug.text t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
 			<dt>{% trans "Download" %}</a></dd>
 			<dd>
+				{% trans "# Instances" %}: {{ object.num_instances }} / {% trans "# Attributes" %}: {{ object.num_attributes }}<br />
 				{% ifequal object.format "h5" %}
 					<a href="{% url repository.views.data_download object.id %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
 					<a href="{% url repository.views.data_download_xml object.id %}">{% trans "XML" %}</a>

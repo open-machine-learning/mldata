@@ -553,8 +553,10 @@ class Slurper:
 
         if not 'noconvert' in parsed:
             progress('Converting to HDF5.', 5)
-            self.hdf5.convert(fname, self.format,
-                os.path.join(MEDIA_ROOT, obj.file.name), obj.format)
+            converted = os.path.join(MEDIA_ROOT, obj.file.name)
+            self.hdf5.convert(fname, self.format, converted, obj.format)
+            (obj.num_instances, obj.num_attributes) =\
+                self.hdf5.get_num_instattr(converted)
 
         # make it available after everything went alright
         obj.is_public = True

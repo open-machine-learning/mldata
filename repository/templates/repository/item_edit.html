@@ -113,6 +113,10 @@ $(function() {
 				<dd>{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
 				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_num_instances">{% trans "# Instances" %}</label> {{ form.num_instances.errors }}</dt>
+				<dd>{{ form.num_instances }}</dd>
+				<dt><label for="id_num_attributes">{% trans "# Attributes" %}</label> {{ form.num_attributes.errors }}</dt>
+				<dd>{{ form.num_attributes }}</dd>
 			{% endifequal %}
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel" name="cancel" class="submit" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-more -->
