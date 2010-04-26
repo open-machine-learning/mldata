@@ -157,7 +157,7 @@ class Repository(models.Model):
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False, editable=False)
     is_current = models.BooleanField(default=False, editable=False)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='repository_user')
     rating_avg = models.FloatField(editable=False, default=-1)
     rating_avg_interest = models.FloatField(editable=False, default=-1)
     rating_avg_doc = models.FloatField(editable=False, default=-1)
@@ -548,7 +548,7 @@ class Rating(models.Model):
     @cvar doc: how well the item is documented
     @type doc: integer / models.IntegerField
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='rating_user')
     interest = models.IntegerField(default=0)
     doc = models.IntegerField(default=0)
 
