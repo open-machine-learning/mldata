@@ -549,6 +549,7 @@ def _new(request, klass):
                     h = h5conv.HDF5()
                     new.format = h.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
+                    new.num_instances = new.num_attributes = 0
                     new.save()
                 elif klass == Task:
                     if 'file' in request.FILES:
