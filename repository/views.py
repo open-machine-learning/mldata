@@ -1097,11 +1097,11 @@ def data_new_review(request, slug):
                 try:
                     hdf5.convert(uploaded, format, converted, 'h5')
                     format = 'h5'
+                    (obj.num_instances, obj.num_attributes) =\
+                        hdf5.get_num_instattr(converted)
                 except Exception:
                     pass
             obj.format = format
-            (obj.num_instances, obj.num_attributes) =\
-                hdf5.get_num_instattr(converted)
 
             if os.path.isfile(converted): # assign converted file to obj
                 os.remove(uploaded)

@@ -235,7 +235,7 @@ class HDF5():
             instattr = (0, 0)
         else:
             # FIXME!
-            instattr = (23, 42)
+            instattr = (-1, -1)
 
         h5file.close()
         return instattr
