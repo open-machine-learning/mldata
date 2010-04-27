@@ -24,9 +24,9 @@ release: clean
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 	svn export . $(RELEASEDIR)/$(RELEASENAME)
 	rm -f $(RELEASEDIR)/$(RELEASENAME)/mldata.db $(RELEASEDIR)/$(RELEASENAME)/Makefile
-	ssh mldata@data.ml.tu-berlin.de rm -rf $(WEBSITEDIR)/$(RELEASENAME) 
+	ssh mldata@mldata.org rm -rf $(WEBSITEDIR)/$(RELEASENAME) 
 	tar cjvf - -C $(RELEASEDIR) $(RELEASENAME) | \
-		ssh mldata@data.ml.tu-berlin.de \
+		ssh mldata@mldata.org \
 		\( tar xjvf - -C $(WEBSITEDIR) \; sync \; sync \; sync \; \
 		sed -i "s#XXXXXXXXX#\`cat /home/mldata/.mysql_password\`#" $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		sed -i '"s/^PRODUCTION = False/PRODUCTION = True/g"' $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
