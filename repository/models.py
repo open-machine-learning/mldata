@@ -10,7 +10,6 @@ from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
 from settings import DATAPATH, TASKPATH, SCOREPATH
-from repository.managers import RelatedTaskManager
 
 
 
