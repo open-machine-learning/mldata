@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
 from settings import DATAPATH, TASKPATH, SCOREPATH
+from repository.managers import RelatedTaskManager
 
 
 
@@ -358,6 +359,35 @@ class Repository(models.Model):
         @rtype: boolean
         """
         return self.can_view(user)
+
+    def filter_related(self, user):
+        """Filter Task/Solution related to a superior Data/Task to contain only
+        current and permitted Task/Solution.
+
+        This might be part of a manager class, because it works on table-level
+        for the related items. But then it works on row-level for the item
+        which is looked at...
+
+        @param user: User to filter for
+        @type user: models.User
+        @return: filtered items
+        @rtype: list of repository.Task or repository.Solution
+        """
+        if self.__class__ == Data:
+            qs = self.task_data
+        elif self.__class__ == Task:
+            qs = self.solution_set
+        else:
+            return None
+
+        current = qs.filter(is_current=True)
+        ret = []
+        for c in current:
+            if c.can_view(user):
+                ret.append(c)
+
+        return ret
+
 
 
 

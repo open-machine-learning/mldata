@@ -269,7 +269,6 @@ def _get_tag_cloud(request):
     return cloud
 
 
-
 @transaction.commit_on_success
 def _activate(request, klass, id):
     """Activate item given by id and klass.
@@ -481,8 +480,10 @@ def _view(request, klass, slug_or_id, version=None):
         'current': current,
         'rating_form': _get_rating_form(request, obj),
         'tagcloud': _get_tag_cloud(request),
+        'related': obj.filter_related(request.user),
         'section': 'repository',
     }
+
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
 
