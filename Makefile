@@ -5,6 +5,8 @@ RELEASEDIR:=/tmp/
 
 WEBSITEDIR:=django
 
+HOST=mldata.org
+
 #TODO
 #get-live-db:
 #	rm -f mldata/mldata.db
@@ -24,9 +26,9 @@ release: clean
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 	svn export . $(RELEASEDIR)/$(RELEASENAME)
 	rm -f $(RELEASEDIR)/$(RELEASENAME)/mldata.db $(RELEASEDIR)/$(RELEASENAME)/Makefile
-	ssh mldata@mldata.org rm -rf $(WEBSITEDIR)/$(RELEASENAME) 
+	ssh mldata@$(HOST) rm -rf $(WEBSITEDIR)/$(RELEASENAME) 
 	tar cjvf - -C $(RELEASEDIR) $(RELEASENAME) | \
-		ssh mldata@mldata.org \
+		ssh mldata@$(HOST) \
 		\( tar xjvf - -C $(WEBSITEDIR) \; sync \; sync \; sync \; \
 		sed -i "s#XXXXXXXXX#\`cat /home/mldata/.mysql_password\`#" $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		sed -i '"s/^PRODUCTION = False/PRODUCTION = True/g"' $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
@@ -42,6 +44,9 @@ release: clean
 		\)
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 
+dev:
+	$(MAKE) release HOST=data.ml.tu-berlin.de
+
 tar: clean
 	rm -rf "$(RELEASEDIR)/$(RELEASENAME)"
 	svn export . $(RELEASEDIR)/$(RELEASENAME)
@@ -53,7 +58,7 @@ clean:
 	find ./ -name '*.swp' -delete
 
 doc:
-	DJANGO_SETTINGS_MODULE=settings epydoc --name "API doc for mldata.org" --url http://mldata.org --graph=all --html --output doc/ .
+	DJANGO_SETTINGS_MODULE=settings epydoc --name "API doc for $(HOST)" --url http://$(HOST) --graph=all --html --output doc/ .
 
 checkdoc:
 	DJANGO_SETTINGS_MODULE=settings epydoc --check .
