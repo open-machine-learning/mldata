@@ -522,13 +522,6 @@ class Slurper:
         @return: a repository Data object
         @rtype: repository.Data
         """
-        try:
-            obj = Data.objects.get(name=parsed['name'])
-            warn('Data ' + obj.name + ' already exists, skipping!')
-            return obj
-        except Data.DoesNotExist:
-            pass
-
         obj = Data(
             pub_date=datetime.datetime.now(),
             name=parsed['name'],
@@ -589,13 +582,6 @@ class Slurper:
             return None
 
         name = 'task_' + parsed['name']
-        try:
-            obj = Task.objects.get(name=name)
-            warn('Task ' + obj.name + ' already exists, skipping!')
-            return obj
-        except Task.DoesNotExist:
-            pass
-
         obj = Task(
             pub_date=datetime.datetime.now(),
             name=name,
@@ -696,7 +682,12 @@ class Slurper:
                 progress('Skipped dataset ' + d['name'], 2)
                 continue
             else:
-                progress('Dataset ' + d['name'], 2)
+                try:
+                    obj = Data.objects.get(name=d['name'])
+                    warn('Dataset ' + obj.name + ' already exists, skipping!')
+                    continue
+                except Data.DoesNotExist:
+                    progress('Dataset ' + d['name'], 2)
 
             if not Options.add_only:
                 d['files'] = self.expand_dir(d['files']) # due to UCI
