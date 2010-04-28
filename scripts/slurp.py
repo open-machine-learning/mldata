@@ -522,12 +522,6 @@ class Slurper:
         @return: a repository Data object
         @rtype: repository.Data
         """
-        fsize = os.path.getsize(fname)
-        if fsize > MAX_SIZE_DATA:
-            warn('Data %s size %d is larger than %d, skipping!' %\
-                (parsed['name'], fsize, MAX_SIZE_DATA))
-            return None
-
         try:
             obj = Data.objects.get(name=parsed['name'])
             warn('Data ' + obj.name + ' already exists, skipping!')
@@ -550,6 +544,8 @@ class Slurper:
             tags=self._get_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
+        progress('Creating Data item ' + obj.name + '.', 4)
+
 
         if 'noconvert' in parsed:
             obj.format = 'tar.bz2'
@@ -656,6 +652,21 @@ class Slurper:
         return dirnames
 
 
+    def _is_too_large(self, fnames):
+        """Check if datasets' files are too much for us to handle.
+
+        @param fnames: filenames to check for size
+        @type fnames: list of strings
+        """
+        fsize = 0
+        for f in fnames:
+            fsize += os.path.getsize(self.get_dst(f))
+        if fsize > MAX_SIZE_DATA:
+            return True
+        else:
+            return False
+
+
     def handle(self, parser, url, task=None):
         """Handle the given URL with given parser.
 
@@ -695,7 +706,10 @@ class Slurper:
             if not Options.download_only:
                 if not d['task']:
                     d['task'] = task
-                self.add(d)
+                if not self._is_too_large(d['files']):
+                    self.add(d)
+                else:
+                    warn('Data %s size > %d, skipping!' % (d['name'], MAX_SIZE_DATA))
 
 
     def unzip(self, oldnames):
@@ -1120,16 +1134,15 @@ class UCI(Slurper):
             files['data'] = self.get_bagofstuff(parsed['files'])
             self.problematic.append(parsed['name'])
         else:
+            progress('Adding to repository.', 3)
             files['data'] = self.get_dst(files['data'])
-
-        progress('Adding to repository.', 3)
-        try:
-            data = self.create_data(parsed, files['data'])
-            if parsed['task'] != 'N/A':
-                self.create_task(parsed, data)
-        except ValueError:
-            progress('Cannot convert this dataset.', 3)
-            self.problematic.append(parsed['name'])
+            try:
+                data = self.create_data(parsed, files['data'])
+                if parsed['task'] != 'N/A':
+                    self.create_task(parsed, data)
+            except ValueError:
+                progress('Cannot convert this dataset.', 3)
+                self.problematic.append(parsed['name'])
 
         if 'noconvert' in parsed:
             os.remove(files['data'])
