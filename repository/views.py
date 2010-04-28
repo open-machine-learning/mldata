@@ -159,33 +159,6 @@ def _get_rating_form(request, obj):
     return rating_form
 
 
-def _get_latest(request):
-    """Get latest items of each type.
-
-    @param request: request data
-    @type request: Django request
-    @return: latest items of each type
-    @rtype: dict
-    """
-    qs = Q(is_deleted=False) & (Q(is_public=True) | Q(user=request.user))
-    latest = {}
-    try:
-        latest['data'] = Data.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['data'] = None
-    try:
-        latest['task'] = Task.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['task'] = None
-    try:
-        latest['solution'] = Solution.objects.filter(qs).order_by('-pub_date')[0]
-    except IndexError:
-        latest['solution'] = None
-
-    return latest
-
-
-
 def _get_current_tagged_items(request, klass, tagged):
     """Get current items with specific tag.
 
@@ -672,6 +645,30 @@ def _edit(request, klass, id):
 
 
 
+def _get_my(user, objects):
+    """Get My objects subset out of given objects.
+
+    @param user: user data
+    @type user: auth.models.User
+    @param objects: queryset to find my subset from
+    @type objects: Django queryset
+    @return: my objects
+    @rtype: list of repository.Data/Task/Solution
+    """
+    filtered = objects.filter(user=user).order_by('slug')
+    prev = None
+    idx = -1
+    my = []
+    for o in filtered:
+        if o.slug == prev and o.is_current:
+            my[idx] = o
+        if o.slug != prev:
+            prev = o.slug
+            idx += 1
+            my.append(o)
+    return my
+
+
 def _index(request, klass, my=False):
     """Index/My page for section given by klass.
 
@@ -683,9 +680,9 @@ def _index(request, klass, my=False):
     @return: section's index or My page
     @rtype: Django response
     """
-    objects = klass.objects.filter(is_deleted=False, is_current=True).order_by('-pub_date')
+    objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
     if my and request.user.is_authenticated():
-        objects = objects.filter(user=request.user)
+        objects = _get_my(request.user, objects)
         if klass == Data:
             unapproved = klass.objects.filter(
                 user=request.user, is_approved=False
@@ -694,7 +691,7 @@ def _index(request, klass, my=False):
             unapproved = None
         my_or_archive = _('My')
     else:
-        objects = objects.filter(is_public=True)
+        objects = objects.filter(is_current=True, is_public=True)
         unapproved = None
         my_or_archive = _('Public Archive')
 
@@ -730,7 +727,6 @@ def index(request):
     @rtype: Django response
     """
     info_dict = {
-#        'latest': _get_latest(request),
         'request': request,
         'section': 'repository',
         'tagcloud': _get_tag_cloud(request),
