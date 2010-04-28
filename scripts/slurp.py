@@ -1320,7 +1320,7 @@ def parse_options():
 if __name__ == '__main__':
     parse_options()
 
-    slurpers = [LibSVMTools, Weka, UCI, Sonnenburgs]
+    slurpers = [LibSVMTools, Weka, UCI]
     if not Options.source:
         for s in slurpers:
             s().run()
