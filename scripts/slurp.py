@@ -16,6 +16,7 @@ from repository.models import *
 from utils import h5conv
 from settings import MEDIA_ROOT
 
+MAX_SIZE_DATA = 1024 * 1024 * 512 # (512MB)
 
 
 class SlurpHTMLParser(HTMLParser):
@@ -348,8 +349,6 @@ class Slurper:
     def skippable(self, name):
         """Decide if item of given name should be skipped.
 
-        This is a hand-selected assortment of datasets now.
-
         @param name: name of item to decide on
         @type name: string
         """
@@ -523,6 +522,19 @@ class Slurper:
         @return: a repository Data object
         @rtype: repository.Data
         """
+        fsize = os.path.getsize(fname)
+        if fsize > MAX_SIZE_DATA:
+            warn('Data %s size %d is larger than %d, skipping!' %\
+                (parsed['name'], fsize, MAX_SIZE_DATA))
+            return None
+
+        try:
+            obj = Data.objects.get(name=parsed['name'])
+            warn('Data ' + obj.name + ' already exists, skipping!')
+            return obj
+        except Data.DoesNotExist:
+            pass
+
         obj = Data(
             pub_date=datetime.datetime.now(),
             name=parsed['name'],
@@ -538,7 +550,6 @@ class Slurper:
             tags=self._get_tags(parsed['tags']),
         )
         obj = self._add_slug(obj)
-        progress('Creating Data item ' + obj.name + '.', 4)
 
         if 'noconvert' in parsed:
             obj.format = 'tar.bz2'
@@ -578,7 +589,17 @@ class Slurper:
         @return: a repository Task object
         @rtype: repository.Task
         """
+        if not data:
+            return None
+
         name = 'task_' + parsed['name']
+        try:
+            obj = Task.objects.get(name=name)
+            warn('Task ' + obj.name + ' already exists, skipping!')
+            return obj
+        except Task.DoesNotExist:
+            pass
+
         obj = Task(
             pub_date=datetime.datetime.now(),
             name=name,
@@ -724,6 +745,8 @@ class LibSVMTools(Slurper):
     format = 'libsvm'
 
     def skippable(self, name):
+        return False # allow everything now
+
         if name == 'australian':
             return False
         elif name == 'colon-cancer':
@@ -764,9 +787,14 @@ class LibSVMTools(Slurper):
                 progress('Decompressing ' + o, 4)
                 old = bz2.BZ2File(o, 'r')
                 new = open(n, 'w')
-                new.write(old.read())
-                old.close()
-                new.close()
+                try:
+                    new.write(old.read())
+                except EOFError:
+                    warn("Can't decompress properly, skipping " + o)
+                    continue
+                finally:
+                    old.close()
+                    new.close()
             newnames.append(n)
         return newnames
 
@@ -918,6 +946,8 @@ class Weka(Slurper):
     format = 'arff'
 
     def skippable(self, name):
+        return False # allow everything now
+
         if name == 'datasets-arie_ben_david':
             return False
         elif name == 'agridatasets':
@@ -1030,6 +1060,8 @@ class UCI(Slurper):
 
 
     def skippable(self, name):
+        return False # allow everything now
+
         if name == 'Abalone':
             return False
         elif name == 'Dermatology':
