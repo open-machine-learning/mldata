@@ -232,7 +232,7 @@ class HDF5():
         """
         h5file = h5py.File(fname, 'r')
         if not 'data' in h5file:
-            instattr = (0, 0)
+            instattr = (-1, -1)
         else:
             # FIXME!
             instattr = (-1, -1)
