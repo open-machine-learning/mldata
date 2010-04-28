@@ -36,8 +36,11 @@ class LIBSVM2H5(base.H5Converter):
             self.is_multilabel = True
             lab = str_labels.split(',')
             for i in xrange(len(lab)):
-                # int conversion to prevent error msg
-                lab[i] = int(float((lab[i])))
+                if not lab[i]:
+                    lab[i] = 0
+                else:
+                    # int conversion to prevent error msg
+                    lab[i] = int(float((lab[i])))
                 if lab[i] > self.labels_maxidx:
                     self.labels_maxidx = lab[i]
             return lab
