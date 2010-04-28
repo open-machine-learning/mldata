@@ -7,25 +7,25 @@
 {% block content %}
 <h2 class="title-01">{{ my_or_archive }} {{ klass }}</h2>
 <div class="in">
-	{% if page.object_list %}
-	<ul>
+{% if page.object_list %}
+	{% include "repository/paginator_index.html" %}
+	<ul class="index_list">
 	{% for object in page.object_list %}
-		<li><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> ({% trans "on" %} {{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }})</li>
+		<li>
+			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> ({% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }})
+			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
+			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
+			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
+			{% if object.num_instances %}<br />{% trans "# Instances" %}: {{ object.num_instances }}, {% trans "# Attributes" %}: {{ object.num_attributes }}{% endif %}
+		</li>
 	{% endfor %}
-
-	{% ifnotequal page.paginator.num_pages 1 %}
-	{% if page.has_previous %}<a href="?page={{ page.previous_page_number }}">&laquo;</a>{% endif %}
-	{% for num in page.paginator.page_range %}
-		{% ifequal num page.number %}-{% else %}<a href="{{ request.path }}?page={{ num }}">{{ num }}</a>{% endifequal %}
-	{% endfor %}
-	{% if page.has_next %}<a href="?page={{ page.next_page_number }}">&raquo;</a>{% endif %}
-	{% endifnotequal %}
 	</ul>
-	{% else %}
+	{% include "repository/paginator_index.html" %}
+{% else %}
 	<p>{% trans "Sorry, no items available" %}.</p>
-	{% endif %}
+{% endif %}
 
-	{% if unapproved %}
+{% if unapproved %}
 	<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
 	<ul>
 	{% for object in unapproved %}
@@ -38,6 +38,6 @@
 	{% endifequal %}{% endifequal %}">{{object.name}}</a></li>
 	{% endfor %}
 	</ul>
-	{% endif %}
+{% endif %}
 </div><!-- /in -->
 {% endblock %}
