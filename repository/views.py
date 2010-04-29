@@ -28,6 +28,7 @@ from utils import h5conv
 
 NUM_HISTORY_PAGE = 20
 NUM_INDEX_PAGE = 10
+NUM_PAGINATOR_RANGE = 10
 
 
 
@@ -670,6 +671,48 @@ def _get_my(user, objects):
     return my
 
 
+def _get_page(request, objects):
+    """Get paginator page for the given objects.
+
+    @param request: request data
+    @type request: Django request
+    @param objects: objects to get page for
+    @type objects: list of repository.Data/Task/Solution
+    @return: a paginator page for the given objects
+    @rtype: paginator.page
+    """
+    paginator = Paginator(objects, NUM_INDEX_PAGE)
+    try:
+        num = int(request.GET.get('page', '1'))
+    except ValueError:
+        num = 1
+    try:
+        page = paginator.page(num)
+    except (EmptyPage, InvalidPage):
+        page = paginator.page(paginator.num_pages)
+
+    prev = page.number - (NUM_PAGINATOR_RANGE - 1)
+    if prev > 0:
+        page.prev = prev
+    else:
+        page.prev = False
+        prev = 1
+
+    next = page.number + (NUM_PAGINATOR_RANGE - 1)
+    if next < paginator.num_pages:
+        page.next = next
+    else:
+        page.next = False
+        next = paginator.num_pages
+
+    page.page_range = range(prev, page.number)
+    page.page_range.extend(range(page.number, next + 1))
+    page.first = 1
+    page.last = paginator.num_pages
+
+    return page
+
+
 def _index(request, klass, my=False):
     """Index/My page for section given by klass.
 
@@ -696,19 +739,9 @@ def _index(request, klass, my=False):
         unapproved = None
         my_or_archive = _('Public Archive')
 
-    paginator = Paginator(objects, NUM_INDEX_PAGE)
-    try:
-        num = int(request.GET.get('page', '1'))
-    except ValueError:
-        num = 1
-    try:
-        page = paginator.page(num)
-    except (EmptyPage, InvalidPage):
-        page = paginator.page(paginator.num_pages)
-
     info_dict = {
         'request': request,
-        'page': page,
+        'page': _get_page(request, objects),
         'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
