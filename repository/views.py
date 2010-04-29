@@ -186,13 +186,13 @@ def _get_current_tagged_items(request, klass, tagged):
 
 
 
-def _get_current_tags(request):
+def _get_current_tags(request, do_sort=False):
     """Get current tags available to user.
-
-    # FIXME: looks inefficient
 
     @param request: request data
     @type request: Django request
+    @param do_sort: if the tag list shall be sorted alphabetically
+    @type do_sort: boolean
     @return: current tags available to user
     @rtype: list of tagging.Tag
     """
@@ -202,38 +202,39 @@ def _get_current_tags(request):
     else:
         qs = Q(is_public=True) & Q(is_current=True)
 
-    current = list(Data.objects.filter(qs))
-    current.extend(list(Task.objects.filter(qs)))
-    current.extend(list(Solution.objects.filter(qs)))
-    if current:
-        all = Tag.objects.all()
-        tags = []
-        for tag in all:
-            found = False
-            tag.count = 0
-            for item in tag.items.values():
-                for c in current:
-                    if item['object_id'] == c.id:
-                        found = True
-                        tag.count += 1
-            if found:
-                tags.append(tag)
+    tags = Tag.objects.usage_for_queryset(Data.objects.filter(qs), counts=True)
+    tags.extend(Tag.objects.usage_for_queryset(Task.objects.filter(qs), counts=True))
+    tags.extend(Tag.objects.usage_for_queryset(Solution.objects.filter(qs), counts=True))
+    current = {}
+    for t in tags:
+        if not t.name in current:
+            current[t.name] = t
+        else:
+            current[t.name].count += t.count
+
+    if do_sort:
+        return sorted(current.values(), key=lambda tag: tag.name)
     else:
-        tags = None
-
-    return tags
+        return current.values()
 
 
-
-def _get_tag_cloud(request):
+def _get_tag_cloud(request, tags=None):
     """Retrieve a cloud of tags of all item types.
 
     @param request: request data
     @type request: Django request
+    @param tags: current tags (will be retrieved if None)
+    @type tags: list of tagging.Tag
     @return: list of tags with attributes font_size
     @rtype: list of tagging.Tag
     """
-    current = _get_current_tags(request)
+    if not tags:
+        current = _get_current_tags(request)
+    else:
+        # copy necessary, otherwise tags will be shuffled
+        import copy
+        current = copy.copy(tags)
+
     if current:
         cloud = calculate_cloud(current, steps=2)
         random.shuffle(cloud)
@@ -1127,10 +1128,12 @@ def tags_index(request):
     @return: rendered response page
     @rtype: Django response
     """
+    current =_get_current_tags(request, True)
     info_dict = {
         'request': request,
         'section': 'repository',
-        'tags': _get_current_tags(request),
+        'tags': current,
+        'tagcloud': _get_tag_cloud(request, current),
     }
     return render_to_response('repository/tags_index.html', info_dict)
 
