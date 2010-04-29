@@ -3,7 +3,7 @@ Admin classes in app Repository - kind of unused at the moment
 """
 
 from django.contrib import admin
-from repository.models import Data, Task, Solution
+from repository.models import *
 
 class DataAdmin(admin.ModelAdmin):
     """Admin class for Data"""
@@ -19,4 +19,9 @@ class SolutionAdmin(admin.ModelAdmin):
     """Admin class for Solution"""
     list_display = ('pub_date', 'slug', 'is_public')
 admin.site.register(Solution, SolutionAdmin)
+
+class SlugAdmin(admin.ModelAdmin):
+    """Admin class for Solution"""
+    list_display = ('text',)
+admin.site.register(Slug, SlugAdmin)
 
