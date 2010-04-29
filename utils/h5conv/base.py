@@ -130,9 +130,11 @@ class H5Converter(object):
 
         group = h5file.create_group('/data_descr')
         names = numpy.array(data['names']).astype(self.str_type)
-        group.create_dataset('names', data=names, compression=COMPRESSION)
+        if names:
+            group.create_dataset('names', data=names, compression=COMPRESSION)
         ordering = numpy.array(data['ordering']).astype(self.str_type)
-        group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
+        if ordering:
+            group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
         types = self.get_types()
         if types:
             types = numpy.array(types).astype(self.str_type)
