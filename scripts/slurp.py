@@ -452,14 +452,16 @@ class Slurper:
         @return: the object with slug
         @rtype: repository.Data or repository.Task
         """
-        try:
-            obj.slug = obj.make_slug()
-        except IntegrityError:
-            max_num = 10000
-            rand_name = str(int(random.random() * max_num))
-            max_name = Repository._meta.get_field('name').max_length - len(str(max_num-1)) - 1
-            obj.name = obj.name[:max_name] + '-' + rand_name
-            return self._add_slug(obj)
+        obj.name = obj.name[:Repository._meta.get_field('name').max_length]
+        obj.slug = obj.make_slug()
+#        try:
+#            obj.slug = obj.make_slug()
+#        except IntegrityError:
+#            max_num = 10000
+#            rand_name = str(int(random.random() * max_num))
+#            max_name = Repository._meta.get_field('name').max_length - len(str(max_num-1)) - 1
+#            obj.name = obj.name[:max_name] + '-' + rand_name
+#            return self._add_slug(obj)
         return obj
 
 
@@ -536,7 +538,11 @@ class Slurper:
             license_id=parsed['license'],
             tags=self._get_tags(parsed['tags']),
         )
-        obj = self._add_slug(obj)
+        try:
+            obj = self._add_slug(obj)
+        except IntegrityError:
+            warn('Slug already exists, skipping Data!')
+            return None
         progress('Creating Data item ' + obj.name + '.', 4)
 
 
@@ -595,7 +601,11 @@ class Slurper:
             data=data,
             tags=self._get_tags(parsed['tags']),
         )
-        obj = self._add_slug(obj)
+        try:
+            obj = self._add_slug(obj)
+        except IntegrityError:
+            warn('Slug already exists, skipping Task!')
+            return None
         progress('Creating Task item ' + obj.name + '.', 4)
 
         if parsed['task'] in ('Binary', 'MultiClass'):
