@@ -16,7 +16,7 @@ from repository.models import *
 from utils import h5conv
 from settings import MEDIA_ROOT
 
-MAX_SIZE_DATA = 1024 * 1024 * 512 # (512MB)
+MAX_SIZE_DATA = 1024 * 1024 * 1 # (512MB)
 
 
 class SlurpHTMLParser(HTMLParser):
@@ -638,6 +638,23 @@ class Slurper:
         return dirnames
 
 
+
+    def _data_exists(self, name):
+        """Check if Data item with given name already exists.
+
+        @param name: name of Data item to check
+        @type name: string
+        @return: if Data item already exists
+        @rtype: boolean
+        """
+        try:
+            obj = Data.objects.get(name=name)
+            warn('Dataset ' + obj.name + ' already exists, skipping!')
+            return True
+        except Data.DoesNotExist:
+            return False
+
+
     def _is_too_large(self, fnames):
         """Check if datasets' files are too much for us to handle.
 
@@ -682,11 +699,9 @@ class Slurper:
                 progress('Skipped dataset ' + d['name'], 2)
                 continue
             else:
-                try:
-                    obj = Data.objects.get(name=d['name'])
-                    warn('Dataset ' + obj.name + ' already exists, skipping!')
+                if self._data_exists(d['name']):
                     continue
-                except Data.DoesNotExist:
+                else:
                     progress('Dataset ' + d['name'], 2)
 
             if not Options.add_only:
@@ -1043,7 +1058,10 @@ class Weka(Slurper):
         for f in self.unzip(parsed['files']):
             splitname = ''.join(f.split(os.sep)[-1].split('.')[:-1])
             parsed['name'] = orig + ' ' + splitname
-            self.create_data(parsed, f)
+            if self._data_exists(parsed['name']):
+                continue
+            else:
+                self.create_data(parsed, f)
         self.unzip_rm(parsed['files'])
 
 
