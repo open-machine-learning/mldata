@@ -216,6 +216,8 @@ class HDF5():
             pass
         except ValueError:
             pass
+        except IndexError:
+            pass
 
         h5file.close()
         return extract
