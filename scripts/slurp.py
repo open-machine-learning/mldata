@@ -541,7 +541,7 @@ class Slurper:
         try:
             obj = self._add_slug(obj)
         except IntegrityError:
-            warn('Slug already exists, skipping Data!')
+            warn('Slug already exists, skipping Data item ' + obj.name + '!')
             return None
         progress('Creating Data item ' + obj.name + '.', 4)
 
@@ -604,7 +604,7 @@ class Slurper:
         try:
             obj = self._add_slug(obj)
         except IntegrityError:
-            warn('Slug already exists, skipping Task!')
+            warn('Slug already exists, skipping Task item' + obj.name + '!')
             return None
         progress('Creating Task item ' + obj.name + '.', 4)
 
