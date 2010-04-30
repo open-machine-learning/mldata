@@ -1,0 +1,138 @@
+{% extends "about/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %} :: HDF5 {% trans "Example" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / <a href="{% url about_hdf5 %}">HDF5</a> / {% trans "Example" %}{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "HDF5 Example" %}</h2>
+<div class="in">
+	<h3>Retrieve a data file</h3>
+	<p><pre>$ wget http://mldata.org/repository/data/download/1 -O data.h5</pre></p>
+
+
+	<h3>List contents from the command-line</h3>
+	<p><a href="http://www.hdfgroup.org/products/hdf5_tools/#h5dist">hdf5-tools</a> is a neat collection of command-line tools to work with HDF5 files.</p>
+	<ul>
+		<li><pre>
+$ h5ls --full -r data.h5
+/                        Group
+/data                    Group
+/data/data               Dataset {11, 612}
+/data_descr              Group
+/data_descr/names        Dataset {11}
+/data_descr/ordering     Dataset {1}
+		</pre></li>
+
+		<li><pre>
+$ h5dump -d /data/data data.h5
+HDF5 "data.h5" {
+DATASET "/data/data" {
+   DATATYPE  H5T_IEEE_F64LE
+   DATASPACE  SIMPLE { ( 11, 612 ) / ( 11, 612 ) }
+   DATA {
+   (0,0): -1, -1, 1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, -1, -1, 1,
+   (0,18): -1, -1, 1, -1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, -1, -1, 1, -1,
+   (0,36): -1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1,
+   (0,55): -1, 1, -1, 1, -1, 1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, 1, -1,
+   (0,74): 1, 1, -1, -1, -1, 1, -1, -1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1,
+   (0,92): 1, 1, 1, -1, -1, 1, 1, -1, 2, 2, -2, 2, -2, -2, -2, 2, 2, -2, -2,
+   (0,111): -2, -2, -2, 2, 2, 2, 2, -2, -2, 2, -2, -2, -2, -2, -2, -2, 2, -2,
+...
+		</pre></li>
+	</ul>
+
+
+	<h3>Access in Matlab</h3>
+	<p><pre>
+info=hdf5info('data.h5');
+
+x=hdf5read('data.h5','/data/data')
+
+ans =
+
+  Columns 1 through 7
+
+   -1.0000    0.2107    0.0044    0.0013    0.0001    0.0000    0.0000
+   -1.0000    0.2152    0.0042    0.0014    0.0002    0.0000    0.0000
+    1.0000    0.1972    0.0023    0.0015    0.0000    0.0000   -0.0000
+...
+	</pre></p>
+
+
+	<h3>Access in python</h3>
+	<p><a href="http://h5py.alfven.org/">h5py</a> will come to your aid:
+		<pre>
+$ python
+&gt;&gt;&gt; import h5py
+&gt;&gt;&gt; f = h5py.File('data.h5','r')
+&gt;&gt;&gt; f.values()
+[&lt;HDF5 group "/data" (1 members)&gt;, &lt;HDF5 group "/data_descr" (2 members)&gt;]
+&gt;&gt;&gt; f["/data/data"]
+&lt;HDF5 dataset "data": shape (11, 612), type "&lt;f8"&gt;
+&gt;&gt;&gt; f["/data/data"][:,:]
+array([[ -1.00000000e+00,  -1.00000000e+00,   1.00000000e+00, ...,
+          3.00000000e+00,  -3.00000000e+00,   3.00000000e+00],
+       [  2.10663000e-01,   2.15192000e-01,   1.97153000e-01, ...,
+          3.15029000e-01,   2.96945000e-01,   4.08534000e-01],
+       [  4.43414000e-03,   4.18483000e-03,   2.30872000e-03, ...,
+          3.37745000e-02,   5.68704000e-02,   6.02136000e-02],
+       ...,
+       [  2.23000000e+00,   2.20000000e+00,   2.35000000e+00, ...,
+          9.40000000e-01,   6.00000000e-01,   1.00000000e+00],
+       [  1.27000000e+00,   1.28000000e+00,   1.28000000e+00, ...,
+          1.24000000e+00,   1.31000000e+00,   1.30000000e+00],
+       [  1.28000000e+00,   1.28000000e+00,   1.28000000e+00, ...,
+          1.33000000e+00,   1.33000000e+00,   1.32000000e+00]])
+		</pre>
+	</p>
+
+
+	<h3>Access in <a href="http://shogun-toolbox.org">shogun</a></h3>
+	<p><pre>
+$ python
+Python 2.5.5 (r255:77872, Apr 21 2010, 08:40:04)
+[GCC 4.4.3] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; from shogun.Features import *
+&gt;&gt;&gt; from shogun.Library import *
+&gt;&gt;&gt; f=HDF5File('data.h5','r', '/data/data')
+&gt;&gt;&gt; feats=RealFeatures()
+&gt;&gt;&gt; feats.load(f)
+&gt;&gt;&gt; feats.get_feature_matrix()
+array([[-1.  ,  1.  ,  1.  , ...,  1.28,  1.28,  1.32],
+       [-1.  , -1.  , -1.  , ...,  1.27,  1.79,  1.29],
+       [ 1.  , -1.  , -1.  , ...,  1.28,  1.27,  1.4 ],
+       ...,
+       [ 1.  , -1.  , -1.  , ...,  1.32,  1.28,  1.33],
+       [ 1.  ,  1.  ,  1.  , ...,  1.27,  1.33,  1.33],
+       [-1.  , -1.  , -1.  , ...,  1.26,  1.32,  1.32]])
+	</pre></p>
+
+
+	<h3>Using ASCII text files</h3>
+	<p><a href="http://ab-initio.mit.edu/h5utils/">h5utils</a> is a set of utilities for visualization and conversion of scientific data in HDF5.</p>
+	<ul>
+		<li>This would convert the data set into a ascii file with comma separated values:<br />
+			<pre>$ h5totxt -s',' -d /data/data data.h5</pre>
+		</li>
+
+		<li>Or spaces as seperators and transposed:<br />
+			<pre>$ h5totxt -T -s' ' -d /data/data data.h5</pre>
+		</li>
+
+		<li>Convert your plain ascii file to HDF5 in dataset /data/data:<br />
+			<pre>
+$ h5fromtxt -d '/data/data' data.h5 &lt;&lt;EOF
+1 2 3 4
+5 6 7 8
+EOF
+			</pre>
+		</li>
+	</ul>
+
+	<h3>
+
+</div><!-- /in -->
+{% endblock %}
+
