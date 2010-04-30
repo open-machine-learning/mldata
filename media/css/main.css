@@ -53,10 +53,11 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     #nav #feeds a:hover {text-decoration:none;}
 
     #cols {margin-bottom:10px; background:url("../images/cols.gif") 0 0 no-repeat;}
-    #cols-in {min-height:495px; padding:5px 20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
+    #cols-in {min-height:430px; padding:5px 20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
     
         #content {float:left; width:600px; background:#FFF;}
         #aside {float:right; width:280px;}
+           #tagcloud {min-height:200px;}
         #content .in, #aside .in {padding:5px 15px;}
 
     #footer {padding:15px 15px 5px 15px;}

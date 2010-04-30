@@ -44,7 +44,7 @@
 
 
 <h4 class="title-04">{% trans "Tag Cloud" %}</h4>
-<div class="in">
+<div id="tagcloud" class="in">
 {% for t in tagcloud %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 </div><!-- /in -->
 {% endblock %}
