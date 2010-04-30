@@ -45,7 +45,7 @@ release: clean
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 
 dev:
-	$(MAKE) release HOST=data.ml.tu-berlin.de
+	$(MAKE) release HOST=mldata-dev.ml.tu-berlin.de
 
 tar: clean
 	rm -rf "$(RELEASEDIR)/$(RELEASENAME)"
