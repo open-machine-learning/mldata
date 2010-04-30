@@ -175,6 +175,8 @@ def _get_current_tagged_items(request, klass, tagged):
         qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
     else:
         qs = Q(is_public=True) & Q(is_current=True)
+    if klass == Data:
+        qs &= Q(is_approved=True)
 
     current = klass.objects.filter(qs).order_by('name')
     l = []
@@ -203,9 +205,12 @@ def _get_current_tags(request, do_sort=False):
     else:
         qs = Q(is_public=True) & Q(is_current=True)
 
-    tags = Tag.objects.usage_for_queryset(Data.objects.filter(qs), counts=True)
-    tags.extend(Tag.objects.usage_for_queryset(Task.objects.filter(qs), counts=True))
-    tags.extend(Tag.objects.usage_for_queryset(Solution.objects.filter(qs), counts=True))
+    tags = Tag.objects.usage_for_queryset(
+        Data.objects.filter(qs & Q(is_approved=True)), counts=True)
+    tags.extend(Tag.objects.usage_for_queryset(
+        Task.objects.filter(qs), counts=True))
+    tags.extend(Tag.objects.usage_for_queryset(
+        Solution.objects.filter(qs), counts=True))
     current = {}
     for t in tags:
         if not t.name in current:
@@ -725,6 +730,8 @@ def _index(request, klass, my=False):
     @rtype: Django response
     """
     objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
+    if klass == Data:
+        objects = objects.filter(is_approved=True)
     if my and request.user.is_authenticated():
         objects = _get_my(request.user, objects)
         if klass == Data:
@@ -1180,7 +1187,7 @@ def tags_view(request, tag):
     @type tag: string
     @return: rendered response page
     @rtype: Django response
-    @raise Http404: if an item's class is unexpected
+    @raise Http404: if tag doesn't exist or no items are tagged by given tag
     """
     try:
         tag = Tag.objects.get(name=tag)
@@ -1190,8 +1197,10 @@ def tags_view(request, tag):
             'task': _get_current_tagged_items(request, Task, tagged),
             'solution': _get_current_tagged_items(request, Solution, tagged),
         }
+        if not objects['data'] and not objects['task'] and not objects['solution']:
+            raise Http404
     except Tag.DoesNotExist:
-        objects = None
+        raise Http404
 
     info_dict = {
         'request': request,

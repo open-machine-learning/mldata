@@ -108,6 +108,7 @@ class TaskForm(RepositoryForm):
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
             cv = Data.objects.filter(Q(is_current=True) &
+                Q(is_approved=True) &
                 (Q(user=request.user) | Q(is_public=True))
             )
             ids = [d.id for d in cv]

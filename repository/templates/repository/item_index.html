@@ -27,7 +27,7 @@
 
 {% if unapproved %}
 	<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-	<ul>
+	<ul class="index_list">
 	{% for object in unapproved %}
 		<li><a href="{% ifequal klass "Data" %}
 		{% url repository.views.data_new_review object.id %}
