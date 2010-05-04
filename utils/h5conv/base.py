@@ -60,8 +60,12 @@ class H5Converter(object):
 
 
     def get_types(self):
-        """Get attribute/data types, if available."""
-        return None
+        """Get attribute/data types, if available.
+
+        @return: array of attribute/data types
+        @rtype: numpy array
+        """
+        return numpy.array([])
 
 
     def get_data(self):
@@ -130,14 +134,14 @@ class H5Converter(object):
 
         group = h5file.create_group('/data_descr')
         names = numpy.array(data['names']).astype(self.str_type)
-        if names:
+        if names.size > 0: # simple 'if names' throws exception if array
             group.create_dataset('names', data=names, compression=COMPRESSION)
         ordering = numpy.array(data['ordering']).astype(self.str_type)
-        if ordering:
+        if ordering.size > 0:
             group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
         types = self.get_types()
-        if types:
-            types = numpy.array(types).astype(self.str_type)
+        if types.size > 0:
+            types = types.astype(self.str_type)
             group.create_dataset('types', data=types, compression=COMPRESSION)
 
         h5file.close()

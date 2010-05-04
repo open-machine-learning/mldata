@@ -34,7 +34,7 @@ class ARFF2H5(base.H5Converter):
             if self.arff.attribute_data[name]:
                 t += ':' + ','.join(self.arff.attribute_data[name])
             types.append(t)
-        return types
+        return numpy.array(types)
 
 
     def _rm_ticks(self, item):
