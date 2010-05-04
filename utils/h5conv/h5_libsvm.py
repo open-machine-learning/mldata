@@ -10,39 +10,39 @@ class LIBSVM2H5(base.H5Converter):
     def __init__(self, *args, **kwargs):
         """Constructor.
 
-        @ivar labels_maxidx: highest index for a label
-        @type labels_maxidx: integer
+        @ivar label_maxidx: highest index for a label
+        @type label_maxidx: integer
         @ivar is_multilabel: if data is of type multilabel
         @type is_multilabel: boolean
         """
         super(LIBSVM2H5, self).__init__(*args, **kwargs)
-        self.labels_maxidx = 0
+        self.label_maxidx = 0
         self.is_multilabel = False
 
 
-    def _scrub_labels(self, labels):
+    def _scrub_labels(self, label):
         """Convert labels to doubles and determine max index
 
-        @param labels: labels read from data file
-        @type labels: list of characters
+        @param label: labels read from data file
+        @type label: list of characters
         @return: labels converted to double
         @rtype: list of integer
         """
-        str_labels = ''.join(labels)
-        if not self.is_multilabel and str_labels.find(',') == -1:
-            self.labels_maxidx = 0
-            return [numpy.double(str_labels)]
+        str_label = ''.join(label)
+        if not self.is_multilabel and str_label.find(',') == -1:
+            self.label_maxidx = 0
+            return [numpy.double(str_label)]
         else:
             self.is_multilabel = True
-            lab = str_labels.split(',')
+            lab = str_label.split(',')
             for i in xrange(len(lab)):
                 if not lab[i]:
                     lab[i] = 0
                 else:
                     # int conversion to prevent error msg
                     lab[i] = int(float((lab[i])))
-                if lab[i] > self.labels_maxidx:
-                    self.labels_maxidx = lab[i]
+                if lab[i] > self.label_maxidx:
+                    self.label_maxidx = lab[i]
             return lab
 
 
@@ -57,15 +57,15 @@ class LIBSVM2H5(base.H5Converter):
         state = 'label'
         idx = []
         val = []
-        labels = []
+        label = []
         variables = []
         for c in line:
             if state == 'label':
                 if c.isspace():
                     state = 'idx'
-                    labels = self._scrub_labels(labels)
+                    label = self._scrub_labels(label)
                 else:
-                    labels.append(c)
+                    label.append(c)
             elif state == 'idx':
                 if not c.isspace():
                     if c == ':':
@@ -85,45 +85,59 @@ class LIBSVM2H5(base.H5Converter):
                 else:
                     val.append(c)
 
-        return {'labels':labels, 'variables':variables}
+        return {'label':label, 'variables':variables}
 
 
-    def get_matrix(self):
-        """Retrieves a SciPy Compressed Sparse Column matrix from file.
+    def _get_parsed_data(self):
+        """Retrieves a SciPy Compressed Sparse Column matrix and labels from file.
 
-        @return: compressed sparse column matrix
-        @rtype: scipy.sparse.csc_matrix
+        @return: compressed sparse column matrix + labels
+        @rtype: list of scipy.sparse.csc_matrix and label tuple/2-d tuple (multilabel)
         """
-        self.labels_idx = []
         parsed = []
         infile = open(self.fname_in, 'r')
         for line in infile:
             parsed.append(self._parse_line(line))
         infile.close()
-        self.labels_idx = range(self.labels_maxidx + 1)
 
-        indices = []
-        indptr = [0]
-        data = []
-        ptr = 0
+        indices_var = []
+        indices_lab = []
+        indptr_var = [0]
+        indptr_lab = [0]
+        ptr_var = 0
+        ptr_lab = 0
+        data_var = []
+        data_lab = []
+        label = []
         for i in xrange(len(parsed)):
-            if len(parsed[i]['labels']) > 1: # multi label -> values are indices
-                for idx in parsed[i]['labels']:
-                    indices.append(int(idx))
-                    data.append(1.)
-                    ptr += 1
+            if self.is_multilabel: # -> values are indices
+                for idx in parsed[i]['label']:
+                    indices_lab.append(int(idx))
+                    data_lab.append(1.)
+                    ptr_lab += 1
+                indptr_lab.append(ptr_lab)
             else: # only single label -> value is actual value
-                indices.append(0)
-                data.append(numpy.double(parsed[i]['labels'][0]))
-                ptr += 1
+                label.append(parsed[i]['label'])
 
             for v in parsed[i]['variables']:
-                indices.append(int(v[0]) + self.labels_maxidx)
-                data.append(numpy.double(v[1]))
-                ptr += 1
-            indptr.append(ptr)
+                indices_var.append(int(v[0]) + self.label_maxidx)
+                data_var.append(numpy.double(v[1]))
+                ptr_var += 1
+            indptr_var.append(ptr_var)
 
-        return csc_matrix((numpy.array(data), numpy.array(indices), numpy.array(indptr)))
+        if self.is_multilabel:
+            label = csc_matrix(
+                (numpy.array(data_lab), numpy.array(indices_lab), numpy.array(indptr_lab))
+            ).todense()
+        else:
+            label = numpy.array(label)
+
+        return (
+            csc_matrix(
+                (numpy.array(data_var), numpy.array(indices_var), numpy.array(indptr_var))
+            ),
+            label,
+        )
 
 
     def get_comment(self):
@@ -131,7 +145,7 @@ class LIBSVM2H5(base.H5Converter):
 
 
     def get_data(self):
-        A = self.get_matrix()
+        (A, label) = self._get_parsed_data()
         data = {}
         if A.nnz/numpy.double(A.shape[0]*A.shape[1]) < 0.5: # sparse
             data['indices'] = A.indices
@@ -146,4 +160,9 @@ class LIBSVM2H5(base.H5Converter):
         for i in xrange(A.shape[0]):
             names.append('dim' + str(i))
 
-        return {'ordering':ordering, 'names':names, 'data':data}
+        return {
+            'ordering': ordering,
+            'names': names,
+            'data': data,
+            'label': label,
+        }

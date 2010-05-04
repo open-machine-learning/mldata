@@ -131,6 +131,8 @@ class H5Converter(object):
         group = h5file.create_group('/data')
         for path, val in data['data'].iteritems():
             group.create_dataset(path, data=val, compression=COMPRESSION)
+        if 'label' in data and data['label'].size > 0:
+            group.create_dataset('/data/label', data=data['label'], compression=COMPRESSION)
 
         group = h5file.create_group('/data_descr')
         names = numpy.array(data['names']).astype(self.str_type)
