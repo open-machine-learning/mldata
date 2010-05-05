@@ -6,7 +6,9 @@ Replace these with more appropriate tests for your application.
 """
 from django.test import TestCase
 from django.contrib.auth.models import User
-from repository.models import License
+from datetime import datetime
+
+from repository.models import *
 
 
 class RepositoryTest(TestCase):
@@ -30,7 +32,7 @@ class RepositoryTest(TestCase):
         'name': 'test',
         'summary': 'summary',
         'tags': 'test, data',
-        'file': open('dooby.arff', 'r'),
+        'file': open('fixtures/breastcancer.txt', 'r'),
     }
     review_data_approve = {
         'id_format': 'arff',
@@ -47,6 +49,11 @@ class RepositoryTest(TestCase):
         user.save()
         license = License(name='foobar', url='http://foobar.com')
         license.save()
+        data = Data(name='foobar',
+            pub_date=datetime.now(), version=1, user_id=1, license_id=1,
+            is_current=True, is_public=True, is_approved=True,
+            tags='foobar')
+        data.save()
 
 
     def test_index(self):
@@ -67,10 +74,10 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
-    def test_index_solution(self):
-        r = self.client.get(self.url['index_solution'])
-        self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/item_index.html')
+#    def test_index_solution(self):
+#        r = self.client.get(self.url['index_solution'])
+#        self.assertEqual(r.context['section'], 'repository')
+#        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
     def test_index_data_my(self):
@@ -85,10 +92,10 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
-    def test_index_solution_my(self):
-        r = self.client.get(self.url['index_solution_my'])
-        self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/item_index.html')
+#    def test_index_solution_my(self):
+#        r = self.client.get(self.url['index_solution_my'])
+#        self.assertEqual(r.context['section'], 'repository')
+#        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
     def test_new_data_anon(self):
@@ -101,9 +108,9 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'authopenid/signin.html')
 
 
-    def test_new_solution_anon(self):
-        r = self.client.get(self.url['new_solution'], follow=True)
-        self.assertTemplateUsed(r, 'authopenid/signin.html')
+#    def test_new_solution_anon(self):
+#        r = self.client.get(self.url['new_solution'], follow=True)
+#        self.assertTemplateUsed(r, 'authopenid/signin.html')
 
 
     def test_new_data_user(self):
@@ -144,11 +151,11 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'repository/item_new.html')
 
 
-    def test_new_solution_user(self):
-        if not self.client.login(username='user', password='user'):
-            raise Exception('Login unsuccessful')
-        r = self.client.get(self.url['new_solution'], follow=True)
-        self.assertTemplateUsed(r, 'repository/item_new.html')
+#    def test_new_solution_user(self):
+#        if not self.client.login(username='user', password='user'):
+#            raise Exception('Login unsuccessful')
+#        r = self.client.get(self.url['new_solution'], follow=True)
+#        self.assertTemplateUsed(r, 'repository/item_new.html')
 
 
     def test_index_tags(self):
