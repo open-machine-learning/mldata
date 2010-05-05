@@ -87,12 +87,13 @@ mldata.forum.models.Post" class="py-name" href="#" onclick="return doclink('link
 <a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
 <a name="ForumAdmin"></a><div id="ForumAdmin-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="ForumAdmin-toggle" onclick="return toggle('ForumAdmin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.forum.admin.ForumAdmin-class.html">ForumAdmin</a><tt class="py-op">(</tt><tt class="py-base-class">admin</tt><tt class="py-op">.</tt><tt class="py-base-class">ModelAdmin</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="ForumAdmin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="ForumAdmin-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-docstring">"""Admin class for forums."""</tt> </tt>
-<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable mldata.blog.admin.PostAdmin.list_display=mldata.blog.admin.PostAdmin-class.html#list_display,Variable mldata.forum.admin.ForumAdmin.list_display=mldata.forum.admin.ForumAdmin-class.html#list_display,Variable mldata.forum.admin.SubscriptionAdmin.list_display=mldata.forum.admin.SubscriptionAdmin-class.html#list_display,Variable mldata.forum.admin.ThreadAdmin.list_display=mldata.forum.admin.ThreadAdmin-class.html#list_display,Variable mldata.registration.admin.RegistrationAdmin.list_display=mldata.registration.admin.RegistrationAdmin-class.html#list_display,Variable mldata.repository.admin.DataAdmin.list_display=mldata.repository.admin.DataAdmin-class.html#list_display,Variable mldata.repository.admin.SolutionAdmin.list_display=mldata.repository.admin.SolutionAdmin-class.html#list_display,Variable mldata.repository.admin.TaskAdmin.list_display=mldata.repository.admin.TaskAdmin-class.html#list_display"><a title="mldata.blog.admin.PostAdmin.list_display
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable mldata.blog.admin.PostAdmin.list_display=mldata.blog.admin.PostAdmin-class.html#list_display,Variable mldata.forum.admin.ForumAdmin.list_display=mldata.forum.admin.ForumAdmin-class.html#list_display,Variable mldata.forum.admin.SubscriptionAdmin.list_display=mldata.forum.admin.SubscriptionAdmin-class.html#list_display,Variable mldata.forum.admin.ThreadAdmin.list_display=mldata.forum.admin.ThreadAdmin-class.html#list_display,Variable mldata.registration.admin.RegistrationAdmin.list_display=mldata.registration.admin.RegistrationAdmin-class.html#list_display,Variable mldata.repository.admin.DataAdmin.list_display=mldata.repository.admin.DataAdmin-class.html#list_display,Variable mldata.repository.admin.SlugAdmin.list_display=mldata.repository.admin.SlugAdmin-class.html#list_display,Variable mldata.repository.admin.SolutionAdmin.list_display=mldata.repository.admin.SolutionAdmin-class.html#list_display,Variable mldata.repository.admin.TaskAdmin.list_display=mldata.repository.admin.TaskAdmin-class.html#list_display"><a title="mldata.blog.admin.PostAdmin.list_display
 mldata.forum.admin.ForumAdmin.list_display
 mldata.forum.admin.SubscriptionAdmin.list_display
 mldata.forum.admin.ThreadAdmin.list_display
 mldata.registration.admin.RegistrationAdmin.list_display
 mldata.repository.admin.DataAdmin.list_display
+mldata.repository.admin.SlugAdmin.list_display
 mldata.repository.admin.SolutionAdmin.list_display
 mldata.repository.admin.TaskAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-7', 'list_display', 'link-7');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'title'</tt><tt class="py-op">,</tt> <tt class="py-string">'_parents_repr'</tt><tt class="py-op">)</tt> </tt>
 <a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Variable mldata.forum.admin.ForumAdmin.list_filter=mldata.forum.admin.ForumAdmin-class.html#list_filter,Variable mldata.forum.admin.ThreadAdmin.list_filter=mldata.forum.admin.ThreadAdmin-class.html#list_filter"><a title="mldata.forum.admin.ForumAdmin.list_filter
@@ -133,6 +134,7 @@ mldata.forum.admin.SubscriptionAdmin.list_display
 mldata.forum.admin.ThreadAdmin.list_display
 mldata.registration.admin.RegistrationAdmin.list_display
 mldata.repository.admin.DataAdmin.list_display
+mldata.repository.admin.SlugAdmin.list_display
 mldata.repository.admin.SolutionAdmin.list_display
 mldata.repository.admin.TaskAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-15', 'list_display', 'link-7');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-string">'author'</tt><tt class="py-op">,</tt><tt class="py-string">'thread'</tt><tt class="py-op">]</tt> </tt>
 </div><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt id="link-16" class="py-name"><a title="mldata.blog.admin
@@ -159,6 +161,7 @@ mldata.forum.admin.SubscriptionAdmin.list_display
 mldata.forum.admin.ThreadAdmin.list_display
 mldata.registration.admin.RegistrationAdmin.list_display
 mldata.repository.admin.DataAdmin.list_display
+mldata.repository.admin.SlugAdmin.list_display
 mldata.repository.admin.SolutionAdmin.list_display
 mldata.repository.admin.TaskAdmin.list_display" class="py-name" href="#" onclick="return doclink('link-20', 'list_display', 'link-7');">list_display</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'title'</tt><tt class="py-op">,</tt> <tt class="py-string">'forum'</tt><tt class="py-op">,</tt> <tt class="py-string">'latest_post_time'</tt><tt class="py-op">)</tt> </tt>
 <a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt id="link-21" class="py-name"><a title="mldata.forum.admin.ForumAdmin.list_filter
@@ -233,7 +236,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar 25 19:46:27 2010
+    Generated by Epydoc 3.0.1 on Wed May  5 13:08:38 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

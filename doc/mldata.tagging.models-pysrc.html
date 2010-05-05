@@ -103,7 +103,8 @@ mldata.user.models" class="py-name" href="#" onclick="return doclink('link-3', '
 mldata.tagging.utils
 mldata.utils" class="py-name" href="#" onclick="return doclink('link-4', 'utils', 'link-4');">utils</a></tt><tt class="py-op">.</tt><tt class="py-name">translation</tt> <tt class="py-keyword">import</tt> <tt class="py-name">ugettext_lazy</tt> <tt class="py-keyword">as</tt> <tt class="py-name">_</tt> </tt>
 <a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
-<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Package mldata.tagging=mldata.tagging-module.html"><a title="mldata.tagging" class="py-name" href="#" onclick="return doclink('link-5', 'tagging', 'link-5');">tagging</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Module mldata.settings=mldata.settings-module.html,Module mldata.tagging.settings=mldata.tagging.settings-module.html,Module mldata.tagging.tests.settings=mldata.tagging.tests.settings-module.html"><a title="mldata.settings
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Package mldata.tagging=mldata.tagging-module.html"><a title="mldata.tagging" class="py-name" href="#" onclick="return doclink('link-5', 'tagging', 'link-5');">tagging</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Variable mldata.forum.tests.settings=mldata.forum.tests-module.html#settings,Module mldata.settings=mldata.settings-module.html,Module mldata.tagging.settings=mldata.tagging.settings-module.html,Module mldata.tagging.tests.settings=mldata.tagging.tests.settings-module.html"><a title="mldata.forum.tests.settings
+mldata.settings
 mldata.tagging.settings
 mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-6', 'settings', 'link-6');">settings</a></tt> </tt>
 <a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name"><a title="mldata.tagging" class="py-name" href="#" onclick="return doclink('link-7', 'tagging', 'link-5');">tagging</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="mldata.django_authopenid.utils
@@ -151,7 +152,8 @@ mldata.tagging.tests.models.Perch.objects" class="py-name" href="#" onclick="ret
 <a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">        <tt class="py-name">current_tags</tt> <tt class="py-op">=</tt> <tt class="py-name">list</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">items__content_type__pk</tt><tt class="py-op">=</tt><tt class="py-name">ctype</tt><tt class="py-op">.</tt><tt class="py-name">pk</tt><tt class="py-op">,</tt> </tt>
 <a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">                                        <tt class="py-name">items__object_id</tt><tt class="py-op">=</tt><tt class="py-name">obj</tt><tt class="py-op">.</tt><tt class="py-name">pk</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
 <a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        <tt class="py-name">updated_tag_names</tt> <tt class="py-op">=</tt> <tt id="link-17" class="py-name"><a title="mldata.tagging.utils.parse_tag_input" class="py-name" href="#" onclick="return doclink('link-17', 'parse_tag_input', 'link-12');">parse_tag_input</a></tt><tt class="py-op">(</tt><tt class="py-name">tag_names</tt><tt class="py-op">)</tt> </tt>
-<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-18" class="py-name"><a title="mldata.settings
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-18" class="py-name"><a title="mldata.forum.tests.settings
+mldata.settings
 mldata.tagging.settings
 mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-18', 'settings', 'link-6');">settings</a></tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Variable mldata.tagging.settings.FORCE_LOWERCASE_TAGS=mldata.tagging.settings-module.html#FORCE_LOWERCASE_TAGS"><a title="mldata.tagging.settings.FORCE_LOWERCASE_TAGS" class="py-name" href="#" onclick="return doclink('link-19', 'FORCE_LOWERCASE_TAGS', 'link-19');">FORCE_LOWERCASE_TAGS</a></tt><tt class="py-op">:</tt> </tt>
 <a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">            <tt class="py-name">updated_tag_names</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-name">t</tt><tt class="py-op">.</tt><tt class="py-name">lower</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">t</tt> <tt class="py-keyword">in</tt> <tt class="py-name">updated_tag_names</tt><tt class="py-op">]</tt> </tt>
@@ -251,7 +253,8 @@ tagging.models.Tag._default_manager" class="py-name" href="#" onclick="return do
 <a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">tag_names</tt><tt class="py-op">)</tt> <tt class="py-op">&gt;</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
 <a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">AttributeError</tt><tt class="py-op">(</tt><tt class="py-name">_</tt><tt class="py-op">(</tt><tt class="py-string">'Multiple tags were given: "%s".'</tt><tt class="py-op">)</tt> <tt class="py-op">%</tt> <tt class="py-name">tag_name</tt><tt class="py-op">)</tt> </tt>
 <a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-name">tag_name</tt> <tt class="py-op">=</tt> <tt class="py-name">tag_names</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
-<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-27" class="py-name"><a title="mldata.settings
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-27" class="py-name"><a title="mldata.forum.tests.settings
+mldata.settings
 mldata.tagging.settings
 mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-27', 'settings', 'link-6');">settings</a></tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="mldata.tagging.settings.FORCE_LOWERCASE_TAGS" class="py-name" href="#" onclick="return doclink('link-28', 'FORCE_LOWERCASE_TAGS', 'link-19');">FORCE_LOWERCASE_TAGS</a></tt><tt class="py-op">:</tt> </tt>
 <a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">            <tt class="py-name">tag_name</tt> <tt class="py-op">=</tt> <tt class="py-name">tag_name</tt><tt class="py-op">.</tt><tt class="py-name">lower</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
@@ -2025,7 +2028,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar 25 19:46:28 2010
+    Generated by Epydoc 3.0.1 on Wed May  5 13:08:48 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -155,23 +155,6 @@
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">dict</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_latest" class="summary-sig-name" onclick="show_private();">_get_latest</a>(<span class="summary-sig-arg">request</span>)</span><br />
-      Get latest items of each type.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_latest">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">list of Data, Task, Solution</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -195,7 +178,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_current_tags" class="summary-sig-name" onclick="show_private();">_get_current_tags</a>(<span class="summary-sig-arg">request</span>)</span><br />
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_current_tags" class="summary-sig-name" onclick="show_private();">_get_current_tags</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">do_sort</span>=<span class="summary-sig-default">False</span>)</span><br />
       Get current tags available to user.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tags">source&nbsp;code</a></span>
@@ -212,7 +196,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_tag_cloud" class="summary-sig-name" onclick="show_private();">_get_tag_cloud</a>(<span class="summary-sig-arg">request</span>)</span><br />
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_tag_cloud" class="summary-sig-name" onclick="show_private();">_get_tag_cloud</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">tags</span>=<span class="summary-sig-default">None</span>)</span><br />
       Retrieve a cloud of tags of all item types.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_tag_cloud">source&nbsp;code</a></span>
@@ -362,6 +347,42 @@
       Edit existing item given by slug or id and klass.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_edit">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of repository.Data/Task/Solution</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_my" class="summary-sig-name" onclick="show_private();">_get_my</a>(<span class="summary-sig-arg">user</span>,
+        <span class="summary-sig-arg">objects</span>)</span><br />
+      Get My objects subset out of given objects.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_my">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">paginator.page</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_page" class="summary-sig-name" onclick="show_private();">_get_page</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">objects</span>)</span><br />
+      Get paginator page for the given objects.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_page">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -714,11 +735,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#splits_download" class="summary-sig-name">splits_download</a>(<span class="summary-sig-arg">request</span>,
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#task_download" class="summary-sig-name">task_download</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">id</span>)</span><br />
       Download of Task section.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#splits_download">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#task_download">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -1085,6 +1106,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="NUM_PAGINATOR_RANGE"></a><span class="summary-name">NUM_PAGINATOR_RANGE</span> = <code title="10">10</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="DATAPATH"></a><span class="summary-name">DATAPATH</span> = <code title="'data'"><code class="variable-quote">'</code><code class="variable-string">data</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
@@ -1143,7 +1171,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="SPLITPATH"></a><span class="summary-name">SPLITPATH</span> = <code title="'splits'"><code class="variable-quote">'</code><code class="variable-string">splits</code><code class="variable-quote">'</code></code>
+        <a name="TASKPATH"></a><span class="summary-name">TASKPATH</span> = <code title="'task'"><code class="variable-quote">'</code><code class="variable-string">task</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 <tr>
@@ -1288,31 +1316,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="_get_latest"></a>
-<div class="private">
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_latest</span>(<span class="sig-arg">request</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_latest">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Get latest items of each type.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-    </ul></dd>
-    <dt>Returns: dict</dt>
-        <dd>latest items of each type</dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="_get_current_tagged_items"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
@@ -1348,7 +1351,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_current_tags</span>(<span class="sig-arg">request</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_current_tags</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">do_sort</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tags">source&nbsp;code</a></span>&nbsp;
@@ -1356,11 +1360,11 @@
   </tr></table>
   
   <p>Get current tags available to user.</p>
-  <p># FIXME: looks inefficient</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>do_sort</code></strong> (boolean) - if the tag list shall be sorted alphabetically</li>
     </ul></dd>
     <dt>Returns: list of tagging.Tag</dt>
         <dd>current tags available to user</dd>
@@ -1374,7 +1378,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_tag_cloud</span>(<span class="sig-arg">request</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_tag_cloud</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">tags</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_tag_cloud">source&nbsp;code</a></span>&nbsp;
@@ -1386,6 +1391,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>tags</code></strong> (list of tagging.Tag) - current tags (will be retrieved if None)</li>
     </ul></dd>
     <dt>Returns: list of tagging.Tag</dt>
         <dd>list of tags with attributes font_size</dd>
@@ -1643,6 +1649,60 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>Http404</strong></code> - if given klass is unexpected</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_get_my"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_my</span>(<span class="sig-arg">user</span>,
+        <span class="sig-arg">objects</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_my">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get My objects subset out of given objects.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>user</code></strong> (auth.models.User) - user data</li>
+        <li><strong class="pname"><code>objects</code></strong> (Django queryset) - queryset to find my subset from</li>
+    </ul></dd>
+    <dt>Returns: list of repository.Data/Task/Solution</dt>
+        <dd>my objects</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_get_page"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_page</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">objects</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_page">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get paginator page for the given objects.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>objects</code></strong> (list of repository.Data/Task/Solution) - objects to get page for</li>
+    </ul></dd>
+    <dt>Returns: paginator.page</dt>
+        <dd>a paginator page for the given objects</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2154,18 +2214,18 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="splits_download"></a>
+<a name="task_download"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">splits_download</span>(<span class="sig-arg">request</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">task_download</span>(<span class="sig-arg">request</span>,
         <span class="sig-arg">id</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#splits_download">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#task_download">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
@@ -2507,7 +2567,7 @@
         <dd>rendered response page</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - if an item's class is unexpected</li>
+        <li><code><strong class='fraise'>Http404</strong></code> - if tag doesn't exist or no items are tagged by given tag</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2701,7 +2761,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Mar 25 19:45:46 2010
+    Generated by Epydoc 3.0.1 on Wed May  5 13:07:57 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
