@@ -524,6 +524,11 @@ class Slurper:
         @return: a repository Data object
         @rtype: repository.Data
         """
+        if Options.convert_exist and not 'noconvert' in parsed:
+            obj = Data.objects.get(name=parsed['name'])
+            self._convert_file(obj, fname)
+            return None
+
         obj = Data(
             pub_date=datetime.datetime.now(),
             name=parsed['name'],
@@ -545,24 +550,16 @@ class Slurper:
             return None
         progress('Creating Data item ' + obj.name + '.', 4)
 
-
         if 'noconvert' in parsed:
             obj.format = 'tar.bz2'
         else:
             obj.format = 'h5'
-
         obj.file = File(open(fname))
         obj.file.name = obj.get_filename()
-
-        obj.save()
+        obj.save() # need to save before publications can be added
         self._add_publications(obj, parsed['publications'])
-
         if not 'noconvert' in parsed:
-            progress('Converting to HDF5.', 5)
-            converted = os.path.join(MEDIA_ROOT, obj.file.name)
-            self.hdf5.convert(fname, self.format, converted, obj.format)
-            (obj.num_instances, obj.num_attributes) =\
-                self.hdf5.get_num_instattr(converted)
+            self._convert_file(obj, fname)
 
         # make it available after everything went alright
         obj.is_public = True
@@ -659,7 +656,6 @@ class Slurper:
         """
         try:
             obj = Data.objects.get(name=name)
-            warn('Dataset ' + obj.name + ' already exists, skipping!')
             return True
         except Data.DoesNotExist:
             return False
@@ -678,6 +674,29 @@ class Slurper:
             return True
         else:
             return False
+
+
+    def _convert_file(self, obj, fname):
+        """Convert data file of an existing item.
+
+        @param obj: object to convert data for
+        @type obj: repository.Data
+        @param fname: filename of file to convert
+        @type fname: string
+        @return: if conversion was successful
+        @rtype: boolean
+        """
+        if not obj:
+            return False
+
+        converted = os.path.join(MEDIA_ROOT, obj.file.name)
+        progress('Converting to HDF5 (%s).' % (converted), 5)
+        self.hdf5.convert(fname, self.format, converted, obj.format)
+        (obj.num_instances, obj.num_attributes) =\
+            self.hdf5.get_num_instattr(converted)
+        obj.save()
+
+        return True
 
 
     def handle(self, parser, url, task=None):
@@ -709,7 +728,8 @@ class Slurper:
                 progress('Skipped dataset ' + d['name'], 2)
                 continue
             else:
-                if self._data_exists(d['name']):
+                if self._data_exists(d['name']) and not Options.convert_exist:
+                    warn('Dataset ' + d['name'] + ' already exists, skipping!')
                     continue
                 else:
                     progress('Dataset ' + d['name'], 2)
@@ -726,6 +746,7 @@ class Slurper:
                     self.add(d)
                 else:
                     warn('Data %s size > %d, skipping!' % (d['name'], MAX_SIZE_DATA))
+
 
 
     def unzip(self, oldnames):
@@ -745,15 +766,20 @@ class Slurper:
         @param filenames: filenames to remove
         @type filenames: list of strings
         """
-        return
+        return []
 
 
     def slurp(self):
         """Commence slurping."""
         raise NotImplementedError('Abstract method!')
 
-    def add(self):
-        """Add objects from parsed document to mldata.org."""
+
+    def add(self, parsed):
+        """Add objects from parsed document to mldata.org.
+
+        @param parsed: structure with parsed information about item
+        @type parsed: dict
+        """
         raise NotImplementedError('Abstract method!')
 
 
@@ -1068,7 +1094,8 @@ class Weka(Slurper):
         for f in self.unzip(parsed['files']):
             splitname = ''.join(f.split(os.sep)[-1].split('.')[:-1])
             parsed['name'] = orig + ' ' + splitname
-            if self._data_exists(parsed['name']):
+            if self._data_exists(parsed['name']) and not Options.convert_exist:
+                warn('Dataset ' + parsed['name'] + ' already exists, skipping!')
                 continue
             else:
                 self.create_data(parsed, f)
@@ -1207,6 +1234,8 @@ class Options:
     @type download_only: boolean
     @cvar add_only: if slurper shall only add files, not downloading
     @type add_only: boolean
+    @cvar convert_exist: if data files of existing datasts shall be converted (implies download)
+    @type convert_exist: boolean
     @cvar force_download: force download, even if file already exists.
     @type force_download: boolean
     @cvar source: active source to slurp from
@@ -1218,6 +1247,7 @@ class Options:
     verbose = False
     download_only = False
     add_only = False
+    convert_exist = False
     force_download = False
     source = None
     sources=[LibSVMTools.source, Weka.source, UCI.source, Sonnenburgs.source]
@@ -1278,6 +1308,11 @@ Options:
         only add to repository, don't download
         default: ''' + str(Options.add_only) + '''
 
+-c, --convert-exist
+        convert data files of existing datasets, but don't add them; implies
+        download, excludes add-only.
+        default: ''' + str(Options.convert_exist) + '''
+
 -f, --force-download
         download even if file already exists
         default: ''' + str(Options.force_download) + '''
@@ -1290,9 +1325,9 @@ Options:
 def parse_options():
     """Parse options given to slurper."""
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'o:s:vdafh',
+        opts, args = getopt.getopt(sys.argv[1:], 'o:s:vdacfh',
             ['output=', 'source=', 'verbose', 'download-only',
-            'add-only', 'force-download', 'help'])
+            'add-only', 'convert-exist', 'force-download', 'help'])
     except getopt.GetoptError, err: # print help information and exit
         print str(err) + "\n"
         usage()
@@ -1317,6 +1352,8 @@ def parse_options():
             Options.download_only = True
         elif o in ('-a', '--add-only'):
             Options.add_only = True
+        elif o in ('-c', '--convert-exist'):
+            Options.convert_exist = True
         elif o in ('-f', '--force-download'):
             Options.force_download = True
         elif o in ('-h', '--help'):
@@ -1330,6 +1367,14 @@ def parse_options():
         print 'Options add-only and download-only are mutually exclusive, please reconsider!'
         sys.exit(3)
 
+    if Options.add_only and Options.convert_exist:
+        print 'Options add-only and convert-exist are mutually exclusive, please reconsider!'
+        sys.exit(3)
+
+    if Options.download_only and Options.convert_exist:
+        print 'Options download-only and convert-exist are mutually exclusive, please reconsider!'
+        sys.exit(3)
+
     if not os.path.exists(Options.output):
         progress('Creating directory ' + Options.output)
         os.mkdir(Options.output)
@@ -1340,7 +1385,7 @@ if __name__ == '__main__':
     parse_options()
 
     slurpers = [LibSVMTools, Weka, UCI]
-    if not Options.source:
+    if not Options.source in xrange(len(slurpers)):
         for s in slurpers:
             s().run()
     else:
