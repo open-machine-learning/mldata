@@ -94,7 +94,8 @@ dl#news dt.active {background-color:#e2f4ff;}
 hr {color:#0081C7;}
 
 input {border: 1px solid #0081C7; width:100%;}
-input.submit {width:30%}
+input.submit {width:30%;margin-top:5px;}
+input.checkbox {width:auto;}
 input:focus {border: 2px solid #006095;}
 textarea {border: 1px solid #0081C7; width:100%}
 textarea:focus {border: 2px solid #006095;}

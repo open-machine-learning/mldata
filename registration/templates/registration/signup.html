@@ -21,7 +21,8 @@
 	<dd>{{ form.password1|safe }}</dd>
 	<dt><label for="id_password2">{% trans "Password (type again to catch any typos)" %}:</label>{% if form.password2.errors %} <span class="error">{{ form.password2.errors|join:", " }}</span>{% endif %}</dt>
 	<dd>{{ form.password2|safe }}</dd>
-	<dt><label for="id_tos">{% trans "I have read and agree to the" %} <a href="/about/tos/">Terms of Service</a>:</label>{% if form.tos.errors %} <span class="error">{{ form.tos.errors|join:", " }}</span>{% endif %}&nbsp;&nbsp;{{ form.tos|safe }}</dt>
+	<dt><label for="id_tos">{% trans "I have read and agree to the" %} <a href="/about/tos/">Terms of Service</a>:</label>{% if form.tos.errors %} <span class="error">{{ form.tos.errors|join:", " }}</span>{% endif %}</dt>
+	<dd>{{ form.tos}}</dd>
 	<dt><input type="submit" class="submit" value="{% trans "Sign up" %}" /></dt>
 	</dl>
 	</form>

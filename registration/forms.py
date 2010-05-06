@@ -16,6 +16,7 @@ from registration.models import RegistrationProfile
 # in the HTML. Your mileage may vary. If/when Django ticket #3515
 # lands in trunk, this will no longer be necessary.
 attrs_dict = { 'class': 'required' }
+attrs_checkbox = { 'class': 'required checkbox' }
 
 
 class RegistrationForm(forms.Form):
@@ -43,7 +44,7 @@ class RegistrationForm(forms.Form):
                                 label=_(u'password'))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=_(u'password (again)'))
-    tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict),
+    tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_checkbox),
                              label=u'I have read and agree to the Terms of Service')
 
  
