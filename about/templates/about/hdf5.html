@@ -29,24 +29,29 @@
 	</ul>
 
 	<h3>{% trans "HDF5 group 'data'" %}</h3>
-	<h4>{% trans "Single sparse matrix when all attributes types are the same" %}</h4>
+	<h4>{% trans "EITHER single sparse matrix when all attributes types are the same" %}</h4>
 	<ul>
 		<li>data: {% trans "The variables themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
 		<li>indices: {% trans "The indices of non-zero values" %}; <code>{% trans "Array of Integers" %}</code></li>
 		<li>indptr: {% trans "The index pointers for the variables' columns" %}; <code>{% trans "Array of Integers" %}</code></li>
 	</ul>
 	<p>{% trans "This represents the Compressed Sparse Column format described at" %} <a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html">scipy.org</a> {% trans "and" %} <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_Sparse_Column_.28CSC_or_CCS.29">Wikipedia</a>.</p>
-	<h4>{% trans "Single dense matrix when all attribute types are the same" %}</h4>
+	<h4>{% trans "OR single dense matrix when all attribute types are the same" %}</h4>
 	<ul>
 		<li>data: {% trans "The variables themselves" %}; <code>{% trans "Array of Objects" %}</code></li>
 	</ul>
-	<h4>{% trans "Multiple datasets when variable types are mixed" %}</h4>
+	<h4>{% trans "OR multiple datasets when variable types are mixed" %}</h4>
 	<ul>
 		<li>&lt;shortname&gt;: {% trans "Variable of given name" %}; <code>{% trans "Array of Objects" %}</code></li>
 		<li>OR</li>
 		<li>&lt;type&gt;&lt;no&gt;: {% trans "Variable of given type" %}; <code>{% trans "Array of Objects" %}</code></li>
 	</ul>
 	<p>{% trans "If possible short names are used for the dataset names for better recognition, otherwise the variable type (int, double, str) is used. In the latter case the datasets are also numbered for uniqueness" %}</h4>
+	<h4>{% trans "OPTIONAL vector/matrix with natural labels" %}</h4>
+	<ul>
+		<li>label: {% trans "The natural labels split from the original data" %}; <code>{% trans "Array of Integers/Floats" %}</code></li>
+	</ul>
+	<p>{% trans "Natural labels are currently considered for files in LibSVM format." %}</p>
 
 
 	<h2>{% trans "Split files and Tasks" %}</h2>
