@@ -87,8 +87,7 @@ ADMIN_MEDIA_PREFIX = '/media_admin/'
 SITE_ID = 1
 LOGIN_REDIRECT_URL='/'
 ACCOUNT_ACTIVATION_DAYS=1
-#DEFAULT_FROM_EMAIL='admin@mldata.org'
-DEFAULT_FROM_EMAIL='mldata@data.ml.tu-berlin.de'
+DEFAULT_FROM_EMAIL='mldata@mldata.org'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '67-0bxcy%$$&1%=9@1(@g0xxgsx)0jf^i=5@lf!i44ivp$k)mk'
