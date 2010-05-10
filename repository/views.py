@@ -322,33 +322,16 @@ def _download_hit(obj):
 
 
 
-def _download(request, klass, id):
-    """Download file relating to item given by id and klass.
+def _sendfile(fileobj, ctype):
+    """Send given file to client.
 
-    @param request: request data
-    @type request: Django request
-    @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
-    @param id: id of the relating item
-    @type id: integer
-    @return: contents of file related to object
-    @rtype: binary file
-    @raise Http404: if given klass is unexpected or file doesn't exist
+    @param fileobj: file to send
+    @type fileobj: File
+    @param ctype: content type of file
+    @type ctype: string
+    @return: response
+    @rtype: HTTPResponse
     """
-    obj = _get_object_or_404(klass, id)
-    if not obj.can_download(request.user):
-        return HttpResponseForbidden()
-
-    if klass == Data or klass == Task:
-        fileobj = obj.file
-    elif klass == Solution:
-        fileobj = obj.score
-    else:
-        raise Http404
-
-    if not fileobj: # maybe no file attached to this item
-        raise Http404
-
     # fails to work when OpenID Middleware is activated
 #    filename = os.path.join(MEDIA_ROOT, fileobj.name)
 #    wrapper = FileWrapper(file(filename))
@@ -365,10 +348,60 @@ def _download(request, klass, id):
     except OSError, err: # something wrong with file, maybe not existing
         raise OSError(_('Missing file') + ': ' + fileobj.name)
 
-
-    _download_hit(obj)
     return response
 
+
+def _download(request, klass, id, type='plain'):
+    """Download file relating to item given by id and klass and possibly type.
+
+    @param request: request data
+    @type request: Django request
+    @param klass: item's class
+    @type klass: either Data, Task or Solution
+    @param id: id of the relating item
+    @type id: integer
+    @return: download file response
+    @rtype: Django response
+    @raise Http404: if given klass is unexpected or file doesn't exist
+    """
+    obj = _get_object_or_404(klass, id)
+    if not obj.can_download(request.user):
+        return HttpResponseForbidden()
+
+    if type == 'plain':
+        if klass == Data or klass == Task:
+            fileobj = obj.file
+        elif klass == Solution:
+            fileobj = obj.score
+        else:
+            raise Http404
+        ctype = 'application/octet-stream'
+    elif type == 'xml':
+        if not obj.file: # maybe no file attached to this item
+            raise Http404
+        fname = os.path.join(MEDIA_ROOT, obj.file.name + '.xml')
+        if not os.path.exists(fname):
+            cmd = 'h5dump --xml ' + os.path.join(MEDIA_ROOT, obj.file.name) + ' > ' + fname
+            if not subprocess.call(cmd, shell=True) == 0:
+                raise IOError('Unsuccessful conversion to XML: ' + cmd)
+        fileobj = File(open(fname, 'r'))
+        ctype = 'application/xml'
+    elif type == 'csv':
+        if not obj.file: # maybe no file attached to this item
+            raise Http404
+        fname = os.path.join(MEDIA_ROOT, obj.file.name + '.csv')
+        if not os.path.exists(fname):
+            h = h5conv.HDF5()
+            h.convert(os.path.join(MEDIA_ROOT, obj.file.name), 'h5', fname, 'csv')
+        fileobj = File(open(fname, 'r'))
+        ctype = 'application/csv'
+
+    if not fileobj: # something went wrong
+        raise Http404
+
+    response = _sendfile(fileobj, ctype)
+    _download_hit(obj)
+    return response
 
 
 def data_download_xml(request, id):
@@ -378,40 +411,23 @@ def data_download_xml(request, id):
     @type request: Django request
     @param id: id of the relating item
     @type id: integer
-    @return: contents of file related to object
-    @rtype: binary file
-    @raise Http404: file doesn't exist
+    @return: download XML file response
+    @rtype: Django response
     """
-    obj = _get_object_or_404(Data, id)
-    if not obj.can_download(request.user):
-        return HttpResponseForbidden()
-
-    if not obj.file: # maybe no file attached to this item
-        raise Http404
+    return _download(request, Data, id, 'xml')
 
 
-    try:
-        fname = os.path.join(MEDIA_ROOT, obj.file.name + '.xml')
-        if not os.path.exists(fname):
-            cmd = 'h5dump --xml ' + os.path.join(MEDIA_ROOT, obj.file.name) + ' > ' + fname
-            if not subprocess.call(cmd, shell=True) == 0:
-                raise IOError('Unsuccessful conversion to XML: ' + cmd)
-        fileobj = File(open(fname, 'r'))
+def data_download_csv(request, id):
+    """Download CSV file relating to item given by id.
 
-        response = HttpResponse()
-        response['Content-Type'] = 'application/xml'
-        response['Content-Length'] = fileobj.size
-        response['Content-Disposition'] = 'attachment; filename=' +\
-            fileobj.name.split(os.sep)[-1]
-        for chunk in fileobj.chunks():
-            response.write(chunk)
-    except OSError, err: # something wrong with file, maybe not existing
-        raise OSError(_('Missing file') + ': ' + fileobj.name)
-
-
-    _download_hit(obj)
-    return response
-
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @return: download CSV file response
+    @rtype: Django response
+    """
+    return _download(request, Data, id, 'csv')
 
 
 def _view(request, klass, slug_or_id, version=None):

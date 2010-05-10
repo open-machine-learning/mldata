@@ -23,10 +23,13 @@ def usage():
 """ + sys.argv[0] + """ <in-filename> <in format> <out-filename> <out format>
 
 Supported conversions are:
+
 libsvm -> h5
 arff -> h5
 uci -> h5
+
 h5 -> arff
+h5 -> csv
 """
 
 

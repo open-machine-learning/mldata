@@ -106,8 +106,7 @@ $(function() {
 				{% ifequal object.format "h5" %}
 					<a href="{% url repository.views.data_download object.id %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
 					<a href="{% url repository.views.data_download_xml object.id %}">{% trans "XML" %}</a>
-					{% trans "CSV" %}
-					{% trans "Matlab" %}
+					<a href="{% url repository.views.data_download_csv object.id %}">{% trans "CSV" %}</a>
 				{% else %}
 					<a href="{% url repository.views.data_download object.id %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 				{% endifequal %}
