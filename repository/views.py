@@ -27,8 +27,8 @@ from utils import h5conv
 
 
 NUM_HISTORY_PAGE = 20
-NUM_INDEX_PAGE = 10
 NUM_PAGINATOR_RANGE = 10
+PER_PAGE = ['10', '20', '50', '100', _('all')]
 
 
 
@@ -686,7 +686,17 @@ def _get_page(request, objects):
     @return: a paginator page for the given objects
     @rtype: paginator.page
     """
-    paginator = Paginator(objects, NUM_INDEX_PAGE)
+    try:
+        perpage = request.GET.get('pp', PER_PAGE[0])
+    except ValueError:
+        perpage = PER_PAGE[0]
+    if perpage not in PER_PAGE:
+        perpage = PER_PAGE[0]
+    if perpage == 'all':
+        paginator = Paginator(objects, len(objects))
+    else:
+        paginator = Paginator(objects, int(perpage))
+
     try:
         num = int(request.GET.get('page', '1'))
     except ValueError:
@@ -714,6 +724,7 @@ def _get_page(request, objects):
     page.page_range.extend(range(page.number, next + 1))
     page.first = 1
     page.last = paginator.num_pages
+    page.perpage = perpage
 
     return page
 
@@ -752,6 +763,7 @@ def _index(request, klass, my=False):
         'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
+        'per_page': PER_PAGE,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }

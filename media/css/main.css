@@ -172,3 +172,8 @@ list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:10px;
 
 ul.index_list {list-style:none;margin:0;margin-top:1em; padding:0;}
 ul.index_list li {margin-bottom: 1em; padding:0.5em; border:1px solid #000000;}
+
+/* 2-columns */
+div.col2 {position:relative;margin-bottom:2em;}
+div.col2 .col2-left {position:absolute;top:0;left:0;}
+div.col2 .col2-right {position:absolute;top:0;right:0;}
