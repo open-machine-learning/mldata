@@ -5,12 +5,12 @@
 {% block breadcrumbs %}{% trans "Accounts" %} / {% trans "Sign in" %}{% endblock %}
 
 {% block extrahead %}
+<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/openid.css" />
 <script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/media/js/jquery/openid.js"></script>
 <script type="text/javascript">
 $(function() {
-	// doesn't work!
-	//openid.init('id_openid_url');
+	openid.init('id_openid_url');
 });
 </script>
 {% endblock %}
@@ -36,8 +36,8 @@ $(function() {
 <br>
 {% endif %}
 
-<h3>{% trans "Sign In Using Your Account ID" %}</h3>
 <form id="auth_form" name="auth_form" action="{% url user_signin %}" method="post">
+	<h3>{% trans "Sign In Using Your Account ID" %}</h3>
 	<input type="hidden" name="next" value="{{ next }}" />
 	<fieldset>
 		<div class="form-row"><label for="id_username">{% trans "Username:" %}</label><br />{{ form2.username }}</div>
@@ -47,7 +47,7 @@ $(function() {
 	</fieldset>	
 </form>
 
-<hr />
+<hr style="clear:both" />
 
 {% if form1.errors %}
 <div class="error">
@@ -55,8 +55,8 @@ $(function() {
 </div>
 {% endif %}
 
-<h3>{% trans "Sign In Using Your OpenID URL" %}</h3>
 <form id="openid_form" name="openid_form" action="{% url user_signin %}" method="post">
+	<h3>{% trans "Sign In Using Your OpenID URL" %}</h3>
 	<input type="hidden" name="action" value="verify" />
 	<input type="hidden" name="next" value="{{ next }}" />
 	<fieldset>
@@ -64,11 +64,7 @@ $(function() {
 			Please click your account provider:
 			<div id="openid_btns"></div>
 		</div>
-		<div id="openid_input_area">
-			<label for="id_openid_url">{% trans "OpenId URL" %}</label>: {{ form1.openid_url }}
-			<br />
-			<input name="openid_submit" type="submit" class="submit" value="{% trans "Sign in with OpenID" %}">
-		</div>
+		<div id="openid_input_area"></div>
 	</fieldset>
 </form>	
 </div> <!-- /in -->

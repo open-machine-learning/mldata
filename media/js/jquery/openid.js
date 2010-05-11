@@ -85,7 +85,7 @@ var openid = {
   cookie_name: 'openid_provider',
   cookie_path: '/',
 
-  img_path: '/media/images/',
+  img_path: '/media/images/openid/',
 
   input_id: null,
   provider_url: null,
@@ -231,8 +231,8 @@ var openid = {
       value = 'http://';
       style = 'background:#FFF url('+this.img_path+'openid-inputicon.gif) no-repeat scroll 0 50%; padding-left:18px;';
     }
-    html += '<input id="'+id+'" type="text" style="'+style+'" name="'+name+'" value="'+value+'" />' + 
-    '<input id="openid_submit" type="submit" value="Sign-In"/>';
+    html += '<input id="'+id+'" class="openid_inputbox" type="text" style="'+style+'" name="'+name+'" value="'+value+'" />' + 
+    '<input id="openid_submit" class="submit" type="submit" value="Sign In"/>';
 
     input_area.empty();
     input_area.append(html);
