@@ -41,43 +41,32 @@ class H52CSV(base.H5Converter):
 
 
     def _write_multiple_sets(self, h5, csv):
-        """Write 'comples' data structure.
+        """Write 'complex' data structure.
 
         @param h5: HDF5 file
         @param csv: CSV file
         @return: if successful
         @rtype: boolean
         """
-        names = list(h5['data_descr/ordering'])
-        first_name = h5['data_descr/ordering'][0]
-        shape = h5['/data/' + first_name].shape
-        xrange_i = xrange(shape[0])
-        if len(shape) < 2: # only 1 vector per name
-            for i in xrange_i:
-                line = []
-                print names
-                for name in names:
-                    print name
-                    line.append(str(h5['/data/' + name][i]))
-                csv.write(SEPERATOR.join(line) + "\n")
-        else: # reconstruct matrix
-            xrange_j = xrange(shape[1])
-            data = []
-            for i in xrange_i:
-                data[i] = []
+        names = list(h5['/data_descr/ordering'])
+        data = []
+        idx_int = 0
+        idx_double = 0
+        for name in names:
+            if name in h5['/data']:
+                data.append(list(h5['/data/' + name]))
+            elif name.startswith('int'):
+                data.append(list(h5['/data/int'][idx_int]))
+                idx_int += 1
+            elif name.startswith('double'):
+                data.append(list(h5['/data/double'][idx_double]))
+                idx_double += 1
+            else:
+                print 'Dunno how to handle ' + name
 
-            for name in names:
-                current = list(h5['/data/' + name])
-                for i in xrange_i:
-                    for j in xrange_j:
-                        data[i].append(current[i][j])
-
-            A = numpy.matrix(data).T
-            for i in A.shape[0]:
-                line = []
-                for j in A.shape[1]:
-                    line.append(str(A[i,j]))
-                csv.write(SEPERATOR.join(line) + "\n")
+        A = numpy.matrix(data).T
+        for i in xrange(A.shape[0]):
+            csv.write(SEPERATOR.join(A[i].tolist()[0]) + "\n")
 
 
     def run(self):
