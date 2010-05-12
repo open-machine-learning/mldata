@@ -79,16 +79,29 @@ class UCI2H5(base.H5Converter):
 
         for i in xrange(len(predata)):
             arr = numpy.array(predata[i])
+
+            # everything is nan -> keep as str
             try:
-                name = 'int' + str(i)
-                data[name] = arr.astype(numpy.int)
-            except ValueError:
+                all_is_nan = numpy.isnan(arr).all()
+            except AttributeError:
+                all_is_nan = False
+
+            if all_is_nan:
+                arr = arr.astype(self.str_type)
+                name = 'str' + str(i)
+            else:
                 try:
-                    name = 'double' + str(i)
-                    data[name] = arr.astype(numpy.double)
+                    arr = arr.astype(numpy.int)
+                    name = 'int' + str(i)
                 except ValueError:
-                    name = 'str' + str(i)
-                    data[name] = arr.astype(self.str_type)
+                    try:
+                        arr = arr.astype(numpy.double)
+                        name = 'double' + str(i)
+                    except ValueError: # fallback to str
+                        arr = arr.astype(self.str_type)
+                        name = 'str' + str(i)
+
+            data[name] = arr
             ordering.append(name)
 
         return {'ordering':ordering, 'names':ordering, 'data':data}
