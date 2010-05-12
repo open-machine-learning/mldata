@@ -50,7 +50,7 @@ class UCI2H5(base.H5Converter):
             if self._ignore_line(line):
                 continue
 
-            items = line.strip().split(',')
+            items = line.strip().split(self.seperator)
             if not num_items: # do some init
                 num_items = len(items)
                 for i in xrange(num_items):

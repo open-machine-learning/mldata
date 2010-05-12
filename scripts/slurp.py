@@ -525,7 +525,10 @@ class Slurper:
         @rtype: repository.Data
         """
         if Options.convert_exist and not 'noconvert' in parsed:
-            obj = Data.objects.get(name=parsed['name'])
+            try:
+                obj = Data.objects.get(name=parsed['name'])
+            except Data.DoesNotExist:
+                return None
             self._convert_file(obj, fname)
             return None
 
@@ -690,8 +693,10 @@ class Slurper:
             return False
 
         converted = os.path.join(MEDIA_ROOT, obj.file.name)
+        seperator = self.hdf5.infer_seperator(fname)
+
         progress('Converting to HDF5 (%s).' % (converted), 5)
-        self.hdf5.convert(fname, self.format, converted, obj.format)
+        self.hdf5.convert(fname, self.format, converted, obj.format, seperator)
         (obj.num_instances, obj.num_attributes) =\
             self.hdf5.get_num_instattr(converted)
         obj.save()

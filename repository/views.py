@@ -1148,23 +1148,28 @@ def data_new_review(request, slug):
         return HttpResponseForbidden()
 
     hdf5 = h5conv.HDF5()
+    uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
+    if obj.format == 'h5':
+        obj.seperator = None
+    else:
+        obj.seperator = hdf5.infer_seperator(uploaded)
+
     if request.method == 'POST':
         if request.POST.has_key('revert'):
-            os.remove(os.path.join(MEDIA_ROOT, obj.file.name))
+            os.remove(uploaded)
             obj.delete()
             return HttpResponseRedirect(reverse(data_new))
         elif request.POST.has_key('approve'):
-            uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
             converted = hdf5.get_filename(uploaded)
-
             format = request.POST['id_format'].lower()
+            obj.seperator = request.POST['id_seperator']
             if format != 'h5':
                 try:
-                    hdf5.convert(uploaded, format, converted, 'h5')
+                    hdf5.convert(uploaded, format, converted, 'h5', obj.seperator)
                     format = 'h5'
                     (obj.num_instances, obj.num_attributes) =\
                         hdf5.get_num_instattr(converted)
-                except Exception:
+                except Exception: # ignore results of conversion process
                     pass
             obj.format = format
 

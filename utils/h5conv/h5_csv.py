@@ -2,7 +2,6 @@ import numpy, h5py, os
 from scipy.sparse import csc_matrix
 import base
 
-SEPERATOR = ','
 COMMENT = '# '
 
 
@@ -35,7 +34,7 @@ class H52CSV(base.H5Converter):
                     line.append(str(labels[j][i]))
             for j in xrange(A.shape[1]):
                 line.append(str(A[i, j]))
-            csv.write(SEPERATOR.join(line) + "\n")
+            csv.write(self.seperator.join(line) + "\n")
 
         return True
 
@@ -68,7 +67,7 @@ class H52CSV(base.H5Converter):
         A = numpy.matrix(data).T
         for i in xrange(A.shape[0]):
             line = map(str, A[i].tolist()[0])
-            csv.write(SEPERATOR.join(line) + "\n")
+            csv.write(self.seperator.join(line) + "\n")
 
 
     def run(self):

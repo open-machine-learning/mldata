@@ -1,5 +1,6 @@
 """
-Convert from and to HDF5 (spec of mldata.org)
+Convert from and to HDF5 (spec of mldata.org); and other utility functions
+around HDF5.
 """
 
 
@@ -26,7 +27,7 @@ class HDF5():
         self.converter = None
 
 
-    def convert(self, in_fname, in_format, out_fname, out_format):
+    def convert(self, in_fname, in_format, out_fname, out_format, seperator=None):
         """Convert to/from HDF5.
 
         @param in_fname: name of in-file
@@ -37,6 +38,8 @@ class HDF5():
         @type out_fname: string
         @param out_format: format of out-file
         @type out_format: string
+        @param seperator: seperator to seperate variables in examples
+        @type seperator: string
         """
 
         self.converter = None
@@ -51,6 +54,9 @@ class HDF5():
                 self.converter = H52ARFF(in_fname, out_fname)
             elif out_format == 'csv':
                 self.converter = H52CSV(in_fname, out_fname)
+
+        if seperator:
+            self.converter.set_seperator(seperator)
 
         if not self.converter:
             raise RuntimeError('Unknown conversion pair %s to %s!' % (in_format, out_format))
@@ -246,6 +252,31 @@ class HDF5():
 
         h5file.close()
         return instattr
+
+
+    def infer_seperator(self, fname):
+        """Infer seperator for variables in given file.
+
+        @param fname: filename to retrieve data from
+        @type fname: string
+        @return: inferred seperator
+        @rtype: string
+        """
+        fp = open(fname, 'r')
+        seperator = base.ALLOWED_SEPERATORS[0]
+
+        for line in fp:
+            num_splits = []
+            for s in base.ALLOWED_SEPERATORS:
+                num_splits.append(len(line.split(s)))
+            max_splits = max(num_splits)
+            if max_splits > 1: # at least 2 splits necessary
+                idx = num_splits.index(max_splits)
+                seperator = base.ALLOWED_SEPERATORS[idx]
+                break
+
+        fp.close()
+        return seperator
 
 
     def _get_splitnames(self, fnames):

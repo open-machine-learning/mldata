@@ -1,10 +1,12 @@
 import os, numpy, h5py
+from gettext import gettext as _
 from scipy.sparse import csc_matrix
 
 VERSION = '0.3'
 VERSION_MLDATA = '0'
 NUM_EXTRACT = 10
 COMPRESSION = None
+ALLOWED_SEPERATORS = [',', ' ', "\t"]
 
 
 class H5Converter(object):
@@ -19,15 +21,29 @@ class H5Converter(object):
     @type fname_out: string
     @ivar labels_idx: indices for labels for each row
     @type labels_idx: list of integers
+    @ivar seperator: seperator to seperate variables in examples
+    @type seperator: string
     """
-
     str_type = h5py.new_vlen(numpy.str)
 
 
-    def __init__(self, fname_in, fname_out):
+    def __init__(self, fname_in, fname_out, seperator=','):
         self.fname_in = fname_in
         self.fname_out = fname_out
         self.labels_idx = None
+        self.seperator = seperator
+
+
+    def set_seperator(self, seperator):
+        """Set the seperator to seperate variables in examples.
+
+        @param seperator: seperator to use
+        @type seperator: string
+        """
+        if seperator in ALLOWED_SEPERATORS:
+            self.seperator = seperator
+        else:
+            raise AttributeError(_('Seperator %s not allowed!' % seperator))
 
 
     def warn(self, msg):
