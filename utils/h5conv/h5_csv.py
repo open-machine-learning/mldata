@@ -54,19 +54,22 @@ class H52CSV(base.H5Converter):
         idx_double = 0
         for name in names:
             if name in h5['/data']:
-                data.append(list(h5['/data/' + name]))
+                data.append(h5['/data/' + name][...])
             elif name.startswith('int'):
-                data.append(list(h5['/data/int'][idx_int]))
+                data.append(h5['/data/int'][idx_int])
                 idx_int += 1
             elif name.startswith('double'):
-                data.append(list(h5['/data/double'][idx_double]))
+                data.append(h5['/data/double'][idx_double])
                 idx_double += 1
             else:
                 print 'Dunno how to handle ' + name
 
+        # A = numpy.matrix(data).T.astype(str) triggers memory corruption
         A = numpy.matrix(data).T
+        lines = []
         for i in xrange(A.shape[0]):
-            csv.write(SEPERATOR.join(A[i].tolist()[0]) + "\n")
+            line = map(str, A[i].tolist()[0])
+            csv.write(SEPERATOR.join(line) + "\n")
 
 
     def run(self):
