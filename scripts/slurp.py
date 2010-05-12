@@ -16,7 +16,7 @@ from repository.models import *
 from utils import h5conv
 from settings import MEDIA_ROOT
 
-MAX_SIZE_DATA = 1024 * 1024 * 1 # (512MB)
+MAX_SIZE_DATA = 1024 * 1024 * 512 # (512MB)
 
 
 class SlurpHTMLParser(HTMLParser):
