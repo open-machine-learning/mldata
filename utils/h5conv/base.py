@@ -93,7 +93,8 @@ class H5Converter(object):
             return data
 
         merged = {}
-        for name, val in data['data'].iteritems():
+        for name in data['ordering']:
+            val = data['data'][name]
             if len(val) < 1:
                 continue
 
@@ -102,7 +103,7 @@ class H5Converter(object):
                 path = 'int'
             elif t == numpy.double:
                 path = 'double'
-            else:
+            else: # string
                 if name.find('/') != -1: # / sep belongs to hdf5 path
                     path = name.replace('/', '+')
                     data['ordering'][data['ordering'].index(name)] = path
