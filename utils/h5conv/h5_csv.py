@@ -66,7 +66,6 @@ class H52CSV(base.H5Converter):
 
         # A = numpy.matrix(data).T.astype(str) triggers memory corruption
         A = numpy.matrix(data).T
-        lines = []
         for i in xrange(A.shape[0]):
             line = map(str, A[i].tolist()[0])
             csv.write(SEPERATOR.join(line) + "\n")
