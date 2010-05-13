@@ -351,6 +351,23 @@ def _sendfile(fileobj, ctype):
     return response
 
 
+def _is_newer(first, second):
+    """Check if second given file is newer than first given file.
+
+    @param first: filename of first file
+    @type first: string
+    @param second: filename of second file
+    @type second: string
+    """
+    stats_first = os.stat(first)
+    stats_second = os.stat(second)
+    # index 8 is last modified
+    if stats_second[8] > stats_first[8]:
+        return True
+    else:
+        return False
+
+
 def _download(request, klass, id, type='plain'):
     """Download file relating to item given by id and klass and possibly type.
 
@@ -379,21 +396,23 @@ def _download(request, klass, id, type='plain'):
     elif type == 'xml':
         if not obj.file: # maybe no file attached to this item
             raise Http404
-        fname = os.path.join(MEDIA_ROOT, obj.file.name + '.xml')
-        if not os.path.exists(fname):
-            cmd = 'h5dump --xml ' + os.path.join(MEDIA_ROOT, obj.file.name) + ' > ' + fname
+        fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
+        fname_xml = fname_h5 + '.xml'
+        if not os.path.exists(fname_xml) or _is_newer(fname_xml, fname_h5):
+            cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_xml
             if not subprocess.call(cmd, shell=True) == 0:
                 raise IOError('Unsuccessful conversion to XML: ' + cmd)
-        fileobj = File(open(fname, 'r'))
+        fileobj = File(open(fname_xml, 'r'))
         ctype = 'application/xml'
     elif type == 'csv':
         if not obj.file: # maybe no file attached to this item
             raise Http404
-        fname = os.path.join(MEDIA_ROOT, obj.file.name + '.csv')
-        if not os.path.exists(fname):
+        fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
+        fname_csv = fname_h5 + '.csv'
+        if not os.path.exists(fname_csv) or _is_newer(fname_csv, fname_h5):
             h = h5conv.HDF5()
-            h.convert(os.path.join(MEDIA_ROOT, obj.file.name), 'h5', fname, 'csv')
-        fileobj = File(open(fname, 'r'))
+            h.convert(fname_h5, 'h5', fname_csv, 'csv')
+        fileobj = File(open(fname_csv, 'r'))
         ctype = 'application/csv'
 
     if not fileobj: # something went wrong
