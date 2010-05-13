@@ -1168,7 +1168,7 @@ class UCI(Slurper):
                 r = urllib.urlopen(url)
             except IOError, err:
                 warn('IOError: ' + str(err))
-                return None
+                return []
             p.feed(''.join(r.readlines()).replace('\\"', '"'))
             r.close()
             p.close()
