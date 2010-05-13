@@ -78,6 +78,7 @@ class H52CSV(base.H5Converter):
         """Run the actual conversion process."""
         h5 = h5py.File(self.fname_in, 'r')
         csv = open(self.fname_out, 'w')
+        self.seperator = ','
 
 #        csv.write(COMMENT + h5.attrs['name'] + "\n")
 #        csv.write(COMMENT + "MLDATA Version " + h5.attrs['mldata'] + ", see http://mldata.org\n")

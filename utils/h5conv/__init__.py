@@ -268,16 +268,17 @@ class HDF5():
         @rtype: string
         """
         fp = open(fname, 'r')
-        seperator = base.ALLOWED_SEPERATORS[0]
+        seperator = None
+        minimum = 1
 
         for line in fp:
             num_splits = []
             for s in base.ALLOWED_SEPERATORS:
-                num_splits.append(len(line.split(s)))
-            max_splits = max(num_splits)
-            if max_splits > 1: # at least 2 splits necessary
-                idx = num_splits.index(max_splits)
-                seperator = base.ALLOWED_SEPERATORS[idx]
+                l = len(line.split(s))
+                if l > minimum:
+                    minimum = l
+                    seperator = s
+            if seperator:
                 break
 
         fp.close()

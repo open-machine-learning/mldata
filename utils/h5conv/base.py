@@ -6,8 +6,8 @@ VERSION = '0.3'
 VERSION_MLDATA = '0'
 NUM_EXTRACT = 10
 COMPRESSION = None
-ALLOWED_SEPERATORS = [',', ' ', "\t"]
-
+# white space seperator(s) is implicit
+ALLOWED_SEPERATORS = (',')
 
 class H5Converter(object):
     """Base converter class.
@@ -27,11 +27,11 @@ class H5Converter(object):
     str_type = h5py.new_vlen(numpy.str)
 
 
-    def __init__(self, fname_in, fname_out, seperator=','):
+    def __init__(self, fname_in, fname_out, seperator=None):
         self.fname_in = fname_in
         self.fname_out = fname_out
         self.labels_idx = None
-        self.seperator = seperator
+        self.set_seperator(seperator)
 
 
     def set_seperator(self, seperator):
@@ -40,6 +40,10 @@ class H5Converter(object):
         @param seperator: seperator to use
         @type seperator: string
         """
+        if not seperator:
+            self.seperator = None
+            return
+
         if seperator in ALLOWED_SEPERATORS:
             self.seperator = seperator
         else:
