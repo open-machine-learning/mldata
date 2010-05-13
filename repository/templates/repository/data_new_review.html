@@ -13,7 +13,7 @@
 	<form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
 	<dl id="news">
 		<dt><label for="id_format">{% trans "Detected Data format" %}</label></dt>
-		<dd><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, arff, h5. These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>.<br />{% trans "Unsupported formats will be kept as is, but premium features are not available for these." %}</span></dd>
+		<dd><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, arff, uci, h5. These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>.<br />{% trans "Unsupported formats will be kept as is, but premium features are not available for these." %}</span></dd>
 		<dt><label for="id_seperator">{% trans "Detected Data seperator" %}</label></dt>
 		<dd><input type="text" name="id_seperator" value="{{ object.seperator }}" size="1" maxlength="1" /><br /><span class="helptext">{% trans "The seperator seperates the variables in the examples. Allowed values are ',', ' ' and '\t'." %}</span></dd>
 		<dt>{% trans "Name" %}</dt>
@@ -22,14 +22,16 @@
 		<dd>{{ extract.mldata }}</dd>
 		<dt>{% trans "Comment" %}</dt>
 		<dd>{{ extract.comment }}</dd>
-		<dt>{% trans "Attribute Names" %}</dt>
-		<dd>{{ extract.attribute_names }}</dd>
-		<dt>{% trans "Attribute Types" %}</dt>
-		<dd>{{ extract.attribute_types }}</dd>
-		<dt>{% trans "Attributes (extract)" %}</dt>
+		<dt>{% trans "Variable Names" %}</dt>
+		<dd>{% for name in extract.names %}{{ name }}, {% endfor %}</dd>
+{% if extract.types %}
+		<dt>{% trans "Variable Types" %}</dt>
+		<dd>{% for type in extract.types %}{{ type }}, {% endfor %}</dd>
+{% endif %}
+		<dt>{% trans "Extract of Examples" %}</dt>
 		<dd><ol>
-		{% for attr in extract.attributes %}
-			<li>{{ attr|join:' / ' }}</li>
+		{% for d in extract.data %}
+			<li>{{ d|join:', ' }}</li>
 		{% endfor %}
 		</ol></dd>
 	</dl>

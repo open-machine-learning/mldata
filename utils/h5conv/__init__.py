@@ -109,12 +109,14 @@ class HDF5():
         @rtype: string
         """
         suffix = fname.split('.')[-1]
-        if suffix == 'txt':
+        if suffix in ('txt', 'svm', 'libsvm'):
             return 'libsvm'
-        elif suffix == 'arff':
+        elif suffix in ('arff'):
             return suffix
-        elif suffix == 'h5':
+        elif suffix in ('h5', 'hdf5'):
             return suffix
+        elif suffix in ('data'):
+            return 'uci'
         elif suffix in ('bz2', 'gz'):
             presuffix = fname.split('.')[-2]
             if presuffix == 'tar':
@@ -175,25 +177,21 @@ class HDF5():
             h5_fname = self.get_filename(fname)
             try:
                 self.convert(fname, format, h5_fname, 'h5')
-            except Exception:
+            except RuntimeError:
                 return self.get_unparseable(fname)
         else:
             h5_fname = fname
 
         h5file = h5py.File(h5_fname, 'r')
         extract = {}
-
-        attrs = ['mldata', 'name', 'comment']
-        for attr in attrs:
-            try:
-                extract[attr] = h5file.attrs[attr]
-            except KeyError:
-                pass
-
-        try:
-            extract['names'] = h5file['data_descr/names'][:]
-        except KeyError:
-            pass
+        attrs = ('mldata', 'name', 'comment')
+        for a in attrs:
+            if a in h5file.attrs:
+                extract[a] = h5file.attrs[a]
+        if 'data_descr/names' in h5file:
+            extract['names'] = h5file['data_descr/names'][:].tolist()
+        if 'data_descr/types' in h5file:
+            extract['types'] = h5file['data_descr/types'][:].tolist()
 
         # only first NUM_EXTRACT items of attributes
         try:
@@ -209,8 +207,9 @@ class HDF5():
                 indptr = h5file['data/indptr'][:ne+1]
                 A=csc_matrix((data, indices, indptr)).todense().T
                 extract['data'] = A[:ne].tolist()
+                print 'what'
             else:
-                for dset in h5file['data']:
+                for dset in h5file['data_descr/ordering']:
                     dset = 'data/' + dset
                     if type(h5file[dset][0]) == numpy.ndarray:
                         for i in xrange(len(h5file[dset])):
@@ -223,6 +222,12 @@ class HDF5():
             t = type(extract['data'][0])
             if t == numpy.ndarray or t == numpy.matrix:
                 extract['data'] = [y for x in extract['data'] for y in x.tolist()]
+
+            # handle lables
+            if 'data/label' in h5file:
+                extract['names'].insert(0, 'label')
+                for i in xrange(len(extract['data'])):
+                    extract['data'][i].insert(0, h5file['data/label'][i][0])
         except KeyError:
             pass
         except ValueError:
