@@ -718,14 +718,18 @@ class Slurper:
         """
         progress('Handling ' + url + '.', 1)
         try:
-            response = urllib.urlopen(url)
+            try:
+                response = urllib.urlopen(url)
+            except IOError as err:
+                warn('IOError: ', str(err))
+                return
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
             response.close()
             #parser.feed(self.fromfile('Kinship'))
             parser.close()
-        except HTMLParseError, e:
-            warn('HTMLParseError: ' + str(e))
+        except HTMLParseError as err:
+            warn('HTMLParseError: ' + str(err))
             return
 
         for d in parser.datasets:
@@ -1160,7 +1164,11 @@ class UCI(Slurper):
                 d += '/'
             url = self.source + '/' + d
             p = UCIDirectoryParser(d)
-            r = urllib.urlopen(url)
+            try:
+                r = urllib.urlopen(url)
+            except IOError as err:
+                warn('IOError: ' + str(err))
+                return None
             p.feed(''.join(r.readlines()).replace('\\"', '"'))
             r.close()
             p.close()
@@ -1201,11 +1209,16 @@ class UCI(Slurper):
 
     def slurp(self):
         parser = UCIIndexParser()
-        response = urllib.urlopen(self.source)
+        try:
+            response = urllib.urlopen(self.source)
+        except IOError as err:
+            warn('IOError: ', + str(err))
+            return
         parser.feed(''.join(response.readlines()).replace('\\"', '"'))
         response.close()
         #parser.feed(self.fromfile('datasets.html'))
         parser.close()
+
         for u in set(parser.uris):
             p = UCIHTMLParser()
             url = '/'.join(self.source.split('/')[:-1]) + '/' + u
