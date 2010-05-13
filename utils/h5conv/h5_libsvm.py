@@ -120,7 +120,7 @@ class LIBSVM2H5(base.H5Converter):
                 label.append(parsed[i]['label'])
 
             for v in parsed[i]['variables']:
-                indices_var.append(int(v[0]) + self.label_maxidx)
+                indices_var.append(int(v[0]) - 1) # -1: (multi)label idx
                 data_var.append(numpy.double(v[1]))
                 ptr_var += 1
             indptr_var.append(ptr_var)
