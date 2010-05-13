@@ -720,7 +720,7 @@ class Slurper:
         try:
             try:
                 response = urllib.urlopen(url)
-            except IOError as err:
+            except IOError, err:
                 warn('IOError: ', str(err))
                 return
             # replacement thanks to incorrect code @ UCI
@@ -728,7 +728,7 @@ class Slurper:
             response.close()
             #parser.feed(self.fromfile('Kinship'))
             parser.close()
-        except HTMLParseError as err:
+        except HTMLParseError, err:
             warn('HTMLParseError: ' + str(err))
             return
 
@@ -1166,7 +1166,7 @@ class UCI(Slurper):
             p = UCIDirectoryParser(d)
             try:
                 r = urllib.urlopen(url)
-            except IOError as err:
+            except IOError, err:
                 warn('IOError: ' + str(err))
                 return None
             p.feed(''.join(r.readlines()).replace('\\"', '"'))
@@ -1211,7 +1211,7 @@ class UCI(Slurper):
         parser = UCIIndexParser()
         try:
             response = urllib.urlopen(self.source)
-        except IOError as err:
+        except IOError, err:
             warn('IOError: ', + str(err))
             return
         parser.feed(''.join(response.readlines()).replace('\\"', '"'))
