@@ -1200,7 +1200,7 @@ class UCI(Slurper):
                 if parsed['task'] != 'N/A':
                     self.create_task(parsed, data)
             except ValueError:
-                progress('Cannot convert this dataset.', 3)
+                warn('Cannot convert dataset %s!' % (parsed['name']))
                 self.problematic.append(parsed['name'])
 
         if 'noconvert' in parsed:
