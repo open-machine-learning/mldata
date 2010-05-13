@@ -64,7 +64,11 @@ class H52CSV(base.H5Converter):
                 print 'Dunno how to handle ' + name
 
         # A = numpy.matrix(data).T.astype(str) triggers memory corruption
-        A = numpy.matrix(data).T
+        if len(data) == 1:
+            A = numpy.matrix(data[0]).T # only one data blob
+        else:
+            A = numpy.matrix(data).T
+
         for i in xrange(A.shape[0]):
             line = map(str, A[i].tolist()[0])
             csv.write(self.seperator.join(line) + "\n")
