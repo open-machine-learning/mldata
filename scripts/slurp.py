@@ -526,10 +526,11 @@ class Slurper:
         """
         if Options.convert_exist and not 'noconvert' in parsed:
             try:
-                obj = Data.objects.get(name=parsed['name'])
+                obj = Data.objects.filter(name=parsed['name'])
             except Data.DoesNotExist:
                 return None
-            self._convert_file(obj, fname)
+            if obj:
+                self._convert_file(obj[0], fname)
             return None
 
         obj = Data(
@@ -658,9 +659,14 @@ class Slurper:
         @rtype: boolean
         """
         try:
-            obj = Data.objects.get(name=name)
+            obj = Data.objects.filter(name=name)
             return True
         except Data.DoesNotExist:
+            return False
+
+        if obj:
+            return True
+        else:
             return False
 
 
@@ -721,7 +727,7 @@ class Slurper:
             try:
                 response = urllib.urlopen(url)
             except IOError, err:
-                warn('IOError: ', str(err))
+                warn('IOError: ' + str(err))
                 return
             # replacement thanks to incorrect code @ UCI
             parser.feed(''.join(response.readlines()).replace('\\"', '"'))
@@ -1212,7 +1218,7 @@ class UCI(Slurper):
         try:
             response = urllib.urlopen(self.source)
         except IOError, err:
-            warn('IOError: ', + str(err))
+            warn('IOError: ' + str(err))
             return
         parser.feed(''.join(response.readlines()).replace('\\"', '"'))
         response.close()
