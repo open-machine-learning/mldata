@@ -207,7 +207,6 @@ class HDF5():
                 indptr = h5file['data/indptr'][:ne+1]
                 A=csc_matrix((data, indices, indptr)).todense().T
                 extract['data'] = A[:ne].tolist()
-                print 'what'
             else:
                 for dset in h5file['data_descr/ordering']:
                     dset = 'data/' + dset
