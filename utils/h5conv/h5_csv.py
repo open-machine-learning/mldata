@@ -49,8 +49,19 @@ class H52CSV(base.H5Converter):
         """
         names = list(h5['/data_descr/ordering'])
         data = []
+
+        if 'data/int' in h5:
+            len_int = len(h5['/data/int'])
+        else:
+            len_int = 0
         idx_int = 0
+
+        if 'data/double' in h5:
+            len_double = len(h5['/data/double'])
+        else:
+            len_double = 0
         idx_double = 0
+
         for name in names:
             if name in h5['/data']:
                 data.append(h5['/data/' + name][...])
@@ -60,8 +71,15 @@ class H52CSV(base.H5Converter):
             elif name.startswith('double'):
                 data.append(h5['/data/double'][idx_double])
                 idx_double += 1
-            else:
-                raise AttributeError('Dunno how to handle dataset ' + name)
+            else: # either int or double
+                if len_int and idx_int < len_int and type(h5['/data/int'][idx_int][0]) == numpy.int32:
+                    data.append(h5['/data/int'][idx_int])
+                    idx_int += 1
+                elif len_double and idx_double < len_double and type(h5['/data/double'][idx_double][0]) == numpy.double:
+                    data.append(h5['/data/double'][idx_double])
+                    idx_double += 1
+                else:
+                    raise AttributeError('Dunno how to handle dataset ' + name)
 
         # A = numpy.matrix(data).T.astype(str) triggers memory corruption
         if len(data) == 1:
