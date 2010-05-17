@@ -33,6 +33,11 @@ class H5Converter(object):
         self.labels_idx = None
         self.set_seperator(seperator)
 
+        # sometimes it seems files are not properly overwritten when opened by
+        # 'w' during run().
+        if os.path.exists(fname_out):
+            os.remove(fname_out)
+
 
     def set_seperator(self, seperator):
         """Set the seperator to seperate variables in examples.
