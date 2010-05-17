@@ -411,7 +411,10 @@ def _download(request, klass, id, type='plain'):
         fname_csv = fname_h5 + '.csv'
         if not os.path.exists(fname_csv) or _is_newer(fname_csv, fname_h5):
             h = h5conv.HDF5()
-            h.convert(fname_h5, 'h5', fname_csv, 'csv')
+            try:
+                h.convert(fname_h5, 'h5', fname_csv, 'csv')
+            except AttributeError:
+                raise IOError('Unsuccessful conversion to CSV: ' + fname_h5)
         fileobj = File(open(fname_csv, 'r'))
         ctype = 'application/csv'
 

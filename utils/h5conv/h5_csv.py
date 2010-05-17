@@ -61,7 +61,7 @@ class H52CSV(base.H5Converter):
                 data.append(h5['/data/double'][idx_double])
                 idx_double += 1
             else:
-                print 'Dunno how to handle ' + name
+                raise AttributeError('Dunno how to handle dataset ' + name)
 
         # A = numpy.matrix(data).T.astype(str) triggers memory corruption
         if len(data) == 1:
