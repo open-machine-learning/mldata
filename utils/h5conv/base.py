@@ -149,22 +149,27 @@ class H5Converter(object):
         h5file.attrs['comment'] = self.get_comment()
 
         data = self._get_merged(self.get_data())
-        group = h5file.create_group('/data')
-        for path, val in data['data'].iteritems():
-            group.create_dataset(path, data=val, compression=COMPRESSION)
-        if 'label' in data and data['label'].size > 0:
-            group.create_dataset('/data/label', data=data['label'], compression=COMPRESSION)
+        try:
+            group = h5file.create_group('/data')
+            for path, val in data['data'].iteritems():
+                group.create_dataset(path, data=val, compression=COMPRESSION)
+            if 'label' in data and data['label'].size > 0:
+                group.create_dataset('/data/label', data=data['label'], compression=COMPRESSION)
 
-        group = h5file.create_group('/data_descr')
-        names = numpy.array(data['names']).astype(self.str_type)
-        if names.size > 0: # simple 'if names' throws exception if array
-            group.create_dataset('names', data=names, compression=COMPRESSION)
-        ordering = numpy.array(data['ordering']).astype(self.str_type)
-        if ordering.size > 0:
-            group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
-        types = self.get_types()
-        if types.size > 0:
-            types = types.astype(self.str_type)
-            group.create_dataset('types', data=types, compression=COMPRESSION)
-
-        h5file.close()
+            group = h5file.create_group('/data_descr')
+            names = numpy.array(data['names']).astype(self.str_type)
+            if names.size > 0: # simple 'if names' throws exception if array
+                group.create_dataset('names', data=names, compression=COMPRESSION)
+            ordering = numpy.array(data['ordering']).astype(self.str_type)
+            if ordering.size > 0:
+                group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
+            types = self.get_types()
+            if types.size > 0:
+                types = types.astype(self.str_type)
+                group.create_dataset('types', data=types, compression=COMPRESSION)
+        except ValueError, e:
+            h5file.close()
+            os.remove(self.fname_out)
+            raise ValueError(e)
+        else:
+            h5file.close()

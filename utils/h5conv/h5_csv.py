@@ -83,11 +83,18 @@ class H52CSV(base.H5Converter):
 #        csv.write(COMMENT + h5.attrs['name'] + "\n")
 #        csv.write(COMMENT + "MLDATA Version " + h5.attrs['mldata'] + ", see http://mldata.org\n")
 #        csv.write(COMMENT + h5.attrs['comment'] + "\n")
-        if 'label' in h5['/data']: # only labels + data
-            self._write_label_data(h5, csv)
+        try:
+            if 'label' in h5['/data']: # only labels + data
+                self._write_label_data(h5, csv)
+            else:
+                self._write_multiple_sets(h5, csv)
+        except KeyError, e:
+            h5.close()
+            csv.close()
+            os.remove(self.fname_out)
+            raise KeyError(e)
         else:
-            self._write_multiple_sets(h5, csv)
+            h5.close()
+            csv.close()
 
-        h5.close()
-        csv.close()
         return True
