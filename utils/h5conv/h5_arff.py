@@ -58,6 +58,39 @@ class ARFF2H5(base.H5Converter):
         return item
 
 
+    def _get_type(self, values):
+        """Get data type of given values.
+
+        @param values: list of values to check
+        @type values: list
+        @return: data type to use for conversion
+        @rtype: numpy.int32/numpy.double/self.str_type
+        """
+        is_int = False
+        is_double = False
+        is_str = False
+
+        for v in values:
+            try:
+                if int(v) == v:
+                    is_int = True
+                else:
+                    is_int = False
+                    is_double = True
+            except ValueError:
+                is_int = False
+                is_double = False
+                is_str = True
+                break
+
+        if is_int:
+            return numpy.int32
+        elif is_double:
+            return numpy.double
+        else:
+            return self.str_type
+
+
     def get_data(self):
         data = {}
         names = []
@@ -75,14 +108,8 @@ class ARFF2H5(base.H5Converter):
 
         # conversion to proper data types
         for name, values in data.iteritems():
-            arr = numpy.array(values)
-            try:
-                data[name] = arr.astype(numpy.int)
-            except ValueError:
-                try:
-                    data[name] = arr.astype(numpy.double)
-                except ValueError:
-                    data[name] = arr.astype(self.str_type)
+            t = self._get_type(values)
+            data[name] = numpy.array(values).astype(t)
 
         return {'names':names, 'ordering':names, 'data':data}
 
