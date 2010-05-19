@@ -16,6 +16,8 @@ Options:
 -s, --seperator
     Seperator to use to seperate variables in examples. Default is ','
 
+-v, --verfiy
+    Verify the converted data
 
 <in-filename> <in format> <out-filename> <out format>
     Supported conversions are:
@@ -37,13 +39,14 @@ class Options:
     @type output: string
     """
     seperator = None
+    verify = False
 
 
 
 def parse_options():
     """Parse given options."""
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 's:', ['seperator='])
+        opts, args = getopt.getopt(sys.argv[1:], 's:v', ['seperator=', 'verify'])
     except getopt.GetoptError, err: # print help information and exit
         print str(err) + "\n"
         usage()
@@ -53,6 +56,9 @@ def parse_options():
         if o in ('-s', '--seperator'):
             Options.seperator = a
             sys.argv.remove(o+a)
+        if o in ('-v', '--verify'):
+            Options.verify = True
+            sys.argv.remove(o)
         else:
             print 'Unhandled option: ' + o
             sys.exit(2)
@@ -74,5 +80,8 @@ if __name__ == "__main__":
     else:
         seperator = h.infer_seperator(sys.argv[1])
 
-    h.convert(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], seperator)
+    h.convert(
+        sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],
+        seperator, Options.verify
+    )
 
