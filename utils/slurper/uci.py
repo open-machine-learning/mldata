@@ -11,7 +11,7 @@ class UCI(Slurper):
 
 
     def __init__(self, *args, **kwargs):
-        Slurper.__init__(self, args, kwargs)
+        Slurper.__init__(self, *args, **kwargs)
         self.problematic = []
 
 
