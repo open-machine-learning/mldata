@@ -1,0 +1,9 @@
+{% if object.conversion_failed %}
+{% load i18n %}
+<div id="conversion_failed">
+<p class="error">
+	{% trans "The conversion of this item has failed! Please contact the maintainers and forward the following URL:" %}<br />
+	http://{{ request.META.HTTP_HOST }}{{ request.path }}
+</p>
+</div>
+{% endif %}

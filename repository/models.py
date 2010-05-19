@@ -395,7 +395,7 @@ class Data(Repository):
 
     @cvar source: source of the data
     @type source: string / models.CharField
-    @cvar format: data format, e.g. CSV, ARFF, netCDF, HDF5, ODBC
+    @cvar format: data format of original file, e.g. CSV, ARFF, HDF5
     @type format: string / models.CharField
     @cvar measurement_details: item's measurement details
     @type measurement_details: string / models.TextField

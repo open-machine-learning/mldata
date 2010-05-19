@@ -14,6 +14,13 @@ import base
 
 
 
+class ConversionError(RuntimeError):
+    def __init__(self, message):
+        self.message = message
+    def __str__(self):
+        return repr(self.message)
+
+
 class HDF5():
     def __init__(self, *args, **kwargs):
         """Construct an HDF5 object.
@@ -27,7 +34,27 @@ class HDF5():
         self.converter = None
 
 
-    def convert(self, in_fname, in_format, out_fname, out_format, seperator=None):
+    def verify(self, in_fname, in_format, out_fname, out_format):
+        """Verify that data in given filenames is the same.
+
+        FIXME: needs implementation
+
+        @param in_fname: name of in-file
+        @type in_fname: string
+        @param in_format: format of in-file
+        @type in_format: string
+        @param out_fname: name of out-file
+        @type out_fname: string
+        @param out_format: format of out-file
+        @type out_format: string
+        """
+        return True
+        raise ConversionError(
+            'Verification failed! Data of %s != %s' % (in_fname, out_fname)
+        )
+
+
+    def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False):
         """Convert to/from HDF5.
 
         @param in_fname: name of in-file
@@ -40,6 +67,8 @@ class HDF5():
         @type out_format: string
         @param seperator: seperator to seperate variables in examples
         @type seperator: string
+        @param verify: verify if data in output is same as data in input
+        @type verify: boolean
         """
 
         self.converter = None
@@ -59,9 +88,12 @@ class HDF5():
             self.converter.set_seperator(seperator)
 
         if not self.converter:
-            raise RuntimeError('Unknown conversion pair %s to %s!' % (in_format, out_format))
+            raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
 
         self.converter.run()
+
+        if verify:
+            self.verify(in_fname, in_format, out_fname, out_format)
 
 
 

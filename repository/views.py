@@ -12,6 +12,7 @@ from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.core.servers.basehttp import FileWrapper
 from django.core.files import File
+from django.core.mail import mail_admins
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.db import IntegrityError, transaction
@@ -385,6 +386,7 @@ def _download(request, klass, id, type='plain'):
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
+    fname_export = None
     if type == 'plain':
         if klass == Data or klass == Task:
             fileobj = obj.file
@@ -393,35 +395,41 @@ def _download(request, klass, id, type='plain'):
         else:
             raise Http404
         ctype = 'application/octet-stream'
+
     elif type == 'xml':
         if not obj.file: # maybe no file attached to this item
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
-        fname_xml = fname_h5 + '.xml'
-        if not os.path.exists(fname_xml) or _is_newer(fname_xml, fname_h5):
-            cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_xml
+        fname_export = fname_h5 + '.xml'
+        if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
+            cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
             if not subprocess.call(cmd, shell=True) == 0:
                 raise IOError('Unsuccessful conversion to XML: ' + cmd)
-        fileobj = File(open(fname_xml, 'r'))
+        fileobj = File(open(fname_export, 'r'))
         ctype = 'application/xml'
+
     elif type == 'csv':
         if not obj.file: # maybe no file attached to this item
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
-        fname_csv = fname_h5 + '.csv'
-        if not os.path.exists(fname_csv) or _is_newer(fname_csv, fname_h5):
+        fname_export = fname_h5 + '.csv'
+        if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
             h = h5conv.HDF5()
             try:
-                h.convert(fname_h5, 'h5', fname_csv, 'csv')
+                h.convert(fname_h5, 'h5', fname_export, 'csv')
             except AttributeError:
                 raise IOError('Unsuccessful conversion to CSV: ' + fname_h5)
-        fileobj = File(open(fname_csv, 'r'))
+        fileobj = File(open(fname_export, 'r'))
         ctype = 'application/csv'
 
     if not fileobj: # something went wrong
         raise Http404
 
     response = _sendfile(fileobj, ctype)
+
+    fileobj.close()
+    if fname_export: # remove exported file
+        os.remove(fname_export)
     _download_hit(obj)
     return response
 
@@ -484,11 +492,18 @@ def _view(request, klass, slug_or_id, version=None):
     obj.url_edit = reverse(eval(klassname + '_edit'), args=[obj.id])
     obj.url_delete = reverse(eval(klassname + '_delete'), args=[obj.id])
 
-    # breadcrumbs
-    if klass == Solution:
-        obj.d = obj.task.data
+    # klass-specific
+    if klass == Data:
+        obj.has_h5 = False
+        h5 = h5conv.HDF5()
+        if h5.get_fileformat(obj.file.name) == 'h5':
+            obj.has_h5 = True
+        if 'conversion_failed' in obj.tags:
+            obj.conversion_failed = True
     elif klass == Task:
         obj.d = obj.data
+    elif klass == Solution:
+        obj.d = obj.task.data
 
     info_dict = {
         'object': obj,
@@ -565,10 +580,11 @@ def _new(request, klass):
 
                 if klass == Data:
                     new.file = request.FILES['file']
-                    h = h5conv.HDF5()
-                    new.format = h.get_fileformat(request.FILES['file'].name)
+                    h5 = h5conv.HDF5()
+                    new.format = h5.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
-                    new.num_instances = new.num_attributes = 0
+                    new.num_instances = -1
+                    new.num_attributes = -1
                     new.save()
                 elif klass == Task:
                     if 'file' in request.FILES:
@@ -1150,6 +1166,65 @@ def score_download(request, id):
 
 
 @transaction.commit_on_success
+def _data_approve(obj, fname_orig, format):
+    """Approve Data item.
+
+    @param obj: object to approve
+    @type obj: repository.Data
+    @param fname_orig: original filename
+    @type fname_orig: string
+    @param format: data format of file, given by user
+    @type format: string
+    @return: the modified, approved object
+    @rtype: repository.Data
+    """
+    h5 = h5conv.HDF5()
+    fname_h5 = h5.get_filename(fname_orig)
+
+    if format != 'h5':
+        h5.convert(fname_orig, format, fname_h5, 'h5', obj.seperator, True)
+
+    if os.path.isfile(fname_h5):
+        (obj.num_instances, obj.num_attributes) = h5.get_num_instattr(fname_h5)
+        # keep original file for the time being
+        #os.remove(fname_orig)
+        # for some reason, FileField saves file.name as DATAPATH/<basename>
+        obj.file.name = os.path.sep.join([DATAPATH, fname_h5.split(os.path.sep)[-1]])
+
+    obj.format = format
+    obj.is_approved = True
+    obj.save()
+    return obj
+
+
+@transaction.commit_on_success
+def _data_conversion_error(request, obj, error):
+    """Handle conversion error for Data file.
+
+    @param request: request data
+    @type request: Django request
+    @param obj: Data item
+    @type obj: repository.Data
+    @param error: the error that occurred
+    @type error: h5conv.ConversionError
+    """
+    if obj.tags:
+        obj.tags += ', conversion_failed'
+    else:
+        obj.tags = 'conversion_failed'
+
+    obj.is_approved = True
+    obj.save()
+
+    subject = 'HDF5 Conversion failed'
+    view = reverse(data_view_slug, args=[obj.slug])
+    body = "Hi admin!\n\n" +\
+        'URL http://' + request.META['HTTP_HOST'] + view + "\n\n" +\
+        error.message
+    mail_admins(subject, body)
+
+
+@transaction.commit_on_success
 def data_new_review(request, slug):
     """Review Data item to check if uploaded file is as expected.
 
@@ -1169,47 +1244,33 @@ def data_new_review(request, slug):
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
 
-    hdf5 = h5conv.HDF5()
-    uploaded = os.path.join(MEDIA_ROOT, obj.file.name)
-    if obj.format == 'h5':
-        obj.seperator = None
-    else:
-        obj.seperator = hdf5.infer_seperator(uploaded)
-
+    fname = os.path.join(MEDIA_ROOT, obj.file.name)
     if request.method == 'POST':
         if request.POST.has_key('revert'):
-            os.remove(uploaded)
+            os.remove(fname)
             obj.delete()
             return HttpResponseRedirect(reverse(data_new))
         elif request.POST.has_key('approve'):
-            converted = hdf5.get_filename(uploaded)
-            format = request.POST['id_format'].lower()
             obj.seperator = request.POST['id_seperator']
-            if format != 'h5':
-                try:
-                    hdf5.convert(uploaded, format, converted, 'h5', obj.seperator)
-                    format = 'h5'
-                    (obj.num_instances, obj.num_attributes) =\
-                        hdf5.get_num_instattr(converted)
-                except Exception: # ignore results of conversion process
-                    pass
-            obj.format = format
+            try:
+                obj = _data_approve(obj, fname, request.POST['id_format'].lower())
+            except h5conv.ConversionError, e:
+                _data_conversion_error(request, obj, e)
+            return HttpResponseRedirect(
+                reverse(data_view_slug, args=[obj.slug]))
 
-            if os.path.isfile(converted): # assign converted file to obj
-                os.remove(uploaded)
-                # for some reason, FileField saves file.name as DATAPATH/<basename>
-                obj.file.name = os.path.sep.join([DATAPATH, converted.split(os.path.sep)[-1]])
-
-            obj.is_approved = True
-            obj.save()
-            return HttpResponseRedirect(reverse(data_view_slug, args=[obj.slug]))
+    h5 = h5conv.HDF5()
+    if obj.format == 'h5':
+        obj.seperator = ''
+    else:
+        obj.seperator = h5.infer_seperator(fname)
 
     info_dict = {
         'object': obj,
         'request': request,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
-        'extract': hdf5.get_extract(os.path.join(MEDIA_ROOT, obj.file.name)),
+        'extract': h5.get_extract(fname),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
 

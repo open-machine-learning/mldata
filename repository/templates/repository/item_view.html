@@ -80,6 +80,8 @@ $(function() {
 		{% if can_delete %}<a id="delete" href="{{ object.url_delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 	</div><br style="clear:both" />
 
+{% include "repository/conversion_failed.html" %}
+
 	<div id="tabs">
 		<ul class="clearfix">
 			<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
@@ -103,13 +105,13 @@ $(function() {
 			<dt>{% trans "Download" %}</a></dd>
 			<dd>
 				{% trans "# Instances" %}: {{ object.num_instances }} / {% trans "# Attributes" %}: {{ object.num_attributes }}<br />
-				{% ifequal object.format "h5" %}
+				{% if object.has_h5 %}
 					<a href="{% url repository.views.data_download object.id %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
 					<a href="{% url repository.views.data_download_xml object.id %}">{% trans "XML" %}</a>
 					<a href="{% url repository.views.data_download_csv object.id %}">{% trans "CSV" %}</a>
 				{% else %}
 					<a href="{% url repository.views.data_download object.id %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
-				{% endifequal %}
+				{% endif %}
 			</dd>
 		{% else %}{% ifequal object.klass "Task" %}
 			<dt>{% trans "Input format" %}</dt>
@@ -159,7 +161,7 @@ $(function() {
 
 		{% ifequal object.klass "Data" %}
 		<div id="tabs-data"><dl id="news">
-			<dt>{% trans "Format" %}</dt>
+			<dt>{% trans "Original Data Format" %}</dt>
 			<dd>{{ object.format }}</dd>
 			<dt>{% trans "Name" %}</dt>
 			<dd>{{ extract.name }}</dd>
