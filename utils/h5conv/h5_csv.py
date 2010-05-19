@@ -8,6 +8,27 @@ COMMENT = '# '
 class H52CSV(base.H5Converter):
     """Convert a file from HDF5 (spec of mldata.org) to CSV."""
 
+    def _write_sparse(self, h5, csv):
+        """Write 'simple' label + data structure.
+
+        @param h5: HDF5 file
+        @param csv: CSV file
+        @return: if successful
+        @rtype: boolean
+        """
+        labels = h5['/data/label'][:]
+        A = csc_matrix((h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])).todense().T
+
+        for i in xrange(A.shape[0]):
+        #    print i, 'shape', A.shape[0], 'lablen', len(labels)
+            line = [str(labels[i][0])]
+            for j in xrange(A.shape[1]):
+                line.append(str(A[i, j]))
+            csv.write(self.seperator.join(line) + "\n")
+
+        return True
+
+
     def _write_label_data(self, h5, csv):
         """Write 'simple' label + data structure.
 
@@ -16,7 +37,7 @@ class H52CSV(base.H5Converter):
         @return: if successful
         @rtype: boolean
         """
-        labels = list(h5['/data/label'])
+        labels = h5['/data/label'][:]
         num_lab = len(labels)
         if len(labels[0]) == 1:
             label_vector = True
@@ -94,15 +115,19 @@ class H52CSV(base.H5Converter):
 
     def run(self):
         """Run the actual conversion process."""
-        h5 = h5py.File(self.fname_in, 'r')
-        csv = open(self.fname_out, 'w')
         self.seperator = ','
+        h5 = h5py.File(self.fname_in, 'r')
+        if os.path.exists(self.fname_out):
+            os.remove(self.fname_out)
+        csv = open(self.fname_out, 'w')
 
 #        csv.write(COMMENT + h5.attrs['name'] + "\n")
 #        csv.write(COMMENT + "MLDATA Version " + h5.attrs['mldata'] + ", see http://mldata.org\n")
 #        csv.write(COMMENT + h5.attrs['comment'] + "\n")
         try:
-            if 'label' in h5['/data']: # only labels + data
+            if 'indices' in h5['/data']:
+                self._write_sparse(h5, csv)
+            elif 'label' in h5['/data']: # only labels + data
                 self._write_label_data(h5, csv)
             else:
                 self._write_multiple_sets(h5, csv)
