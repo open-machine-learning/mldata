@@ -112,9 +112,9 @@ class HDF5():
         if suffix in ('txt', 'svm', 'libsvm'):
             return 'libsvm'
         elif suffix in ('arff'):
-            return suffix
+            return 'arff'
         elif suffix in ('h5', 'hdf5'):
-            return suffix
+            return 'h5'
         elif suffix in ('data'):
             return 'uci'
         elif suffix in ('bz2', 'gz'):
@@ -281,7 +281,10 @@ class HDF5():
                 break
 
         fp.close()
-        return seperator
+        if not seperator:
+            return ''
+        else:
+            return seperator
 
 
     def _get_splitnames(self, fnames):
