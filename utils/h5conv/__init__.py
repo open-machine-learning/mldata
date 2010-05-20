@@ -155,6 +155,8 @@ class HDF5():
             return 'arff'
         elif suffix in ('h5', 'hdf5'):
             return 'h5'
+        elif suffix in ('csv', 'tsv'):
+            return 'csv'
         elif suffix in ('data'):
             return 'uci'
         elif suffix in ('bz2', 'gz', 'zip'):
