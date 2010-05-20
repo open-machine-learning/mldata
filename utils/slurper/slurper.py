@@ -18,12 +18,9 @@ class Slurper(object):
     @type url: string
     @cvar output: output directory for downloaded files
     @type output: string
-    @cvar format: format of converted files
-    @type format: string
     """
     url = None
     output = None
-    format = 'h5'
 
     def __init__(self, *args, **kwargs):
         """Construct a slurper.
@@ -178,15 +175,14 @@ class Slurper(object):
 
         """
         tags = [p.replace('.', '-') for p in parsed_tags]
-
-        # MySQL / django-tagging fix.
-        classname = self.__class__.__name__
-        if self.format.lower() != classname.lower():
-            tags.append(classname)
-
         tags.append('slurped')
 
         if obj:
+            # MySQL / django-tagging fix.
+            classname = self.__class__.__name__
+            if obj.format.lower() != classname.lower():
+                tags.append(classname)
+
             tags.append(obj.format.replace('.', '-'))
 
         return ', '.join(tags)
