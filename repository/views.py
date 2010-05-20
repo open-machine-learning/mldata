@@ -332,6 +332,7 @@ def _sendfile(fileobj, ctype):
     @type ctype: string
     @return: response
     @rtype: HTTPResponse
+    @raise: Http404 on OSError
     """
     # fails to work when OpenID Middleware is activated
 #    filename = os.path.join(MEDIA_ROOT, fileobj.name)
@@ -346,8 +347,9 @@ def _sendfile(fileobj, ctype):
             fileobj.name.split(os.sep)[-1]
         for chunk in fileobj.chunks():
             response.write(chunk)
-    except OSError, err: # something wrong with file, maybe not existing
-        raise OSError(_('Missing file') + ': ' + fileobj.name)
+    except OSError, e: # something wrong with file, maybe not existing
+        mail_admins('Failed sending of file', str(e))
+        raise Http404
 
     return response
 
@@ -380,7 +382,7 @@ def _download(request, klass, id, type='plain'):
     @type id: integer
     @return: download file response
     @rtype: Django response
-    @raise Http404: if given klass is unexpected or file doesn't exist
+    @raise Http404: if given klass is unexpected or file doesn't exist or a conversion error occurred
     """
     obj = _get_object_or_404(klass, id)
     if not obj.can_download(request.user):
@@ -404,7 +406,8 @@ def _download(request, klass, id, type='plain'):
         if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
             cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
             if not subprocess.call(cmd, shell=True) == 0:
-                raise IOError('Unsuccessful conversion to XML: ' + cmd)
+                mail_admins('Failed conversion to XML', cmd)
+                raise Http404
         fileobj = File(open(fname_export, 'r'))
         ctype = 'application/xml'
 
@@ -417,8 +420,9 @@ def _download(request, klass, id, type='plain'):
             h = h5conv.HDF5()
             try:
                 h.convert(fname_h5, 'h5', fname_export, 'csv')
-            except AttributeError:
-                raise IOError('Unsuccessful conversion to CSV: ' + fname_h5)
+            except h5conv.ConversionError, e:
+                mail_admins('Failed conversion to CSV', str(e))
+                raise Http404
         fileobj = File(open(fname_export, 'r'))
         ctype = 'application/csv'
 
@@ -526,9 +530,11 @@ def _view(request, klass, slug_or_id, version=None):
             h = h5conv.HDF5()
             info_dict['extract'] = h.get_extract(
                 os.path.join(MEDIA_ROOT, obj.file.name))
-        except IOError, err:
-            raise IOError(str(err) + ': ' + obj.file.name)
-        except h5e.LowLevelIOError: # ignore if not HDF5 file
+        except IOError, e:
+            mail_admins('Failed extract', str(e))
+            info_dict['extract'] = None
+        except h5e.LowLevelIOError, e: # ignore if not HDF5 file
+            mail_admins('Failed extract', str(e))
             info_dict['extract'] = None
 
     return render_to_response('repository/item_view.html', info_dict)
