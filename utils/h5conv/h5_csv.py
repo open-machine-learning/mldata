@@ -3,6 +3,41 @@ from scipy.sparse import csc_matrix
 import base
 
 COMMENT = '# '
+SEPERATOR = ','
+
+class CSV2H5(base.H5Converter):
+    """Convert a file from CSV to HDF5 (spec of mldata.org).
+    """
+
+    def get_data(self):
+        data = {}
+        names = []
+        ordering = []
+
+        infile = open(self.fname_in, 'r')
+        parsed = []
+        for line in infile:
+            parsed.append(line.strip().split(self.seperator))
+        infile.close()
+        A = numpy.matrix(parsed).T
+
+        for i in xrange(A.shape[0]):
+            items = A[i].tolist()[0]
+            t = self.get_datatype(items)
+            if t == numpy.int32:
+                name = 'int' + str(i)
+            elif t == numpy.double:
+                name = 'double' + str(i)
+            else:
+                name = 'str' + str(i)
+            data[name] = numpy.array(items).astype(t)
+            names.append(name)
+            ordering.append(name)
+
+
+        return {'names':names, 'ordering':names, 'data':data}
+
+
 
 
 class H52CSV(base.H5Converter):
@@ -115,7 +150,7 @@ class H52CSV(base.H5Converter):
 
     def run(self):
         """Run the actual conversion process."""
-        self.seperator = ','
+        self.seperator = SEPERATOR # maybe more flexible in the future
         h5 = h5py.File(self.fname_in, 'r')
         if os.path.exists(self.fname_out):
             os.remove(self.fname_out)

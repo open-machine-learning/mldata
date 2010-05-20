@@ -81,7 +81,7 @@ class H5Converter(object):
         @return: comment
         @rtype: string
         """
-        raise NotImplementedError('Abstract method!')
+        return ''
 
 
     def get_types(self):
@@ -100,6 +100,30 @@ class H5Converter(object):
         @rtype: dict of: list of names, list of ordering and dict of examples
         """
         raise NotImplementedError('Abstract method!')
+
+
+    def get_datatype(self, values):
+        """Get data type of given values.
+
+        @param values: list of values to check
+        @type values: list
+        @return: data type to use for conversion
+        @rtype: numpy.int32/numpy.double/self.str_type
+        """
+        dtype = None
+
+        for v in values:
+            try:
+                tmp = int(v)
+                dtype = numpy.int32
+            except ValueError:
+                try:
+                    tmp = float(v)
+                    dtype = numpy.double
+                except ValueError:
+                    return self.str_type
+
+        return dtype
 
 
     def _get_merged(self, data):

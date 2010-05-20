@@ -9,7 +9,7 @@ from scipy.sparse import csc_matrix
 from h5_arff import ARFF2H5, H52ARFF
 from h5_libsvm import LIBSVM2H5
 from h5_uci import UCI2H5
-from h5_csv import H52CSV
+from h5_csv import CSV2H5, H52CSV
 import base
 
 
@@ -77,6 +77,8 @@ class HDF5():
             self.converter = ARFF2H5(in_fname, out_fname)
         elif in_format == 'uci' and out_format == 'h5':
             self.converter = UCI2H5(in_fname, out_fname)
+        elif in_format == 'csv' and out_format == 'h5':
+            self.converter = CSV2H5(in_fname, out_fname)
         elif in_format == 'h5':
             if out_format == 'arff':
                 self.converter = H52ARFF(in_fname, out_fname)
@@ -89,8 +91,9 @@ class HDF5():
         if seperator:
             self.converter.set_seperator(seperator)
 
+        self.converter.run()
         try:
-            self.converter.run()
+            pass
         except Exception, e:
             raise ConversionError(e)
 
