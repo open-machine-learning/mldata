@@ -452,6 +452,9 @@ class Slurper(object):
                 self.progress('Skipped dataset ' + d['name'], 2)
                 continue
             else:
+                if not d['name']:
+                    self.warn('Empty Dataset name!')
+                    continue
                 if self._data_exists(d['name']) and not self.options.convert_exist:
                     self.warn('Dataset ' + d['name'] + ' already exists, skipping!')
                     self.problematic.append(d['name'])

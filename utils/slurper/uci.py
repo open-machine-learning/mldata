@@ -34,7 +34,10 @@ class UCI(Slurper):
         try:
             f = filename.split('machine-learning-databases/')[1]
         except IndexError:
-            f = filename.split('databases/')[1]
+            try:
+                f = filename.split('databases/')[1]
+            except IndexError:
+                f = filename
         return os.path.join(self.output, f)
 
 
@@ -74,12 +77,12 @@ class UCI(Slurper):
             is_bagofstuff = True
             files['data'] = self.get_bagofstuff(parsed['files'])
             self.problematic.append(parsed['name'])
-        else:
-            self.progress('Adding to repository.', 3)
-            files['data'] = self.get_dst(files['data'])
-            data = self.create_data(parsed, files['data'])
-            if data and parsed['task'] != 'N/A':
-                self.create_task(parsed, data)
+
+        self.progress('Adding to repository.', 3)
+        files['data'] = self.get_dst(files['data'])
+        data = self.create_data(parsed, files['data'])
+        if data and parsed['task'] != 'N/A':
+            self.create_task(parsed, data)
 
         if is_bagofstuff:
             os.remove(files['data'])
