@@ -527,7 +527,7 @@ def _view(request, klass, slug_or_id, version=None):
             info_dict['extract'] = h.get_extract(
                 os.path.join(MEDIA_ROOT, obj.file.name))
         except IOError, err:
-            raise IOError(err.message + ': ' + obj.file.name)
+            raise IOError(str(err) + ': ' + obj.file.name)
         except h5e.LowLevelIOError: # ignore if not HDF5 file
             info_dict['extract'] = None
 
