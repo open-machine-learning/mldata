@@ -143,6 +143,10 @@ class HDF5():
         @rtype: string
         """
         suffix = fname.split('.')[-1]
+        # just assume libsvm if no proper suffix
+        if suffix.find('/') != -1:
+            return 'libsvm'
+
         if suffix in ('txt', 'svm', 'libsvm'):
             return 'libsvm'
         elif suffix in ('arff'):
