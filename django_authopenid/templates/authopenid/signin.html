@@ -5,6 +5,7 @@
 {% block breadcrumbs %}{% trans "Accounts" %} / {% trans "Sign in" %}{% endblock %}
 
 {% block extrahead %}
+<!--
 <link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/openid.css" />
 <script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/media/js/jquery/openid.js"></script>
@@ -13,6 +14,7 @@ $(function() {
 	openid.init('id_openid_url');
 });
 </script>
+-->
 {% endblock %}
 
 {% block content %}
@@ -55,6 +57,7 @@ $(function() {
 </div>
 {% endif %}
 
+<!--
 <form id="openid_form" name="openid_form" action="{% url user_signin %}" method="post">
 	<h3>{% trans "Sign In Using Your OpenID URL" %}</h3>
 	<input type="hidden" name="action" value="verify" />
@@ -67,6 +70,7 @@ $(function() {
 		<div id="openid_input_area"></div>
 	</fieldset>
 </form>	
+-->
 </div> <!-- /in -->
 {% endblock %}
 
@@ -74,6 +78,6 @@ $(function() {
 {% block aside %}
 <h4 class="title-03">{% trans "Contents" %}</h4>
 <div class="in">
-{% trans "You have the choice between logging in the traditional way or using" %} <a href="http://openid.net">OpenID</a>.
+{% trans "Sign in using your accound ID." %}
 </div>
 {% endblock %}
