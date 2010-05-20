@@ -70,7 +70,6 @@ class HDF5():
         @param verify: verify if data in output is same as data in input
         @type verify: boolean
         """
-
         self.converter = None
         if in_format == 'libsvm' and out_format == 'h5':
             self.converter = LIBSVM2H5(in_fname, out_fname)
@@ -84,13 +83,16 @@ class HDF5():
             elif out_format == 'csv':
                 self.converter = H52CSV(in_fname, out_fname)
 
-        if seperator:
-            self.converter.set_seperator(seperator)
-
         if not self.converter:
             raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
 
-        self.converter.run()
+        if seperator:
+            self.converter.set_seperator(seperator)
+
+        try:
+            self.converter.run()
+        except Exception, e:
+            raise ConversionError(e)
 
         if verify:
             self.verify(in_fname, in_format, out_fname, out_format)
