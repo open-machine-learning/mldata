@@ -166,28 +166,30 @@ class Slurper(object):
         return obj
 
 
-    def _get_tags(self, tags, obj=None):
+    def _get_tags(self, parsed_tags, obj=None):
         """Add constant tags to current item.
 
-        @param tags: item-specific tags
-        @type tags: string
+        @param parsed_tags: item-specific, parsed tags
+        @type parsed_tags: list of strings
         @param obj: object to retrieve more tag info from
         @type obj: repository.Data
         @return: item-specific + class-constant tags
         @rtype: string
 
         """
-        t = [pt for pt in tags]
+        tags = [p.replace('.', '-') for p in parsed_tags]
 
         # MySQL / django-tagging fix.
         classname = self.__class__.__name__
         if self.format.lower() != classname.lower():
-            t.append(classname)
-        t.append('slurped')
-        if obj:
-            t.append(obj.format)
+            tags.append(classname)
 
-        return ', '.join(t)
+        tags.append('slurped')
+
+        if obj:
+            tags.append(obj.format.replace('.', '-'))
+
+        return ', '.join(tags)
 
 
     def _add_publications(self, obj, publications):

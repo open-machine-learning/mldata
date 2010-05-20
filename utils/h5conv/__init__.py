@@ -155,10 +155,10 @@ class HDF5():
             try:
                 presuffix = fname.split('.')[-2]
                 if presuffix == 'tar':
-                    return 'tarball'
+                    return presuffix + '.' + suffix
             except IndexError:
                 pass
-            return 'zipped'
+            return suffix
         else: # unknown
             return suffix
 
