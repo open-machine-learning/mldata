@@ -104,6 +104,7 @@ class Weka(Slurper):
             parsed['name'] = orig + ' ' + splitname
             if self._data_exists(parsed['name']) and not self.options.convert_exist:
                 self.warn('Dataset ' + parsed['name'] + ' already exists, skipping!')
+                self.problematic.append(parsed['name'])
                 continue
             else:
                 self.create_data(parsed, f)

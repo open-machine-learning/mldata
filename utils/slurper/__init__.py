@@ -4,7 +4,7 @@ Slurp data objects from the interwebz and add them to the repository
 
 import os
 
-MAX_SIZE_DATA = 1024 * 1024 * 512 # (512MB)
+MAX_SIZE_DATA = 1024 * 1024 * 1 # (512MB)
 
 # strings of names of slurper classes
 SLURPERS = ('LibSVMTools', 'Weka', 'UCI')

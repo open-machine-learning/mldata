@@ -3,9 +3,9 @@ from HTMLParser import HTMLParseError
 
 from django.core.files import File
 from django.db import IntegrityError
-from repository.models import Repository, Data, Task
+from repository.models import Repository, Data, Task, TaskType, Publication
 from utils import h5conv
-from settings import MEDIA_ROOT
+from settings import MEDIA_ROOT, DATAPATH
 from __init__ import MAX_SIZE_DATA
 
 
@@ -28,13 +28,16 @@ class Slurper(object):
     def __init__(self, *args, **kwargs):
         """Construct a slurper.
 
-        @ivar hdf5: hdf5 converter object
-        @type hdf5: h5conv.HDF5
+        @ivar h5: h5 converter object
+        @type h5: h5conv.HDF5
         @ivar options: runtime options
         @type options: __init__.Options
+        @ivar problematic: datasets where problems occurred
+        @type problematic: list of strings
         """
-        self.hdf5 = h5conv.HDF5()
+        self.h5 = h5conv.HDF5()
         self.options = kwargs['options']
+        self.problematic = []
 
 
     def fromfile(self, name):
@@ -163,25 +166,26 @@ class Slurper(object):
         return obj
 
 
-    def _get_tags(self, tags):
-        """Add class-constant tags to current item.
+    def _get_tags(self, tags, obj=None):
+        """Add constant tags to current item.
 
         @param tags: item-specific tags
         @type tags: string
+        @param obj: object to retrieve more tag info from
+        @type obj: repository.Data
         @return: item-specific + class-constant tags
         @rtype: string
+
         """
-        t = []
-        if tags:
-            t.append(tags)
+        t = [pt for pt in tags]
 
         # MySQL / django-tagging fix.
         classname = self.__class__.__name__
         if self.format.lower() != classname.lower():
             t.append(classname)
-
-        t.append(self.format)
         t.append('slurped')
+        if obj:
+            t.append(obj.format)
 
         return ', '.join(t)
 
@@ -222,13 +226,13 @@ class Slurper(object):
         @return: a repository Data object
         @rtype: repository.Data
         """
-        if self.options.convert_exist and not 'noconvert' in parsed:
+        if self.options.convert_exist:
             try:
                 obj = Data.objects.filter(name=parsed['name'])
             except Data.DoesNotExist:
                 return None
             if obj:
-                self._convert_file(obj[0], fname)
+                self._handle_file(obj[0], fname)
             return None
 
         obj = Data(
@@ -243,25 +247,20 @@ class Slurper(object):
             is_approved=True,
             user_id=1,
             license_id=parsed['license'],
-            tags=self._get_tags(parsed['tags']),
+            format=self.h5.get_fileformat(fname),
         )
         try:
             obj = self._add_slug(obj)
         except IntegrityError:
             self.warn('Slug already exists, skipping Data item ' + obj.name + '!')
+            self.problematic.append(parsed['name'])
             return None
         self.progress('Creating Data item ' + obj.name + '.', 4)
 
-        if 'noconvert' in parsed:
-            obj.format = 'tar.bz2'
-        else:
-            obj.format = 'h5'
-        obj.file = File(open(fname))
-        obj.file.name = obj.get_filename()
+        obj.tags = self._get_tags(parsed['tags'], obj)
         obj.save() # need to save before publications can be added
         self._add_publications(obj, parsed['publications'])
-        if not 'noconvert' in parsed:
-            self._convert_file(obj, fname)
+        obj = self._handle_file(obj, fname)
 
         # make it available after everything went alright
         obj.is_public = True
@@ -303,7 +302,8 @@ class Slurper(object):
         try:
             obj = self._add_slug(obj)
         except IntegrityError:
-            self.warn('Slug already exists, skipping Task item' + obj.name + '!')
+            self.warn('Slug already exists, skipping Task item' + name + '!')
+            self.problematic.append(name)
             return None
         self.progress('Creating Task item ' + obj.name + '.', 4)
 
@@ -315,7 +315,7 @@ class Slurper(object):
 
         if fnames:
             self.progress('Creating Task file', 5)
-            fname = self.hdf5.create_taskfile(name, fnames)
+            fname = self.h5.create_taskfile(name, fnames)
             obj.file = File(open(fname))
             obj.file.name = obj.get_filename() # name in $SPLITFILE_HOME
 
@@ -382,29 +382,41 @@ class Slurper(object):
             return False
 
 
-    def _convert_file(self, obj, fname):
-        """Convert data file of an existing item.
+    def _handle_file(self, obj, fname):
+        """Handle data file: set format, file in object, conversion
 
         @param obj: object to convert data for
         @type obj: repository.Data
-        @param fname: filename of file to convert
+        @param fname: name of file to convert
         @type fname: string
         @return: if conversion was successful
         @rtype: boolean
         """
-        if not obj:
-            return False
+        if not obj or not fname:
+            return None
 
-        converted = os.path.join(MEDIA_ROOT, obj.file.name)
-        seperator = self.hdf5.infer_seperator(fname)
+        obj.file.name = os.path.join(DATAPATH, obj.get_filename())
+        fname_orig = os.path.join(MEDIA_ROOT, obj.file.name)
+        # keep original file for the time being
+        shutil.copy(fname, fname_orig)
+        fname_h5 = self.h5.get_filename(fname_orig)
+        seperator = self.h5.infer_seperator(fname_orig)
 
-        self.progress('Converting to HDF5 (%s).' % (converted), 5)
-        self.hdf5.convert(fname, self.format, converted, obj.format, seperator)
-        (obj.num_instances, obj.num_attributes) =\
-            self.hdf5.get_num_instattr(converted)
+        self.progress('Converting to HDF5 (%s).' % (fname_h5), 5)
+        try:
+            self.h5.convert(fname_orig, obj.format, fname_h5, 'h5', seperator)
+        except h5conv.ConversionError:
+            self.problematic.append(obj.name + ' (' + str(obj.id) + ')')
+            self.progress('Error converting to HDF5.', 6)
+
+        if os.path.isfile(fname_h5):
+            (obj.num_instances, obj.num_attributes) =\
+                self.h5.get_num_instattr(fname_h5)
+            # for some reason, FileField saves file.name as DATAPATH/<basename>
+            obj.file.name = os.path.join(DATAPATH, fname_h5.split(os.sep)[-1])
+
         obj.save()
-
-        return True
+        return obj
 
 
     def handle(self, parser, url, task=None):
@@ -442,6 +454,7 @@ class Slurper(object):
             else:
                 if self._data_exists(d['name']) and not self.options.convert_exist:
                     self.warn('Dataset ' + d['name'] + ' already exists, skipping!')
+                    self.problematic.append(d['name'])
                     continue
                 else:
                     self.progress('Dataset ' + d['name'], 2)
@@ -505,6 +518,13 @@ class Slurper(object):
             os.makedirs(self.output)
 
         self.slurp() # implemented in child class
+
+        if len(self.problematic) > 0:
+            problematic = set(self.problematic)
+            self.warn('Problematic datasets are:')
+            for p in self.problematic:
+                self.warn(p)
+
 
 
     def warn(self, msg):

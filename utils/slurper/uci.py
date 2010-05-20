@@ -9,12 +9,6 @@ class UCI(Slurper):
     url = 'http://archive.ics.uci.edu/ml/datasets.html'
     format = 'uci'
 
-
-    def __init__(self, *args, **kwargs):
-        Slurper.__init__(self, *args, **kwargs)
-        self.problematic = []
-
-
     def skippable(self, name):
         return False # allow everything now
 
@@ -67,6 +61,7 @@ class UCI(Slurper):
         # only accept bla.data + bla.names for the time being...
         files = {}
         ignore_data = False
+        is_bagofstuff = False
         for f in parsed['files']:
             if (f.endswith('.data') or f.endswith('-data')) and not ignore_data:
                 files['data'] = f
@@ -75,22 +70,18 @@ class UCI(Slurper):
                 files['data'].split('.')[:-1] == f.split('.')[:-1]:
                 files['names'] = f
         if len(files) != 2:
-            self.progress('Unknown composition of data files!', 3)
-            parsed['noconvert'] = True
+            self.progress('Unknown composition of data files, adding bag-of-stuff!', 3)
+            is_bagofstuff = True
             files['data'] = self.get_bagofstuff(parsed['files'])
             self.problematic.append(parsed['name'])
         else:
             self.progress('Adding to repository.', 3)
             files['data'] = self.get_dst(files['data'])
-            try:
-                data = self.create_data(parsed, files['data'])
-                if parsed['task'] != 'N/A':
-                    self.create_task(parsed, data)
-            except ValueError:
-                self.warn('Cannot convert dataset %s!' % (parsed['name']))
-                self.problematic.append(parsed['name'])
+            data = self.create_data(parsed, files['data'])
+            if data and parsed['task'] != 'N/A':
+                self.create_task(parsed, data)
 
-        if 'noconvert' in parsed:
+        if is_bagofstuff:
             os.remove(files['data'])
 
 
@@ -110,11 +101,3 @@ class UCI(Slurper):
             p = UCIHTMLParser()
             url = '/'.join(self.url.split('/')[:-1]) + '/' + u
             self.handle(p, url)
-
-        if len(self.problematic) > 0:
-            print 'Problematic datasets are:'
-            for p in self.problematic:
-                print p
-
-
-
