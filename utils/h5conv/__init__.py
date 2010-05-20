@@ -151,11 +151,14 @@ class HDF5():
             return 'h5'
         elif suffix in ('data'):
             return 'uci'
-        elif suffix in ('bz2', 'gz'):
-            presuffix = fname.split('.')[-2]
-            if presuffix == 'tar':
-                return presuffix + '.' + suffix
-            return suffix
+        elif suffix in ('bz2', 'gz', 'zip'):
+            try:
+                presuffix = fname.split('.')[-2]
+                if presuffix == 'tar':
+                    return 'tarball'
+            except IndexError:
+                pass
+            return 'zipped'
         else: # unknown
             return suffix
 
