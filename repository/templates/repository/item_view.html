@@ -175,6 +175,14 @@ $(function() {
 				<li>{{ name }}</li>
 			{% endfor %}
 			</ol></dd>
+{% if extract.types %}
+			<dt>{% trans "Types" %}</dt>
+			<dd><ol>
+			{% for type in extract.types %}
+				<li>{{ type}}</li>
+			{% endfor %}
+			</ol></dd>
+{% endif %}
 			<dt>{% trans "Data (extract)" %}</dt>
 			<dd><ol>
 			{% for d in extract.data %}
