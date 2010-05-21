@@ -188,31 +188,31 @@ class Slurper(object):
         return ', '.join(tags)
 
 
-    def _get_title(self, publication):
+    def _get_title(self, pub):
         """Get title from publication text.
 
-        @param publication: publication text in which to look for title
-        @type publication: string
+        @param pub: publication text in which to look for title
+        @type pub: string
         @return: publication's title
         @rtype: string
         """
         title = None
         maxlen = Publication._meta.get_field('title').max_length
         try: # title finding is a bit ugly
-            title = p.split('"')[1][:maxlen]
+            title = pub.split('"')[1][:maxlen]
             if title.startswith('http://'):
-                return None
+                title = None
         except IndexError:
             pass
 
         if not title or not title.strip():
             try:
-                title = p.split('</a>')[-1].split('.')[0][:maxlen]
+                title = pub.split('</a>')[-1].split('.')[0][:maxlen]
             except IndexError:
                 pass
 
         if not title or len(title) < 5:
-            title = p.strip()[:maxlen]
+            title = pub.strip()[:maxlen]
 
         return title
 
