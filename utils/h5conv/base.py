@@ -245,15 +245,20 @@ class H5Converter(object):
         dtype = None
 
         for v in values:
-            try:
-                tmp = int(v)
+            if isinstance(v, int):
                 dtype = numpy.int32
-            except ValueError:
+            elif isinstance(v, float):
+                dtype = numpy.double
+            else: # maybe int/double in string
                 try:
-                    tmp = float(v)
-                    dtype = numpy.double
+                    tmp = int(v)
+                    dtype = numpy.int32
                 except ValueError:
-                    return self.str_type
+                    try:
+                        tmp = float(v)
+                        dtype = numpy.double
+                    except ValueError:
+                        return self.str_type
 
         return dtype
 

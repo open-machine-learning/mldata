@@ -15,7 +15,7 @@ class LibSVM2H5(base.H5Converter):
         @ivar is_multilabel: if data is of type multilabel
         @type is_multilabel: boolean
         """
-        super(LIBSVM2H5, self).__init__(*args, **kwargs)
+        super(LibSVM2H5, self).__init__(*args, **kwargs)
         self.label_maxidx = 0
         self.is_multilabel = False
 
@@ -158,7 +158,19 @@ class LibSVM2H5(base.H5Converter):
 
         names = []
         for i in xrange(A.shape[0]):
-            names.append('dim' + str(i))
+            try:
+                row = A[i].todense().tolist()[0]
+            except AttributeError: # isn't sparse
+                row = A[i].tolist()[0]
+
+            dtype = self.get_datatype(row)
+            if dtype == numpy.int32:
+                pre = 'int'
+            elif dtype == numpy.double:
+                pre = 'double'
+            else:
+                pre = 'str'
+            names.append(pre + str(i))
 
         return {
             'ordering': ordering,
