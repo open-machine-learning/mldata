@@ -71,30 +71,30 @@ class HDF5():
         @type verify: boolean
         """
         self.converter = None
-        if out_format == 'h5':
-            if in_format == 'libsvm':
-                self.converter = LibSVM2H5(in_fname, out_fname)
-            elif in_format == 'arff':
-                self.converter = ARFF2H5(in_fname, out_fname)
-            elif in_format == 'uci':
-                self.converter = UCI2H5(in_fname, out_fname)
-            elif in_format == 'csv':
-                self.converter = CSV2H5(in_fname, out_fname)
-        elif in_format == 'h5':
-            if out_format == 'arff':
-                self.converter = H52ARFF(in_fname, out_fname)
-            elif out_format == 'csv':
-                self.converter = H52CSV(in_fname, out_fname)
-            elif out_format == 'libsvm':
-                self.converter = H52LibSVM(in_fname, out_fname)
-
-        if not self.converter:
-            raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
-
-        if seperator:
-            self.converter.set_seperator(seperator)
-
         try:
+            if out_format == 'h5':
+                if in_format == 'libsvm':
+                    self.converter = LibSVM2H5(in_fname, out_fname)
+                elif in_format == 'arff':
+                    self.converter = ARFF2H5(in_fname, out_fname)
+                elif in_format == 'uci':
+                    self.converter = UCI2H5(in_fname, out_fname)
+                elif in_format == 'csv':
+                    self.converter = CSV2H5(in_fname, out_fname)
+            elif in_format == 'h5':
+                if out_format == 'arff':
+                    self.converter = H52ARFF(in_fname, out_fname)
+                elif out_format == 'csv':
+                    self.converter = H52CSV(in_fname, out_fname)
+                elif out_format == 'libsvm':
+                    self.converter = H52LibSVM(in_fname, out_fname)
+
+            if not self.converter:
+                raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
+
+            if seperator:
+                self.converter.set_seperator(seperator)
+
             self.converter.run()
         except Exception, e:
             raise ConversionError(e)
