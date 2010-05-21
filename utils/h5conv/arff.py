@@ -117,7 +117,7 @@ class ArffFile(object):
                 o.append("@attribute " + self.esc(a) +
                          " {" + ','.join(self.attribute_data[a]) + "}")
             else:
-                raise "Type " + at + " not supported for writing!"
+                raise Exception("Type " + at + " not supported for writing!")
         o.append("\n@data")
         for d in self.data:
             line = []
@@ -130,7 +130,7 @@ class ArffFile(object):
                 elif at == 'nominal':
                     line.append(e)
                 else:
-                    raise "Type " + at + " not supported for writing!"
+                    raise Exception("Type " + at + " not supported for writing!")
             o.append(','.join(line))
         return "\n".join(o) + "\n"
 
