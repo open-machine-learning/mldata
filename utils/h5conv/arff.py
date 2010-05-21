@@ -83,6 +83,10 @@ class ArffFile(object):
         s = o.read()
         a = ArffFile.parse(s)
         o.close()
+
+        if not a.relation:
+            raise Exception('Not an ARFF file: ' + filename)
+
         return a
 
     @staticmethod
