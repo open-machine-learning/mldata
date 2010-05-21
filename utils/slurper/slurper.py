@@ -188,29 +188,49 @@ class Slurper(object):
         return ', '.join(tags)
 
 
+    def _get_title(self, publication):
+        """Get title from publication text.
+
+        @param publication: publication text in which to look for title
+        @type publication: string
+        @return: publication's title
+        @rtype: string
+        """
+        title = None
+        maxlen = Publication._meta.get_field('title').max_length
+        try: # title finding is a bit ugly
+            title = p.split('"')[1][:maxlen]
+            if title.startswith('http://'):
+                return None
+        except IndexError:
+            pass
+
+        if not title or not title.strip():
+            try:
+                title = p.split('</a>')[-1].split('.')[0][:maxlen]
+            except IndexError:
+                pass
+
+        if not title or len(title) < 5:
+            title = p.strip()[:maxlen]
+
+        return title
+
+
     def _add_publications(self, obj, publications):
+        """Add given publications to given object
+
+        @param obj: Data item to add publications to
+        @type obj: repository.Data
+        @param publications: publications to add
+        @type publications: list of strings
+        """
         for p in publications:
             if p.startswith('<a') and p.endswith('</a>'):
                 continue # skip semi-empty publication
 
-            title = None
-            try: # title finding is a bit ugly
-                title = p.split('"')[1]
-                if title.startswith('http://'):
-                    title = None
-            except IndexError:
-                pass
-            if not title or not title.strip():
-                try:
-                    title = p.split('</a>')[-1].split('.')[0]
-                except IndexError:
-                    pass
-            if not title or len(title) < 5:
-                idx = Publication._meta.get_field('title').max_length - 1
-                title = p[:idx]
-
-            pub, failed = Publication.objects.get_or_create(
-                content=p, title=title.strip())
+            title = self._get_title(p)
+            pub, failed = Publication.objects.get_or_create(content=p, title=title)
             obj.publications.add(pub)
 
 
