@@ -94,7 +94,11 @@ class Slurper(object):
         tname += '.tar.bz2'
         tarball = tarfile.open(name=tname, mode='w:bz2')
         for f in fnames:
-            tarball.add(self.get_dst(f))
+            fname = self.get_dst(f)
+            # awkward, but fname.split(os.sep)[-2:-1] doesn't incl last
+            arcname = fname.split(os.sep)
+            arcname = os.sep.join([arcname[-2], arcname[-1]])
+            tarball.add(fname, arcname=arcname)
         tarball.close()
 
         return tname
