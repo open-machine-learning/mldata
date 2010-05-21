@@ -94,9 +94,8 @@ class HDF5():
         if seperator:
             self.converter.set_seperator(seperator)
 
-        self.converter.run()
         try:
-            pass
+            self.converter.run()
         except Exception, e:
             raise ConversionError(e)
 
