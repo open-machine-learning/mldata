@@ -4,5 +4,5 @@ If it was you, and you'd like to activate and use your account, click the link b
 
 http://{{ site.domain }}{% url registration_activate activation_key %}
 
-If you didn't request this, you don't need to do anything; you won't receive any more email from us, and the account will expire automatically in {{ expiration_days|apnumber }} days.
+If you didn't request this, you don't need to do anything; you won't receive any more email from us, and the account will expire automatically in {{ expiration_days|apnumber }} day.
 
