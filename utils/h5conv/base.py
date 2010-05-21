@@ -64,6 +64,138 @@ class H5Converter(object):
         return
         print 'WARNING: ' + msg
 
+############### from HDF5 #######################
+
+    def get_outdata(self, h5):
+        """Get data structure ready to be written to file.
+
+        @param h5: HDF5 file
+        @type h5: File object
+        @return: blob of data
+        @rtype: list of lists
+        """
+        if 'indices' in h5['/data']:
+            return self._get_sparse(h5)
+        elif 'label' in h5['/data']: # only labels + data
+            return self._get_label_data(h5)
+        else:
+            return self._get_multiple_sets(h5)
+
+
+    def _get_sparse(self, h5):
+        """Sparse data structure.
+
+        @param h5: HDF5 file
+        @type h5: File object
+        @return: blob of data
+        @rtype: list of lists
+        """
+        labels = h5['/data/label'][:]
+        A = csc_matrix((h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])).todense().T
+        data = []
+
+        for i in xrange(A.shape[0]):
+            line = [str(labels[i][0])]
+            for j in xrange(A.shape[1]):
+                line.append(str(A[i, j]))
+            data.append(line)
+
+        return data
+
+
+
+    def _get_label_data(self, h5):
+        """Get 'simple' label + data structure.
+
+        @param h5: HDF5 file
+        @type h5: File object
+        @return: blob of data
+        @rtype: list of lists
+        """
+        data = []
+        A = numpy.matrix(h5['/data/data']).T
+        labels = h5['/data/label'][:]
+        num_lab = len(labels)
+
+        if len(labels[0]) == 1:
+            label_vector = True
+        else:
+            label_vector = False
+
+        # prepend labels
+        for i in xrange(A.shape[0]):
+            line = []
+            if label_vector:
+                line.append(str(labels[i][0]))
+            else:
+                for j in xrange(num_lab):
+                    line.append(str(labels[j][i]))
+            for j in xrange(A.shape[1]):
+                line.append(str(A[i, j]))
+            data.append(line)
+
+        return data
+
+
+    def _get_multiple_sets(self, h5):
+        """Get 'complex' data structure.
+
+        @param h5: HDF5 file
+        @type h5: File object
+        @return: blob of data
+        @rtype: list of lists
+        """
+        # when using faster [:] instead of slower list(), str() would have to
+        # be used later on
+        names = list(h5['/data_descr/ordering'])
+        data = []
+
+        if '/data/int' in h5:
+            len_int = len(h5['/data/int'])
+        else:
+            len_int = 0
+        idx_int = 0
+
+        if '/data/double' in h5:
+            len_double = len(h5['/data/double'])
+        else:
+            len_double = 0
+        idx_double = 0
+
+        for name in names:
+            if name in h5['/data']:
+                data.append(h5['/data/' + name][:])
+            elif name.startswith('int'):
+                data.append(h5['/data/int'][idx_int])
+                idx_int += 1
+            elif name.startswith('double'):
+                data.append(h5['/data/double'][idx_double])
+                idx_double += 1
+            else: # either int or double
+                if len_int and idx_int < len_int and type(h5['/data/int'][idx_int][0]) == numpy.int32:
+                    data.append(h5['/data/int'][idx_int])
+                    idx_int += 1
+                elif len_double and idx_double < len_double and type(h5['/data/double'][idx_double][0]) == numpy.double:
+                    data.append(h5['/data/double'][idx_double])
+                    idx_double += 1
+                else:
+                    raise AttributeError('Dunno how to handle dataset ' + name)
+
+        # A = numpy.matrix(data).T.astype(str) triggers memory corruption
+        if len(data) == 1:
+            A = numpy.matrix(data[0]).T # only one data blob
+        else:
+            A = numpy.matrix(data).T
+
+        data = []
+        for i in xrange(A.shape[0]):
+            line = map(str, A[i].tolist()[0])
+            data.append(line)
+
+        return data
+
+
+############### to HDF5 #######################
 
     def get_name(self):
         """Get dataset name from given file.

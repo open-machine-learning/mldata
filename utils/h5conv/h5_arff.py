@@ -115,22 +115,12 @@ class ARFF2H5(base.H5Converter):
 
 
 
-class H52ARFF():
+class H52ARFF(base.H5Converter):
     """Convert a file from HDF5 (spec of mldata.org) to ARFF
 
     It uses the module arff provided by the dataformat project:
     http://mloss.org/software/view/163/
-
-    @ivar fname_in: filename to read data from
-    @type fname_in: string
-    @ivar fname_out: filename to write converted data to
-    @type fname_out: string
-
     """
-
-    def __init__(self, fname_in, fname_out):
-        self.fname_in = fname_in
-        self.fname_out = fname_out
 
 
     def run(self):
@@ -142,27 +132,32 @@ class H52ARFF():
         @type out_fname: string
         """
         a = arff.ArffFile()
-        h = h5py.File(self.fname_in, 'r')
+        h5 = h5py.File(self.fname_in, 'r')
 
-        a.relation = h.attrs['name']
-        a.comment = h.attrs['comment']
-        a.attributes = list(h['data_descr/names'])
+        names = h5['/data_descr/names'][:]
+        a.relation = h5.attrs['name']
+        a.comment = h5.attrs['comment']
+        a.attributes = names
+        a.data = self.get_outdata(h5)
 
-        a.data = []
-        for i in xrange(len(h['data/' + h['data_descr/ordering'][0]])):
-            a.data.append([])
-        for name in h['data_descr/ordering']:
-            path = 'data/' + name
-            for j in xrange(len(h[path])):
-                a.data[j].append(h[path][j])
+        # handle arff types
+        if '/data_descr/types' in h5:
+            types = h5['/data_descr/types'][:]
+        else:
+            types = []
+            for n in names:
+                if n.startswith('int') or n.startswith('double'):
+                    types.append('numeric')
+                else:
+                    types.append('string')
 
-        for i in xrange(len(h['data_descr/types'])):
-            t = h['data_descr/types'][i].split(':')
+        for i in xrange(len(types)):
+            t = types[i].split(':')
             a.attribute_types[a.attributes[i]] = t[0]
             if len(t) == 1:
                 a.attribute_data[a.attributes[i]] = None
             else:
                 a.attribute_data[a.attributes[i]] = t[1].split(',')
 
-        h.close()
+        h5.close()
         a.save(self.fname_out)

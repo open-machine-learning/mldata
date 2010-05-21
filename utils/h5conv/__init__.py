@@ -7,7 +7,7 @@ around HDF5.
 import h5py, numpy, os
 from scipy.sparse import csc_matrix
 from h5_arff import ARFF2H5, H52ARFF
-from h5_libsvm import LIBSVM2H5
+from h5_libsvm import LibSVM2H5, H52LibSVM
 from h5_uci import UCI2H5
 from h5_csv import CSV2H5, H52CSV
 import base
@@ -71,19 +71,22 @@ class HDF5():
         @type verify: boolean
         """
         self.converter = None
-        if in_format == 'libsvm' and out_format == 'h5':
-            self.converter = LIBSVM2H5(in_fname, out_fname)
-        elif in_format == 'arff' and out_format == 'h5':
-            self.converter = ARFF2H5(in_fname, out_fname)
-        elif in_format == 'uci' and out_format == 'h5':
-            self.converter = UCI2H5(in_fname, out_fname)
-        elif in_format == 'csv' and out_format == 'h5':
-            self.converter = CSV2H5(in_fname, out_fname)
+        if out_format == 'h5':
+            if in_format == 'libsvm':
+                self.converter = LibSVM2H5(in_fname, out_fname)
+            elif in_format == 'arff':
+                self.converter = ARFF2H5(in_fname, out_fname)
+            elif in_format == 'uci':
+                self.converter = UCI2H5(in_fname, out_fname)
+            elif in_format == 'csv':
+                self.converter = CSV2H5(in_fname, out_fname)
         elif in_format == 'h5':
             if out_format == 'arff':
                 self.converter = H52ARFF(in_fname, out_fname)
             elif out_format == 'csv':
                 self.converter = H52CSV(in_fname, out_fname)
+            elif out_format == 'libsvm':
+                self.converter = H52LibSVM(in_fname, out_fname)
 
         if not self.converter:
             raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
@@ -91,8 +94,9 @@ class HDF5():
         if seperator:
             self.converter.set_seperator(seperator)
 
+        self.converter.run()
         try:
-            self.converter.run()
+            pass
         except Exception, e:
             raise ConversionError(e)
 
