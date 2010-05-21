@@ -1249,11 +1249,12 @@ def _data_conversion_error(request, obj, error):
     obj.is_approved = True
     obj.save()
 
-    subject = 'HDF5 Conversion failed'
-    view = reverse(data_view_slug, args=[obj.slug])
+    url = 'http://' + request.META['HTTP_HOST'] + reverse(
+        data_view_slug, args=[obj.slug])
+    subject = 'Conversion failed: ' + url
     body = "Hi admin!\n\n" +\
-        'URL http://' + request.META['HTTP_HOST'] + view + "\n\n" +\
-        error.message
+        'URL: ' + url + "\n\n" +\
+        str(error)
     mail_admins(subject, body)
 
 
