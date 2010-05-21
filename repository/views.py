@@ -406,25 +406,26 @@ def _download(request, klass, id, type='plain'):
         if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
             cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
             if not subprocess.call(cmd, shell=True) == 0:
-                mail_admins('Failed conversion to XML', cmd)
+                mail_admins('Failed conversion of %s to XML' % (fname_h5), cmd)
                 raise Http404
         fileobj = File(open(fname_export, 'r'))
         ctype = 'application/xml'
 
-    elif type == 'csv':
+    elif type in ('csv', 'arff', 'libsvm'):
         if not obj.file: # maybe no file attached to this item
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
-        fname_export = fname_h5 + '.csv'
+        fname_export = fname_h5 + '.' + type
         if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
             h = h5conv.HDF5()
             try:
-                h.convert(fname_h5, 'h5', fname_export, 'csv')
+                h.convert(fname_h5, 'h5', fname_export, type)
             except h5conv.ConversionError, e:
-                mail_admins('Failed conversion to CSV', str(e))
+                mail_admins(
+                    'Failed conversion of %s to %s' % (fname_h5, type), str(e))
                 raise Http404
         fileobj = File(open(fname_export, 'r'))
-        ctype = 'application/csv'
+        ctype = 'application/' + type
 
     if not fileobj: # something went wrong
         raise Http404
@@ -462,6 +463,32 @@ def data_download_csv(request, id):
     @rtype: Django response
     """
     return _download(request, Data, id, 'csv')
+
+
+def data_download_arff(request, id):
+    """Download ARFF file relating to item given by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @return: download ARFF file response
+    @rtype: Django response
+    """
+    return _download(request, Data, id, 'arff')
+
+
+def data_download_libsvm(request, id):
+    """Download LibSVM file relating to item given by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @return: download LibSVM file response
+    @rtype: Django response
+    """
+    return _download(request, Data, id, 'libsvm')
 
 
 def _view(request, klass, slug_or_id, version=None):
