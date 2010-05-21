@@ -7,15 +7,18 @@ PRODUCTION = False # set to True when project goes live
 if not PRODUCTION:
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
+    ADMINS = (
+        ('Sebastian Henschel', 'mldata@kodeaffe.de'),
+    )
 else:
     DEBUG = False
+    ADMINS = (
+        ('Sebastian Henschel', 'mldata@kodeaffe.de'),
+        ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
+        ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
+    )
 
 
-ADMINS = (
-    ('Sebastian Henschel', 'mldata@kodeaffe.de'),
-    ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
-    ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
-)
 
 MANAGERS = ADMINS
 
