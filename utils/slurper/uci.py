@@ -81,7 +81,7 @@ class UCI(Slurper):
         self.progress('Adding to repository.', 3)
         files['data'] = self.get_dst(files['data'])
         data = self.create_data(parsed, files['data'])
-        if data and parsed['task'] != 'N/A':
+        if data and parsed['task'] not in ('N/A', 'NA'):
             self.create_task(parsed, data)
 
         if is_bagofstuff:

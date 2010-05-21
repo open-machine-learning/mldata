@@ -25,7 +25,7 @@ class SlurpHTMLParser(HTMLParser):
         if hasattr(self, 'current'):
             if self.current['name']:
                 self._clean(['summary', 'description', 'source', 'publications'])
-            if self.current['task']:
+            if self.current['task'] and self.current['task'] not in ('N/A', 'NA'):
                 # django url doesn't like args with slash, needs replace for tag
                 self.current['tags'].append(self.current['task'].replace('/', ''))
             self.datasets.append(self.current)
