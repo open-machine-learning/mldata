@@ -320,7 +320,7 @@ class Slurper(object):
         try:
             obj = self._add_slug(obj)
         except IntegrityError:
-            self.warn('Slug already exists, skipping Task item' + name + '!')
+            self.warn('Slug already exists, skipping Task item ' + name + '!')
             self.problematic.append(name)
             return None
         self.progress('Creating Task item ' + obj.name + '.', 4)
@@ -420,7 +420,7 @@ class Slurper(object):
         fname_h5 = self.h5.get_filename(fname_orig)
         seperator = self.h5.infer_seperator(fname_orig)
 
-        self.progress('Converting to HDF5 (%s).' % (fname_h5), 5)
+        self.progress('Trying to convert to HDF5 (%s).' % (fname_h5), 5)
         try:
             self.h5.convert(fname_orig, obj.format, fname_h5, 'h5', seperator)
         except h5conv.ConversionError:
