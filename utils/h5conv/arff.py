@@ -126,7 +126,7 @@ class ArffFile(object):
                 if at == 'numeric':
                     line.append(str(e))
                 elif at == 'string':
-                    line.append(esc(e))
+                    line.append(self.esc(e))
                 elif at == 'nominal':
                     line.append(e)
                 else:
@@ -136,10 +136,12 @@ class ArffFile(object):
 
     def esc(self, s):
         "Escape a string if it contains spaces"
-        if re.match(r'\s', s):
-            return "\'" + s + "\'"
-        else:
-            return s
+        try:
+            if re.match(r'\s', s): return "\'" + str(s) + "\'"
+        except TypeError:
+            pass
+
+        return str(s)
 
     def define_attribute(self, name, atype, data=None):
         """Define a new attribute. atype has to be one
