@@ -58,39 +58,6 @@ class ARFF2H5(base.H5Converter):
         return item
 
 
-    def _get_type(self, values):
-        """Get data type of given values.
-
-        @param values: list of values to check
-        @type values: list
-        @return: data type to use for conversion
-        @rtype: numpy.int32/numpy.double/self.str_type
-        """
-        is_int = False
-        is_double = False
-        is_str = False
-
-        for v in values:
-            try:
-                if int(v) == v:
-                    is_int = True
-                else:
-                    is_int = False
-                    is_double = True
-            except ValueError:
-                is_int = False
-                is_double = False
-                is_str = True
-                break
-
-        if is_int:
-            return numpy.int32
-        elif is_double:
-            return numpy.double
-        else:
-            return self.str_type
-
-
     def get_data(self):
         data = {}
         names = []
@@ -108,7 +75,7 @@ class ARFF2H5(base.H5Converter):
 
         # conversion to proper data types
         for name, values in data.iteritems():
-            t = self._get_type(values)
+            t = self.get_datatype(values)
             data[name] = numpy.array(values).astype(t)
 
         return {'names':names, 'ordering':names, 'data':data}
@@ -122,31 +89,23 @@ class H52ARFF(base.H5Converter):
     http://mloss.org/software/view/163/
     """
 
-
     def run(self):
-        """Run the actual conversion process.
-
-        @param in_fname: filename to read data from
-        @type in_fname: string
-        @param out_fname: filename to write converted data to
-        @type out_fname: string
-        """
         a = arff.ArffFile()
-        h5 = h5py.File(self.fname_in, 'r')
+        data = self.get_data()
+        a.data = data['data']
+        a.attributes = data['names']
 
-        names = h5['/data_descr/names'][:]
+        h5 = h5py.File(self.fname_in, 'r')
         a.relation = h5.attrs['name']
         a.comment = h5.attrs['comment']
-        a.attributes = names
-        a.data = self.get_outdata(h5)
 
         # handle arff types
         if '/data_descr/types' in h5:
             types = h5['/data_descr/types'][:]
         else:
             types = []
-            for n in names:
-                if n.startswith('int') or n.startswith('double'):
+            for name in a.attributes:
+                if name.startswith('int') or name.startswith('double'):
                     types.append('numeric')
                 else:
                     types.append('string')

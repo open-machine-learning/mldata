@@ -2,12 +2,13 @@ import os, numpy, h5py
 from gettext import gettext as _
 from scipy.sparse import csc_matrix
 
-VERSION = '0.3'
+
 VERSION_MLDATA = '0'
 NUM_EXTRACT = 10
 COMPRESSION = None
 # white space seperator(s) is implicit
 ALLOWED_SEPERATORS = (',')
+
 
 class H5Converter(object):
     """Base converter class.
@@ -27,7 +28,13 @@ class H5Converter(object):
     str_type = h5py.new_vlen(numpy.str)
 
 
-    def __init__(self, fname_in, fname_out, seperator=None):
+    def __init__(self, fname_in, fname_out, seperator=None, remove_out=True):
+        """
+        @param seperator: seperator used to seperate examples
+        @type seperator: string
+        @param remove_out: if output file shall be removed before running.
+        @type remove_out: boolean
+        """
         self.fname_in = fname_in
         self.fname_out = fname_out
         self.labels_idx = None
@@ -35,8 +42,13 @@ class H5Converter(object):
 
         # sometimes it seems files are not properly overwritten when opened by
         # 'w' during run().
-        if os.path.exists(fname_out):
+        if remove_out and os.path.exists(fname_out):
             os.remove(fname_out)
+
+
+    def run(self):
+        """Run the actual conversion process."""
+        raise NotImplementedError('Abstract method!')
 
 
     def set_seperator(self, seperator):
@@ -63,23 +75,6 @@ class H5Converter(object):
         """
         return
         print 'WARNING: ' + msg
-
-############### from HDF5 #######################
-
-    def get_outdata(self, h5):
-        """Get data structure ready to be written to file.
-
-        @param h5: HDF5 file
-        @type h5: File object
-        @return: blob of data
-        @rtype: list of lists
-        """
-        if 'indices' in h5['/data']:
-            return self._get_sparse(h5)
-        elif 'label' in h5['/data']: # only labels + data
-            return self._get_label_data(h5)
-        else:
-            return self._get_multiple_sets(h5)
 
 
     def _get_sparse(self, h5):
@@ -195,10 +190,8 @@ class H5Converter(object):
         return data
 
 
-############### to HDF5 #######################
-
     def get_name(self):
-        """Get dataset name from given file.
+        """Get dataset name from non-HDF5 file
 
         @return: comment
         @rtype: string
@@ -208,7 +201,7 @@ class H5Converter(object):
 
 
     def get_comment(self):
-        """Get comment from given file.
+        """Get comment from non-HDF5 file.
 
         @return: comment
         @rtype: string
@@ -217,7 +210,7 @@ class H5Converter(object):
 
 
     def get_types(self):
-        """Get attribute/data types, if available.
+        """Get attribute/data types, if available, from non-HDF5 file
 
         @return: array of attribute/data types
         @rtype: numpy array
@@ -226,12 +219,31 @@ class H5Converter(object):
 
 
     def get_data(self):
-        """Get data from given file.
+        """Get in-memory data structure
+
+        If not overwritten by child class, it will retrieve data from the HDF
+        input file.
 
         @return: data names, ordering and examples
         @rtype: dict of: list of names, list of ordering and dict of examples
         """
-        raise NotImplementedError('Abstract method!')
+        h5 = h5py.File(self.fname_in, 'r')
+        data = {}
+
+        data['names'] = h5['/data_descr/names'][:]
+        data['ordering'] = h5['/data_descr/ordering'][:]
+        if 'indices' in h5['/data']:
+            data['data'] = self._get_sparse(h5)
+        elif 'label' in h5['/data']: # only labels + data
+            data['data'] = self._get_label_data(h5)
+            data['names'] = data['names'].tolist()
+            data['names'].insert(0, 'label')
+        else:
+            data['data'] = self._get_multiple_sets(h5)
+
+        h5.close()
+
+        return data
 
 
     def get_datatype(self, values):
@@ -289,7 +301,7 @@ class H5Converter(object):
                 path = 'int'
             elif t == numpy.double:
                 path = 'double'
-            else: # string
+            else: # string or matrix
                 if name.find('/') != -1: # / sep belongs to hdf5 path
                     path = name.replace('/', '+')
                     data['ordering'][data['ordering'].index(name)] = path
@@ -307,22 +319,22 @@ class H5Converter(object):
 
 
     def run(self):
-        """Run the actual conversion process."""
-        h5file = h5py.File(self.fname_out, 'w')
+        """Convert from input file to HDF5 file."""
+        h5 = h5py.File(self.fname_out, 'w')
 
-        h5file.attrs['name'] = self.get_name()
-        h5file.attrs['mldata'] = VERSION_MLDATA
-        h5file.attrs['comment'] = self.get_comment()
+        h5.attrs['name'] = self.get_name()
+        h5.attrs['mldata'] = VERSION_MLDATA
+        h5.attrs['comment'] = self.get_comment()
 
         data = self._get_merged(self.get_data())
         try:
-            group = h5file.create_group('/data')
+            group = h5.create_group('/data')
             for path, val in data['data'].iteritems():
                 group.create_dataset(path, data=val, compression=COMPRESSION)
             if 'label' in data and data['label'].size > 0:
                 group.create_dataset('/data/label', data=data['label'], compression=COMPRESSION)
 
-            group = h5file.create_group('/data_descr')
+            group = h5.create_group('/data_descr')
             names = numpy.array(data['names']).astype(self.str_type)
             if names.size > 0: # simple 'if names' throws exception if array
                 group.create_dataset('names', data=names, compression=COMPRESSION)
@@ -334,8 +346,9 @@ class H5Converter(object):
                 types = types.astype(self.str_type)
                 group.create_dataset('types', data=types, compression=COMPRESSION)
         except ValueError, e:
-            h5file.close()
+            h5.close()
             os.remove(self.fname_out)
             raise ValueError(e)
         else:
-            h5file.close()
+            h5.close()
+

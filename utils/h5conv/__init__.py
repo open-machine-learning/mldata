@@ -6,11 +6,26 @@ around HDF5.
 
 import h5py, numpy, os
 from scipy.sparse import csc_matrix
+from decimal import Decimal
 from h5_arff import ARFF2H5, H52ARFF
 from h5_libsvm import LibSVM2H5, H52LibSVM
 from h5_uci import UCI2H5
 from h5_csv import CSV2H5, H52CSV
 import base
+
+
+EPSILON = 1e-15
+TOH5 = {
+    'libsvm': LibSVM2H5,
+    'arff': ARFF2H5,
+    'uci': UCI2H5,
+    'csv': CSV2H5
+}
+FROMH5 = {
+    'libsvm': H52LibSVM,
+    'arff': H52ARFF,
+    'csv': H52CSV
+}
 
 
 
@@ -34,24 +49,55 @@ class HDF5():
         self.converter = None
 
 
-    def verify(self, in_fname, in_format, out_fname, out_format):
+    def verify(self, fname_h5, fname_other, format_other):
         """Verify that data in given filenames is the same.
 
-        FIXME: needs implementation
-
-        @param in_fname: name of in-file
-        @type in_fname: string
-        @param in_format: format of in-file
-        @type in_format: string
-        @param out_fname: name of out-file
-        @type out_fname: string
-        @param out_format: format of out-file
-        @type out_format: string
+        @param fname_h5: name of H5 file to verify
+        @type fname_h5: string
+        @param fname_other: name of file to verify against
+        @type fname_other: string
+        @param format_other: format of other file
+        @type format_other: string
+        @raises: ConversionError
         """
-        return True
-        raise ConversionError(
-            'Verification failed! Data of %s != %s' % (in_fname, out_fname)
-        )
+        h5 = FROMH5[format_other](fname_h5, fname_other, remove_out=False).get_data()['data']
+        other = TOH5[format_other](fname_other, fname_h5, remove_out=False).get_data()
+
+        # join individual vectors/matrices in other
+        # the need to construct this seems really inefficient - maybe should
+        # reconsider what get_data() returns. verification process quadruples
+        # execution time.
+        data = []
+        for name in other['ordering']:
+            if type(other['data'][name]) == numpy.matrix:
+                for row in other['data'][name]:
+                    data.append(row.tolist()[0])
+            else:
+                data.append(other['data'][name].tolist())
+        A = numpy.matrix(data).T
+        if 'label' in other:
+            data = []
+            for i in xrange(len(other['label'])):
+                # might be multiple labels
+                row = other['label'][i]
+                if isinstance(row, float):
+                    data.append(row)
+                else:
+                    data.append(row.tolist())
+                data[i].extend(A[i].tolist()[0])
+            other = data
+        else:
+            other = A.tolist()
+        del A
+
+        for i in xrange(len(h5)):
+            for j in xrange(len(h5[0])):
+                a = Decimal(str(h5[i][j]))
+                b = Decimal(str(other[i][j]))
+                if abs(a - b) > Decimal(str(EPSILON)):
+                    raise ConversionError(
+                        'Verification failed! Data of %s != %s' % (fname_h5, fname_other)
+                    )
 
 
     def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False):
@@ -71,36 +117,31 @@ class HDF5():
         @type verify: boolean
         """
         self.converter = None
-        try:
-            if out_format == 'h5':
-                if in_format == 'libsvm':
-                    self.converter = LibSVM2H5(in_fname, out_fname)
-                elif in_format == 'arff':
-                    self.converter = ARFF2H5(in_fname, out_fname)
-                elif in_format == 'uci':
-                    self.converter = UCI2H5(in_fname, out_fname)
-                elif in_format == 'csv':
-                    self.converter = CSV2H5(in_fname, out_fname)
-            elif in_format == 'h5':
-                if out_format == 'arff':
-                    self.converter = H52ARFF(in_fname, out_fname)
-                elif out_format == 'csv':
-                    self.converter = H52CSV(in_fname, out_fname)
-                elif out_format == 'libsvm':
-                    self.converter = H52LibSVM(in_fname, out_fname)
+#        try:
+        if out_format == 'h5':
+            self.converter = TOH5[in_format](in_fname, out_fname)
+            fname_h5 = out_fname
+            fname_other = in_fname
+            format_other = in_format
+        elif in_format == 'h5':
+            self.converter = FROMH5[out_format](in_fname, out_fname)
+            fname_h5 = in_fname
+            fname_other = out_fname
+            format_other = out_format
 
-            if not self.converter:
-                raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
+        if not self.converter:
+            raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
 
-            if seperator:
-                self.converter.set_seperator(seperator)
+        if seperator:
+            self.converter.set_seperator(seperator)
 
-            self.converter.run()
-        except Exception, e:
-            raise ConversionError(e)
+        self.converter.run()
 
         if verify:
-            self.verify(in_fname, in_format, out_fname, out_format)
+            self.verify(fname_h5, fname_other, format_other)
+
+#        except Exception, e:
+#            raise ConversionError(e)
 
 
 

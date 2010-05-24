@@ -6,8 +6,12 @@ COMMENT = '# '
 SEPERATOR = ','
 
 class CSV2H5(base.H5Converter):
-    """Convert a file from CSV to HDF5 (spec of mldata.org).
-    """
+    """Convert a file from CSV to HDF5 (spec of mldata.org)."""
+
+    def __init__(self, *args, **kwargs):
+        super(CSV2H5, self).__init__(*args, **kwargs)
+        self.seperator = SEPERATOR # maybe more flexible in the future
+
 
     def get_data(self):
         data = {}
@@ -39,30 +43,26 @@ class CSV2H5(base.H5Converter):
 
 
 
-
 class H52CSV(base.H5Converter):
     """Convert a file from HDF5 (spec of mldata.org) to CSV."""
 
-    def run(self):
-        """Run the actual conversion process."""
+    def __init__(self, *args, **kwargs):
+        super(H52CSV, self).__init__(*args, **kwargs)
         self.seperator = SEPERATOR # maybe more flexible in the future
-        h5 = h5py.File(self.fname_in, 'r')
-        csv = open(self.fname_out, 'w')
 
-#        csv.write(COMMENT + h5.attrs['name'] + "\n")
-#        csv.write(COMMENT + "MLDATA Version " + h5.attrs['mldata'] + ", see http://mldata.org\n")
-#        csv.write(COMMENT + h5.attrs['comment'] + "\n")
+
+
+    def run(self):
+        csv = open(self.fname_out, 'w')
         try:
-            data = self.get_outdata(h5)
-            for line in data:
+            data = self.get_data()
+            for line in data['data']:
                 csv.write(self.seperator.join(line) + "\n")
         except KeyError, e:
-            h5.close()
             csv.close()
             os.remove(self.fname_out)
             raise KeyError(e)
         else:
-            h5.close()
             csv.close()
 
         return True

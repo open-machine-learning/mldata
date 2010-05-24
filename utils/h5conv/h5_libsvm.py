@@ -184,24 +184,22 @@ class H52LibSVM(base.H5Converter):
     """Convert a file from LibSVM to HDF5."""
 
     def run(self):
-        """Run the actual conversion process."""
-        h5 = h5py.File(self.fname_in, 'r')
         libsvm = open(self.fname_out, 'w')
-
         try:
-            data = self.get_outdata(h5)
-            for line in data:
+            data = self.get_data()
+            for line in data['data']:
                 out = []
                 for i in xrange(len(line)):
-                    out.append(str(i) + ':' + str(line[i]))
+                    if i == 0: # label
+                        out.append(str(line[i]))
+                    else:
+                        out.append(str(i) + ':' + str(line[i]))
                 libsvm.write(" ".join(out) + "\n")
         except KeyError, e:
-            h5.close()
             libsvm.close()
             os.remove(self.fname_out)
             raise KeyError(e)
         else:
-            h5.close()
             libsvm.close()
 
         return True
