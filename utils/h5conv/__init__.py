@@ -89,13 +89,18 @@ class HDF5():
         # reconsider what get_data() returns. verification process quadruples
         # execution time.
         data = []
-        for name in other['ordering']:
-            if type(other['data'][name]) == numpy.matrix:
-                for row in other['data'][name]:
-                    data.append(row.tolist()[0])
-            else:
-                data.append(other['data'][name].tolist())
-        other['data'] = numpy.matrix(data).T.tolist()
+        if 'indptr' in other['data']: # sparse:
+            other['data'] = csc_matrix(
+                (other['data']['data'], other['data']['indices'], other['data']['indptr'])
+                ).todense().T.tolist()
+        else:
+            for name in other['ordering']:
+                if type(other['data'][name]) == numpy.matrix:
+                    for row in other['data'][name]:
+                        data.append(row.tolist()[0])
+                else:
+                    data.append(other['data'][name].tolist())
+            other['data'] = numpy.matrix(data).T.tolist()
 
         if 'label' in h5:
             # there must be a transposition somewhere too much...
@@ -107,7 +112,7 @@ class HDF5():
         if not self._compare(h5['data'], other['data']):
             raise ConversionError(
                 'Verification failed! Data of %s != %s' % (fname_h5, fname_other)
-                )
+            )
 
 
     def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False):
@@ -154,7 +159,7 @@ class HDF5():
                         'Cannot verify UCI data format, %s!' % (fname_other))
                 self.verify(fname_h5, fname_other, format_other)
         except Exception, e:
-            raise ConversionError(e)
+            raise ConversionError(str(e))
 
     def is_binary(self, fname):
         """Return true if the given filename is binary.

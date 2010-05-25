@@ -85,7 +85,12 @@ class H5Converter(object):
         @return: blob of data
         @rtype: list of lists
         """
-        labels = h5['/data/label'][:]
+        return (
+            numpy.matrix(h5['/data/label']).T.tolist(),
+            csc_matrix(
+                (h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])
+            ).todense().T.tolist()
+        )
         A = csc_matrix((h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])).todense().T
         data = []
 
@@ -237,7 +242,7 @@ class H5Converter(object):
         data['names'] = h5['/data_descr/names'][:]
         data['ordering'] = h5['/data_descr/ordering'][:]
         if 'indices' in h5['/data']:
-            data['data'] = self._get_sparse(h5)
+            (data['label'], data['data']) = self._get_sparse(h5)
         elif 'label' in h5['/data']: # only labels + data
             (data['label'], data['data']) = self._get_label_data(h5)
             data['names'] = data['names'].tolist()
