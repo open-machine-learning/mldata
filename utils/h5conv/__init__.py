@@ -156,7 +156,6 @@ class HDF5():
         except Exception, e:
             raise ConversionError(e)
 
-v
     def is_binary(self, fname):
         """Return true if the given filename is binary.
 
