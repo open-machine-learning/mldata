@@ -426,7 +426,12 @@ class Slurper(object):
 
         self.progress('Trying to convert to HDF5 (%s).' % (fname_h5), 5)
         try:
-            self.h5.convert(fname_orig, obj.format, fname_h5, 'h5', seperator)
+            verify = True
+            if obj.format == 'uci':
+                verify = False
+            self.h5.convert(
+                fname_orig, obj.format, fname_h5, 'h5', seperator,
+                verify=verify)
         except h5conv.ConversionError:
             self.problematic.append(obj.name + ' (' + str(obj.id) + ')')
             self.progress('Error converting to HDF5.', 6)

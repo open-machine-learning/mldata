@@ -1215,7 +1215,10 @@ def _data_approve(obj, fname_orig, format):
     fname_h5 = h5.get_filename(fname_orig)
 
     if format != 'h5':
-        h5.convert(fname_orig, format, fname_h5, 'h5', obj.seperator, True)
+        verify = True
+        if format == 'uci':
+            verify = False
+        h5.convert(fname_orig, format, fname_h5, 'h5', obj.seperator, verify=verify)
 
     if os.path.isfile(fname_h5):
         (obj.num_instances, obj.num_attributes) = h5.get_num_instattr(fname_h5)
