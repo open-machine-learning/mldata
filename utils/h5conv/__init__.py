@@ -6,7 +6,7 @@ around HDF5.
 
 import h5py, numpy, os
 from scipy.sparse import csc_matrix
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from h5_arff import ARFF2H5, H52ARFF
 from h5_libsvm import LibSVM2H5, H52LibSVM
 from h5_uci import UCI2H5
@@ -49,6 +49,27 @@ class HDF5():
         self.converter = None
 
 
+    def _compare(self, A, B):
+        """Compare given lists A and B.
+
+        @param A: list A to compare
+        @type A: list of list
+        @param B: list B to compare
+        @type B: list of list
+        """
+        for i in xrange(len(A)):
+            for j in xrange(len(A[0])):
+                try:
+                    a = Decimal(str(A[i][j]))
+                    b = Decimal(str(B[i][j]))
+                    if abs(a - b) > Decimal(str(EPSILON)):
+                        return False
+                except InvalidOperation: # string
+                    if str(A[i][j]) != str(B[i][j]):
+                        return False
+        return True
+
+
     def verify(self, fname_h5, fname_other, format_other):
         """Verify that data in given filenames is the same.
 
@@ -60,7 +81,7 @@ class HDF5():
         @type format_other: string
         @raises: ConversionError
         """
-        h5 = FROMH5[format_other](fname_h5, fname_other, remove_out=False).get_data()['data']
+        h5 = FROMH5[format_other](fname_h5, fname_other, remove_out=False).get_data()
         other = TOH5[format_other](fname_other, fname_h5, remove_out=False).get_data()
 
         # join individual vectors/matrices in other
@@ -74,30 +95,19 @@ class HDF5():
                     data.append(row.tolist()[0])
             else:
                 data.append(other['data'][name].tolist())
-        A = numpy.matrix(data).T
-        if 'label' in other:
-            data = []
-            for i in xrange(len(other['label'])):
-                # might be multiple labels
-                row = other['label'][i]
-                if isinstance(row, float):
-                    data.append(row)
-                else:
-                    data.append(row.tolist())
-                data[i].extend(A[i].tolist()[0])
-            other = data
-        else:
-            other = A.tolist()
-        del A
+        other['data'] = numpy.matrix(data).T.tolist()
 
-        for i in xrange(len(h5)):
-            for j in xrange(len(h5[0])):
-                a = Decimal(str(h5[i][j]))
-                b = Decimal(str(other[i][j]))
-                if abs(a - b) > Decimal(str(EPSILON)):
-                    raise ConversionError(
-                        'Verification failed! Data of %s != %s' % (fname_h5, fname_other)
+        if 'label' in h5:
+            # there must be a transposition somewhere too much...
+            if not self._compare(numpy.matrix(h5['label']).T.tolist(), other['label']):
+                raise ConversionError(
+                    'Verification failed! Labels of %s != %s' % (fname_h5, fname_other)
                     )
+
+        if not self._compare(h5['data'], other['data']):
+            raise ConversionError(
+                'Verification failed! Data of %s != %s' % (fname_h5, fname_other)
+                )
 
 
     def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False):
@@ -117,34 +127,36 @@ class HDF5():
         @type verify: boolean
         """
         self.converter = None
-#        try:
-        if out_format == 'h5':
-            self.converter = TOH5[in_format](in_fname, out_fname)
-            fname_h5 = out_fname
-            fname_other = in_fname
-            format_other = in_format
-        elif in_format == 'h5':
-            self.converter = FROMH5[out_format](in_fname, out_fname)
-            fname_h5 = in_fname
-            fname_other = out_fname
-            format_other = out_format
+        try:
+            if out_format == 'h5':
+                self.converter = TOH5[in_format](in_fname, out_fname)
+                fname_h5 = out_fname
+                fname_other = in_fname
+                format_other = in_format
+            elif in_format == 'h5':
+                self.converter = FROMH5[out_format](in_fname, out_fname)
+                fname_h5 = in_fname
+                fname_other = out_fname
+                format_other = out_format
 
-        if not self.converter:
-            raise ConversionError('Unknown conversion pair %s to %s!' % (in_format, out_format))
+            if not self.converter:
+                raise ConversionError(
+                    'Unknown conversion pair %s to %s!' % (in_format, out_format))
 
-        if seperator:
-            self.converter.set_seperator(seperator)
+            if seperator:
+                self.converter.set_seperator(seperator)
 
-        self.converter.run()
+            self.converter.run()
 
-        if verify:
-            self.verify(fname_h5, fname_other, format_other)
+            if verify:
+                if format_other == 'uci':
+                    raise ConversionError(
+                        'Cannot verify UCI data format, %s!' % (fname_other))
+                self.verify(fname_h5, fname_other, format_other)
+        except Exception, e:
+            raise ConversionError(e)
 
-#        except Exception, e:
-#            raise ConversionError(e)
-
-
-
+v
     def is_binary(self, fname):
         """Return true if the given filename is binary.
 

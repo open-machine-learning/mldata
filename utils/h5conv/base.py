@@ -107,9 +107,13 @@ class H5Converter(object):
         @return: blob of data
         @rtype: list of lists
         """
+        return (
+            numpy.matrix(h5['/data/label']).T.tolist(),
+            numpy.matrix(h5['/data/data']).T.tolist()
+        )
         data = []
         A = numpy.matrix(h5['/data/data']).T
-        labels = h5['/data/label'][:]
+        labels = numpy.matrix(h5['/data/label'][:])
         num_lab = len(labels)
 
         if len(labels[0]) == 1:
@@ -235,7 +239,7 @@ class H5Converter(object):
         if 'indices' in h5['/data']:
             data['data'] = self._get_sparse(h5)
         elif 'label' in h5['/data']: # only labels + data
-            data['data'] = self._get_label_data(h5)
+            (data['label'], data['data']) = self._get_label_data(h5)
             data['names'] = data['names'].tolist()
             data['names'].insert(0, 'label')
         else:
@@ -331,7 +335,7 @@ class H5Converter(object):
             group = h5.create_group('/data')
             for path, val in data['data'].iteritems():
                 group.create_dataset(path, data=val, compression=COMPRESSION)
-            if 'label' in data and data['label'].size > 0:
+            if 'label' in data and len(data['label']) > 0:
                 group.create_dataset('/data/label', data=data['label'], compression=COMPRESSION)
 
             group = h5.create_group('/data_descr')
