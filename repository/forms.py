@@ -12,6 +12,7 @@ from repository.widgets import *
 from tagging.forms import TagField
 from settings import TAG_SPLITSTR
 
+attrs_checkbox = { 'class': 'checkbox' }
 
 class RepositoryForm(forms.ModelForm):
     """Base class for item types Data, Task and Solution.
@@ -20,7 +21,8 @@ class RepositoryForm(forms.ModelForm):
     @type tags: tagging.forms.TagField
     """
     tags = TagField(widget=AutoCompleteTagInput(), required=False)
-    keep_private = BooleanField(required=False)
+    keep_private = BooleanField(
+        widget=forms.CheckboxInput(attrs=attrs_checkbox), required=False)
 
 
     def clean_name(self):
