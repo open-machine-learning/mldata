@@ -101,3 +101,5 @@ textarea {border: 1px solid #0081C7; width:100%}
 textarea:focus {border: 2px solid #006095;}
 select {border: 1px solid #0081C7; width:100%}
 select:focus {border: 2px solid #006095;}
+
+#uploadprogressbar { display: none; }

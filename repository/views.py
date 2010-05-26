@@ -7,24 +7,27 @@ Define the views of app Repository
 @type NUM_INDEX_PAGE: integer
 """
 
-import datetime, os, random, subprocess
+import datetime, os, sys, random, subprocess, uuid
 from django.core import serializers
-from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from django.core.servers.basehttp import FileWrapper
+from django.core.cache import cache
 from django.core.files import File
 from django.core.mail import mail_admins
-from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.servers.basehttp import FileWrapper
 from django.db import IntegrityError, transaction
-from django.utils.translation import ugettext as _
-from django.forms.util import ErrorDict
 from django.db.models import Q
-from tagging.models import Tag, TaggedItem
-from tagging.utils import calculate_cloud
+from django.forms.util import ErrorDict
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, HttpResponseServerError, Http404
+from django.shortcuts import render_to_response, get_object_or_404
+from django.utils import simplejson
+from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
+from tagging.models import Tag, TaggedItem
+from tagging.utils import calculate_cloud
 from utils import h5conv
+from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
 
 NUM_HISTORY_PAGE = 20
@@ -586,6 +589,8 @@ def _new(request, klass):
 
     formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
+        request.upload_handlers.insert(0,
+            UploadProgressCachedHandler(request=request))
         form = formfunc(request.POST, request.FILES, request=request)
 
         # manual validation coz it's required for new, but not edited Data
@@ -639,6 +644,7 @@ def _new(request, klass):
 
     info_dict = {
         'klass': klass.__name__,
+        'uuid': uuid.uuid4(), # for upload progress bar
         'url_new': url_new,
         'form': form,
         'request': request,
@@ -1445,6 +1451,10 @@ def publication_edit(request):
     return HttpResponseRedirect(reverse('repository_index'))
 
 
+#############################################################################
+### JSON responses
+#############################################################################
+
 def publication_get(request, id):
     """AJAX: Get publication specified by id.
 
@@ -1462,3 +1472,25 @@ def publication_get(request, id):
         data = '[{"pk": 0, "model": "repository.publication", "fields": {"content": "", "title": ""}}]'
 
     return HttpResponse(data, mimetype='text/plain')
+
+
+def upload_progress(request):
+    """Return JSON object with information about the progress of an upload.
+
+    @param request: request data
+    @type request: Django request
+    @return: progress information
+    @rtype: Django response
+    """
+    progress_id = ''
+    if 'X-Progress-ID' in request.GET:
+        progress_id = request.GET['X-Progress-ID']
+    elif 'X-Progress-ID' in request.META:
+        progress_id = request.META['X-Progress-ID']
+    if progress_id:
+        cache_key = "%s_%s" % (request.META['REMOTE_ADDR'], progress_id)
+        data = cache.get(cache_key)
+        return HttpResponse(simplejson.dumps(data))
+    else:
+        return HttpResponseServerError('Server Error: You must provide X-Progress-ID header or query param.')
+

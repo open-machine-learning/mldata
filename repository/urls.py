@@ -50,4 +50,5 @@ urlpatterns = patterns('',
 #    (r'^score/download/(?P<id>\d+)/$', views.score_download),
     (r'^publication/edit/$', views.publication_edit),
     (r'^publication/get/(?P<id>\d+)/$', views.publication_get),
+    (r'^upload_progress/$', views.upload_progress),
 )

@@ -27,7 +27,7 @@ if PRODUCTION:
     DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
 else:
     DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-    DATABASE_NAME = 'mldata.db'             # Or path to database file if using sqlite3.
+    DATABASE_NAME = '/home/shensche/proj/mldata/website/mldata/mldata.db' # Or path to database file if using sqlite3.
 
 DATABASE_USER = 'mldata'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
@@ -73,7 +73,7 @@ USE_I18N = True
 if PRODUCTION:
     MEDIA_ROOT = '/home/mldata/private'
 else:
-    MEDIA_ROOT = 'media/private'
+    MEDIA_ROOT = '/home/shensche/proj/mldata/website/mldata/media/private'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -91,6 +91,11 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL='/'
 ACCOUNT_ACTIVATION_DAYS=1
 DEFAULT_FROM_EMAIL='mldata@mldata.org'
+
+# caching - necessary for file upload progress bar
+# backends dbcache or locmemcache don't work
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '67-0bxcy%$$&1%=9@1(@g0xxgsx)0jf^i=5@lf!i44ivp$k)mk'

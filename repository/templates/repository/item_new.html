@@ -7,15 +7,50 @@
 {% block extrahead %}
 {% include "autocomplete.html" %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
+{% ifequal klass "Data" %}<script type="text/javascript" src="/media/js/jquery/jquery.progressbar.min.js"></script>{% endifequal %}
 <script type="text/javascript">
 $(function() {
+	$('#tabs').tabs();
+
+{% ifequal klass "Data" %}
+	$("#uploadprogressbar").progressBar();
+	$('#form-new').submit(function(){
+		if ($.data(this, 'submitted')) return false; // prevent multiple submits
+
+		if (!$('#id_keep_private').is(':checked')) {
+			res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+			if (!res) { return false; }
+		}
+
+		var freq = 1000; // freqency of update in ms
+		var uuid = '{{ uuid }}'; // id for this upload so we can fetch progress info.
+		var progress_url = '{% url repository.views.upload_progress %}'; // ajax view serving progress info
+		// Append X-Progress-ID uuid form action
+		this.action += (this.action.indexOf('?') == -1 ? '?' : '&') + 'X-Progress-ID=' + uuid;
+
+		$("#uploadprogressbar").fadeIn();
+		function update_progress_info() {
+			$.getJSON(progress_url, {'X-Progress-ID': uuid}, function(data, status){
+				if (data) {
+					var l = parseInt(data.length);
+					var tot = parseInt(data.uploaded);
+					var perc = (tot / l) * (100.00);
+					$("#uploadprogressbar").progressBar(perc);
+				}
+				window.setTimeout(update_progress_info, freq);
+			});
+		};
+		window.setTimeout(update_progress_info, freq);
+
+		$.data(this, 'submitted', true); // mark form as submitted.
+	});
+{% else %}
 	$('#form-new').submit(function() {
 		if (!$('#id_keep_private').is(':checked')) {
 			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
 		}
 	});
-
-	$('#tabs').tabs();
+{% endifequal %}
 });
 </script>
 {% endblock %}
@@ -103,5 +138,10 @@ $(function() {
 
 		<input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}
 	</form>
+
+{% ifequal klass "Data" %}
+	<br />
+	<span class="progressbar" id="uploadprogressbar">0%</span>
+{% endifequal %}
 </div><!-- /in -->
 {% endblock %}
