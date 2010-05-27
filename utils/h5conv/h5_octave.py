@@ -17,12 +17,19 @@ class OCTAVE2H5(base.H5Converter):
 
 
     def _check_header(self):
+	"""evidence of octave conformity (inactiv)
+	
+	"""
+	return True
+	"""
 	self.octf.seek(0)
 	header=self.octf.readline()
-	if header.startswith('# Created by Octave'):
+	if header.startswith('# Created by '):
 		return True
 	else:
+	
 		return False
+	"""
 
     def _next_attr(self):
         """Returns the next atribute in the octave file
@@ -81,7 +88,8 @@ class OCTAVE2H5(base.H5Converter):
 
 	# header check
 	if not self._check_header():
-        	return {'names':names, 'ordering':names, 'data':data}
+		raise ConversionError('Header check failed')
+        	return {'names':[], 'ordering':names, 'data':data}
 
 	attr=self._next_attr()
 	while attr['name']!='':
@@ -89,11 +97,13 @@ class OCTAVE2H5(base.H5Converter):
 	        	data[attr['name']]=attr['data']
        			names.append(attr['name'])  
 		attr=self._next_attr()
+	if (data.keys==[]):
+		raise ConversionError('empty conversion')
         return {'names':[], 'ordering':names, 'data':data}
 
 
 
-class H52OCTAVE():
+class H52OCTAVE(base.H5Converter):
     """Convert a file from HDF5 (spec of mldata.org) to Octave file format
 
 
@@ -104,12 +114,8 @@ class H52OCTAVE():
 
     """
 
-    def __init__(self, fname_in, fname_out):
-        self.fname_in = fname_in
-        self.fname_out = fname_out
-
     def _oct_header(self):
-	return '# Created by Octave 3.0.1, Thu May 1 0:0:0 2010 CEST <.@.>\n'
+	return '# Created by mldata.org for Octave 3.0.1\n'
     
     def _print_meta(self,attr,name):
 	"""Return a string of metainformation

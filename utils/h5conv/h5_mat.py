@@ -27,7 +27,7 @@ class MAT2H5(base.H5Converter):
 
 
 
-class H52MAT():
+class H52MAT(base.H5Converter):
     """Convert a file from HDF5 (spec of mldata.org) to MAT
 
 
@@ -37,11 +37,6 @@ class H52MAT():
     @type fname_out: string
 
     """
-
-    def __init__(self, fname_in, fname_out):
-        self.fname_in = fname_in
-        self.fname_out = fname_out
-
 
     def run(self):
         """Run the actual conversion process.
