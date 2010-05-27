@@ -343,7 +343,7 @@ def _sendfile(fileobj, ctype):
 #    response = HttpResponse(wrapper, content_type='application/octet-stream')
     # not sure if this alternative is a memory hog...
     response = HttpResponse()
-    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Type'] = ctype
     try:
         response['Content-Length'] = fileobj.size
         response['Content-Disposition'] = 'attachment; filename=' +\
@@ -414,7 +414,7 @@ def _download(request, klass, id, type='plain'):
         fileobj = File(open(fname_export, 'r'))
         ctype = 'application/xml'
 
-    elif type in ('csv', 'arff', 'libsvm'):
+    elif type in ('csv', 'arff', 'libsvm', 'matlab', 'octave'):
         if not obj.file: # maybe no file attached to this item
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
@@ -428,7 +428,10 @@ def _download(request, klass, id, type='plain'):
                     'Failed conversion of %s to %s' % (fname_h5, type), str(e))
                 raise Http404
         fileobj = File(open(fname_export, 'r'))
-        ctype = 'application/' + type
+        if type == 'matlab':
+            ctype = 'application/x-matlab'
+        else:
+            ctype = 'application/' + type
 
     if not fileobj: # something went wrong
         raise Http404
@@ -492,6 +495,32 @@ def data_download_libsvm(request, id):
     @rtype: Django response
     """
     return _download(request, Data, id, 'libsvm')
+
+
+def data_download_matlab(request, id):
+    """Download Matlab file relating to item given by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @return: download Matlab file response
+    @rtype: Django response
+    """
+    return _download(request, Data, id, 'matlab')
+
+
+def data_download_octave(request, id):
+    """Download Octave file relating to item given by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the relating item
+    @type id: integer
+    @return: download Octave file response
+    @rtype: Django response
+    """
+    return _download(request, Data, id, 'octave')
 
 
 def _view(request, klass, slug_or_id, version=None):

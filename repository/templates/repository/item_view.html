@@ -111,6 +111,8 @@ $(function() {
 					<a href="{% url repository.views.data_download_csv object.id %}">{% trans "CSV" %}</a>
 					<a href="{% url repository.views.data_download_arff object.id %}">{% trans "ARFF" %}</a>
 					<a href="{% url repository.views.data_download_libsvm object.id %}">{% trans "LibSVM" %}</a>
+					<a href="{% url repository.views.data_download_matlab object.id %}">{% trans "Matlab" %}</a>
+					<a href="{% url repository.views.data_download_octave object.id %}">{% trans "Octave" %}</a>
 				{% else %}
 					<a href="{% url repository.views.data_download object.id %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 				{% endif %}
