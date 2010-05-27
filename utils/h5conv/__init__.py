@@ -463,7 +463,8 @@ class HDF5():
 
         data = self._get_splitdata(fnames)
         for k,v in data.iteritems():
-            group.create_dataset(k, data=v, compression=base.COMPRESSION)
+	    if v:
+            	group.create_dataset(k, data=v, compression=base.COMPRESSION)
 
         h5file.attrs['name'] = name
         h5file.attrs['mldata'] = base.VERSION_MLDATA
