@@ -11,6 +11,8 @@ from h5_arff import ARFF2H5, H52ARFF
 from h5_libsvm import LibSVM2H5, H52LibSVM
 from h5_uci import UCI2H5
 from h5_csv import CSV2H5, H52CSV
+from h5_mat import MAT2H5, H52MAT
+from h5_octave import OCTAVE2H5, H52OCTAVE
 import base
 
 
@@ -19,12 +21,16 @@ TOH5 = {
     'libsvm': LibSVM2H5,
     'arff': ARFF2H5,
     'uci': UCI2H5,
-    'csv': CSV2H5
+    'csv': CSV2H5,
+    'mat': MAT2H5,
+    'octave' : OCTAVE2H5
 }
 FROMH5 = {
     'libsvm': H52LibSVM,
     'arff': H52ARFF,
-    'csv': H52CSV
+    'csv': H52CSV,
+    'mat': H52MAT,
+    'octave': H52OCTAVE
 }
 
 
