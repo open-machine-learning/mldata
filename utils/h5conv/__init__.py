@@ -138,34 +138,34 @@ class HDF5():
         @type verify: boolean
         """
         self.converter = None
-#        try:
-        if out_format == 'h5':
-            self.converter = TOH5[in_format](in_fname, out_fname)
-            fname_h5 = out_fname
-            fname_other = in_fname
-            format_other = in_format
-        elif in_format == 'h5':
-            self.converter = FROMH5[out_format](in_fname, out_fname)
-            fname_h5 = in_fname
-            fname_other = out_fname
-            format_other = out_format
+        try:
+            if out_format == 'h5':
+                self.converter = TOH5[in_format](in_fname, out_fname)
+                fname_h5 = out_fname
+                fname_other = in_fname
+                format_other = in_format
+            elif in_format == 'h5':
+                self.converter = FROMH5[out_format](in_fname, out_fname)
+                fname_h5 = in_fname
+                fname_other = out_fname
+                format_other = out_format
 
-        if not self.converter:
-            raise ConversionError(
-                'Unknown conversion pair %s to %s!' % (in_format, out_format))
-
-        if seperator:
-            self.converter.set_seperator(seperator)
-
-        self.converter.run()
-
-        if verify:
-            if format_other == 'uci':
+            if not self.converter:
                 raise ConversionError(
-                    'Cannot verify UCI data format, %s!' % (fname_other))
-            self.verify(fname_h5, fname_other, format_other)
-#        except Exception, e:
-#            raise ConversionError(str(e))
+                    'Unknown conversion pair %s to %s!' % (in_format, out_format))
+
+            if seperator:
+                self.converter.set_seperator(seperator)
+
+            self.converter.run()
+
+            if verify:
+                if format_other == 'uci':
+                    raise ConversionError(
+                        'Cannot verify UCI data format, %s!' % (fname_other))
+                self.verify(fname_h5, fname_other, format_other)
+        except Exception, e:
+            raise ConversionError(str(e))
 
     def is_binary(self, fname):
         """Return true if the given filename is binary.

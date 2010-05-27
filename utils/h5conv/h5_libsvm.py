@@ -157,7 +157,7 @@ class LibSVM2H5(base.H5Converter):
         names = []
         for i in xrange(A.shape[0]):
             try:
-                row = A[i].todense().tolist()[0]
+                row = A.todense()[i].tolist()[0]
             except AttributeError: # isn't sparse
                 row = A[i].tolist()[0]
 
