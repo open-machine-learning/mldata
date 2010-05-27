@@ -233,7 +233,7 @@ class HDF5():
             except IndexError:
                 pass
             return suffix
-        elif suffix in ('mat'):
+        elif suffix in ('mat', 'm'):
             return 'matlab'
         elif suffix in ('octave', 'oct'):
             return 'octave'
