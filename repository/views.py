@@ -7,7 +7,7 @@ Define the views of app Repository
 @type NUM_INDEX_PAGE: integer
 """
 
-import datetime, os, sys, random, subprocess, uuid
+import datetime, os, sys, random, subprocess, uuid, traceback
 from django.core import serializers
 from django.core.cache import cache
 from django.core.files import File
@@ -424,8 +424,9 @@ def _download(request, klass, id, type='plain'):
             try:
                 h.convert(fname_h5, 'h5', fname_export, type)
             except h5conv.ConversionError, e:
-                mail_admins(
-                    'Failed conversion of %s to %s' % (fname_h5, type), str(e))
+                subject = 'Failed conversion of %s to %s' % (fname_h5, type)
+                body = traceback.format_exc() + "\n" + str(e)
+                mail_admins(subject, body)
                 raise Http404
         fileobj = File(open(fname_export, 'r'))
         if type == 'matlab':
@@ -1289,10 +1290,10 @@ def _data_conversion_error(request, obj, error):
 
     url = 'http://' + request.META['HTTP_HOST'] + reverse(
         data_view_slug, args=[obj.slug])
-    subject = 'Conversion failed: ' + url
+    subject = 'Failed conversion to HDF5: %s' % url
     body = "Hi admin!\n\n" +\
         'URL: ' + url + "\n\n" +\
-        str(error)
+        traceback.format_exc() + "\n" + str(error)
     mail_admins(subject, body)
 
 

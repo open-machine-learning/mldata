@@ -4,7 +4,7 @@ around HDF5.
 """
 
 
-import h5py, numpy, os
+import h5py, numpy, os, sys
 from scipy.sparse import csc_matrix
 from decimal import Decimal, InvalidOperation
 from h5_arff import ARFF2H5, H52ARFF
@@ -153,23 +153,26 @@ class HDF5():
                 fname_h5 = in_fname
                 fname_other = out_fname
                 format_other = out_format
+        except KeyError:
+            raise ConversionError(
+                'Unknown conversion pair %s to %s!' % (in_format, out_format))
+        except Exception, e: # reformat all other exceptions to ConversionError
+            raise ConversionError, ConversionError(e), sys.exc_info()[2]
 
-            if not self.converter:
-                raise ConversionError(
-                    'Unknown conversion pair %s to %s!' % (in_format, out_format))
+        if seperator:
+            self.converter.set_seperator(seperator)
 
-            if seperator:
-                self.converter.set_seperator(seperator)
-
+        try:
             self.converter.run()
-
             if verify:
                 if format_other == 'uci':
                     raise ConversionError(
                         'Cannot verify UCI data format, %s!' % (fname_other))
                 self.verify(fname_h5, fname_other, format_other)
-        except Exception, e:
-            raise ConversionError(str(e))
+        except Exception, e: # reformat all exceptions to ConversionError
+            raise ConversionError, ConversionError(e), sys.exc_info()[2]
+
+
 
     def is_binary(self, fname):
         """Return true if the given filename is binary.
