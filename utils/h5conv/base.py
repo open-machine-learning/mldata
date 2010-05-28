@@ -335,8 +335,8 @@ class H5Converter(object):
         h5.attrs['mldata'] = VERSION_MLDATA
         h5.attrs['comment'] = self.get_comment()
 
-        data = self._get_merged(self.get_data())
         try:
+            data = self._get_merged(self.get_data()) # catch memory error
             group = h5.create_group('/data')
             for path, val in data['data'].iteritems():
                 group.create_dataset(path, data=val, compression=COMPRESSION)
@@ -354,10 +354,10 @@ class H5Converter(object):
             if types.size > 0:
                 types = types.astype(self.str_type)
                 group.create_dataset('types', data=types, compression=COMPRESSION)
-        except ValueError, e:
+        except: # just do some clean-up
             h5.close()
             os.remove(self.fname_out)
-            raise ValueError(e)
+            raise
         else:
             h5.close()
 
