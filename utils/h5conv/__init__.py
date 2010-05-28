@@ -6,7 +6,7 @@ around HDF5.
 
 import h5py, numpy, os, sys
 from scipy.sparse import csc_matrix
-from decimal import Decimal, InvalidOperation
+#from decimal import Decimal, InvalidOperation
 from h5_arff import ARFF2H5, H52ARFF
 from h5_libsvm import LibSVM2H5, H52LibSVM
 from h5_uci import UCI2H5
@@ -63,20 +63,24 @@ class HDF5():
         @param B: list B to compare
         @type B: list of list
         """
-        eps_dec = Decimal(str(EPSILON))
+#        eps_dec = Decimal(str(EPSILON))
         xrange_A0 = xrange(len(A[0]))
         for i in xrange(len(A)):
             Ai = A[i]
             Bi = B[i]
             for j in xrange_A0:
                 try:
-                    a = Decimal(str(Ai[j]))
-                    b = Decimal(str(Bi[j]))
-                    if abs(a - b) > eps_dec:
+#                    a = Decimal(str(Ai[j]))
+#                    b = Decimal(str(Bi[j]))
+#                    if abs(a - b) > eps_dec:
+                    if abs(Ai[j] - Bi[j]) > EPSILON:
                         return False
-                except InvalidOperation: # string
-                    if str(Ai[j]) != str(Bi[j]):
+                except TypeError: #string
+                    if Ai[j] != Bi[j]:
                         return False
+#                except InvalidOperation: # string
+#                    if str(Ai[j]) != str(Bi[j]):
+#                        return False
         return True
 
 
