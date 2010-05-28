@@ -22,14 +22,14 @@ TOH5 = {
     'arff': ARFF2H5,
     'uci': UCI2H5,
     'csv': CSV2H5,
-    'mat': MAT2H5,
+    'matlab': MAT2H5,
     'octave' : OCTAVE2H5
 }
 FROMH5 = {
     'libsvm': H52LibSVM,
     'arff': H52ARFF,
     'csv': H52CSV,
-    'mat': H52MAT,
+    'matlab': H52MAT,
     'octave': H52OCTAVE
 }
 
