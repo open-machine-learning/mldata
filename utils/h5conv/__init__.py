@@ -176,7 +176,7 @@ class HDF5():
                         'Cannot verify UCI data format, %s!' % (fname_other))
                 self.verify(fname_h5, fname_other, format_other)
         except Exception, e: # reformat all exceptions to ConversionError
-            raise ConversionError, ConversionError(e), sys.exc_info()[2]
+            raise ConversionError, ConversionError(str(e)), sys.exc_info()[2]
 
 
 
