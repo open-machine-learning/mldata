@@ -130,7 +130,7 @@ class LibSVM2H5(base.H5Converter):
                 (numpy.array(data_lab), numpy.array(indices_lab), numpy.array(indptr_lab))
             ).todense().T.tolist()
         else:
-            label = numpy.matrix(label).T.tolist()
+            label = numpy.matrix(label).tolist()
 
         return (
             csc_matrix(
@@ -186,24 +186,25 @@ class H52LibSVM(base.H5Converter):
     def run(self):
         libsvm = open(self.fname_out, 'w')
         try:
-            data = self.get_data()
-            if len(data['label']) == 1:
+            contents = self.get_contents()
+            print contents['label']
+            if len(contents['label'][0]) == 1:
                 is_multilabel = False
             else:
                 is_multilabel = True
 
-            for i in xrange(len(data['data'])):
+            for i in xrange(len(contents['data'])):
                 out = []
                 if is_multilabel:
                     labels = []
-                    for j in xrange(len(data['label'][i])):
-                        if data['label'][i][j] == 1:
+                    for j in xrange(len(contents['label'][i])):
+                        if contents['label'][i][j] == 1:
                             labels.append(str(j))
                     out.append(','.join(labels))
                 else:
-                    out.append(str(data['label'][0][i]))
-                for j in xrange(len(data['data'][i])):
-                    out.append(str(j+1) + ':' + str(data['data'][i][j]))
+                    out.append(str(contents['label'][i][0]))
+                for j in xrange(len(contents['data'][i])):
+                    out.append(str(j+1) + ':' + str(contents['data'][i][j]))
                 libsvm.write(" ".join(out) + "\n")
         except KeyError, e:
             libsvm.close()

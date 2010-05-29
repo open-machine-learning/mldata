@@ -13,7 +13,7 @@ class CSV2H5(base.H5Converter):
         self.seperator = SEPERATOR # maybe more flexible in the future
 
 
-    def get_data(self):
+    def get_contents(self):
         data = {}
         names = []
         ordering = []
@@ -51,12 +51,16 @@ class H52CSV(base.H5Converter):
         self.seperator = SEPERATOR # maybe more flexible in the future
 
 
-
     def run(self):
         csv = open(self.fname_out, 'w')
         try:
-            data = self.get_data()
-            for line in data['data']:
+            contents = self.get_contents()
+            for i in xrange(len(contents['data'])):
+                line = map(str, contents['data'][i])
+                if 'label' in contents:
+                    label = map(str, contents['label'][i])
+                    label = self.seperator.join(label)
+                    line.insert(0, label)
                 csv.write(self.seperator.join(line) + "\n")
         except KeyError, e:
             csv.close()
