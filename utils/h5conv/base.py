@@ -86,54 +86,17 @@ class H5Converter(object):
         @return: blob of data
         @rtype: list of lists
         """
-        # when using faster [:] instead of slower list(), str() would have to
-        # be used later on
-        ordering = list(h5['/data_descr/ordering'])
+        # de-merge
         data = []
+        for name in h5['/data_descr/ordering']:
+            block = h5['/data/' + name][:]
+            if type(block[0])== numpy.ndarray:
+                for i in xrange(len(block)):
+                    data.append(block[i])
+            else:
+                data.append(block)
 
-        if '/data/int' in h5:
-            len_int = len(h5['/data/int'])
-        else:
-            len_int = 0
-        idx_int = 0
-
-        if '/data/double' in h5:
-            len_double = len(h5['/data/double'])
-        else:
-            len_double = 0
-        idx_double = 0
-
-        for name in ordering:
-            if name in h5['/data']:
-                data.append(h5['/data/' + name][:])
-            elif name.startswith('int'):
-                data.append(h5['/data/int'][idx_int])
-                idx_int += 1
-            elif name.startswith('double'):
-                data.append(h5['/data/double'][idx_double])
-                idx_double += 1
-            else: # either int or double
-                if len_int and idx_int < len_int and type(h5['/data/int'][idx_int][0]) == numpy.int32:
-                    data.append(h5['/data/int'][idx_int])
-                    idx_int += 1
-                elif len_double and idx_double < len_double and type(h5['/data/double'][idx_double][0]) == numpy.double:
-                    data.append(h5['/data/double'][idx_double])
-                    idx_double += 1
-                else:
-                    raise AttributeError('Dunno how to handle dataset ' + name)
-
-        # A = numpy.matrix(data).T.astype(str) triggers memory corruption
-        if len(data) == 1:
-            A = numpy.matrix(data[0]).T # only one data blob
-        else:
-            A = numpy.matrix(data).T
-
-        data = []
-        for i in xrange(A.shape[0]):
-            line = map(str, A[i].tolist()[0])
-            data.append(line)
-
-        return data
+        return numpy.matrix(data).T.tolist()
 
 
     def get_name(self):
@@ -183,10 +146,10 @@ class H5Converter(object):
             contents['data'] = csc_matrix(
                 (h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])
             ).todense().tolist()
-            contents['label'] = numpy.matrix(h5['/data/label']).T.tolist(),
+            contents['label'] = numpy.matrix(h5['/data/label']).tolist()
         elif 'label' in h5['/data']:
-            contents['label'] = numpy.matrix(h5['/data/label']).T.tolist(),
             contents['data'] = numpy.matrix(h5['/data/data']).T.tolist()
+            contents['label'] = numpy.matrix(h5['/data/label']).tolist()
         else:
             contents['data'] = self._get_complex_data(h5)
 
@@ -239,32 +202,48 @@ class H5Converter(object):
             return contents
 
         merged = {}
+        ordering = []
+        path = ''
+        idx_int = 0
+        idx_double = 0
+        merging = None
         for name in contents['ordering']:
             if name == 'label': continue
 
             val = contents['data'][name]
-            if len(val) < 1:
-                continue
+            if len(val) < 1: continue
 
             t = type(val[0])
             if t == numpy.int32:
-                path = 'int'
+                if merging == 'int':
+                    merged[path].append(val)
+                else:
+                    merging = 'int'
+                    path = 'int' + str(idx_int)
+                    ordering.append(path)
+                    merged[path] = [val]
+                    idx_int += 1
             elif t == numpy.double:
-                path = 'double'
+                if merging == 'double':
+                    merged[path].append(val)
+                else:
+                    merging = 'double'
+                    path = 'double' + str(idx_double)
+                    ordering.append(path)
+                    merged[path] = [val]
+                    idx_double += 1
             else: # string or matrix
+                merging = None
                 if name.find('/') != -1: # / sep belongs to hdf5 path
                     path = name.replace('/', '+')
                     contents['ordering'][contents['ordering'].index(name)] = path
                 else:
                     path = name
+                ordering.append(path)
                 merged[path] = val
-                continue
-
-            if not path in merged:
-                merged[path] = []
-            merged[path].append(val)
 
         contents['data'] = merged
+        contents['ordering'] = ordering
         return contents
 
 
