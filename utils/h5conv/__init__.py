@@ -36,10 +36,10 @@ FROMH5 = {
 
 
 class ConversionError(Exception):
-    def __init__(self, message):
-        self.message = message
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
-        return repr(self.message)
+        return repr(self.value)
 
 
 class HDF5():
@@ -163,7 +163,7 @@ class HDF5():
             raise ConversionError(
                 'Unknown conversion pair %s to %s!' % (in_format, out_format))
         except Exception, e: # reformat all other exceptions to ConversionError
-            raise ConversionError, ConversionError(e), sys.exc_info()[2]
+            raise ConversionError, ConversionError(str(e)), sys.exc_info()[2]
 
         if seperator:
             self.converter.set_seperator(seperator)
