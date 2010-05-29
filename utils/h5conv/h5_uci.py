@@ -75,7 +75,7 @@ class UCI2H5(base.H5Converter):
         return data
 
 
-    def get_data(self):
+    def get_contents(self):
         ordering = []
         predata = self._parse()
         data = {}

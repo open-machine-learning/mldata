@@ -128,7 +128,9 @@ class LibSVM2H5(base.H5Converter):
         if self.is_multilabel:
             label = csc_matrix(
                 (numpy.array(data_lab), numpy.array(indices_lab), numpy.array(indptr_lab))
-            ).todense().tolist()
+            ).todense().T.tolist()
+        else:
+            label = numpy.matrix(label).T.tolist()
 
         return (
             csc_matrix(
@@ -142,37 +144,37 @@ class LibSVM2H5(base.H5Converter):
         return 'LibSVM'
 
 
-    def get_data(self):
+    def get_contents(self):
         (A, label) = self._get_parsed_data()
         data = {}
         if A.nnz/numpy.double(A.shape[0]*A.shape[1]) < 0.5: # sparse
             data['indices'] = A.indices
             data['indptr'] = A.indptr
             data['data'] = A.data
-            ordering = ['indices', 'indptr', 'data']
+            ordering = ['label', 'indices', 'indptr', 'data']
         else: # dense
             data['data'] = A.todense()
-            ordering = ['data']
+            ordering = ['label', 'data']
 
-        names = []
-        for i in xrange(A.shape[0]):
-            try:
-                row = A.todense()[i].tolist()[0]
-            except AttributeError: # isn't sparse
-                row = A[i].tolist()[0]
-
-            dtype = self.get_datatype(row)
-            if dtype == numpy.int32:
-                pre = 'int'
-            elif dtype == numpy.double:
-                pre = 'double'
-            else:
-                pre = 'str'
-            names.append(pre + str(i))
+#        names = []
+#        for i in xrange(A.shape[0]):
+#            try:
+#                row = A.todense()[i].tolist()[0]
+#            except AttributeError: # isn't sparse
+#                row = A[i].tolist()[0]
+#
+#            dtype = self.get_datatype(row)
+#            if dtype == numpy.int32:
+#                pre = 'int'
+#            elif dtype == numpy.double:
+#                pre = 'double'
+#            else:
+#                pre = 'str'
+#            names.append(pre + str(i))
 
         return {
             'ordering': ordering,
-            'names': names,
+            'names': ordering,
             'data': data,
             'label': label,
         }

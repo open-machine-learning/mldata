@@ -77,71 +77,8 @@ class H5Converter(object):
         print 'WARNING: ' + msg
 
 
-    def _get_sparse(self, h5):
-        """Sparse data structure.
 
-        @param h5: HDF5 file
-        @type h5: File object
-        @return: blob of data
-        @rtype: list of lists
-        """
-        return (
-            numpy.matrix(h5['/data/label']).T.tolist(),
-            csc_matrix(
-                (h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])
-            ).todense().T.tolist()
-        )
-        A = csc_matrix((h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])).todense().T
-        data = []
-
-        for i in xrange(A.shape[0]):
-            line = [str(labels[i][0])]
-            for j in xrange(A.shape[1]):
-                line.append(str(A[i, j]))
-            data.append(line)
-
-        return data
-
-
-
-    def _get_label_data(self, h5):
-        """Get 'simple' label + data structure.
-
-        @param h5: HDF5 file
-        @type h5: File object
-        @return: blob of data
-        @rtype: list of lists
-        """
-        return (
-            numpy.matrix(h5['/data/label']).T.tolist(),
-            numpy.matrix(h5['/data/data']).T.tolist()
-        )
-        data = []
-        A = numpy.matrix(h5['/data/data']).T
-        labels = numpy.matrix(h5['/data/label'][:])
-        num_lab = len(labels)
-
-        if len(labels[0]) == 1:
-            label_vector = True
-        else:
-            label_vector = False
-
-        # prepend labels
-        for i in xrange(A.shape[0]):
-            line = []
-            if label_vector:
-                line.append(str(labels[i][0]))
-            else:
-                for j in xrange(num_lab):
-                    line.append(str(labels[j][i]))
-            for j in xrange(A.shape[1]):
-                line.append(str(A[i, j]))
-            data.append(line)
-
-        return data
-
-
-    def _get_multiple_sets(self, h5):
+    def _get_complex_data(self, h5):
         """Get 'complex' data structure.
 
         @param h5: HDF5 file
@@ -151,7 +88,7 @@ class H5Converter(object):
         """
         # when using faster [:] instead of slower list(), str() would have to
         # be used later on
-        names = list(h5['/data_descr/ordering'])
+        ordering = list(h5['/data_descr/ordering'])
         data = []
 
         if '/data/int' in h5:
@@ -166,7 +103,7 @@ class H5Converter(object):
             len_double = 0
         idx_double = 0
 
-        for name in names:
+        for name in ordering:
             if name in h5['/data']:
                 data.append(h5['/data/' + name][:])
             elif name.startswith('int'):
@@ -227,32 +164,34 @@ class H5Converter(object):
         return numpy.array([])
 
 
-    def get_data(self):
-        """Get in-memory data structure
+    def get_contents(self):
+        """Get in-memory data, labels and data description
 
         If not overwritten by child class, it will retrieve data from the HDF
         input file.
 
-        @return: data names, ordering and examples
+        @return: data names, ordering, labels and the examples
         @rtype: dict of: list of names, list of ordering and dict of examples
         """
         h5 = h5py.File(self.fname_in, 'r')
-        data = {}
+        contents = {
+            'names': h5['/data_descr/names'][:],
+            'ordering': h5['/data_descr/ordering'][:]
+        }
 
-        data['names'] = h5['/data_descr/names'][:]
-        data['ordering'] = h5['/data_descr/ordering'][:]
         if 'indices' in h5['/data']:
-            (data['label'], data['data']) = self._get_sparse(h5)
-        elif 'label' in h5['/data']: # only labels + data
-            (data['label'], data['data']) = self._get_label_data(h5)
-            data['names'] = data['names'].tolist()
-            data['names'].insert(0, 'label')
+            contents['data'] = csc_matrix(
+                (h5['/data/data'], h5['/data/indices'], h5['/data/indptr'])
+            ).todense().tolist()
+            contents['label'] = numpy.matrix(h5['/data/label']).T.tolist(),
+        elif 'label' in h5['/data']:
+            contents['label'] = numpy.matrix(h5['/data/label']).T.tolist(),
+            contents['data'] = numpy.matrix(h5['/data/data']).T.tolist()
         else:
-            data['data'] = self._get_multiple_sets(h5)
+            contents['data'] = self._get_complex_data(h5)
 
         h5.close()
-
-        return data
+        return contents
 
 
     def get_datatype(self, values):
@@ -284,24 +223,26 @@ class H5Converter(object):
         return dtype
 
 
-    def _get_merged(self, data):
+    def _get_merged(self, contents):
         """Merge given data where appropriate.
 
         String arrays are not merged, but all int and all double are merged
         into one matrix.
 
-        @param data: data structure as returned by get_data()
-        @type data: dict
+        @param contents: data structure as returned by get_contents()
+        @type contents: dict
         @return: merged data structure
         @rtype: dict
         """
         # nothing to do if we have one sparse matrix
-        if 'data' and 'indices' and 'indptr' in data['ordering']:
-            return data
+        if 'data' and 'indices' and 'indptr' in contents['ordering']:
+            return contents
 
         merged = {}
-        for name in data['ordering']:
-            val = data['data'][name]
+        for name in contents['ordering']:
+            if name == 'label': continue
+
+            val = contents['data'][name]
             if len(val) < 1:
                 continue
 
@@ -313,7 +254,7 @@ class H5Converter(object):
             else: # string or matrix
                 if name.find('/') != -1: # / sep belongs to hdf5 path
                     path = name.replace('/', '+')
-                    data['ordering'][data['ordering'].index(name)] = path
+                    contents['ordering'][contents['ordering'].index(name)] = path
                 else:
                     path = name
                 merged[path] = val
@@ -323,8 +264,8 @@ class H5Converter(object):
                 merged[path] = []
             merged[path].append(val)
 
-        data['data'] = merged
-        return data
+        contents['data'] = merged
+        return contents
 
 
     def run(self):
@@ -336,18 +277,19 @@ class H5Converter(object):
         h5.attrs['comment'] = self.get_comment()
 
         try:
-            data = self._get_merged(self.get_data()) # catch memory error
+            contents = self._get_merged(self.get_contents()) # catch memory error
+
             group = h5.create_group('/data')
-            for path, val in data['data'].iteritems():
+            for path, val in contents['data'].iteritems():
                 group.create_dataset(path, data=val, compression=COMPRESSION)
-            if 'label' in data and len(data['label']) > 0:
-                group.create_dataset('/data/label', data=data['label'], compression=COMPRESSION)
+            if 'label' in contents:
+                group.create_dataset('/data/label', data=contents['label'], compression=COMPRESSION)
 
             group = h5.create_group('/data_descr')
-            names = numpy.array(data['names']).astype(self.str_type)
+            names = numpy.array(contents['names']).astype(self.str_type)
             if names.size > 0: # simple 'if names' throws exception if array
                 group.create_dataset('names', data=names, compression=COMPRESSION)
-            ordering = numpy.array(data['ordering']).astype(self.str_type)
+            ordering = numpy.array(contents['ordering']).astype(self.str_type)
             if ordering.size > 0:
                 group.create_dataset('ordering', data=ordering, compression=COMPRESSION)
             types = self.get_types()

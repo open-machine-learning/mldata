@@ -17,7 +17,7 @@ class MAT2H5(base.H5Converter):
         self.matf = loadmat(self.fname_in,matlab_compatible=True)
 
 
-    def get_data(self):
+    def get_contents(self):
 	if self.matf.has_key('__globals__'):
 		del self.matf['__globals__']
         data = self.matf

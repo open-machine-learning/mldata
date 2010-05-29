@@ -82,7 +82,7 @@ class OCTAVE2H5(base.H5Converter):
 
 
 
-    def get_data(self):
+    def get_contents(self):
 	data={}
 	names=[]
 

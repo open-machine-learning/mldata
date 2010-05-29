@@ -35,7 +35,7 @@ FROMH5 = {
 
 
 
-class ConversionError(RuntimeError):
+class ConversionError(Exception):
     def __init__(self, message):
         self.message = message
     def __str__(self):
@@ -76,7 +76,7 @@ class HDF5():
                     if abs(Ai[j] - Bi[j]) > EPSILON:
                         return False
                 except TypeError: #string
-                    if Ai[j] != Bi[j]:
+                    if str(Ai[j]) != str(Bi[j]):
                         return False
 #                except InvalidOperation: # string
 #                    if str(Ai[j]) != str(Bi[j]):
@@ -95,20 +95,20 @@ class HDF5():
         @type format_other: string
         @raises: ConversionError
         """
-        h5 = FROMH5[format_other](fname_h5, fname_other, remove_out=False).get_data()
-        other = TOH5[format_other](fname_other, fname_h5, remove_out=False).get_data()
+        h5 = FROMH5[format_other](fname_h5, fname_other, remove_out=False).get_contents()
+        other = TOH5[format_other](fname_other, fname_h5, remove_out=False).get_contents()
 
         # join individual vectors/matrices in other
         # the need to construct this seems really inefficient - maybe should
-        # reconsider what get_data() returns. verification process quadruples
-        # execution time.
-        data = []
+        # reconsider what get_contents() returns.
         if 'indptr' in other['data']: # sparse:
             other['data'] = csc_matrix(
                 (other['data']['data'], other['data']['indices'], other['data']['indptr'])
                 ).todense().T.tolist()
         else:
+            data = []
             for name in other['ordering']:
+                if name == 'label': continue
                 if type(other['data'][name]) == numpy.matrix:
                     for row in other['data'][name]:
                         data.append(row.tolist()[0])
@@ -116,12 +116,11 @@ class HDF5():
                     data.append(other['data'][name])
             other['data'] = numpy.matrix(data).T.tolist()
 
-        if 'label' in h5:
-            # there must be a transposition somewhere too much...
-            if not self._compare(numpy.matrix(h5['label']).T.tolist(), other['label']):
+        if 'label' in h5['data']:
+            if not self._compare(h5['label'], other['label']):
                 raise ConversionError(
                     'Verification failed! Labels of %s != %s' % (fname_h5, fname_other)
-                    )
+                )
 
         if not self._compare(h5['data'], other['data']):
             raise ConversionError(
@@ -157,6 +156,9 @@ class HDF5():
                 fname_h5 = in_fname
                 fname_other = out_fname
                 format_other = out_format
+            else:
+                raise ConversionError(
+                    'Unknown conversion pair %s to %s!' % (in_format, out_format))
         except KeyError:
             raise ConversionError(
                 'Unknown conversion pair %s to %s!' % (in_format, out_format))
@@ -308,51 +310,45 @@ class HDF5():
         else:
             h5_fname = fname
 
-        h5file = h5py.File(h5_fname, 'r')
+        h5 = h5py.File(h5_fname, 'r')
         extract = {}
         attrs = ('mldata', 'name', 'comment')
         for a in attrs:
-            if a in h5file.attrs:
-                extract[a] = h5file.attrs[a]
-        if 'data_descr/names' in h5file:
-            extract['names'] = h5file['data_descr/names'][:].tolist()
-        if 'data_descr/types' in h5file:
-            extract['types'] = h5file['data_descr/types'][:].tolist()
+            if a in h5.attrs:
+                extract[a] = h5.attrs[a]
+        if 'data_descr/names' in h5:
+            extract['names'] = h5['data_descr/names'][:].tolist()
+        if 'data_descr/types' in h5:
+            extract['types'] = h5['data_descr/types'][:].tolist()
 
         # only first NUM_EXTRACT items of attributes
         try:
             extract['data'] = []
             ne = base.NUM_EXTRACT
 
-            if ('indptr' and 'indices') in h5file['data']:
+            if ('indptr' and 'indices') in h5['data']:
                 # taking all data takes to long for quick viewing, but having just
                 # this extract may result in less columns displayed than indicated
                 # by attributes_names
-                data = h5file['data/data'][:h5file['data/indptr'][ne+1]]
-                indices = h5file['data/indices'][:h5file['data/indptr'][ne+1]]
-                indptr = h5file['data/indptr'][:ne+1]
+                data = h5['data/data'][:h5['data/indptr'][ne+1]]
+                indices = h5['data/indices'][:h5['data/indptr'][ne+1]]
+                indptr = h5['data/indptr'][:ne+1]
                 A=csc_matrix((data, indices, indptr)).todense().T
                 extract['data'] = A[:ne].tolist()
             else:
-                for dset in h5file['data_descr/ordering']:
+                for dset in h5['data_descr/ordering']:
                     dset = 'data/' + dset
-                    if type(h5file[dset][0]) == numpy.ndarray:
-                        for i in xrange(len(h5file[dset])):
-                            extract['data'].append(h5file[dset][i][:ne])
+                    if type(h5[dset][0]) == numpy.ndarray:
+                        for i in xrange(len(h5[dset])):
+                            extract['data'].append(h5[dset][i][:ne])
                     else:
-                        extract['data'].append(h5file[dset][:ne])
+                        extract['data'].append(h5[dset][:ne])
                 extract['data'] = numpy.matrix(extract['data']).T
 
             # convert from numpy array to list, if necessary
             t = type(extract['data'][0])
             if t == numpy.ndarray or t == numpy.matrix:
                 extract['data'] = [y for x in extract['data'] for y in x.tolist()]
-
-            # handle lables
-            if 'data/label' in h5file:
-                extract['names'].insert(0, 'label')
-                for i in xrange(len(extract['data'])):
-                    extract['data'][i].insert(0, h5file['data/label'][i][0])
         except KeyError:
             pass
         except ValueError:
@@ -360,7 +356,7 @@ class HDF5():
         except IndexError:
             pass
 
-        h5file.close()
+        h5.close()
         return extract
 
 
@@ -373,14 +369,14 @@ class HDF5():
         @return: number of instances and number of attributes
         @rtype: tuple containing 2 integers
         """
-        h5file = h5py.File(fname, 'r')
-        if not 'data' in h5file:
+        h5 = h5py.File(fname, 'r')
+        if not 'data' in h5:
             instattr = (-1, -1)
         else:
             # FIXME!
             instattr = (-1, -1)
 
-        h5file.close()
+        h5.close()
         return instattr
 
 
@@ -476,20 +472,20 @@ class HDF5():
         @rtype: string
         """
         fname = self.get_filename(name)
-        h5file = h5py.File(fname, 'w')
+        h5 = h5py.File(fname, 'w')
 
-        group = h5file.create_group('/task')
+        group = h5.create_group('/task')
         if self.converter and self.converter.labels_idx:
             group.create_dataset('label_dims', data=self.converter.labels_idx, compression=base.COMPRESSION)
 
         data = self._get_splitdata(fnames)
         for k,v in data.iteritems():
-	    if v:
-            	group.create_dataset(k, data=v, compression=base.COMPRESSION)
+            if v:
+                group.create_dataset(k, data=v, compression=base.COMPRESSION)
 
-        h5file.attrs['name'] = name
-        h5file.attrs['mldata'] = base.VERSION_MLDATA
-        h5file.attrs['comment'] = 'Task file'
-        h5file.close()
+        h5.attrs['name'] = name
+        h5.attrs['mldata'] = base.VERSION_MLDATA
+        h5.attrs['comment'] = 'Task file'
+        h5.close()
 
         return fname

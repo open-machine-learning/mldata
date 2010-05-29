@@ -1,4 +1,4 @@
-import h5py, numpy
+import h5py, numpy, copy
 import arff, base
 
 
@@ -58,7 +58,7 @@ class ARFF2H5(base.H5Converter):
         return item
 
 
-    def get_data(self):
+    def get_contents(self):
         data = {}
         names = []
         ordering = []
@@ -78,7 +78,7 @@ class ARFF2H5(base.H5Converter):
             t = self.get_datatype(values)
             data[name] = numpy.array(values).astype(t)
 
-        return {'names':names, 'ordering':names, 'data':data}
+        return {'names':names, 'ordering':copy.copy(names), 'data':data}
 
 
 
@@ -91,7 +91,7 @@ class H52ARFF(base.H5Converter):
 
     def run(self):
         a = arff.ArffFile()
-        data = self.get_data()
+        data = self.get_contents()
         a.data = data['data']
         a.attributes = data['names']
 
