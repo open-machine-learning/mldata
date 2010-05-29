@@ -187,7 +187,6 @@ class H52LibSVM(base.H5Converter):
         libsvm = open(self.fname_out, 'w')
         try:
             contents = self.get_contents()
-            print contents['label']
             if len(contents['label'][0]) == 1:
                 is_multilabel = False
             else:
