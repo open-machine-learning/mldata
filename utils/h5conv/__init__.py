@@ -305,7 +305,7 @@ class HDF5():
             h5_fname = self.get_filename(fname)
             try:
                 self.convert(fname, format, h5_fname, 'h5')
-            except RuntimeError:
+            except ConversionError:
                 return self.get_unparseable(fname)
         else:
             h5_fname = fname
