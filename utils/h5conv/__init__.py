@@ -104,7 +104,7 @@ class HDF5():
         if 'indptr' in other['data']: # sparse:
             other['data'] = csc_matrix(
                 (other['data']['data'], other['data']['indices'], other['data']['indptr'])
-                ).todense().T.tolist()
+                ).todense().tolist()
         else:
             data = []
             for name in other['ordering']:
