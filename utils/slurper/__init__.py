@@ -6,7 +6,7 @@ import os
 from settings import PRODUCTION
 
 if PRODUCTION:
-    MAX_SIZE_DATA = 1024 * 1024 * 512 # (512 MB)
+    MAX_SIZE_DATA = 1024 * 1024 * 64 # (64 MB)
 else:
     MAX_SIZE_DATA = 1024 * 1024 * 1 # (1 MB)
 
