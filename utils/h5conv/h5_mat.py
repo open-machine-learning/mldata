@@ -53,4 +53,4 @@ class H52MAT(base.H5Converter):
 		m[i]=h['/data/'+i][...]
 	
         h.close()
-	savemat(self.fname_out,m)
+	savemat(self.fname_out,m, appendmat=False)
