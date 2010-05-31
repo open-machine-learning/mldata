@@ -92,6 +92,9 @@ LOGIN_REDIRECT_URL='/'
 ACCOUNT_ACTIVATION_DAYS=1
 DEFAULT_FROM_EMAIL='mldata@mldata.org'
 
+# send email from this address
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 # caching - necessary for file upload progress bar
 # backends dbcache or locmemcache don't work
 CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
