@@ -49,7 +49,7 @@ class H52MAT(base.H5Converter):
         m={}
         h = h5py.File(self.fname_in, 'r')
 	
-	for i in list(h['/data']):
+	for i in list(h['/data_descr/ordering']):
 		m[i]=h['/data/'+i][...]
 	
         h.close()

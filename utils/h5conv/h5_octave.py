@@ -69,10 +69,11 @@ class OCTAVE2H5(base.H5Converter):
 			for i in sp:
 				conv_sp.append(int(i))
 		except ValueError:
-			for i in sp:
-				conv_sp.append(float(i))
-		except ValueError:	
-			conv_sp.append(sp)
+			try:
+				for i in sp:
+					conv_sp.append(float(i))
+			except ValueError:	
+				conv_sp.append(sp)
 					
 		data.append(conv_sp)
 		lpos=self.octf.tell()
@@ -82,7 +83,7 @@ class OCTAVE2H5(base.H5Converter):
 
 
 
-    def get_contents(self):
+    def get_data(self):
 	data={}
 	names=[]
 
@@ -128,8 +129,15 @@ class H52OCTAVE(base.H5Converter):
 		return meta
 	else: 
 		meta+='# type: matrix\n'
-	meta+='# rows: ' + str(attr.shape[1]) + '\n'
-	meta+='# columns: ' + str(attr.shape[0]) + '\n'
+	try:
+		meta+='# rows: ' + str(attr.shape[1]) + '\n'
+	except IndexError:
+		meta+='# rows: 1\n'
+		
+	try:
+		meta+='# columns: ' + str(attr.shape[0]) + '\n'
+	except IndexError:
+		meta+='# columns: 1\n'
 
  	return meta
 
@@ -139,10 +147,18 @@ class H52OCTAVE(base.H5Converter):
 	@return data: string of attr content
 	"""
 	data=''
-	for i in attr:
-		for j in i:
-			data+=' ' + str(j)
+	
+	# Vector	
+	if len(attr.shape) == 1:
+		for i in attr:
+			data+=' ' +str(i)
 		data+='\n'
+	# Matrix
+	else:	
+		for i in attr:
+			for j in i:
+				data+=' ' + str(j)
+			data+='\n'
 	return data
 
 
@@ -160,7 +176,7 @@ class H52OCTAVE(base.H5Converter):
 
 	out=self._oct_header()	
 
-	for i in list(h['/data/']):
+	for i in list(h['/data_descr/ordering']):
 		out+=self._print_meta(h['/data/' + i][...],i)
 		out+=self._print_data(h['/data/'+i][...])
 	
