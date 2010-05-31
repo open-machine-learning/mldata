@@ -187,21 +187,23 @@ class H52LibSVM(base.H5Converter):
         libsvm = open(self.fname_out, 'w')
         try:
             contents = self.get_contents()
-            if len(contents['label'][0]) == 1:
-                is_multilabel = False
-            else:
-                is_multilabel = True
+            if 'label' in contents:
+                if len(contents['label'][0]) == 1:
+                    is_multilabel = False
+                else:
+                    is_multilabel = True
 
             for i in xrange(len(contents['data'])):
                 out = []
-                if is_multilabel:
-                    labels = []
-                    for j in xrange(len(contents['label'][i])):
-                        if contents['label'][i][j] == 1:
-                            labels.append(str(j))
-                    out.append(','.join(labels))
-                else:
-                    out.append(str(contents['label'][i][0]))
+                if 'label' in contents:
+                    if is_multilabel:
+                        labels = []
+                        for j in xrange(len(contents['label'][i])):
+                            if contents['label'][i][j] == 1:
+                                labels.append(str(j))
+                        out.append(','.join(labels))
+                    else:
+                        out.append(str(contents['label'][i][0]))
                 for j in xrange(len(contents['data'][i])):
                     out.append(str(j+1) + ':' + str(contents['data'][i][j]))
                 libsvm.write(" ".join(out) + "\n")
