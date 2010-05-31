@@ -289,7 +289,7 @@ class HDF5():
                 f.close()
                 data = "\n".join(data)
 
-        return {'attributes': [[intro, data]]}
+        return {'data': [[intro, data]]}
 
 
     def get_extract(self, fname):
