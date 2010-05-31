@@ -397,7 +397,7 @@ class Slurper(object):
         """
         fsize = 0
         for f in fnames:
-            fsize += os.path.getsize(self.get_dst(f))
+            fsize += os.path.getsize(f)
         if fsize > MAX_SIZE_DATA:
             return True
         else:
@@ -421,6 +421,11 @@ class Slurper(object):
         fname_orig = os.path.join(MEDIA_ROOT, obj.file.name)
         # keep original file for the time being
         shutil.copy(fname, fname_orig)
+        if self._is_too_large([fname_orig]):
+            self.warn('Size of file to convert > %d, skipping conversion!' % (MAX_SIZE_DATA))
+            obj.save()
+            return obj
+
         fname_h5 = self.h5.get_filename(fname_orig)
         seperator = self.h5.infer_seperator(fname_orig)
 
@@ -497,6 +502,8 @@ class Slurper(object):
             if not self.options.download_only:
                 if not d['task']:
                     d['task'] = task
+                for i in xrange(len(d['files'])): # get destination file names
+                    d['files'][i] = self.get_dst(d['files'][i])
                 if not self._is_too_large(d['files']):
                     self.add(d)
                 else:
