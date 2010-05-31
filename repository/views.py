@@ -585,16 +585,14 @@ def _view(request, klass, slug_or_id, version=None):
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
 
     if klass == Data:
-        from h5py import h5e
+        fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         try:
-            h = h5conv.HDF5()
-            info_dict['extract'] = h.get_extract(
-                os.path.join(MEDIA_ROOT, obj.file.name))
-        except IOError, e:
-            mail_admins('Failed extract', str(e))
-            info_dict['extract'] = None
-        except h5e.LowLevelIOError, e: # ignore if not HDF5 file
-            mail_admins('Failed extract', str(e))
+            h5 = h5conv.HDF5()
+            info_dict['extract'] = h5.get_extract(fname_h5)
+        except Exception, e: # catch exceptions in general, but notify admins
+            subject = 'Failed data extract of %s' % (fname_h5)
+            body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
+            mail_admins(subject, body)
             info_dict['extract'] = None
 
     return render_to_response('repository/item_view.html', info_dict)
