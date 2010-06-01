@@ -50,7 +50,7 @@ class H52MAT(base.H5Converter):
         h = h5py.File(self.fname_in, 'r')
 	
 	for i in list(h['/data_descr/ordering']):
-		m[i]=numpy.array(h['/data/'+i][...])
+		m[i]=numpy.array(h['/data/'+i][...].tolist())
 
         h.close()
 	savemat(self.fname_out,m, appendmat=False)
