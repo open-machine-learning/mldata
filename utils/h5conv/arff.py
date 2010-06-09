@@ -164,7 +164,7 @@ class ArffFile(object):
                 self.state = 'in_header'
                 self.__parseline(l)
         elif self.state == 'in_header':
-            ll = l.lower()
+            ll = l.lower().strip()
             if ll.startswith('@relation '):
                 self.__parse_relation(l)
             if ll.startswith('@attribute '):
@@ -197,8 +197,10 @@ class ArffFile(object):
         else:
             self.__print_warning("unsupported type " + atype + " for attribute " + name + ".")
 
-    def __parse_data(self, l):
-        l = [s.strip() for s in l.split(',')]
+    def __parse_data(self, line):
+        l = [s.strip() for s in line.split(',')]
+        if len(l) == 1:
+            l = [s.strip() for s in line.split()]
         if len(l) != len(self.attributes):
             self.__print_warning("contains wrong number of values")
             return
