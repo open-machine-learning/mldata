@@ -22,3 +22,46 @@ $ python manage.py runserver
 The default webserver runs at http://127.0.0.1:8000/
 Point your web browser to it and have a look.
 
+Further dependencies
+--------------------
+
+From source
+-----------
+
+As usual in python, you should be able to install all of
+these modules with "sudo python setup.py install"
+
+- memcache:
+
+  For caching, you need memcache, both the actual server and
+  the python package. See http://docs.djangoproject.com/en/1.1/topics/cache/
+  For example, you can install http://gijsbert.org/cmemcache/
+
+- python-openid:
+
+  http://pypi.python.org/pypi/python-openid/
+
+- h5py:
+
+  http://code.google.com/p/h5py/
+
+- numpy:
+
+  https://sourceforge.net/projects/numpy/files/
+
+- scipy:
+
+  https://sourceforge.net/projects/scipy/files/
+
+As debian packages
+------------------
+
+python-django
+python-openid
+python-numpy
+python-h5py
+python-scipy
+memcached 
+python-memcache
+
+There is no python-h5py in debian, but you can install it by hand.

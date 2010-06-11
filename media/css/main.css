@@ -23,7 +23,8 @@
 1) HTML tags
 ---------------------------------------------------------------------------------------------------------- */
 
-body {padding:5px 0; background:url("../images/bg.gif") 0 0 repeat-x; font:0.75em/1.5 "arial", sans-serif;}
+/*body {padding:5px 0; background:url("../images/bg.gif") 0 0 repeat-x; font: 0.75em/1.5 "arial", sans-serif;}*/
+body  { padding: 5px 0; background:url("../images/bg.gif") 0 0 repeat-x; font: 0.75em/1.5 "arial", sans-serif; }
 
 h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px 0;}
 
@@ -120,7 +121,8 @@ dl#news a:hover {text-decoration:none;}
 ---------------------------------------------------------------------------------------------------------- */
 
 .title-01 {margin:0; padding:15px 15px 15px 45px; background:url("../images/square-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
-.title-02 {background:url("../images/dot-01.gif") 0 60% repeat-x; font-size:100%;}
+/*.title-02 {background:url("../images/dot-01.gif") 0 60% repeat-x; font-size:100%;}*/
+.title-02 { font-size: 100%; border-bottom: dotted 1px black; }
 .title-02 span {padding-right:5px;}
 .title-03 {margin:0; padding:13px 10px 13px 15px; background:url("../images/square-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
 .title-03.gallery {background:url("../images/square-02.gif") 903px 50% no-repeat;}
@@ -129,14 +131,15 @@ dl#news a:hover {text-decoration:none;}
 .more {padding-right:14px; background:url("../images/more.gif") 100% 5px no-repeat;}
 a:hover.more {text-decoration:none;}
 
-
-
-td {border-width:1px; border-style: solid; margin:0; padding:4px;}
+/* tables */
+table { width: 100%; border-collapse: collapse;  }
+th { padding: 5px; text-align: left; border: solid 1px #eee; background-color: #eee;}
+td { padding: 5px; border: solid 1px #eee;}
 
 /* tabs */
 .ui-tabs .ui-tabs-nav {border-bottom:1px solid #0081c7; margin:10px 0; width:100%; padding:0;}
 .ui-tabs .ui-tabs-nav li {border:1px solid #0081c7; float:left;
-list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:10px; -webkit-border-top-left-radius:10px; -moz-border-radius-topright:10px; -webkit-border-top-right-radius:10px; border-top-left-radius:10px; border-top-right-radius:10px; background-color:#eeeeee;}
+list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topright:5px; -webkit-border-top-right-radius:5px; border-top-left-radius:5px; border-top-right-radius:5px; background-color:#eeeeee;}
 .ui-tabs .ui-tabs-nav li a {float:left; text-decoration:none; padding:3px 5px; margin:3px;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected {background-color:#fff; border-color:#0081c7;border-bottom-color:#fff;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {background-color:#fff; color:#000;}
@@ -171,7 +174,8 @@ list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:10px;
 .fullwidth {width:100%; height:100%;}
 
 ul.index_list {list-style:none;margin:0;margin-top:1em; padding:0;}
-ul.index_list li {margin-bottom: 1em; padding:0.5em; border:1px solid #000000;}
+/* ul.index_list li {margin-bottom: 1em; padding:0.5em; border:1px solid #000000;}*/
+ul.index_list li {margin-bottom: 1em; padding:0.5em; }
 
 /* 2-columns */
 div.col2 {position:relative;margin-bottom:2em;}

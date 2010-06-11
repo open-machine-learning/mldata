@@ -6,9 +6,9 @@
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "Data" %} / {% trans "Review" %}{% endblock %}
 
 {% block content %}
-<h2 class="title-01">{% trans "Review" %} {{ object.name }}</h2>
+<h2 class="title-01">{% trans "Review of your data set" %} "{{ object.name }}" </h2>
 <div class="in">
-	<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'Approve' to finalise the item or 'Revert' to remove it from the repository and start anew." %}</p>
+	<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'Looks good, proceed' to finalise the item or 'Go Back' to remove it from the repository and start anew." %}</p>
 
 	<form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
 	<dl id="news">
@@ -37,7 +37,8 @@
 	</dl>
 
 	<br />
-	<input type="submit" name="approve" class="submit" value="{% trans "Approve" %}" /> <input type="submit" name="revert" class="submit" value="{% trans "Revert" %}" />
+
+	<input type="submit" name="approve" class="submit" value="{% trans "Looks good, proceed" %}" /> <input type="submit" name="revert" class="submit" value="{% trans "Go Back" %}" />
 	</form>
 </div><!-- /in -->
 {% endblock %}

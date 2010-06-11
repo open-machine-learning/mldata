@@ -12,7 +12,8 @@
 	<ul class="index_list">
 	{% for object in page.object_list %}
 		<li>
-			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> ({% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }})
+		  <h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
+                        {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}
 			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
 			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
 			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
