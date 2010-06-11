@@ -854,8 +854,7 @@ def _get_page(request, objects):
 
     return page
 
-
-def _index(request, klass, my=False):
+def _index(request, klass, my=False, q=None):
     """Index/My page for section given by klass.
 
     @param request: request data
@@ -866,7 +865,16 @@ def _index(request, klass, my=False):
     @return: section's index or My page
     @rtype: Django response
     """
-    objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
+    if q:
+        objects = klass.objects.filter(
+                Q(version__icontains=q) |
+                Q(name__icontains=q) |
+                Q(description__icontains=q) |
+                Q(summary__icontains=q))
+
+        objects = objects.filter(is_deleted=False).order_by('-pub_date')
+    else:
+        objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
     if klass == Data:
         objects = objects.filter(is_approved=True)
     if my and request.user.is_authenticated():
@@ -893,6 +901,9 @@ def _index(request, klass, my=False):
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
+    if q:
+        info_dict['search_term']=q
+
     return render_to_response('repository/item_index.html', info_dict)
 
 
@@ -912,7 +923,27 @@ def index(request):
     }
     return render_to_response('repository/index.html', info_dict)
 
+def search_data(request):
+    searchform = SearchForm()
+    
+    if request.method == 'GET':
+        try:
+            q = request.GET['searchterm'];
+            return data_search(request, q)
+        except:
+            return HttpResponseRedirect('/repository/data')
+    else:
+        return HttpResponseRedirect('/repository/data')
 
+def data_search(request, q):
+    """Index page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return _index(request, Data, False, q)
 
 def data_index(request):
     """Index page of Data section.

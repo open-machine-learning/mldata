@@ -14,7 +14,11 @@
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
+		<li>{% trans "Search" %}
+		<form method="get" action="/repository/data/search/"><input type="text" name="searchterm" id="searchterm"></input></form></h4>
+		</li>
 	</ul>
+
 </div><!-- /in -->
 
 <h4 class="title-03">{% trans "Task" %}</h4>

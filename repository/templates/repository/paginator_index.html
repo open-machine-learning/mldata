@@ -10,6 +10,7 @@
 <a title="{% trans 'Page' %} {{ page.last }}" href="?page={{ page.last }}&pp={{ page.perpage }}">&gt;&gt;</a>
 </div>{% endifnotequal %}
 <div class="col2-right">[{% for pp in per_page %}
-{% ifequal pp page.perpage %}{{ pp }}{% else %}<a title="{% trans 'Items shown per page' %}" href="?page={{ page.number }}&pp={{ pp }}">{{ pp }}</a>{% endifequal %}
+
+{% ifequal pp page.perpage %}{{ pp }}{% else %}<a title="{% trans 'Items shown per page' %}" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page={{ page.number }}&pp={{ pp }}">{{ pp }}</a>{% endifequal %}
 {% endfor %}]</div>
 </div>

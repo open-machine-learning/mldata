@@ -165,7 +165,6 @@ class Repository(models.Model):
     downloads = models.IntegerField(editable=False, default=0)
     hits = models.IntegerField(editable=False, default=0)
 
-
     class Meta:
         """Inner meta class to specify options.
 
@@ -424,7 +423,6 @@ class Data(Repository):
     num_instances = models.IntegerField(blank=True, default=0)
     num_attributes = models.IntegerField(blank=True, default=0)
     tags = TagField() # tagging doesn't work anymore if put into base class
-
 
     def get_absolute_slugurl(self):
         """Get absolute URL for this item, using its slug.

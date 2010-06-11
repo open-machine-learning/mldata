@@ -11,6 +11,7 @@ from repository.models import *
 from repository.widgets import *
 from tagging.forms import TagField
 from settings import TAG_SPLITSTR
+from django.http import HttpResponseRedirect
 
 attrs_checkbox = { 'class': 'checkbox' }
 
@@ -212,3 +213,7 @@ class PublicationForm(forms.ModelForm):
         @type model: models.Solution
         """
         model = Publication
+
+
+class SearchForm(forms.Form):
+    searchterm = forms.CharField(max_length=40)
