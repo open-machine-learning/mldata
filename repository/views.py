@@ -625,9 +625,9 @@ def _new(request, klass):
         if not request.FILES and klass == Data:
             form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
             
-        if klass == Data:
-            if len(request.FILES['file']) > UPLOAD_LIMIT:
-                form.errors['file'] = ErrorDict({'': _('Files is too large!')}).as_ul()
+        #if klass == Data:
+        #    if len(request.FILES['file']) > UPLOAD_LIMIT:
+        #        form.errors['file'] = ErrorDict({'': _('Files is too large!')}).as_ul()
 
         if False or form.is_valid():
             new = form.save(commit=False)
@@ -649,8 +649,7 @@ def _new(request, klass):
                     new.is_public = True
 
                 if klass == Data:
-                    new.file = request.FILES['file']
-                    
+                    new.file = request.FILES['file']                    
                     h5 = h5conv.HDF5()
                     new.format = h5.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
