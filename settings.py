@@ -27,8 +27,7 @@ if PRODUCTION:
     DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
 else:
     DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-    #DATABASE_NAME = '/home/shensche/proj/mldata/website/mldata/mldata.db' # Or path to database file if using sqlite3.
-    DATABASE_NAME = '/home/mikio/Active/mldata/website/mldata/mldata.db' # Or path to database file if using sqlite3.
+    DATABASE_NAME = 'mldata.db' # Or path to database file if using sqlite3.
 
 DATABASE_USER = 'mldata'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
