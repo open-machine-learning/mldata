@@ -74,7 +74,7 @@ if PRODUCTION:
     MEDIA_ROOT = '/home/mldata/private'
 else:
     #MEDIA_ROOT = '/home/shensche/proj/mldata/website/mldata/media/private'
-    MEDIA_ROOT = '/home/mikio/Active/mldata/website/mldata/media/private'
+    MEDIA_ROOT = 'media/private'
     
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
