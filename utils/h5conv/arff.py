@@ -135,7 +135,7 @@ class ArffFile(object):
                     line.append(e)
                 else:
                     raise Exception("Type " + at + " not supported for writing!")
-            o.append(','.join(line))
+            o.append(','.join(map(str, line)))
         return "\n".join(o) + "\n"
 
     def esc(self, s):
