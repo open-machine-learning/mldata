@@ -180,7 +180,7 @@ class ArffFile(object):
         self.relation = l[1]
 
     def __parse_attribute(self, l):
-        p = re.compile(r'[a-zA-Z_][a-zA-Z0-9_/+-]*|\{[^\}]+\}|\'[^\']+\'|\"[^\"]+\"')
+        p = re.compile(r'[a-zA-Z_][a-zA-Z0-9_/+-.]*|\{[^\}]+\}|\'[^\']+\'|\"[^\"]+\"')
         l = [s.strip() for s in p.findall(l)]
         name = l[1]
         atype = l[2]
@@ -201,6 +201,8 @@ class ArffFile(object):
         l = [s.strip() for s in line.split(',')]
         if len(l) == 1:
             l = [s.strip() for s in line.split()]
+        if not l[-1].strip(): # remove trailing empty item
+            l.pop()
         if len(l) != len(self.attributes):
             self.__print_warning("contains wrong number of values")
             return
@@ -209,10 +211,10 @@ class ArffFile(object):
         for n, v in zip(self.attributes, l):
             at = self.attribute_types[n]
             if at == 'numeric':
-                if re.match(r'[+-]?[0-9]+(?:\.[0-9]*(?:[eE]-?[0-9]+)?)?', v):
-                    datum.append(float(v))
-                elif v == '?':
+                if v == '?':
                     datum.append(numpy.nan)
+                elif re.match(r'[+-]?[0-9]*(?:\.[0-9]*(?:[eE]-?[0-9]+)?)?', v):
+                    datum.append(float(v))
                 else:
                     self.__print_warning('non-numeric value %s for numeric attribute %s' % (v, n))
                     return

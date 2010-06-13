@@ -175,7 +175,8 @@ class H5Converter(object):
             else: # maybe int/double in string
                 try:
                     tmp = int(v)
-                    dtype = numpy.int32
+                    if not dtype: # a previous nan might set it to double
+                        dtype = numpy.int32
                 except ValueError:
                     try:
                         tmp = float(v)
@@ -256,7 +257,7 @@ class H5Converter(object):
         h5.attrs['comment'] = self.get_comment()
 
         try:
-            contents = self._get_merged(self.get_contents()) # catch memory error
+            contents = self._get_merged(self.get_contents())
 
             group = h5.create_group('/data')
             for path, val in contents['data'].iteritems():
