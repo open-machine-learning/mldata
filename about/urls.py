@@ -10,8 +10,11 @@ extra_context = { 'section': 'about', 'MEDIA_URL': MEDIA_URL }
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template,
-        {'template':'about/motivation.html', 'extra_context':extra_context},
+        {'template':'about/index.html', 'extra_context':extra_context},
         name='about_index'),
+    url(r'^motivation/$', direct_to_template, {
+        'template':'about/motivation.html', 'extra_context':extra_context},
+        name='about_motivation'),
     url(r'^license/$', direct_to_template, {
         'template':'about/license.html', 'extra_context':extra_context},
         name='about_license'),
