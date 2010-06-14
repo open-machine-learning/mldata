@@ -34,7 +34,8 @@ NUM_HISTORY_PAGE = 20
 NUM_PAGINATOR_RANGE = 10
 PER_PAGE = ['10', '20', '50', '100', _('all')]
 
-UPLOAD_LIMIT = 512 * 1048576
+MEGABYTE = 1048576
+UPLOAD_LIMIT = 64 * MEGABYTE
 
 def _get_object_or_404(klass, slug_or_id, version=None):
     """Wrapper for Django's get_object_or_404.
@@ -624,10 +625,11 @@ def _new(request, klass):
         # manual validation coz it's required for new, but not edited Data
         if not request.FILES and klass == Data:
             form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
-            
-        #if klass == Data:
-        #    if len(request.FILES['file']) > UPLOAD_LIMIT:
-        #        form.errors['file'] = ErrorDict({'': _('Files is too large!')}).as_ul()
+
+        # check whether file is too large
+        if klass == Data:
+             if len(request.FILES['file']) > UPLOAD_LIMIT:
+                 form.errors['file'] = ErrorDict({'': _('Files is too large! Must be smaller than %dMB!' % (UPLOAD_LIMIT / MEGABYTE))}).as_ul()
 
         if False or form.is_valid():
             new = form.save(commit=False)
@@ -649,7 +651,8 @@ def _new(request, klass):
                     new.is_public = True
 
                 if klass == Data:
-                    new.file = request.FILES['file']                    
+                    new.file = request.FILES['file']
+                    
                     h5 = h5conv.HDF5()
                     new.format = h5.get_fileformat(request.FILES['file'].name)
                     new.file.name = new.get_filename()
@@ -682,7 +685,7 @@ def _new(request, klass):
         'request': request,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
-        'upload_limit': "%dMB" % (UPLOAD_LIMIT / 1048576.0)
+        'upload_limit': "%dMB" % (UPLOAD_LIMIT / MEGABYTE)
     }
 
     return render_to_response('repository/item_new.html', info_dict)
