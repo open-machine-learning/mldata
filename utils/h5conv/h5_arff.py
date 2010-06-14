@@ -37,45 +37,25 @@ class ARFF2H5(base.H5Converter):
         return numpy.array(types)
 
 
-    def _rm_ticks(self, item):
-        """Remove ticks from item if it is a string.
-
-        Some attributes are surrounded by unnecessary ticks.
-
-        @param item: item to check for ticks
-        @type item: any, preferably str
-        @return: unmodified item or item with ticks removed
-        @rtype: type(item)
-        """
-        try:
-            # a few attributes are designated strings by "'"
-            if item[0] == "'" and item[-1] == "'":
-                return item[1:-1]
-
-        except TypeError:
-            pass
-
-        return item
-
-
     def get_contents(self):
         data = {}
         names = []
         ordering = []
 
         for name in self.arff.attributes:
-            n = self._rm_ticks(name)
-            names.append(n)
-            data[n] = []
+            names.append(name)
+            data[name] = []
 
         for item in self.arff.data:
             for i in xrange(len(data)):
-                d = self._rm_ticks(item[i])
-                data[names[i]].append(d)
+                data[names[i]].append(item[i])
 
         # conversion to proper data types
         for name, values in data.iteritems():
-            t = self.get_datatype(values)
+            if self.arff.attribute_types[name] == 'date':
+                t = self.str_type
+            else:
+                t = self.get_datatype(values)
             data[name] = numpy.array(values).astype(t)
 
         return {'names':names, 'ordering':copy.copy(names), 'data':data}
@@ -107,6 +87,8 @@ class H52ARFF(base.H5Converter):
             for name in a.attributes:
                 if name.startswith('int') or name.startswith('double'):
                     types.append('numeric')
+                elif name.startswith('date'):
+                    types.append('date')
                 else:
                     types.append('string')
 

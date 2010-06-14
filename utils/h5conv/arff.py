@@ -89,6 +89,25 @@ class ArffFile(object):
 
         return a
 
+    def _rm_ticks(self, item):
+        """Remove ticks from item if it is a string.
+
+        Some attributes are surrounded by unnecessary ticks.
+
+        @param item: item to check for ticks
+        @type item: any, preferably str
+        @return: unmodified item or item with ticks removed
+        @rtype: type(item)
+        """
+        try:
+            # a few attributes are designated strings by "'"
+            if item[0] == "'" and item[-1] == "'":
+                return item[1:-1]
+        except TypeError:
+            pass
+
+        return item
+
     @staticmethod
     def parse(s):
         """Parse an ARFF File already loaded into a string."""
@@ -117,6 +136,9 @@ class ArffFile(object):
                 o.append("@attribute " + self.esc(a) + " numeric")
             elif at == 'string':
                 o.append("@attribute " + self.esc(a) + " string")
+            elif at == 'date':
+                o.append("@attribute " + self.esc(a) + " date " + \
+                    ''.join(self.attribute_data[a]))
             elif at == 'nominal':
                 o.append("@attribute " + self.esc(a) +
                          " {" + ','.join(self.attribute_data[a]) + "}")
@@ -130,6 +152,8 @@ class ArffFile(object):
                 if at == 'numeric':
                     line.append(str(e))
                 elif at == 'string':
+                    line.append(self.esc(e))
+                elif at == 'date':
                     line.append(self.esc(e))
                 elif at == 'nominal':
                     line.append(e)
@@ -149,11 +173,12 @@ class ArffFile(object):
 
     def define_attribute(self, name, atype, data=None):
         """Define a new attribute. atype has to be one
-        of 'numeric', 'string', and 'nominal'. For nominal
-        attributes, pass the possible values as data."""
-        self.attributes.append(name)
-        self.attribute_types[name] = atype
-        self.attribute_data[name] = data
+        of 'numeric', 'string', 'date' or 'nominal'. For nominal
+        or date attributes, pass the possible values as data."""
+        n = self._rm_ticks(name)
+        self.attributes.append(n)
+        self.attribute_types[n] = atype
+        self.attribute_data[n] = data
 
     def __parseline(self, l):
         if self.state == 'comment':
@@ -191,6 +216,8 @@ class ArffFile(object):
             self.define_attribute(name, 'numeric')
         elif atypel == 'string':
             self.define_attribute(name, 'string')
+        elif atypel == 'date':
+            self.define_attribute(name, 'date', l[3])
         elif atype[0] == '{' and atype[-1] == '}':
             values = [s.strip () for s in atype[1:-1].split(',')]
             self.define_attribute(name, 'nominal', values)
@@ -219,7 +246,9 @@ class ArffFile(object):
                     self.__print_warning('non-numeric value %s for numeric attribute %s' % (v, n))
                     return
             elif at == 'string':
-                datum.append(v)
+                datum.append(self._rm_ticks(v))
+            elif at == 'date':
+                datum.append(self._rm_ticks(v))
             elif at == 'nominal':
                 if v in self.attribute_data[n]:
                     datum.append(v)
