@@ -12,7 +12,7 @@
 		{% url repository.views.data_my as url_my %}
 		{% url repository.views.data_new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data" %}</li>{% endif %}
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data Sets" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
 		<li>{% trans "Search" %}
 		<form method="get" action="/repository/data/search/"><input type="text" name="searchterm" id="searchterm"></input></form></h4>
@@ -28,7 +28,7 @@
 		{% url repository.views.task_my as url_my %}
 		{% url repository.views.task_new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Task" %}</li>{% endif %}
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Tasks" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Task" %}</a></li>
 	</ul>
 </div><!-- /in -->

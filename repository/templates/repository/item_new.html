@@ -75,33 +75,58 @@ $(function() {
 
 			<div id="tabs-summary"><dl>
 				<dt><label for="id_name">{% trans "Name" %}</label> * {{ form.name.errors }}</dt>
-				<dd>{{ form.name }}</dd>
-				<dd><i>Note: Think about a good name. <b>IT CANNOT BE CHANGED LATER ON!.</i></b></dt>
+				<dd>{{ form.name }}<br />
+				    <span class="helptext">{% trans "Come up with good name. <b>IT CANNOT BE CHANGED LATER ON!</b> The name will also be used for creating the \"slug\", that is, the readable id for this item." %}</span></dd>
+
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
-				<dd>{{ form.summary }}</dd>
+				<dd>{{ form.summary }}<br />
+            <span class="helptext">{% trans "One-line summary of your data set" %}</span></dd>
+
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
-				<dd>{{ form.tags }}</dd>
+				<dd>{{ form.tags }}<br />
+				    <span clas="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
+
 		{% ifequal klass "Data" %}
-				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url about_license %}">{% trans "more info" %}</a>) * {{ form.license.errors }}</dt>
-				<dd>{{ form.license }}</dd>
+				<dt><label for="id_license">{% trans "License" %}</label> * {{ form.license.errors }}</dt>
+				<dd>{{ form.license }}<br />
+				    <span class="helptext">Choose a license for your data set. 
+            (<a target="_blank" href="{% url about_license %}">{% trans "more info" %}</a>)</span></dd>
+
 				<dt><label for="id_file">{% trans "Data file" %}</label> * {{ form.file.errors }}</dt>
-				<dd>{{ form.file }}</dd>
-				<dd><i>Note: Data file must be smaller than {{ upload_limit }}!</i></dt>
+				<dd>{{ form.file }}<br />
+				    <span class="helptext">Data file must be smaller than <b>{{ upload_limit }}!</b></span></dd>
+
 		{% else %}{% ifequal klass "Task" %}
 				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
-				<dd>{{ form.input}}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dd>{{ form.input}}<br />
+            <span class="helptext">
+  						{% trans 'Describe the format of the <b>input features</b> for this learning task.' %}<br/>
+							{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+
 				<dt><label for="id_output">{% trans "Output format" %}</label> * {{ form.output.errors }}</dt>
-				<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dd>{{ form.output }}<br /><span class="helptext">
+						{% trans 'Describe the format of the <b>output features</b> for this learning task.' %}<br/>
+						{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+
 				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
-				<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dd>{{ form.performance_measure }}<br /><span class="helptext">
+						{% trans 'Describe how the <b>performance</b> of the learned model is evaluated.' %}<br/>
+						{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+
 				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }}{{ form.freeformtype.errors }}</dt>
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
+
 				<dt><label for="id_data">{% trans "Data" %}</label> * {{ form.data.errors }}</dt>
-				<dd>{{ form.data }}</dd>
+				<dd>{{ form.data }}<br/>
+				    <span class="helptext">{% trans 'Data set on which the learning task is defined' %}</span></dd>
+
 				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
-				<dd>{{ form.data_heldback }}</dd>
+				<dd>{{ form.data_heldback }}<br/>
+				    <span class="helptext">{% trans 'Held back data file (for example for challenges)' %}</span></dd>
+
 				<dt><label for="id_file">{% trans "Task file" %}</label> {{ form.file.errors }}</dt>
-				<dd>{{ form.file }}</dd>
+				<dd>{{ form.file }}<br/>
+				    <span class="helptext">Upload additional information in a file (code, description, etc.)</span></dd>
 			{% else %}{% ifequal klass "Solution" %}
 				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
 				<dd>{{ form.feature_processing }}</dd>

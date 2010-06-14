@@ -89,7 +89,7 @@ dl#news dt.active {background-color:#e2f4ff;}
 .error {color:#F00; font-size:larger;}
 .errorlist {color:#F00;}
 
-.helptext {font-size:x-small; font-weight:normal;}
+.helptext {font-size:x-small; font-weight:normal; font-style: italic;}
 
 hr {color:#0081C7;}
 
@@ -103,3 +103,5 @@ select {border: 1px solid #0081C7; width:98%; padding: 4px; }
 select:focus {border: 2px solid #006095;}
 
 #uploadprogressbar { display: none; }
+
+.blog-archive { width: 100px; float: right; }
