@@ -1,7 +1,8 @@
 # Django settings for mldata project.
 
-VERSION = "r0000"
+import os
 
+VERSION = "r0000"
 PRODUCTION = False # set to True when project goes live
 
 if not PRODUCTION:
@@ -21,13 +22,14 @@ else:
 
 
 MANAGERS = ADMINS
+ABSDIR = os.path.abspath(os.path.dirname(__file__))
 
 if PRODUCTION:
     DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
     DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
 else:
     DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-    DATABASE_NAME = 'mldata.db' # Or path to database file if using sqlite3.
+    DATABASE_NAME = os.path.join(ABSDIR, 'mldata.db')
 
 DATABASE_USER = 'mldata'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
@@ -73,8 +75,7 @@ USE_I18N = True
 if PRODUCTION:
     MEDIA_ROOT = '/home/mldata/private'
 else:
-    #MEDIA_ROOT = '/home/shensche/proj/mldata/website/mldata/media/private'
-    MEDIA_ROOT = 'media/private'
+    MEDIA_ROOT = os.path.join(ABSDIR, 'media/private')
     
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
