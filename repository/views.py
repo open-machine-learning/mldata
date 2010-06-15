@@ -32,7 +32,7 @@ from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
 NUM_HISTORY_PAGE = 20
 NUM_PAGINATOR_RANGE = 10
-PER_PAGE = ['10', '20', '50', '100', _('all')]
+PER_PAGE_INTS = [10, 20, 50, 100, 999999]
 
 MEGABYTE = 1048576
 UPLOAD_LIMIT = 64 * MEGABYTE
@@ -805,7 +805,7 @@ def _get_my(user, objects):
     return my
 
 
-def _get_page(request, objects):
+def _get_page(request, objects, PER_PAGE):
     """Get paginator page for the given objects.
 
     @param request: request data
@@ -857,6 +857,11 @@ def _get_page(request, objects):
 
     return page
 
+def _get_per_page(count):
+	PER_PAGE=[ str(p) for p in PER_PAGE_INTS if p<count ]
+	PER_PAGE.append(_('all'))
+	return PER_PAGE
+
 def _index(request, klass, my=False, q=None):
     """Index/My page for section given by klass.
 
@@ -894,9 +899,10 @@ def _index(request, klass, my=False, q=None):
         unapproved = None
         my_or_archive = _('Public Archive')
 
+    PER_PAGE=_get_per_page(objects.count())
     info_dict = {
         'request': request,
-        'page': _get_page(request, objects),
+        'page': _get_page(request, objects, PER_PAGE),
         'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
