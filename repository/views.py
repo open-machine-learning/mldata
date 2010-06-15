@@ -792,17 +792,21 @@ def _get_my(user, objects):
     @rtype: list of repository.Data/Task/Solution
     """
     filtered = objects.filter(user=user).order_by('slug')
-    prev = None
-    idx = -1
-    my = []
-    for o in filtered:
-        if o.slug == prev and o.is_current:
-            my[idx] = o
-        if o.slug != prev:
-            prev = o.slug
-            idx += 1
-            my.append(o)
-    return my
+    return filtered
+    # this all would not be necessary if a fixed version (e.g. 0 would always
+    # be most current)
+
+    #prev = None
+    #idx = -1
+    #my = []
+    #for o in filtered:
+    #    if o.slug == prev and o.is_current:
+    #        my[idx] = o
+    #    if o.slug != prev:
+    #        prev = o.slug
+    #        idx += 1
+    #        my.append(o)
+    #return my
 
 
 def _get_page(request, objects, PER_PAGE):
@@ -858,9 +862,9 @@ def _get_page(request, objects, PER_PAGE):
     return page
 
 def _get_per_page(count):
-	PER_PAGE=[ str(p) for p in PER_PAGE_INTS if p<count ]
-	PER_PAGE.append(_('all'))
-	return PER_PAGE
+    PER_PAGE=[ str(p) for p in PER_PAGE_INTS if p<count ]
+    PER_PAGE.append(_('all'))
+    return PER_PAGE
 
 def _index(request, klass, my=False, q=None):
     """Index/My page for section given by klass.
@@ -899,6 +903,7 @@ def _index(request, klass, my=False, q=None):
         unapproved = None
         my_or_archive = _('Public Archive')
 
+    print type(objects)
     PER_PAGE=_get_per_page(objects.count())
     info_dict = {
         'request': request,
