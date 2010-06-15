@@ -1,16 +1,16 @@
 {% load i18n %}
 <div class="col2">
 {% ifnotequal page.paginator.num_pages 1 %}<div class="col2-left">
-<a title="{% trans 'Page' %} 1" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page=1&pp={{ page.perpage }}">&lt;&lt;</a>
-{% if page.prev %}<a title="{% trans 'Page' %} {{ page.prev }}" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page={{ page.prev }}&pp={{ page.perpage }}">&lt;</a>{% endif %}
+<a title="{% trans 'Page' %} 1" href="{% if search_term %}?searchterm={{search_term}}&{% else %}?{% endif %}page=1&pp={{ page.perpage }}">&lt;&lt;</a>
+{% if page.prev %}<a title="{% trans 'Page' %} {{ page.prev }}" href="{% if search_term %}?searchterm={{search_term}}&{% else %}?{% endif %}page={{ page.prev }}&pp={{ page.perpage }}">&lt;</a>{% endif %}
 {% for num in page.page_range %}
-	{% ifequal num page.number %}-{% else %}<a title="{% trans 'Page' %} {{ num }}" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page={{ num }}&pp={{ page.perpage }}">{{ num }}</a>{% endifequal %}
+	{% ifequal num page.number %}-{% else %}<a title="{% trans 'Page' %} {{ num }}" href="{% if search_term %}?searchterm={{search_term}}&{% else %}?{% endif %}page={{ num }}&pp={{ page.perpage }}">{{ num }}</a>{% endifequal %}
 {% endfor %}
-{% if page.next %}<a title="{% trans 'Page' %} {{ page.next }}" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page={{ page.next }}&pp={{ page.perpage }}">&gt;</a>{% endif %}
-<a title="{% trans 'Page' %} {{ page.last }}" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page={{ page.last }}&pp={{ page.perpage }}">&gt;&gt;</a>
+{% if page.next %}<a title="{% trans 'Page' %} {{ page.next }}" href="{% if search_term %}?searchterm={{search_term}}&{% else %}?{% endif %}page={{ page.next }}&pp={{ page.perpage }}">&gt;</a>{% endif %}
+<a title="{% trans 'Page' %} {{ page.last }}" href="{% if search_term %}?searchterm={{search_term}}&{% else %}?{% endif %}page={{ page.last }}&pp={{ page.perpage }}">&gt;&gt;</a>
 </div>{% endifnotequal %}
 <div class="col2-right">[{% for pp in per_page %}
 
-{% ifequal pp page.perpage %}{{ pp }}{% else %}<a title="{% trans 'Items shown per page' %}" href="{% if search_term %}?search_term={{search_term}}&{% else %}?{% endif %}page={{ page.number }}&pp={{ pp }}">{{ pp }}</a>{% endifequal %}
+{% ifequal pp page.perpage %}{{ pp }}{% else %}<a title="{% trans 'Items shown per page' %}" href="{% if search_term %}?searchterm={{search_term}}&{% else %}?{% endif %}page={{ page.number }}&pp={{ pp }}">{{ pp }}</a>{% endifequal %}
 {% endfor %}]</div>
 </div>
