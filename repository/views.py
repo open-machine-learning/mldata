@@ -878,11 +878,13 @@ def _index(request, klass, my=False, q=None):
     @rtype: Django response
     """
     if q:
+        # only match name and summary for now
+        #Q(version__icontains=q) | Q(description__icontains=q)
+
         objects = klass.objects.filter(
-                Q(version__icontains=q) |
                 Q(name__icontains=q) |
-                Q(description__icontains=q) |
                 Q(summary__icontains=q))
+
 
         objects = objects.filter(is_deleted=False).order_by('-pub_date')
     else:
