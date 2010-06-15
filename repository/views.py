@@ -903,7 +903,6 @@ def _index(request, klass, my=False, q=None):
         unapproved = None
         my_or_archive = _('Public Archive')
 
-    print type(objects)
     PER_PAGE=_get_per_page(objects.count())
     info_dict = {
         'request': request,
@@ -1523,8 +1522,8 @@ def publication_edit(request):
             pub.save()
             return HttpResponseRedirect(form.cleaned_data['next'])
         else:
-            print request.POST
-            print form.errors
+            #print request.POST
+            #print form.errors
             return HttpResponseRedirect(form.cleaned_data['next'])
     return HttpResponseRedirect(reverse('repository_index'))
 
