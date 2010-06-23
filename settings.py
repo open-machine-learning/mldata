@@ -123,13 +123,13 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'mldata.urls'
 
 if PRODUCTION:
-	TEMPLATE_DIRS = (
-		'/home/mldata/django/mldata/templates/',
-	)
+    TEMPLATE_DIRS = (
+        '/home/mldata/django/mldata/templates/',
+    )
 else:
-	TEMPLATE_DIRS = (
-		'templates/',
-	)
+    TEMPLATE_DIRS = (
+        os.path.join(ABSDIR, 'templates/'),
+    )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
