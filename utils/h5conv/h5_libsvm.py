@@ -1,4 +1,4 @@
-import numpy, h5py, os
+import numpy, h5py, os, copy
 from scipy.sparse import csc_matrix
 import base
 
@@ -174,7 +174,7 @@ class LibSVM2H5(base.H5Converter):
 
         return {
             'ordering': ordering,
-            'names': ordering,
+            'names': copy.copy(ordering),
             'data': data,
             'label': label,
         }

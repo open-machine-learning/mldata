@@ -209,7 +209,9 @@ class H5Converter(object):
         idx_double = 0
         merging = None
         for name in contents['ordering']:
-            if name == 'label': continue
+            if name == 'label':
+                ordering.append(name)
+                continue
 
             val = contents['data'][name]
             if len(val) < 1: continue
