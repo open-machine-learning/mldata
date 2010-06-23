@@ -864,12 +864,14 @@ def _get_page(request, objects, PER_PAGE):
 
     return page
 
+
 def _get_per_page(count):
     PER_PAGE=[ str(p) for p in PER_PAGE_INTS if p<count ]
     PER_PAGE.append(_('all'))
     return PER_PAGE
 
-def _index(request, klass, my=False, q=None):
+
+def _index(request, klass, my=False, searchterm=None):
     """Index/My page for section given by klass.
 
     @param request: request data
@@ -877,17 +879,18 @@ def _index(request, klass, my=False, q=None):
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
     @param my: if the page should be a My page or the archive index of the section
+    @type my: boolean
+    @param searchterm: search term to reduce queryset
+    @type searchterm: string
     @return: section's index or My page
     @rtype: Django response
     """
-    if q:
+    if searchterm:
         # only match name and summary for now
         #Q(version__icontains=q) | Q(description__icontains=q)
-
         objects = klass.objects.filter(
-                Q(name__icontains=q) |
-                Q(summary__icontains=q))
-
+                Q(name__icontains=searchterm) |
+                Q(summary__icontains=searchterm))
 
         objects = objects.filter(is_deleted=False).order_by('-pub_date')
     else:
@@ -919,8 +922,8 @@ def _index(request, klass, my=False, q=None):
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
     }
-    if q:
-        info_dict['search_term']=q
+    if searchterm:
+        info_dict['searchterm'] = searchterm
 
     return render_to_response('repository/item_index.html', info_dict)
 
@@ -941,27 +944,25 @@ def index(request):
     }
     return render_to_response('repository/index.html', info_dict)
 
-def search_data(request):
-    searchform = SearchForm()
-    
-    if request.method == 'GET':
-        try:
-            q = request.GET['searchterm'];
-            return data_search(request, q)
-        except:
-            return HttpResponseRedirect('/repository/data')
-    else:
-        return HttpResponseRedirect('/repository/data')
 
-def data_search(request, q):
-    """Index page of Data section.
+def data_search(request):
+    """Search page of Data section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return _index(request, Data, False, q)
+    if request.method == 'GET':
+        try:
+            searchterm = request.GET['searchterm'];
+            print searchterm
+            return _index(request, Data, False, searchterm)
+        except:
+            return HttpResponseRedirect(reverse(data_index))
+    else:
+        return HttpResponseRedirect(reverse(data_index))
+
 
 def data_index(request):
     """Index page of Data section.

@@ -213,7 +213,3 @@ class PublicationForm(forms.ModelForm):
         @type model: models.Solution
         """
         model = Publication
-
-
-class SearchForm(forms.Form):
-    searchterm = forms.CharField(max_length=40)

@@ -14,8 +14,8 @@
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data Sets" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
-		<li>{% trans "Search" %}
-		<form method="get" action="/repository/data/search/"><input type="text" name="searchterm" id="searchterm"></input></form></h4>
+		<li class="search">{% trans "Search" %}
+		<form method="get" action="{% url repository.views.data_search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}"></input></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
 		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_data_view t.name %}">{{ t.name }}</a></span> {% endfor %}
