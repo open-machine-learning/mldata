@@ -2,28 +2,13 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {% trans "Tags" %} :: {{ tag }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> / <a href="{% url repository.views.tags_index %}">{% trans "Tags" %}</a> / {{ tag }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository.views.index %}">{% trans "Repository" %}</a> / {% trans "Tags" %} / {{ klass }} / {{ tag }}{% endblock %}
 
 {% block content %}
-<h2 class="title-01">{% trans "Items tagged by" %} <strong>{{ tag }}</strong></h2>
+<h2 class="title-01">{{ klass }} {% trans "items tagged by" %} <strong>{{ tag }}</strong></h2>
 <div class="in">
-	<table class="fullwidth">
-	<tr>
-		<th>{% trans "Data" %}</th>
-		<th>{% trans "Task" %}</th>
-		<th>{% trans "Solution" %}</th>
-	</tr>
-	<tr>
-		<td><ul>{% for obj in objects.data %}
-			<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
-		{% endfor %}</ul></td>
-		<td><ul>{% for obj in objects.task %}
-			<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
-		{% endfor %}</ul></td>
-		<td><ul>{% for obj in objects.solution %}
-			<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
-		{% endfor %}</ul></td>
-	</tr>
-	</table>
+	<ul>{% for obj in objects %}
+		<li><a title="{{ obj.summary }}" href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a></li>
+	{% endfor %}</ul>
 </div><!-- /in -->
 {% endblock %}

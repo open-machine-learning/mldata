@@ -194,13 +194,13 @@ def _get_current_tagged_items(request, klass, tagged):
 
 
 
-def _get_current_tags(request, do_sort=False):
+def _get_current_tags(request, klass=None):
     """Get current tags available to user.
 
     @param request: request data
     @type request: Django request
-    @param do_sort: if the tag list shall be sorted alphabetically
-    @type do_sort: boolean
+    @param klass: class to retrieve tags for
+    @type klass: repository.Data/Task/Solution
     @return: current tags available to user
     @rtype: list of tagging.Tag
     """
@@ -210,12 +210,18 @@ def _get_current_tags(request, do_sort=False):
     else:
         qs = Q(is_public=True) & Q(is_current=True)
 
-    tags = Tag.objects.usage_for_queryset(
-        Data.objects.filter(qs & Q(is_approved=True)), counts=True)
-    tags.extend(Tag.objects.usage_for_queryset(
-        Task.objects.filter(qs), counts=True))
-    tags.extend(Tag.objects.usage_for_queryset(
-        Solution.objects.filter(qs), counts=True))
+    if klass:
+        if klass == Data:
+            qs = qs & Q(is_approved=True)
+        tags = Tag.objects.usage_for_queryset(klass.objects.filter(qs), counts=True)
+    else:
+        tags = Tag.objects.usage_for_queryset(
+            Data.objects.filter(qs & Q(is_approved=True)), counts=True)
+        tags.extend(Tag.objects.usage_for_queryset(
+            Task.objects.filter(qs), counts=True))
+        tags.extend(Tag.objects.usage_for_queryset(
+            Solution.objects.filter(qs), counts=True))
+
     current = {}
     for t in tags:
         if not t.name in current:
@@ -223,35 +229,32 @@ def _get_current_tags(request, do_sort=False):
         else:
             current[t.name].count += t.count
 
-    if do_sort:
-        return sorted(current.values(), key=lambda tag: tag.name)
-    else:
-        return current.values()
+    return current.values()
 
 
-def _get_tag_cloud(request, tags=None):
-    """Retrieve a cloud of tags of all item types.
+def _get_tag_cloud(request):
+    """Retrieve tag clouds for all item types.
 
     @param request: request data
     @type request: Django request
-    @param tags: current tags (will be retrieved if None)
-    @type tags: list of tagging.Tag
     @return: list of tags with attributes font_size
-    @rtype: list of tagging.Tag
+    @rtype: hash with keys 'data', 'task', 'solution' containing lists of tagging.Tag
     """
-    if not tags:
-        current = _get_current_tags(request)
-    else:
-        # copy necessary, otherwise tags will be shuffled
-        import copy
-        current = copy.copy(tags)
+    clouds = {
+        'Data': None,
+        'Task': None,
+        'Solution': None,
+    }
 
-    if current:
-        cloud = calculate_cloud(current, steps=2)
-        random.shuffle(cloud)
-    else:
-        cloud = None
-    return cloud
+    for k in clouds.iterkeys():
+        c = _get_current_tags(request, klass=eval(k))
+        if c:
+            clouds[k] = calculate_cloud(c, steps=2)
+            random.shuffle(clouds[k])
+        else:
+            clouds[k] = None
+
+    return clouds
 
 
 @transaction.commit_on_success
@@ -1398,31 +1401,45 @@ def data_new_review(request, slug):
 
 
 
-def tags_index(request):
-    """Index page to display all public and all user's tags.
-
-    @param request: request data
-    @type request: Django request
-    @return: rendered response page
-    @rtype: Django response
-    """
-    current =_get_current_tags(request, True)
-    info_dict = {
-        'request': request,
-        'section': 'repository',
-        'tags': current,
-        'tagcloud': _get_tag_cloud(request, current),
-    }
-    return render_to_response('repository/tags_index.html', info_dict)
-
-
-def tags_view(request, tag):
-    """View all items tagged by given tag.
+def tags_data_view(request, tag):
+    """View all items by given tag in Data.
 
     @param request: request data
     @type request: Django request
     @param tag: name of the tag
     @type tag: string
+    """
+    return _tags_view(request, tag, Data)
+
+def tags_task_view(request, tag):
+    """View all items by given tag in Task.
+
+    @param request: request data
+    @type request: Django request
+    @param tag: name of the tag
+    @type tag: string
+    """
+    return _tags_view(request, tag, Task)
+
+def tags_solution_view(request, tag):
+    """View all items by given tag in Solution.
+
+    @param request: request data
+    @type request: Django request
+    @param tag: name of the tag
+    @type tag: string
+    """
+    return _tags_view(request, tag, Solution)
+
+def _tags_view(request, tag, klass):
+    """View all items tagged by given tag in given klass.
+
+    @param request: request data
+    @type request: Django request
+    @param tag: name of the tag
+    @type tag: string
+    @param klass: klass of tagged item
+    @type klass: repository.Data/Task/Solution
     @return: rendered response page
     @rtype: Django response
     @raise Http404: if tag doesn't exist or no items are tagged by given tag
@@ -1430,12 +1447,8 @@ def tags_view(request, tag):
     try:
         tag = Tag.objects.get(name=tag)
         tagged = TaggedItem.objects.filter(tag=tag)
-        objects = {
-            'data': _get_current_tagged_items(request, Data, tagged),
-            'task': _get_current_tagged_items(request, Task, tagged),
-            'solution': _get_current_tagged_items(request, Solution, tagged),
-        }
-        if not objects['data'] and not objects['task'] and not objects['solution']:
+        objects = _get_current_tagged_items(request, klass, tagged)
+        if not objects:
             raise Http404
     except Tag.DoesNotExist:
         raise Http404
@@ -1443,6 +1456,7 @@ def tags_view(request, tag):
     info_dict = {
         'request': request,
         'section': 'repository',
+        'klass': klass.__name__,
         'tag': tag,
         'tagcloud': _get_tag_cloud(request),
         'objects': objects,

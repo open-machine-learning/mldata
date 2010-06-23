@@ -17,8 +17,10 @@
 		<li>{% trans "Search" %}
 		<form method="get" action="/repository/data/search/"><input type="text" name="searchterm" id="searchterm"></input></form></h4>
 		</li>
+		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
+		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_data_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		</li>
 	</ul>
-
 </div><!-- /in -->
 
 <h4 class="title-03">{% trans "Task" %}</h4>
@@ -30,6 +32,9 @@
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Tasks" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Task" %}</a></li>
+		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
+		{% for t in tagcloud.Task %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_task_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		</li>
 	</ul>
 </div><!-- /in -->
 
@@ -43,12 +48,10 @@
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Solution" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Solution" %}</a></li>
+		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
+		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_solution_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		</li>
 	</ul>
 </div>--><!-- /in -->
-
-
-<h4 class="title-04">{% trans "Tag Cloud" %}</h4>
-<div id="tagcloud" class="in">
-{% for t in tagcloud %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
-</div><!-- /in -->
+<br />
 {% endblock %}

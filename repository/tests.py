@@ -158,12 +158,6 @@ class RepositoryTest(TestCase):
 #        self.assertTemplateUsed(r, 'repository/item_new.html')
 
 
-    def test_index_tags(self):
-        r = self.client.get(self.url['index_tags'])
-        self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/tags_index.html')
-
-
     def test_view_tags_foobar(self):
         r = self.client.get(self.url['view_tags_foobar'])
         self.assertEqual(r.context['section'], 'repository')

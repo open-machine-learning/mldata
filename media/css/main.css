@@ -58,7 +58,6 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     
         #content {float:left; width:600px; background:#FFF;}
         #aside {float:right; width:280px;}
-           #tagcloud {min-height:200px;}
         #content .in, #aside .in {padding:5px 15px;}
 
     #footer {padding:15px 15px 5px 15px;}
