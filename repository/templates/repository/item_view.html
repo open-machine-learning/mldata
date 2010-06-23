@@ -96,11 +96,11 @@ $(function() {
 		<div id="tabs-summary"><dl id="news">
 			<dt>{% trans "Summary" %}</dt>
 			<dd>{{ object.summary|edit_if_empty }}</dd>
-			<dt>{% trans "Tags" %}</dt>
-			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "License" %}</dt>
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
 		{% ifequal object.klass "Data" %}
+			<dt>{% trans "Tags" %}</dt>
+			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_data_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Related Task(s)" %}</dt>
 			<dd>{% for t in related %}<a href="{% url repository.views.task_view_slug object.slug.text t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
 			<dt>{% trans "Download" %}</a></dd>
@@ -119,6 +119,8 @@ $(function() {
 				{% endif %}
 			</dd>
 		{% else %}{% ifequal object.klass "Task" %}
+			<dt>{% trans "Tags" %}</dt>
+			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_task_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Input format" %}</dt>
 			<dd>{{ object.input|markdown }}</dd>
 			<dt>{% trans "Output format" %}</dt>
@@ -140,6 +142,8 @@ $(function() {
 			<dd><a href="{% url repository.views.task_download object.id %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
 			{% endif %}
 		{% else %}{% ifequal object.klass "Solution" %}
+			<dt>{% trans "Tags" %}</dt>
+			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_solution_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Feature Processing" %}</dt>
 			<dd>{{ object.feature_processing }}</dd>
 			<dt>{% trans "Parameters" %}</dt>
