@@ -891,12 +891,13 @@ def _index(request, klass, my=False, searchterm=None):
         objects = klass.objects.filter(
                 Q(name__icontains=searchterm) |
                 Q(summary__icontains=searchterm))
-
         objects = objects.filter(is_deleted=False).order_by('-pub_date')
     else:
         objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
+
     if klass == Data:
         objects = objects.filter(is_approved=True)
+
     if my and request.user.is_authenticated():
         objects = _get_my(request.user, objects)
         if klass == Data:
@@ -956,7 +957,6 @@ def data_search(request):
     if request.method == 'GET':
         try:
             searchterm = request.GET['searchterm'];
-            print searchterm
             return _index(request, Data, False, searchterm)
         except:
             return HttpResponseRedirect(reverse(data_index))
