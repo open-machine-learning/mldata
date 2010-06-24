@@ -94,7 +94,7 @@ $(function() {
 
 				<dt><label for="id_file">{% trans "Data file" %}</label> * {{ form.file.errors }}</dt>
 				<dd>{{ form.file }}<br />
-				    <span class="helptext">Data file must be smaller than <b>{{ upload_limit }}!</b></span></dd>
+				    <span class="helptext">Data file must be smaller than <b>{{ upload_limit }}!</b> (<a href="{% url about_hdf5 %}#fileformats">{% trans "parsed formats" %}</a>)</span></dd>
 
 		{% else %}{% ifequal klass "Task" %}
 				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
