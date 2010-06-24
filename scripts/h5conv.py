@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../utils'))
 import h5conv
 
 def usage():
-    print """Usage: """ + sys.argv[0] + """ [options]
+    msg = ["""Usage: """ + sys.argv[0] + """ [options]
 
 Options:
 
@@ -21,14 +21,16 @@ Options:
 
 <in-filename> <in format> <out-filename> <out format>
     Supported conversions are:
+"""]
 
-        libsvm -> h5
-        arff -> h5
-        uci -> h5
+    for item in h5conv.TOH5.iterkeys():
+        msg.append('    ' + item + ' -> ' + 'h5')
+    msg.append('')
+    for item in h5conv.FROMH5.iterkeys():
+        msg.append('    h5 -> ' + item)
 
-        h5 -> arff
-        h5 -> csv
-"""
+    print "\n".join(msg)
+
 
 class Options:
     """Option.

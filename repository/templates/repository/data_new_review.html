@@ -13,7 +13,7 @@
 	<form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
 	<dl id="news">
 		<dt><label for="id_format">{% trans "Detected Data format" %}</label></dt>
-		<dd><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: libsvm, csv, arff, uci, h5, matlab, octave. These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>{% trans ", if possible" %}.<br />{% trans "Unsupported formats and failed conversions will be kept as is, but premium features are not available for these." %}</span></dd>
+		<dd><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: " %}{{ supported_formats }}. {% trans "These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>{% trans ", if possible" %}.<br />{% trans "Unsupported formats and failed conversions will be kept as is, but premium features are not available for these." %}</span></dd>
 		<dt><label for="id_seperator">{% trans "Detected Data seperator" %}</label></dt>
 		<dd><input type="text" name="id_seperator" value="{{ object.seperator }}" size="1" maxlength="1" /><br /><span class="helptext">{% trans "The seperator seperates the variables in the examples. Allowed values are ',', ' ' and '\t'." %}</span></dd>
 		<dt>{% trans "Name" %}</dt>

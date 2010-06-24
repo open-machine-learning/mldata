@@ -74,18 +74,22 @@
 		<li>test_idx/train_idx/validation_idx: {% trans "Dataset with indices of where the examples are split. Row indices in the original files == column indices in our data file. It may be a matrix in case of permuations, that is if there are multiple ways of splitting defined." %}; <code>{% trans "Array (or Matrix) of Integers" %}</code></li>
 	</ul>
 
-
-	<h2>{% trans "Currently supported formats" %}</h2>
-	<h4>{% trans "to" %} HDF5</h4>
-	<ul>
-		<li>LibSVM</li>
-		<li>ARFF</li>
-		<li>UCI ({% trans "Not really a dataformat, but a collection of algorithms to parse datasets from that repository." %})</li>
-	</ul>
-	<h4>{% trans "from" %} HDF5</h4>
-	<ul>
-		<li>ARFF</li>
-	</ul>
+	<h2>{% trans "Supported formats" %}</h2>
+	<p>{% trans "The website (and its converter tool) currently supports conversion from and to the following data formats:" %}</p>
+	<table>
+	<tr>
+		<th>{% trans "to" %} HDF5</th>
+		<th>{% trans "from" %} HDF5</th>
+	</tr>
+	<tr>
+		<td><ul>
+			{% for f in supported_formats.to %}<li>{{ f }}</li>{% endfor %}
+		</ul></td>
+		<td><ul>
+			{% for f in supported_formats.from %}<li>{{ f }}</li>{% endfor %}
+		</ul></td>
+	</tr>
+	</table>
 
 	<p>{% trans "You will find an implementation of a converter in Python in the source tarball, utils/hdf5conv (and scripts/hdf5conv.py as an example how to use the converter). You can also download an " %}<a href="{{ MEDIA_URL }}example.h5">{% trans "example file" %}</a>.</p>
 	<p>{% trans "Please also have a look at the example page on how you can use the files you download from this site" %}: <a href="example/">example page</a>.</p>

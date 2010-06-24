@@ -5,8 +5,16 @@ URLconf for app About
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from settings import MEDIA_URL
+from utils import h5conv
 
-extra_context = { 'section': 'about', 'MEDIA_URL': MEDIA_URL }
+extra_context = {
+    'section': 'about',
+    'MEDIA_URL': MEDIA_URL,
+    'supported_formats': {
+        'to': h5conv.TOH5.iterkeys(),
+        'from': h5conv.FROMH5.iterkeys(),
+    },
+}
 
 urlpatterns = patterns('',
     url(r'^$', direct_to_template,

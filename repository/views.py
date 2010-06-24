@@ -1396,6 +1396,7 @@ def data_new_review(request, slug):
         'request': request,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
+        'supported_formats': ', '.join(h5conv.TOH5.iterkeys()),
         'extract': h5.get_extract(fname),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
