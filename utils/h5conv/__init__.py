@@ -381,14 +381,33 @@ class HDF5():
         @rtype: tuple containing 2 integers
         """
         h5 = h5py.File(fname, 'r')
-        if not 'data' in h5:
-            instattr = (-1, -1)
-        else:
-            # FIXME!
-            instattr = (-1, -1)
+        try:
+            if 'indptr' in h5['data']: # sparse
+                A = csc_matrix(
+                    (h5['data']['data'], h5['data']['indices'], h5['data']['indptr'])
+                )
+                num_inst = A.shape[1]
+                num_attr = A.shape[0]
+            else:
+                num_inst = 0
+                num_attr = 0
+                # this seems a bit non-intuitive aka magic...
+                for name in h5['data_descr']['ordering']:
+                    if name == 'label': continue
+                    if len(h5['data'][name].shape) == 2:
+                        num_attr += h5['data'][name].shape[0]
+                        inst = h5['data'][name].shape[1]
+                        if inst > num_inst:
+                            num_inst = inst
+                    else:
+                        num_inst = h5['data'][name].shape[0]
+                        num_attr += 1
+        except:
+            num_inst = -1
+            num_attr = -1
 
         h5.close()
-        return instattr
+        return (num_inst, num_attr)
 
 
     def infer_seperator(self, fname):
