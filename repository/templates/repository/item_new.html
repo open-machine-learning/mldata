@@ -84,7 +84,7 @@ $(function() {
 
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
-				    <span clas="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
+				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
 
 		{% ifequal klass "Data" %}
 				<dt><label for="id_license">{% trans "License" %}</label> * {{ form.license.errors }}</dt>
