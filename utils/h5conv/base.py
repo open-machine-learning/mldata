@@ -6,8 +6,7 @@ from scipy.sparse import csc_matrix
 VERSION_MLDATA = '0'
 NUM_EXTRACT = 10
 COMPRESSION = None
-# white space seperator(s) is implicit
-ALLOWED_SEPERATORS = (',')
+ALLOWED_SEPERATORS = (',', ' ', '\t')
 
 
 class H5Converter(object):
