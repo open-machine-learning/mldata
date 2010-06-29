@@ -165,10 +165,10 @@ class HDF5():
         except Exception, e: # reformat all other exceptions to ConversionError
             raise ConversionError, ConversionError(str(e)), sys.exc_info()[2]
 
-        if seperator:
-            self.converter.set_seperator(seperator)
-
         try:
+            if seperator:
+                self.converter.set_seperator(seperator)
+
             self.converter.run()
             if verify:
                 if format_other == 'uci':
