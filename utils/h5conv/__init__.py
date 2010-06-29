@@ -348,6 +348,7 @@ class HDF5():
                 extract['data'] = A[:ne].tolist()
             else:
                 for dset in h5['data_descr/ordering']:
+                    if dset == 'label': continue
                     dset = 'data/' + dset
                     if type(h5[dset][0]) == numpy.ndarray:
                         for i in xrange(len(h5[dset])):
