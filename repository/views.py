@@ -1371,28 +1371,36 @@ def data_new_review(request, slug):
         return HttpResponseForbidden()
 
     fname = os.path.join(MEDIA_ROOT, obj.file.name)
+    form = None
     if request.method == 'POST':
         if request.POST.has_key('revert'):
             os.remove(fname)
             obj.delete()
             return HttpResponseRedirect(reverse(data_new))
         elif request.POST.has_key('approve'):
-            obj.seperator = request.POST['id_seperator']
-            try:
-                obj = _data_approve(obj, fname, request.POST['id_format'].lower())
-            except h5conv.ConversionError, e:
-                _data_conversion_error(request, obj, e)
-            return HttpResponseRedirect(
-                reverse(data_view_slug, args=[obj.slug]))
+            form = DataReviewForm(request.POST)
+            if form.is_valid():
+                obj.seperator = form.cleaned_data['seperator']
+                try:
+                    obj = _data_approve(obj, fname, form.cleaned_data['format'])
+                except h5conv.ConversionError, e:
+                    _data_conversion_error(request, obj, e)
+                return HttpResponseRedirect(
+                    reverse(data_view_slug, args=[obj.slug]))
 
     h5 = h5conv.HDF5()
-    if obj.format == 'h5':
-        obj.seperator = ''
-    else:
-        obj.seperator = h5.infer_seperator(fname)
+    if not form:
+        form = DataReviewForm()
+        form.fields['format'].initial = obj.format
+        if obj.format == 'h5':
+            form.fields['seperator'].initial = ''
+        else:
+            sep = h5.infer_seperator(fname)
+            form.fields['seperator'].initial = sep
 
     info_dict = {
         'object': obj,
+        'form': form,
         'request': request,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
@@ -1540,8 +1548,6 @@ def publication_edit(request):
             pub.save()
             return HttpResponseRedirect(form.cleaned_data['next'])
         else:
-            #print request.POST
-            #print form.errors
             return HttpResponseRedirect(form.cleaned_data['next'])
     return HttpResponseRedirect(reverse('repository_index'))
 

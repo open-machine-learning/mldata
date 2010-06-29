@@ -210,6 +210,19 @@ class PublicationForm(forms.ModelForm):
         """Inner meta class to specify model options.
 
         @cvar model: model to use
-        @type model: models.Solution
+        @type model: models.Publication
         """
         model = Publication
+
+
+class DataReviewForm(forms.Form):
+    """Form used for Data review."""
+    format = forms.CharField(required=True)
+    seperator = forms.CharField(required=True, max_length=1)
+
+    def clean_format(self):
+        """Lowercase variable format."""
+        if 'format' in self.cleaned_data:
+            return self.cleaned_data['format'].lower()
+        else:
+            raise ValidationError(_('No format specified.'))

@@ -10,12 +10,16 @@
 <div class="in">
 	<p>{% trans "The Data item is not yet complete. Here you have a chance to review what the system has discovered about the uploaded Data file and modify the recognised file format. Press 'Looks good, proceed' to finalise the item or 'Go Back' to remove it from the repository and start anew." %}</p>
 
+{% if form.errors %}
+	<div class="error">{% trans "There had been errors, please see below" %}.</div>
+{% endif %}
+
 	<form action="{% url repository.views.data_new_review object.id %}" method="post" enctype="multipart/form-data">
 	<dl id="news">
-		<dt><label for="id_format">{% trans "Detected Data format" %}</label></dt>
-		<dd><input type="text" name="id_format" value="{{ object.format }}" size="20" /><br /><span class="helptext">{% trans "Supported formats are: " %}{{ supported_formats }}. {% trans "These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>{% trans ", if possible" %}.<br />{% trans "Unsupported formats and failed conversions will be kept as is, but premium features are not available for these." %}</span></dd>
-		<dt><label for="id_seperator">{% trans "Detected Data seperator" %}</label></dt>
-		<dd><input type="text" name="id_seperator" value="{{ object.seperator }}" size="1" maxlength="1" /><br /><span class="helptext">{% trans "The seperator seperates the variables in the examples. Allowed values are ',', ' ' and '\t'." %}</span></dd>
+		<dt><label for="id_format">{% trans "Detected Data format" %}</label> {{ form.format.errors }}</dt>
+		<dd>{{ form.format }}<br /><span class="helptext">{% trans "Supported formats are: " %}{{ supported_formats }}. {% trans "These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>{% trans ", if possible" %}.<br />{% trans "Unsupported formats and failed conversions will be kept as is, but premium features are not available for these." %}</span></dd>
+		<dt><label for="id_seperator">{% trans "Detected Data seperator" %}</label> {{ form.seperator.errors }}</dt>
+		<dd>{{ form.seperator }}<br /><span class="helptext">{% trans "The seperator seperates the variables in the examples. Allowed values are ',', ' ' and '\t' (note: it might not be visible without selection in the text field)." %}</span></dd>
 		<dt>{% trans "Name" %}</dt>
 		<dd>{{ extract.name }}</dd>
 		<dt>{% trans "Version" %} mldata</dt>
