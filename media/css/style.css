@@ -89,7 +89,7 @@ dl#news dt.active {background-color:#e2f4ff;}
 .comment, .more {color:#3F3F3F;}
 
 .warning {color:#F00;}
-.error {color:#F00; font-size:larger;}
+.error {color:#F00; font-size:larger; margin:.5em;}
 .errorlist {color:#F00;}
 
 .helptext {font-size:x-small; font-weight:normal; font-style: italic;}

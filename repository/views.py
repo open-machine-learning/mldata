@@ -885,16 +885,7 @@ def _index(request, klass, my=False, searchterm=None):
     @return: section's index or My page
     @rtype: Django response
     """
-    if searchterm:
-        # only match name and summary for now
-        #Q(version__icontains=q) | Q(description__icontains=q)
-        objects = klass.objects.filter(
-                Q(name__icontains=searchterm) |
-                Q(summary__icontains=searchterm))
-        objects = objects.filter(is_deleted=False).order_by('-pub_date')
-    else:
-        objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
-
+    objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
     if klass == Data:
         objects = objects.filter(is_approved=True)
 
@@ -912,10 +903,23 @@ def _index(request, klass, my=False, searchterm=None):
         unapproved = None
         my_or_archive = _('Public Archive')
 
+    searcherror = False
+    if searchterm:
+        # only match name and summary for now
+        #Q(version__icontains=q) | Q(description__icontains=q)
+        searched = objects.filter(
+            Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
+        )
+        if searched.count() < 1:
+            searcherror = True
+        else:
+            objects = searched
+
     PER_PAGE=_get_per_page(objects.count())
     info_dict = {
         'request': request,
         'page': _get_page(request, objects, PER_PAGE),
+        'searcherror': searcherror,
         'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
@@ -955,11 +959,8 @@ def data_search(request):
     @rtype: Django response
     """
     if request.method == 'GET':
-        try:
-            searchterm = request.GET['searchterm'];
-            return _index(request, Data, False, searchterm)
-        except:
-            return HttpResponseRedirect(reverse(data_index))
+        searchterm = request.GET['searchterm'];
+        return _index(request, Data, False, searchterm)
     else:
         return HttpResponseRedirect(reverse(data_index))
 

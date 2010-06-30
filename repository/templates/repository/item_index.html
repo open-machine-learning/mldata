@@ -7,6 +7,9 @@
 {% block content %}
 <h2 class="title-01">{{ my_or_archive }} {{ klass }}</h2>
 <div class="in">
+{% if searcherror %}
+<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
+{% endif%}
 {% if page.object_list %}
 	{% include "repository/paginator_index.html" %}
 	<ul class="index_list">
