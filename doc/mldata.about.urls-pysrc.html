@@ -87,118 +87,174 @@ mldata.user.views" class="py-name" href="#" onclick="return doclink('link-1', 'v
 mldata.settings
 mldata.tagging.settings
 mldata.tagging.tests.settings" class="py-name" href="#" onclick="return doclink('link-3', 'settings', 'link-3');">settings</a></tt> <tt class="py-keyword">import</tt> <tt id="link-4" class="py-name" targets="Variable mldata.settings.MEDIA_URL=mldata.settings-module.html#MEDIA_URL"><a title="mldata.settings.MEDIA_URL" class="py-name" href="#" onclick="return doclink('link-4', 'MEDIA_URL', 'link-4');">MEDIA_URL</a></tt> </tt>
-<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"> </tt>
-<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable mldata.about.urls.extra_context=mldata.about.urls-module.html#extra_context,Variable mldata.django_authopenid.urls.extra_context=mldata.django_authopenid.urls-module.html#extra_context"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-5', 'extra_context', 'link-5');">extra_context</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'about'</tt><tt class="py-op">,</tt> <tt class="py-string">'MEDIA_URL'</tt><tt class="py-op">:</tt> <tt id="link-6" class="py-name"><a title="mldata.settings.MEDIA_URL" class="py-name" href="#" onclick="return doclink('link-6', 'MEDIA_URL', 'link-4');">MEDIA_URL</a></tt> <tt class="py-op">}</tt> </tt>
-<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"> </tt>
-<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt id="link-7" class="py-name" targets="Variable mldata.about.urls.urlpatterns=mldata.about.urls-module.html#urlpatterns,Variable mldata.blog.urls.urlpatterns=mldata.blog.urls-module.html#urlpatterns,Variable mldata.django_authopenid.urls.urlpatterns=mldata.django_authopenid.urls-module.html#urlpatterns,Variable mldata.forum.urls.urlpatterns=mldata.forum.urls-module.html#urlpatterns,Variable mldata.registration.urls.urlpatterns=mldata.registration.urls-module.html#urlpatterns,Variable mldata.repository.urls.urlpatterns=mldata.repository.urls-module.html#urlpatterns,Variable mldata.urls.urlpatterns=mldata.urls-module.html#urlpatterns,Variable mldata.user.urls.urlpatterns=mldata.user.urls-module.html#urlpatterns"><a title="mldata.about.urls.urlpatterns
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-5" class="py-name" targets="Package mldata.django_authopenid.utils=mldata.django_authopenid.utils-module.html,Module mldata.tagging.utils=mldata.tagging.utils-module.html,Package mldata.utils=mldata.utils-module.html"><a title="mldata.django_authopenid.utils
+mldata.tagging.utils
+mldata.utils" class="py-name" href="#" onclick="return doclink('link-5', 'utils', 'link-5');">utils</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Package mldata.utils.h5conv=mldata.utils.h5conv-module.html"><a title="mldata.utils.h5conv" class="py-name" href="#" onclick="return doclink('link-6', 'h5conv', 'link-6');">h5conv</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt id="link-7" class="py-name" targets="Variable mldata.about.urls.extra_context=mldata.about.urls-module.html#extra_context,Variable mldata.django_authopenid.urls.extra_context=mldata.django_authopenid.urls-module.html#extra_context"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-7', 'extra_context', 'link-7');">extra_context</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-string">'section'</tt><tt class="py-op">:</tt> <tt class="py-string">'about'</tt><tt class="py-op">,</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt class="py-string">'MEDIA_URL'</tt><tt class="py-op">:</tt> <tt id="link-8" class="py-name"><a title="mldata.settings.MEDIA_URL" class="py-name" href="#" onclick="return doclink('link-8', 'MEDIA_URL', 'link-4');">MEDIA_URL</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-string">'supported_formats'</tt><tt class="py-op">:</tt> <tt class="py-op">{</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt class="py-string">'to'</tt><tt class="py-op">:</tt> <tt id="link-9" class="py-name"><a title="mldata.utils.h5conv" class="py-name" href="#" onclick="return doclink('link-9', 'h5conv', 'link-6');">h5conv</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Variable mldata.utils.h5conv.TOH5=mldata.utils.h5conv-module.html#TOH5"><a title="mldata.utils.h5conv.TOH5" class="py-name" href="#" onclick="return doclink('link-10', 'TOH5', 'link-10');">TOH5</a></tt><tt class="py-op">.</tt><tt class="py-name">iterkeys</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">        <tt class="py-string">'from'</tt><tt class="py-op">:</tt> <tt id="link-11" class="py-name"><a title="mldata.utils.h5conv" class="py-name" href="#" onclick="return doclink('link-11', 'h5conv', 'link-6');">h5conv</a></tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Variable mldata.utils.h5conv.FROMH5=mldata.utils.h5conv-module.html#FROMH5"><a title="mldata.utils.h5conv.FROMH5" class="py-name" href="#" onclick="return doclink('link-12', 'FROMH5', 'link-12');">FROMH5</a></tt><tt class="py-op">.</tt><tt class="py-name">iterkeys</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt id="link-13" class="py-name" targets="Variable mldata.about.urls.urlpatterns=mldata.about.urls-module.html#urlpatterns,Variable mldata.blog.urls.urlpatterns=mldata.blog.urls-module.html#urlpatterns,Variable mldata.django_authopenid.urls.urlpatterns=mldata.django_authopenid.urls-module.html#urlpatterns,Variable mldata.forum.urls.urlpatterns=mldata.forum.urls-module.html#urlpatterns,Variable mldata.registration.urls.urlpatterns=mldata.registration.urls-module.html#urlpatterns,Variable mldata.repository.urls.urlpatterns=mldata.repository.urls-module.html#urlpatterns,Variable mldata.urls.urlpatterns=mldata.urls-module.html#urlpatterns,Variable mldata.user.urls.urlpatterns=mldata.user.urls-module.html#urlpatterns"><a title="mldata.about.urls.urlpatterns
 mldata.blog.urls.urlpatterns
 mldata.django_authopenid.urls.urlpatterns
 mldata.forum.urls.urlpatterns
 mldata.registration.urls.urlpatterns
 mldata.repository.urls.urlpatterns
 mldata.urls.urlpatterns
-mldata.user.urls.urlpatterns" class="py-name" href="#" onclick="return doclink('link-7', 'urlpatterns', 'link-7');">urlpatterns</a></tt> <tt class="py-op">=</tt> <tt id="link-8" class="py-name" targets="Variable mldata.utils.markdown.CorePatterns.patterns=mldata.utils.markdown.CorePatterns-class.html#patterns"><a title="mldata.utils.markdown.CorePatterns.patterns" class="py-name" href="#" onclick="return doclink('link-8', 'patterns', 'link-8');">patterns</a></tt><tt class="py-op">(</tt><tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
-<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt id="link-9" class="py-name" targets="Variable mldata.blog.tests.BlogTest.url=mldata.blog.tests.BlogTest-class.html#url,Variable mldata.forum.tests.ForumTest.url=mldata.forum.tests.ForumTest-class.html#url,Variable mldata.repository.models.FixedLicense.url=mldata.repository.models.FixedLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url,Variable mldata.repository.tests.RepositoryTest.url=mldata.repository.tests.RepositoryTest-class.html#url,Variable mldata.user.tests.UserTest.url=mldata.user.tests.UserTest-class.html#url"><a title="mldata.blog.tests.BlogTest.url
+mldata.user.urls.urlpatterns" class="py-name" href="#" onclick="return doclink('link-13', 'urlpatterns', 'link-13');">urlpatterns</a></tt> <tt class="py-op">=</tt> <tt id="link-14" class="py-name" targets="Variable mldata.utils.markdown.CorePatterns.patterns=mldata.utils.markdown.CorePatterns-class.html#patterns"><a title="mldata.utils.markdown.CorePatterns.patterns" class="py-name" href="#" onclick="return doclink('link-14', 'patterns', 'link-14');">patterns</a></tt><tt class="py-op">(</tt><tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">    <tt id="link-15" class="py-name" targets="Variable mldata.blog.tests.BlogTest.url=mldata.blog.tests.BlogTest-class.html#url,Variable mldata.forum.tests.ForumTest.url=mldata.forum.tests.ForumTest-class.html#url,Variable mldata.repository.models.FixedLicense.url=mldata.repository.models.FixedLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url,Variable mldata.repository.tests.RepositoryTest.url=mldata.repository.tests.RepositoryTest-class.html#url,Variable mldata.user.tests.UserTest.url=mldata.user.tests.UserTest-class.html#url,Variable mldata.utils.slurper.libsvmtools.LibSVMTools.url=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#url,Variable mldata.utils.slurper.slurper.Slurper.url=mldata.utils.slurper.slurper.Slurper-class.html#url,Variable mldata.utils.slurper.uci.UCI.url=mldata.utils.slurper.uci.UCI-class.html#url,Variable mldata.utils.slurper.weka.Weka.url=mldata.utils.slurper.weka.Weka-class.html#url"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-9', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
-<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/motivation.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-10" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-10', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt id="link-11" class="py-name" targets="Variable mldata.repository.models.FixedLicense.name=mldata.repository.models.FixedLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-15', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/index.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-16" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-16', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt id="link-17" class="py-name" targets="Variable mldata.repository.models.FixedLicense.name=mldata.repository.models.FixedLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-11', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_index'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt id="link-12" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-17', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_index'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt id="link-18" class="py-name"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-12', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^license/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
-<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/license.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-13" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-13', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt id="link-14" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-18', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^motivation/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/motivation.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-19" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-19', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt id="link-20" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-14', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_license'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt id="link-15" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-20', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_motivation'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt id="link-21" class="py-name"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-15', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^hdf5/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
-<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/hdf5.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-16" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-16', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">       <tt id="link-17" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-21', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^license/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/license.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-22" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-22', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">        <tt id="link-23" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-17', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_hdf5'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt id="link-18" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-23', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_license'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt id="link-24" class="py-name"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-18', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^hdf5/example/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
-<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/hdf5_example.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-19" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-19', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">       <tt id="link-20" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-24', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^hdf5/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/hdf5.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-25" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-25', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">       <tt id="link-26" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-20', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_hdf5_example'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt id="link-21" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-26', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_hdf5'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt id="link-27" class="py-name"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-21', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^related/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
-<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/related.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-22" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-22', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt id="link-23" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-27', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^hdf5/example/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/hdf5_example.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-28" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-28', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">       <tt id="link-29" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-23', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_related'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt id="link-24" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-29', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_hdf5_example'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt id="link-30" class="py-name"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-24', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^impressum/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
-<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/impressum.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-25" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-25', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt id="link-26" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-30', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^related/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/related.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-31" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-31', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt id="link-32" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-26', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_impressum'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt id="link-27" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-32', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_related'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt id="link-33" class="py-name"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-27', 'url', 'link-9');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^tos/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
-<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/tos.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-28" class="py-name"><a title="mldata.about.urls.extra_context
-mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-28', 'extra_context', 'link-5');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
-<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt id="link-29" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-33', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^impressum/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/impressum.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-34" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-34', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt id="link-35" class="py-name"><a title="mldata.repository.models.FixedLicense.name
 mldata.repository.models.License.name
 mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
-mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-29', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_tos'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-op">)</tt> </tt>
-<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-35', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_impressum'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">    <tt id="link-36" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-36', 'url', 'link-15');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^tos/$'</tt><tt class="py-op">,</tt> <tt class="py-name">direct_to_template</tt><tt class="py-op">,</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">        <tt class="py-op">{</tt><tt class="py-string">'template'</tt><tt class="py-op">:</tt><tt class="py-string">'about/tos.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'extra_context'</tt><tt class="py-op">:</tt><tt id="link-37" class="py-name"><a title="mldata.about.urls.extra_context
+mldata.django_authopenid.urls.extra_context" class="py-name" href="#" onclick="return doclink('link-37', 'extra_context', 'link-7');">extra_context</a></tt><tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">        <tt id="link-38" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-38', 'name', 'link-17');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'about_tos'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"><tt class="py-op">)</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -236,7 +292,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:45 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:52 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

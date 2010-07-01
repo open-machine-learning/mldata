@@ -110,12 +110,16 @@ mldata.registration.urls.urlpatterns
 mldata.repository.urls.urlpatterns
 mldata.urls.urlpatterns
 mldata.user.urls.urlpatterns" class="py-name" href="#" onclick="return doclink('link-6', 'urlpatterns', 'link-6');">urlpatterns</a></tt> <tt class="py-op">=</tt> <tt id="link-7" class="py-name" targets="Variable mldata.utils.markdown.CorePatterns.patterns=mldata.utils.markdown.CorePatterns-class.html#patterns"><a title="mldata.utils.markdown.CorePatterns.patterns" class="py-name" href="#" onclick="return doclink('link-7', 'patterns', 'link-7');">patterns</a></tt><tt class="py-op">(</tt><tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
-<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Variable mldata.blog.tests.BlogTest.url=mldata.blog.tests.BlogTest-class.html#url,Variable mldata.forum.tests.ForumTest.url=mldata.forum.tests.ForumTest-class.html#url,Variable mldata.repository.models.FixedLicense.url=mldata.repository.models.FixedLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url,Variable mldata.repository.tests.RepositoryTest.url=mldata.repository.tests.RepositoryTest-class.html#url,Variable mldata.user.tests.UserTest.url=mldata.user.tests.UserTest-class.html#url"><a title="mldata.blog.tests.BlogTest.url
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt id="link-8" class="py-name" targets="Variable mldata.blog.tests.BlogTest.url=mldata.blog.tests.BlogTest-class.html#url,Variable mldata.forum.tests.ForumTest.url=mldata.forum.tests.ForumTest-class.html#url,Variable mldata.repository.models.FixedLicense.url=mldata.repository.models.FixedLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url,Variable mldata.repository.tests.RepositoryTest.url=mldata.repository.tests.RepositoryTest-class.html#url,Variable mldata.user.tests.UserTest.url=mldata.user.tests.UserTest-class.html#url,Variable mldata.utils.slurper.libsvmtools.LibSVMTools.url=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#url,Variable mldata.utils.slurper.slurper.Slurper.url=mldata.utils.slurper.slurper.Slurper-class.html#url,Variable mldata.utils.slurper.uci.UCI.url=mldata.utils.slurper.uci.UCI-class.html#url,Variable mldata.utils.slurper.weka.Weka.url=mldata.utils.slurper.weka.Weka-class.html#url"><a title="mldata.blog.tests.BlogTest.url
 mldata.forum.tests.ForumTest.url
 mldata.repository.models.FixedLicense.url
 mldata.repository.models.License.url
 mldata.repository.tests.RepositoryTest.url
-mldata.user.tests.UserTest.url" class="py-name" href="#" onclick="return doclink('link-8', 'url', 'link-8');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^$'</tt><tt class="py-op">,</tt> <tt id="link-9" class="py-name"><a title="mldata.blog.views
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-8', 'url', 'link-8');">url</a></tt><tt class="py-op">(</tt><tt class="py-string">r'^$'</tt><tt class="py-op">,</tt> <tt id="link-9" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
@@ -128,257 +132,321 @@ mldata.repository.models.Repository.name
 mldata.repository.models.TaskType.name
 mldata.tagging.tests.models.Article.name
 mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-11', 'name', 'link-11');">name</a></tt><tt class="py-op">=</tt><tt class="py-string">'repository_index'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^tags/$'</tt><tt class="py-op">,</tt> <tt id="link-12" class="py-name"><a title="mldata.blog.views
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^tags/data/(?P&lt;tag&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-12" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-12', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Function mldata.repository.views.tags_index()=mldata.repository.views-module.html#tags_index"><a title="mldata.repository.views.tags_index" class="py-name" href="#" onclick="return doclink('link-13', 'tags_index', 'link-13');">tags_index</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^tags/(?P&lt;tag&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-14" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-12', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Function mldata.repository.views.tags_data_view()=mldata.repository.views-module.html#tags_data_view"><a title="mldata.repository.views.tags_data_view" class="py-name" href="#" onclick="return doclink('link-13', 'tags_data_view', 'link-13');">tags_data_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^tags/task/(?P&lt;tag&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-14" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-14', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Function mldata.repository.views.tags_view()=mldata.repository.views-module.html#tags_view"><a title="mldata.repository.views.tags_view" class="py-name" href="#" onclick="return doclink('link-15', 'tags_view', 'link-15');">tags_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-14', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Function mldata.repository.views.tags_task_view()=mldata.repository.views-module.html#tags_task_view"><a title="mldata.repository.views.tags_task_view" class="py-name" href="#" onclick="return doclink('link-15', 'tags_task_view', 'link-15');">tags_task_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^tags/solution/(?P&lt;tag&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-16', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Function mldata.repository.views.data_view_slug()=mldata.repository.views-module.html#data_view_slug"><a title="mldata.repository.views.data_view_slug" class="py-name" href="#" onclick="return doclink('link-17', 'data_view_slug', 'link-17');">data_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug&gt;[A-Za-z0-9-_]+)/(?P&lt;version&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-18" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-16', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Function mldata.repository.views.tags_solution_view()=mldata.repository.views-module.html#tags_solution_view"><a title="mldata.repository.views.tags_solution_view" class="py-name" href="#" onclick="return doclink('link-17', 'tags_solution_view', 'link-17');">tags_solution_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-18" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-18', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-19" class="py-name"><a title="mldata.repository.views.data_view_slug" class="py-name" href="#" onclick="return doclink('link-19', 'data_view_slug', 'link-17');">data_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-20" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-18', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Function mldata.repository.views.data_view_slug()=mldata.repository.views-module.html#data_view_slug"><a title="mldata.repository.views.data_view_slug" class="py-name" href="#" onclick="return doclink('link-19', 'data_view_slug', 'link-19');">data_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug&gt;[A-Za-z0-9-_]+)/(?P&lt;version&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-20" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-20', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Function mldata.repository.views.task_view_slug()=mldata.repository.views-module.html#task_view_slug"><a title="mldata.repository.views.task_view_slug" class="py-name" href="#" onclick="return doclink('link-21', 'task_view_slug', 'link-21');">task_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/(?P&lt;version&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-22" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-20', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="mldata.repository.views.data_view_slug" class="py-name" href="#" onclick="return doclink('link-21', 'data_view_slug', 'link-19');">data_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-22" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-22', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="mldata.repository.views.task_view_slug" class="py-name" href="#" onclick="return doclink('link-23', 'task_view_slug', 'link-21');">task_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_solution&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-24" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-22', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-23" class="py-name" targets="Function mldata.repository.views.task_view_slug()=mldata.repository.views-module.html#task_view_slug"><a title="mldata.repository.views.task_view_slug" class="py-name" href="#" onclick="return doclink('link-23', 'task_view_slug', 'link-23');">task_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/(?P&lt;version&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-24" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-24', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Function mldata.repository.views.solution_view_slug()=mldata.repository.views-module.html#solution_view_slug"><a title="mldata.repository.views.solution_view_slug" class="py-name" href="#" onclick="return doclink('link-25', 'solution_view_slug', 'link-25');">solution_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_solution&gt;[A-Za-z0-9-_]+)/(?P&lt;version&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-26" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-24', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="mldata.repository.views.task_view_slug" class="py-name" href="#" onclick="return doclink('link-25', 'task_view_slug', 'link-23');">task_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_solution&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-26" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-26', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-27" class="py-name"><a title="mldata.repository.views.solution_view_slug" class="py-name" href="#" onclick="return doclink('link-27', 'solution_view_slug', 'link-25');">solution_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/$'</tt><tt class="py-op">,</tt> <tt id="link-28" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-26', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-27" class="py-name" targets="Function mldata.repository.views.solution_view_slug()=mldata.repository.views-module.html#solution_view_slug"><a title="mldata.repository.views.solution_view_slug" class="py-name" href="#" onclick="return doclink('link-27', 'solution_view_slug', 'link-27');">solution_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^view/(?P&lt;slug_data&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_task&gt;[A-Za-z0-9-_]+)/(?P&lt;slug_solution&gt;[A-Za-z0-9-_]+)/(?P&lt;version&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-28" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-28', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-29" class="py-name" targets="Function mldata.repository.views.data_index()=mldata.repository.views-module.html#data_index"><a title="mldata.repository.views.data_index" class="py-name" href="#" onclick="return doclink('link-29', 'data_index', 'link-29');">data_index</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/my/$'</tt><tt class="py-op">,</tt> <tt id="link-30" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-28', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-29" class="py-name"><a title="mldata.repository.views.solution_view_slug" class="py-name" href="#" onclick="return doclink('link-29', 'solution_view_slug', 'link-27');">solution_view_slug</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/$'</tt><tt class="py-op">,</tt> <tt id="link-30" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-30', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Function mldata.repository.views.data_my()=mldata.repository.views-module.html#data_my"><a title="mldata.repository.views.data_my" class="py-name" href="#" onclick="return doclink('link-31', 'data_my', 'link-31');">data_my</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/new/$'</tt><tt class="py-op">,</tt> <tt id="link-32" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-30', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Function mldata.repository.views.data_index()=mldata.repository.views-module.html#data_index"><a title="mldata.repository.views.data_index" class="py-name" href="#" onclick="return doclink('link-31', 'data_index', 'link-31');">data_index</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/search/$'</tt><tt class="py-op">,</tt> <tt id="link-32" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-32', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Function mldata.repository.views.data_new()=mldata.repository.views-module.html#data_new"><a title="mldata.repository.views.data_new" class="py-name" href="#" onclick="return doclink('link-33', 'data_new', 'link-33');">data_new</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/new/review/(?P&lt;slug&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-34" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-32', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Function mldata.repository.views.data_search()=mldata.repository.views-module.html#data_search"><a title="mldata.repository.views.data_search" class="py-name" href="#" onclick="return doclink('link-33', 'data_search', 'link-33');">data_search</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/my/$'</tt><tt class="py-op">,</tt> <tt id="link-34" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-34', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Function mldata.repository.views.data_new_review()=mldata.repository.views-module.html#data_new_review"><a title="mldata.repository.views.data_new_review" class="py-name" href="#" onclick="return doclink('link-35', 'data_new_review', 'link-35');">data_new_review</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/view/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-36" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-34', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Function mldata.repository.views.data_my()=mldata.repository.views-module.html#data_my"><a title="mldata.repository.views.data_my" class="py-name" href="#" onclick="return doclink('link-35', 'data_my', 'link-35');">data_my</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/new/$'</tt><tt class="py-op">,</tt> <tt id="link-36" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-36', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-37" class="py-name" targets="Function mldata.repository.views.data_view()=mldata.repository.views-module.html#data_view"><a title="mldata.repository.views.data_view" class="py-name" href="#" onclick="return doclink('link-37', 'data_view', 'link-37');">data_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/edit/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-38" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-36', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-37" class="py-name" targets="Function mldata.repository.views.data_new()=mldata.repository.views-module.html#data_new"><a title="mldata.repository.views.data_new" class="py-name" href="#" onclick="return doclink('link-37', 'data_new', 'link-37');">data_new</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/new/review/(?P&lt;slug&gt;[A-Za-z0-9-_]+)/$'</tt><tt class="py-op">,</tt> <tt id="link-38" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-38', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-39" class="py-name" targets="Function mldata.repository.views.data_edit()=mldata.repository.views-module.html#data_edit"><a title="mldata.repository.views.data_edit" class="py-name" href="#" onclick="return doclink('link-39', 'data_edit', 'link-39');">data_edit</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/delete/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-40" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-38', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-39" class="py-name" targets="Function mldata.repository.views.data_new_review()=mldata.repository.views-module.html#data_new_review"><a title="mldata.repository.views.data_new_review" class="py-name" href="#" onclick="return doclink('link-39', 'data_new_review', 'link-39');">data_new_review</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/view/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-40" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-40', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-41" class="py-name" targets="Function mldata.repository.views.data_delete()=mldata.repository.views-module.html#data_delete"><a title="mldata.repository.views.data_delete" class="py-name" href="#" onclick="return doclink('link-41', 'data_delete', 'link-41');">data_delete</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/activate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-42" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-40', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-41" class="py-name" targets="Function mldata.repository.views.data_view()=mldata.repository.views-module.html#data_view"><a title="mldata.repository.views.data_view" class="py-name" href="#" onclick="return doclink('link-41', 'data_view', 'link-41');">data_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/edit/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-42" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-42', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-43" class="py-name" targets="Function mldata.repository.views.data_activate()=mldata.repository.views-module.html#data_activate"><a title="mldata.repository.views.data_activate" class="py-name" href="#" onclick="return doclink('link-43', 'data_activate', 'link-43');">data_activate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-44" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-42', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-43" class="py-name" targets="Function mldata.repository.views.data_edit()=mldata.repository.views-module.html#data_edit"><a title="mldata.repository.views.data_edit" class="py-name" href="#" onclick="return doclink('link-43', 'data_edit', 'link-43');">data_edit</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/delete/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-44" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-44', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-45" class="py-name" targets="Function mldata.repository.views.data_download()=mldata.repository.views-module.html#data_download"><a title="mldata.repository.views.data_download" class="py-name" href="#" onclick="return doclink('link-45', 'data_download', 'link-45');">data_download</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/xml/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-46" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-44', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-45" class="py-name" targets="Function mldata.repository.views.data_delete()=mldata.repository.views-module.html#data_delete"><a title="mldata.repository.views.data_delete" class="py-name" href="#" onclick="return doclink('link-45', 'data_delete', 'link-45');">data_delete</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/activate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-46" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-46', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-47" class="py-name" targets="Function mldata.repository.views.data_download_xml()=mldata.repository.views-module.html#data_download_xml"><a title="mldata.repository.views.data_download_xml" class="py-name" href="#" onclick="return doclink('link-47', 'data_download_xml', 'link-47');">data_download_xml</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/rate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-48" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-46', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-47" class="py-name" targets="Function mldata.repository.views.data_activate()=mldata.repository.views-module.html#data_activate"><a title="mldata.repository.views.data_activate" class="py-name" href="#" onclick="return doclink('link-47', 'data_activate', 'link-47');">data_activate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-48" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-48', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-49" class="py-name" targets="Function mldata.repository.views.data_rate()=mldata.repository.views-module.html#data_rate"><a title="mldata.repository.views.data_rate" class="py-name" href="#" onclick="return doclink('link-49', 'data_rate', 'link-49');">data_rate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/$'</tt><tt class="py-op">,</tt> <tt id="link-50" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-48', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-49" class="py-name" targets="Function mldata.repository.views.data_download()=mldata.repository.views-module.html#data_download"><a title="mldata.repository.views.data_download" class="py-name" href="#" onclick="return doclink('link-49', 'data_download', 'link-49');">data_download</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/xml/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-50" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-50', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-51" class="py-name" targets="Function mldata.repository.views.task_index()=mldata.repository.views-module.html#task_index"><a title="mldata.repository.views.task_index" class="py-name" href="#" onclick="return doclink('link-51', 'task_index', 'link-51');">task_index</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/my/$'</tt><tt class="py-op">,</tt> <tt id="link-52" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-50', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-51" class="py-name" targets="Function mldata.repository.views.data_download_xml()=mldata.repository.views-module.html#data_download_xml"><a title="mldata.repository.views.data_download_xml" class="py-name" href="#" onclick="return doclink('link-51', 'data_download_xml', 'link-51');">data_download_xml</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/csv/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-52" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-52', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-53" class="py-name" targets="Function mldata.repository.views.task_my()=mldata.repository.views-module.html#task_my"><a title="mldata.repository.views.task_my" class="py-name" href="#" onclick="return doclink('link-53', 'task_my', 'link-53');">task_my</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/new/$'</tt><tt class="py-op">,</tt> <tt id="link-54" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-52', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-53" class="py-name" targets="Function mldata.repository.views.data_download_csv()=mldata.repository.views-module.html#data_download_csv"><a title="mldata.repository.views.data_download_csv" class="py-name" href="#" onclick="return doclink('link-53', 'data_download_csv', 'link-53');">data_download_csv</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/arff/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-54" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-54', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-55" class="py-name" targets="Function mldata.repository.views.task_new()=mldata.repository.views-module.html#task_new"><a title="mldata.repository.views.task_new" class="py-name" href="#" onclick="return doclink('link-55', 'task_new', 'link-55');">task_new</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/view/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-56" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-54', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-55" class="py-name" targets="Function mldata.repository.views.data_download_arff()=mldata.repository.views-module.html#data_download_arff"><a title="mldata.repository.views.data_download_arff" class="py-name" href="#" onclick="return doclink('link-55', 'data_download_arff', 'link-55');">data_download_arff</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/libsvm/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-56" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-56', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-57" class="py-name" targets="Function mldata.repository.views.task_view()=mldata.repository.views-module.html#task_view"><a title="mldata.repository.views.task_view" class="py-name" href="#" onclick="return doclink('link-57', 'task_view', 'link-57');">task_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/edit/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-58" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-56', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-57" class="py-name" targets="Function mldata.repository.views.data_download_libsvm()=mldata.repository.views-module.html#data_download_libsvm"><a title="mldata.repository.views.data_download_libsvm" class="py-name" href="#" onclick="return doclink('link-57', 'data_download_libsvm', 'link-57');">data_download_libsvm</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/matlab/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-58" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-58', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-59" class="py-name" targets="Function mldata.repository.views.task_edit()=mldata.repository.views-module.html#task_edit"><a title="mldata.repository.views.task_edit" class="py-name" href="#" onclick="return doclink('link-59', 'task_edit', 'link-59');">task_edit</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/delete/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-60" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-58', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-59" class="py-name" targets="Function mldata.repository.views.data_download_matlab()=mldata.repository.views-module.html#data_download_matlab"><a title="mldata.repository.views.data_download_matlab" class="py-name" href="#" onclick="return doclink('link-59', 'data_download_matlab', 'link-59');">data_download_matlab</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/download/octave/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-60" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-60', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-61" class="py-name" targets="Function mldata.repository.views.task_delete()=mldata.repository.views-module.html#task_delete"><a title="mldata.repository.views.task_delete" class="py-name" href="#" onclick="return doclink('link-61', 'task_delete', 'link-61');">task_delete</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/activate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-62" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-60', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-61" class="py-name" targets="Function mldata.repository.views.data_download_octave()=mldata.repository.views-module.html#data_download_octave"><a title="mldata.repository.views.data_download_octave" class="py-name" href="#" onclick="return doclink('link-61', 'data_download_octave', 'link-61');">data_download_octave</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^data/rate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-62" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-62', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-63" class="py-name" targets="Function mldata.repository.views.task_activate()=mldata.repository.views-module.html#task_activate"><a title="mldata.repository.views.task_activate" class="py-name" href="#" onclick="return doclink('link-63', 'task_activate', 'link-63');">task_activate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/rate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-64" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-62', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-63" class="py-name" targets="Function mldata.repository.views.data_rate()=mldata.repository.views-module.html#data_rate"><a title="mldata.repository.views.data_rate" class="py-name" href="#" onclick="return doclink('link-63', 'data_rate', 'link-63');">data_rate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/$'</tt><tt class="py-op">,</tt> <tt id="link-64" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-64', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-65" class="py-name" targets="Function mldata.repository.views.task_rate()=mldata.repository.views-module.html#task_rate"><a title="mldata.repository.views.task_rate" class="py-name" href="#" onclick="return doclink('link-65', 'task_rate', 'link-65');">task_rate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/download/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-66" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-64', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-65" class="py-name" targets="Function mldata.repository.views.task_index()=mldata.repository.views-module.html#task_index"><a title="mldata.repository.views.task_index" class="py-name" href="#" onclick="return doclink('link-65', 'task_index', 'link-65');">task_index</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/my/$'</tt><tt class="py-op">,</tt> <tt id="link-66" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-66', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-67" class="py-name" targets="Function mldata.repository.views.task_download()=mldata.repository.views-module.html#task_download"><a title="mldata.repository.views.task_download" class="py-name" href="#" onclick="return doclink('link-67', 'task_download', 'link-67');">task_download</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/$', views.solution_index),</tt> </tt>
-<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/my/$', views.solution_my),</tt> </tt>
-<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/view/(?P&lt;id&gt;\d+)/$', views.solution_view),</tt> </tt>
-<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/new/$', views.solution_new),</tt> </tt>
-<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/edit/(?P&lt;id&gt;\d+)/$', views.solution_edit),</tt> </tt>
-<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/delete/(?P&lt;id&gt;\d+)/$', views.solution_delete),</tt> </tt>
-<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/activate/(?P&lt;id&gt;\d+)/$', views.solution_activate),</tt> </tt>
-<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/rate/(?P&lt;id&gt;\d+)/$', views.solution_rate),</tt> </tt>
-<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^score/download/(?P&lt;id&gt;\d+)/$', views.score_download),</tt> </tt>
-<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^publication/edit/$'</tt><tt class="py-op">,</tt> <tt id="link-68" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-66', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-67" class="py-name" targets="Function mldata.repository.views.task_my()=mldata.repository.views-module.html#task_my"><a title="mldata.repository.views.task_my" class="py-name" href="#" onclick="return doclink('link-67', 'task_my', 'link-67');">task_my</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/new/$'</tt><tt class="py-op">,</tt> <tt id="link-68" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-68', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-69" class="py-name" targets="Function mldata.repository.views.publication_edit()=mldata.repository.views-module.html#publication_edit"><a title="mldata.repository.views.publication_edit" class="py-name" href="#" onclick="return doclink('link-69', 'publication_edit', 'link-69');">publication_edit</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^publication/get/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-70" class="py-name"><a title="mldata.blog.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-68', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-69" class="py-name" targets="Function mldata.repository.views.task_new()=mldata.repository.views-module.html#task_new"><a title="mldata.repository.views.task_new" class="py-name" href="#" onclick="return doclink('link-69', 'task_new', 'link-69');">task_new</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/view/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-70" class="py-name"><a title="mldata.blog.views
 mldata.django_authopenid.views
 mldata.forum.models.Thread.views
 mldata.forum.views
 mldata.registration.views
 mldata.repository.views
 mldata.tagging.views
-mldata.user.views" class="py-name" href="#" onclick="return doclink('link-70', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-71" class="py-name" targets="Function mldata.repository.views.publication_get()=mldata.repository.views-module.html#publication_get"><a title="mldata.repository.views.publication_get" class="py-name" href="#" onclick="return doclink('link-71', 'publication_get', 'link-71');">publication_get</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
-<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"><tt class="py-op">)</tt> </tt>
-<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-70', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-71" class="py-name" targets="Function mldata.repository.views.task_view()=mldata.repository.views-module.html#task_view"><a title="mldata.repository.views.task_view" class="py-name" href="#" onclick="return doclink('link-71', 'task_view', 'link-71');">task_view</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/edit/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-72" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-72', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-73" class="py-name" targets="Function mldata.repository.views.task_edit()=mldata.repository.views-module.html#task_edit"><a title="mldata.repository.views.task_edit" class="py-name" href="#" onclick="return doclink('link-73', 'task_edit', 'link-73');">task_edit</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/delete/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-74" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-74', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-75" class="py-name" targets="Function mldata.repository.views.task_delete()=mldata.repository.views-module.html#task_delete"><a title="mldata.repository.views.task_delete" class="py-name" href="#" onclick="return doclink('link-75', 'task_delete', 'link-75');">task_delete</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/activate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-76" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-76', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-77" class="py-name" targets="Function mldata.repository.views.task_activate()=mldata.repository.views-module.html#task_activate"><a title="mldata.repository.views.task_activate" class="py-name" href="#" onclick="return doclink('link-77', 'task_activate', 'link-77');">task_activate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/rate/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-78" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-78', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-79" class="py-name" targets="Function mldata.repository.views.task_rate()=mldata.repository.views-module.html#task_rate"><a title="mldata.repository.views.task_rate" class="py-name" href="#" onclick="return doclink('link-79', 'task_rate', 'link-79');">task_rate</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^task/download/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-80" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-80', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-81" class="py-name" targets="Function mldata.repository.views.task_download()=mldata.repository.views-module.html#task_download"><a title="mldata.repository.views.task_download" class="py-name" href="#" onclick="return doclink('link-81', 'task_download', 'link-81');">task_download</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/$', views.solution_index),</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/my/$', views.solution_my),</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/view/(?P&lt;id&gt;\d+)/$', views.solution_view),</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/new/$', views.solution_new),</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/edit/(?P&lt;id&gt;\d+)/$', views.solution_edit),</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/delete/(?P&lt;id&gt;\d+)/$', views.solution_delete),</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/activate/(?P&lt;id&gt;\d+)/$', views.solution_activate),</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^solution/rate/(?P&lt;id&gt;\d+)/$', views.solution_rate),</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line"><tt class="py-comment">#    (r'^score/download/(?P&lt;id&gt;\d+)/$', views.score_download),</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^publication/edit/$'</tt><tt class="py-op">,</tt> <tt id="link-82" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-82', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-83" class="py-name" targets="Function mldata.repository.views.publication_edit()=mldata.repository.views-module.html#publication_edit"><a title="mldata.repository.views.publication_edit" class="py-name" href="#" onclick="return doclink('link-83', 'publication_edit', 'link-83');">publication_edit</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^publication/get/(?P&lt;id&gt;\d+)/$'</tt><tt class="py-op">,</tt> <tt id="link-84" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-84', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-85" class="py-name" targets="Function mldata.repository.views.publication_get()=mldata.repository.views-module.html#publication_get"><a title="mldata.repository.views.publication_get" class="py-name" href="#" onclick="return doclink('link-85', 'publication_get', 'link-85');">publication_get</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-string">r'^upload_progress/$'</tt><tt class="py-op">,</tt> <tt id="link-86" class="py-name"><a title="mldata.blog.views
+mldata.django_authopenid.views
+mldata.forum.models.Thread.views
+mldata.forum.views
+mldata.registration.views
+mldata.repository.views
+mldata.tagging.views
+mldata.user.views" class="py-name" href="#" onclick="return doclink('link-86', 'views', 'link-1');">views</a></tt><tt class="py-op">.</tt><tt id="link-87" class="py-name" targets="Function mldata.repository.views.upload_progress()=mldata.repository.views-module.html#upload_progress"><a title="mldata.repository.views.upload_progress" class="py-name" href="#" onclick="return doclink('link-87', 'upload_progress', 'link-87');">upload_progress</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line"><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -416,7 +484,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:42 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:49 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

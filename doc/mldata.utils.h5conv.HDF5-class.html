@@ -99,6 +99,45 @@
       
     </td>
   </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.h5conv.HDF5-class.html#_compare" class="summary-sig-name" onclick="show_private();">_compare</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">A</span>,
+        <span class="summary-sig-arg">B</span>)</span><br />
+      Compare given lists A and B.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5._compare">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.h5conv.HDF5-class.html#verify" class="summary-sig-name">verify</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">fname_h5</span>,
+        <span class="summary-sig-arg">fname_other</span>,
+        <span class="summary-sig-arg">format_other</span>)</span><br />
+      Verify that data in given filenames is the same.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5.verify">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -109,7 +148,9 @@
         <span class="summary-sig-arg">in_fname</span>,
         <span class="summary-sig-arg">in_format</span>,
         <span class="summary-sig-arg">out_fname</span>,
-        <span class="summary-sig-arg">out_format</span>)</span><br />
+        <span class="summary-sig-arg">out_format</span>,
+        <span class="summary-sig-arg">seperator</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">verify</span>=<span class="summary-sig-default">False</span>)</span><br />
       Convert to/from HDF5.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5.convert">source&nbsp;code</a></span>
@@ -230,6 +271,24 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.h5conv.HDF5-class.html#infer_seperator" class="summary-sig-name">infer_seperator</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">fname</span>)</span><br />
+      Infer seperator for variables in given file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5.infer_seperator">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">list of strings</span>
@@ -331,6 +390,60 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="_compare"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_compare</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">A</span>,
+        <span class="sig-arg">B</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5._compare">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compare given lists A and B.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>A</code></strong> (list of list) - list A to compare</li>
+        <li><strong class="pname"><code>B</code></strong> (list of list) - list B to compare</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="verify"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">verify</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">fname_h5</span>,
+        <span class="sig-arg">fname_other</span>,
+        <span class="sig-arg">format_other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5.verify">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Verify that data in given filenames is the same.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fname_h5</code></strong> (string) - name of H5 file to verify</li>
+        <li><strong class="pname"><code>fname_other</code></strong> (string) - name of file to verify against</li>
+        <li><strong class="pname"><code>format_other</code></strong> (string) - format of other file</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="convert"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -342,7 +455,9 @@
         <span class="sig-arg">in_fname</span>,
         <span class="sig-arg">in_format</span>,
         <span class="sig-arg">out_fname</span>,
-        <span class="sig-arg">out_format</span>)</span>
+        <span class="sig-arg">out_format</span>,
+        <span class="sig-arg">seperator</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">verify</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5.convert">source&nbsp;code</a></span>&nbsp;
@@ -357,6 +472,8 @@
         <li><strong class="pname"><code>in_format</code></strong> (string) - format of in-file</li>
         <li><strong class="pname"><code>out_fname</code></strong> (string) - name of out-file</li>
         <li><strong class="pname"><code>out_format</code></strong> (string) - format of out-file</li>
+        <li><strong class="pname"><code>seperator</code></strong> (string) - seperator to seperate variables in examples</li>
+        <li><strong class="pname"><code>verify</code></strong> (boolean) - verify if data in output is same as data in input</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -519,6 +636,32 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="infer_seperator"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">infer_seperator</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">fname</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.h5conv-pysrc.html#HDF5.infer_seperator">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Infer seperator for variables in given file.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fname</code></strong> (string) - filename to retrieve data from</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+        <dd>inferred seperator</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="_get_splitnames"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
@@ -630,7 +773,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:33 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:23 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

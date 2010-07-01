@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.utils.h5conv.h5_csv</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.utils-module.html">Package&nbsp;utils</a> ::
+        <a href="mldata.utils.h5conv-module.html">Package&nbsp;h5conv</a> ::
+        Module&nbsp;h5_csv
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.utils.h5conv.h5_csv-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.utils.h5conv.h5_csv-module.html">Module mldata.utils.h5conv.h5_csv</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">numpy</tt><tt class="py-op">,</tt> <tt class="py-name">h5py</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Variable mldata.repository.models.Solution.os=mldata.repository.models.Solution-class.html#os"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-0', 'os', 'link-0');">os</a></tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">scipy</tt><tt class="py-op">.</tt><tt class="py-name">sparse</tt> <tt class="py-keyword">import</tt> <tt class="py-name">csc_matrix</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Module mldata.utils.h5conv.base=mldata.utils.h5conv.base-module.html"><a title="mldata.utils.h5conv.base" class="py-name" href="#" onclick="return doclink('link-1', 'base', 'link-1');">base</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable mldata.utils.h5conv.h5_csv.COMMENT=mldata.utils.h5conv.h5_csv-module.html#COMMENT"><a title="mldata.utils.h5conv.h5_csv.COMMENT" class="py-name" href="#" onclick="return doclink('link-2', 'COMMENT', 'link-2');">COMMENT</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'# '</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Variable mldata.utils.h5conv.h5_csv.SEPERATOR=mldata.utils.h5conv.h5_csv-module.html#SEPERATOR"><a title="mldata.utils.h5conv.h5_csv.SEPERATOR" class="py-name" href="#" onclick="return doclink('link-3', 'SEPERATOR', 'link-3');">SEPERATOR</a></tt> <tt class="py-op">=</tt> <tt class="py-string">','</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="CSV2H5"></a><div id="CSV2H5-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="CSV2H5-toggle" onclick="return toggle('CSV2H5');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.utils.h5conv.h5_csv.CSV2H5-class.html">CSV2H5</a><tt class="py-op">(</tt><tt class="py-base-class">base</tt><tt class="py-op">.</tt><tt class="py-base-class">H5Converter</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CSV2H5-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="CSV2H5-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-docstring">"""Convert a file from CSV to HDF5 (spec of mldata.org)."""</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"> </tt>
+<a name="CSV2H5.__init__"></a><div id="CSV2H5.__init__-def"><a name="L11"></a><tt class="py-lineno">11</tt> <a class="py-toggle" href="#" id="CSV2H5.__init__-toggle" onclick="return toggle('CSV2H5.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.h5conv.h5_csv.CSV2H5-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-param">args</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">kwargs</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CSV2H5.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CSV2H5.__init__-expanded"><a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-4" class="py-name" targets="Class mldata.utils.h5conv.h5_csv.CSV2H5=mldata.utils.h5conv.h5_csv.CSV2H5-class.html"><a title="mldata.utils.h5conv.h5_csv.CSV2H5" class="py-name" href="#" onclick="return doclink('link-4', 'CSV2H5', 'link-4');">CSV2H5</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Method mldata.django_authopenid.forms.AssociateOpenID.__init__()=mldata.django_authopenid.forms.AssociateOpenID-class.html#__init__,Method mldata.django_authopenid.forms.OpenidRegisterForm.__init__()=mldata.django_authopenid.forms.OpenidRegisterForm-class.html#__init__,Method mldata.django_authopenid.openid_store.DjangoOpenIDStore.__init__()=mldata.django_authopenid.openid_store.DjangoOpenIDStore-class.html#__init__,Method mldata.django_authopenid.utils.OpenID.__init__()=mldata.django_authopenid.utils.OpenID-class.html#__init__,Method mldata.forum.templatetags.forum_tags.ForumLatestPostsNode.__init__()=mldata.forum.templatetags.forum_tags.ForumLatestPostsNode-class.html#__init__,Method mldata.forum.templatetags.forum_tags.ForumLatestThreadsNode.__init__()=mldata.forum.templatetags.forum_tags.ForumLatestThreadsNode-class.html#__init__,Method mldata.forum.templatetags.forum_tags.ForumLatestUserPostsNode.__init__()=mldata.forum.templatetags.forum_tags.ForumLatestUserPostsNode-class.html#__init__,Method mldata.repository.forms.DataForm.__init__()=mldata.repository.forms.DataForm-class.html#__init__,Method mldata.repository.forms.SolutionForm.__init__()=mldata.repository.forms.SolutionForm-class.html#__init__,Method mldata.repository.forms.TaskForm.__init__()=mldata.repository.forms.TaskForm-class.html#__init__,Method mldata.repository.templatetags.show_stars.ShowStarsNode.__init__()=mldata.repository.templatetags.show_stars.ShowStarsNode-class.html#__init__,Method mldata.tagging.fields.TagField.__init__()=mldata.tagging.fields.TagField-class.html#__init__,Method mldata.tagging.templatetags.tagging_tags.TagCloudForModelNode.__init__()=mldata.tagging.templatetags.tagging_tags.TagCloudForModelNode-class.html#__init__,Method mldata.tagging.templatetags.tagging_tags.TaggedObjectsNode.__init__()=mldata.tagging.templatetags.tagging_tags.TaggedObjectsNode-class.html#__init__,Method mldata.tagging.templatetags.tagging_tags.TagsForModelNode.__init__()=mldata.tagging.templatetags.tagging_tags.TagsForModelNode-class.html#__init__,Method mldata.tagging.templatetags.tagging_tags.TagsForObjectNode.__init__()=mldata.tagging.templatetags.tagging_tags.TagsForObjectNode-class.html#__init__,Method mldata.templatetags.permute_items.Permutator.__init__()=mldata.templatetags.permute_items.Permutator-class.html#__init__,Method mldata.utils.h5conv.ConversionError.__init__()=mldata.utils.h5conv.ConversionError-class.html#__init__,Method mldata.utils.h5conv.HDF5.__init__()=mldata.utils.h5conv.HDF5-class.html#__init__,Method mldata.utils.h5conv.arff.ArffFile.__init__()=mldata.utils.h5conv.arff.ArffFile-class.html#__init__,Method mldata.utils.h5conv.base.H5Converter.__init__()=mldata.utils.h5conv.base.H5Converter-class.html#__init__,Method mldata.utils.h5conv.h5_arff.ARFF2H5.__init__()=mldata.utils.h5conv.h5_arff.ARFF2H5-class.html#__init__,Method mldata.utils.h5conv.h5_csv.CSV2H5.__init__()=mldata.utils.h5conv.h5_csv.CSV2H5-class.html#__init__,Method mldata.utils.h5conv.h5_csv.H52CSV.__init__()=mldata.utils.h5conv.h5_csv.H52CSV-class.html#__init__,Method mldata.utils.h5conv.h5_libsvm.LibSVM2H5.__init__()=mldata.utils.h5conv.h5_libsvm.LibSVM2H5-class.html#__init__,Method mldata.utils.h5conv.h5_mat.MAT2H5.__init__()=mldata.utils.h5conv.h5_mat.MAT2H5-class.html#__init__,Method mldata.utils.h5conv.h5_octave.OCTAVE2H5.__init__()=mldata.utils.h5conv.h5_octave.OCTAVE2H5-class.html#__init__,Method mldata.utils.markdown.BacktickPattern.__init__()=mldata.utils.markdown.BacktickPattern-class.html#__init__,Method mldata.utils.markdown.CDATA.__init__()=mldata.utils.markdown.CDATA-class.html#__init__,Method mldata.utils.markdown.CorePatterns.__init__()=mldata.utils.markdown.CorePatterns-class.html#__init__,Method mldata.utils.markdown.Document.__init__()=mldata.utils.markdown.Document-class.html#__init__,Method mldata.utils.markdown.Element.__init__()=mldata.utils.markdown.Element-class.html#__init__,Method mldata.utils.markdown.EntityReference.__init__()=mldata.utils.markdown.EntityReference-class.html#__init__,Method mldata.utils.markdown.Extension.__init__()=mldata.utils.markdown.Extension-class.html#__init__,Method mldata.utils.markdown.HtmlStash.__init__()=mldata.utils.markdown.HtmlStash-class.html#__init__,Method mldata.utils.markdown.Markdown.__init__()=mldata.utils.markdown.Markdown-class.html#__init__,Method mldata.utils.markdown.Pattern.__init__()=mldata.utils.markdown.Pattern-class.html#__init__,Method mldata.utils.markdown.RawHtmlTextPostprocessor.__init__()=mldata.utils.markdown.RawHtmlTextPostprocessor-class.html#__init__,Method mldata.utils.markdown.SimpleTagPattern.__init__()=mldata.utils.markdown.SimpleTagPattern-class.html#__init__,Method mldata.utils.markdown.TextNode.__init__()=mldata.utils.markdown.TextNode-class.html#__init__,Method mldata.utils.slurper.parser.slurphtmlparser.SlurpHTMLParser.__init__()=mldata.utils.slurper.parser.slurphtmlparser.SlurpHTMLParser-class.html#__init__,Method mldata.utils.slurper.parser.ucihtmlparser.UCIDirectoryParser.__init__()=mldata.utils.slurper.parser.ucihtmlparser.UCIDirectoryParser-class.html#__init__,Method mldata.utils.slurper.parser.ucihtmlparser.UCIIndexParser.__init__()=mldata.utils.slurper.parser.ucihtmlparser.UCIIndexParser-class.html#__init__,Method mldata.utils.slurper.slurper.Slurper.__init__()=mldata.utils.slurper.slurper.Slurper-class.html#__init__,Method mldata.utils.uploadprogresscachedhandler.UploadProgressCachedHandler.__init__()=mldata.utils.uploadprogresscachedhandler.UploadProgressCachedHandler-class.html#__init__"><a title="mldata.django_authopenid.forms.AssociateOpenID.__init__
+mldata.django_authopenid.forms.OpenidRegisterForm.__init__
+mldata.django_authopenid.openid_store.DjangoOpenIDStore.__init__
+mldata.django_authopenid.utils.OpenID.__init__
+mldata.forum.templatetags.forum_tags.ForumLatestPostsNode.__init__
+mldata.forum.templatetags.forum_tags.ForumLatestThreadsNode.__init__
+mldata.forum.templatetags.forum_tags.ForumLatestUserPostsNode.__init__
+mldata.repository.forms.DataForm.__init__
+mldata.repository.forms.SolutionForm.__init__
+mldata.repository.forms.TaskForm.__init__
+mldata.repository.templatetags.show_stars.ShowStarsNode.__init__
+mldata.tagging.fields.TagField.__init__
+mldata.tagging.templatetags.tagging_tags.TagCloudForModelNode.__init__
+mldata.tagging.templatetags.tagging_tags.TaggedObjectsNode.__init__
+mldata.tagging.templatetags.tagging_tags.TagsForModelNode.__init__
+mldata.tagging.templatetags.tagging_tags.TagsForObjectNode.__init__
+mldata.templatetags.permute_items.Permutator.__init__
+mldata.utils.h5conv.ConversionError.__init__
+mldata.utils.h5conv.HDF5.__init__
+mldata.utils.h5conv.arff.ArffFile.__init__
+mldata.utils.h5conv.base.H5Converter.__init__
+mldata.utils.h5conv.h5_arff.ARFF2H5.__init__
+mldata.utils.h5conv.h5_csv.CSV2H5.__init__
+mldata.utils.h5conv.h5_csv.H52CSV.__init__
+mldata.utils.h5conv.h5_libsvm.LibSVM2H5.__init__
+mldata.utils.h5conv.h5_mat.MAT2H5.__init__
+mldata.utils.h5conv.h5_octave.OCTAVE2H5.__init__
+mldata.utils.markdown.BacktickPattern.__init__
+mldata.utils.markdown.CDATA.__init__
+mldata.utils.markdown.CorePatterns.__init__
+mldata.utils.markdown.Document.__init__
+mldata.utils.markdown.Element.__init__
+mldata.utils.markdown.EntityReference.__init__
+mldata.utils.markdown.Extension.__init__
+mldata.utils.markdown.HtmlStash.__init__
+mldata.utils.markdown.Markdown.__init__
+mldata.utils.markdown.Pattern.__init__
+mldata.utils.markdown.RawHtmlTextPostprocessor.__init__
+mldata.utils.markdown.SimpleTagPattern.__init__
+mldata.utils.markdown.TextNode.__init__
+mldata.utils.slurper.parser.slurphtmlparser.SlurpHTMLParser.__init__
+mldata.utils.slurper.parser.ucihtmlparser.UCIDirectoryParser.__init__
+mldata.utils.slurper.parser.ucihtmlparser.UCIIndexParser.__init__
+mldata.utils.slurper.slurper.Slurper.__init__
+mldata.utils.uploadprogresscachedhandler.UploadProgressCachedHandler.__init__" class="py-name" href="#" onclick="return doclink('link-5', '__init__', 'link-5');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-op">*</tt><tt class="py-name">args</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-name">kwargs</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Variable mldata.repository.forms.DataReviewForm.seperator=mldata.repository.forms.DataReviewForm-class.html#seperator"><a title="mldata.repository.forms.DataReviewForm.seperator" class="py-name" href="#" onclick="return doclink('link-6', 'seperator', 'link-6');">seperator</a></tt> <tt class="py-op">=</tt> <tt id="link-7" class="py-name"><a title="mldata.utils.h5conv.h5_csv.SEPERATOR" class="py-name" href="#" onclick="return doclink('link-7', 'SEPERATOR', 'link-3');">SEPERATOR</a></tt> <tt class="py-comment"># maybe more flexible in the future</tt> </tt>
+</div><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"> </tt>
+<a name="CSV2H5.get_contents"></a><div id="CSV2H5.get_contents-def"><a name="L16"></a><tt class="py-lineno">16</tt> <a class="py-toggle" href="#" id="CSV2H5.get_contents-toggle" onclick="return toggle('CSV2H5.get_contents');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.h5conv.h5_csv.CSV2H5-class.html#get_contents">get_contents</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CSV2H5.get_contents-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CSV2H5.get_contents-expanded"><a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">        <tt id="link-8" class="py-name" targets="Variable mldata.repository.models.Repository.data=mldata.repository.models.Repository-class.html#data,Variable mldata.repository.models.Task.data=mldata.repository.models.Task-class.html#data"><a title="mldata.repository.models.Repository.data
+mldata.repository.models.Task.data" class="py-name" href="#" onclick="return doclink('link-8', 'data', 'link-8');">data</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-name">names</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt id="link-9" class="py-name" targets="Variable mldata.blog.models.Post.Meta.ordering=mldata.blog.models.Post.Meta-class.html#ordering,Variable mldata.forum.admin.ForumAdmin.ordering=mldata.forum.admin.ForumAdmin-class.html#ordering,Variable mldata.forum.models.Forum.Meta.ordering=mldata.forum.models.Forum.Meta-class.html#ordering,Variable mldata.forum.models.Forum.ordering=mldata.forum.models.Forum-class.html#ordering,Variable mldata.forum.models.Post.Meta.ordering=mldata.forum.models.Post.Meta-class.html#ordering,Variable mldata.forum.models.Thread.Meta.ordering=mldata.forum.models.Thread.Meta-class.html#ordering,Variable mldata.repository.models.Publication.Meta.ordering=mldata.repository.models.Publication.Meta-class.html#ordering,Variable mldata.repository.models.Repository.Meta.ordering=mldata.repository.models.Repository.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Article.Meta.ordering=mldata.tagging.tests.models.Article.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Link.Meta.ordering=mldata.tagging.tests.models.Link.Meta-class.html#ordering,Variable mldata.tagging.tests.models.Parrot.Meta.ordering=mldata.tagging.tests.models.Parrot.Meta-class.html#ordering"><a title="mldata.blog.models.Post.Meta.ordering
+mldata.forum.admin.ForumAdmin.ordering
+mldata.forum.models.Forum.Meta.ordering
+mldata.forum.models.Forum.ordering
+mldata.forum.models.Post.Meta.ordering
+mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Publication.Meta.ordering
+mldata.repository.models.Repository.Meta.ordering
+mldata.tagging.tests.models.Article.Meta.ordering
+mldata.tagging.tests.models.Link.Meta.ordering
+mldata.tagging.tests.models.Parrot.Meta.ordering" class="py-name" href="#" onclick="return doclink('link-9', 'ordering', 'link-9');">ordering</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">        <tt class="py-name">infile</tt> <tt class="py-op">=</tt> <tt class="py-name">open</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fname_in</tt><tt class="py-op">,</tt> <tt class="py-string">'r'</tt><tt class="py-op">)</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-name">parsed</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">line</tt> <tt class="py-keyword">in</tt> <tt class="py-name">infile</tt><tt class="py-op">:</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">line</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="mldata.repository.forms.DataReviewForm.seperator" class="py-name" href="#" onclick="return doclink('link-10', 'seperator', 'link-6');">seperator</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-name">infile</tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-name">A</tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">matrix</tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">T</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-name">A</tt><tt class="py-op">.</tt><tt class="py-name">shape</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">            <tt id="link-11" class="py-name" targets="Method mldata.forum.feeds.RssForumFeed.items()=mldata.forum.feeds.RssForumFeed-class.html#items,Method mldata.forum.sitemap.ForumSitemap.items()=mldata.forum.sitemap.ForumSitemap-class.html#items,Method mldata.forum.sitemap.PostSitemap.items()=mldata.forum.sitemap.PostSitemap-class.html#items,Method mldata.forum.sitemap.ThreadSitemap.items()=mldata.forum.sitemap.ThreadSitemap-class.html#items,Variable tagging.models.Tag.items=tagging.models.Tag-class.html#items"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-11', 'items', 'link-11');">items</a></tt> <tt class="py-op">=</tt> <tt class="py-name">A</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">tolist</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">            <tt class="py-name">t</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method mldata.utils.h5conv.base.H5Converter.get_datatype()=mldata.utils.h5conv.base.H5Converter-class.html#get_datatype"><a title="mldata.utils.h5conv.base.H5Converter.get_datatype" class="py-name" href="#" onclick="return doclink('link-12', 'get_datatype', 'link-12');">get_datatype</a></tt><tt class="py-op">(</tt><tt id="link-13" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-13', 'items', 'link-11');">items</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">t</tt> <tt class="py-op">==</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">int32</tt><tt class="py-op">:</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">                <tt id="link-14" class="py-name" targets="Variable mldata.repository.models.FixedLicense.name=mldata.repository.models.FixedLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-14', 'name', 'link-14');">name</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'int'</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">t</tt> <tt class="py-op">==</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">double</tt><tt class="py-op">:</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">                <tt id="link-15" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-15', 'name', 'link-14');">name</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'double'</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">                <tt id="link-16" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-16', 'name', 'link-14');">name</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'str'</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">            <tt id="link-17" class="py-name"><a title="mldata.repository.models.Repository.data
+mldata.repository.models.Task.data" class="py-name" href="#" onclick="return doclink('link-17', 'data', 'link-8');">data</a></tt><tt class="py-op">[</tt><tt id="link-18" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-18', 'name', 'link-14');">name</a></tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">array</tt><tt class="py-op">(</tt><tt id="link-19" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-19', 'items', 'link-11');">items</a></tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">astype</tt><tt class="py-op">(</tt><tt class="py-name">t</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">            <tt class="py-name">names</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt id="link-20" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-20', 'name', 'link-14');">name</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt id="link-21" class="py-name"><a title="mldata.blog.models.Post.Meta.ordering
+mldata.forum.admin.ForumAdmin.ordering
+mldata.forum.models.Forum.Meta.ordering
+mldata.forum.models.Forum.ordering
+mldata.forum.models.Post.Meta.ordering
+mldata.forum.models.Thread.Meta.ordering
+mldata.repository.models.Publication.Meta.ordering
+mldata.repository.models.Repository.Meta.ordering
+mldata.tagging.tests.models.Article.Meta.ordering
+mldata.tagging.tests.models.Link.Meta.ordering
+mldata.tagging.tests.models.Parrot.Meta.ordering" class="py-name" href="#" onclick="return doclink('link-21', 'ordering', 'link-9');">ordering</a></tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt id="link-22" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-22', 'name', 'link-14');">name</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">{</tt><tt class="py-string">'names'</tt><tt class="py-op">:</tt><tt class="py-name">names</tt><tt class="py-op">,</tt> <tt class="py-string">'ordering'</tt><tt class="py-op">:</tt><tt class="py-name">names</tt><tt class="py-op">,</tt> <tt class="py-string">'data'</tt><tt class="py-op">:</tt><tt id="link-23" class="py-name"><a title="mldata.repository.models.Repository.data
+mldata.repository.models.Task.data" class="py-name" href="#" onclick="return doclink('link-23', 'data', 'link-8');">data</a></tt><tt class="py-op">}</tt> </tt>
+</div></div><a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
+<a name="H52CSV"></a><div id="H52CSV-def"><a name="L46"></a><tt class="py-lineno">46</tt> <a class="py-toggle" href="#" id="H52CSV-toggle" onclick="return toggle('H52CSV');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.utils.h5conv.h5_csv.H52CSV-class.html">H52CSV</a><tt class="py-op">(</tt><tt class="py-base-class">base</tt><tt class="py-op">.</tt><tt class="py-base-class">H5Converter</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="H52CSV-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="H52CSV-expanded"><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">    <tt class="py-docstring">"""Convert a file from HDF5 (spec of mldata.org) to CSV."""</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line"> </tt>
+<a name="H52CSV.__init__"></a><div id="H52CSV.__init__-def"><a name="L49"></a><tt class="py-lineno">49</tt> <a class="py-toggle" href="#" id="H52CSV.__init__-toggle" onclick="return toggle('H52CSV.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.h5conv.h5_csv.H52CSV-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-param">args</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">kwargs</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="H52CSV.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="H52CSV.__init__-expanded"><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-24" class="py-name" targets="Class mldata.utils.h5conv.h5_csv.H52CSV=mldata.utils.h5conv.h5_csv.H52CSV-class.html"><a title="mldata.utils.h5conv.h5_csv.H52CSV" class="py-name" href="#" onclick="return doclink('link-24', 'H52CSV', 'link-24');">H52CSV</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="mldata.django_authopenid.forms.AssociateOpenID.__init__
+mldata.django_authopenid.forms.OpenidRegisterForm.__init__
+mldata.django_authopenid.openid_store.DjangoOpenIDStore.__init__
+mldata.django_authopenid.utils.OpenID.__init__
+mldata.forum.templatetags.forum_tags.ForumLatestPostsNode.__init__
+mldata.forum.templatetags.forum_tags.ForumLatestThreadsNode.__init__
+mldata.forum.templatetags.forum_tags.ForumLatestUserPostsNode.__init__
+mldata.repository.forms.DataForm.__init__
+mldata.repository.forms.SolutionForm.__init__
+mldata.repository.forms.TaskForm.__init__
+mldata.repository.templatetags.show_stars.ShowStarsNode.__init__
+mldata.tagging.fields.TagField.__init__
+mldata.tagging.templatetags.tagging_tags.TagCloudForModelNode.__init__
+mldata.tagging.templatetags.tagging_tags.TaggedObjectsNode.__init__
+mldata.tagging.templatetags.tagging_tags.TagsForModelNode.__init__
+mldata.tagging.templatetags.tagging_tags.TagsForObjectNode.__init__
+mldata.templatetags.permute_items.Permutator.__init__
+mldata.utils.h5conv.ConversionError.__init__
+mldata.utils.h5conv.HDF5.__init__
+mldata.utils.h5conv.arff.ArffFile.__init__
+mldata.utils.h5conv.base.H5Converter.__init__
+mldata.utils.h5conv.h5_arff.ARFF2H5.__init__
+mldata.utils.h5conv.h5_csv.CSV2H5.__init__
+mldata.utils.h5conv.h5_csv.H52CSV.__init__
+mldata.utils.h5conv.h5_libsvm.LibSVM2H5.__init__
+mldata.utils.h5conv.h5_mat.MAT2H5.__init__
+mldata.utils.h5conv.h5_octave.OCTAVE2H5.__init__
+mldata.utils.markdown.BacktickPattern.__init__
+mldata.utils.markdown.CDATA.__init__
+mldata.utils.markdown.CorePatterns.__init__
+mldata.utils.markdown.Document.__init__
+mldata.utils.markdown.Element.__init__
+mldata.utils.markdown.EntityReference.__init__
+mldata.utils.markdown.Extension.__init__
+mldata.utils.markdown.HtmlStash.__init__
+mldata.utils.markdown.Markdown.__init__
+mldata.utils.markdown.Pattern.__init__
+mldata.utils.markdown.RawHtmlTextPostprocessor.__init__
+mldata.utils.markdown.SimpleTagPattern.__init__
+mldata.utils.markdown.TextNode.__init__
+mldata.utils.slurper.parser.slurphtmlparser.SlurpHTMLParser.__init__
+mldata.utils.slurper.parser.ucihtmlparser.UCIDirectoryParser.__init__
+mldata.utils.slurper.parser.ucihtmlparser.UCIIndexParser.__init__
+mldata.utils.slurper.slurper.Slurper.__init__
+mldata.utils.uploadprogresscachedhandler.UploadProgressCachedHandler.__init__" class="py-name" href="#" onclick="return doclink('link-25', '__init__', 'link-5');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-op">*</tt><tt class="py-name">args</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-name">kwargs</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="mldata.repository.forms.DataReviewForm.seperator" class="py-name" href="#" onclick="return doclink('link-26', 'seperator', 'link-6');">seperator</a></tt> <tt class="py-op">=</tt> <tt id="link-27" class="py-name"><a title="mldata.utils.h5conv.h5_csv.SEPERATOR" class="py-name" href="#" onclick="return doclink('link-27', 'SEPERATOR', 'link-3');">SEPERATOR</a></tt> <tt class="py-comment"># maybe more flexible in the future</tt> </tt>
+</div><a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"> </tt>
+<a name="H52CSV.run"></a><div id="H52CSV.run-def"><a name="L54"></a><tt class="py-lineno">54</tt> <a class="py-toggle" href="#" id="H52CSV.run-toggle" onclick="return toggle('H52CSV.run');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.h5conv.h5_csv.H52CSV-class.html#run">run</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="H52CSV.run-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="H52CSV.run-expanded"><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt class="py-name">csv</tt> <tt class="py-op">=</tt> <tt class="py-name">open</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fname_out</tt><tt class="py-op">,</tt> <tt class="py-string">'w'</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">            <tt class="py-name">contents</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name" targets="Method mldata.utils.h5conv.base.H5Converter.get_contents()=mldata.utils.h5conv.base.H5Converter-class.html#get_contents,Method mldata.utils.h5conv.h5_arff.ARFF2H5.get_contents()=mldata.utils.h5conv.h5_arff.ARFF2H5-class.html#get_contents,Method mldata.utils.h5conv.h5_csv.CSV2H5.get_contents()=mldata.utils.h5conv.h5_csv.CSV2H5-class.html#get_contents,Method mldata.utils.h5conv.h5_libsvm.LibSVM2H5.get_contents()=mldata.utils.h5conv.h5_libsvm.LibSVM2H5-class.html#get_contents,Method mldata.utils.h5conv.h5_mat.MAT2H5.get_contents()=mldata.utils.h5conv.h5_mat.MAT2H5-class.html#get_contents,Method mldata.utils.h5conv.h5_uci.UCI2H5.get_contents()=mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_contents"><a title="mldata.utils.h5conv.base.H5Converter.get_contents
+mldata.utils.h5conv.h5_arff.ARFF2H5.get_contents
+mldata.utils.h5conv.h5_csv.CSV2H5.get_contents
+mldata.utils.h5conv.h5_libsvm.LibSVM2H5.get_contents
+mldata.utils.h5conv.h5_mat.MAT2H5.get_contents
+mldata.utils.h5conv.h5_uci.UCI2H5.get_contents" class="py-name" href="#" onclick="return doclink('link-28', 'get_contents', 'link-28');">get_contents</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xrange</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">contents</tt><tt class="py-op">[</tt><tt class="py-string">'data'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">                <tt class="py-name">line</tt> <tt class="py-op">=</tt> <tt class="py-name">map</tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">,</tt> <tt class="py-name">contents</tt><tt class="py-op">[</tt><tt class="py-string">'data'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-string">'label'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">contents</tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">                    <tt class="py-name">label</tt> <tt class="py-op">=</tt> <tt class="py-name">map</tt><tt class="py-op">(</tt><tt class="py-name">str</tt><tt class="py-op">,</tt> <tt class="py-name">contents</tt><tt class="py-op">[</tt><tt class="py-string">'label'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">                    <tt class="py-name">label</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name"><a title="mldata.repository.forms.DataReviewForm.seperator" class="py-name" href="#" onclick="return doclink('link-29', 'seperator', 'link-6');">seperator</a></tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">                    <tt class="py-name">line</tt><tt class="py-op">.</tt><tt class="py-name">insert</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">label</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">                <tt class="py-name">csv</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name" targets="Method mldata.blog.wfwfeed.WellFormedWebRss.write()=mldata.blog.wfwfeed.WellFormedWebRss-class.html#write,Method mldata.utils.h5conv.arff.ArffFile.write()=mldata.utils.h5conv.arff.ArffFile-class.html#write"><a title="mldata.blog.wfwfeed.WellFormedWebRss.write
+mldata.utils.h5conv.arff.ArffFile.write" class="py-name" href="#" onclick="return doclink('link-30', 'write', 'link-30');">write</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name"><a title="mldata.repository.forms.DataReviewForm.seperator" class="py-name" href="#" onclick="return doclink('link-31', 'seperator', 'link-6');">seperator</a></tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">line</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">KeyError</tt><tt class="py-op">,</tt> <tt class="py-name">e</tt><tt class="py-op">:</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">            <tt class="py-name">csv</tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">            <tt id="link-32" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-32', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">remove</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">fname_out</tt><tt class="py-op">)</tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">KeyError</tt><tt class="py-op">(</tt><tt class="py-name">e</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">            <tt class="py-name">csv</tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line"> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div></div><a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:37 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

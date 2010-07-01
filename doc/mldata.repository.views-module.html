@@ -179,7 +179,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_current_tags" class="summary-sig-name" onclick="show_private();">_get_current_tags</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">do_sort</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">klass</span>=<span class="summary-sig-default">None</span>)</span><br />
       Get current tags available to user.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tags">source&nbsp;code</a></span>
@@ -192,13 +192,13 @@
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">list of tagging.Tag</span>
+      <span class="summary-type">hash with keys 'data', 'task', 'solution' containing lists of 
+      tagging.Tag</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_tag_cloud" class="summary-sig-name" onclick="show_private();">_get_tag_cloud</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">tags</span>=<span class="summary-sig-default">None</span>)</span><br />
-      Retrieve a cloud of tags of all item types.</td>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_tag_cloud" class="summary-sig-name" onclick="show_private();">_get_tag_cloud</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Retrieve tag clouds for all item types.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_tag_cloud">source&nbsp;code</a></span>
             
@@ -263,14 +263,52 @@
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">binary file</span>
+      <span class="summary-type">HTTPResponse</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_sendfile" class="summary-sig-name" onclick="show_private();">_sendfile</a>(<span class="summary-sig-arg">fileobj</span>,
+        <span class="summary-sig-arg">ctype</span>)</span><br />
+      Send given file to client.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_sendfile">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_is_newer" class="summary-sig-name" onclick="show_private();">_is_newer</a>(<span class="summary-sig-arg">first</span>,
+        <span class="summary-sig-arg">second</span>)</span><br />
+      Check if second given file is newer than first given file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_is_newer">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_download" class="summary-sig-name" onclick="show_private();">_download</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">klass</span>,
-        <span class="summary-sig-arg">id</span>)</span><br />
-      Download file relating to item given by id and klass.</td>
+        <span class="summary-sig-arg">id</span>,
+        <span class="summary-sig-arg">type</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">plain</code><code class="variable-quote">'</code></span>)</span><br />
+      Download file relating to item given by id and klass and possibly 
+      type.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_download">source&nbsp;code</a></span>
             
@@ -282,7 +320,7 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">binary file</span>
+      <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
@@ -291,6 +329,96 @@
       Download XML file relating to item given by id.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_xml">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_download_csv" class="summary-sig-name">data_download_csv</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      Download CSV file relating to item given by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_csv">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_download_arff" class="summary-sig-name">data_download_arff</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      Download ARFF file relating to item given by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_arff">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_download_libsvm" class="summary-sig-name">data_download_libsvm</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      Download LibSVM file relating to item given by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_libsvm">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_download_matlab" class="summary-sig-name">data_download_matlab</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      Download Matlab file relating to item given by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_matlab">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_download_octave" class="summary-sig-name">data_download_octave</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">id</span>)</span><br />
+      Download Octave file relating to item given by id.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_octave">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -379,10 +507,27 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_get_page" class="summary-sig-name" onclick="show_private();">_get_page</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">objects</span>)</span><br />
+        <span class="summary-sig-arg">objects</span>,
+        <span class="summary-sig-arg">PER_PAGE</span>)</span><br />
       Get paginator page for the given objects.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_page">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_get_per_page"></a><span class="summary-sig-name">_get_per_page</span>(<span class="summary-sig-arg">count</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_per_page">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -398,7 +543,8 @@
         <tr>
           <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_index" class="summary-sig-name" onclick="show_private();">_index</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">klass</span>,
-        <span class="summary-sig-arg">my</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">my</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">searchterm</span>=<span class="summary-sig-default">None</span>)</span><br />
       Index/My page for section given by klass.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#_index">source&nbsp;code</a></span>
@@ -419,6 +565,23 @@
       Index page of app repository.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.repository.views-pysrc.html#index">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#data_search" class="summary-sig-name">data_search</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Search page of Data section.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#data_search">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -909,6 +1072,42 @@
       
     </td>
   </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">repository.Data</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_data_approve" class="summary-sig-name" onclick="show_private();">_data_approve</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kw</span>)</span><br />
+      Approve Data item.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_data_approve">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_data_conversion_error" class="summary-sig-name" onclick="show_private();">_data_conversion_error</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kw</span>)</span><br />
+      Handle conversion error for Data file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_data_conversion_error">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">Django response</span>
@@ -929,14 +1128,15 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">Django response</span>
+      <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#tags_index" class="summary-sig-name">tags_index</a>(<span class="summary-sig-arg">request</span>)</span><br />
-      Index page to display all public and all user's tags.</td>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#tags_data_view" class="summary-sig-name">tags_data_view</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">tag</span>)</span><br />
+      View all items by given tag in Data.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_index">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_data_view">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -946,15 +1146,52 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#tags_task_view" class="summary-sig-name">tags_task_view</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">tag</span>)</span><br />
+      View all items by given tag in Task.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_task_view">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#tags_solution_view" class="summary-sig-name">tags_solution_view</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">tag</span>)</span><br />
+      View all items by given tag in Solution.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_solution_view">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">Django response</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#tags_view" class="summary-sig-name">tags_view</a>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">tag</span>)</span><br />
-      View all items tagged by given tag.</td>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#_tags_view" class="summary-sig-name" onclick="show_private();">_tags_view</a>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">tag</span>,
+        <span class="summary-sig-arg">klass</span>)</span><br />
+      View all items tagged by given tag in given klass.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_view">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#_tags_view">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -1068,6 +1305,23 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">Django response</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.repository.views-module.html#upload_progress" class="summary-sig-name">upload_progress</a>(<span class="summary-sig-arg">request</span>)</span><br />
+      Return JSON object with information about the progress of an upload.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.repository.views-pysrc.html#upload_progress">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 </table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
@@ -1096,17 +1350,30 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">integer</span>
+      <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="NUM_INDEX_PAGE"></a><span class="summary-name">NUM_INDEX_PAGE</span> = <code title="10">10</code><br />
-      how many items will be shown on index/my page
+        <a name="NUM_PAGINATOR_RANGE"></a><span class="summary-name">NUM_PAGINATOR_RANGE</span> = <code title="10">10</code>
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="NUM_PAGINATOR_RANGE"></a><span class="summary-name">NUM_PAGINATOR_RANGE</span> = <code title="10">10</code>
+        <a name="PER_PAGE_INTS"></a><span class="summary-name">PER_PAGE_INTS</span> = <code title="[10, 20, 50, 100, 999999]"><code class="variable-group">[</code>10<code class="variable-op">, </code>20<code class="variable-op">, </code>50<code class="variable-op">, </code>100<code class="variable-op">, </code>999999<code class="variable-group">]</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="MEGABYTE"></a><span class="summary-name">MEGABYTE</span> = <code title="1048576">1048576</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="UPLOAD_LIMIT"></a><span class="summary-name">UPLOAD_LIMIT</span> = <code title="67108864">67108864</code>
     </td>
   </tr>
 <tr>
@@ -1162,6 +1429,14 @@
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">integer</span>
+    </td><td class="summary">
+        <a name="NUM_INDEX_PAGE"></a><span class="summary-name">NUM_INDEX_PAGE</span><br />
+      how many items will be shown on index/my page
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="SCOREPATH"></a><span class="summary-name">SCOREPATH</span> = <code title="'score'"><code class="variable-quote">'</code><code class="variable-string">score</code><code class="variable-quote">'</code></code>
@@ -1179,6 +1454,13 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'mldata.repository'"><code class="variable-quote">'</code><code class="variable-string">mldata.repository</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="attrs_checkbox"></a><span class="summary-name">attrs_checkbox</span> = <code title="{'class': 'checkbox'}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">class</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-quote">'</code><code class="variable-string">checkbox</code><code class="variable-quote">'</code><code class="variable-group">}</code></code>
     </td>
   </tr>
 </table>
@@ -1352,7 +1634,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_current_tags</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">do_sort</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">klass</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_current_tags">source&nbsp;code</a></span>&nbsp;
@@ -1364,7 +1646,7 @@
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>do_sort</code></strong> (boolean) - if the tag list shall be sorted alphabetically</li>
+        <li><strong class="pname"><code>klass</code></strong> (repository.Data/Task/Solution) - class to retrieve tags for</li>
     </ul></dd>
     <dt>Returns: list of tagging.Tag</dt>
         <dd>current tags available to user</dd>
@@ -1378,22 +1660,21 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_tag_cloud</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">tags</span>=<span class="sig-default">None</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_tag_cloud</span>(<span class="sig-arg">request</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_tag_cloud">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Retrieve a cloud of tags of all item types.</p>
+  <p>Retrieve tag clouds for all item types.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>tags</code></strong> (list of tagging.Tag) - current tags (will be retrieved if None)</li>
     </ul></dd>
-    <dt>Returns: list of tagging.Tag</dt>
+    <dt>Returns: hash with keys 'data', 'task', 'solution' containing lists of 
+      tagging.Tag</dt>
         <dd>list of tags with attributes font_size</dd>
   </dl>
 </td></tr></table>
@@ -1485,6 +1766,58 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="_sendfile"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_sendfile</span>(<span class="sig-arg">fileobj</span>,
+        <span class="sig-arg">ctype</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_sendfile">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Send given file to client.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fileobj</code></strong> (File) - file to send</li>
+        <li><strong class="pname"><code>ctype</code></strong> (string) - content type of file</li>
+    </ul></dd>
+    <dt>Returns: HTTPResponse</dt>
+        <dd>response</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_is_newer"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_is_newer</span>(<span class="sig-arg">first</span>,
+        <span class="sig-arg">second</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_is_newer">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check if second given file is newer than first given file.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>first</code></strong> (string) - filename of first file</li>
+        <li><strong class="pname"><code>second</code></strong> (string) - filename of second file</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="_download"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
@@ -1494,26 +1827,29 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_download</span>(<span class="sig-arg">request</span>,
         <span class="sig-arg">klass</span>,
-        <span class="sig-arg">id</span>)</span>
+        <span class="sig-arg">id</span>,
+        <span class="sig-arg">type</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">plain</code><code class="variable-quote">'</code></span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_download">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Download file relating to item given by id and klass.</p>
+  <p>Download file relating to item given by id and klass and possibly 
+  type.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-        <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
+        <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class</li>
         <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
     </ul></dd>
-    <dt>Returns: binary file</dt>
-        <dd>contents of file related to object</dd>
+    <dt>Returns: Django response</dt>
+        <dd>download file response</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - if given klass is unexpected or file doesn't exist</li>
+        <li><code><strong class='fraise'>Http404</strong></code> - if given klass is unexpected or file doesn't exist or a conversion 
+        error occurred</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1540,12 +1876,143 @@
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
         <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
     </ul></dd>
-    <dt>Returns: binary file</dt>
-        <dd>contents of file related to object</dd>
-    <dt>Raises:</dt>
+    <dt>Returns: Django response</dt>
+        <dd>download XML file response</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_download_csv"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_download_csv</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_csv">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download CSV file relating to item given by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>Http404</strong></code> - file doesn't exist</li>
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
     </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>download CSV file response</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_download_arff"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_download_arff</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_arff">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download ARFF file relating to item given by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>download ARFF file response</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_download_libsvm"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_download_libsvm</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_libsvm">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download LibSVM file relating to item given by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>download LibSVM file response</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_download_matlab"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_download_matlab</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_matlab">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download Matlab file relating to item given by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>download Matlab file response</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_download_octave"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_download_octave</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">id</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_download_octave">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Download Octave file relating to item given by id.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>id</code></strong> (integer) - id of the relating item</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>download Octave file response</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1687,7 +2154,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_get_page</span>(<span class="sig-arg">request</span>,
-        <span class="sig-arg">objects</span>)</span>
+        <span class="sig-arg">objects</span>,
+        <span class="sig-arg">PER_PAGE</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_get_page">source&nbsp;code</a></span>&nbsp;
@@ -1715,7 +2183,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">_index</span>(<span class="sig-arg">request</span>,
         <span class="sig-arg">klass</span>,
-        <span class="sig-arg">my</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">my</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">searchterm</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_index">source&nbsp;code</a></span>&nbsp;
@@ -1728,8 +2197,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
         <li><strong class="pname"><code>klass</code></strong> (either Data, Task or Solution) - item's class for lookup in correct database table</li>
-        <li><strong class="pname"><code>my</code></strong> - if the page should be a My page or the archive index of the 
+        <li><strong class="pname"><code>my</code></strong> (boolean) - if the page should be a My page or the archive index of the 
           section</li>
+        <li><strong class="pname"><code>searchterm</code></strong> (string) - search term to reduce queryset</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>section's index or My page</dd>
@@ -1751,6 +2221,31 @@
   </tr></table>
   
   <p>Index page of app repository.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>rendered response page</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="data_search"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">data_search</span>(<span class="sig-arg">request</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#data_search">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Search page of Data section.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -2484,6 +2979,68 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="_data_approve"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_data_approve</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kw</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_data_approve">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Approve Data item.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> (repository.Data) - object to approve</li>
+        <li><strong class="pname"><code>fname_orig</code></strong> (string) - original filename</li>
+        <li><strong class="pname"><code>format</code></strong> (string) - data format of file, given by user</li>
+    </ul></dd>
+    <dt>Returns: repository.Data</dt>
+        <dd>the modified, approved object</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@transaction.commit_on_success</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_data_conversion_error"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_data_conversion_error</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kw</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_data_conversion_error">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Handle conversion error for Data file.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>obj</code></strong> (repository.Data) - Data item</li>
+        <li><strong class="pname"><code>error</code></strong> (h5conv.ConversionError) - the error that occurred</li>
+    </ul></dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@transaction.commit_on_success</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="data_new_review"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2516,52 +3073,104 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="tags_index"></a>
+<a name="tags_data_view"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">tags_index</span>(<span class="sig-arg">request</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_index">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Index page to display all public and all user's tags.</p>
-  <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
-    </ul></dd>
-    <dt>Returns: Django response</dt>
-        <dd>rendered response page</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="tags_view"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">tags_view</span>(<span class="sig-arg">request</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tags_data_view</span>(<span class="sig-arg">request</span>,
         <span class="sig-arg">tag</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_view">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_data_view">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>View all items tagged by given tag.</p>
+  <p>View all items by given tag in Data.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
         <li><strong class="pname"><code>tag</code></strong> (string) - name of the tag</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tags_task_view"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tags_task_view</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">tag</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_task_view">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View all items by given tag in Task.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>tag</code></strong> (string) - name of the tag</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tags_solution_view"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tags_solution_view</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">tag</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#tags_solution_view">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View all items by given tag in Solution.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>tag</code></strong> (string) - name of the tag</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_tags_view"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_tags_view</span>(<span class="sig-arg">request</span>,
+        <span class="sig-arg">tag</span>,
+        <span class="sig-arg">klass</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#_tags_view">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>View all items tagged by given tag in given klass.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+        <li><strong class="pname"><code>tag</code></strong> (string) - name of the tag</li>
+        <li><strong class="pname"><code>klass</code></strong> (repository.Data/Task/Solution) - klass of tagged item</li>
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>rendered response page</dd>
@@ -2655,6 +3264,32 @@
     </ul></dd>
     <dt>Returns: Django response</dt>
         <dd>publication content in response page</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="upload_progress"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">upload_progress</span>(<span class="sig-arg">request</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.repository.views-pysrc.html#upload_progress">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return JSON object with information about the progress of an 
+  upload.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>request</code></strong> (Django request) - request data</li>
+    </ul></dd>
+    <dt>Returns: Django response</dt>
+        <dd>progress information</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2761,7 +3396,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:07:57 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:17:42 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -64,6 +64,29 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class H52ARFF</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.h5conv.h5_arff-pysrc.html#H52ARFF">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_mldata_u_7" name="uml_class_diagram_for_mldata_u_7">
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#fname_in" title="filename to read data from" alt="" coords="17,28,431,47"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#fname_out" title="filename to write converted data to" alt="" coords="17,47,431,65"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#labels_idx" title="indices for labels for each row" alt="" coords="17,65,431,84"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#seperator" title="seperator to seperate variables in examples" alt="" coords="17,84,431,103"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#str_type" title="string type to be used for variable length strings in h5py" alt="" coords="17,103,431,121"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,124,431,143"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_comment" title="Get comment from non&#45;HDF5 file." alt="" coords="17,143,431,161"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_contents" title="Get in&#45;memory data, labels and data description" alt="" coords="17,161,431,180"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_datatype" title="Get data type of given values." alt="" coords="17,180,431,199"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_name" title="Get dataset name from non&#45;HDF5 file" alt="" coords="17,199,431,217"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_types" title="Get attribute/data types, if available, from non&#45;HDF5 file" alt="" coords="17,217,431,236"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#set_seperator" title="Set the seperator to seperate variables in examples." alt="" coords="17,236,431,255"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#warn" title="Print a warning message." alt="" coords="17,255,431,273"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html" title="Base converter class." alt="" coords="16,11,432,275"/>
+<area shape="rect" href="mldata.utils.h5conv.h5_arff.H52ARFF-class.html#run" title="Convert from input file to HDF5 file." alt="" coords="195,329,253,348"/>
+<area shape="rect" href="mldata.utils.h5conv.h5_arff.H52ARFF-class.html" title="Convert a file from HDF5 (spec of mldata.org) to ARFF" alt="" coords="193,304,255,349"/>
+</map>
+  <img src="uml_class_diagram_for_mldata_u_7.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_7" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
 <p>Convert a file from HDF5 (spec of mldata.org) to ARFF</p>
   <p>It uses the module arff provided by the dataformat project: 
   http://mloss.org/software/view/163/</p>
@@ -91,26 +114,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">fname_in</span>,
-        <span class="summary-sig-arg">fname_out</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.h5conv.h5_arff-pysrc.html#H52ARFF.__init__">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="mldata.utils.h5conv.h5_arff.H52ARFF-class.html#run" class="summary-sig-name">run</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Run the actual conversion process.</td>
+      Convert from input file to HDF5 file.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.utils.h5conv.h5_arff-pysrc.html#H52ARFF.run">source&nbsp;code</a></span>
             
@@ -118,6 +123,63 @@
         </tr>
       </table>
       
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b>:
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#__init__">__init__</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_comment">get_comment</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_contents">get_contents</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_datatype">get_datatype</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_name">get_name</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_types">get_types</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#set_seperator">set_seperator</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#warn">warn</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b> (private):
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#_get_complex_data" onclick="show_private();">_get_complex_data</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#_get_merged" onclick="show_private();">_get_merged</a></code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b>:
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#str_type">str_type</a></code>
+      </p>
     </td>
   </tr>
 </table>
@@ -138,20 +200,39 @@
     </table>
   </td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">string</span>
-    </td><td class="summary">
-        <a name="fname_in"></a><span class="summary-name">fname_in</span><br />
-      filename to read data from
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b>:
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#fname_in">fname_in</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#fname_out">fname_out</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#labels_idx">labels_idx</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#seperator">seperator</a></code>
+      </p>
     </td>
   </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">string</span>
-    </td><td class="summary">
-        <a name="fname_out"></a><span class="summary-name">fname_out</span><br />
-      filename to write converted data to
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
     </td>
   </tr>
 </table>
@@ -187,13 +268,12 @@
     </td>
   </tr></table>
   
-  <p>Run the actual conversion process.</p>
+  <p>Convert from input file to HDF5 file.</p>
   <dl class="fields">
-    <dt>Parameters:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>in_fname</code></strong> (string) - filename to read data from</li>
-        <li><strong class="pname"><code>out_fname</code></strong> (string) - filename to write converted data to</li>
-    </ul></dd>
+    <dt>Overrides:
+        <a href="mldata.utils.h5conv.base.H5Converter-class.html#run">base.H5Converter.run</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
   </dl>
 </td></tr></table>
 </div>
@@ -229,7 +309,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:33 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:24 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

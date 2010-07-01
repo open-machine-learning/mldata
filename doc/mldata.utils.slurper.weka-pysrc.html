@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.utils.slurper.weka</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.utils-module.html">Package&nbsp;utils</a> ::
+        <a href="mldata.utils.slurper-module.html">Package&nbsp;slurper</a> ::
+        Module&nbsp;weka
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.utils.slurper.weka-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.utils.slurper.weka-module.html">Module mldata.utils.slurper.weka</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Variable mldata.repository.models.Solution.os=mldata.repository.models.Solution-class.html#os"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-0', 'os', 'link-0');">os</a></tt><tt class="py-op">,</tt> <tt class="py-name">shutil</tt><tt class="py-op">,</tt> <tt class="py-name">subprocess</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package mldata.utils.slurper=mldata.utils.slurper-module.html,Module mldata.utils.slurper.slurper=mldata.utils.slurper.slurper-module.html"><a title="mldata.utils.slurper
+mldata.utils.slurper.slurper" class="py-name" href="#" onclick="return doclink('link-1', 'slurper', 'link-1');">slurper</a></tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Class mldata.utils.slurper.slurper.Slurper=mldata.utils.slurper.slurper.Slurper-class.html"><a title="mldata.utils.slurper.slurper.Slurper" class="py-name" href="#" onclick="return doclink('link-2', 'Slurper', 'link-2');">Slurper</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-3" class="py-name" targets="Package mldata.utils.slurper.parser=mldata.utils.slurper.parser-module.html"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-3', 'parser', 'link-3');">parser</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Module mldata.utils.slurper.parser.wekahtmlparser=mldata.utils.slurper.parser.wekahtmlparser-module.html"><a title="mldata.utils.slurper.parser.wekahtmlparser" class="py-name" href="#" onclick="return doclink('link-4', 'wekahtmlparser', 'link-4');">wekahtmlparser</a></tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name" targets="Class mldata.utils.slurper.parser.wekahtmlparser.WekaHTMLParser=mldata.utils.slurper.parser.wekahtmlparser.WekaHTMLParser-class.html"><a title="mldata.utils.slurper.parser.wekahtmlparser.WekaHTMLParser" class="py-name" href="#" onclick="return doclink('link-5', 'WekaHTMLParser', 'link-5');">WekaHTMLParser</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"> </tt>
+<a name="Weka"></a><div id="Weka-def"><a name="L7"></a><tt class="py-lineno">  7</tt> <a class="py-toggle" href="#" id="Weka-toggle" onclick="return toggle('Weka');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html">Weka</a><tt class="py-op">(</tt><tt class="py-base-class">Slurper</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Weka-expanded"><a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line">    <tt class="py-docstring">"""Slurp from Weka."""</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line">    <tt id="link-6" class="py-name" targets="Variable mldata.blog.tests.BlogTest.url=mldata.blog.tests.BlogTest-class.html#url,Variable mldata.forum.tests.ForumTest.url=mldata.forum.tests.ForumTest-class.html#url,Variable mldata.repository.models.FixedLicense.url=mldata.repository.models.FixedLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url,Variable mldata.repository.tests.RepositoryTest.url=mldata.repository.tests.RepositoryTest-class.html#url,Variable mldata.user.tests.UserTest.url=mldata.user.tests.UserTest-class.html#url,Variable mldata.utils.slurper.libsvmtools.LibSVMTools.url=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#url,Variable mldata.utils.slurper.slurper.Slurper.url=mldata.utils.slurper.slurper.Slurper-class.html#url,Variable mldata.utils.slurper.uci.UCI.url=mldata.utils.slurper.uci.UCI-class.html#url,Variable mldata.utils.slurper.weka.Weka.url=mldata.utils.slurper.weka.Weka-class.html#url"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-6', 'url', 'link-6');">url</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'http://www.cs.waikato.ac.nz/~ml/weka/index_datasets.html'</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable mldata.repository.forms.DataReviewForm.format=mldata.repository.forms.DataReviewForm-class.html#format,Variable mldata.repository.models.Data.format=mldata.repository.models.Data-class.html#format,Variable mldata.utils.slurper.libsvmtools.LibSVMTools.format=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#format,Variable mldata.utils.slurper.uci.UCI.format=mldata.utils.slurper.uci.UCI-class.html#format,Variable mldata.utils.slurper.weka.Weka.format=mldata.utils.slurper.weka.Weka-class.html#format"><a title="mldata.repository.forms.DataReviewForm.format
+mldata.repository.models.Data.format
+mldata.utils.slurper.libsvmtools.LibSVMTools.format
+mldata.utils.slurper.uci.UCI.format
+mldata.utils.slurper.weka.Weka.format" class="py-name" href="#" onclick="return doclink('link-7', 'format', 'link-7');">format</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'arff'</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
+<a name="Weka.skippable"></a><div id="Weka.skippable-def"><a name="L12"></a><tt class="py-lineno"> 12</tt> <a class="py-toggle" href="#" id="Weka.skippable-toggle" onclick="return toggle('Weka.skippable');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#skippable">skippable</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka.skippable-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka.skippable-expanded"><a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> <tt class="py-comment"># allow everything now</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-8" class="py-name" targets="Variable mldata.repository.models.FixedLicense.name=mldata.repository.models.FixedLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-8', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'datasets-arie_ben_david'</tt><tt class="py-op">:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-9" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-9', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'agridatasets'</tt><tt class="py-op">:</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"> </tt>
+<a name="Weka._unzip_traverse"></a><div id="Weka._unzip_traverse-def"><a name="L24"></a><tt class="py-lineno"> 24</tt> <a class="py-toggle" href="#" id="Weka._unzip_traverse-toggle" onclick="return toggle('Weka._unzip_traverse');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#_unzip_traverse">_unzip_traverse</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">dir</tt><tt class="py-op">,</tt> <tt class="py-param">may_unzip</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka._unzip_traverse-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka._unzip_traverse-expanded"><a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">        <tt class="py-docstring">"""Traverse directories to recursively unzip archives.</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">        @param dir: directory to look in</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">        @type dir: string</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">        @param may_unzip: if this dir may unzip files (to prevent endless loop)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">        @type may_unzip: boolean</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring">        @return: unzipped filenames</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt class="py-docstring">        @rtype: list of strings</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        <tt id="link-10" class="py-name" targets="Method mldata.forum.feeds.RssForumFeed.items()=mldata.forum.feeds.RssForumFeed-class.html#items,Method mldata.forum.sitemap.ForumSitemap.items()=mldata.forum.sitemap.ForumSitemap-class.html#items,Method mldata.forum.sitemap.PostSitemap.items()=mldata.forum.sitemap.PostSitemap-class.html#items,Method mldata.forum.sitemap.ThreadSitemap.items()=mldata.forum.sitemap.ThreadSitemap-class.html#items,Variable tagging.models.Tag.items=tagging.models.Tag-class.html#items"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-10', 'items', 'link-10');">items</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">item</tt> <tt class="py-keyword">in</tt> <tt id="link-11" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-11', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">listdir</tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">            <tt class="py-name">item</tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-12', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">,</tt> <tt class="py-name">item</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt id="link-13" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-13', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">isdir</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">                <tt id="link-14" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-14', 'items', 'link-10');">items</a></tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Method mldata.utils.slurper.weka.Weka._unzip_traverse()=mldata.utils.slurper.weka.Weka-class.html#_unzip_traverse"><a title="mldata.utils.slurper.weka.Weka._unzip_traverse" class="py-name" href="#" onclick="return doclink('link-15', '_unzip_traverse', 'link-15');">_unzip_traverse</a></tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">,</tt> <tt class="py-name">True</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">item</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.arff'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">                <tt id="link-16" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-16', 'items', 'link-10');">items</a></tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">            <tt class="py-keyword">elif</tt> <tt class="py-name">may_unzip</tt><tt class="py-op">:</tt> <tt class="py-comment"># assuming another archive</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">                <tt id="link-17" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-17', 'items', 'link-10');">items</a></tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name" targets="Method mldata.utils.slurper.weka.Weka._unzip_do()=mldata.utils.slurper.weka.Weka-class.html#_unzip_do"><a title="mldata.utils.slurper.weka.Weka._unzip_do" class="py-name" href="#" onclick="return doclink('link-18', '_unzip_do', 'link-18');">_unzip_do</a></tt><tt class="py-op">(</tt><tt class="py-name">item</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-19" class="py-name"><a title="mldata.forum.feeds.RssForumFeed.items
+mldata.forum.sitemap.ForumSitemap.items
+mldata.forum.sitemap.PostSitemap.items
+mldata.forum.sitemap.ThreadSitemap.items
+tagging.models.Tag.items" class="py-name" href="#" onclick="return doclink('link-19', 'items', 'link-10');">items</a></tt> </tt>
+</div><a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="Weka._unzip_do"></a><div id="Weka._unzip_do-def"><a name="L46"></a><tt class="py-lineno"> 46</tt> <a class="py-toggle" href="#" id="Weka._unzip_do-toggle" onclick="return toggle('Weka._unzip_do');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#_unzip_do">_unzip_do</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">zip</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka._unzip_do-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka._unzip_do-expanded"><a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">        <tt class="py-docstring">"""Actually perform the unzip process.</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"><tt class="py-docstring">        @param zip: name of zipped file</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt class="py-docstring">        @type zip: string</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt class="py-docstring">        @return: unzipped filenames</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt class="py-docstring">        @rtype: list of strings</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">        <tt class="py-name">dir</tt> <tt class="py-op">=</tt> <tt id="link-20" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-20', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Variable mldata.repository.models.Task.output=mldata.repository.models.Task-class.html#output,Variable mldata.utils.slurper.Options.output=mldata.utils.slurper.Options-class.html#output,Variable mldata.utils.slurper.slurper.Slurper.output=mldata.utils.slurper.slurper.Slurper-class.html#output"><a title="mldata.repository.models.Task.output
+mldata.utils.slurper.Options.output
+mldata.utils.slurper.slurper.Slurper.output" class="py-name" href="#" onclick="return doclink('link-21', 'output', 'link-21');">output</a></tt><tt class="py-op">,</tt> <tt class="py-name">zip</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt id="link-22" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-22', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">sep</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-name">cmd</tt> <tt class="py-op">=</tt> <tt class="py-string">'cd '</tt> <tt class="py-op">+</tt> <tt class="py-name">dir</tt> <tt class="py-op">+</tt> <tt class="py-string">' &amp;&amp; '</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">zip</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.jar'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">            <tt class="py-name">cmd</tt> <tt class="py-op">+=</tt> <tt class="py-string">'jar -xf '</tt> <tt class="py-op">+</tt> <tt class="py-name">zip</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">zip</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.bz2'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">            <tt class="py-name">cmd</tt> <tt class="py-op">+=</tt> <tt class="py-string">'tar -xjf '</tt> <tt class="py-op">+</tt> <tt class="py-name">zip</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">zip</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.gz'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">            <tt class="py-name">cmd</tt> <tt class="py-op">+=</tt> <tt class="py-string">'tar -xzf '</tt> <tt class="py-op">+</tt> <tt class="py-name">zip</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">zip</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.zip'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">            <tt class="py-name">cmd</tt> <tt class="py-op">+=</tt> <tt class="py-string">'unzip -o -qq '</tt> <tt class="py-op">+</tt> <tt class="py-name">zip</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt id="link-23" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-23', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">exists</tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">            <tt id="link-24" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-24', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">makedirs</tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">subprocess</tt><tt class="py-op">.</tt><tt class="py-name">call</tt><tt class="py-op">(</tt><tt class="py-name">cmd</tt><tt class="py-op">,</tt> <tt class="py-name">shell</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-number">0</tt><tt class="py-op">:</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt class="py-name">IOError</tt><tt class="py-op">(</tt><tt class="py-string">'Unsuccessful execution of '</tt> <tt class="py-op">+</tt> <tt class="py-name">cmd</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="mldata.utils.slurper.weka.Weka._unzip_traverse" class="py-name" href="#" onclick="return doclink('link-25', '_unzip_traverse', 'link-15');">_unzip_traverse</a></tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">,</tt> <tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"> </tt>
+<a name="Weka.unzip"></a><div id="Weka.unzip-def"><a name="L77"></a><tt class="py-lineno"> 77</tt> <a class="py-toggle" href="#" id="Weka.unzip-toggle" onclick="return toggle('Weka.unzip');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#unzip">unzip</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">oldnames</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka.unzip-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka.unzip-expanded"><a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">        <tt class="py-name">newnames</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">o</tt> <tt class="py-keyword">in</tt> <tt class="py-name">oldnames</tt><tt class="py-op">:</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">            <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.get_dst()=mldata.utils.slurper.slurper.Slurper-class.html#get_dst,Method mldata.utils.slurper.uci.UCI.get_dst()=mldata.utils.slurper.uci.UCI-class.html#get_dst,Method mldata.utils.slurper.weka.Weka.get_dst()=mldata.utils.slurper.weka.Weka-class.html#get_dst"><a title="mldata.utils.slurper.slurper.Slurper.get_dst
+mldata.utils.slurper.uci.UCI.get_dst
+mldata.utils.slurper.weka.Weka.get_dst" class="py-name" href="#" onclick="return doclink('link-26', 'get_dst', 'link-26');">get_dst</a></tt><tt class="py-op">(</tt><tt class="py-name">o</tt><tt class="py-op">)</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.progress()=mldata.utils.slurper.slurper.Slurper-class.html#progress"><a title="mldata.utils.slurper.slurper.Slurper.progress" class="py-name" href="#" onclick="return doclink('link-27', 'progress', 'link-27');">progress</a></tt><tt class="py-op">(</tt><tt class="py-string">'Decompressing '</tt> <tt class="py-op">+</tt> <tt class="py-name">o</tt><tt class="py-op">,</tt> <tt class="py-number">4</tt><tt class="py-op">)</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">            <tt class="py-name">newnames</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="mldata.utils.slurper.weka.Weka._unzip_do" class="py-name" href="#" onclick="return doclink('link-28', '_unzip_do', 'link-18');">_unzip_do</a></tt><tt class="py-op">(</tt><tt class="py-name">o</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">newnames</tt> </tt>
+</div><a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"> </tt>
+<a name="Weka.unzip_rm"></a><div id="Weka.unzip_rm-def"><a name="L87"></a><tt class="py-lineno"> 87</tt> <a class="py-toggle" href="#" id="Weka.unzip_rm-toggle" onclick="return toggle('Weka.unzip_rm');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#unzip_rm">unzip_rm</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">fnames</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka.unzip_rm-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka.unzip_rm-expanded"><a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">f</tt> <tt class="py-keyword">in</tt> <tt class="py-name">fnames</tt><tt class="py-op">:</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">            <tt class="py-name">dir</tt> <tt class="py-op">=</tt> <tt id="link-29" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-29', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="mldata.repository.models.Task.output
+mldata.utils.slurper.Options.output
+mldata.utils.slurper.slurper.Slurper.output" class="py-name" href="#" onclick="return doclink('link-30', 'output', 'link-21');">output</a></tt><tt class="py-op">,</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt id="link-31" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-31', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">sep</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">            <tt class="py-name">shutil</tt><tt class="py-op">.</tt><tt class="py-name">rmtree</tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"> </tt>
+<a name="Weka.get_dst"></a><div id="Weka.get_dst-def"><a name="L93"></a><tt class="py-lineno"> 93</tt> <a class="py-toggle" href="#" id="Weka.get_dst-toggle" onclick="return toggle('Weka.get_dst');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#get_dst">get_dst</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">filename</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka.get_dst-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka.get_dst-expanded"><a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">        <tt class="py-name">f</tt> <tt class="py-op">=</tt> <tt class="py-name">filename</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'/'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'?'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-32" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-32', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name"><a title="mldata.repository.models.Task.output
+mldata.utils.slurper.Options.output
+mldata.utils.slurper.slurper.Slurper.output" class="py-name" href="#" onclick="return doclink('link-33', 'output', 'link-21');">output</a></tt><tt class="py-op">,</tt> <tt class="py-name">f</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="Weka.add"></a><div id="Weka.add-def"><a name="L98"></a><tt class="py-lineno"> 98</tt> <a class="py-toggle" href="#" id="Weka.add-toggle" onclick="return toggle('Weka.add');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#add">add</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka.add-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka.add-expanded"><a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.progress" class="py-name" href="#" onclick="return doclink('link-34', 'progress', 'link-27');">progress</a></tt><tt class="py-op">(</tt><tt class="py-string">'Adding to repository.'</tt><tt class="py-op">,</tt> <tt class="py-number">3</tt><tt class="py-op">)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-name">orig</tt> <tt class="py-op">=</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">f</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools.unzip()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#unzip,Method mldata.utils.slurper.slurper.Slurper.unzip()=mldata.utils.slurper.slurper.Slurper-class.html#unzip,Method mldata.utils.slurper.weka.Weka.unzip()=mldata.utils.slurper.weka.Weka-class.html#unzip"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools.unzip
+mldata.utils.slurper.slurper.Slurper.unzip
+mldata.utils.slurper.weka.Weka.unzip" class="py-name" href="#" onclick="return doclink('link-35', 'unzip', 'link-35');">unzip</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">            <tt class="py-name">splitname</tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt id="link-36" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-36', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">sep</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'.'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">orig</tt> <tt class="py-op">+</tt> <tt class="py-string">' '</tt> <tt class="py-op">+</tt> <tt class="py-name">splitname</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper._data_exists()=mldata.utils.slurper.slurper.Slurper-class.html#_data_exists"><a title="mldata.utils.slurper.slurper.Slurper._data_exists" class="py-name" href="#" onclick="return doclink('link-37', '_data_exists', 'link-37');">_data_exists</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> <tt class="py-keyword">and</tt> <tt class="py-keyword">not</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name" targets="Variable mldata.utils.slurper.Options.convert_exist=mldata.utils.slurper.Options-class.html#convert_exist"><a title="mldata.utils.slurper.Options.convert_exist" class="py-name" href="#" onclick="return doclink('link-38', 'convert_exist', 'link-38');">convert_exist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name" targets="Method mldata.utils.h5conv.base.H5Converter.warn()=mldata.utils.h5conv.base.H5Converter-class.html#warn,Method mldata.utils.slurper.slurper.Slurper.warn()=mldata.utils.slurper.slurper.Slurper-class.html#warn"><a title="mldata.utils.h5conv.base.H5Converter.warn
+mldata.utils.slurper.slurper.Slurper.warn" class="py-name" href="#" onclick="return doclink('link-39', 'warn', 'link-39');">warn</a></tt><tt class="py-op">(</tt><tt class="py-string">'Dataset '</tt> <tt class="py-op">+</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">+</tt> <tt class="py-string">' already exists, skipping!'</tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">problematic</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">                <tt class="py-keyword">continue</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">            <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.create_data()=mldata.utils.slurper.slurper.Slurper-class.html#create_data"><a title="mldata.utils.slurper.slurper.Slurper.create_data" class="py-name" href="#" onclick="return doclink('link-40', 'create_data', 'link-40');">create_data</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">f</tt><tt class="py-op">)</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-41" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools.unzip_rm()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#unzip_rm,Method mldata.utils.slurper.slurper.Slurper.unzip_rm()=mldata.utils.slurper.slurper.Slurper-class.html#unzip_rm,Method mldata.utils.slurper.weka.Weka.unzip_rm()=mldata.utils.slurper.weka.Weka-class.html#unzip_rm"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools.unzip_rm
+mldata.utils.slurper.slurper.Slurper.unzip_rm
+mldata.utils.slurper.weka.Weka.unzip_rm" class="py-name" href="#" onclick="return doclink('link-41', 'unzip_rm', 'link-41');">unzip_rm</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line"> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line"> </tt>
+<a name="Weka.slurp"></a><div id="Weka.slurp-def"><a name="L114"></a><tt class="py-lineno">114</tt> <a class="py-toggle" href="#" id="Weka.slurp-toggle" onclick="return toggle('Weka.slurp');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.weka.Weka-class.html#slurp">slurp</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Weka.slurp-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Weka.slurp-expanded"><a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">        <tt id="link-42" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-42', 'parser', 'link-3');">parser</a></tt> <tt class="py-op">=</tt> <tt id="link-43" class="py-name"><a title="mldata.utils.slurper.parser.wekahtmlparser.WekaHTMLParser" class="py-name" href="#" onclick="return doclink('link-43', 'WekaHTMLParser', 'link-5');">WekaHTMLParser</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-44" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.handle()=mldata.utils.slurper.slurper.Slurper-class.html#handle"><a title="mldata.utils.slurper.slurper.Slurper.handle" class="py-name" href="#" onclick="return doclink('link-44', 'handle', 'link-44');">handle</a></tt><tt class="py-op">(</tt><tt id="link-45" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-45', 'parser', 'link-3');">parser</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-46', 'url', 'link-6');">url</a></tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:52 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

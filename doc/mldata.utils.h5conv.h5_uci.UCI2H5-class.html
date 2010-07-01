@@ -65,22 +65,25 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class UCI2H5</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.h5conv.h5_uci-pysrc.html#UCI2H5">source&nbsp;code</a></span></p>
 <center>
-<center>  <map id="uml_class_diagram_for_mldata_u_7" name="uml_class_diagram_for_mldata_u_7">
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#fname_in" title="filename to read data from" alt="" coords="17,28,225,47"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#fname_out" title="filename to write converted data to" alt="" coords="17,47,225,65"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#labels_idx" title="indices for labels for each row" alt="" coords="17,65,225,84"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#str_type" title="string type to be used for variable length strings in h5py" alt="" coords="17,84,225,103"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,105,225,124"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_name" title="Get dataset name from given file." alt="" coords="17,124,225,143"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_types" title="Get attribute/data types, if available." alt="" coords="17,143,225,161"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#run" title="Run the actual conversion process." alt="" coords="17,161,225,180"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#warn" title="Print a warning message." alt="" coords="17,180,225,199"/>
-<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html" title="Base converter class." alt="" coords="16,11,227,200"/>
-<area shape="rect" href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_comment" title="Get comment from given file." alt="" coords="65,255,177,273"/>
-<area shape="rect" href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_data" title="Get data from given file." alt="" coords="65,273,177,292"/>
-<area shape="rect" href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html" title="Convert a file from UCI to HDF5." alt="" coords="64,229,179,293"/>
+<center>  <map id="uml_class_diagram_for_mldata_u_16" name="uml_class_diagram_for_mldata_u_16">
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#fname_in" title="filename to read data from" alt="" coords="17,28,431,47"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#fname_out" title="filename to write converted data to" alt="" coords="17,47,431,65"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#labels_idx" title="indices for labels for each row" alt="" coords="17,65,431,84"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#seperator" title="seperator to seperate variables in examples" alt="" coords="17,84,431,103"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#str_type" title="string type to be used for variable length strings in h5py" alt="" coords="17,103,431,121"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature" alt="" coords="17,124,431,143"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_datatype" title="Get data type of given values." alt="" coords="17,143,431,161"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_name" title="Get dataset name from non&#45;HDF5 file" alt="" coords="17,161,431,180"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#get_types" title="Get attribute/data types, if available, from non&#45;HDF5 file" alt="" coords="17,180,431,199"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#run" title="Convert from input file to HDF5 file." alt="" coords="17,199,431,217"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#set_seperator" title="Set the seperator to seperate variables in examples." alt="" coords="17,217,431,236"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html#warn" title="Print a warning message." alt="" coords="17,236,431,255"/>
+<area shape="rect" href="mldata.utils.h5conv.base.H5Converter-class.html" title="Base converter class." alt="" coords="16,11,432,256"/>
+<area shape="rect" href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_comment" title="Get comment from non&#45;HDF5 file." alt="" coords="168,311,280,329"/>
+<area shape="rect" href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_contents" title="Get in&#45;memory data, labels and data description" alt="" coords="168,329,280,348"/>
+<area shape="rect" href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html" title="Convert a file from UCI to HDF5." alt="" coords="167,285,281,349"/>
 </map>
-  <img src="uml_class_diagram_for_mldata_u_7.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_7" ismap="ismap" class="graph-without-title" />
+  <img src="uml_class_diagram_for_mldata_u_16.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_16" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
@@ -110,7 +113,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_comment" class="summary-sig-name">get_comment</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Get comment from given file.</td>
+      Get comment from non-HDF5 file.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.utils.h5conv.h5_uci-pysrc.html#UCI2H5.get_comment">source&nbsp;code</a></span>
             
@@ -159,10 +162,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_data" class="summary-sig-name">get_data</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Get data from given file.</td>
+          <td><span class="summary-sig"><a href="mldata.utils.h5conv.h5_uci.UCI2H5-class.html#get_contents" class="summary-sig-name">get_contents</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Get in-memory data, labels and data description</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mldata.utils.h5conv.h5_uci-pysrc.html#UCI2H5.get_data">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mldata.utils.h5conv.h5_uci-pysrc.html#UCI2H5.get_contents">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -174,12 +177,15 @@
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b>:
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#__init__">__init__</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_datatype">get_datatype</a></code>,
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_name">get_name</a></code>,
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#get_types">get_types</a></code>,
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#run">run</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#set_seperator">set_seperator</a></code>,
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#warn">warn</a></code>
       </p>
     <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b> (private):
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#_get_complex_data" onclick="show_private();">_get_complex_data</a></code>,
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#_get_merged" onclick="show_private();">_get_merged</a></code>
       </p></div>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
@@ -246,7 +252,8 @@
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.h5conv.base.H5Converter-class.html">base.H5Converter</a></code></b>:
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#fname_in">fname_in</a></code>,
       <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#fname_out">fname_out</a></code>,
-      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#labels_idx">labels_idx</a></code>
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#labels_idx">labels_idx</a></code>,
+      <code><a href="mldata.utils.h5conv.base.H5Converter-class.html#seperator">seperator</a></code>
       </p>
     </td>
   </tr>
@@ -308,7 +315,7 @@
     </td>
   </tr></table>
   
-  <p>Get comment from given file.</p>
+  <p>Get comment from non-HDF5 file.</p>
   <dl class="fields">
     <dt>Returns: string</dt>
         <dd>comment</dd>
@@ -319,26 +326,28 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="get_data"></a>
+<a name="get_contents"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_data</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_contents</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mldata.utils.h5conv.h5_uci-pysrc.html#UCI2H5.get_data">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mldata.utils.h5conv.h5_uci-pysrc.html#UCI2H5.get_contents">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Get data from given file.</p>
+  <p>Get in-memory data, labels and data description</p>
+  <p>If not overwritten by child class, it will retrieve data from the HDF 
+  input file.</p>
   <dl class="fields">
     <dt>Returns: dict of: list of names, list of ordering and dict of examples</dt>
-        <dd>data names, ordering and examples</dd>
+        <dd>data names, ordering, labels and the examples</dd>
     <dt>Overrides:
-        <a href="mldata.utils.h5conv.base.H5Converter-class.html#get_data">base.H5Converter.get_data</a>
+        <a href="mldata.utils.h5conv.base.H5Converter-class.html#get_contents">base.H5Converter.get_contents</a>
         <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
   </dl>
@@ -376,7 +385,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:34 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:26 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

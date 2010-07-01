@@ -65,7 +65,7 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class ArffFile</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.h5conv.arff-pysrc.html#ArffFile">source&nbsp;code</a></span></p>
 <center>
-<center>  <map id="uml_class_diagram_for_mldata_u_3" name="uml_class_diagram_for_mldata_u_3">
+<center>  <map id="uml_class_diagram_for_mldata_u_4" name="uml_class_diagram_for_mldata_u_4">
 <area shape="rect" href="mldata.utils.h5conv.arff.ArffFile-class.html#__init__" title="Construct an empty ARFF structure." alt="" coords="17,36,289,55"/>
 <area shape="rect" href="mldata.utils.h5conv.arff.ArffFile-class.html#load" title="Load an ARFF File from a file." alt="" coords="17,55,289,73"/>
 <area shape="rect" href="mldata.utils.h5conv.arff.ArffFile-class.html#parse" title="Parse an ARFF File already loaded into a string." alt="" coords="17,73,289,92"/>
@@ -76,7 +76,7 @@
 <area shape="rect" href="mldata.utils.h5conv.arff.ArffFile-class.html#dump" title="Print an overview of the ARFF file." alt="" coords="17,167,289,185"/>
 <area shape="rect" href="mldata.utils.h5conv.arff.ArffFile-class.html" title="An ARFF File object describes a data set consisting of a number of data points made up of attributes." alt="" coords="16,11,291,187"/>
 </map>
-  <img src="uml_class_diagram_for_mldata_u_3.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_3" ismap="ismap" class="graph-without-title" />
+  <img src="uml_class_diagram_for_mldata_u_4.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_4" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
@@ -160,6 +160,24 @@
       Construct an empty ARFF structure.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.utils.h5conv.arff-pysrc.html#ArffFile.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">type(item)</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.h5conv.arff.ArffFile-class.html#_rm_ticks" class="summary-sig-name" onclick="show_private();">_rm_ticks</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">item</span>)</span><br />
+      Remove ticks from item if it is a string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.h5conv.arff-pysrc.html#ArffFile._rm_ticks">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -298,7 +316,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__parse_data"></a><span class="summary-sig-name">__parse_data</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">l</span>)</span></td>
+        <span class="summary-sig-arg">line</span>)</span></td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mldata.utils.h5conv.arff-pysrc.html#ArffFile.__parse_data">source&nbsp;code</a></span>
             
@@ -479,6 +497,33 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="_rm_ticks"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_rm_ticks</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">item</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.h5conv.arff-pysrc.html#ArffFile._rm_ticks">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Remove ticks from item if it is a string.</p>
+  <p>Some attributes are surrounded by unnecessary ticks.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>item</code></strong> (any, preferably str) - item to check for ticks</li>
+    </ul></dd>
+    <dt>Returns: type(item)</dt>
+        <dd>unmodified item or item with ticks removed</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="define_attribute"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -497,8 +542,8 @@
   </tr></table>
   
   <p>Define a new attribute. atype has to be one of 'numeric', 'string', 
-  and 'nominal'. For nominal attributes, pass the possible values as 
-  data.</p>
+  'date' or 'nominal'. For nominal or date attributes, pass the possible 
+  values as data.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -535,7 +580,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:33 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:23 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

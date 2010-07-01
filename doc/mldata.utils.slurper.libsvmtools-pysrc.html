@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.utils.slurper.libsvmtools</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.utils-module.html">Package&nbsp;utils</a> ::
+        <a href="mldata.utils.slurper-module.html">Package&nbsp;slurper</a> ::
+        Module&nbsp;libsvmtools
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.utils.slurper.libsvmtools-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mldata.utils.slurper.libsvmtools-module.html">Module mldata.utils.slurper.libsvmtools</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Variable mldata.repository.models.Solution.os=mldata.repository.models.Solution-class.html#os"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-0', 'os', 'link-0');">os</a></tt><tt class="py-op">,</tt> <tt class="py-name">bz2</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package mldata.utils.slurper=mldata.utils.slurper-module.html,Module mldata.utils.slurper.slurper=mldata.utils.slurper.slurper-module.html"><a title="mldata.utils.slurper
+mldata.utils.slurper.slurper" class="py-name" href="#" onclick="return doclink('link-1', 'slurper', 'link-1');">slurper</a></tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Class mldata.utils.slurper.slurper.Slurper=mldata.utils.slurper.slurper.Slurper-class.html"><a title="mldata.utils.slurper.slurper.Slurper" class="py-name" href="#" onclick="return doclink('link-2', 'Slurper', 'link-2');">Slurper</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-3" class="py-name" targets="Package mldata.utils.slurper.parser=mldata.utils.slurper.parser-module.html"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-3', 'parser', 'link-3');">parser</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Module mldata.utils.slurper.parser.libsvmtoolshtmlparser=mldata.utils.slurper.parser.libsvmtoolshtmlparser-module.html"><a title="mldata.utils.slurper.parser.libsvmtoolshtmlparser" class="py-name" href="#" onclick="return doclink('link-4', 'libsvmtoolshtmlparser', 'link-4');">libsvmtoolshtmlparser</a></tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name" targets="Class mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser=mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser-class.html"><a title="mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser" class="py-name" href="#" onclick="return doclink('link-5', 'LibSVMToolsHTMLParser', 'link-5');">LibSVMToolsHTMLParser</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools"></a><div id="LibSVMTools-def"><a name="L7"></a><tt class="py-lineno">  7</tt> <a class="py-toggle" href="#" id="LibSVMTools-toggle" onclick="return toggle('LibSVMTools');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html">LibSVMTools</a><tt class="py-op">(</tt><tt class="py-base-class">Slurper</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="LibSVMTools-expanded"><a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line">    <tt class="py-docstring">"""Slurp from LibSVMTools."""</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line">    <tt id="link-6" class="py-name" targets="Variable mldata.blog.tests.BlogTest.url=mldata.blog.tests.BlogTest-class.html#url,Variable mldata.forum.tests.ForumTest.url=mldata.forum.tests.ForumTest-class.html#url,Variable mldata.repository.models.FixedLicense.url=mldata.repository.models.FixedLicense-class.html#url,Variable mldata.repository.models.License.url=mldata.repository.models.License-class.html#url,Variable mldata.repository.tests.RepositoryTest.url=mldata.repository.tests.RepositoryTest-class.html#url,Variable mldata.user.tests.UserTest.url=mldata.user.tests.UserTest-class.html#url,Variable mldata.utils.slurper.libsvmtools.LibSVMTools.url=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#url,Variable mldata.utils.slurper.slurper.Slurper.url=mldata.utils.slurper.slurper.Slurper-class.html#url,Variable mldata.utils.slurper.uci.UCI.url=mldata.utils.slurper.uci.UCI-class.html#url,Variable mldata.utils.slurper.weka.Weka.url=mldata.utils.slurper.weka.Weka-class.html#url"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-6', 'url', 'link-6');">url</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/'</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Variable mldata.repository.forms.DataReviewForm.format=mldata.repository.forms.DataReviewForm-class.html#format,Variable mldata.repository.models.Data.format=mldata.repository.models.Data-class.html#format,Variable mldata.utils.slurper.libsvmtools.LibSVMTools.format=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#format,Variable mldata.utils.slurper.uci.UCI.format=mldata.utils.slurper.uci.UCI-class.html#format,Variable mldata.utils.slurper.weka.Weka.format=mldata.utils.slurper.weka.Weka-class.html#format"><a title="mldata.repository.forms.DataReviewForm.format
+mldata.repository.models.Data.format
+mldata.utils.slurper.libsvmtools.LibSVMTools.format
+mldata.utils.slurper.uci.UCI.format
+mldata.utils.slurper.weka.Weka.format" class="py-name" href="#" onclick="return doclink('link-7', 'format', 'link-7');">format</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'libsvm'</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools.skippable"></a><div id="LibSVMTools.skippable-def"><a name="L12"></a><tt class="py-lineno"> 12</tt> <a class="py-toggle" href="#" id="LibSVMTools.skippable-toggle" onclick="return toggle('LibSVMTools.skippable');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#skippable">skippable</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools.skippable-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools.skippable-expanded"><a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> <tt class="py-comment"># allow everything now</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-8" class="py-name" targets="Variable mldata.repository.models.FixedLicense.name=mldata.repository.models.FixedLicense-class.html#name,Variable mldata.repository.models.License.name=mldata.repository.models.License-class.html#name,Variable mldata.repository.models.Repository.name=mldata.repository.models.Repository-class.html#name,Variable mldata.repository.models.TaskType.name=mldata.repository.models.TaskType-class.html#name,Variable mldata.tagging.tests.models.Article.name=mldata.tagging.tests.models.Article-class.html#name,Variable mldata.tagging.tests.models.Link.name=mldata.tagging.tests.models.Link-class.html#name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-8', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'australian'</tt><tt class="py-op">:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-9" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-9', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'colon-cancer'</tt><tt class="py-op">:</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-10" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-10', 'name', 'link-8');">name</a></tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">'duke'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-11" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-11', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'ijcnn1'</tt><tt class="py-op">:</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-12" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-12', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'splice'</tt><tt class="py-op">:</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-13" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-13', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'connect-4'</tt><tt class="py-op">:</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-14" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-14', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'dna'</tt><tt class="py-op">:</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-15" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-15', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'sector'</tt><tt class="py-op">:</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-16" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-16', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'yeast'</tt><tt class="py-op">:</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-17" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-17', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'scene-classification'</tt><tt class="py-op">:</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-18" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-18', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'cadata'</tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt id="link-19" class="py-name"><a title="mldata.repository.models.FixedLicense.name
+mldata.repository.models.License.name
+mldata.repository.models.Repository.name
+mldata.repository.models.TaskType.name
+mldata.tagging.tests.models.Article.name
+mldata.tagging.tests.models.Link.name" class="py-name" href="#" onclick="return doclink('link-19', 'name', 'link-8');">name</a></tt> <tt class="py-op">==</tt> <tt class="py-string">'triazines'</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line"> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools.unzip"></a><div id="LibSVMTools.unzip-def"><a name="L46"></a><tt class="py-lineno"> 46</tt> <a class="py-toggle" href="#" id="LibSVMTools.unzip-toggle" onclick="return toggle('LibSVMTools.unzip');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#unzip">unzip</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">oldnames</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools.unzip-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools.unzip-expanded"><a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">        <tt class="py-name">newnames</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">o</tt> <tt class="py-keyword">in</tt> <tt class="py-name">oldnames</tt><tt class="py-op">:</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">            <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.get_dst()=mldata.utils.slurper.slurper.Slurper-class.html#get_dst,Method mldata.utils.slurper.uci.UCI.get_dst()=mldata.utils.slurper.uci.UCI-class.html#get_dst,Method mldata.utils.slurper.weka.Weka.get_dst()=mldata.utils.slurper.weka.Weka-class.html#get_dst"><a title="mldata.utils.slurper.slurper.Slurper.get_dst
+mldata.utils.slurper.uci.UCI.get_dst
+mldata.utils.slurper.weka.Weka.get_dst" class="py-name" href="#" onclick="return doclink('link-20', 'get_dst', 'link-20');">get_dst</a></tt><tt class="py-op">(</tt><tt class="py-name">o</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">            <tt class="py-name">n</tt> <tt class="py-op">=</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">'.bz2'</tt><tt class="py-op">,</tt> <tt class="py-string">''</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.bz2'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.progress()=mldata.utils.slurper.slurper.Slurper-class.html#progress"><a title="mldata.utils.slurper.slurper.Slurper.progress" class="py-name" href="#" onclick="return doclink('link-21', 'progress', 'link-21');">progress</a></tt><tt class="py-op">(</tt><tt class="py-string">'Decompressing '</tt> <tt class="py-op">+</tt> <tt class="py-name">o</tt><tt class="py-op">,</tt> <tt class="py-number">4</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">                <tt class="py-name">old</tt> <tt class="py-op">=</tt> <tt class="py-name">bz2</tt><tt class="py-op">.</tt><tt class="py-name">BZ2File</tt><tt class="py-op">(</tt><tt class="py-name">o</tt><tt class="py-op">,</tt> <tt class="py-string">'r'</tt><tt class="py-op">)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">                <tt id="link-22" class="py-name" targets="Function mldata.blog.views.new()=mldata.blog.views-module.html#new"><a title="mldata.blog.views.new" class="py-name" href="#" onclick="return doclink('link-22', 'new', 'link-22');">new</a></tt> <tt class="py-op">=</tt> <tt class="py-name">open</tt><tt class="py-op">(</tt><tt class="py-name">n</tt><tt class="py-op">,</tt> <tt class="py-string">'w'</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">                <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">                    <tt id="link-23" class="py-name"><a title="mldata.blog.views.new" class="py-name" href="#" onclick="return doclink('link-23', 'new', 'link-22');">new</a></tt><tt class="py-op">.</tt><tt id="link-24" class="py-name" targets="Method mldata.blog.wfwfeed.WellFormedWebRss.write()=mldata.blog.wfwfeed.WellFormedWebRss-class.html#write,Method mldata.utils.h5conv.arff.ArffFile.write()=mldata.utils.h5conv.arff.ArffFile-class.html#write"><a title="mldata.blog.wfwfeed.WellFormedWebRss.write
+mldata.utils.h5conv.arff.ArffFile.write" class="py-name" href="#" onclick="return doclink('link-24', 'write', 'link-24');">write</a></tt><tt class="py-op">(</tt><tt class="py-name">old</tt><tt class="py-op">.</tt><tt class="py-name">read</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">                <tt class="py-keyword">except</tt> <tt class="py-name">EOFError</tt><tt class="py-op">:</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">                    <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Method mldata.utils.h5conv.base.H5Converter.warn()=mldata.utils.h5conv.base.H5Converter-class.html#warn,Method mldata.utils.slurper.slurper.Slurper.warn()=mldata.utils.slurper.slurper.Slurper-class.html#warn"><a title="mldata.utils.h5conv.base.H5Converter.warn
+mldata.utils.slurper.slurper.Slurper.warn" class="py-name" href="#" onclick="return doclink('link-25', 'warn', 'link-25');">warn</a></tt><tt class="py-op">(</tt><tt class="py-string">"Can't decompress properly, skipping "</tt> <tt class="py-op">+</tt> <tt class="py-name">o</tt><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">                    <tt class="py-keyword">continue</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">                <tt class="py-keyword">finally</tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">                    <tt class="py-name">old</tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">                    <tt id="link-26" class="py-name"><a title="mldata.blog.views.new" class="py-name" href="#" onclick="return doclink('link-26', 'new', 'link-22');">new</a></tt><tt class="py-op">.</tt><tt class="py-name">close</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">            <tt class="py-name">newnames</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">n</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">newnames</tt> </tt>
+</div><a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools.unzip_rm"></a><div id="LibSVMTools.unzip_rm-def"><a name="L67"></a><tt class="py-lineno"> 67</tt> <a class="py-toggle" href="#" id="LibSVMTools.unzip_rm-toggle" onclick="return toggle('LibSVMTools.unzip_rm');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#unzip_rm">unzip_rm</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">filenames</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools.unzip_rm-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools.unzip_rm-expanded"><a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">fname</tt> <tt class="py-keyword">in</tt> <tt class="py-name">filenames</tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">fname</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.bz2'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">                <tt id="link-27" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-27', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">remove</tt><tt class="py-op">(</tt><tt id="link-28" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-28', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name" targets="Variable mldata.repository.models.Task.output=mldata.repository.models.Task-class.html#output,Variable mldata.utils.slurper.Options.output=mldata.utils.slurper.Options-class.html#output,Variable mldata.utils.slurper.slurper.Slurper.output=mldata.utils.slurper.slurper.Slurper-class.html#output"><a title="mldata.repository.models.Task.output
+mldata.utils.slurper.Options.output
+mldata.utils.slurper.slurper.Slurper.output" class="py-name" href="#" onclick="return doclink('link-29', 'output', 'link-29');">output</a></tt><tt class="py-op">,</tt> <tt class="py-name">fname</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">'.bz2'</tt><tt class="py-op">,</tt> <tt class="py-string">''</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_1"></a><div id="LibSVMTools._add_1-def"><a name="L73"></a><tt class="py-lineno"> 73</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_1-toggle" onclick="return toggle('LibSVMTools._add_1');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_1">_add_1</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">,</tt> <tt class="py-param">fname</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_1-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_1-expanded"><a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add one object.</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt class="py-docstring">        @param fname: name of file to add</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-docstring">        @type fname: string</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.create_data()=mldata.utils.slurper.slurper.Slurper-class.html#create_data"><a title="mldata.utils.slurper.slurper.Slurper.create_data" class="py-name" href="#" onclick="return doclink('link-30', 'create_data', 'link-30');">create_data</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">fname</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_2"></a><div id="LibSVMTools._add_2-def"><a name="L84"></a><tt class="py-lineno"> 84</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_2-toggle" onclick="return toggle('LibSVMTools._add_2');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_2">_add_2</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_2-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_2-expanded"><a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add two objects.</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-docstring">        Either 1 + scaled version or 1 + split file.</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'scale'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_1()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_1"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-31', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">+=</tt> <tt class="py-string">'_scale'</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-32', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_datatask"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-33', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_3"></a><div id="LibSVMTools._add_3-def"><a name="L100"></a><tt class="py-lineno">100</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_3-toggle" onclick="return toggle('LibSVMTools._add_3');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_3">_add_3</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_3-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_3-expanded"><a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add three objects.</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"><tt class="py-docstring">        Either 1 + 2 splits, or 1 + split + scaled or 1 + 2 scaled</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">        <tt class="py-name">fname</tt> <tt class="py-op">=</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">fname</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.r'</tt><tt class="py-op">)</tt> <tt class="py-keyword">or</tt> <tt class="py-name">fname</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.val'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-34', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">fname</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.t'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> <tt class="py-comment"># bit of a weird case: binary splice</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-35', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">+=</tt> <tt class="py-string">'_scale'</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-36', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">fname</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'scale'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> <tt class="py-comment"># another weird case: multiclass covtype</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-37', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">+=</tt> <tt class="py-string">'_scale01'</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-38', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">+=</tt> <tt class="py-string">'_scale'</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-39', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.progress" class="py-name" href="#" onclick="return doclink('link-40', 'progress', 'link-21');">progress</a></tt><tt class="py-op">(</tt><tt class="py-string">'unknown ending of file '</tt> <tt class="py-op">+</tt> <tt class="py-name">fname</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line"> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_4"></a><div id="LibSVMTools._add_4-def"><a name="L125"></a><tt class="py-lineno">125</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_4-toggle" onclick="return toggle('LibSVMTools._add_4');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_4">_add_4</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_4-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_4-expanded"><a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add four objects.</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt class="py-docstring">        Either 1 + 3 splits, or 1 + split + scaled + scaled split</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">3</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.val'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-41" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-41', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-42" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-42', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">:</tt><tt class="py-number">2</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">            <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'name'</tt><tt class="py-op">]</tt> <tt class="py-op">+=</tt> <tt class="py-string">'_scale'</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-43" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-43', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">:</tt><tt class="py-number">4</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line"> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_5"></a><div id="LibSVMTools._add_5-def"><a name="L141"></a><tt class="py-lineno">141</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_5-toggle" onclick="return toggle('LibSVMTools._add_5');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_5">_add_5</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_5-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_5-expanded"><a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add five objects, 1 + 4 splits.</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line"> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-44" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-44', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_10"></a><div id="LibSVMTools._add_10-def"><a name="L151"></a><tt class="py-lineno">151</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_10-toggle" onclick="return toggle('LibSVMTools._add_10');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_10">_add_10</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_10-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_10-expanded"><a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add ten objects, 1 + 9 splits</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-45" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_datatask" class="py-name" href="#" onclick="return doclink('link-45', '_add_datatask', 'link-33');">_add_datatask</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line"> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools._add_datatask"></a><div id="LibSVMTools._add_datatask-def"><a name="L160"></a><tt class="py-lineno">160</tt> <a class="py-toggle" href="#" id="LibSVMTools._add_datatask-toggle" onclick="return toggle('LibSVMTools._add_datatask');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_datatask">_add_datatask</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">,</tt> <tt class="py-param">fnames</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools._add_datatask-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools._add_datatask-expanded"><a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">        <tt class="py-docstring">"""Add Data + Task to mldata.org</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line"><tt class="py-docstring">        @param parsed: parsed information from HTML</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line"><tt class="py-docstring">        @type parsed: dict with fields name, source, description, type, files</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"><tt class="py-docstring">        @param fnames: filenames of related to this task</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line"><tt class="py-docstring">        @type fnames: list of strings</tt> </tt>
+<a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line">        <tt class="py-name">tmp</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.concat()=mldata.utils.slurper.slurper.Slurper-class.html#concat"><a title="mldata.utils.slurper.slurper.Slurper.concat" class="py-name" href="#" onclick="return doclink('link-46', 'concat', 'link-46');">concat</a></tt><tt class="py-op">(</tt><tt class="py-name">fnames</tt><tt class="py-op">)</tt> </tt>
+<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line">        <tt id="link-47" class="py-name" targets="Variable mldata.repository.models.Repository.data=mldata.repository.models.Repository-class.html#data,Variable mldata.repository.models.Task.data=mldata.repository.models.Task-class.html#data"><a title="mldata.repository.models.Repository.data
+mldata.repository.models.Task.data" class="py-name" href="#" onclick="return doclink('link-47', 'data', 'link-47');">data</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-48" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.create_data" class="py-name" href="#" onclick="return doclink('link-48', 'create_data', 'link-30');">create_data</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">tmp</tt><tt class="py-op">)</tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-49" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.create_task()=mldata.utils.slurper.slurper.Slurper-class.html#create_task"><a title="mldata.utils.slurper.slurper.Slurper.create_task" class="py-name" href="#" onclick="return doclink('link-49', 'create_task', 'link-49');">create_task</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt id="link-50" class="py-name"><a title="mldata.repository.models.Repository.data
+mldata.repository.models.Task.data" class="py-name" href="#" onclick="return doclink('link-50', 'data', 'link-47');">data</a></tt><tt class="py-op">,</tt> <tt class="py-name">fnames</tt><tt class="py-op">)</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">        <tt id="link-51" class="py-name"><a title="mldata.repository.models.Solution.os" class="py-name" href="#" onclick="return doclink('link-51', 'os', 'link-0');">os</a></tt><tt class="py-op">.</tt><tt class="py-name">remove</tt><tt class="py-op">(</tt><tt class="py-name">tmp</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line"> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools.add"></a><div id="LibSVMTools.add-def"><a name="L174"></a><tt class="py-lineno">174</tt> <a class="py-toggle" href="#" id="LibSVMTools.add-toggle" onclick="return toggle('LibSVMTools.add');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#add">add</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">parsed</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools.add-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools.add-expanded"><a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-52" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.progress" class="py-name" href="#" onclick="return doclink('link-52', 'progress', 'link-21');">progress</a></tt><tt class="py-op">(</tt><tt class="py-string">'Adding to repository.'</tt><tt class="py-op">,</tt> <tt class="py-number">3</tt><tt class="py-op">)</tt> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">        <tt class="py-name">oldnames</tt> <tt class="py-op">=</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">        <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-53" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools.unzip()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#unzip,Method mldata.utils.slurper.slurper.Slurper.unzip()=mldata.utils.slurper.slurper.Slurper-class.html#unzip,Method mldata.utils.slurper.weka.Weka.unzip()=mldata.utils.slurper.weka.Weka-class.html#unzip"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools.unzip
+mldata.utils.slurper.slurper.Slurper.unzip
+mldata.utils.slurper.weka.Weka.unzip" class="py-name" href="#" onclick="return doclink('link-53', 'unzip', 'link-53');">unzip</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line">        <tt class="py-name">num</tt> <tt class="py-op">=</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">num</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_1" class="py-name" href="#" onclick="return doclink('link-54', '_add_1', 'link-31');">_add_1</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">,</tt> <tt class="py-name">parsed</tt><tt class="py-op">[</tt><tt class="py-string">'files'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">num</tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-55" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_2()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_2"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_2" class="py-name" href="#" onclick="return doclink('link-55', '_add_2', 'link-55');">_add_2</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">num</tt> <tt class="py-op">==</tt> <tt class="py-number">3</tt><tt class="py-op">:</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-56" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_3()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_3"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_3" class="py-name" href="#" onclick="return doclink('link-56', '_add_3', 'link-56');">_add_3</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">num</tt> <tt class="py-op">==</tt> <tt class="py-number">4</tt><tt class="py-op">:</tt> </tt>
+<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-57" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_4()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_4"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_4" class="py-name" href="#" onclick="return doclink('link-57', '_add_4', 'link-57');">_add_4</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt> </tt>
+<a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">num</tt> <tt class="py-op">==</tt> <tt class="py-number">5</tt><tt class="py-op">:</tt> </tt>
+<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-58" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_5()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_5"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_5" class="py-name" href="#" onclick="return doclink('link-58', '_add_5', 'link-58');">_add_5</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt> </tt>
+<a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line">        <tt class="py-keyword">elif</tt> <tt class="py-name">num</tt> <tt class="py-op">==</tt> <tt class="py-number">10</tt><tt class="py-op">:</tt> </tt>
+<a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-59" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools._add_10()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#_add_10"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools._add_10" class="py-name" href="#" onclick="return doclink('link-59', '_add_10', 'link-59');">_add_10</a></tt><tt class="py-op">(</tt><tt class="py-name">parsed</tt><tt class="py-op">)</tt> </tt>
+<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line"> </tt>
+<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-60" class="py-name" targets="Method mldata.utils.slurper.libsvmtools.LibSVMTools.unzip_rm()=mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#unzip_rm,Method mldata.utils.slurper.slurper.Slurper.unzip_rm()=mldata.utils.slurper.slurper.Slurper-class.html#unzip_rm,Method mldata.utils.slurper.weka.Weka.unzip_rm()=mldata.utils.slurper.weka.Weka-class.html#unzip_rm"><a title="mldata.utils.slurper.libsvmtools.LibSVMTools.unzip_rm
+mldata.utils.slurper.slurper.Slurper.unzip_rm
+mldata.utils.slurper.weka.Weka.unzip_rm" class="py-name" href="#" onclick="return doclink('link-60', 'unzip_rm', 'link-60');">unzip_rm</a></tt><tt class="py-op">(</tt><tt class="py-name">oldnames</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line"> </tt>
+<a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line"> </tt>
+<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line"> </tt>
+<a name="LibSVMTools.slurp"></a><div id="LibSVMTools.slurp-def"><a name="L196"></a><tt class="py-lineno">196</tt> <a class="py-toggle" href="#" id="LibSVMTools.slurp-toggle" onclick="return toggle('LibSVMTools.slurp');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="mldata.utils.slurper.libsvmtools.LibSVMTools-class.html#slurp">slurp</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="LibSVMTools.slurp-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="LibSVMTools.slurp-expanded"><a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line">        <tt id="link-61" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-61', 'parser', 'link-3');">parser</a></tt> <tt class="py-op">=</tt> <tt id="link-62" class="py-name"><a title="mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser" class="py-name" href="#" onclick="return doclink('link-62', 'LibSVMToolsHTMLParser', 'link-5');">LibSVMToolsHTMLParser</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-63" class="py-name" targets="Method mldata.utils.slurper.slurper.Slurper.handle()=mldata.utils.slurper.slurper.Slurper-class.html#handle"><a title="mldata.utils.slurper.slurper.Slurper.handle" class="py-name" href="#" onclick="return doclink('link-63', 'handle', 'link-63');">handle</a></tt><tt class="py-op">(</tt><tt id="link-64" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-64', 'parser', 'link-3');">parser</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-65" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-65', 'url', 'link-6');">url</a></tt> <tt class="py-op">+</tt> <tt class="py-string">'binary.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'Binary'</tt><tt class="py-op">)</tt> </tt>
+<a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line">        <tt id="link-66" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-66', 'parser', 'link-3');">parser</a></tt> <tt class="py-op">=</tt> <tt id="link-67" class="py-name"><a title="mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser" class="py-name" href="#" onclick="return doclink('link-67', 'LibSVMToolsHTMLParser', 'link-5');">LibSVMToolsHTMLParser</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-68" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.handle" class="py-name" href="#" onclick="return doclink('link-68', 'handle', 'link-63');">handle</a></tt><tt class="py-op">(</tt><tt id="link-69" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-69', 'parser', 'link-3');">parser</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-70" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-70', 'url', 'link-6');">url</a></tt> <tt class="py-op">+</tt> <tt class="py-string">'multiclass.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'MultiClass'</tt><tt class="py-op">)</tt> </tt>
+<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line">        <tt id="link-71" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-71', 'parser', 'link-3');">parser</a></tt> <tt class="py-op">=</tt> <tt id="link-72" class="py-name"><a title="mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser" class="py-name" href="#" onclick="return doclink('link-72', 'LibSVMToolsHTMLParser', 'link-5');">LibSVMToolsHTMLParser</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-73" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.handle" class="py-name" href="#" onclick="return doclink('link-73', 'handle', 'link-63');">handle</a></tt><tt class="py-op">(</tt><tt id="link-74" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-74', 'parser', 'link-3');">parser</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-75" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-75', 'url', 'link-6');">url</a></tt> <tt class="py-op">+</tt> <tt class="py-string">'regression.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'Regression'</tt><tt class="py-op">)</tt> </tt>
+<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line">        <tt id="link-76" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-76', 'parser', 'link-3');">parser</a></tt> <tt class="py-op">=</tt> <tt id="link-77" class="py-name"><a title="mldata.utils.slurper.parser.libsvmtoolshtmlparser.LibSVMToolsHTMLParser" class="py-name" href="#" onclick="return doclink('link-77', 'LibSVMToolsHTMLParser', 'link-5');">LibSVMToolsHTMLParser</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-78" class="py-name"><a title="mldata.utils.slurper.slurper.Slurper.handle" class="py-name" href="#" onclick="return doclink('link-78', 'handle', 'link-63');">handle</a></tt><tt class="py-op">(</tt><tt id="link-79" class="py-name"><a title="mldata.utils.slurper.parser" class="py-name" href="#" onclick="return doclink('link-79', 'parser', 'link-3');">parser</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-80" class="py-name"><a title="mldata.blog.tests.BlogTest.url
+mldata.forum.tests.ForumTest.url
+mldata.repository.models.FixedLicense.url
+mldata.repository.models.License.url
+mldata.repository.tests.RepositoryTest.url
+mldata.user.tests.UserTest.url
+mldata.utils.slurper.libsvmtools.LibSVMTools.url
+mldata.utils.slurper.slurper.Slurper.url
+mldata.utils.slurper.uci.UCI.url
+mldata.utils.slurper.weka.Weka.url" class="py-name" href="#" onclick="return doclink('link-80', 'url', 'link-6');">url</a></tt> <tt class="py-op">+</tt> <tt class="py-string">'multilabel.html'</tt><tt class="py-op">,</tt> <tt class="py-string">'MultiLabel'</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:51 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

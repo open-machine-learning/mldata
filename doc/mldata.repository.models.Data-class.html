@@ -64,7 +64,7 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Data</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.repository.models-pysrc.html#Data">source&nbsp;code</a></span></p>
 <center>
-<center>  <map id="uml_class_diagram_for_mldata_r_25" name="uml_class_diagram_for_mldata_r_25">
+<center>  <map id="uml_class_diagram_for_mldata_r_26" name="uml_class_diagram_for_mldata_r_26">
 <area shape="rect" href="mldata.repository.models.Repository-class.html#pub_date" title="publication date (item creation date)" alt="" coords="131,308,445,327"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#version" title="version number to flip between different incarnations of the item" alt="" coords="131,327,445,345"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#name" title="item&#39;s name" alt="" coords="131,345,445,364"/>
@@ -96,7 +96,7 @@
 <area shape="rect" href="mldata.repository.models.Repository-class.html#get_previous_by_pub_date" title="mldata.repository.models.Repository.get_previous_by_pub_date" alt="" coords="131,852,445,871"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html" title="Base class for Repository items: Data, Task, Solution" alt="" coords="129,291,447,872"/>
 <area shape="rect" href="mldata.repository.models.Data-class.html#source" title="source of the data" alt="" coords="148,924,428,943"/>
-<area shape="rect" href="mldata.repository.models.Data-class.html#format" title="data format, e.g." alt="" coords="148,943,428,961"/>
+<area shape="rect" href="mldata.repository.models.Data-class.html#format" title="data format of original file, e.g." alt="" coords="148,943,428,961"/>
 <area shape="rect" href="mldata.repository.models.Data-class.html#measurement_details" title="item&#39;s measurement details" alt="" coords="148,961,428,980"/>
 <area shape="rect" href="mldata.repository.models.Data-class.html#usage_scenario" title="item&#39;s usage scenario" alt="" coords="148,980,428,999"/>
 <area shape="rect" href="mldata.repository.models.Data-class.html#file" title="data file" alt="" coords="148,999,428,1017"/>
@@ -134,7 +134,7 @@
 <area shape="rect" href="mldata.repository.models.Data-class.html#license" title="mldata.repository.models.Data.license" alt="" coords="284,1327,292,1335"/>
 <area shape="rect" href="mldata.repository.models.Data-class.html#license" title="license" alt="" coords="287,1299,329,1315"/>
 </map>
-  <img src="uml_class_diagram_for_mldata_r_25.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_25" ismap="ismap" class="graph-without-title" />
+  <img src="uml_class_diagram_for_mldata_r_26.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_26" ismap="ismap" class="graph-without-title" />
 </center>
 </center>
 <hr />
@@ -349,7 +349,7 @@
       <span class="summary-type">string / models.CharField</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Data-class.html#format" class="summary-name">format</a> = <code title="models.CharField(max_length= 16)">models.CharField(max_length= 16)</code><br />
-      data format, e.g.
+      data format of original file, e.g.
     </td>
   </tr>
 <tr>
@@ -422,14 +422,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.models.Data-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x96e340c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.models.Data-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x9372c0c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.models.Data-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x96e340c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.models.Data-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x9372c0c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -444,7 +444,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Data-class.html#datarating_set" class="summary-name">datarating_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x96ead0c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
+t at 0x937df6c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -452,7 +452,7 @@ t at 0x96ead0c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class=
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Data-class.html#repository_ptr" class="summary-name">repository_ptr</a> = <code title="&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor \
-object at 0x96e358c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
+object at 0x9372e0c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -460,7 +460,7 @@ object at 0x96e358c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code c
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Data-class.html#task_data" class="summary-name">task_data</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x96e3c6c&gt;">&lt;django.db.models.fields.related.ForeignRelatedObj<code class="variable-ellipsis">...</code></code>
+t at 0x93785cc&gt;">&lt;django.db.models.fields.related.ForeignRelatedObj<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -468,7 +468,7 @@ t at 0x96e3c6c&gt;">&lt;django.db.models.fields.related.ForeignRelatedObj<code c
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Data-class.html#task_data_heldback" class="summary-name">task_data_heldback</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x96e3cec&gt;">&lt;django.db.models.fields.related.ForeignR<code class="variable-ellipsis">...</code></code>
+t at 0x937866c&gt;">&lt;django.db.models.fields.related.ForeignR<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
   <tr>
@@ -667,7 +667,7 @@ t at 0x96e3cec&gt;">&lt;django.db.models.fields.related.ForeignR<code class="var
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">format</h3>
-  data format, e.g. CSV, ARFF, netCDF, HDF5, ODBC
+  data format of original file, e.g. CSV, ARFF, HDF5
   <dl class="fields">
     <dt>Type:</dt>
       <dd>string / models.CharField</dd>
@@ -693,7 +693,7 @@ models.CharField(max_length= 16)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x96e340c&gt;
+&lt;django.db.models.manager.Manager object at 0x9372c0c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -711,7 +711,7 @@ models.CharField(max_length= 16)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x96e340c&gt;
+&lt;django.db.models.manager.Manager object at 0x9372c0c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -730,7 +730,7 @@ models.CharField(max_length= 16)
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x96ead0c&gt;
+t at 0x937df6c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -749,7 +749,7 @@ t at 0x96ead0c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-object at 0x96e358c&gt;
+object at 0x9372e0c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -768,7 +768,7 @@ object at 0x96e358c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x96e3c6c&gt;
+t at 0x93785cc&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -787,7 +787,7 @@ t at 0x96e3c6c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x96e3cec&gt;
+t at 0x937866c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -825,7 +825,7 @@ t at 0x96e3cec&gt;
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:19 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:06 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -62,7 +62,8 @@
 </table>
 <!-- ==================== PACKAGE DESCRIPTION ==================== -->
 <h1 class="epydoc">Package h5conv</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.h5conv-pysrc.html">source&nbsp;code</a></span></p>
-<p>Convert from and to HDF5 (spec of mldata.org)</p>
+<p>Convert from and to HDF5 (spec of mldata.org); and other utility 
+  functions around HDF5.</p>
 
 <!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -86,7 +87,10 @@
     <li> <strong class="uidlink"><a href="mldata.utils.h5conv.arff-module.html">mldata.utils.h5conv.arff</a></strong>    </li>
     <li> <strong class="uidlink"><a href="mldata.utils.h5conv.base-module.html">mldata.utils.h5conv.base</a></strong>    </li>
     <li> <strong class="uidlink"><a href="mldata.utils.h5conv.h5_arff-module.html">mldata.utils.h5conv.h5_arff</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.h5conv.h5_csv-module.html">mldata.utils.h5conv.h5_csv</a></strong>    </li>
     <li> <strong class="uidlink"><a href="mldata.utils.h5conv.h5_libsvm-module.html">mldata.utils.h5conv.h5_libsvm</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.h5conv.h5_mat-module.html">mldata.utils.h5conv.h5_mat</a></strong>    </li>
+    <li> <strong class="uidlink"><a href="mldata.utils.h5conv.h5_octave-module.html">mldata.utils.h5conv.h5_octave</a></strong>    </li>
     <li> <strong class="uidlink"><a href="mldata.utils.h5conv.h5_uci-module.html">mldata.utils.h5conv.h5_uci</a></strong>    </li>
   </ul></td></tr>
 </table>
@@ -109,6 +113,13 @@
     </table>
   </td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mldata.utils.h5conv.ConversionError-class.html" class="summary-name">ConversionError</a>
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -138,10 +149,104 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="EPSILON"></a><span class="summary-name">EPSILON</span> = <code title="1e-15">1e-15</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mldata.utils.h5conv-module.html#TOH5" class="summary-name">TOH5</a> = <code title="{'arff': &lt;class 'mldata.utils.h5conv.h5_arff.ARFF2H5'&gt;,
+ 'csv': &lt;class 'mldata.utils.h5conv.h5_csv.CSV2H5'&gt;,
+ 'libsvm': &lt;class 'mldata.utils.h5conv.h5_libsvm.LibSVM2H5'&gt;,
+ 'matlab': &lt;class 'mldata.utils.h5conv.h5_mat.MAT2H5'&gt;,
+ 'octave': &lt;class 'mldata.utils.h5conv.h5_octave.OCTAVE2H5'&gt;,
+ 'uci': &lt;class 'mldata.utils.h5conv.h5_uci.UCI2H5'&gt;}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">arff</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_arff.ARFF2H5'&gt;<code class="variable-op">,</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mldata.utils.h5conv-module.html#FROMH5" class="summary-name">FROMH5</a> = <code title="{'arff': &lt;class 'mldata.utils.h5conv.h5_arff.H52ARFF'&gt;,
+ 'csv': &lt;class 'mldata.utils.h5conv.h5_csv.H52CSV'&gt;,
+ 'libsvm': &lt;class 'mldata.utils.h5conv.h5_libsvm.H52LibSVM'&gt;,
+ 'matlab': &lt;class 'mldata.utils.h5conv.h5_mat.H52MAT'&gt;,
+ 'octave': &lt;class 'mldata.utils.h5conv.h5_octave.H52OCTAVE'&gt;}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">arff</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_arff.H52ARFF'<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'mldata.utils.h5conv'"><code class="variable-quote">'</code><code class="variable-string">mldata.utils.h5conv</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 </table>
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="TOH5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">TOH5</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">arff</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_arff.ARFF2H5'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">csv</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_csv.CSV2H5'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">libsvm</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_libsvm.LibSVM2H5'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">matlab</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_mat.MAT2H5'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">octave</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_octave.OCTAVE2H5'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">uci</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_uci.UCI2H5'&gt;<code class="variable-group">}</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="FROMH5"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">FROMH5</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">arff</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_arff.H52ARFF'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">csv</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_csv.H52CSV'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">libsvm</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_libsvm.H52LibSVM'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">matlab</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_mat.H52MAT'&gt;<code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">octave</code><code class="variable-quote">'</code><code class="variable-op">: </code>&lt;class 'mldata.utils.h5conv.h5_octave.H52OCTAVE'&gt;<code class="variable-group">}</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -173,7 +278,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:07:57 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:17:43 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mldata.utils.slurper.uci.UCI</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mldata-module.html">Package&nbsp;mldata</a> ::
+        <a href="mldata.utils-module.html">Package&nbsp;utils</a> ::
+        <a href="mldata.utils.slurper-module.html">Package&nbsp;slurper</a> ::
+        <a href="mldata.utils.slurper.uci-module.html">Module&nbsp;uci</a> ::
+        Class&nbsp;UCI
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mldata.utils.slurper.uci.UCI-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class UCI</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI">source&nbsp;code</a></span></p>
+<center>
+<center>  <map id="uml_class_diagram_for_mldata_u_47" name="uml_class_diagram_for_mldata_u_47">
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#output" title="output directory for downloaded files" alt="" coords="17,28,265,47"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#__init__" title="Construct a slurper." alt="" coords="17,49,265,68"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#concat" title="Concatenate given files to one large file." alt="" coords="17,68,265,87"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#create_data" title="Create a repository Data object." alt="" coords="17,87,265,105"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#create_task" title="Create a repository Task object." alt="" coords="17,105,265,124"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#fromfile" title="mldata.utils.slurper.slurper.Slurper.fromfile" alt="" coords="17,124,265,143"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#get_bagofstuff" title="Put given files into a big tarball." alt="" coords="17,143,265,161"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#get_src" title="Get source URL for given filename." alt="" coords="17,161,265,180"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#handle" title="Handle the given URL with given parser." alt="" coords="17,180,265,199"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#progress" title="Print a progress message." alt="" coords="17,199,265,217"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#run" title="Run the slurper &#45; called by the class&#39; users." alt="" coords="17,217,265,236"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#unzip" title="Unzip downloaded files." alt="" coords="17,236,265,255"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#unzip_rm" title="Remove unzipped files." alt="" coords="17,255,265,273"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html#warn" title="Print a warning message." alt="" coords="17,273,265,292"/>
+<area shape="rect" href="mldata.utils.slurper.slurper.Slurper-class.html" title="The slurper class to suck in data from all over the internet into mldata.org." alt="" coords="16,11,267,293"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#url" title="source URL to slurp from" alt="" coords="63,340,220,359"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#format" title="mldata.utils.slurper.uci.UCI.format" alt="" coords="63,359,220,377"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#skippable" title="Decide if item of given name should be skipped." alt="" coords="63,380,220,399"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#get_dst" title="Get full local destination for given filename." alt="" coords="63,399,220,417"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#expand_dir" title="Expand given directory names to point to downloadable files." alt="" coords="63,417,220,436"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#add" title="Add objects from parsed document to mldata.org." alt="" coords="63,436,220,455"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html#slurp" title="Commence slurping." alt="" coords="63,455,220,473"/>
+<area shape="rect" href="mldata.utils.slurper.uci.UCI-class.html" title="Slurp from UCI." alt="" coords="61,323,221,475"/>
+</map>
+  <img src="uml_class_diagram_for_mldata_u_47.gif" alt='' usemap="#uml_class_diagram_for_mldata_u_47" ismap="ismap" class="graph-without-title" />
+</center>
+</center>
+<hr />
+<p>Slurp from UCI.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.slurper.uci.UCI-class.html#skippable" class="summary-sig-name">skippable</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      Decide if item of given name should be skipped.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.skippable">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.slurper.uci.UCI-class.html#get_dst" class="summary-sig-name">get_dst</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">filename</span>)</span><br />
+      Get full local destination for given filename.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.get_dst">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">list of strings</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.slurper.uci.UCI-class.html#expand_dir" class="summary-sig-name">expand_dir</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">dirnames</span>)</span><br />
+      Expand given directory names to point to downloadable files.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.expand_dir">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.slurper.uci.UCI-class.html#add" class="summary-sig-name">add</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">parsed</span>)</span><br />
+      Add objects from parsed document to mldata.org.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.add">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mldata.utils.slurper.uci.UCI-class.html#slurp" class="summary-sig-name">slurp</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Commence slurping.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.slurp">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.slurper.slurper.Slurper-class.html">slurper.Slurper</a></code></b>:
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#__init__">__init__</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#concat">concat</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#create_data">create_data</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#create_task">create_task</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#fromfile">fromfile</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#get_bagofstuff">get_bagofstuff</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#get_src">get_src</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#handle">handle</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#progress">progress</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#run">run</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#unzip">unzip</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#unzip_rm">unzip_rm</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#warn">warn</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.slurper.slurper.Slurper-class.html">slurper.Slurper</a></code></b> (private):
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_add_publications" onclick="show_private();">_add_publications</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_add_slug" onclick="show_private();">_add_slug</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_data_exists" onclick="show_private();">_data_exists</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_download" onclick="show_private();">_download</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_get_tags" onclick="show_private();">_get_tags</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_get_title" onclick="show_private();">_get_title</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_handle_file" onclick="show_private();">_handle_file</a></code>,
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#_is_too_large" onclick="show_private();">_is_too_large</a></code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">string</span>
+    </td><td class="summary">
+        <a name="url"></a><span class="summary-name">url</span> = <code title="'http://archive.ics.uci.edu/ml/datasets.html'"><code class="variable-quote">'</code><code class="variable-string">http://archive.ics.uci.edu/ml/datasets.html</code><code class="variable-quote">'</code></code><br />
+      source URL to slurp from
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="format"></a><span class="summary-name">format</span> = <code title="'uci'"><code class="variable-quote">'</code><code class="variable-string">uci</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mldata.utils.slurper.slurper.Slurper-class.html">slurper.Slurper</a></code></b>:
+      <code><a href="mldata.utils.slurper.slurper.Slurper-class.html#output">output</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="skippable"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">skippable</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.skippable">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Decide if item of given name should be skipped.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - name of item to decide on</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="mldata.utils.slurper.slurper.Slurper-class.html#skippable">slurper.Slurper.skippable</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_dst"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_dst</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">filename</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.get_dst">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get full local destination for given filename.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>fname</code></strong> - filename to retrieve destination for.</li>
+    </ul></dd>
+    <dt>Returns: string</dt>
+        <dd>destination filename</dd>
+    <dt>Overrides:
+        <a href="mldata.utils.slurper.slurper.Slurper-class.html#get_dst">slurper.Slurper.get_dst</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="expand_dir"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">expand_dir</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">dirnames</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.expand_dir">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Expand given directory names to point to downloadable files.</p>
+  <p>Sites like UCI don't link directly to data files, so this method will 
+  take care of collecting the necessary filenames from the given 
+  directory.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>dirnames</code></strong> - directory names to expand</li>
+    </ul></dd>
+    <dt>Returns: list of strings</dt>
+        <dd>filenames in given directory</dd>
+    <dt>Overrides:
+        <a href="mldata.utils.slurper.slurper.Slurper-class.html#expand_dir">slurper.Slurper.expand_dir</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="add"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">add</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">parsed</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.add">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Add objects from parsed document to mldata.org.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>parsed</code></strong> - structure with parsed information about item</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="mldata.utils.slurper.slurper.Slurper-class.html#add">slurper.Slurper.add</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="slurp"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">slurp</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mldata.utils.slurper.uci-pysrc.html#UCI.slurp">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Commence slurping.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="mldata.utils.slurper.slurper.Slurper-class.html#slurp">slurper.Slurper.slurp</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="mldata-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mldata.org">API doc for mldata.org</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:32 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

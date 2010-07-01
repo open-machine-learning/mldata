@@ -65,6 +65,14 @@
 <h1 class="epydoc">Class RegistrationFormTests</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.registration.tests-pysrc.html#RegistrationFormTests">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_r_11" name="uml_class_diagram_for_mldata_r_11">
+<area shape="rect" href="javascript:void(0);" title="Does basically the same as TransactionTestCase, but surrounds every test with a transaction, monkey&#45;patches the real transaction management routines to do nothing, and rollsback the test transaction at the end of the test." alt="" coords="221,547,408,579"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationTestCase-class.html#setUp" title="Hook method for setting up the test fixture before exercising it." alt="" coords="253,633,376,652"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationTestCase-class.html" title="Base class for the test cases; this sets up two users &#45;&#45; one expired, one not &#45;&#45; which are used to exercise various parts of the application." alt="" coords="252,608,377,653"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form" title="Test that ``RegistrationForm`` enforces username constraints and matching &#160;passwords." alt="" coords="192,708,437,727"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_tos" title="Test that ``RegistrationFormTermsOfService`` requires agreement to the &#160;terms of service." alt="" coords="192,727,437,745"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_unique_email" title="Test that ``RegistrationFormUniqueEmail`` validates uniqueness of email &#160;addresses." alt="" coords="192,745,437,764"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_no_free_email" title="Test that ``RegistrationFormNoFreeEmail`` disallows registration with free &#160;email addresses." alt="" coords="192,764,437,783"/>
+<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html" title="Tests for the forms and custom validation logic included in django&#45;registration." alt="" coords="191,683,439,784"/>
 <area shape="rect" href="exceptions.AssertionError-class.html" title="Assertion failed." alt="" coords="124,28,505,47"/>
 <area shape="rect" href="javascript:void(0);" title="unittest.TestCase.__eq__" alt="" coords="124,49,505,68"/>
 <area shape="rect" href="javascript:void(0);" title="hash(x)" alt="" coords="124,68,505,87"/>
@@ -89,14 +97,6 @@
 <area shape="rect" href="javascript:void(0);" title="Asserts that the template with the provided name was NOT used in rendering &#160;the response." alt="" coords="17,479,612,497"/>
 <area shape="rect" href="javascript:void(0);" title="Asserts that the template with the provided name was used in rendering the &#160;response." alt="" coords="17,497,612,516"/>
 <area shape="rect" href="javascript:void(0);" title="django.test.testcases.TransactionTestCase" alt="" coords="16,360,613,517"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationTestCase-class.html#setUp" title="Hook method for setting up the test fixture before exercising it." alt="" coords="253,633,376,652"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationTestCase-class.html" title="Base class for the test cases; this sets up two users &#45;&#45; one expired, one not &#45;&#45; which are used to exercise various parts of the application." alt="" coords="252,608,377,653"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form" title="Test that ``RegistrationForm`` enforces username constraints and matching &#160;passwords." alt="" coords="192,708,437,727"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_tos" title="Test that ``RegistrationFormTermsOfService`` requires agreement to the &#160;terms of service." alt="" coords="192,727,437,745"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_unique_email" title="Test that ``RegistrationFormUniqueEmail`` validates uniqueness of email &#160;addresses." alt="" coords="192,745,437,764"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html#test_registration_form_no_free_email" title="Test that ``RegistrationFormNoFreeEmail`` disallows registration with free &#160;email addresses." alt="" coords="192,764,437,783"/>
-<area shape="rect" href="mldata.registration.tests.RegistrationFormTests-class.html" title="Tests for the forms and custom validation logic included in django&#45;registration." alt="" coords="191,683,439,784"/>
-<area shape="rect" href="javascript:void(0);" title="Does basically the same as TransactionTestCase, but surrounds every test with a transaction, monkey&#45;patches the real transaction management routines to do nothing, and rollsback the test transaction at the end of the test." alt="" coords="221,547,408,579"/>
 </map>
   <img src="uml_class_diagram_for_mldata_r_11.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_11" ismap="ismap" class="graph-without-title" />
 </center>
@@ -351,7 +351,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed May  5 13:08:15 2010
+    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:01 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
