@@ -304,7 +304,8 @@ class HDF5():
         if format != 'h5':
             h5_fname = self.get_filename(fname)
             try:
-                self.convert(fname, format, h5_fname, 'h5')
+                sep = self.infer_seperator(fname)
+                self.convert(fname, format, h5_fname, 'h5', seperator=sep)
             except ConversionError:
                 return self.get_unparseable(fname)
         else:
