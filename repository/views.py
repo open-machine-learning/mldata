@@ -564,7 +564,7 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Data:
         obj.has_h5 = False
         h5 = h5conv.HDF5()
-        if h5.get_fileformat(obj.file.name) == 'h5':
+        if h5.get_fileformat(os.path.join(MEDIA_ROOT, obj.file.name)) == 'h5':
             obj.has_h5 = True
         if 'conversion_failed' in obj.tags:
             obj.conversion_failed = True
@@ -655,12 +655,28 @@ def _new(request, klass):
 
                 if klass == Data:
                     new.file = request.FILES['file']
-                    
-                    h5 = h5conv.HDF5()
-                    new.format = h5.get_fileformat(request.FILES['file'].name)
-                    new.file.name = new.get_filename()
                     new.num_instances = -1
                     new.num_attributes = -1
+                    new.save()
+
+                    # InMemoryUploadedFile returns file-like object whereas
+                    # zipfile/tarfile modules used in get_uncompressed() require
+                    # filename (prior to python 2.7), so we have to save it to
+                    # disk, then rename, then save object again.
+                    name_old = os.path.join(MEDIA_ROOT, new.file.name)
+                    h5 = h5conv.HDF5()
+                    uncompressed = h5.get_uncompressed(name_old)
+                    if uncompressed:
+                        print 'removed old', name_old
+                        os.remove(name_old)
+                        name_old = uncompressed
+
+                    new.format = h5.get_fileformat(name_old)
+                    name_new = os.path.join(DATAPATH, new.get_filename())
+                    os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
+                    print 'old', name_old
+                    print 'new', name_new
+                    new.file.name = name_new
                     new.save()
                 elif klass == Task:
                     if 'file' in request.FILES:
@@ -1315,7 +1331,7 @@ def _data_approve(obj, fname_orig, format):
         # keep original file for the time being
         #os.remove(fname_orig)
         # for some reason, FileField saves file.name as DATAPATH/<basename>
-        obj.file.name = os.path.sep.join([DATAPATH, fname_h5.split(os.path.sep)[-1]])
+        obj.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
 
     obj.format = format
     obj.is_approved = True

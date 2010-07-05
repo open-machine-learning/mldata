@@ -4,7 +4,7 @@ around HDF5.
 """
 
 
-import h5py, numpy, os, sys
+import h5py, numpy, os, sys, tarfile, zipfile, bz2, gzip
 from scipy.sparse import csc_matrix
 #from decimal import Decimal, InvalidOperation
 from h5_arff import ARFF2H5, H52ARFF
@@ -215,6 +215,60 @@ class HDF5():
         return orig + '.h5'
 
 
+    def get_uncompressed(self, fname):
+        """Get name of uncompressed data file.
+
+        The given file must be a zipfile/tarball and
+        must contain exactly 1 file to be uncompressed.
+        The returned name represents a file actually created in the file
+        system which the user of this method might have to os.remove().
+
+        @param fname: (possibly) compressed filename
+        @type fname: string
+        @return: uncompressed filename if file is compressed, None otherwise
+        @rtype: string
+        """
+        src = None
+        path = os.path.dirname(fname)
+
+        # archives
+        if zipfile.is_zipfile(fname):
+            src = zipfile.ZipFile(fname)
+            fnames = src.namelist()
+        elif tarfile.is_tarfile(fname):
+            src = tarfile.open(fname)
+            fnames = src.getnames()
+        if src:
+            if len(fnames) == 1:
+                src.extract(fnames[0], path)
+                return os.path.join(path, fnames[0])
+            else:
+                return None
+
+        # gz/bz2
+        try:
+            src = bz2.BZ2File(fname)
+        except:
+            try:
+                src = gzip.open(fname, 'r')
+            except:
+                return None
+        try:
+            base = os.path.basename(fname)
+            name = os.path.join(path, '.'.join(base.split('.')[:-1]))
+            dst = open(name, 'w')
+            dst.write(src.read())
+            dst.close()
+        except:
+            if os.path.exists(name):
+                os.remove(name)
+            name = None
+
+        src.close()
+        return name
+
+
+
     def get_fileformat(self, fname):
         """Determine fileformat by given filenname.
 
@@ -262,7 +316,6 @@ class HDF5():
         @return: raw extract from unparseable file
         @rtype: dict with 'attribute' data
         """
-        import tarfile, zipfile
         if zipfile.is_zipfile(fname):
             intro = 'ZIP archive'
             f = zipfile.ZipFile(fname)
