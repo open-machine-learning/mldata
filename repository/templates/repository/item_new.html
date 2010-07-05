@@ -9,13 +9,38 @@
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 {% ifequal klass "Data" %}<script type="text/javascript" src="/media/js/jquery/jquery.progressbar.min.js"></script>{% endifequal %}
 <script type="text/javascript">
+
 $(function() {
+	remove_error = function(errors) {
+		$.each(errors, function (idx, val) {
+			$('#error_' + val).remove();
+		});
+	}
+	append_error = function(id) {
+		$('label[for|=id_' + id + ']').append(
+			'<span id="error_' + id + '" class="error">' + '{% trans "REQUIRED" %}' + '</span>');
+		return true;
+	}
+
 	$('#tabs').tabs();
 
 {% ifequal klass "Data" %}
+	validate = function () {
+		error = false;
+		remove_error(['name', 'license', 'file']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+		if ($('#id_license').val() < 1) error = append_error('license');
+		if (!$('#id_file').val()) error = append_error('file');
+
+		return !error;
+	}
+
 	$("#uploadprogressbar").progressBar();
 	$('#form-new').submit(function(){
 		if ($.data(this, 'submitted')) return false; // prevent multiple submits
+
+		if (!validate()) return false;
 
 		if (!$('#id_keep_private').is(':checked')) {
 			res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
@@ -51,6 +76,28 @@ $(function() {
 		}
 	});
 {% endifequal %}
+
+{% ifequal klass "Task" %}
+	validate = function() {
+		error = false;
+		remove_error(['name', 'input', 'output', 'performance_measure', 'type', 'data']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+		if (!$('#id_input').val()) error = append_error('input');
+		if (!$('#id_output').val()) error = append_error('output');
+		if (!$('#id_performance_measure').val()) error = append_error('performance_measure');
+		if (!$('#id_type').val() && !$('#id_freeformtype').val()) error = append_error('type');
+		if (!$('#id_data').val()) error = append_error('data');
+
+		return !error;
+	};
+
+	$('#form-new').submit(function(){
+		if (!validate()) return false;
+	});
+
+{% endifequal %}
+
 });
 </script>
 {% endblock %}
