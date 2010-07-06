@@ -415,16 +415,21 @@ class HDF5():
                     if dset == 'label': continue
                     dset = 'data/' + dset
                     if type(h5[dset][0]) == numpy.ndarray:
+                        last = len(h5[dset][0])
+                        if last > ne: last = ne
                         for i in xrange(len(h5[dset])):
-                            extract['data'].append(h5[dset][i][:ne])
+                            extract['data'].append(h5[dset][i][:last])
                     else:
-                        extract['data'].append(h5[dset][:ne])
+                        last = len(h5[dset])
+                        if last > ne: last = ne
+                        extract['data'].append(h5[dset][:last])
                 extract['data'] = numpy.matrix(extract['data']).T
 
             # convert from numpy array to list, if necessary
             t = type(extract['data'][0])
             if t == numpy.ndarray or t == numpy.matrix:
                 extract['data'] = [y for x in extract['data'] for y in x.tolist()]
+
         except KeyError:
             pass
         except ValueError:
