@@ -30,16 +30,18 @@
 {% endif %}
 
 {% if unapproved %}
+	<br /><hr />
 	<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
 	<ul class="index_list">
 	{% for object in unapproved %}
-		<li><a href="{% ifequal klass "Data" %}
-		{% url repository.views.data_new_review object.id %}
-	{% else %}{% ifequal klass "Task" %}
-		{% url repository.views.task_index %}
-	{% else %}
-		{% url repository.views.solution_index %}
-	{% endifequal %}{% endifequal %}">{{object.name}}</a></li>
+		<li>
+		  <h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
+                        {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}
+			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
+			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
+			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
+			{% if object.num_instances %}<br />{% trans "# Instances" %}: {{ object.num_instances }}, {% trans "# Attributes" %}: {{ object.num_attributes }}{% endif %}
+		</li>
 	{% endfor %}
 	</ul>
 {% endif %}
