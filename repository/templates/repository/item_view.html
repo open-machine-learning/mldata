@@ -179,11 +179,9 @@ $(function() {
 			<dt>{% trans "Comment" %}</dt>
 			<dd>{{ extract.comment|markdown }}</dd>
 			<dt>{% trans "Names" %}</dt>
-			<dd><ol>
-			{% for name in extract.names %}
-				<li>{{ name }}</li>
-			{% endfor %}
-			</ol></dd>
+			<dd>{% for name in extract.names %}
+				{{ name }},
+			{% endfor %}</dd>
 {% if extract.types %}
 			<dt>{% trans "Types" %}</dt>
 			<dd><ol>
