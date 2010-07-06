@@ -383,6 +383,7 @@ class HDF5():
                 extract[a] = h5.attrs[a]
         if 'data_descr/names' in h5:
             extract['names'] = h5['data_descr/names'][:].tolist()
+            extract['names'].remove('label')
         if 'data_descr/types' in h5:
             extract['types'] = h5['data_descr/types'][:].tolist()
 
