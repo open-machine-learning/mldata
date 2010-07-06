@@ -219,6 +219,8 @@ class DataReviewForm(forms.Form):
     """Form used for Data review."""
     format = forms.CharField(required=True)
     seperator = forms.CharField(required=True, max_length=1)
+    attribute_names_first = BooleanField(required=False)
+
 
     def clean_format(self):
         """Lowercase variable format."""

@@ -84,7 +84,7 @@ class HDF5():
         return True
 
 
-    def verify(self, fname_h5, fname_other, format_other):
+    def verify(self, fname_h5, fname_other, format_other, attribute_names_first=False):
         """Verify that data in given filenames is the same.
 
         @param fname_h5: name of H5 file to verify
@@ -93,10 +93,14 @@ class HDF5():
         @type fname_other: string
         @param format_other: format of other file
         @type format_other: string
+        @param attribute_names_first: if first line in CSV files shall be treated as attribute names
+        @type attribute_names_first: boolean
         @raises: ConversionError
         """
         h5 = FROMH5[format_other](fname_h5, fname_other, remove_out=False).get_contents()
-        other = TOH5[format_other](fname_other, fname_h5, remove_out=False).get_contents()
+        other = TOH5[format_other](fname_other, fname_h5, remove_out=False)
+        other.attribute_names_first = attribute_names_first
+        other = other.get_contents()
 
         # join individual vectors/matrices in other
         # the need to construct this seems really inefficient - maybe should
@@ -128,7 +132,7 @@ class HDF5():
             )
 
 
-    def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False):
+    def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False, attribute_names_first=False):
         """Convert to/from HDF5.
 
         @param in_fname: name of in-file
@@ -143,6 +147,8 @@ class HDF5():
         @type seperator: string
         @param verify: verify if data in output is same as data in input
         @type verify: boolean
+        @param attribute_names_first: if first line in CSV files shall be treated as attribute names
+        @type attribute_names_first: boolean
         """
         self.converter = None
         try:
@@ -151,6 +157,8 @@ class HDF5():
                 fname_h5 = out_fname
                 fname_other = in_fname
                 format_other = in_format
+                if in_format == 'csv':
+                    self.converter.attribute_names_first = attribute_names_first
             elif in_format == 'h5':
                 self.converter = FROMH5[out_format](in_fname, out_fname)
                 fname_h5 = in_fname
@@ -174,7 +182,7 @@ class HDF5():
                 if format_other == 'uci':
                     raise ConversionError(
                         'Cannot verify UCI data format, %s!' % (fname_other))
-                self.verify(fname_h5, fname_other, format_other)
+                self.verify(fname_h5, fname_other, format_other, attribute_names_first)
         except Exception, e: # reformat all exceptions to ConversionError
             raise ConversionError, ConversionError(str(e)), sys.exc_info()[2]
 
@@ -383,7 +391,8 @@ class HDF5():
                 extract[a] = h5.attrs[a]
         if 'data_descr/names' in h5:
             extract['names'] = h5['data_descr/names'][:].tolist()
-            extract['names'].remove('label')
+            if 'label' in extract['names']:
+                extract['names'].remove('label')
         if 'data_descr/types' in h5:
             extract['types'] = h5['data_descr/types'][:].tolist()
 
@@ -424,6 +433,8 @@ class HDF5():
             pass
 
         h5.close()
+        if format != 'h5':
+            os.remove(h5_fname)
         return extract
 
 

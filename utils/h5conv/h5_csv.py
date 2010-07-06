@@ -1,4 +1,4 @@
-import numpy, h5py, os
+import numpy, h5py, os, copy, numpy
 from scipy.sparse import csc_matrix
 import base
 
@@ -6,11 +6,33 @@ COMMENT = '# '
 SEPERATOR = ','
 
 class CSV2H5(base.H5Converter):
-    """Convert a file from CSV to HDF5 (spec of mldata.org)."""
+    """Convert a file from CSV to HDF5 (spec of mldata.org).
+
+    @ivar attribute_names_first: if first line in CSV files shall be treated as attribute names
+    @type attribute_names_first: boolean
+    """
 
     def __init__(self, *args, **kwargs):
         super(CSV2H5, self).__init__(*args, **kwargs)
         self.seperator = SEPERATOR # maybe more flexible in the future
+        self.attribute_names_first = False
+
+
+    def _find_nan(self, value):
+        """Find NaN values and make them proper numpy.nan.
+
+        Used by map function in get_contents()
+
+        @param value: value to check if it is NaN
+        @type value: string
+        """
+        if value == '?':
+            return numpy.nan
+        else:
+            # str() important! when run thru webserver it will be unicode
+            # otherwise and somehow results somewhere in nan being converted
+            # to string 'na'...
+            return str(value)
 
 
     def get_contents(self):
@@ -21,7 +43,13 @@ class CSV2H5(base.H5Converter):
         infile = open(self.fname_in, 'r')
         parsed = []
         for line in infile:
-            parsed.append(line.strip().split(self.seperator))
+            l = line.strip().split(self.seperator)
+            if self.attribute_names_first:
+                names = l
+                self.attribute_names_first = False
+            else:
+                l = map(self._find_nan, l)
+                parsed.append(l)
         infile.close()
         A = numpy.matrix(parsed).T
 
@@ -35,11 +63,11 @@ class CSV2H5(base.H5Converter):
             else:
                 name = 'str' + str(i)
             data[name] = numpy.array(items).astype(t)
-            names.append(name)
             ordering.append(name)
 
-
-        return {'names':names, 'ordering':names, 'data':data}
+        if not names:
+            names = copy.copy(ordering)
+        return {'names':names, 'ordering':ordering, 'data':data}
 
 
 

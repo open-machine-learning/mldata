@@ -19,6 +19,9 @@ Options:
 -v, --verfiy
     Verify the converted data
 
+-f, --first-line-attribute-names
+    First line contains attributes names (for CSV)
+
 <in-filename> <in format> <out-filename> <out format>
     Supported conversions are:
 """]
@@ -39,16 +42,22 @@ class Options:
 
     @cvar seperator: seperator to seperate variables in examples
     @type output: string
+    @cvar verify: if converted data shall be verified against input data
+    @type verify: boolean
+    @cvar first_line_attribute_names: if first line in CSV files shall be treated as attribute names
+    @type first_line_attribute_names: boolean
     """
     seperator = None
     verify = False
+    first_line_attribute_names = False
 
 
 
 def parse_options():
     """Parse given options."""
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 's:v', ['seperator=', 'verify'])
+        opts, args = getopt.getopt(sys.argv[1:], 's:vf',
+            ['seperator=', 'verify', 'first-line-attribute-names'])
     except getopt.GetoptError, err: # print help information and exit
         print str(err) + "\n"
         usage()
@@ -58,8 +67,11 @@ def parse_options():
         if o in ('-s', '--seperator'):
             Options.seperator = a
             sys.argv.remove(o+a)
-        if o in ('-v', '--verify'):
+        elif o in ('-v', '--verify'):
             Options.verify = True
+            sys.argv.remove(o)
+        elif o in ('-f', '--first-line-attribute-names'):
+            Options.first_line_attribute_names = True
             sys.argv.remove(o)
         else:
             print 'Unhandled option: ' + o
@@ -84,6 +96,6 @@ if __name__ == "__main__":
 
     h.convert(
         sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],
-        seperator, Options.verify
+        seperator, Options.verify, Options.first_line_attribute_names
     )
 

@@ -667,15 +667,12 @@ def _new(request, klass):
                     h5 = h5conv.HDF5()
                     uncompressed = h5.get_uncompressed(name_old)
                     if uncompressed:
-                        print 'removed old', name_old
                         os.remove(name_old)
                         name_old = uncompressed
 
                     new.format = h5.get_fileformat(name_old)
                     name_new = os.path.join(DATAPATH, new.get_filename())
                     os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
-                    print 'old', name_old
-                    print 'new', name_new
                     new.file.name = name_new
                     new.save()
                 elif klass == Task:
@@ -1305,7 +1302,7 @@ def score_download(request, id):
 
 
 @transaction.commit_on_success
-def _data_approve(obj, fname_orig, format):
+def _data_approve(obj, fname_orig, format, attribute_names_first=False):
     """Approve Data item.
 
     @param obj: object to approve
@@ -1314,6 +1311,8 @@ def _data_approve(obj, fname_orig, format):
     @type fname_orig: string
     @param format: data format of file, given by user
     @type format: string
+    @param attribute_names_first: if first line in file contains attribute names
+    @type attribute_names_first: boolean
     @return: the modified, approved object
     @rtype: repository.Data
     """
@@ -1324,7 +1323,9 @@ def _data_approve(obj, fname_orig, format):
         verify = True
         if format == 'uci':
             verify = False
-        h5.convert(fname_orig, format, fname_h5, 'h5', obj.seperator, verify=verify)
+        h5.convert(
+            fname_orig, format, fname_h5, 'h5', obj.seperator, verify=verify,
+            attribute_names_first=attribute_names_first)
 
     if os.path.isfile(fname_h5):
         (obj.num_instances, obj.num_attributes) = h5.get_num_instattr(fname_h5)
@@ -1399,7 +1400,12 @@ def data_new_review(request, slug):
             if form.is_valid():
                 obj.seperator = form.cleaned_data['seperator']
                 try:
-                    obj = _data_approve(obj, fname, form.cleaned_data['format'])
+                    if 'attribute_names_first' in form.cleaned_data:
+                        anf = True
+                    else:
+                        anf = False
+                    obj = _data_approve(
+                        obj, fname, form.cleaned_data['format'], anf)
                 except h5conv.ConversionError, e:
                     _data_conversion_error(request, obj, e)
                 return HttpResponseRedirect(
