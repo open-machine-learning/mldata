@@ -269,7 +269,7 @@ class Slurper(object):
             is_approved=True,
             user_id=1,
             license_id=parsed['license'],
-            format=self.h5.get_fileformat(fname),
+            format=h5conv.fileformat.get(fname),
         )
         try:
             obj = self._add_slug(obj)
@@ -427,7 +427,7 @@ class Slurper(object):
             return obj
 
         fname_h5 = self.h5.get_filename(fname_orig)
-        seperator = self.h5.infer_seperator(fname_orig)
+        seperator = h5conv.fileformat.infer_seperator(fname_orig)
 
         self.progress('Trying to convert to HDF5 (%s).' % (fname_h5), 5)
         try:

@@ -92,7 +92,7 @@ if __name__ == "__main__":
     elif Options.seperator:
         seperator = Options.seperator
     else:
-        seperator = h.infer_seperator(sys.argv[1])
+        seperator = h5conv.fileformat.infer_seperator(sys.argv[1])
 
     h.convert(
         sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4],

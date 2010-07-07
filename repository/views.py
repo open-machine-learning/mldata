@@ -564,7 +564,7 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Data:
         obj.has_h5 = False
         h5 = h5conv.HDF5()
-        if h5.get_fileformat(os.path.join(MEDIA_ROOT, obj.file.name)) == 'h5':
+        if h5conv.fileformat.get(os.path.join(MEDIA_ROOT, obj.file.name)) == 'h5':
             obj.has_h5 = True
         if 'conversion_failed' in obj.tags:
             obj.conversion_failed = True
@@ -670,7 +670,7 @@ def _new(request, klass):
                         os.remove(name_old)
                         name_old = uncompressed
 
-                    new.format = h5.get_fileformat(name_old)
+                    new.format = h5conv.fileformat.get(name_old)
                     name_new = os.path.join(DATAPATH, new.get_filename())
                     os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
                     new.file.name = name_new
@@ -1418,7 +1418,7 @@ def data_new_review(request, slug):
         if obj.format == 'h5':
             form.fields['seperator'].initial = ''
         else:
-            sep = h5.infer_seperator(fname)
+            sep = h5conv.fileformat.infer_seperator(fname)
             form.fields['seperator'].initial = sep
 
     info_dict = {

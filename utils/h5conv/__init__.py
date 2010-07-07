@@ -13,7 +13,7 @@ from h5_uci import UCI2H5
 from h5_csv import CSV2H5, H52CSV
 from h5_mat import MAT2H5, H52MAT
 from h5_octave import OCTAVE2H5, H52OCTAVE
-import base
+import base, fileformat
 
 
 EPSILON = 1e-15
@@ -189,9 +189,9 @@ class HDF5():
 
 
     def is_binary(self, fname):
-        """Return true if the given filename is binary.
+        """Return true if the given file is binary.
 
-        @param fname: filename to check if binary
+        @param fname: name of file to check if binary
         @type fname: string
         @return: if file is binary
         @rtype: boolean
@@ -268,52 +268,12 @@ class HDF5():
             dst.write(src.read())
             dst.close()
         except:
-            if os.path.exists(name):
+            if os.path.exists(name) and not os.path.isdir(name):
                 os.remove(name)
             name = None
 
         src.close()
         return name
-
-
-
-    def get_fileformat(self, fname):
-        """Determine fileformat by given filenname.
-
-        @param fname: filename to get format from
-        @type fname: string
-        @return: format of given file(name)
-        @rtype: string
-        """
-        suffix = fname.split('.')[-1]
-        # just assume libsvm if no proper suffix
-        if suffix.find('/') != -1:
-            return 'libsvm'
-
-        if suffix in ('txt', 'svm', 'libsvm'):
-            return 'libsvm'
-        elif suffix in ('arff'):
-            return 'arff'
-        elif suffix in ('h5', 'hdf5'):
-            return 'h5'
-        elif suffix in ('csv', 'tsv'):
-            return 'csv'
-        elif suffix in ('data'):
-            return 'uci'
-        elif suffix in ('bz2', 'gz', 'zip'):
-            try:
-                presuffix = fname.split('.')[-2]
-                if presuffix == 'tar':
-                    return presuffix + '.' + suffix
-            except IndexError:
-                pass
-            return suffix
-        elif suffix in ('mat', 'm'):
-            return 'matlab'
-        elif suffix in ('octave', 'oct'):
-            return 'octave'
-        else: # unknown
-            return suffix
 
 
     def get_unparseable(self, fname):
@@ -361,11 +321,11 @@ class HDF5():
         @return: extract of an HDF5 file
         @rtype: dict with HDF5 attribute/dataset names as keys and their data as values
         """
-        format = self.get_fileformat(fname)
+        format = fileformat.get(fname)
         if format != 'h5':
             h5_fname = self.get_filename(fname)
             try:
-                sep = self.infer_seperator(fname)
+                sep = fileformat.infer_seperator(fname)
                 self.convert(fname, format, h5_fname, 'h5', seperator=sep)
             except ConversionError:
                 return self.get_unparseable(fname)
@@ -480,35 +440,6 @@ class HDF5():
 
         h5.close()
         return (num_inst, num_attr)
-
-
-    def infer_seperator(self, fname):
-        """Infer seperator for variables in given file.
-
-        @param fname: filename to retrieve data from
-        @type fname: string
-        @return: inferred seperator
-        @rtype: string
-        """
-        fp = open(fname, 'r')
-        seperator = None
-        minimum = 1
-
-        for line in fp:
-            num_splits = []
-            for s in base.ALLOWED_SEPERATORS:
-                l = len(line.split(s))
-                if l > minimum:
-                    minimum = l
-                    seperator = s
-            if seperator:
-                break
-
-        fp.close()
-        if not seperator:
-            return ''
-        else:
-            return seperator
 
 
     def _get_splitnames(self, fnames):
