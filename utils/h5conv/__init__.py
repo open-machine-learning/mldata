@@ -132,17 +132,17 @@ class HDF5():
             )
 
 
-    def convert(self, in_fname, in_format, out_fname, out_format, seperator=None, verify=False, attribute_names_first=False):
+    def convert(self, fname_in, fname_out, format_in=None, format_out=None, seperator=None, verify=False, attribute_names_first=False):
         """Convert to/from HDF5.
 
-        @param in_fname: name of in-file
-        @type in_fname: string
-        @param in_format: format of in-file
-        @type in_format: string
-        @param out_fname: name of out-file
-        @type out_fname: string
-        @param out_format: format of out-file
-        @type out_format: string
+        @param fname_in: name of in-file
+        @type fname_in: string
+        @param fname_out: name of out-file
+        @type fname_out: string
+        @param format_in: format of in-file
+        @type format_in: string
+        @param format_out: format of out-file
+        @type format_out: string
         @param seperator: seperator to seperate variables in examples
         @type seperator: string
         @param verify: verify if data in output is same as data in input
@@ -151,25 +151,32 @@ class HDF5():
         @type attribute_names_first: boolean
         """
         self.converter = None
+
+        if not format_in:
+            format_in = fileformat.get(fname_in)
+        if not format_out:
+            format_out = fileformat.get(fname_out)
+        print 'in', format_in, 'out', format_out
+
         try:
-            if out_format == 'h5':
-                self.converter = TOH5[in_format](in_fname, out_fname)
-                fname_h5 = out_fname
-                fname_other = in_fname
-                format_other = in_format
-                if in_format == 'csv':
+            if format_out == 'h5':
+                self.converter = TOH5[format_in](fname_in, fname_out)
+                fname_h5 = fname_out
+                fname_other = fname_in
+                format_other = format_in
+                if format_in == 'csv':
                     self.converter.attribute_names_first = attribute_names_first
-            elif in_format == 'h5':
-                self.converter = FROMH5[out_format](in_fname, out_fname)
-                fname_h5 = in_fname
-                fname_other = out_fname
-                format_other = out_format
+            elif format_in == 'h5':
+                self.converter = FROMH5[format_out](fname_in, fname_out)
+                fname_h5 = fname_in
+                fname_other = fname_out
+                format_other = format_out
             else:
                 raise ConversionError(
-                    'Unknown conversion pair %s to %s!' % (in_format, out_format))
+                    'Unknown conversion pair %s to %s!' % (format_in, format_out))
         except KeyError:
             raise ConversionError(
-                'Unknown conversion pair %s to %s!' % (in_format, out_format))
+                'Unknown conversion pair %s to %s!' % (format_in, format_out))
         except Exception, e: # reformat all other exceptions to ConversionError
             raise ConversionError, ConversionError(str(e)), sys.exc_info()[2]
 
@@ -326,7 +333,7 @@ class HDF5():
             h5_fname = self.get_filename(fname)
             try:
                 sep = fileformat.infer_seperator(fname)
-                self.convert(fname, format, h5_fname, 'h5', seperator=sep)
+                self.convert(fname, h5_fname, format_in=format, seperator=sep)
             except ConversionError:
                 return self.get_unparseable(fname)
         else:

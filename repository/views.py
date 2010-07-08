@@ -426,7 +426,7 @@ def _download(request, klass, id, type='plain'):
         if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
             h = h5conv.HDF5()
             try:
-                h.convert(fname_h5, 'h5', fname_export, type)
+                h.convert(fname_h5, fname_export, format_out=type)
             except h5conv.ConversionError, e:
                 subject = 'Failed conversion of %s to %s' % (fname_h5, type)
                 body = traceback.format_exc() + "\n" + str(e)
@@ -1324,7 +1324,8 @@ def _data_approve(obj, fname_orig, format, attribute_names_first=False):
         if format == 'uci':
             verify = False
         h5.convert(
-            fname_orig, format, fname_h5, 'h5', obj.seperator, verify=verify,
+            fname_orig, fname_h5, format_in=format,
+            seperator=obj.seperator, verify=verify,
             attribute_names_first=attribute_names_first)
 
     if os.path.isfile(fname_h5):
