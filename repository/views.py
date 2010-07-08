@@ -1400,7 +1400,7 @@ def data_new_review(request, slug):
             if form.is_valid():
                 obj.seperator = form.cleaned_data['seperator']
                 try:
-                    if 'attribute_names_first' in form.cleaned_data:
+                    if 'attribute_names_first' in form.cleaned_data and form.cleaned_data['attribute_names_first']:
                         anf = True
                     else:
                         anf = False
