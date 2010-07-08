@@ -156,7 +156,6 @@ class HDF5():
             format_in = fileformat.get(fname_in)
         if not format_out:
             format_out = fileformat.get(fname_out)
-        print 'in', format_in, 'out', format_out
 
         try:
             if format_out == 'h5':
