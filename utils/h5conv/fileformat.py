@@ -1,4 +1,4 @@
-import base
+import base, h5py
 
 def infer_seperator(fname):
     """Infer seperator for variables in given file.
@@ -114,18 +114,42 @@ def _try_libsvm(fname):
     return False
 
 
-def get(fname):
-    """Get format of given file.
+def _try_h5(fname):
+    """Try if given file is in hdf5 format
 
     @param fname: name of file to determine format for
     @type fname: string
     """
-    format, found = _try_suffix(fname)
-    if found:
-        return format
+    try:
+        fp = h5py.File(fname, 'r')
+    except:
+        return False
+
+    fp.close()
+    return True
+
+
+
+def get(fname, skip_suffix=False):
+    """Get format of given file.
+
+    By suffix it detects: libsvm, arff, csv, h5, uci, tar.gz, tar.bz2, zip,
+    matlab, octave.
+    By deeper inspection it detects: arff, csv, libsvm, h5.
+
+    @param fname: name of file to determine format for
+    @type fname: string
+    @param skip_suffix: if detection by suffix (first priority) shall be skipped
+    @type skip_suffix: boolean
+    """
+    if not skip_suffix:
+        format, found = _try_suffix(fname)
+        if found:
+            return format
 
     if _try_arff(fname): return 'arff'
     elif _try_csv(fname): return 'csv'
     elif _try_libsvm(fname): return 'libsvm'
+    elif _try_h5(fname): return 'h5'
 
     return 'unknown'
