@@ -150,6 +150,6 @@ def get(fname, skip_suffix=False):
     if _try_arff(fname): return 'arff'
     elif _try_csv(fname): return 'csv'
     elif _try_libsvm(fname): return 'libsvm'
-    elif _try_h5(fname): return 'h5'
+#    elif _try_h5(fname): return 'h5'
 
     return 'unknown'
