@@ -220,6 +220,7 @@ class DataReviewForm(forms.Form):
     format = forms.CharField(required=True)
     seperator = forms.CharField(required=True, max_length=1)
     attribute_names_first = BooleanField(required=False)
+    convert = BooleanField(required=False)
 
 
     def clean_format(self):

@@ -24,6 +24,17 @@
 {% endifequal %}
 		<dt><label for="id_seperator">{% trans "Detected Data seperator" %}</label> {{ form.seperator.errors }}</dt>
 		<dd>{{ form.seperator }}<br /><span class="helptext">{% trans "The seperator seperates the variables in the examples. Allowed values are ',', ' ' and '\t' (note: it might not be visible without selection in the text field)." %}</span></dd>
+{% ifnotequal form.fields.format.initial "h5" %}
+		<dt><label for="id_convert">{% trans "Convert Data file" %}</label> {{ form.convert.errors }}</dt>
+		<dd>{{ form.convert }}<br /><span class="helptext">{% trans "Uncheck this if you don't want the Data file to be converted." %}</span></dd>
+{% endifnotequal %}
+
+	</dl>
+	<input type="submit" name="approve" class="submit" value="{% trans "Looks good, proceed" %}" /> <input type="submit" name="revert" class="submit" value="{% trans "Go Back" %}" />
+	<hr style="margin-top:1em" />
+
+	<h2>{% trans "Detected Information" %}</h2>
+	<dl id="news">
 		<dt>{% trans "Name" %}</dt>
 		<dd>{{ extract.name }}</dd>
 		<dt>{% trans "Version" %} mldata</dt>
@@ -44,9 +55,6 @@
 		</ol></dd>
 	</dl>
 
-	<br />
-
-	<input type="submit" name="approve" class="submit" value="{% trans "Looks good, proceed" %}" /> <input type="submit" name="revert" class="submit" value="{% trans "Go Back" %}" />
 	</form>
 </div><!-- /in -->
 {% endblock %}

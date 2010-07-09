@@ -1305,31 +1305,34 @@ def score_download(request, id):
 
 
 @transaction.commit_on_success
-def _data_approve(obj, fname_orig, format, attribute_names_first=False):
+def _data_approve(obj, fname_orig, formdata):
     """Approve Data item.
 
     @param obj: object to approve
     @type obj: repository.Data
     @param fname_orig: original filename
     @type fname_orig: string
-    @param format: data format of file, given by user
-    @type format: string
-    @param attribute_names_first: if first line in file contains attribute names
-    @type attribute_names_first: boolean
+    @param formdata: cleaned data of user form
+    @type formdata: dict of strings
     @return: the modified, approved object
     @rtype: repository.Data
     """
     h5 = h5conv.HDF5()
     fname_h5 = h5.get_filename(fname_orig)
 
-    if format != 'h5':
+    if 'convert' in formdata and formdata['convert'] and formdata['format'] != 'h5':
+        if 'attribute_names_first' in formdata and formdata['attribute_names_first']:
+            anf = True
+        else:
+            anf = False
+
         verify = True
-        if format == 'uci':
-            verify = False
+        if formdata['format'] == 'uci': verify = False
+
         h5.convert(
-            fname_orig, fname_h5, format_in=format,
+            fname_orig, fname_h5, format_in=formdata['format'],
             seperator=obj.seperator, verify=verify,
-            attribute_names_first=attribute_names_first)
+            attribute_names_first=anf)
 
     if os.path.isfile(fname_h5):
         (obj.num_instances, obj.num_attributes) = h5.get_num_instattr(fname_h5)
@@ -1338,7 +1341,7 @@ def _data_approve(obj, fname_orig, format, attribute_names_first=False):
         # for some reason, FileField saves file.name as DATAPATH/<basename>
         obj.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
 
-    obj.format = format
+    obj.format = formdata['format']
     obj.is_approved = True
     obj.save()
     return obj
@@ -1404,12 +1407,7 @@ def data_new_review(request, slug):
             if form.is_valid():
                 obj.seperator = form.cleaned_data['seperator']
                 try:
-                    if 'attribute_names_first' in form.cleaned_data and form.cleaned_data['attribute_names_first']:
-                        anf = True
-                    else:
-                        anf = False
-                    obj = _data_approve(
-                        obj, fname, form.cleaned_data['format'], anf)
+                    obj = _data_approve(obj, fname, form.cleaned_data)
                 except h5conv.ConversionError, e:
                     _data_conversion_error(request, obj, e)
                 return HttpResponseRedirect(
@@ -1424,6 +1422,10 @@ def data_new_review(request, slug):
         else:
             sep = h5conv.fileformat.infer_seperator(fname)
             form.fields['seperator'].initial = sep
+        if obj.format in ('h5', 'unknown'):
+            form.fields['convert'].initial = False
+        else:
+            form.fields['convert'].initial = True
 
     info_dict = {
         'object': obj,
