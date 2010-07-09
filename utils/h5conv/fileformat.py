@@ -61,6 +61,8 @@ def _try_suffix(fname):
         return 'matlab', True
     elif suffix in ('octave', 'oct'):
         return 'octave', True
+    elif suffix in ('xml'):
+        return 'xml', True
     else: # unknown
         return suffix, False
 

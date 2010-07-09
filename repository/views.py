@@ -1422,7 +1422,7 @@ def data_new_review(request, slug):
         else:
             sep = h5conv.fileformat.infer_seperator(fname)
             form.fields['seperator'].initial = sep
-        if obj.format in ('h5', 'unknown'):
+        if obj.format in ('h5', 'xml', 'unknown'):
             form.fields['convert'].initial = False
         else:
             form.fields['convert'].initial = True
