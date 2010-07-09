@@ -842,9 +842,12 @@ def _get_page(request, objects, PER_PAGE):
     if perpage not in PER_PAGE:
         perpage = PER_PAGE[0]
     if perpage == 'all':
-        paginator = Paginator(objects, len(objects))
-    else:
-        paginator = Paginator(objects, int(perpage))
+        l = len(objects)
+        if l < 1:
+            perpage = 1
+        else:
+            perpage = l
+    paginator = Paginator(objects, int(perpage), allow_empty_first_page=True)
 
     try:
         num = int(request.GET.get('page', '1'))
