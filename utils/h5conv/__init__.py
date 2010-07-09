@@ -348,7 +348,7 @@ class HDF5():
         }
         try:
             h5 = h5py.File(h5_fname, 'r')
-        except h5py.h5e.LowLevelIOError:
+        except:
             return extract
 
         attrs = ('mldata', 'name', 'comment')
