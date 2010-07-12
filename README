@@ -53,6 +53,11 @@ these modules with "sudo python setup.py install"
 
   https://sourceforge.net/projects/scipy/files/
 
+- ml2h5
+
+  http://mloss.org/software/view/262
+
+
 As debian packages
 ------------------
 

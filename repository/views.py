@@ -26,7 +26,7 @@ from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
 from tagging.models import Tag, TaggedItem
 from tagging.utils import calculate_cloud
-from utils import h5conv
+import ml2h5
 from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
 
@@ -424,10 +424,10 @@ def _download(request, klass, id, type='plain'):
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         fname_export = fname_h5 + '.' + type
         if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
-            h = h5conv.HDF5()
+            h = ml2h5.HDF5()
             try:
                 h.convert(fname_h5, fname_export, format_out=type)
-            except h5conv.ConversionError, e:
+            except ml2h5.ConversionError, e:
                 subject = 'Failed conversion of %s to %s' % (fname_h5, type)
                 body = traceback.format_exc() + "\n" + str(e)
                 mail_admins(subject, body)
@@ -563,8 +563,8 @@ def _view(request, klass, slug_or_id, version=None):
     # klass-specific
     if klass == Data:
         obj.has_h5 = False
-        h5 = h5conv.HDF5()
-        if h5conv.fileformat.get(os.path.join(MEDIA_ROOT, obj.file.name)) == 'h5':
+        h5 = ml2h5.HDF5()
+        if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, obj.file.name)) == 'h5':
             obj.has_h5 = True
         if 'conversion_failed' in obj.tags:
             obj.conversion_failed = True
@@ -591,7 +591,7 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Data:
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         try:
-            h5 = h5conv.HDF5()
+            h5 = ml2h5.HDF5()
             info_dict['extract'] = h5.get_extract(fname_h5)
         except Exception, e: # catch exceptions in general, but notify admins
             subject = 'Failed data extract of %s' % (fname_h5)
@@ -664,13 +664,13 @@ def _new(request, klass):
                     # filename (prior to python 2.7), so we have to save it to
                     # disk, then rename, then save object again.
                     name_old = os.path.join(MEDIA_ROOT, new.file.name)
-                    h5 = h5conv.HDF5()
+                    h5 = ml2h5.HDF5()
                     uncompressed = h5.get_uncompressed(name_old)
                     if uncompressed:
                         os.remove(name_old)
                         name_old = uncompressed
 
-                    new.format = h5conv.fileformat.get(name_old)
+                    new.format = ml2h5.fileformat.get(name_old)
                     name_new = os.path.join(DATAPATH, new.get_filename())
                     os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
                     new.file.name = name_new
@@ -1317,7 +1317,7 @@ def _data_approve(obj, fname_orig, formdata):
     @return: the modified, approved object
     @rtype: repository.Data
     """
-    h5 = h5conv.HDF5()
+    h5 = ml2h5.HDF5()
     fname_h5 = h5.get_filename(fname_orig)
 
     if 'convert' in formdata and formdata['convert'] and formdata['format'] != 'h5':
@@ -1356,7 +1356,7 @@ def _data_conversion_error(request, obj, error):
     @param obj: Data item
     @type obj: repository.Data
     @param error: the error that occurred
-    @type error: h5conv.ConversionError
+    @type error: ml2h5.ConversionError
     """
     if obj.tags:
         obj.tags += ', conversion_failed'
@@ -1408,19 +1408,19 @@ def data_new_review(request, slug):
                 obj.seperator = form.cleaned_data['seperator']
                 try:
                     obj = _data_approve(obj, fname, form.cleaned_data)
-                except h5conv.ConversionError, e:
+                except ml2h5.ConversionError, e:
                     _data_conversion_error(request, obj, e)
                 return HttpResponseRedirect(
                     reverse(data_view_slug, args=[obj.slug]))
 
-    h5 = h5conv.HDF5()
+    h5 = ml2h5.HDF5()
     if not form:
         form = DataReviewForm()
         form.fields['format'].initial = obj.format
         if obj.format == 'h5':
             form.fields['seperator'].initial = ''
         else:
-            sep = h5conv.fileformat.infer_seperator(fname)
+            sep = ml2h5.fileformat.infer_seperator(fname)
             form.fields['seperator'].initial = sep
         if obj.format in ('h5', 'xml', 'unknown'):
             form.fields['convert'].initial = False
@@ -1433,7 +1433,7 @@ def data_new_review(request, slug):
         'request': request,
         'tagcloud': _get_tag_cloud(request),
         'section': 'repository',
-        'supported_formats': ', '.join(h5conv.TOH5.iterkeys()),
+        'supported_formats': ', '.join(ml2h5.TOH5.iterkeys()),
         'extract': h5.get_extract(fname),
     }
     return render_to_response('repository/data_new_review.html', info_dict)

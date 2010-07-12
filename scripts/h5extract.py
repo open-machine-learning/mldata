@@ -4,9 +4,7 @@ Print an extract of an HDF5 file, similar to website output
 """
 
 import sys, os
-# adjust if you move this file elsewhere
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../utils'))
-import h5conv
+import ml2h5
 
 def usage():
     print """Usage: """ + sys.argv[0] + """ <filename>"""
@@ -18,5 +16,5 @@ if __name__ == "__main__":
         usage()
         sys.exit(1)
 
-    h = h5conv.HDF5()
+    h = ml2h5.HDF5()
     print h.get_extract(sys.argv[1])
