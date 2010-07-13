@@ -65,16 +65,6 @@
 <h1 class="epydoc">Class CreateThreadForm</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.forum.forms-pysrc.html#CreateThreadForm">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_f_6" name="uml_class_diagram_for_mldata_f_6">
-<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
-<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#title" title="title of Thread" alt="" coords="420,545,601,564"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#body" title="body of Thread" alt="" coords="420,564,601,583"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#subscribe" title="if thread can be subscribed to" alt="" coords="420,583,601,601"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" title="mldata.forum.forms.CreateThreadForm.base_fields" alt="" coords="420,601,601,620"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="420,620,601,639"/>
-<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html" title="Form to create threads." alt="" coords="419,528,603,648"/>
-<area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="404,36,617,55"/>
-<area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="403,11,619,56"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm.changed_data" alt="" coords="17,103,1004,121"/>
 <area shape="rect" href="javascript:void(0);" title="Returns an ErrorDict for the data provided for the form" alt="" coords="17,121,1004,140"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a BoundField with the given name." alt="" coords="17,143,1004,161"/>
@@ -92,6 +82,16 @@
 <area shape="rect" href="javascript:void(0);" title="Returns a list of all the BoundField objects that are hidden fields." alt="" coords="17,367,1004,385"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a list of BoundField objects that aren&#39;t hidden fields." alt="" coords="17,404,1004,423"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm" alt="" coords="16,85,1005,424"/>
+<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
+<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#title" title="title of Thread" alt="" coords="420,545,601,564"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#body" title="body of Thread" alt="" coords="420,564,601,583"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#subscribe" title="if thread can be subscribed to" alt="" coords="420,583,601,601"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" title="mldata.forum.forms.CreateThreadForm.base_fields" alt="" coords="420,601,601,620"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="420,620,601,639"/>
+<area shape="rect" href="mldata.forum.forms.CreateThreadForm-class.html" title="Form to create threads." alt="" coords="419,528,603,648"/>
+<area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="404,36,617,55"/>
+<area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="403,11,619,56"/>
 </map>
   <img src="uml_class_diagram_for_mldata_f_6.gif" alt='' usemap="#uml_class_diagram_for_mldata_f_6" ismap="ismap" class="graph-without-title" />
 </center>
@@ -234,9 +234,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'title': &lt;django.forms.fields.CharField object at 0x9d9ba6c&gt;, 'body':\
- &lt;django.forms.fields.CharField object at 0x9d9baec&gt;, 'subscribe': &lt;dj\
-ango.forms.fields.BooleanField object at 0x9d9bb0c&gt;}">{'title': &lt;django.forms.fields.CharField object <code class="variable-ellipsis">...</code></code>
+        <a href="mldata.forum.forms.CreateThreadForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'title': &lt;django.forms.fields.CharField object at 0x9bbf30c&gt;, 'body':\
+ &lt;django.forms.fields.CharField object at 0x9bbf38c&gt;, 'subscribe': &lt;dj\
+ango.forms.fields.BooleanField object at 0x9bbf3ac&gt;}">{'title': &lt;django.forms.fields.CharField object <code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -349,9 +349,9 @@ forms.BooleanField(label= _(&quot;Subscribe via email&quot;), required= False)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'title': &lt;django.forms.fields.CharField object at 0x9d9ba6c&gt;, 'body':<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
- &lt;django.forms.fields.CharField object at 0x9d9baec&gt;, 'subscribe': &lt;dj<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ango.forms.fields.BooleanField object at 0x9d9bb0c&gt;}
+{'title': &lt;django.forms.fields.CharField object at 0x9bbf30c&gt;, 'body':<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ &lt;django.forms.fields.CharField object at 0x9bbf38c&gt;, 'subscribe': &lt;dj<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ango.forms.fields.BooleanField object at 0x9bbf3ac&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -423,7 +423,7 @@ ango.forms.fields.BooleanField object at 0x9d9bb0c&gt;}
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  1 10:17:54 2010
+    Generated by Epydoc 3.0.1 on Tue Jul 13 10:16:33 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

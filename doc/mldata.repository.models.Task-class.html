@@ -65,7 +65,6 @@
 <h1 class="epydoc">Class Task</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.repository.models-pysrc.html#Task">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_r_56" name="uml_class_diagram_for_mldata_r_56">
-<area shape="rect" href="mldata.repository.models.TaskType-class.html" title="Type of a Task." alt="" coords="188,1275,257,1301"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#pub_date" title="publication date (item creation date)" alt="" coords="131,308,445,327"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#version" title="version number to flip between different incarnations of the item" alt="" coords="131,327,445,345"/>
 <area shape="rect" href="mldata.repository.models.Repository-class.html#name" title="item&#39;s name" alt="" coords="131,345,445,364"/>
@@ -113,7 +112,16 @@
 <area shape="rect" href="mldata.repository.models.Task-class.html#get_absolute_url" title="Get absolute URL for this item, using its id." alt="" coords="145,1188,431,1207"/>
 <area shape="rect" href="mldata.repository.models.Task-class.html#objects" title="mldata.repository.models.Task.objects" alt="" coords="145,1207,431,1225"/>
 <area shape="rect" href="mldata.repository.models.Task-class.html" title="Repository item Task." alt="" coords="144,907,432,1227"/>
-<area shape="rect" href="mldata.repository.models.FixedLicense-class.html" title="License to be used by Task or Solution items." alt="" coords="308,1275,399,1301"/>
+<area shape="rect" href="mldata.repository.models.FixedLicense-class.html" title="License to be used by Task or Solution items." alt="" coords="177,1275,268,1301"/>
+<area shape="poly" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="244,1227 233,1262 228,1261 239,1226"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="237,1223,245,1231"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="223,1271,231,1279"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="license" alt="" coords="239,1243,281,1259"/>
+<area shape="rect" href="mldata.repository.models.TaskType-class.html" title="Type of a Task." alt="" coords="319,1275,388,1301"/>
+<area shape="poly" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="337,1226 348,1261 343,1262 332,1227"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="331,1223,339,1231"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="345,1271,353,1279"/>
+<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="type" alt="" coords="342,1243,367,1259"/>
 <area shape="rect" href="django.db.models.base.ModelBase-class.html" title="Metaclass for all models." alt="" coords="17,28,559,47"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.pk" alt="" coords="17,47,559,65"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model.__eq__" alt="" coords="17,68,559,87"/>
@@ -127,14 +135,6 @@
 <area shape="rect" href="javascript:void(0);" title="Does the heavy&#45;lifting involved in saving." alt="" coords="17,217,559,236"/>
 <area shape="rect" href="javascript:void(0);" title="Returns the value of the field name for this instance." alt="" coords="17,236,559,255"/>
 <area shape="rect" href="javascript:void(0);" title="django.db.models.base.Model" alt="" coords="16,11,560,256"/>
-<area shape="poly" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="244,1227 233,1262 228,1261 239,1226"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="237,1223,245,1231"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="mldata.repository.models.Task.type" alt="" coords="223,1271,231,1279"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#type" title="type" alt="" coords="239,1243,265,1259"/>
-<area shape="poly" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="337,1226 348,1261 343,1262 332,1227"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="331,1223,339,1231"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="mldata.repository.models.Task.license" alt="" coords="345,1271,353,1279"/>
-<area shape="rect" href="mldata.repository.models.Task-class.html#license" title="license" alt="" coords="342,1243,383,1259"/>
 </map>
   <img src="uml_class_diagram_for_mldata_r_56.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_56" ismap="ismap" class="graph-without-title" />
 </center>
@@ -416,14 +416,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.models.Task-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x937840c&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.models.Task-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x92c10ec&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.models.Task-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x937840c&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="mldata.repository.models.Task-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x92c10ec&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -438,7 +438,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Task-class.html#repository_ptr" class="summary-name">repository_ptr</a> = <code title="&lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor \
-object at 0x937882c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
+object at 0x92c104c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -446,7 +446,7 @@ object at 0x937882c&gt;">&lt;django.db.models.fields.related.ReverseSingl<code c
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Task-class.html#solution_set" class="summary-name">solution_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x937d26c&gt;">&lt;django.db.models.fields.related.ForeignRelated<code class="variable-ellipsis">...</code></code>
+t at 0x92c178c&gt;">&lt;django.db.models.fields.related.ForeignRelated<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -454,7 +454,7 @@ t at 0x937d26c&gt;">&lt;django.db.models.fields.related.ForeignRelated<code clas
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="mldata.repository.models.Task-class.html#taskrating_set" class="summary-name">taskrating_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x93bc40c&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
+t at 0x913c4ec&gt;">&lt;django.db.models.fields.related.ForeignRelat<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
   <tr>
@@ -699,7 +699,7 @@ models.ForeignKey(Data, related_name= 'task_data_heldback', null= True<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x937840c&gt;
+&lt;django.db.models.manager.Manager object at 0x92c10ec&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -717,7 +717,7 @@ models.ForeignKey(Data, related_name= 'task_data_heldback', null= True<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x937840c&gt;
+&lt;django.db.models.manager.Manager object at 0x92c10ec&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -736,7 +736,7 @@ models.ForeignKey(Data, related_name= 'task_data_heldback', null= True<span clas
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ReverseSingleRelatedObjectDescriptor <span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-object at 0x937882c&gt;
+object at 0x92c104c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -755,7 +755,7 @@ object at 0x937882c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x937d26c&gt;
+t at 0x92c178c&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -774,7 +774,7 @@ t at 0x937d26c&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x93bc40c&gt;
+t at 0x913c4ec&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -812,7 +812,7 @@ t at 0x93bc40c&gt;
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:13 2010
+    Generated by Epydoc 3.0.1 on Tue Jul 13 10:16:51 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

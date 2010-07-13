@@ -65,16 +65,6 @@
 <h1 class="epydoc">Class DataReviewForm</h1><p class="nomargin-top"><span class="codelink"><a href="mldata.repository.forms-pysrc.html#DataReviewForm">source&nbsp;code</a></span></p>
 <center>
 <center>  <map id="uml_class_diagram_for_mldata_r_20" name="uml_class_diagram_for_mldata_r_20">
-<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
-<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
-<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#format" title="mldata.repository.forms.DataReviewForm.format" alt="" coords="456,545,565,564"/>
-<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#seperator" title="mldata.repository.forms.DataReviewForm.seperator" alt="" coords="456,564,565,583"/>
-<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#base_fields" title="mldata.repository.forms.DataReviewForm.base_fields" alt="" coords="456,583,565,601"/>
-<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="456,601,565,620"/>
-<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#clean_format" title="Lowercase variable format." alt="" coords="456,623,565,641"/>
-<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html" title="Form used for Data review." alt="" coords="455,528,567,643"/>
-<area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="404,36,617,55"/>
-<area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="403,11,619,56"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm.changed_data" alt="" coords="17,103,1004,121"/>
 <area shape="rect" href="javascript:void(0);" title="Returns an ErrorDict for the data provided for the form" alt="" coords="17,121,1004,140"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a BoundField with the given name." alt="" coords="17,143,1004,161"/>
@@ -92,6 +82,18 @@
 <area shape="rect" href="javascript:void(0);" title="Returns a list of all the BoundField objects that are hidden fields." alt="" coords="17,367,1004,385"/>
 <area shape="rect" href="javascript:void(0);" title="Returns a list of BoundField objects that aren&#39;t hidden fields." alt="" coords="17,404,1004,423"/>
 <area shape="rect" href="javascript:void(0);" title="django.forms.forms.BaseForm" alt="" coords="16,85,1005,424"/>
+<area shape="rect" href="django.forms.forms.DeclarativeFieldsMetaclass-class.html" title="Metaclass that converts Field attributes to a dictionary called &#160;&#39;base_fields&#39;, taking into account parent class &#39;base_fields&#39; as well." alt="" coords="439,471,583,489"/>
+<area shape="rect" href="javascript:void(0);" title="A collection of Fields, plus their associated data." alt="" coords="437,453,584,499"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#format" title="mldata.repository.forms.DataReviewForm.format" alt="" coords="447,545,575,564"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#seperator" title="mldata.repository.forms.DataReviewForm.seperator" alt="" coords="447,564,575,583"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#attribute_names_first" title="mldata.repository.forms.DataReviewForm.attribute_names_first" alt="" coords="447,583,575,601"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#convert" title="mldata.repository.forms.DataReviewForm.convert" alt="" coords="447,601,575,620"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#base_fields" title="mldata.repository.forms.DataReviewForm.base_fields" alt="" coords="447,620,575,639"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#media" title="Provide a description of all media required to render the widgets on this &#160;form" alt="" coords="447,639,575,657"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html#clean_format" title="Lowercase variable format." alt="" coords="447,660,575,679"/>
+<area shape="rect" href="mldata.repository.forms.DataReviewForm-class.html" title="Form used for Data review." alt="" coords="445,528,576,680"/>
+<area shape="rect" href="javascript:void(0);" title="str(x)" alt="" coords="404,36,617,55"/>
+<area shape="rect" href="javascript:void(0);" title="A class whose __str__ returns its __unicode__ as a UTF&#45;8 bytestring." alt="" coords="403,11,619,56"/>
 </map>
   <img src="uml_class_diagram_for_mldata_r_20.gif" alt='' usemap="#uml_class_diagram_for_mldata_r_20" ismap="ismap" class="graph-without-title" />
 </center>
@@ -240,8 +242,24 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="mldata.repository.forms.DataReviewForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'format': &lt;django.forms.fields.CharField object at 0x9b7ee0c&gt;, 'seper\
-ator': &lt;django.forms.fields.CharField object at 0x9b7ee2c&gt;}">{'format': &lt;django.forms.fields.CharField object<code class="variable-ellipsis">...</code></code>
+        <a name="attribute_names_first"></a><span class="summary-name">attribute_names_first</span> = <code title="BooleanField(required= False)">BooleanField(required= False)</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="convert"></a><span class="summary-name">convert</span> = <code title="BooleanField(required= False)">BooleanField(required= False)</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mldata.repository.forms.DataReviewForm-class.html#base_fields" class="summary-name">base_fields</a> = <code title="{'format': &lt;django.forms.fields.CharField object at 0x9985ccc&gt;, 'seper\
+ator': &lt;django.forms.fields.CharField object at 0x9985cec&gt;, 'attribute\
+_names_first': &lt;django.forms.fields.BooleanField object at 0x9985d6c&gt;,\
+ 'convert': &lt;django.forms.fields.BooleanField object at 0x9985dcc&gt;}">{'format': &lt;django.forms.fields.CharField object<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 </table>
@@ -313,8 +331,10 @@ ator': &lt;django.forms.fields.CharField object at 0x9b7ee2c&gt;}">{'format': &l
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-{'format': &lt;django.forms.fields.CharField object at 0x9b7ee0c&gt;, 'seper<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-ator': &lt;django.forms.fields.CharField object at 0x9b7ee2c&gt;}
+{'format': &lt;django.forms.fields.CharField object at 0x9985ccc&gt;, 'seper<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ator': &lt;django.forms.fields.CharField object at 0x9985cec&gt;, 'attribute<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+_names_first': &lt;django.forms.fields.BooleanField object at 0x9985d6c&gt;,<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+ 'convert': &lt;django.forms.fields.BooleanField object at 0x9985dcc&gt;}
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -386,7 +406,7 @@ ator': &lt;django.forms.fields.CharField object at 0x9b7ee2c&gt;}
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Jul  1 10:18:04 2010
+    Generated by Epydoc 3.0.1 on Tue Jul 13 10:16:42 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
