@@ -7,7 +7,7 @@ Define the views of app Repository
 @type NUM_INDEX_PAGE: integer
 """
 
-import datetime, os, sys, random, subprocess, uuid, traceback
+import datetime, os, sys, subprocess, uuid, traceback
 from django.core import serializers
 from django.core.cache import cache
 from django.core.files import File
@@ -24,8 +24,7 @@ from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
-from tagging.models import Tag, TaggedItem
-from tagging.utils import calculate_cloud
+from tagging.models import Tag
 import ml2h5
 from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
@@ -36,38 +35,6 @@ PER_PAGE_INTS = [10, 20, 50, 100, 999999]
 
 MEGABYTE = 1048576
 UPLOAD_LIMIT = 64 * MEGABYTE
-
-def _get_object_or_404(klass, slug_or_id, version=None):
-    """Wrapper for Django's get_object_or_404.
-
-    Retrieves an item by slug or id and checks for ownership.
-
-    @param slug_or_id: item's slug or id for lookup
-    @type slug_or_id: string or integer
-    @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
-    @return: retrieved item
-    @rtype: klass
-    @raise Http404: if item could not be found
-    """
-    if version:
-        obj = klass.objects.filter(
-            slug__text=slug_or_id, is_deleted=False, version=version)
-    else:
-        obj = klass.objects.filter(
-            slug__text=slug_or_id, is_deleted=False, is_current=True)
-
-    if obj: # by slug
-        obj = obj[0]
-    else: # by id
-        try:
-            obj = klass.objects.get(pk=slug_or_id)
-        except klass.DoesNotExist:
-            raise Http404
-        if not obj or obj.is_deleted:
-            raise Http404
-
-    return obj
 
 
 def _get_versions_paginator(request, obj):
@@ -80,9 +47,7 @@ def _get_versions_paginator(request, obj):
     @return: paginator for item versions
     @rtype: Django paginator
     """
-    qs = Q(slug__text=obj.slug.text) & Q(is_deleted=False)
-    items = obj.__class__.objects.filter(qs).order_by('version')
-    items = [i for i in items if i.can_view(request.user)]
+    items = obj.get_versions(request.user)
     paginator = Paginator(items, NUM_HISTORY_PAGE)
 
     try:
@@ -105,155 +70,18 @@ def _get_versions_paginator(request, obj):
     return versions
 
 
-def _get_completeness(obj):
-    """Determine item's completeness.
-
-    @param obj: item to determine its completeness from
-    @type obj: either Data, Task or Solution
-    @return: completeness of item as a percentage
-    @rtype: integer
-    @raise Http404: if given item is not of expected class
-    """
-    if obj.__class__ == Data:
-        attrs = ['tags', 'description', 'license', 'summary', 'urls',
-            'publications', 'source', 'measurement_details', 'usage_scenario']
-    elif obj.__class__ == Task:
-        attrs = ['tags', 'description', 'summary', 'urls', 'publications',
-            'input', 'output', 'performance_measure', 'type', 'file']
-    elif obj.__class__ == Solution:
-        attrs = ['tags', 'description', 'summary', 'urls', 'publications',
-            'feature_processing', 'parameters', 'os', 'code',
-            'software_packages', 'score']
-    else:
-        raise Http404
-
-    attrs_len = len(attrs)
-    attrs_complete = 0
-    for attr in attrs:
-        if eval('obj.' + attr):
-            attrs_complete += 1
-    return int((attrs_complete * 100) / attrs_len)
-
-
-def _get_rating_form(request, obj):
-    """Get a rating form for given item.
-
-    @param request: request data
-    @type request: Django request
-    @param obj: item to get rating form for
-    @type obj: either of Data, Task, Solution
-    @return: a rating form
-    @rtype: forms.RatingForm
-    """
-    if not request.user.is_authenticated():
-        return None
-
-    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
-    if not current:
-        return None
-
-    klassname = current.__class__.__name__
-    rklass = eval(klassname + 'Rating')
-    try:
-        r = rklass.objects.get(user=request.user, repository=current)
-        rating_form = RatingForm({'interest': r.interest, 'doc': r.doc})
-    except rklass.DoesNotExist:
-        rating_form = RatingForm()
-    rating_form.action = reverse(
-        eval(klassname.lower() + '_rate'), args=[current.id])
-
-    return rating_form
-
-
-def _get_current_tagged_items(request, klass, tagged):
-    """Get current items with specific tag.
-
-    @param klass: klass to find current items for
-    @type klass: one of Data, Task, Solution
-    @param tagged: tagged items
-    @type tagged: list of TaggedItem
-    @return: current tagged items
-    @rtype: list of Data, Task, Solution
-    """
-    # without if-construct sqlite3 barfs on AnonymousUser
-    if request.user.id:
-        qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
-    else:
-        qs = Q(is_public=True) & Q(is_current=True)
-    if klass == Data:
-        qs &= Q(is_approved=True)
-
-    current = klass.objects.filter(qs).order_by('name')
-    l = []
-    for c in current:
-        for t in tagged:
-            if t.object_id == c.id:
-                l.append(c)
-                break
-    return l
-
-
-
-def _get_current_tags(request, klass=None):
-    """Get current tags available to user.
-
-    @param request: request data
-    @type request: Django request
-    @param klass: class to retrieve tags for
-    @type klass: repository.Data/Task/Solution
-    @return: current tags available to user
-    @rtype: list of tagging.Tag
-    """
-    # without if-construct sqlite3 barfs on AnonymousUser
-    if request.user.id:
-        qs = (Q(user=request.user) | Q(is_public=True)) & Q(is_current=True)
-    else:
-        qs = Q(is_public=True) & Q(is_current=True)
-
-    if klass:
-        if klass == Data:
-            qs = qs & Q(is_approved=True)
-        tags = Tag.objects.usage_for_queryset(klass.objects.filter(qs), counts=True)
-    else:
-        tags = Tag.objects.usage_for_queryset(
-            Data.objects.filter(qs & Q(is_approved=True)), counts=True)
-        tags.extend(Tag.objects.usage_for_queryset(
-            Task.objects.filter(qs), counts=True))
-        tags.extend(Tag.objects.usage_for_queryset(
-            Solution.objects.filter(qs), counts=True))
-
-    current = {}
-    for t in tags:
-        if not t.name in current:
-            current[t.name] = t
-        else:
-            current[t.name].count += t.count
-
-    return current.values()
-
-
-def _get_tag_cloud(request):
-    """Retrieve tag clouds for all item types.
+def _get_tag_clouds(request):
+    """Convenience function to retrieve tag clouds for all item types.
 
     @param request: request data
     @type request: Django request
     @return: list of tags with attributes font_size
-    @rtype: hash with keys 'data', 'task', 'solution' containing lists of tagging.Tag
+    @rtype: hash with keys 'Data', 'Task', 'Solution' containing lists of tagging.Tag
     """
-    clouds = {
-        'Data': None,
-        'Task': None,
-        'Solution': None,
-    }
-
+    clouds = { 'Data': None, 'Task': None, 'Solution': None }
     for k in clouds.iterkeys():
-        c = _get_current_tags(request, klass=eval(k))
-        if c:
-            clouds[k] = calculate_cloud(c, steps=2)
-            random.shuffle(clouds[k])
-        else:
-            clouds[k] = None
-
+        klass = eval(k)
+        clouds[k] = klass.get_tag_cloud(request.user)
     return clouds
 
 
@@ -269,13 +97,15 @@ def _activate(request, klass, id):
     @type id: integer
     @return: redirect user to login page or item's page
     @rtype: Django response
+    @raise Http404: if item couldn't be found
     """
     if not request.user.is_authenticated():
         func = eval(klass.__name__.lower() + '_activate')
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = _get_object_or_404(klass, id)
+    obj = klass.get_object(id)
+    if not obj: raise Http404
     if obj.can_activate(request.user):
         obj.is_public = True
         obj.set_current()
@@ -295,13 +125,15 @@ def _delete(request, klass, id):
     @type id: integer
     @return: redirect user to login page or item's page or user's my page
     @rtype: Django response
+    @raise Http404: if item couldn't be found
     """
     if not request.user.is_authenticated():
         func = eval(klass.__name__.lower() + '_delete')
         url = reverse(func, args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
-    obj = _get_object_or_404(klass, id)
+    obj = klass.get_object(id)
+    if not obj: raise Http404
     if not obj.can_delete(request.user):
         return HttpResponseForbidden()
     obj.is_deleted = True
@@ -317,16 +149,6 @@ def _delete(request, klass, id):
     func = eval(klass.__name__.lower() + '_my')
     return HttpResponseRedirect(reverse(func))
 
-
-def _download_hit(obj):
-    """Increase hit counter for given object.
-
-    @param obj: object to increase counter for
-    @type obj: Repository
-    """
-    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
-    current.downloads += 1
-    current.save()
 
 
 
@@ -389,9 +211,10 @@ def _download(request, klass, id, type='plain'):
     @type id: integer
     @return: download file response
     @rtype: Django response
-    @raise Http404: if given klass is unexpected or file doesn't exist or a conversion error occurred
+    @raise Http404: if item couldn't be retrieved or given klass is unexpected or file doesn't exist or a conversion error occurred
     """
-    obj = _get_object_or_404(klass, id)
+    obj = klass.get_object(id)
+    if not obj: raise Http404
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
@@ -413,7 +236,7 @@ def _download(request, klass, id, type='plain'):
         if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
             cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
             if not subprocess.call(cmd, shell=True) == 0:
-                mail_admins('Failed conversion of %s to XML' % (fname_h5), cmd)
+                mail_admins('Download: Failed conversion of %s to XML' % (fname_h5), cmd)
                 raise Http404
         fileobj = File(open(fname_export, 'r'))
         ctype = 'application/xml'
@@ -428,7 +251,7 @@ def _download(request, klass, id, type='plain'):
             try:
                 h.convert(fname_h5, fname_export, format_out=type)
             except ml2h5.ConversionError, e:
-                subject = 'Failed conversion of %s to %s' % (fname_h5, type)
+                subject = 'Download: Failed conversion of %s to %s' % (fname_h5, type)
                 body = traceback.format_exc() + "\n" + str(e)
                 mail_admins(subject, body)
                 raise Http404
@@ -446,7 +269,7 @@ def _download(request, klass, id, type='plain'):
     fileobj.close()
     if fname_export: # remove exported file
         os.remove(fname_export)
-    _download_hit(obj)
+    obj.increase_downloads()
     return response
 
 
@@ -539,8 +362,10 @@ def _view(request, klass, slug_or_id, version=None):
     @type slug_or_id: string or integer
     @return: view page or review page if klass Data and item not approved
     @rtype: Django response
+    @raise Http404: if item couldn't be found
     """
-    obj = _get_object_or_404(klass, slug_or_id, version)
+    obj = klass.get_object(slug_or_id, version)
+    if not obj: raise Http404
     if not obj.can_view(request.user):
         return HttpResponseForbidden()
     if klass == Data and not obj.is_approved:
@@ -550,7 +375,6 @@ def _view(request, klass, slug_or_id, version=None):
     current.hits += 1
     current.save()
 
-    obj.completeness = _get_completeness(obj)
     obj.klass = klass.__name__
     # need tags in list
     obj.tags = obj.tags.split(TAG_SPLITSTR)
@@ -579,8 +403,8 @@ def _view(request, klass, slug_or_id, version=None):
         'can_activate': obj.can_activate(request.user),
         'can_delete': obj.can_delete(request.user),
         'current': current,
-        'rating_form': _get_rating_form(request, obj),
-        'tagcloud': _get_tag_cloud(request),
+        'rating_form': RatingForm.get(request, obj),
+        'tagcloud': _get_tag_clouds(request),
         'related': obj.filter_related(request.user),
         'section': 'repository',
     }
@@ -699,7 +523,7 @@ def _new(request, klass):
         'url_new': url_new,
         'form': form,
         'request': request,
-        'tagcloud': _get_tag_cloud(request),
+        'tagcloud': _get_tag_clouds(request),
         'section': 'repository',
         'upload_limit': "%dMB" % (UPLOAD_LIMIT / MEGABYTE)
     }
@@ -719,9 +543,10 @@ def _edit(request, klass, id):
     @type id: integer
     @return: user login page, item's view page or this page again on failed form validation
     @rtype: Django response
-    @raise Http404: if given klass is unexpected
+    @raise Http404: if item couldn't be found or given klass is unexpected
     """
-    prev = _get_object_or_404(klass, id)
+    prev = klass.get_object(id)
+    if not prev: raise Http404
     prev.klass = klass.__name__
     prev.url_edit = reverse(
         eval(klass.__name__.lower() + '_edit'), args=[prev.id])
@@ -789,40 +614,11 @@ def _edit(request, klass, id):
         'object': prev,
         'request': request,
         'publication_form': PublicationForm(),
-        'tagcloud': _get_tag_cloud(request),
+        'tagcloud': _get_tag_clouds(request),
         'section': 'repository',
     }
 
     return render_to_response('repository/item_edit.html', info_dict)
-
-
-
-def _get_my(user, objects):
-    """Get My objects subset out of given objects.
-
-    @param user: user data
-    @type user: auth.models.User
-    @param objects: queryset to find my subset from
-    @type objects: Django queryset
-    @return: my objects
-    @rtype: list of repository.Data/Task/Solution
-    """
-    filtered = objects.filter(user=user).order_by('slug')
-    return filtered
-    # this all would not be necessary if a fixed version (e.g. 0 would always
-    # be most current)
-
-    #prev = None
-    #idx = -1
-    #my = []
-    #for o in filtered:
-    #    if o.slug == prev and o.is_current:
-    #        my[idx] = o
-    #    if o.slug != prev:
-    #        prev = o.slug
-    #        idx += 1
-    #        my.append(o)
-    #return my
 
 
 def _get_page(request, objects, PER_PAGE):
@@ -906,7 +702,7 @@ def _index(request, klass, my=False, searchterm=None):
         objects = objects.filter(is_approved=True)
 
     if my and request.user.is_authenticated():
-        objects = _get_my(request.user, objects)
+        objects = objects.filter(user=request.user, is_current=True).order_by('slug')
         if klass == Data:
             unapproved = klass.objects.filter(
                 user=request.user, is_approved=False
@@ -940,7 +736,7 @@ def _index(request, klass, my=False, searchterm=None):
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
         'per_page': PER_PAGE,
-        'tagcloud': _get_tag_cloud(request),
+        'tagcloud': _get_tag_clouds(request),
         'section': 'repository',
     }
     if searchterm:
@@ -961,7 +757,7 @@ def index(request):
     info_dict = {
         'request': request,
         'section': 'repository',
-        'tagcloud': _get_tag_cloud(request),
+        'tagcloud': _get_tag_clouds(request),
     }
     return render_to_response('repository/index.html', info_dict)
 
@@ -1305,77 +1101,6 @@ def score_download(request, id):
 
 
 @transaction.commit_on_success
-def _data_approve(obj, fname_orig, formdata):
-    """Approve Data item.
-
-    @param obj: object to approve
-    @type obj: repository.Data
-    @param fname_orig: original filename
-    @type fname_orig: string
-    @param formdata: cleaned data of user form
-    @type formdata: dict of strings
-    @return: the modified, approved object
-    @rtype: repository.Data
-    """
-    h5 = ml2h5.HDF5()
-    fname_h5 = h5.get_filename(fname_orig)
-
-    if 'convert' in formdata and formdata['convert'] and formdata['format'] != 'h5':
-        if 'attribute_names_first' in formdata and formdata['attribute_names_first']:
-            anf = True
-        else:
-            anf = False
-
-        verify = True
-        if formdata['format'] == 'uci': verify = False
-
-        h5.convert(
-            fname_orig, fname_h5, format_in=formdata['format'],
-            seperator=obj.seperator, verify=verify,
-            attribute_names_first=anf)
-
-    if os.path.isfile(fname_h5):
-        (obj.num_instances, obj.num_attributes) = h5.get_num_instattr(fname_h5)
-        # keep original file for the time being
-        #os.remove(fname_orig)
-        # for some reason, FileField saves file.name as DATAPATH/<basename>
-        obj.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
-
-    obj.format = formdata['format']
-    obj.is_approved = True
-    obj.save()
-    return obj
-
-
-@transaction.commit_on_success
-def _data_conversion_error(request, obj, error):
-    """Handle conversion error for Data file.
-
-    @param request: request data
-    @type request: Django request
-    @param obj: Data item
-    @type obj: repository.Data
-    @param error: the error that occurred
-    @type error: ml2h5.ConversionError
-    """
-    if obj.tags:
-        obj.tags += ', conversion_failed'
-    else:
-        obj.tags = 'conversion_failed'
-
-    obj.is_approved = True
-    obj.save()
-
-    url = 'http://' + request.META['HTTP_HOST'] + reverse(
-        data_view_slug, args=[obj.slug])
-    subject = 'Failed conversion to HDF5: %s' % url
-    body = "Hi admin!\n\n" +\
-        'URL: ' + url + "\n\n" +\
-        traceback.format_exc() + "\n" + str(error)
-    mail_admins(subject, body)
-
-
-@transaction.commit_on_success
 def data_new_review(request, slug):
     """Review Data item to check if uploaded file is as expected.
 
@@ -1385,12 +1110,14 @@ def data_new_review(request, slug):
     @type slug: string
     @return: redirect user to login page or item's view page after approval or review form
     @rtype: Django response
+    @raise Http404: if item couldn't be found
     """
     if not request.user.is_authenticated():
         next = '?next=' + reverse(data_new_review, args=[slug])
         return HttpResponseRedirect(reverse('user_signin') + next)
 
-    obj = _get_object_or_404(Data, slug)
+    obj = Data.get_object(slug)
+    if not obj: raise Http404
     # don't want users to be able to remove items once approved
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
@@ -1405,33 +1132,29 @@ def data_new_review(request, slug):
         elif request.POST.has_key('approve'):
             form = DataReviewForm(request.POST)
             if form.is_valid():
-                obj.seperator = form.cleaned_data['seperator']
                 try:
-                    obj = _data_approve(obj, fname, form.cleaned_data)
-                except ml2h5.ConversionError, e:
-                    _data_conversion_error(request, obj, e)
+                    obj.approve(fname, form.cleaned_data)
+                except ml2h5.ConversionError, error:
+                    url = 'http://' + request.META['HTTP_HOST'] + reverse(
+                        data_view_slug, args=[obj.slug])
+                    subject = 'Failed conversion to HDF5: %s' % url
+                    body = "Hi admin!\n\n" +\
+                        'URL: ' + url + "\n\n" +\
+                        traceback.format_exc() + "\n" + str(error)
+                    mail_admins(subject, body)
                 return HttpResponseRedirect(
                     reverse(data_view_slug, args=[obj.slug]))
 
-    h5 = ml2h5.HDF5()
     if not form:
         form = DataReviewForm()
-        form.fields['format'].initial = obj.format
-        if obj.format == 'h5':
-            form.fields['seperator'].initial = ''
-        else:
-            sep = ml2h5.fileformat.infer_seperator(fname)
-            form.fields['seperator'].initial = sep
-        if obj.format in ('h5', 'xml', 'unknown'):
-            form.fields['convert'].initial = False
-        else:
-            form.fields['convert'].initial = True
+        form.prefill(obj.format, ml2h5.fileformat.infer_seperator(fname))
 
+    h5 = ml2h5.HDF5()
     info_dict = {
         'object': obj,
         'form': form,
         'request': request,
-        'tagcloud': _get_tag_cloud(request),
+        'tagcloud': _get_tag_clouds(request),
         'section': 'repository',
         'supported_formats': ', '.join(ml2h5.TOH5.iterkeys()),
         'extract': h5.get_extract(fname),
@@ -1485,10 +1208,8 @@ def _tags_view(request, tag, klass):
     """
     try:
         tag = Tag.objects.get(name=tag)
-        tagged = TaggedItem.objects.filter(tag=tag)
-        objects = _get_current_tagged_items(request, klass, tagged)
-        if not objects:
-            raise Http404
+        objects = klass.get_current_tagged_items(request.user, tag)
+        if not objects: raise Http404
     except Tag.DoesNotExist:
         raise Http404
 
@@ -1497,7 +1218,7 @@ def _tags_view(request, tag, klass):
         'section': 'repository',
         'klass': klass.__name__,
         'tag': tag,
-        'tagcloud': _get_tag_cloud(request),
+        'tagcloud': _get_tag_clouds(request),
         'objects': objects,
     }
     return render_to_response('repository/tags_view.html', info_dict)

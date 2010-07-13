@@ -2,13 +2,17 @@
 Model classes for app Repository
 """
 
+import ml2h5, os, random
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from utils import slugify
 from tagging.fields import TagField
+from tagging.models import Tag, TaggedItem
+from tagging.utils import calculate_cloud
 from settings import DATAPATH, TASKPATH, SCOREPATH
 
 
@@ -177,6 +181,111 @@ class Repository(models.Model):
         get_latest_by = 'pub_date'
 
 
+    @classmethod
+    def get_current_tagged_items(klass, user, tag):
+        """Get current items with specific tag.
+
+        @param user: user to get current items for
+        @type user: auth.models.user
+        @param tag: tag to get tagged items for
+        @type tag: tagging.Tag
+        @return: current tagged items
+        @rtype: list of Data, Task or Solution
+        """
+        # without if-construct sqlite3 barfs on AnonymousUser
+        if user.id:
+            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        else:
+            qs = Q(is_public=True) & Q(is_current=True)
+        if klass == Data:
+            qs &= Q(is_approved=True)
+
+        tagged = TaggedItem.objects.filter(tag=tag)
+        current = klass.objects.filter(qs).order_by('name')
+        items = []
+        for c in current:
+            for t in tagged:
+                if t.object_id == c.id:
+                    items.append(c)
+                    break
+        return items
+
+
+    @classmethod
+    def get_tag_cloud(klass, user):
+        """Get current tags available to user.
+
+        @param user: user to get current items for
+        @type user: auth.models.user
+        @return: current tags available to user
+        @rtype: list of tagging.Tag
+        """
+        # without if-construct sqlite3 barfs on AnonymousUser
+        if user.id:
+            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        else:
+            qs = Q(is_public=True) & Q(is_current=True)
+
+        if klass:
+            if klass == Data:
+                qs = qs & Q(is_approved=True)
+            tags = Tag.objects.usage_for_queryset(klass.objects.filter(qs), counts=True)
+        else:
+            tags = Tag.objects.usage_for_queryset(
+                Data.objects.filter(qs & Q(is_approved=True)), counts=True)
+            tags.extend(Tag.objects.usage_for_queryset(
+                Task.objects.filter(qs), counts=True))
+            tags.extend(Tag.objects.usage_for_queryset(
+                Solution.objects.filter(qs), counts=True))
+
+        current = {}
+        for t in tags:
+            if not t.name in current:
+                current[t.name] = t
+            else:
+                current[t.name].count += t.count
+
+        tags = current.values()
+        if tags:
+            cloud = calculate_cloud(tags, steps=2)
+            random.shuffle(cloud)
+        else:
+            cloud = None
+        return cloud
+
+
+
+    @classmethod
+    def get_object(klass, slug_or_id, version=None):
+        """Retrieves an item by slug or id
+
+        @param slug_or_id: item's slug or id for lookup
+        @type slug_or_id: string or integer
+        @param version: specific version of the item to retrieve
+        @type version: integer
+        @return: found object or None
+        @rtype: Repository
+        """
+        if version:
+            obj = klass.objects.filter(
+                slug__text=slug_or_id, is_deleted=False, version=version)
+        else:
+            obj = klass.objects.filter(
+                slug__text=slug_or_id, is_deleted=False, is_current=True)
+
+        if obj: # by slug
+            obj = obj[0]
+        else: # by id
+            try:
+                obj = klass.objects.get(pk=slug_or_id)
+            except klass.DoesNotExist:
+                return None
+            if not obj or obj.is_deleted:
+                return None
+
+        return obj
+
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -285,6 +394,7 @@ class Repository(models.Model):
             return True
         return False
 
+
     def can_activate(self, user):
         """Can given user activate this.
 
@@ -301,6 +411,7 @@ class Repository(models.Model):
             return True
 
         return False
+
 
     def can_delete(self, user):
         """Can given user delete this item.
@@ -326,6 +437,7 @@ class Repository(models.Model):
                     return False
         return True
 
+
     def can_view(self, user):
         """Can given user view this.
 
@@ -338,6 +450,7 @@ class Repository(models.Model):
             return True
         return False
 
+
     def can_download(self, user):
         """Can given user download this.
 
@@ -348,6 +461,7 @@ class Repository(models.Model):
         """
         return self.can_view(user)
 
+
     def can_edit(self, user):
         """Can given user edit this.
 
@@ -357,6 +471,57 @@ class Repository(models.Model):
         @rtype: boolean
         """
         return self.can_view(user)
+
+
+    def increase_downloads(self):
+        """Increase hit counter for current version of given item."""
+        obj = self.__class__.objects.get(slug=self.slug, is_current=True)
+        obj.downloads += 1
+        obj.save()
+
+
+    def get_completeness(self):
+        """Determine item's completeness.
+
+        @return: completeness of item as a percentage
+        @rtype: integer
+        """
+        if self.__class__ == Data:
+            attrs = ['tags', 'description', 'license', 'summary', 'urls',
+                'publications', 'source', 'measurement_details', 'usage_scenario']
+        elif self.__class__ == Task:
+            attrs = ['tags', 'description', 'summary', 'urls', 'publications',
+                'input', 'output', 'performance_measure', 'type', 'file']
+        elif self.__class__ == Solution:
+            attrs = ['tags', 'description', 'summary', 'urls', 'publications',
+                'feature_processing', 'parameters', 'os', 'code',
+                'software_packages', 'score']
+        else:
+            return 0
+
+        attrs_len = len(attrs)
+        attrs_complete = 0
+        for attr in attrs:
+            if eval('self.' + attr):
+                attrs_complete += 1
+        return int((attrs_complete * 100) / attrs_len)
+    completeness = property(get_completeness)
+
+
+    def get_versions(self, user):
+        """Retrieve all versions of this item viewable by user
+
+        @param user: user to get versions for
+        @type user: auth.model.User
+        @return: viewable versions of this item
+        @rtype: list of Repository
+        """
+        qs = Q(slug__text=self.slug.text) & Q(is_deleted=False)
+        items = self.__class__.objects.filter(qs).order_by('version')
+        return [i for i in items if i.can_view(user)]
+
+
+
 
     def filter_related(self, user):
         """Filter Task/Solution related to a superior Data/Task to contain only
@@ -445,6 +610,55 @@ class Data(Repository):
             raise AttributeError, 'Attribute slug is not set!'
 
         return self.slug.text + '.' + self.format
+
+
+    def approve(self, fname_orig, convdata):
+        """Approve Data item.
+
+        @param fname_orig: original name of Data file
+        @type fname_orig: string
+        @param convdata: conversion-relevant data
+        @type convdata: dict of strings with keys seperator, convert, format + attribute_names_first
+        @raise: ml2h5.ConversionError if conversion failed
+        """
+        self.is_approved = True
+        self.format = convdata['format']
+        h5 = ml2h5.HDF5()
+        fname_h5 = h5.get_filename(fname_orig)
+
+        if 'convert' in convdata and convdata['convert'] and self.format != 'h5':
+            if 'attribute_names_first' in convdata and convdata['attribute_names_first']:
+                anf = True
+            else:
+                anf = False
+
+            verify = True
+            if convdata['format'] == 'uci': verify = False
+
+            try:
+                h5.convert(
+                    fname_orig, fname_h5, format_in=self.format,
+                    seperator=convdata['seperator'], verify=verify,
+                    attribute_names_first=anf)
+            except ml2h5.ConversionError, error:
+                if self.tags:
+                    self.tags += ', conversion_failed'
+                else:
+                    self.tags = 'conversion_failed'
+
+                self.save()
+                raise ml2h5.ConversionError(error.value)
+
+        if os.path.isfile(fname_h5):
+            (self.num_instances, self.num_attributes) = h5.get_num_instattr(fname_h5)
+            # keep original file for the time being
+            #os.remove(fname_orig)
+            # for some reason, FileField saves file.name as DATAPATH/<basename>
+            self.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
+
+        self.save()
+
+
 
 
 

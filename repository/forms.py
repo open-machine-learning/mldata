@@ -3,6 +3,7 @@ Form classes used in app Repository
 """
 
 import re
+from django.core.urlresolvers import reverse
 from django.forms import *
 from django.db.models import Q
 from django.db import IntegrityError
@@ -199,6 +200,34 @@ class RatingForm(forms.Form):
     interest = forms.IntegerField(label=_("Interesting"), widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
     doc = forms.IntegerField(label=_("Documentation"), widget=RadioSelect(choices=( (0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5') )))
 
+    @staticmethod
+    def get(request, obj):
+        """Get a rating form for given item.
+
+        @param request: request data
+        @type request: Django request
+        @param obj: item to get rating form for
+        @type obj: either of Data, Task, Solution
+        @return: a rating form
+        @rtype: forms.RatingForm
+        """
+        if not request.user.is_authenticated():
+            return None
+
+        current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
+        if not current:
+            return None
+
+        klassname = current.__class__.__name__
+        rklass = eval(klassname + 'Rating')
+        try:
+            r = rklass.objects.get(user=request.user, repository=current)
+            form = RatingForm({'interest': r.interest, 'doc': r.doc})
+        except rklass.DoesNotExist:
+            form = RatingForm()
+
+        form.action = reverse('repository_' + klassname.lower() + '_rate', args=[current.id])
+        return form
 
 
 class PublicationForm(forms.ModelForm):
@@ -221,6 +250,25 @@ class DataReviewForm(forms.Form):
     seperator = forms.CharField(required=True, max_length=1)
     attribute_names_first = BooleanField(required=False)
     convert = BooleanField(required=False)
+
+
+    def prefill(self, format, seperator):
+        """Prefill form fields aided by given arguments.
+
+        @param format: format of data file
+        @type format: string
+        @param seperator: seperator for attributes used in data files
+        @type seperator: string
+        """
+        self.fields['format'].initial = format
+        if format == 'h5':
+            self.fields['seperator'].initial = ''
+        else:
+            self.fields['seperator'].initial = seperator
+        if format in ('h5', 'xml', 'unknown'):
+            self.fields['convert'].initial = False
+        else:
+            self.fields['convert'].initial = True
 
 
     def clean_format(self):
