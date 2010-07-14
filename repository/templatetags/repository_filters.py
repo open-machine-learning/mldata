@@ -9,4 +9,4 @@ def edit_if_empty(value):
     if len(value) == 0:
         return("(No information yet)")
     else:
-        value
+        return value
