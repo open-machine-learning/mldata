@@ -18,7 +18,7 @@ class RepositoryTest(TestCase):
         'index_task': '/repository/task/',
         'index_solution': '/repository/solution/',
         'index_tags': '/repository/tags/',
-        'view_tags_foobar': '/repository/tags/foobar/',
+        'view_tags_foobar': '/repository/tags/data/foobar/',
         'index_data_my': '/repository/data/my/',
         'index_task_my': '/repository/task/my/',
         'index_solution_my': '/repository/solution/my/',
@@ -35,11 +35,13 @@ class RepositoryTest(TestCase):
         'file': open('fixtures/breastcancer.txt', 'r'),
     }
     review_data_approve = {
-        'id_format': 'arff',
+        'format': 'arff',
+        'seperator': ' ',
+        'convert': '0',
         'approve': '1',
     }
     review_data_revert = {
-        'id_format': 'arff',
+        'format': 'arff',
         'revert': '1',
     }
 

@@ -7,7 +7,7 @@ class AboutTest(TestCase):
     def test_index(self):
         r = self.client.get('/about/')
         self.assertEqual(r.context['section'], 'about')
-        self.assertTemplateUsed(r, 'about/motivation.html')
+        self.assertTemplateUsed(r, 'about/index.html')
 
     def test_license(self):
         r = self.client.get('/about/license/')
