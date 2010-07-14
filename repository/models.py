@@ -286,6 +286,73 @@ class Repository(models.Model):
         return obj
 
 
+    @classmethod
+    def set_current(klass, slug):
+        """Set the latest version of the item identified by given slug to be the current one.
+
+        @param slug: slug of item to set
+        @type slug: repository.Slug
+        @return: the current item or None
+        @rtype: repository.Data/Task/Solution
+        """
+        cur = klass.objects.filter(slug=slug).\
+            filter(is_deleted=False).order_by('-version')
+        if not cur:
+            return None
+        else:
+            cur = cur[0]
+
+        prev = klass.objects.get(slug=slug, is_current=True)
+        if not prev: return
+
+        rklass = eval(klass.__name__ + 'Rating')
+        try:
+            rating = rklass.objects.get(user=cur.user, repository=prev)
+            rating.repository = cur
+            rating.save()
+        except rklass.DoesNotExist:
+            pass
+        cur.rating_avg = prev.rating_avg
+        cur.rating_avg_interest = prev.rating_avg_interest
+        cur.rating_avg_doc = prev.rating_avg_doc
+        cur.rating_votes = prev.rating_votes
+        cur.hits = prev.hits
+        cur.downloads = prev.downloads
+
+        Comment.objects.filter(object_pk=prev.pk).update(object_pk=cur.pk)
+
+        prev.is_current = False
+        cur.is_current = True
+
+        # this should be atomic:
+        prev.save()
+        cur.save()
+
+        return cur
+
+
+    @classmethod
+    def search(klass, objects, searchterm):
+        """Search for searchterm in objects queryset.
+
+        @param objects: queryset to search in
+        @type objects: Queryset
+        @param searchterm: term to search for
+        @type searchterm: string
+        @return: found objects and if search failed
+        @rtype: tuple of querset and boolean
+        """
+        # only match name and summary for now
+        #Q(version__icontains=q) | Q(description__icontains=q)
+        found = objects.filter(
+            Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
+        )
+        if found.count() < 1:
+            return objects, True
+        else:
+            return found, False
+
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -349,37 +416,6 @@ class Repository(models.Model):
         """
         view = 'repository.views.' + self.__class__.__name__.lower() + '_view'
         return reverse(view, args=[self.id])
-
-
-    def set_current(self):
-        """Set this item to be the current one for this slug."""
-        current = self.__class__.objects.get(slug=self.slug, is_current=True)
-        if not current:
-            return
-
-        rklass = eval(self.__class__.__name__ + 'Rating')
-        try:
-            rating = rklass.objects.get(user=self.user, repository=current)
-            rating.repository = self
-            rating.save()
-        except rklass.DoesNotExist:
-            pass
-        self.rating_avg = current.rating_avg
-        self.rating_avg_interest = current.rating_avg_interest
-        self.rating_avg_doc = current.rating_avg_doc
-        self.rating_votes = current.rating_votes
-
-        self.hits = current.hits
-        self.downloads = current.downloads
-
-        Comment.objects.filter(object_pk=current.pk).update(object_pk=self.pk)
-
-        current.is_current = False
-        self.is_current = True
-
-        # this should be atomic:
-        current.save()
-        self.save()
 
 
     def is_owner(self, user):

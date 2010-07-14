@@ -108,7 +108,7 @@ def _activate(request, klass, id):
     if not obj: raise Http404
     if obj.can_activate(request.user):
         obj.is_public = True
-        obj.set_current()
+        klass.set_current(obj.slug)
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 
@@ -139,12 +139,9 @@ def _delete(request, klass, id):
     obj.is_deleted = True
     obj.save()
 
-    # set new current
-    obj = klass.objects.filter(slug=obj.slug).\
-        filter(is_deleted=False).order_by('-version')
-    if obj:
-        obj[0].set_current()
-        return HttpResponseRedirect(obj[0].get_absolute_slugurl())
+    current = klass.set_current(obj.slug)
+    if current:
+        return HttpResponseRedirect(current.get_absolute_slugurl())
 
     func = eval(klass.__name__.lower() + '_my')
     return HttpResponseRedirect(reverse(func))
@@ -186,9 +183,9 @@ def _sendfile(fileobj, ctype):
 def _is_newer(first, second):
     """Check if second given file is newer than first given file.
 
-    @param first: filename of first file
+    @param first: name of first file
     @type first: string
-    @param second: filename of second file
+    @param second: name of second file
     @type second: string
     """
     stats_first = os.stat(first)
@@ -219,47 +216,52 @@ def _download(request, klass, id, type='plain'):
         return HttpResponseForbidden()
 
     fname_export = None
+    fileobj = None
     if type == 'plain':
         if klass == Data or klass == Task:
             fileobj = obj.file
+            fname = obj.file.name
         elif klass == Solution:
             fileobj = obj.score
+            fname - obj.score.name
         else:
             raise Http404
-        ctype = 'application/octet-stream'
 
-    elif type == 'xml':
-        if not obj.file: # maybe no file attached to this item
-            raise Http404
-        fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
-        fname_export = fname_h5 + '.xml'
-        if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
-            cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
-            if not subprocess.call(cmd, shell=True) == 0:
-                mail_admins('Download: Failed conversion of %s to XML' % (fname_h5), cmd)
-                raise Http404
-        fileobj = File(open(fname_export, 'r'))
-        ctype = 'application/xml'
+        if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, fname)) == 'h5':
+            ctype = 'application/x-hdf'
+        else:
+            ctype = 'application/octet-stream'
 
-    elif type in ('csv', 'arff', 'libsvm', 'matlab', 'octave'):
+    else:
         if not obj.file: # maybe no file attached to this item
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         fname_export = fname_h5 + '.' + type
-        if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
-            h = ml2h5.HDF5()
-            try:
-                h.convert(fname_h5, fname_export, format_out=type)
-            except ml2h5.ConversionError, e:
-                subject = 'Download: Failed conversion of %s to %s' % (fname_h5, type)
-                body = traceback.format_exc() + "\n" + str(e)
-                mail_admins(subject, body)
-                raise Http404
-        fileobj = File(open(fname_export, 'r'))
+
+        if type == 'xml':
+            if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
+                cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
+                if not subprocess.call(cmd, shell=True) == 0:
+                    mail_admins('Download: Failed conversion of %s to XML' % (fname_h5), cmd)
+                    raise Http404
+        elif type in ('csv', 'arff', 'libsvm', 'matlab', 'octave'):
+            if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
+                h = ml2h5.HDF5()
+                try:
+                    h.convert(fname_h5, fname_export, format_out=type)
+                except ml2h5.ConversionError, e:
+                    subject = 'Download: Failed conversion of %s to %s' % (fname_h5, type)
+                    body = traceback.format_exc() + "\n" + str(e)
+                    mail_admins(subject, body)
+                    raise Http404
+        else:
+            raise Http404
+
         if type == 'matlab':
             ctype = 'application/x-matlab'
         else:
             ctype = 'application/' + type
+        fileobj = File(open(fname_export, 'r'))
 
     if not fileobj: # something went wrong
         raise Http404
@@ -371,7 +373,7 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Data and not obj.is_approved:
         return HttpResponseRedirect(reverse(data_new_review, args=[obj.slug]))
 
-    current = obj.__class__.objects.get(slug=obj.slug, is_current=True)
+    current = klass.objects.get(slug=obj.slug, is_current=True)
     current.hits += 1
     current.save()
 
@@ -456,7 +458,7 @@ def _new(request, klass):
         # check whether file is too large
         if klass == Data:
              if len(request.FILES['file']) > UPLOAD_LIMIT:
-                 form.errors['file'] = ErrorDict({'': _('Files is too large! Must be smaller than %dMB!' % (UPLOAD_LIMIT / MEGABYTE))}).as_ul()
+                 form.errors['file'] = ErrorDict({'': _('File is too large! Must be smaller than %dMB!' % (UPLOAD_LIMIT / MEGABYTE))}).as_ul()
 
         if False or form.is_valid():
             new = form.save(commit=False)
@@ -604,7 +606,7 @@ def _edit(request, klass, id):
                 raise Http404
 
             form.save_m2m() # for publications
-            next.set_current()
+            klass.set_current(next.slug)
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
         form = formfunc(instance=prev, request=request)
@@ -717,15 +719,7 @@ def _index(request, klass, my=False, searchterm=None):
 
     searcherror = False
     if searchterm:
-        # only match name and summary for now
-        #Q(version__icontains=q) | Q(description__icontains=q)
-        searched = objects.filter(
-            Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
-        )
-        if searched.count() < 1:
-            searcherror = True
-        else:
-            objects = searched
+        objects, searcherror = klass.search(objects, searchterm)
 
     PER_PAGE=_get_per_page(objects.count())
     info_dict = {
@@ -1236,13 +1230,15 @@ def _rate(request, klass, id):
     @type id: integer
     @return: redirect to item's view page
     @rtype: Django response
+    @raise Http404: if item could not be found
     """
     if not request.user.is_authenticated():
         next = '?next=' + reverse(eval(klass.__name__.lower() + '_rate'), args=[id])
         return HttpResponseRedirect(reverse('user_signin') + next)
 
+    obj = klass.get_object(id)
+    if not obj: raise Http404
     rklass = eval(klass.__name__ + 'Rating')
-    obj = get_object_or_404(klass, pk=id)
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
