@@ -78,6 +78,8 @@ $(function() {
 				<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
 				<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_performance_ordering">{% trans "Performance Ordering" %}</label> * {{ form.performance_ordering.errors }}</dt>
+				<dd>{% trans "Up (unchecked implies Down)" %} {{ form.performance_ordering }}</dd>
 				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
 				<dt><label for="id_data">{% trans "Data" %}</label> *{{ form.data.errors }}</dt>
@@ -88,7 +90,7 @@ $(function() {
 				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task_download object.id %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
 			{% else %}{% ifequal object.klass "Solution" %}
 				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
-				<dd>{{ form.feature_processing }}</dd>
+				<dd>{{ form.feature_processing }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_parameters">{% trans "Parameters" %}</label> {{ form.parameters.errors }}</dt>
 				<dd>{{ form.parameters }}</dd>
 				<dt><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</dt>

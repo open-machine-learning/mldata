@@ -126,7 +126,7 @@ $(function() {
 			<dt>{% trans "Output format" %}</dt>
 			<dd>{{ object.output|markdown }}</dd>
 			<dt>{% trans "Performance Measure" %}</dt>
-			<dd>{{ object.performance_measure|markdown }}</dd>
+			<dd>{{ object.performance_measure }}<br />{% trans "Ordering" %}: {% if object.performance_ordering %}{% trans "Up" %}{% else %}{% trans "Down" %}{% endif%}</dd>
 			<dt>{% trans "Type" %}</dt>
 			<dd>{{ object.type }}</dd>
 			<dt>{% trans "Data" %}</dt>

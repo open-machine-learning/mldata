@@ -67,7 +67,19 @@ class FixedLicense(models.Model):
 class TaskType(models.Model):
     """Type of a Task.
 
-    @cvar name: name of the license
+    @cvar name: name of the type
+    @type name: string / models.CharField
+    """
+    name = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+
+class TaskPerformanceMeasure(models.Model):
+    """Performance measure (evaluation function) of a Task.
+
+    @cvar name: name of the evaluation function
     @type name: string / models.CharField
     """
     name = models.CharField(max_length=255, unique=True)
@@ -705,8 +717,10 @@ class Task(Repository):
     @type input: string / models.TextField
     @cvar output: item's output format
     @type output: string / models.TextField
-    @cvar performance_measure: item's performance measure
-    @type performance_measure: string / models.TextField
+    @cvar performance_measure: performance measure (evaluation function)
+    @type performance_measure: TaskPerformanceMeasure
+    @cvar performance_ordering: true => up, false => down
+    @type performance_ordering: boolean / models.BooleanField
     @cvar type: item's type, e.g. Regression, Classification
     @type type: TaskType
     @cvar data: related Data item
@@ -722,7 +736,8 @@ class Task(Repository):
     """
     input = models.TextField()
     output = models.TextField()
-    performance_measure = models.TextField()
+    performance_measure = models.ForeignKey(TaskPerformanceMeasure)
+    performance_ordering = models.BooleanField()
     type = models.ForeignKey(TaskType)
     data = models.ForeignKey(Data, related_name='task_data')
     data_heldback = models.ForeignKey(Data, related_name='task_data_heldback', null=True, blank=True)
@@ -761,7 +776,7 @@ class Solution(Repository):
     """Repository item Solution.
 
     @cvar feature_processing: item's feature processing
-    @type feature_processing: string / models.CharField
+    @type feature_processing: string / models.TextField
     @cvar parameters: item's parameters
     @type parameters: string / models.CharField
     @cvar os: operating system used
@@ -779,7 +794,7 @@ class Solution(Repository):
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
     """
-    feature_processing = models.CharField(max_length=255, blank=True)
+    feature_processing = models.TextField(blank=True)
     parameters = models.CharField(max_length=255, blank=True)
     os = models.CharField(max_length=255, blank=True)
     code = models.TextField(blank=True)

@@ -80,12 +80,13 @@ $(function() {
 {% ifequal klass "Task" %}
 	validate = function() {
 		error = false;
-		remove_error(['name', 'input', 'output', 'performance_measure', 'type', 'data']);
+		remove_error(['name', 'input', 'output', 'performance_measure', 'performance_ordering', 'type', 'data']);
 
 		if (!$('#id_name').val()) error = append_error('name');
 		if (!$('#id_input').val()) error = append_error('input');
 		if (!$('#id_output').val()) error = append_error('output');
 		if (!$('#id_performance_measure').val()) error = append_error('performance_measure');
+		if (!$('#id_performance_ordering').val()) error = append_error('performance_ordering');
 		if (!$('#id_type').val() && !$('#id_freeformtype').val()) error = append_error('type');
 		if (!$('#id_data').val()) error = append_error('data');
 
@@ -156,9 +157,10 @@ $(function() {
 						{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 
 				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
-				<dd>{{ form.performance_measure }}<br /><span class="helptext">
-						{% trans 'Describe how the <b>performance</b> of the learned model is evaluated.' %}<br/>
-						{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dd>{{ form.performance_measure }}<br /><span class="helptext"> {% trans 'Describe how the <b>performance</b> of the learned model is evaluated.' %}<br/></span></dd>
+
+				<dt><label for="id_performance_ordering">{% trans "Performance Ordering" %}</label> {{ form.performance_ordering.errors }}</dt>
+				<dd>{% trans "Up (unchecked implies Down)" %}: {{ form.performance_ordering }}</dd>
 
 				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }}{{ form.freeformtype.errors }}</dt>
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
@@ -176,7 +178,7 @@ $(function() {
 				    <span class="helptext">Upload additional information in a file (code, description, etc.)</span></dd>
 			{% else %}{% ifequal klass "Solution" %}
 				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
-				<dd>{{ form.feature_processing }}</dd>
+				<dd>{{ form.feature_processing }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_parameters">{% trans "Parameters" %}</label> {{ form.parameters.errors }}</dt>
 				<dd>{{ form.parameters }}</dd>
 				<dt><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</dt>
