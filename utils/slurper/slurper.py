@@ -337,7 +337,7 @@ class Slurper(object):
 
         if fnames:
             self.progress('Creating Task file', 5)
-            fname = self.h5.create_taskfile(name, fnames)
+            fname = ml2h5.task.create_file(name + '.h5', fnames, self.h5.converter.labels_idx)
             obj.file = File(open(fname))
             obj.file.name = obj.get_filename() # name in $SPLITFILE_HOME
 

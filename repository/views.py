@@ -504,9 +504,8 @@ def _new(request, klass):
                 elif klass == Task:
                     if 'file' in request.FILES:
                         new.file = request.FILES['file']
-                        new.file.name = new.get_filename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    new.save()
+                    new.save(update_file=True)
                 elif klass == Solution:
                     if 'score' in request.FILES:
                         new.score = request.FILES['score']
@@ -590,7 +589,7 @@ def _edit(request, klass, id):
                     next.file = prev.file
 
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                next.save()
+                next.save(update_file=True)
             elif klass == Solution:
                 if 'score' in request.FILES:
                     next.score = request.FILES['score']

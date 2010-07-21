@@ -13,7 +13,7 @@ from utils import slugify
 from tagging.fields import TagField
 from tagging.models import Tag, TaggedItem
 from tagging.utils import calculate_cloud
-from settings import DATAPATH, TASKPATH, SCOREPATH
+from settings import DATAPATH, TASKPATH, SCOREPATH, MEDIA_ROOT
 
 
 
@@ -766,9 +766,24 @@ class Task(Repository):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
 
-        suffix = self.file.name.split('.')[-1]
+        h5 = ml2h5.HDF5()
+        return h5.get_filename(self.slug.text)
 
-        return self.slug.text + '.' + suffix
+
+    def save(self, update_file=False):
+        """Save Task item, also updates Task file.
+
+        @param update_file: if Task file should be updated on save
+        @type update_file: boolean
+        """
+        if not self.file.name:
+            self.file.name = os.path.join(TASKPATH, self.get_filename())
+        super(Task, self).save()
+
+        if update_file:
+            fname = os.path.join(MEDIA_ROOT, self.file.name)
+            ml2h5.task.update_description(fname, self)
+
 
 
 

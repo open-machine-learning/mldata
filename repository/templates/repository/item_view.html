@@ -137,7 +137,7 @@ $(function() {
 			{% endif %}
 			<dt>{% trans "Related Solution(s)" %}</dt>
 			<dd>{% for s in related %}<a href="{% url repository.views.solution_view_slug object.data.slug.text object.slug.text s.slug.text %}">{{ s.name }}</a> {% endfor %}</dd>
-			{% if object.file %}
+			{% if object.file and object.file.size %}
 			<dt>{% trans "Download" %}</dt>
 			<dd><a href="{% url repository.views.task_download object.id %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
 			{% endif %}
