@@ -108,6 +108,7 @@ def _activate(request, klass, id):
     if not obj: raise Http404
     if obj.can_activate(request.user):
         obj.is_public = True
+        obj.save()
         klass.set_current(obj.slug)
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
