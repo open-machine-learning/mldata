@@ -15,7 +15,7 @@
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data Sets" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
 		<li class="search">{% trans "Search" %}
-		<form method="get" action="{% url repository.views.data_search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}"></input></form>
+		<form method="get" action="{% url repository.views.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="data" name="data" value="Data" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
 		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_data_view t.name %}">{{ t.name }}</a></span> {% endfor %}
@@ -32,6 +32,9 @@
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Tasks" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Task" %}</a></li>
+		<li class="search">{% trans "Search" %}
+		<form method="get" action="{% url repository.views.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="task" name="task" value="Task" /></form>
+		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
 		{% for t in tagcloud.Task %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_task_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>

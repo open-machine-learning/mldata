@@ -721,7 +721,7 @@ def _index(request, klass, my=False, searchterm=None):
     if searchterm:
         objects, searcherror = klass.search(objects, searchterm)
 
-    PER_PAGE=_get_per_page(objects.count())
+    PER_PAGE = _get_per_page(objects.count())
     info_dict = {
         'request': request,
         'page': _get_page(request, objects, PER_PAGE),
@@ -756,19 +756,26 @@ def index(request):
     return render_to_response('repository/index.html', info_dict)
 
 
-def data_search(request):
-    """Search page of Data section.
+def search(request):
+    """Search the repository for given term.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    if request.method == 'GET':
+    if request.method == 'GET' and 'searchterm' in request.GET:
         searchterm = request.GET['searchterm'];
-        return _index(request, Data, False, searchterm)
+        if 'data' in request.GET:
+            return _index(request, Data, False, searchterm)
+        elif 'task' in request.GET:
+            return _index(request, Task, False, searchterm)
+        elif 'solution' in request.GET:
+            return _index(request, Solution, False, searchterm)
+        else: # all
+            return _index(request, Repository, False, searchterm)
     else:
-        return HttpResponseRedirect(reverse(data_index))
+        return HttpResponseRedirect(reverse(index))
 
 
 def data_index(request):

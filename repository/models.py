@@ -359,6 +359,12 @@ class Repository(models.Model):
         found = objects.filter(
             Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
         )
+
+        if klass == Repository: # only approved Data items are allowed
+            for f in found:
+                if hasattr(f, 'data') and not f.data.is_approved:
+                    found = found.exclude(id=f.id)
+
         if found.count() < 1:
             return objects, True
         else:
