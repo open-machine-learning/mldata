@@ -436,6 +436,29 @@ class Repository(models.Model):
         return reverse(view, args=[self.id])
 
 
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
+
+        FIXME:
+        Unfortunately, it has knowledge about its derived classes which seems
+        oo-unclean but is necessary for e.g. results of search function. :(
+
+        @return: an absolute URL or None
+        @rtype: string
+        """
+        if hasattr(self, 'solution'):
+            view = 'repository.views.solution_view_slug'
+            return reverse(view, args=[
+                self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
+        elif hasattr(self, 'task'):
+            view = 'repository.views.task_view_slug'
+            return reverse(view, args=[self.task.data.slug.text, self.slug.text])
+        else:
+            view = 'repository.views.data_view_slug'
+            return reverse(view, args=[self.slug.text])
+
+
+
     def is_owner(self, user):
         """Is given user owner of this
 
@@ -643,15 +666,6 @@ class Data(Repository):
     num_attributes = models.IntegerField(blank=True, default=0)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
-    def get_absolute_slugurl(self):
-        """Get absolute URL for this item, using its slug.
-
-        @return: an absolute URL
-        @rtype: string
-        """
-        view = 'repository.views.data_view_slug'
-        return reverse(view, args=[self.slug.text])
-
 
     def get_filename(self):
         """Construct filename for Data file.
@@ -752,16 +766,6 @@ class Task(Repository):
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 
-    def get_absolute_slugurl(self):
-        """Get absolute URL for this item, using its slug.
-
-        @return: an absolute URL
-        @rtype: string
-        """
-        view = 'repository.views.task_view_slug'
-        return reverse(view, args=[self.data.slug.text, self.slug.text])
-
-
     def get_filename(self):
         """Construct filename for Task file.
 
@@ -824,17 +828,6 @@ class Solution(Repository):
     task = models.ForeignKey(Task)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
-
-
-    def get_absolute_slugurl(self):
-        """Get absolute URL for this item, using its slug.
-
-        @return: an absolute URL
-        @rtype: string
-        """
-        view = 'repository.views.solution_view_slug'
-        return reverse(view, args=[
-            self.task.data.slug.text, self.task.slug.text, self.slug.text])
 
 
     def get_scorename(self):
