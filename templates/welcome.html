@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Welcome" %}{% endblock %}
+{% block breadcrumbs %}{% trans "Welcome" %}{% endblock %}
+{% block extrahead %}
+<script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	// a bit of cheating here:
+	$('#aside').remove();
+	$('hr.noscreen').remove();
+	$('#cols-in').css('background', 'url("../images/col-in.gif")');
+	$('#content').css('width', '100%');
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "Welcome" %}</h2>
+
+<div class="in">
+  <p>We built this website as a repository for your machine learning
+  data. Upload your data, find interesting data sets, exchange
+  solutions, compare yourself against other methods. Also, you will be
+  able to set up challenges easily.</p>
+
+	<form method="get" action="{% url repository.views.search %}"><table id="searchbox" class="searchbox">
+	<tr>
+		<th class="searchbox">{% trans "Submit" %}</th>
+		<th class="searchbox" colspan="3">{% trans "Search" %}</th>
+	</tr>
+	<tr>
+		<td class="searchbox"><a class="button" href="{% url repository.views.data_new %}">{% trans "New Data" %}</a></td>
+		<td colspan="3" class="searchbox"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /><br /></td>
+	</tr>
+	<tr>
+		<td class="searchbox"><a class="button" href="{% url repository.views.task_new %}">{% trans "New Task" %}</a></td>
+		<td class="searchbox"><input type="submit" id="all" name="all" value="{% trans "All" %}" /></td>
+		<td class="searchbox"><input type="submit" id="data" name="data" value="{% trans "Data" %}" /></td>
+		<td class="searchbox"><input type="submit" id="task" name="task" value="{% trans "Task" %}" /></td>
+	<!--<td><input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" /></td>-->
+	</tr>
+	</table></form>
+</div>
+{% endblock %}

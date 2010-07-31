@@ -1,9 +1,16 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
+
+
+extra_context = {
+    'section': 'welcome',
+}
+
 
 urlpatterns = patterns('',
     (r'^about/', include('about.urls')),
@@ -18,8 +25,9 @@ urlpatterns = patterns('',
     (r'^comments/', include('django.contrib.comments.urls')),
     (r'^user/', include('user.urls')),
 
-    # redirect the root to hello
-    ('^$', 'django.views.generic.simple.redirect_to', {'url':'/about/'}),
+    url(r'^$', direct_to_template,
+        {'template':'welcome.html', 'extra_context':extra_context},
+        name='welcome'),
 )
 
 if settings.DEBUG and not settings.PRODUCTION:

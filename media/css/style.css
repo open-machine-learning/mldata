@@ -96,13 +96,16 @@ dl#news dt.active {background-color:#e2f4ff;}
 
 hr {color:#0081C7;}
 
-input {border: 1px solid #0081C7; width: 98%; padding: 4px; }
+a.button {border: 1px solid #0081C7; width: 98%; padding: 4px; text-decoration:none; background:#dddddd; color:#000000; font-size:medium; font-weight:normal; padding:4px;}
+a.button:hover {background:#eeeeee;}
+a.button:focus {border: 2px solid #006095;}
+input {border: 1px solid #0081C7; width: 98%; padding: 4px; font-size:medium;}
 input.submit {width:30%;margin-top:5px; border: solid 1px #0081C7; }
 input.checkbox {width:auto;}
 input:focus {border: 2px solid #006095;}
-textarea {border: 1px solid #0081C7; width:98%; padding: 4px; }
+textarea {border: 1px solid #0081C7; width:98%; padding: 4px; font-size:medium;}
 textarea:focus {border: 2px solid #006095;}
-select {border: 1px solid #0081C7; width:98%; padding: 4px; }
+select {border: 1px solid #0081C7; width:98%; padding: 4px; font-size:medium;}
 select:focus {border: 2px solid #006095;}
 
 #uploadprogressbar {display: none;}
