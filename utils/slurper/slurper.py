@@ -238,6 +238,27 @@ class Slurper(object):
             obj.publications.add(pub)
 
 
+    def _convert_exist(self, name, fname):
+        """(Re-)Convert existing Data file.
+
+        @param name: name of Data item
+        @type name: string
+        @param fname: name of Data file
+        @type fname: string
+        @return: None
+        @rtype: NoneType
+        """
+        try:
+            obj = Data.objects.filter(name=name)
+        except Data.DoesNotExist:
+            return None
+
+        if obj:
+            self._handle_file(obj[0], fname)
+
+        return None
+
+
     def create_data(self, parsed, fname):
         """Create a repository Data object.
 
@@ -249,13 +270,7 @@ class Slurper(object):
         @rtype: repository.Data
         """
         if self.options.convert_exist:
-            try:
-                obj = Data.objects.filter(name=parsed['name'])
-            except Data.DoesNotExist:
-                return None
-            if obj:
-                self._handle_file(obj[0], fname)
-            return None
+            return self._convert_exist(parsed['name'], fname)
 
         obj = Data(
             pub_date=datetime.datetime.now(),
@@ -318,6 +333,7 @@ class Slurper(object):
             is_current=True,
             user_id=1,
             license_id=1,
+            performance_measure_id=1,
             data=data,
             tags=self._get_tags(parsed['tags']),
         )
@@ -337,9 +353,14 @@ class Slurper(object):
 
         if fnames:
             self.progress('Creating Task file', 5)
-            fname = ml2h5.task.create_file(name + '.h5', fnames, self.h5.converter.labels_idx)
-            obj.file = File(open(fname))
-            obj.file.name = obj.get_filename() # name in $SPLITFILE_HOME
+            fname = name + '.h5'
+            if self.h5.converter:
+                labels_idx = self.h5.converter.labels_idx
+            else:
+                labels_idx = None
+            if ml2h5.task.create_file(fname, fnames, labels_idx):
+                obj.file = File(open(fname))
+                obj.file.name = obj.get_filename()
 
         obj.save()
 
