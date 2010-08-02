@@ -217,24 +217,26 @@ def _download(request, klass, id, type='plain'):
         return HttpResponseForbidden()
 
     fname_export = None
-    fileobj = None
-    if type == 'plain':
-        if klass == Data or klass == Task:
-            fileobj = obj.file
-            fname = obj.file.name
-        elif klass == Solution:
-            fileobj = obj.score
-            fname - obj.score.name
-        else:
-            raise Http404
+    if klass == Data or klass == Task:
+        fileobj = obj.file
+        fname = obj.file.name
+    elif klass == Solution:
+        fileobj = obj.score
+        fname - obj.score.name
+    else:
+        raise Http404
+    format = ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, fname))
 
-        if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, fname)) == 'h5':
+    if type == 'plain':
+        if format == 'h5':
             ctype = 'application/x-hdf'
         else:
             ctype = 'application/octet-stream'
 
     else:
-        if not obj.file: # maybe no file attached to this item
+        if not fileobj: # maybe no file attached to this item
+            raise Http404
+        if format != 'h5': # only convert h5 files
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         fname_export = fname_h5 + '.' + type
