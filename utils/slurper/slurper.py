@@ -307,15 +307,15 @@ class Slurper(object):
         return obj
 
 
-    def create_task(self, parsed, data, fnames=[]):
+    def create_task(self, parsed, data, splitnames=[]):
         """Create a repository Task object.
 
         @param parsed: parsed information from HTML
         @type parsed: dict with fields name, source, description, type, files
         @param data: Data object
         @type data: repository.Data
-        @param fnames: filenames related to this task
-        @type fnames: list of strings
+        @param splitnames: names of splitfiles related to this task
+        @type splitnames: list of strings
         @return: a repository Task object
         @rtype: repository.Task
         """
@@ -350,22 +350,16 @@ class Slurper(object):
         else:
             ttype = parsed['task']
         obj.type, created = TaskType.objects.get_or_create(name=ttype)
+        obj.save()
 
-        if fnames:
-            self.progress('Creating Task file', 5)
-            fname = name + '.h5'
+        if splitnames:
+            fname = os.path.join(MEDIA_ROOT, obj.file.name)
+            self.progress('Adding data to Task file ' + fname, 5)
             if self.h5.converter:
                 labels_idx = self.h5.converter.labels_idx
             else:
                 labels_idx = None
-            if ml2h5.task.create_file(fname, fnames, labels_idx):
-                obj.file = File(open(fname))
-                obj.file.name = obj.get_filename()
-
-        obj.save()
-
-        if fnames:
-            os.remove(fname)
+            ml2h5.task.add_data(fname, splitnames, labels_idx)
 
         # obj needs pk first for many-to-many
         self._add_publications(obj, parsed['publications'])

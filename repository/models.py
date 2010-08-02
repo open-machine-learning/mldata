@@ -786,13 +786,15 @@ class Task(Repository):
         @param update_file: if Task file should be updated on save
         @type update_file: boolean
         """
+        is_new = False
         if not self.file.name:
             self.file.name = os.path.join(TASKPATH, self.get_filename())
+            is_new = True
         super(Task, self).save()
 
-        if update_file:
+        if update_file or is_new:
             fname = os.path.join(MEDIA_ROOT, self.file.name)
-            ml2h5.task.update_description(fname, self)
+            ml2h5.task.create(fname, self)
 
 
 
