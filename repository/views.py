@@ -24,6 +24,7 @@ from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
+from preferences.models import Preferences
 from tagging.models import Tag
 import ml2h5
 from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
@@ -34,7 +35,6 @@ NUM_PAGINATOR_RANGE = 10
 PER_PAGE_INTS = [10, 20, 50, 100, 999999]
 
 MEGABYTE = 1048576
-UPLOAD_LIMIT = 64 * MEGABYTE
 
 
 def _get_versions_paginator(request, obj):
@@ -449,6 +449,7 @@ def _new(request, klass):
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url_new)
 
     formfunc = eval(klass.__name__ + 'Form')
+    upload_limit = Preferences.objects.get(pk=1).max_data_size
     if request.method == 'POST':
         request.upload_handlers.insert(0,
             UploadProgressCachedHandler(request=request))
@@ -460,8 +461,8 @@ def _new(request, klass):
 
         # check whether file is too large
         if klass == Data:
-             if len(request.FILES['file']) > UPLOAD_LIMIT:
-                 form.errors['file'] = ErrorDict({'': _('File is too large! Must be smaller than %dMB!' % (UPLOAD_LIMIT / MEGABYTE))}).as_ul()
+             if len(request.FILES['file']) > upload_limit:
+                 form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
 
         if False or form.is_valid():
             new = form.save(commit=False)
@@ -529,7 +530,7 @@ def _new(request, klass):
         'request': request,
         'tagcloud': _get_tag_clouds(request),
         'section': 'repository',
-        'upload_limit': "%dMB" % (UPLOAD_LIMIT / MEGABYTE)
+        'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
     return render_to_response('repository/item_new.html', info_dict)

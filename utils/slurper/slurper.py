@@ -5,8 +5,8 @@ from django.core.files import File
 from django.db import IntegrityError
 
 from repository.models import Repository, Data, Task, TaskType, Publication
+from preferences.models import Preferences
 from settings import MEDIA_ROOT, DATAPATH
-from __init__ import MAX_SIZE_DATA
 
 
 class Slurper(object):
@@ -31,10 +31,13 @@ class Slurper(object):
         @type options: __init__.Options
         @ivar problematic: datasets where problems occurred
         @type problematic: list of strings
+        @ivar max_data_size: max size of Data file
+        @type max_data_size: integer
         """
         self.h5 = ml2h5.HDF5()
         self.options = kwargs['options']
         self.problematic = []
+        self.max_data_size = Preferences.objects.get(pk=1).max_data_size
 
 
     def fromfile(self, name):
@@ -413,7 +416,7 @@ class Slurper(object):
         fsize = 0
         for f in fnames:
             fsize += os.path.getsize(f)
-        if fsize > MAX_SIZE_DATA:
+        if fsize > self.max_data_size:
             return True
         else:
             return False
@@ -437,7 +440,7 @@ class Slurper(object):
         # keep original file for the time being
         shutil.copy(fname, fname_orig)
         if self._is_too_large([fname_orig]):
-            self.warn('Size of file to convert > %d, skipping conversion!' % (MAX_SIZE_DATA))
+            self.warn('Size of file to convert > %d, skipping conversion!' % (self.max_data_size))
             obj.save()
             return obj
 
@@ -522,7 +525,7 @@ class Slurper(object):
                 if not self._is_too_large(d['files']):
                     self.add(d)
                 else:
-                    self.warn('Data %s size > %d, skipping!' % (d['name'], MAX_SIZE_DATA))
+                    self.warn('Data %s size > %d, skipping!' % (d['name'], self.max_data_size))
 
 
 

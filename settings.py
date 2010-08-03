@@ -155,4 +155,5 @@ INSTALLED_APPS = (
     'mldata.repository',
     'mldata.tagging',
     'mldata.django_authopenid',
+    'mldata.preferences',
 )
