@@ -994,6 +994,38 @@ def task_download(request, id):
     return _download(request, Task, id)
 
 
+def task_predict(request, id):
+    """AJAX: Evaluate results for Task given by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of the item to evaluate
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    obj = Task.get_object(id)
+    if not obj: raise Http404
+    if not obj.can_view(request.user):
+        return HttpResponseForbidden()
+
+    try:
+        if 'qqfile' in request.FILES: # non-XHR style
+            indata = request.FILES['qqfile'].read()
+        else:
+            indata = request.raw_post_data
+        score = obj.predict(indata)
+        success = 'true'
+    except:
+        score = '0'
+        success = 'false'
+
+    data = '{"score": "' + score + '", "success": "' + success + '"}'
+    return HttpResponse(data, mimetype='text/plain')
+
+
+
+
 def solution_index(request):
     """Index page of Solution section.
 

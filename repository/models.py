@@ -766,6 +766,35 @@ class Task(Repository):
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 
+    def predict(self, data):
+        """Evaluate performance measure of given item through given data.
+
+        @param data: uploaded result data
+        @type data: string
+        @return: the computed score with descriptive text
+        @rtype: string
+        """
+        #TODO: get correct result from Data/Task
+        correct = [0, 1, 1, 2, 2, 3, 4, 2, 2, 1, 1, 1, 1, 1, 0, 1, 1, 2, 2, 2]
+        prediction = [int(d) for d in data.split("\n") if d]
+
+        if self.performance_measure.id == 2:
+            from utils.performance_measure import ClassificationErrorRate as PM
+            formatstr = 'Error rate: %.2f %%'
+        elif self.performance_measure.id == 3:
+            from utils.performance_measure import RegressionMAE as PM
+            formatstr ='Mean Absolute Error: %f'
+        elif self.performance_measure.id == 4:
+            from utils.performance_measure import RegressionRMSE as PM
+            formatstr = 'Root Mean Squared Error: %f'
+        else:
+            return '0'
+
+        score = PM().run(correct, prediction)
+        return formatstr % score
+
+
+
     def get_filename(self):
         """Construct filename for Task file.
 

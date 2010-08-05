@@ -15,6 +15,10 @@
 {% endifequal %}{% endifequal %}{% endifequal %}
 {% endblock %}
 {% block extrahead %}
+{% ifequal object.klass "Task" %}
+<script type="text/javascript" src="/media/js/fileuploader.js"></script>
+<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/fileuploader.css" />
+{% endifequal %}
 <script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript">
@@ -62,6 +66,19 @@ $(function() {
 		return false; // otherwise browser would append '#' to url
 	});
 
+{% ifequal object.klass "Task" %}
+	$('#prediction-score').hide();
+	uploader = new qq.FileUploader({
+		element: document.getElementById('prediction-upload-form'),
+		action: '{% url repository.views.task_predict object.id %}',
+		onComplete: function(id, fname, data) {
+			$('#prediction-score-value').html(data.score);
+			$('#prediction-score').show();
+		}
+	});
+
+{% endifequal %}
+
 	$('#tabs').tabs();
 });
 </script>
@@ -86,8 +103,9 @@ $(function() {
 	<div id="tabs">
 		<ul class="clearfix">
 			<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
-{% ifequal object.klass "Data" %}			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#tabs-data">{% trans "Data" %}</a></li>{% endifequal %}
+{% ifequal object.klass "Data" %}<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#tabs-data">{% trans "Data" %}</a></li>{% endifequal %}
 			<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+{% ifequal object.klass "Task" %}<li><a title="{% trans "Evaluate our results" %}" href="#tabs-prediction">{% trans "Prediction" %}</a></li>{% endifequal %}
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
@@ -168,7 +186,7 @@ $(function() {
 		</div>
 </div><!-- /tabs-summary -->
 
-		{% ifequal object.klass "Data" %}
+{% ifequal object.klass "Data" %}
 		<div id="tabs-data"><dl id="news">
 			<dt>{% trans "Original Data Format" %}</dt>
 			<dd>{{ object.format }}</dd>
@@ -197,7 +215,30 @@ $(function() {
 			{% endfor %}
 			</ol></dd>
 		</dl></div><!-- /tabs-data -->
-		{% endifequal %}
+{% endifequal %}
+
+{% ifequal object.klass "Task" %}
+		<div id="tabs-prediction">
+			<div id="prediction-score">
+				<p style="margin-bottom:5em">The score after evaluation with performance measure <strong>{{ object.performance_measure }}</strong> is:<br />
+				<strong><span id="prediction-score-value" style="font-size:large"></span></strong>
+				</p>
+			</div>
+
+			<div id="prediction-upload">
+				<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are.</p>
+				<div id="prediction-upload-form"></div>
+<!--
+				<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
+					<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
+					<input type="hidden" name="foo" value="foo" />
+					<input type="text" name="bar" value="boo" />
+					<input type="submit" class="submit" value="{% trans "Submit" %}" />
+				</form>
+-->
+			</div>
+		</div><!-- /tabs-prediction -->
+{% endifequal %}
 
 		<div id="tabs-more"><dl id="news">
 			<dt>{% trans "Description" %}</dt>
