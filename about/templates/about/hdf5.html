@@ -63,16 +63,42 @@
 	<h3>{% trans "HDF5 attributes on the root level" %}</h3>
 	<p>{% trans "See" %} <a href="#attributes">{% trans "above" %}</a></p>
 
-	<h3>{% trans "HDF5 group 'task_descr'" %}</h3>
+	<h3>{% trans "HDF5 group 'task_descr' (derived from the Task object)" %}</h3>
 	<ul>
-		<li>{% trans "undefined yet" %}</li>
+		<li>pub_date</li>
+		<li>version</li>
+		<li>slug</li>
+		<li>summary</li>
+		<li>description</li>
+		<li>urls</li>
+		<li>publications</li>
+		<li>is_public</li>
+		<li>is_deleted</li>
+		<li>is_current</li>
+		<li>user</li>
+		<li>downloads</li>
+		<li>hits</li>
+		<li>input</li>
+		<li>output</li>
+		<li>performance_measure</li>
+		<li>performance_ordering</li>
+		<li>type name</li>
+		<li>Data name</li>
+		<li>Data (held back) name</li>
+		<li>license</li>
+		<li>tags</li>
 	</ul>
 
 
 	<h3>{% trans "HDF5 group 'task'" %}</h3>
 	<ul>
+		<li>train_idx: {% trans "Vector or matrix containing the indices of the examples to be used for learning the model. If a matrix, each column specifies one particular split for the purposes of cross-validation (so k-fold cross- validation results in a matrix with k columns)." %}</li>
+		<li>validation_idx: {% trans "If it exists, it has the same structure as train idx, containing the indices of the examples to be used for validation (selecting model order, etc). If NULL, solutions are free to use whatever part of train for validation purposes." %}</li>
+		<li>test_idx: {% trans "This contains the indices to be used for testing, in the same format as train idx and validation idx (never NULL). For tasks with everything public, these data vectors in the data item look exactly like the training data vectors. For challenges with hidden answers, these data vectors has ‘NaN’ values for the target." %}</li>
+		<li>input_variables: {% trans "List with indices of the variables to be used to predict the target(s)." %}</li>
+		<li>output variables: {% trans "The index of the variable to be predicted from the features." %}</li>
+
 		<li>label_dims: {% trans "Dataset with the index of the labels/target value for the examples, possibly multiple values in case of multi labels" %}; <code>{% trans "Integer (in most cases) or Array of Integers" %}</code></li>
-		<li>test_idx/train_idx/validation_idx: {% trans "Dataset with indices of where the examples are split. Row indices in the original files == column indices in our data file. It may be a matrix in case of permuations, that is if there are multiple ways of splitting defined." %}; <code>{% trans "Array (or Matrix) of Integers" %}</code></li>
 	</ul>
 
 	<h2><a name="fileformats">{% trans "Supported formats" %}</a></h2>
