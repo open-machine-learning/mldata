@@ -427,6 +427,9 @@ def _view(request, klass, slug_or_id, version=None):
             body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
             mail_admins(subject, body)
             info_dict['extract'] = None
+    elif klass == Task:
+        fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
+        info_dict['extract'] = ml2h5.task.get_extract(fname_h5)
 
     return render_to_response('repository/item_view.html', info_dict)
 
