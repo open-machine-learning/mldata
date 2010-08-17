@@ -782,7 +782,7 @@ class Task(Repository):
             # FIXME: put into ml2h5, clean up that package as well
             h5 = h5py.File(fname_task, 'r')
             test_idx = h5['/task/test_idx'][:]
-            output_variables = h5['/task/output_variables'][:][0]
+            output_variables = h5['/task/output_variables'][...]
             h5.close()
 
             fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
