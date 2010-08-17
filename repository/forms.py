@@ -247,7 +247,7 @@ class PublicationForm(forms.ModelForm):
 class DataReviewForm(forms.Form):
     """Form used for Data review."""
     format = forms.CharField(required=True)
-    seperator = forms.CharField(required=True, max_length=1)
+    seperator = forms.CharField(required=False, max_length=1)
     attribute_names_first = BooleanField(required=False)
     convert = BooleanField(required=False)
 
@@ -277,3 +277,17 @@ class DataReviewForm(forms.Form):
             return self.cleaned_data['format'].lower()
         else:
             raise ValidationError(_('No format specified.'))
+
+
+    def clean_seperator(self):
+        """Accept no seperator when format is h5."""
+        if 'format' in self.cleaned_data:
+            if 'seperator' in self.cleaned_data:
+                return self.cleaned_data['seperator']
+            elif self.cleaned_data['format'] == 'h5':
+                return ''
+            else:
+                raise ValidationError(_('No seperator specified.'))
+        else:
+            raise ValidationError(_('No format specified.'))
+
