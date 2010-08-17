@@ -310,7 +310,24 @@ class Slurper(object):
         return obj
 
 
-    def create_task(self, parsed, data, splitnames=[]):
+
+    def _add_taskdata(self, task, splitnames):
+        """Add data to Task file.
+
+        @param task: Task object
+        @type task: repository.Task
+        @param splitnames: names of splitfiles related to this task
+        @type splitnames: list of strings
+        """
+        fname_task = os.path.join(MEDIA_ROOT, task.file.name)
+        self.progress('Adding data to Task file ' + fname_task, 5)
+
+        fname_data = os.path.join(MEDIA_ROOT, task.data.file.name)
+        variables = ml2h5.task.get_variables(fname_data)
+        ml2h5.task.add_data(fname_task, splitnames, variables)
+
+
+    def create_task(self, parsed, data, splitnames=None):
         """Create a repository Task object.
 
         @param parsed: parsed information from HTML
@@ -355,14 +372,7 @@ class Slurper(object):
         obj.type, created = TaskType.objects.get_or_create(name=ttype)
         obj.save()
 
-        if splitnames:
-            fname = os.path.join(MEDIA_ROOT, obj.file.name)
-            self.progress('Adding data to Task file ' + fname, 5)
-            if self.h5.converter:
-                labels_idx = self.h5.converter.labels_idx
-            else:
-                labels_idx = None
-            ml2h5.task.add_data(fname, splitnames, labels_idx)
+        self._add_taskdata(obj, splitnames)
 
         # obj needs pk first for many-to-many
         self._add_publications(obj, parsed['publications'])
@@ -461,7 +471,7 @@ class Slurper(object):
 
         if os.path.isfile(fname_h5):
             (obj.num_instances, obj.num_attributes) =\
-                self.h5.get_num_instattr(fname_h5)
+                ml2h5.data.get_num_instattr(fname_h5)
             # for some reason, FileField saves file.name as DATAPATH/<basename>
             obj.file.name = os.path.join(DATAPATH, fname_h5.split(os.sep)[-1])
 
