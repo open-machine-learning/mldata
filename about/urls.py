@@ -5,14 +5,14 @@ URLconf for app About
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from settings import MEDIA_URL
-import ml2h5
+import ml2h5.converter
 
 extra_context = {
     'section': 'about',
     'MEDIA_URL': MEDIA_URL,
     'supported_formats': {
-        'to': ml2h5.TOH5.iterkeys(),
-        'from': ml2h5.FROMH5.iterkeys(),
+        'to': ml2h5.converter.TO_H5,
+        'from': ml2h5.converter.FROM_H5,
     },
 }
 

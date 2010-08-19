@@ -1,5 +1,5 @@
 import sys, os, urllib, datetime, shutil, tempfile, tarfile
-import ml2h5
+import ml2h5.fileformat, ml2h5.data, ml2h5.task, ml2h5.converter
 from HTMLParser import HTMLParseError
 from django.core.files import File
 from django.db import IntegrityError
@@ -25,8 +25,6 @@ class Slurper(object):
     def __init__(self, *args, **kwargs):
         """Construct a slurper.
 
-        @ivar h5: h5 converter object
-        @type h5: ml2h5.HDF5
         @ivar options: runtime options
         @type options: __init__.Options
         @ivar problematic: datasets where problems occurred
@@ -34,7 +32,6 @@ class Slurper(object):
         @ivar max_data_size: max size of Data file
         @type max_data_size: integer
         """
-        self.h5 = ml2h5.HDF5()
         self.options = kwargs['options']
         self.problematic = []
         self.max_data_size = Preferences.objects.get(pk=1).max_data_size
@@ -454,7 +451,7 @@ class Slurper(object):
             obj.save()
             return obj
 
-        fname_h5 = self.h5.get_filename(fname_orig)
+        fname_h5 = ml2h5.fileformat.get_filename(fname_orig)
         seperator = ml2h5.fileformat.infer_seperator(fname_orig)
 
         self.progress('Trying to convert to HDF5 (%s).' % (fname_h5), 5)
@@ -462,10 +459,12 @@ class Slurper(object):
             verify = True
             if obj.format == 'uci':
                 verify = False
-            self.h5.convert(
-                fname_orig, fname_h5, format_in=obj.format,
-                seperator=seperator, verify=verify)
-        except ml2h5.ConversionError, e:
+
+            c = ml2h5.converter.Converter(
+                fname_orig, fname_h5, format_in=obj.format, seperator=seperator,
+            )
+            c.run(verify=verify)
+        except ml2h5.converter.ConversionError, e:
             self.problematic.append(obj.name + ' (' + str(obj.id) + ')')
             self.progress('Error converting to HDF5: %s' % (str(e)), 6)
 

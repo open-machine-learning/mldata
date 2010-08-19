@@ -2,13 +2,15 @@
 Model classes for app Repository
 """
 
-import ml2h5, h5py, os, random
+import h5py, os, random
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
+
+import ml2h5.task, ml2h5.data, ml2h5.converter, ml2h5.fileformat
 from utils import slugify
 from tagging.fields import TagField
 from tagging.models import Tag, TaggedItem
@@ -687,11 +689,10 @@ class Data(Repository):
         @type fname_orig: string
         @param convdata: conversion-relevant data
         @type convdata: dict of strings with keys seperator, convert, format + attribute_names_first
-        @raise: ml2h5.ConversionError if conversion failed
+        @raise: ml2h5.converter.ConversionError if conversion failed
         """
         self.is_approved = True
         self.format = convdata['format']
-        h5 = ml2h5.HDF5()
         fname_h5 = h5.get_filename(fname_orig)
 
         if 'convert' in convdata and convdata['convert'] and self.format != 'h5':
@@ -704,18 +705,20 @@ class Data(Repository):
             if convdata['format'] == 'uci': verify = False
 
             try:
-                h5.convert(
+                c = ml2h5.converter.Converter(
                     fname_orig, fname_h5, format_in=self.format,
-                    seperator=convdata['seperator'], verify=verify,
-                    attribute_names_first=anf)
-            except ml2h5.ConversionError, error:
+                    seperator=convdata['seperator'],
+                    attribute_names_first=anf
+                )
+                c.run(verify=verify)
+            except ml2h5.converter.ConversionError, error:
                 if self.tags:
                     self.tags += ', conversion_failed'
                 else:
                     self.tags = 'conversion_failed'
 
                 self.save()
-                raise ml2h5.ConversionError(error.value)
+                raise ml2h5.converter.ConversionError(error.value)
 
         if os.path.isfile(fname_h5):
             (self.num_instances, self.num_attributes) = ml2h5.data.get_num_instattr(fname_h5)
@@ -826,8 +829,7 @@ class Task(Repository):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
 
-        h5 = ml2h5.HDF5()
-        return h5.get_filename(self.slug.text)
+        return ml2h5.fileformat.get_filename(self.slug.text)
 
 
     def save(self, update_file=False):

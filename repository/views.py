@@ -26,7 +26,7 @@ from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
 from preferences.models import Preferences
 from tagging.models import Tag
-import ml2h5
+import ml2h5.data, ml2h5.task, ml2h5.converter, ml2h5.fileformat
 from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
 
@@ -249,10 +249,10 @@ def _download(request, klass, id, type='plain'):
                     raise Http404
         elif type in ('csv', 'arff', 'libsvm', 'matlab', 'octave'):
             if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
-                h = ml2h5.HDF5()
                 try:
-                    h.convert(fname_h5, fname_export, format_out=type)
-                except ml2h5.ConversionError, e:
+                    c = ml2h5.converter.Converter(fname_h5, fname_export, format_out=type)
+                    c.run()
+                except ml2h5.converter.ConversionError, e:
                     subject = 'Download: Failed conversion of %s to %s' % (fname_h5, type)
                     body = traceback.format_exc() + "\n" + str(e)
                     mail_admins(subject, body)
@@ -392,7 +392,6 @@ def _view(request, klass, slug_or_id, version=None):
     # klass-specific
     if klass == Data:
         obj.has_h5 = False
-        h5 = ml2h5.HDF5()
         if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, obj.file.name)) == 'h5':
             obj.has_h5 = True
         if 'conversion_failed' in obj.tags:
@@ -420,8 +419,7 @@ def _view(request, klass, slug_or_id, version=None):
     if klass == Data:
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         try:
-            h5 = ml2h5.HDF5()
-            info_dict['extract'] = h5.get_extract(fname_h5)
+            info_dict['extract'] = ml2h5.data.get_extract(fname_h5)
         except Exception, e: # catch exceptions in general, but notify admins
             subject = 'Failed data extract of %s' % (fname_h5)
             body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
@@ -497,8 +495,7 @@ def _new(request, klass):
                     # filename (prior to python 2.7), so we have to save it to
                     # disk, then rename, then save object again.
                     name_old = os.path.join(MEDIA_ROOT, new.file.name)
-                    h5 = ml2h5.HDF5()
-                    uncompressed = h5.get_uncompressed(name_old)
+                    uncompressed = ml2h5.data.get_uncompressed(name_old)
                     if uncompressed:
                         os.remove(name_old)
                         name_old = uncompressed
@@ -1173,7 +1170,7 @@ def data_new_review(request, slug):
             if form.is_valid():
                 try:
                     obj.approve(fname, form.cleaned_data)
-                except ml2h5.ConversionError, error:
+                except ml2h5.converter.ConversionError, error:
                     url = 'http://' + request.META['HTTP_HOST'] + reverse(
                         data_view_slug, args=[obj.slug])
                     subject = 'Failed conversion to HDF5: %s' % url
@@ -1188,15 +1185,14 @@ def data_new_review(request, slug):
         form = DataReviewForm()
         form.prefill(obj.format, ml2h5.fileformat.infer_seperator(fname))
 
-    h5 = ml2h5.HDF5()
     info_dict = {
         'object': obj,
         'form': form,
         'request': request,
         'tagcloud': _get_tag_clouds(request),
         'section': 'repository',
-        'supported_formats': ', '.join(ml2h5.TOH5.iterkeys()),
-        'extract': h5.get_extract(fname),
+        'supported_formats': ', '.join(ml2h5.converter.HANDLERS.iterkeys()),
+        'extract': ml2h5.data.get_extract(fname),
     }
     return render_to_response('repository/data_new_review.html', info_dict)
 
