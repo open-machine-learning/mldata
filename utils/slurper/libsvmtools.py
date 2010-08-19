@@ -1,4 +1,6 @@
 import os, bz2
+
+import ml2h5.fileformat
 from slurper import Slurper
 from parser.libsvmtoolshtmlparser import LibSVMToolsHTMLParser
 
@@ -167,7 +169,8 @@ class LibSVMTools(Slurper):
         """
         tmp = self.concat(fnames)
         data = self.create_data(parsed, tmp)
-        self.create_task(parsed, data, fnames)
+        if ml2h5.fileformat.get(data.file.name) == 'h5':
+            self.create_task(parsed, data, fnames)
         os.remove(tmp)
 
 
