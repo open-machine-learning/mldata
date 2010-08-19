@@ -693,7 +693,7 @@ class Data(Repository):
         """
         self.is_approved = True
         self.format = convdata['format']
-        fname_h5 = h5.get_filename(fname_orig)
+        fname_h5 = ml2h5.fileformat.get_filename(fname_orig)
 
         if 'convert' in convdata and convdata['convert'] and self.format != 'h5':
             if 'attribute_names_first' in convdata and convdata['attribute_names_first']:
