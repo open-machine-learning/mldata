@@ -777,30 +777,35 @@ class Task(Repository):
         @return: the computed score with descriptive text
         @rtype: string
         """
-        failed = '0'
-
-        #TODO: get correct result from Data/Task
         try:
             fname_task = os.path.join(MEDIA_ROOT, self.file.name)
-            # FIXME: put into ml2h5, clean up that package as well
+            # FIXME: put into ml2h5
             h5 = h5py.File(fname_task, 'r')
             test_idx = h5['/task/test_idx'][:]
             output_variables = h5['/task/output_variables'][...]
             h5.close()
-
-            fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
-            # this should really be more generic + not require unnecessary out file.
-            contents = ml2h5.base.H5Converter(fname_data, fname_data + '.fixme').get_contents()
-            correct = []
-            for idx in test_idx:
-                correct.append(contents['data'][idx][output_variables])
         except:
-            return failed
+            return "Couldn't get information from Task file!"
 
         try:
-            prediction = [int(d) for d in data.split("\n") if d]
+            fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
+            c = ml2h5.converter.basehandler.BaseHandler(fname_data)
+            contents = c.read()
+            if 'label' in contents and output_variables == 0:
+                block = contents['label']
+            else:
+                block = contents['data']
+
+            correct = []
+            for idx in test_idx:
+                correct.append(block[idx][output_variables])
         except:
-            return failed
+            return "Couldn't get correct results from Data file!"
+
+        try:
+            prediction = [float(d) for d in data.split("\n") if d]
+        except:
+            return "Couldn't convert input data to predicted results!"
 
         if self.performance_measure.id == 2:
             from utils.performance_measure import ClassificationErrorRate as PM
@@ -812,7 +817,7 @@ class Task(Repository):
             from utils.performance_measure import RegressionRMSE as PM
             formatstr = 'Root Mean Squared Error: %f'
         else:
-            return failed
+            return "Unknown performance measure!"
 
         score = PM().run(correct, prediction)
         return formatstr % score
