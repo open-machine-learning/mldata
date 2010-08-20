@@ -112,6 +112,7 @@ select:focus {border: 2px solid #006095;}
 
 .blog-archive {width: 100px; float: right;}
 
-table.searchbox {width:100%; border:0;}
-td.searchbox {border:0;}
-th.searchbox {border:0;}
+div.submitbox {border:0; float:left; width:10%; margin-right:5%;}
+div.searchbox {border:0; float:right; width:85%;}
+input.searchsubmit {width:20%;}
+p.head {background:#eee; font-weight:bold; font-size:larger; padding:.5em;}

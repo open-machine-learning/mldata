@@ -25,22 +25,26 @@ $(function() {
   solutions, compare yourself against other methods. Also, you will be
   able to set up challenges easily.</p>
 
-	<form method="get" action="{% url repository.views.search %}"><table id="searchbox" class="searchbox">
-	<tr>
-		<th class="searchbox">{% trans "Submit" %}</th>
-		<th class="searchbox" colspan="3">{% trans "Search" %}</th>
-	</tr>
-	<tr>
-		<td class="searchbox"><a class="button" href="{% url repository.views.data_new %}">{% trans "New Data" %}</a></td>
-		<td colspan="3" class="searchbox"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /><br /></td>
-	</tr>
-	<tr>
-		<td class="searchbox"><a class="button" href="{% url repository.views.task_new %}">{% trans "New Task" %}</a></td>
-		<td class="searchbox"><input type="submit" id="all" name="all" value="{% trans "All" %}" /></td>
-		<td class="searchbox"><input type="submit" id="data" name="data" value="{% trans "Data" %}" /></td>
-		<td class="searchbox"><input type="submit" id="task" name="task" value="{% trans "Task" %}" /></td>
-	<!--<td><input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" /></td>-->
-	</tr>
-	</table></form>
+	<form method="get" action="{% url repository.views.search %}"><div style="width:100%">
+		<div class="submitbox">
+			<p class="head">{% trans "Submit" %}</p>
+			<p><a class="button" href="{% url repository.views.data_new %}">{% trans "New Data" %}</a></p>
+			<p><a class="button" href="{% url repository.views.task_new %}">{% trans "New Task" %}</a></p>
+		</div>
+
+		<div class="searchbox">
+			<p class="head">{% trans "Search" %}</p>
+			<p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
+			<p>
+				<input class="searchsubmit" type="submit" id="all" name="all" value="{% trans "All" %}" />
+				<input class="searchsubmit" type="submit" id="data" name="data" value="{% trans "Data" %}" />
+				<input class="searchsubmit" type="submit" id="task" name="task" value="{% trans "Task" %}" />
+				<!--<input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" />-->
+			</p>
+			</tr>
+			</table>
+		</div>
+		<br style="float:none">
+	</div></form>
 </div>
 {% endblock %}
