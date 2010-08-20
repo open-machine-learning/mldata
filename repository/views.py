@@ -465,7 +465,7 @@ def _new(request, klass):
              if len(request.FILES['file']) > upload_limit:
                  form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
 
-        if False or form.is_valid():
+        if form.is_valid():
             new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
             try:
@@ -509,13 +509,16 @@ def _new(request, klass):
                     if 'file' in request.FILES:
                         new.file = request.FILES['file']
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    new.save(update_file=True)
+                    new.save(
+                        update_file=True,
+                        input_variables=form.cleaned_data['input_variables'],
+                        output_variables=form.cleaned_data['output_variables']
+                    )
                 elif klass == Solution:
                     if 'score' in request.FILES:
                         new.score = request.FILES['score']
                         new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    new.save()
                 else:
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())

@@ -837,11 +837,15 @@ class Task(Repository):
         return ml2h5.fileformat.get_filename(self.slug.text)
 
 
-    def save(self, update_file=False):
+    def save(self, update_file=False, input_variables=None, output_variables=None):
         """Save Task item, also updates Task file.
 
         @param update_file: if Task file should be updated on save
         @type update_file: boolean
+        @param input_variables: input variables of Task
+        @type input_variables: list of integers
+        @param output_variables: output variables of Task
+        @type output_variables: integer
         """
         is_new = False
         if not self.file.name:
@@ -851,8 +855,7 @@ class Task(Repository):
 
         if update_file or is_new:
             fname = os.path.join(MEDIA_ROOT, self.file.name)
-            ml2h5.task.create(fname, self)
-
+            ml2h5.task.create(fname, self, input_variables, output_variables)
 
 
 

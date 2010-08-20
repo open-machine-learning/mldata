@@ -87,6 +87,9 @@ class TaskForm(RepositoryForm):
     file = forms.FileField(required=False)
     type = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
     freeformtype = forms.CharField(required=False)
+    input_variables = forms.CharField(required=False)
+    output_variables = forms.CharField(required=False)
+
 
     class Meta:
         """Inner meta class to specify model and exclude options.
@@ -144,6 +147,28 @@ class TaskForm(RepositoryForm):
             raise ValidationError(_('No type given.'))
 
         return fftype
+
+
+    def clean_input_variables(self):
+        """Ensure input variables are given as comma-seperated list."""
+        if 'input_variables' in self.cleaned_data:
+            if not self.cleaned_data['input_variables']:
+                return None
+            try:
+                return [int(x) for x in self.cleaned_data['input_variables'].split(',')]
+            except:
+                raise ValidationError(_('Not a comma-seperated list of integers.'))
+
+
+    def clean_output_variables(self):
+        """Ensure output variables is one integer."""
+        if 'output_variables' in self.cleaned_data:
+            if not self.cleaned_data['output_variables']:
+                return None
+            try:
+                return int(self.cleaned_data['output_variables'])
+            except:
+                raise ValidationError(_('Not a single integer.'))
 
 
 

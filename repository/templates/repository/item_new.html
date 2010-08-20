@@ -209,6 +209,12 @@ $(function() {
 				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
 				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 			{% endifequal %}
+			{% ifequal klass "Task" %}
+				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
+				<dd>{{ form.input_variables }}</dd>
+				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
+				<dd>{{ form.output_variables }}</dd>
+			{% endifequal %}
 			</dl></div><!-- /tabs-more -->
 		</div>
 
