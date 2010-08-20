@@ -87,6 +87,8 @@ class TaskForm(RepositoryForm):
     file = forms.FileField(required=False)
     type = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
     freeformtype = forms.CharField(required=False)
+    train_idx = forms.CharField(required=False)
+    test_idx = forms.CharField(required=False)
     input_variables = forms.CharField(required=False)
     output_variables = forms.CharField(required=False)
 
@@ -149,15 +151,31 @@ class TaskForm(RepositoryForm):
         return fftype
 
 
-    def clean_input_variables(self):
-        """Ensure input variables are given as comma-seperated list."""
-        if 'input_variables' in self.cleaned_data:
-            if not self.cleaned_data['input_variables']:
+    def _clean_commaseplistofintegers(self, name):
+        """Ensure field with given name is a comma-seperated list of integers.
+
+        @param name: name of field to clean
+        @type name: string
+        @return: list of integers
+        @rtype: list of integers
+        """
+        if name in self.cleaned_data:
+            if not self.cleaned_data[name]:
                 return None
             try:
-                return [int(x) for x in self.cleaned_data['input_variables'].split(',')]
+                return [int(x) for x in self.cleaned_data[name].split(',')]
             except:
                 raise ValidationError(_('Not a comma-seperated list of integers.'))
+
+    def clean_train_idx(self):
+        """Ensure train_idx are given as comma-seperated list of integers."""
+        return self._clean_commaseplistofintegers('train_idx')
+    def clean_test_idx(self):
+        """Ensure test_idx are given as comma-seperated list of integers."""
+        return self._clean_commaseplistofintegers('test_idx')
+    def clean_input_variables(self):
+        """Ensure input variables are given as comma-seperated list of integers."""
+        return self._clean_commaseplistofintegers('input_variables')
 
 
     def clean_output_variables(self):

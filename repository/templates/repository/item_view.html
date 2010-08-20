@@ -219,6 +219,10 @@ $(function() {
 
 {% ifequal object.klass "Task" %}
 		<div id="tabs-task"><dl id="news">
+			<dt>{% trans "Train Indices" %}</dt>
+			<dd>{{ extract.train_idx|join:', ' }}</dd>
+			<dt>{% trans "Test Indices" %}</dt>
+			<dd>{{ extract.test_idx|join:', ' }}</dd>
 			<dt>{% trans "Input Variables" %}</dt>
 			<dd>{{ extract.input_variables|join:', ' }}</dd>
 			<dt>{% trans "Output Variables" %}</dt>
