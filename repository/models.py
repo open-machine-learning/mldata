@@ -818,7 +818,7 @@ class Task(Repository):
             output_variables = h5['/task/output_variables'][...]
             h5.close()
         except:
-            return "Couldn't get information from Task file!"
+            return _("Couldn't get information from Task file!"), False
 
         try:
             fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
@@ -826,34 +826,39 @@ class Task(Repository):
             dset, offset = self._find_dset_offset(c.read(), output_variables)
             if dset is None or offset is None: raise
         except:
-            return "Couldn't find dataset in Data file!"
+            return _("Couldn't find dataset in Data file!"), False
 
         try:
             correct = []
             for idx in test_idx:
                 correct.append(dset[idx][offset])
         except:
-            return "Couldn't get correct results from Data file!"
+            return _("Couldn't get correct results from Data file!"), False
 
         try:
             prediction = [float(d) for d in data.split("\n") if d]
         except:
-            return "Couldn't convert input data to predicted results!"
+            return _("Couldn't convert input data to predicted results!"), False
+
+        len_p = len(prediction)
+        len_c = len(correct)
+        if len_p != len_c:
+            return _("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
 
         if self.performance_measure.id == 2:
             from utils.performance_measure import ClassificationErrorRate as PM
-            formatstr = 'Error rate: %.2f %%'
+            formatstr = _('Error rate: %.2f %%')
         elif self.performance_measure.id == 3:
             from utils.performance_measure import RegressionMAE as PM
-            formatstr ='Mean Absolute Error: %f'
+            formatstr = _('Mean Absolute Error: %f')
         elif self.performance_measure.id == 4:
             from utils.performance_measure import RegressionRMSE as PM
-            formatstr = 'Root Mean Squared Error: %f'
+            formatstr = _('Root Mean Squared Error: %f')
         else:
-            return "Unknown performance measure!"
+            return _("Unknown performance measure!"), False
 
         score = PM().run(correct, prediction)
-        return formatstr % score
+        return formatstr % score, True
 
 
 

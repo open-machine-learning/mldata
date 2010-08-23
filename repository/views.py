@@ -999,17 +999,17 @@ def task_download(request, slug):
     return _download(request, Task, slug)
 
 
-def task_predict(request, id):
+def task_predict(request, slug):
     """AJAX: Evaluate results for Task given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the item to evaluate
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: rendered response page
     @rtype: Django response
     """
-    obj = Task.get_object(id)
+    obj = Task.get_object(slug)
     if not obj: raise Http404
     if not obj.can_view(request.user):
         return HttpResponseForbidden()
@@ -1019,13 +1019,12 @@ def task_predict(request, id):
             indata = request.FILES['qqfile'].read()
         else:
             indata = request.raw_post_data
-        score = obj.predict(indata)
-        success = 'true'
+        score, success = obj.predict(indata)
     except:
-        score = '0'
-        success = 'false'
+        score = _('Unknown Error')
+        success = False
 
-    data = '{"score": "' + score + '", "success": "' + success + '"}'
+    data = '{"score": "' + score + '", "success": "' + str(success) + '"}'
     return HttpResponse(data, mimetype='text/plain')
 
 

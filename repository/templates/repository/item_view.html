@@ -70,7 +70,7 @@ $(function() {
 	$('#prediction-score').hide();
 	uploader = new qq.FileUploader({
 		element: document.getElementById('prediction-upload-form'),
-		action: '{% url repository.views.task_predict object.id %}',
+		action: '{% url repository.views.task_predict object.slug %}',
 		onComplete: function(id, fname, data) {
 			$('#prediction-score-value').html(data.score);
 			$('#prediction-score').show();
