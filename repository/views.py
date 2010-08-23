@@ -198,20 +198,20 @@ def _is_newer(first, second):
         return False
 
 
-def _download(request, klass, id, type='plain'):
+def _download(request, klass, slug, type='plain'):
     """Download file relating to item given by id and klass and possibly type.
 
     @param request: request data
     @type request: Django request
     @param klass: item's class
     @type klass: either Data, Task or Solution
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download file response
     @rtype: Django response
     @raise Http404: if item couldn't be retrieved or given klass is unexpected or file doesn't exist or a conversion error occurred
     """
-    obj = klass.get_object(id)
+    obj = klass.get_object(slug)
     if not obj: raise Http404
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
@@ -278,82 +278,82 @@ def _download(request, klass, id, type='plain'):
     return response
 
 
-def data_download_xml(request, id):
+def data_download_xml(request, slug):
     """Download XML file relating to item given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download XML file response
     @rtype: Django response
     """
-    return _download(request, Data, id, 'xml')
+    return _download(request, Data, slug, 'xml')
 
 
-def data_download_csv(request, id):
+def data_download_csv(request, slug):
     """Download CSV file relating to item given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download CSV file response
     @rtype: Django response
     """
-    return _download(request, Data, id, 'csv')
+    return _download(request, Data, slug, 'csv')
 
 
-def data_download_arff(request, id):
+def data_download_arff(request, slug):
     """Download ARFF file relating to item given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download ARFF file response
     @rtype: Django response
     """
-    return _download(request, Data, id, 'arff')
+    return _download(request, Data, slug, 'arff')
 
 
-def data_download_libsvm(request, id):
+def data_download_libsvm(request, slug):
     """Download LibSVM file relating to item given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download LibSVM file response
     @rtype: Django response
     """
-    return _download(request, Data, id, 'libsvm')
+    return _download(request, Data, slug, 'libsvm')
 
 
-def data_download_matlab(request, id):
+def data_download_matlab(request, slug):
     """Download Matlab file relating to item given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download Matlab file response
     @rtype: Django response
     """
-    return _download(request, Data, id, 'matlab')
+    return _download(request, Data, slug, 'matlab')
 
 
-def data_download_octave(request, id):
+def data_download_octave(request, slug):
     """Download Octave file relating to item given by id.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the relating item
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: download Octave file response
     @rtype: Django response
     """
-    return _download(request, Data, id, 'octave')
+    return _download(request, Data, slug, 'octave')
 
 
 def _view(request, klass, slug_or_id, version=None):
@@ -879,17 +879,17 @@ def data_activate(request, id):
     """
     return _activate(request, Data, id)
 
-def data_download(request, id):
+def data_download(request, slug):
     """Download of Data section.
 
     @param request: request data
     @type request: Django request
-    @param id: id of item to download
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: rendered response page
     @rtype: Django response
     """
-    return _download(request, Data, id)
+    return _download(request, Data, slug)
 
 
 def task_index(request):
@@ -986,17 +986,17 @@ def task_activate(request, id):
     """
     return _activate(request, Task, id)
 
-def task_download(request, id):
+def task_download(request, slug):
     """Download of Task section.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the item to download
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: rendered response page
     @rtype: Django response
     """
-    return _download(request, Task, id)
+    return _download(request, Task, slug)
 
 
 def task_predict(request, id):
@@ -1127,17 +1127,17 @@ def solution_delete(request, id):
     """
     return _delete(request, Solution, id)
 
-def score_download(request, id):
+def score_download(request, slug):
     """Download of Solution section.
 
     @param request: request data
     @type request: Django request
-    @param id: id of the item to download
-    @type id: integer
+    @param slug: slug of item to downlaod
+    @type slug: string
     @return: rendered response page
     @rtype: Django response
     """
-    return _download(request, Solution, id)
+    return _download(request, Solution, slug)
 
 
 

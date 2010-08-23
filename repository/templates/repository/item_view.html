@@ -126,15 +126,15 @@ $(function() {
 			<dd>
 				{% trans "# Instances" %}: {{ object.num_instances }} / {% trans "# Attributes" %}: {{ object.num_attributes }}<br />
 				{% if object.has_h5 %}
-					<a href="{% url repository.views.data_download object.id %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-					<a href="{% url repository.views.data_download_xml object.id %}">{% trans "XML" %}</a>
-					<a href="{% url repository.views.data_download_csv object.id %}">{% trans "CSV" %}</a>
-					<a href="{% url repository.views.data_download_arff object.id %}">{% trans "ARFF" %}</a>
-					<a href="{% url repository.views.data_download_libsvm object.id %}">{% trans "LibSVM" %}</a>
-					<a href="{% url repository.views.data_download_matlab object.id %}">{% trans "Matlab" %}</a>
-					<a href="{% url repository.views.data_download_octave object.id %}">{% trans "Octave" %}</a>
+					<a href="{% url repository.views.data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+					<a href="{% url repository.views.data_download_xml object.slug %}">{% trans "XML" %}</a>
+					<a href="{% url repository.views.data_download_csv object.slug %}">{% trans "CSV" %}</a>
+					<a href="{% url repository.views.data_download_arff object.slug %}">{% trans "ARFF" %}</a>
+					<a href="{% url repository.views.data_download_libsvm object.slug %}">{% trans "LibSVM" %}</a>
+					<a href="{% url repository.views.data_download_matlab object.slug %}">{% trans "Matlab" %}</a>
+					<a href="{% url repository.views.data_download_octave object.slug %}">{% trans "Octave" %}</a>
 				{% else %}
-					<a href="{% url repository.views.data_download object.id %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+					<a href="{% url repository.views.data_download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 				{% endif %}
 			</dd>
 		{% else %}{% ifequal object.klass "Task" %}
@@ -158,7 +158,7 @@ $(function() {
 			<dd>{% for s in related %}<a href="{% url repository.views.solution_view_slug object.data.slug.text object.slug.text s.slug.text %}">{{ s.name }}</a> {% endfor %}</dd>
 			{% if object.file and object.file.size %}
 			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.task_download object.id %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
+			<dd><a href="{% url repository.views.task_download object.slug %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
 			{% endif %}
 		{% else %}{% ifequal object.klass "Solution" %}
 			<dt>{% trans "Tags" %}</dt>
@@ -177,7 +177,7 @@ $(function() {
 			<dd><a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></dd>
 			{% if object.score %}
 			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.score_download object.id %}">{% trans "This Score" %} ({{ object.score.size|filesizeformat }})</a></dd>
+			<dd><a href="{% url repository.views.score_download object.slug %}">{% trans "This Score" %} ({{ object.score.size|filesizeformat }})</a></dd>
 			{% endif %}
 		{% endifequal %}{% endifequal %}{% endifequal %}
 		</dl>

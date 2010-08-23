@@ -87,7 +87,7 @@ $(function() {
 				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
 				<dd>{{ form.data_heldback }}</dd>
 				<dt><label for="id_file">{% trans "Task file" %}</label>: {{ form.file.errors }}</dt>
-				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task_download object.id %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
+				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task_download object.slug %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
 			{% else %}{% ifequal object.klass "Solution" %}
 				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
 				<dd>{{ form.feature_processing }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
@@ -102,7 +102,7 @@ $(function() {
 				<dt><label for="id_task">{% trans "Task" %}</label> * {{ form.task.errors }}</dt>
 				<dd>{{ form.task }}</dd>
 				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
-				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.id %}">{% trans "Download Score" %}</a>{% endif %}</dd>
+				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.slug %}">{% trans "Download Score" %}</a>{% endif %}</dd>
 			{% endifequal %}{% endifequal %}{% endifequal %}
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
