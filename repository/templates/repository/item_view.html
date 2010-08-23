@@ -104,11 +104,12 @@ $(function() {
 		<ul class="clearfix">
 			<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
 {% ifequal object.klass "Data" %}<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#tabs-data">{% trans "Data" %}</a></li>{% endifequal %}
-{% ifequal object.klass "Task" %}<li><a title="{% trans "Info from Task file" %}" href="#tabs-task">{% trans "Task" %}</a></li><li><a title="{% trans "Evaluate our results" %}" href="#tabs-prediction">{% trans "Prediction" %}</a></li>{% endifequal %}
+{% ifequal object.klass "Task" %}<li><a title="{% trans "Info from Task file" %}" href="#tabs-task">{% trans "Task" %}</a></li>{% endifequal %}
 			<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
+{% ifequal object.klass "Task" %}<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Solution" %}</a></li>{% endifequal %}
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -229,7 +230,7 @@ $(function() {
 			<dd>{{ extract.output_variables }}</dd>
 		</dl></div><!-- /tabs-task -->
 
-		<div id="tabs-prediction">
+		<div id="tabs-solution">
 			<div id="prediction-score">
 				<p style="margin-bottom:5em">The score after evaluation with performance measure <strong>{{ object.performance_measure }}</strong> is:<br />
 				<strong><span id="prediction-score-value" style="font-size:large"></span></strong>
@@ -248,7 +249,7 @@ $(function() {
 				</form>
 -->
 			</div>
-		</div><!-- /tabs-prediction -->
+		</div><!-- /tabs-solution -->
 {% endifequal %}
 
 		<div id="tabs-more"><dl id="news">

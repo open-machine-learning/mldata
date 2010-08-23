@@ -144,6 +144,7 @@ list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:5px; 
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {background-color:#fff; color:#000;}
 .ui-tabs .ui-tabs-panel {background:#fff;}
 .ui-tabs .ui-tabs-hide {display: none !important;}
+#tab-tabs-solution {margin-left:2em;}
 
 /* don't understand, but seems to be necessary for tabs to work properly */
 .clearfix:after {clear:both; content:'.'; display:block; visibility:hidden; height:0;}
