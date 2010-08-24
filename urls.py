@@ -6,11 +6,7 @@ from django.views.generic.simple import direct_to_template
 from django.contrib import admin
 admin.autodiscover()
 
-
-extra_context = {
-    'section': 'welcome',
-}
-
+import views
 
 urlpatterns = patterns('',
     (r'^about/', include('about.urls')),
@@ -25,9 +21,7 @@ urlpatterns = patterns('',
     (r'^comments/', include('django.contrib.comments.urls')),
     (r'^user/', include('user.urls')),
 
-    url(r'^$', direct_to_template,
-        {'template':'welcome.html', 'extra_context':extra_context},
-        name='welcome'),
+    (r'^$', views.welcome),
 )
 
 if settings.DEBUG and not settings.PRODUCTION:

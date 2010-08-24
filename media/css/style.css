@@ -127,3 +127,5 @@ p.head {background:#eee; font-weight:bold; font-size:larger;}
 input.stdbutton { width: auto; }
 div.buttonrow { margin-top: 15px; }
 div.buttonrow form { display: inline; }
+
+ul.recent li { margin-bottom:0.5em;}

@@ -196,6 +196,24 @@ class Repository(models.Model):
 
 
     @classmethod
+    def get_recent(klass, user):
+        """Get recently changed items.
+
+        @param user: user to get recent items for
+        @type user: auth.models.user
+        @return: list of recently changed items
+        @rtype: list of Repository
+        """
+        num = 3
+        qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+
+        # slices return max number of elements if num > max
+        recent = list(Data.objects.filter(qs).order_by('-pub_date')[0:num])
+        recent.extend(Task.objects.filter(qs).order_by('-pub_date')[0:num])
+        return sorted(recent, key=lambda r: r.pub_date, reverse=True)
+
+
+    @classmethod
     def get_current_tagged_items(klass, user, tag):
         """Get current items with specific tag.
 
