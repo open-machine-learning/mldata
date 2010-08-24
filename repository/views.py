@@ -773,13 +773,11 @@ def search(request):
     @rtype: Django response
     """
     if request.method == 'GET' and 'searchterm' in request.GET:
-        searchterm = request.GET['searchterm'];
-        if 'data' in request.GET:
+        searchterm = request.GET['searchterm']
+        if 'data' in request.GET and not 'task' in request.GET:
             return _index(request, Data, False, searchterm)
-        elif 'task' in request.GET:
+        elif 'task' in request.GET and not 'data' in request.GET:
             return _index(request, Task, False, searchterm)
-        elif 'solution' in request.GET:
-            return _index(request, Solution, False, searchterm)
         else: # all
             return _index(request, Repository, False, searchterm)
     else:

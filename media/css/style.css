@@ -99,8 +99,8 @@ hr {color:#0081C7;}
 a.button {border: 1px solid #0081C7; width: 98%; padding: 4px; text-decoration:none; background:#dddddd; color:#000000; font-size:medium; font-weight:normal; padding:4px;}
 a.button:hover {background:#eeeeee;}
 a.button:focus {border: 2px solid #006095;}
-input {border: 1px solid #0081C7; width: 98%; padding: 4px; font-size:medium;}
-input.submit {width:30%;margin-top:5px; border: solid 1px #0081C7; }
+input { width: 98%; padding: 4px; font-size:medium;}
+input.submit { width:30%;margin-top:5px;  }
 input.checkbox {width:auto;}
 input:focus {border: 2px solid #006095;}
 textarea {border: 1px solid #0081C7; width:98%; padding: 4px; font-size:medium;}
@@ -112,10 +112,18 @@ select:focus {border: 2px solid #006095;}
 
 .blog-archive {width: 100px; float: right;}
 
+/*
+ * Welcome page
+ */
+
 div.mainbox {width:100%; position:relative;}
 div.mainbox p {padding:.2em;}
-div.leftbox {border:0; margin:0; padding:0; position:absolute; top:0; left:0; width:10%;}
-div.centerbox {border:0; margin:0; padding:0; position:absolute; top:0; left:12%; width:61%;}
-div.rightbox {border:0; margin:0; padding:0; position:absolute; top:0; left:75%; width:25%;}
+div.leftbox {border:0; float:left; width:45%;}
+div.centerbox { width: 100%; clear: both; padding-top: 30px; }
+div.rightbox {border:0; float:right; width:45%;}
 input.searchsubmit {width:20%;}
 p.head {background:#eee; font-weight:bold; font-size:larger;}
+
+input.stdbutton { width: auto; }
+div.buttonrow { margin-top: 15px; }
+div.buttonrow form { display: inline; }

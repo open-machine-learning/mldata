@@ -3,39 +3,54 @@
 
 {% block title %}{% trans "Welcome" %}{% endblock %}
 {% block breadcrumbs %}{% trans "Welcome" %}{% endblock %}
+
 {% block content %}
 <h2 class="title-01">{% trans "Welcome" %}</h2>
 
 <div class="in">
-  <p>We built this website as a repository for your machine learning
-  data. Upload your data, find interesting data sets, exchange
-  solutions, compare yourself against other methods. Also, you will be
-  able to set up challenges easily.</p>
+    <p>We built this web site as a repository for your machine learning
+        data. Upload your data, find interesting data sets, exchange
+        solutions, compare yourself against other methods. Also, you will
+        eventually be able to set up challenges easily.</p>
+    
+    <div class="leftbox">
+        <form method="get" action="{% url repository.views.search %}">
+            <p class="head">{% trans "Search Repositories" %}</p>
+            <p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
+            <p>
+                <input type="checkbox" name="data" checked /> {% trans "Data repository" %}
+                <input type="checkbox" name="task" checked /> {% trans "Task repository" %}<br/>
+                <!--<input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" />-->
+            </p>
+            <p>
+                <input class="searchsubmit" type="submit" id="search" value="{% trans "Search" %}" />
+            </p>
+        </form>
+    </div>
 
-	<form method="get" action="{% url repository.views.search %}"><div class="mainbox">
-		<div class="leftbox">
-			<p class="head">{% trans "Submit" %}</p>
-			<p><a class="button" href="{% url repository.views.data_new %}">{% trans "New Data" %}</a></p>
-			<p><a class="button" href="{% url repository.views.task_new %}">{% trans "New Task" %}</a></p>
-		</div>
+    <div class="rightbox">
+        <p class="head">{% trans "Create A New Entry" %}</p>
 
-		<div class="centerbox">
-			<p class="head">{% trans "Search" %}</p>
-			<p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
-			<p>
-				<input class="searchsubmit" type="submit" id="all" name="all" value="{% trans "All" %}" />
-				<input class="searchsubmit" type="submit" id="data" name="data" value="{% trans "Data" %}" />
-				<input class="searchsubmit" type="submit" id="task" name="task" value="{% trans "Task" %}" />
-				<!--<input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" />-->
-			</p>
-			</tr>
-			</table>
-		</div>
+        <p>Choose between</p>
+        <ul>
+            <li>A raw <b>data</b> set.</li>
+            <li>A learning <b>task</b> defined on existing data sets.</li>
+        </ul>
 
-		<div class="rightbox">
-			<p class="head">{% trans "Recent Changes" %}</p>
-			<p>foobar</p>
-		</div>
-	</div></form>
+        <div class="buttonrow">
+            <form action="{% url repository.views.data_new %}">
+                <input class="stdbutton" type="submit" value="{% trans 'New Data' %}" />
+            </form>
+            <form action="{% url repository.views.task_new %}">
+                <input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
+            </form>
+        </div>
+    </div>
+    <br style="float:none">
+
+    <div class="centerbox">
+        <p class="head">{% trans "Recent Changes" %}</p>
+        <p>foobar</p>
+    </div>
 </div>
 {% endblock %}
