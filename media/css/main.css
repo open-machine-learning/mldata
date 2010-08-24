@@ -53,12 +53,14 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     #nav #feeds {position:absolute; top:9px; right:25px; margin:0;}
     #nav #feeds a:hover {text-decoration:none;}
 
-    #cols {margin-bottom:10px; background:url("../images/cols.gif") 0 0 no-repeat;}
-    #cols-in {min-height:430px; padding:5px 20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
-    
-        #content {float:left; width:600px; background:#FFF;}
-        #aside {float:right; width:280px;}
-        #content .in, #aside .in {padding:5px 15px;}
+    #cols1 {margin-bottom:10px; background:url("../images/col.gif") 0 0 no-repeat;}
+    #cols1-in {min-height:430px; padding:5px 20px; background:url("../images/col-in.gif") 100% 100% no-repeat;}
+    #cols2 {margin-bottom:10px; background:url("../images/cols.gif") 0 0 no-repeat;}
+    #cols2-in {min-height:430px; padding:5px 20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
+    #content-cols1 {float:left; width:100%; background:#FFF;}
+    #content-cols2 {float:left; width:600px; background:#FFF;}
+    #aside {float:right; width:280px;}
+    #content-cols1 .in, #content-cols2 .in, #aside .in {padding:5px 15px;}
 
     #footer {padding:15px 15px 5px 15px;}
     #footer p {margin:0;}

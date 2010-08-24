@@ -112,7 +112,10 @@ select:focus {border: 2px solid #006095;}
 
 .blog-archive {width: 100px; float: right;}
 
-div.submitbox {border:0; float:left; width:10%; margin-right:5%;}
-div.searchbox {border:0; float:right; width:85%;}
+div.mainbox {width:100%; position:relative;}
+div.mainbox p {padding:.2em;}
+div.leftbox {border:0; margin:0; padding:0; position:absolute; top:0; left:0; width:10%;}
+div.centerbox {border:0; margin:0; padding:0; position:absolute; top:0; left:12%; width:61%;}
+div.rightbox {border:0; margin:0; padding:0; position:absolute; top:0; left:75%; width:25%;}
 input.searchsubmit {width:20%;}
-p.head {background:#eee; font-weight:bold; font-size:larger; padding:.5em;}
+p.head {background:#eee; font-weight:bold; font-size:larger;}

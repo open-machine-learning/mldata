@@ -1,10 +1,8 @@
-{% extends "base.html" %}
+{% extends "base-1col.html" %}
 {% load i18n %}
 
 {% block sectionid %}accounts{% endblock %}
-
 {% block title %}{% trans "Log in" %}{% endblock %}
-
 {% block billboard %}{% trans "Log in" %} {{ next }} {% endblock %}
 
 {% block content-related %}
@@ -40,6 +38,4 @@
 <dt><input type="submit" value="{% trans "Log in" %}" /></dt>
 </dl>
 </form>
-
 {% endblock %}
-

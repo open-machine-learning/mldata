@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block cols %}
+	<div id="cols1">
+		<div id="cols1-in" class="box">
+			<div id="content-cols1">
+				<div class="in">
+					<p id="breadcrumbs">{% trans "You are here" %}: <a href="/">{% trans "Home" %}</a> / {% block breadcrumbs %}{% endblock %}</p>
+				</div>
+
+				{% block content %}{% endblock %}
+			</div><!-- /content-cols1 -->
+		</div><!-- /cols1-in -->
+	</div><!-- /cols1 -->
+{% endblock cols %}

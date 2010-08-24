@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base-1col.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Sign in" %}{% endblock %}
@@ -49,9 +49,10 @@ $(function() {
 	</fieldset>	
 </form>
 
-<hr style="clear:both" />
+<br style="clear:both" />
 
 {% if form1.errors %}
+<hr>
 <div class="error">
     <p><span class="error">{{ form1.openid_url.errors|join:", " }}</span></p>
 </div>
@@ -72,12 +73,4 @@ $(function() {
 </form>	
 -->
 </div> <!-- /in -->
-{% endblock %}
-
-
-{% block aside %}
-<h4 class="title-03">{% trans "Contents" %}</h4>
-<div class="in">
-{% trans "Sign in using your account ID." %}
-</div>
 {% endblock %}

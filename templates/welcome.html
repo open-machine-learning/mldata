@@ -1,21 +1,8 @@
-{% extends "base.html" %}
+{% extends "base-1col.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Welcome" %}{% endblock %}
 {% block breadcrumbs %}{% trans "Welcome" %}{% endblock %}
-{% block extrahead %}
-<script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
-<script type="text/javascript">
-$(function() {
-	// a bit of cheating here:
-	$('#aside').remove();
-	$('hr.noscreen').remove();
-	$('#cols-in').css('background', 'url("../images/col-in.gif")');
-	$('#content').css('width', '100%');
-});
-</script>
-{% endblock %}
-
 {% block content %}
 <h2 class="title-01">{% trans "Welcome" %}</h2>
 
@@ -25,14 +12,14 @@ $(function() {
   solutions, compare yourself against other methods. Also, you will be
   able to set up challenges easily.</p>
 
-	<form method="get" action="{% url repository.views.search %}"><div style="width:100%">
-		<div class="submitbox">
+	<form method="get" action="{% url repository.views.search %}"><div class="mainbox">
+		<div class="leftbox">
 			<p class="head">{% trans "Submit" %}</p>
 			<p><a class="button" href="{% url repository.views.data_new %}">{% trans "New Data" %}</a></p>
 			<p><a class="button" href="{% url repository.views.task_new %}">{% trans "New Task" %}</a></p>
 		</div>
 
-		<div class="searchbox">
+		<div class="centerbox">
 			<p class="head">{% trans "Search" %}</p>
 			<p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
 			<p>
@@ -44,7 +31,11 @@ $(function() {
 			</tr>
 			</table>
 		</div>
-		<br style="float:none">
+
+		<div class="rightbox">
+			<p class="head">{% trans "Recent Changes" %}</p>
+			<p>foobar</p>
+		</div>
 	</div></form>
 </div>
 {% endblock %}

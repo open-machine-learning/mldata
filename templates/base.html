@@ -58,23 +58,7 @@
 
 	<hr class="noscreen" />
 
-	<div id="cols">
-		<div id="cols-in" class="box">
-			<div id="content">
-				<div class="in">
-					<p id="breadcrumbs">{% trans "You are here" %}: <a href="/">{% trans "Home" %}</a> / {% block breadcrumbs %}{% endblock %}</p>
-				</div>
-
-				{% block content %}{% endblock %}
-			</div><!-- /content -->
-
-			<hr class="noscreen" />
-
-			<div id="aside">
-					{% block aside %}{% endblock %}
-			</div><!-- /aside -->
-		</div><!-- /cols-in -->
-	</div><!-- /cols -->
+	{% block cols %}{% endblock %}
 
 	<hr class="noscreen" />
 
