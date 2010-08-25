@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 from repository.models import *
+from preferences.models import *
 
 
 class RepositoryTest(TestCase):
@@ -56,6 +57,8 @@ class RepositoryTest(TestCase):
             is_current=True, is_public=True, is_approved=True,
             tags='foobar')
         data.save()
+        p = Preferences(name='default', max_data_size=1024*1024*64)
+        p.save()
 
 
     def test_index(self):
