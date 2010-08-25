@@ -2,7 +2,7 @@
 Model classes for app Repository
 """
 
-import h5py, os, random
+import os, random
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -787,39 +787,6 @@ class Task(Repository):
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 
-    def _find_dset_offset(self, contents, output_variables):
-        """Find the dataset in given contents that contains the
-        output_variable(s).
-
-        This would be easy if all the data was just in one blob, but it may be
-        in several datasets as defined by contents['ordering'], e.g. in
-        contents['label'] or contents['data'] or contents['nameofvariable'].
-
-        @param contents: contents of a Data file
-        @type contents: dict
-        @param output_variables: index of output_variables to look for
-        @type output_variables: integer
-        @return: dataset and offset in that dataset corresponding to
-        output_variables
-        @rtype: list of list and integer
-        """
-        ov = output_variables
-        for name in contents['ordering']:
-            try:
-                for i in xrange(len(contents[name][0])):
-                    if ov == 0:
-                        return contents[name], i
-                    else:
-                        ov -= 1
-            except: # dataset has only 1 variable as a list, not as array
-                if ov == 0:
-                    return contents[name], 0
-                else:
-                    ov -= 1
-
-        return None, None
-
-
     def predict(self, data):
         """Evaluate performance measure of given item through given data.
 
@@ -830,26 +797,13 @@ class Task(Repository):
         """
         try:
             fname_task = os.path.join(MEDIA_ROOT, self.file.name)
-            # FIXME: put into ml2h5
-            h5 = h5py.File(fname_task, 'r')
-            test_idx = h5['/task/test_idx'][:]
-            output_variables = h5['/task/output_variables'][...]
-            h5.close()
+            test_idx, output_variables = ml2h5.task.get_test_output(fname_task)
         except:
             return _("Couldn't get information from Task file!"), False
 
         try:
             fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
-            c = ml2h5.converter.basehandler.BaseHandler(fname_data)
-            dset, offset = self._find_dset_offset(c.read(), output_variables)
-            if dset is None or offset is None: raise
-        except:
-            return _("Couldn't find dataset in Data file!"), False
-
-        try:
-            correct = []
-            for idx in test_idx:
-                correct.append(dset[idx][offset])
+            correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
         except:
             return _("Couldn't get correct results from Data file!"), False
 
