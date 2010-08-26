@@ -160,7 +160,7 @@ $(function() {
 				<dd>{{ form.performance_measure }}<br /><span class="helptext"> {% trans 'Describe how the <b>performance</b> of the learned model is evaluated.' %}<br/></span></dd>
 
 				<dt><label for="id_performance_ordering">{% trans "Performance Ordering" %}</label> {{ form.performance_ordering.errors }}</dt>
-				<dd>{% trans "Up (unchecked implies Down)" %}: {{ form.performance_ordering }}</dd>
+				<dd>{% trans "higher is better (unchecked implies lower is better)" %}: {{ form.performance_ordering }}</dd>
 
 				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }}{{ form.freeformtype.errors }}</dt>
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
