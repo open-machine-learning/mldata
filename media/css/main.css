@@ -44,14 +44,21 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     
 		#slogan {position:absolute; top:30px; right:0; width:275px; padding:10px 10px 10px 15px; background:url("../images/pattern.gif");}
     
-    #nav {position:relative; padding:0 20px; background:url("../images/nav.gif") 0 0 repeat-x;}
+    #nav {position:relative; padding:0 15px; background:url("../images/nav.gif") 0 0 repeat-x;}
     #nav ul {margin:0; list-style:none; padding-left:0;}
     #nav ul li {display:inline;}
-    #nav ul li a {display:block; float:left; padding:9px 15px; background:url("../images/nav-separator.gif") 100% 0 repeat-y; text-decoration:none;}
+    #nav ul li a {display:block; float:left; padding:9px 10px; background:url("../images/nav-separator.gif") 100% 0 repeat-y; text-decoration:none;}
+    #nav ul li.last a {display:block; float:left; padding:9px 5px; background:none; text-decoration:none;}
+    #nav ul li.last a:hover {text-decoration:underline;}
     #nav a:hover {text-decoration:underline;}
     #nav ul li.active, #nav ul li.active a {font-weight:bold;}
     #nav #feeds {position:absolute; top:9px; right:25px; margin:0;}
     #nav #feeds a:hover {text-decoration:none;}
+
+    #nav-repository {position:absolute; padding:0; margin-left:63px; background:url("../images/nav.gif") 0 0 repeat-x; z-index:42; visibility:hidden;}
+    #nav-repository p {padding:5px 30px; margin:0; background:none; text-decoration;}
+    #nav-repository p a:hover {text-decoration:underline;}
+    #nav-repository p.active, #nav-repository p.active a {font-weight:bold;}
 
     #cols1 {margin-bottom:10px; background:url("../images/col.gif") 0 0 no-repeat;}
     #cols1-in {min-height:430px; padding:5px 20px; background:url("../images/col-in.gif") 100% 100% no-repeat;}

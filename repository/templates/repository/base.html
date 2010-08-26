@@ -5,6 +5,7 @@
 {% block breadcrumbs %}{% trans "Repository" %}{% endblock %}
 
 {% block aside %}
+{% ifequal klass "Data" %}
 <h4 class="title-03">{% trans "Data" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -22,7 +23,9 @@
 		</li>
 	</ul>
 </div><!-- /in -->
+{% endifequal %}
 
+{% ifequal klass "Task" %}
 <h4 class="title-03">{% trans "Task" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -40,8 +43,9 @@
 		</li>
 	</ul>
 </div><!-- /in -->
+{% endifequal %}
 
-<!--
+{% ifequal klass "Solution" %}
 <h4 class="title-03">{% trans "Solution" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -55,6 +59,15 @@
 		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_solution_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
-</div>--><!-- /in -->
-<br />
+</div><!-- /in -->
+{% endifequal %}
+
+<h4 class="title-03">{% trans "Disclaimer" %}</h4>
+<div class="in">
+	<p>{% trans "We are acting in good faith to make datasets submitted for the use of the scientific community available to everybody, but if you are a copyright holder and would like us to remove a dataset please" %} <a href="{% url about_impressum %}">{% trans "inform us" %}</a> {% trans "and we will do it as soon as possible." %}</p>
+
+	<p><a href="{% url data_index %}">{% trans "Data" %}</a> | <a href="{% url task_index %}">{% trans "Task" %}</a> | {% trans "Solution" %}</p>
+</div>
+
+
 {% endblock %}

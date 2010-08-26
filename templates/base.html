@@ -23,6 +23,14 @@
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/media/css/main-msie.css" /><![endif]-->
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/style.css" />
 	<link rel="stylesheet" media="print" type="text/css" href="/media/css/print.css" />
+	<script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+$(function() {
+	$('#nav-link-repository').hover(function() { $('#nav-repository').css('visibility', 'visible') });
+	$('#nav-repository').mouseleave(function() { $('#nav-repository').css('visibility', 'hidden') });
+});
+	</script>
+
 	{% block extrahead %}{% endblock %}
 </head>
 
@@ -38,15 +46,15 @@
 	<div id="nav" class="box">
 		<ul>
 			<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
-			<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a href="{% url repository_index %}">{% trans "Repository" %}</a></li>
+			<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a id="nav-link-repository" href="{% url repository_index %}">{% trans "Repository" %}</a></li>
 			<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
 			<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
 		{% if request.user.is_authenticated %}
 			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
-			<li><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
+			<li class="last"><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
 		{% else %}
 			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>
-			<li><a href="{% url user_signin %}">{% trans "Sign in" %}</a></li>
+			<li class="last"><a href="{% url user_signin %}">{% trans "Sign in" %}</a></li>
 		{% endif %}
 		</ul>
 
@@ -55,6 +63,12 @@
 			<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cdelicious%2Cstumbleupon%2Cyahoo_buzz%2Ctechnorati%2Cgoogle_bmarks%2Cyahoo_bmarks%2Cfurl%2Cslashdot%2Cmagnolia%2Cmister_wong%2Cyigg&amp;style=default&amp;publisher=85555fbd-bb3a-4ab4-af6f-5dea32a6a5e4"></script>
 		</p><!-- /feeds -->
 	</div><!-- /nav -->
+
+	<div id="nav-repository">
+		<p{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url data_index %}">{% trans "Data" %}</a></p>
+		<hr width="100%" />
+		<p{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url task_index %}">{% trans "Task" %}</a></p>
+	</div><!-- /nav1 -->
 
 	<hr class="noscreen" />
 

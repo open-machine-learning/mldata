@@ -410,6 +410,7 @@ def _view(request, klass, slug_or_id, version=None):
         'rating_form': RatingForm.get(request, obj),
         'tagcloud': _get_tag_clouds(request),
         'related': obj.filter_related(request.user),
+        'klass': klass.__name__,
         'section': 'repository',
     }
 
