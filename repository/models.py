@@ -205,7 +205,7 @@ class Repository(models.Model):
         @rtype: list of Repository
         """
         num = 3
-        qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        qs = (Q(user__id=user.id) | Q(is_public=True)) & Q(is_current=True)
 
         # slices return max number of elements if num > max
         recent = list(Data.objects.filter(qs).order_by('-pub_date')[0:num])
