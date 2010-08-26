@@ -125,7 +125,9 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'repository/item_new.html')
 
 
+
     def test_new_data_user_approve(self):
+        """Post a new data set and approve"""
         if not self.client.login(username='user', password='user'):
             raise Exception('Login unsuccessful')
         r = self.client.post(self.url['new_data'], self.minimal_data,
@@ -135,6 +137,8 @@ class RepositoryTest(TestCase):
         r = self.client.post(self.url['new_data_review'],
             self.review_data_approve, follow=True)
         self.assertTemplateUsed(r, 'repository/item_view.html')
+
+        print r
 
 
     def test_new_data_user_revert(self):
@@ -167,5 +171,3 @@ class RepositoryTest(TestCase):
         r = self.client.get(self.url['view_tags_foobar'])
         self.assertEqual(r.context['section'], 'repository')
         self.assertTemplateUsed(r, 'repository/tags_view.html')
-
-

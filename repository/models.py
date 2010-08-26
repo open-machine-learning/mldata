@@ -182,7 +182,7 @@ class Repository(models.Model):
     rating_votes = models.IntegerField(editable=False, default=0)
     downloads = models.IntegerField(editable=False, default=0)
     hits = models.IntegerField(editable=False, default=0)
-
+    
     class Meta:
         """Inner meta class to specify options.
 
@@ -205,11 +205,21 @@ class Repository(models.Model):
         @rtype: list of Repository
         """
         num = 3
-        qs = (Q(user__id=user.id) | Q(is_public=True)) & Q(is_current=True)
 
+        # without if-construct sqlite3 barfs on AnonymousUser
+        if user.id:
+            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        else:
+            qs = Q(is_public=True) & Q(is_current=True);
+            
         # slices return max number of elements if num > max
-        recent = list(Data.objects.filter(qs).order_by('-pub_date')[0:num])
-        recent.extend(Task.objects.filter(qs).order_by('-pub_date')[0:num])
+        recent_data = Data.objects.filter(qs).order_by('-pub_date')
+        recent_tasks = Task.objects.filter(qs).order_by('-pub_date')
+        recent = []
+        if len(recent_data) > 0:
+            recent.extend(recent_data[0:num])
+        if len(recent_tasks) > 0:
+            recent.extend(recent_tasks[0:num])
         return sorted(recent, key=lambda r: r.pub_date, reverse=True)
 
 
@@ -786,6 +796,8 @@ class Task(Repository):
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
+    def get_media_path(self):
+        return os.path.join(MEDIA_ROOT, self.file.name)
 
     def predict(self, data):
         """Evaluate performance measure of given item through given data.
