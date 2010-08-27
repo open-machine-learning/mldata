@@ -859,7 +859,7 @@ class Task(Repository):
         try:
             prediction = [float(d) for d in data.split("\n") if d]
         except:
-            return _("Couldn't convert input data to predicted results!"), False
+            return _("Format of given results is wrong!"), False
 
         len_p = len(prediction)
         len_c = len(correct)
