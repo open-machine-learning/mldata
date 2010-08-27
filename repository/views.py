@@ -222,7 +222,7 @@ def _download(request, klass, slug, type='plain'):
         fname = obj.file.name
     elif klass == Solution:
         fileobj = obj.score
-        fname - obj.score.name
+        fname = obj.score.name
     else:
         raise Http404
     format = ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, fname))

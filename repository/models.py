@@ -182,7 +182,10 @@ class Repository(models.Model):
     rating_votes = models.IntegerField(editable=False, default=0)
     downloads = models.IntegerField(editable=False, default=0)
     hits = models.IntegerField(editable=False, default=0)
-    
+
+    def get_media_file_name(self):
+        raise NotImplementedError
+
     class Meta:
         """Inner meta class to specify options.
 
@@ -709,6 +712,8 @@ class Data(Repository):
 
         return self.slug.text + '.' + self.format
 
+    def get_media_file_name(self):
+        return os.path.join(MEDIA_ROOT, self.file.name)
 
     def approve(self, fname_orig, convdata):
         """Approve Data item.
