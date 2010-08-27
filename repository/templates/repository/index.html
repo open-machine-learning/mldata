@@ -8,7 +8,7 @@
 	<dl id="news">
 		<dt><a href="{% url repository.views.data_index %}">Data</a></dt>
 		<dd>{% trans "This is &quot;raw data&quot;, available in any one of a number of standard formats (including, for example, CSV, ARFF, netCDF, HDF5, ODBC), together with a description of the data, sources, possibly publications. For MNIST, the data is the images with corresponding labels. These data files will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a> {% trans ". You can download our converter tool from" %} <a href="http://mloss.org/software/view/262">mloss.org</a> {% trans "and convert locally to check if everything is transformed appropriately, maybe even help debugging problems." %}</dd>
-		<dt><a href="{% url repository.views.task_index %}">Task</a> {% trans "(still unstable, take care of your Tasks!)" %}</dt>
+		<dt><a href="{% url repository.views.task_index %}">Task</a></dt>
 		<dd>{% trans "This is a learning task, consisting of a formal description of input-output relationships based on a data set and methods for evaluating the results. This might also include fixed partitionings into training and test data for the base data set. For the MNIST example, a learning task might be to perform multiclass classification for all ten classes, using the F1-score as performance measure." %}</dd>
 		<!--<dt><a href="{% url repository.views.task_index %}">Solution</a></dt>-->
 		<dt>Solution {% trans "(currently disabled)" %}</dt>

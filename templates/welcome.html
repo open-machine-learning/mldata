@@ -8,6 +8,8 @@
 <h2 class="title-01">{% trans "Welcome" %}</h2>
 
 <div class="in">
+    <p>{% trans "We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods. Also, you will eventually be able to set up challenges easily." %}</p>
+
     <div class="leftbox">
         <form method="get" action="{% url repository.views.search %}">
             <p class="head">{% trans "Search Repositories" %}</p>
@@ -41,7 +43,6 @@
             </form>
         </div>
     </div>
-    <p>{% trans "We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods. Also, you will eventually be able to set up challenges easily." %}</p>
 
     <br style="float:none">
 
