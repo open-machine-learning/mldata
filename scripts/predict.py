@@ -25,7 +25,19 @@ try:
     predicted = [float(d) for d in data.split("\n") if d]
 except ValueError:
     predicted = [d for d in data.split("\n") if d]
-
 print 'predicted', predicted
 
-print 'errorrate', ClassificationErrorRate().run(correct, predicted)
+try:
+    print 'errorrate', ClassificationErrorRate().run(correct, predicted)
+except Exception, e:
+    print str(e)
+
+try:
+    print 'mean absolute error', RegressionMAE().run(correct, predicted)
+except Exception, e:
+    print str(e)
+
+try:
+    print 'root mean squared error', RegressionRMSE().run(correct, predicted)
+except Exception, e:
+    print str(e)

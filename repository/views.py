@@ -1013,15 +1013,11 @@ def task_predict(request, slug):
     if not obj.can_view(request.user):
         return HttpResponseForbidden()
 
-    try:
-        if 'qqfile' in request.FILES: # non-XHR style
-            indata = request.FILES['qqfile'].read()
-        else:
-            indata = request.raw_post_data
-        score, success = obj.predict(indata)
-    except:
-        score = _('Unknown Error')
-        success = False
+    if 'qqfile' in request.FILES: # non-XHR style
+        indata = request.FILES['qqfile'].read()
+    else:
+        indata = request.raw_post_data
+    score, success = obj.predict(indata)
 
     data = '{"score": "' + score + '", "success": "' + str(success) + '"}'
     return HttpResponse(data, mimetype='text/plain')
