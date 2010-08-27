@@ -112,7 +112,7 @@ $(function() {
 				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
 				<dd>{{ form.urls }}</dd>
-			{% ifequal klass "Task" %}
+			{% ifequal object.klass "Task" %}
 				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
 				<dd>{{ form.train_idx }}</dd>
 				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>

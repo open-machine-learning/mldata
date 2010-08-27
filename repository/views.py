@@ -599,7 +599,13 @@ def _edit(request, klass, id):
                     next.file = prev.file
 
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                next.save(update_file=True)
+                taskfile = {
+                    'train_idx': form.cleaned_data['train_idx'],
+                    'test_idx': form.cleaned_data['test_idx'],
+                    'input_variables': form.cleaned_data['input_variables'],
+                    'output_variables': form.cleaned_data['output_variables']
+                }
+                next.save(update_file=True, taskfile=taskfile)
             elif klass == Solution:
                 if 'score' in request.FILES:
                     next.score = request.FILES['score']
@@ -619,6 +625,8 @@ def _edit(request, klass, id):
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
         form = formfunc(instance=prev, request=request)
+        if klass == Task:
+            form.prefill(os.path.join(MEDIA_ROOT, prev.file.name))
 
     info_dict = {
         'form': form,

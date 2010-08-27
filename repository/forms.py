@@ -13,6 +13,7 @@ from repository.widgets import *
 from tagging.forms import TagField
 from settings import TAG_SPLITSTR
 from django.http import HttpResponseRedirect
+import ml2h5.task
 
 attrs_checkbox = { 'class': 'checkbox' }
 
@@ -129,6 +130,21 @@ class TaskForm(RepositoryForm):
             choices.insert(0, ('', '---------'))
             #choices.append(('', '-----'))
             self.fields['data_heldback'].choices = choices
+
+
+    def prefill(self, fname):
+        """Prefill form with values from Task file.
+
+        @param fname: name of Task file
+        @type fname: string
+        """
+        extract = ml2h5.task.get_extract(fname)
+        for name in extract.keys():
+            try:
+                self.fields[name].initial = ','.join([str(d) for d in extract[name]])
+            except TypeError:
+                self.fields[name].initial = str(extract[name])
+
 
 
     def clean_freeformtype(self):
