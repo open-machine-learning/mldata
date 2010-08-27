@@ -857,11 +857,11 @@ class Task(Repository):
             return _("Couldn't get correct results from Data file!"), False
 
         try:
-            prediction = [float(d) for d in data.split("\n") if d]
+            predicted = [d for d in data.split("\n") if d]
         except:
             return _("Format of given results is wrong!"), False
 
-        len_p = len(prediction)
+        len_p = len(prediced)
         len_c = len(correct)
         if len_p != len_c:
             return _("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
@@ -878,7 +878,7 @@ class Task(Repository):
         else:
             return _("Unknown performance measure!"), False
 
-        score = PM().run(correct, prediction)
+        score = PM().run(correct, predicted)
         return formatstr % score, True
 
 
