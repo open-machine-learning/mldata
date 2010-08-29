@@ -9,12 +9,11 @@ if not PRODUCTION:
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
     ADMINS = (
-        ('Sebastian Henschel', 'mldata@kodeaffe.de'),
+        ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
     )
 else:
     DEBUG = False
     ADMINS = (
-        ('Sebastian Henschel', 'mldata@kodeaffe.de'),
         ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
         ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
     )
