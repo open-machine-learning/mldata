@@ -6,19 +6,9 @@
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
-{% ifequal object.klass "Data" %}
 {{object.name }}
-{% else %}{% ifequal object.klass "Task" %}
-<a href="{{ object.d.get_absolute_slugurl }}">{{ object.d.name }}</a> / {{ object.name }}
-{% else %}{% ifequal object.klass "Solution" %}
-<a href="{{ object.d.get_absolute_slugurl }}">{{ object.d.name }}</a> / <a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a> / {{ object.name }}
-{% endifequal %}{% endifequal %}{% endifequal %}
 {% endblock %}
 {% block extrahead %}
-{% ifequal object.klass "Task" %}
-<script type="text/javascript" src="/media/js/fileuploader.js"></script>
-<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/fileuploader.css" />
-{% endifequal %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript">
 var hover_timer = null;
@@ -65,19 +55,6 @@ $(function() {
 		return false; // otherwise browser would append '#' to url
 	});
 
-{% ifequal object.klass "Task" %}
-	$('#prediction-score').hide();
-	uploader = new qq.FileUploader({
-		element: document.getElementById('prediction-upload-form'),
-		action: '{% url repository.views.task_predict object.slug %}',
-		onComplete: function(id, fname, data) {
-			$('#prediction-score-value').html(data.score);
-			$('#prediction-score').show();
-		}
-	});
-
-{% endifequal %}
-
 	$('#tabs').tabs();
 });
 </script>
@@ -102,13 +79,11 @@ $(function() {
 	<div id="tabs">
 		<ul class="clearfix">
 			<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
-{% ifequal object.klass "Data" %}<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#tabs-data">{% trans "Data" %}</a></li>{% endifequal %}
-{% ifequal object.klass "Task" %}<li><a title="{% trans "Info from Task file" %}" href="#tabs-task">{% trans "Task" %}</a></li>{% endifequal %}
+			<li><a title="{% trans "Extracted/parsed/visualised data from the file" %}" href="#tabs-data">{% trans "Data" %}</a></li>
 			<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-{% ifequal object.klass "Task" %}<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Solution" %}</a></li>{% endifequal %}
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -116,7 +91,6 @@ $(function() {
 			<dd>{{ object.summary|edit_if_empty }}</dd>
 			<dt>{% trans "License" %}</dt>
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
-		{% ifequal object.klass "Data" %}
 			<dt>{% trans "Tags" %}</dt>
 			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_data_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Related Task(s)" %}</dt>
@@ -136,49 +110,6 @@ $(function() {
 					<a href="{% url repository.views.data_download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 				{% endif %}
 			</dd>
-		{% else %}{% ifequal object.klass "Task" %}
-			<dt>{% trans "Tags" %}</dt>
-			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_task_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
-			<dt>{% trans "Input format" %}</dt>
-			<dd>{{ object.input|markdown }}</dd>
-			<dt>{% trans "Output format" %}</dt>
-			<dd>{{ object.output|markdown }}</dd>
-			<dt>{% trans "Performance Measure" %}</dt>
-			<dd>{{ object.performance_measure }}<br />{% trans "Ordering" %}: {% if object.performance_ordering %}{% trans "Up" %}{% else %}{% trans "Down" %}{% endif%}</dd>
-			<dt>{% trans "Type" %}</dt>
-			<dd>{{ object.type }}</dd>
-			<dt>{% trans "Data" %}</dt>
-			<dd><a href="{{ object.data.get_absolute_slugurl }}">{{ object.data.name }}</a></dd>
-			{% if object.data_heldback and can_view_heldback %}
-			<dt>{% trans "Data (held back)" %}</dt>
-			<dd><a href="{{ object.data_heldback.get_absolute_slugurl }}">{{ object.data_heldback.name }}</a></dd>
-			{% endif %}
-			<dt>{% trans "Related Solution(s)" %}</dt>
-			<dd>{% for s in related %}<a href="{% url repository.views.solution_view_slug object.data.slug.text object.slug.text s.slug.text %}">{{ s.name }}</a> {% endfor %}</dd>
-			{% if object.file and object.file.size %}
-			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.task_download object.slug %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
-			{% endif %}
-		{% else %}{% ifequal object.klass "Solution" %}
-			<dt>{% trans "Tags" %}</dt>
-			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.tags_solution_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
-			<dt>{% trans "Feature Processing" %}</dt>
-			<dd>{{ object.feature_processing }}</dd>
-			<dt>{% trans "Parameters" %}</dt>
-			<dd>{{ object.parameters }}</dd>
-			<dt>{% trans "Operating System" %}</dt>
-			<dd>{{ object.os }}</dd>
-			<dt>{% trans "Code" %}</dt>
-			<dd>{{ object.code|markdown }}</dd>
-			<dt>{% trans "Software Packages" %}</dt>
-			<dd>{{ object.software_packages|markdown }}</dd>
-			<dt>{% trans "Task" %}</dt>
-			<dd><a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></dd>
-			{% if object.score %}
-			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.score_download object.slug %}">{% trans "This Score" %} ({{ object.score.size|filesizeformat }})</a></dd>
-			{% endif %}
-		{% endifequal %}{% endifequal %}{% endifequal %}
 		</dl>
 		<div>
 			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
@@ -186,7 +117,6 @@ $(function() {
 		</div>
 </div><!-- /tabs-summary -->
 
-{% ifequal object.klass "Data" %}
 		<div id="tabs-data"><dl id="news">
 			<dt>{% trans "Original Data Format" %}</dt>
 			<dd>{{ object.format }}</dd>
@@ -215,41 +145,6 @@ $(function() {
 			{% endfor %}
 			</ol></dd>
 		</dl></div><!-- /tabs-data -->
-{% endifequal %}
-
-{% ifequal object.klass "Task" %}
-		<div id="tabs-task"><dl id="news">
-			<dt>{% trans "Train Indices" %}</dt>
-			<dd>{{ extract.train_idx|join:', ' }}</dd>
-			<dt>{% trans "Test Indices" %}</dt>
-			<dd>{{ extract.test_idx|join:', ' }}</dd>
-			<dt>{% trans "Input Variables" %}</dt>
-			<dd>{{ extract.input_variables|join:', ' }}</dd>
-			<dt>{% trans "Output Variables" %}</dt>
-			<dd>{{ extract.output_variables }}</dd>
-		</dl></div><!-- /tabs-task -->
-
-		<div id="tabs-solution">
-			<div id="prediction-score">
-				<p style="margin-bottom:5em">The score after evaluation with performance measure <strong>{{ object.performance_measure }}</strong> is:<br />
-				<strong><span id="prediction-score-value" style="font-size:large"></span></strong>
-				</p>
-			</div>
-
-			<div id="prediction-upload">
-				<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are.</p>
-				<div id="prediction-upload-form"></div>
-<!--
-				<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
-					<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
-					<input type="hidden" name="foo" value="foo" />
-					<input type="text" name="bar" value="boo" />
-					<input type="submit" class="submit" value="{% trans "Submit" %}" />
-				</form>
--->
-			</div>
-		</div><!-- /tabs-solution -->
-{% endifequal %}
 
 		<div id="tabs-more"><dl id="news">
 			<dt>{% trans "Description" %}</dt>
@@ -260,14 +155,12 @@ $(function() {
 			<dd><ul>{% for p in object.publications.all %}
 				<li>{{ p.content|markdown|edit_if_empty }}</li>
 			{% endfor %}</ul></dd>
-		{% ifequal object.klass "Data" %}
 			<dt>{% trans "Data Source" %}</dt>
 			<dd>{{ object.source }}</dd>
 			<dt>{% trans "Measurement Details" %}</dt>
 			<dd>{{ object.measurement_details|markdown }}</dd>
 			<dt>{% trans "Usage Scenario" %}</dt>
 			<dd>{{ object.usage_scenario|markdown }}</dd>
-		{% endifequal %}
 		</dl></div><!-- /tabs-more -->
 
 		<div id="tabs-history">
@@ -284,16 +177,8 @@ $(function() {
 
 		<div id="tabs-comments">
 {% load comments %}
-{% ifequal object.klass "Data" %}
-  {% get_comment_list for repository.data current.id as comment_list %}
-  {% get_comment_form for repository.data current.id as form %}
-{% else %}{% ifequal object.klass "Task" %}
-  {% get_comment_list for repository.task current.id as comment_list %}
-  {% get_comment_form for repository.task current.id as form %}
-{% else %}{% ifequal object.klass "Solution" %}
-  {% get_comment_list for repository.solution current.id as comment_list %}
-  {% get_comment_form for repository.solution current.id as form %}
-{% endifequal %}{% endifequal %}{% endifequal %}
+{% get_comment_list for repository.data current.id as comment_list %}
+{% get_comment_form for repository.data current.id as form %}
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}
 		</div><!-- /tabs-comments -->
