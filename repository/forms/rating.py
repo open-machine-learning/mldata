@@ -1,7 +1,3 @@
-"""
-Form classes used in app Repository
-"""
-
 import re
 from django.core.urlresolvers import reverse
 from django.forms import *
@@ -14,38 +10,6 @@ from tagging.forms import TagField
 from settings import TAG_SPLITSTR
 from django.http import HttpResponseRedirect
 import ml2h5.task
-
-from data.models import DataRating
-from task.models import TaskRating
-
-attrs_checkbox = { 'class': 'checkbox' }
-
-class RepositoryForm(forms.ModelForm):
-    """Base class for item types Data, Task and Solution.
-
-    @cvar tags: an input field with its contents autocompleted
-    @type tags: tagging.forms.TagField
-    """
-    tags = TagField(widget=AutoCompleteTagInput(), required=False)
-    keep_private = BooleanField(
-        widget=forms.CheckboxInput(attrs=attrs_checkbox), required=False)
-
-
-    def clean_name(self):
-        """Cleans field name."""
-        if re.match('^\d+$', self.cleaned_data['name']):
-            raise ValidationError(
-                _('Names consisting of only numerical values are not allowed.'))
-        return self.cleaned_data['name']
-
-
-    def clean_tags(self):
-        """Cleans field tags.
-
-        We want to avoid tags like 'foo, bar baz'
-        """
-        tags = self.cleaned_data['tags']
-        return TAG_SPLITSTR.join([y for x in tags.split(' ') for y in x.split(',') if y])
 
 
 class RatingForm(forms.Form):
@@ -87,20 +51,4 @@ class RatingForm(forms.Form):
 
         form.action = reverse('repository_' + klassname.lower() + '_rate', args=[current.id])
         return form
-
-
-class PublicationForm(forms.ModelForm):
-    """Form used for publications."""
-    id = forms.IntegerField()
-    next = forms.CharField()
-
-    class Meta:
-        """Inner meta class to specify model options.
-
-        @cvar model: model to use
-        @type model: models.Publication
-        """
-        model = Publication
-
-
 

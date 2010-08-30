@@ -26,20 +26,11 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from repository.models import *
 from repository.forms import *
 import repository.util as util
-
-from task.models import Task
-from task.forms import TaskForm
-
-from data.models import Data
-from data.models import DataRating
-from data.forms import DataForm, DataReviewForm
-
-from solution.models import Solution
-from solution.forms import SolutionForm
 
 from settings import MEDIA_ROOT, TAG_SPLITSTR, DATAPATH
 from preferences.models import Preferences

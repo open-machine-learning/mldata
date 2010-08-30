@@ -190,8 +190,8 @@ $(function() {
 
 	<div id="tabs-comments">
 {% load comments %}
-{% get_comment_list for task.task current.id as comment_list %}
-{% get_comment_form for task.task current.id as form %}
+{% get_comment_list for repository.task current.id as comment_list %}
+{% get_comment_form for repository.task current.id as form %}
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}
 		</div><!-- /tabs-comments -->

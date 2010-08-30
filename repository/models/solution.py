@@ -4,7 +4,7 @@ from repository.models import Repository
 from repository.models import Rating
 from repository.models import FixedLicense
 
-from task.models import Task
+from task import Task
 
 from tagging.fields import TagField
 from tagging.models import Tag
@@ -48,6 +48,8 @@ class Solution(Repository):
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
+    class Meta:
+        app_label = 'repository'
 
     def get_scorename(self):
         """Construct filename for score file.
@@ -71,3 +73,6 @@ class Solution(Repository):
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)
+
+    class Meta:
+        app_label = 'repository'

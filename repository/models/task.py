@@ -12,7 +12,7 @@ from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 
-from data.models import Data
+from data import Data
 
 from utils import slugify
 
@@ -28,6 +28,9 @@ class TaskPerformanceMeasure(models.Model):
     """
     name = models.CharField(max_length=255, unique=True)
 
+    class Meta:
+        app_label = 'repository'
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -38,6 +41,9 @@ class TaskType(models.Model):
     @type name: string / models.CharField
     """
     name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        app_label = 'repository'
 
     def __unicode__(self):
         return unicode(self.name)
@@ -76,6 +82,9 @@ class Task(Repository):
     file = models.FileField(upload_to=TASKPATH)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
+
+    class Meta:
+        app_label = 'repository'
 
     def get_media_path(self):
         return os.path.join(MEDIA_ROOT, self.file.name)
@@ -208,6 +217,8 @@ class TaskRating(Rating):
     """Rating for a Task item."""
     repository = models.ForeignKey(Task)
 
+    class Meta:
+        app_label = 'repository'
 
 
 

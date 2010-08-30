@@ -52,6 +52,8 @@ class Data(Repository):
     num_attributes = models.IntegerField(blank=True, default=-1)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
+    class Meta:
+        app_label = 'repository'
 
     def get_filename(self):
         """Construct filename for Data file.
@@ -133,3 +135,6 @@ class Data(Repository):
 class DataRating(Rating):
     """Rating for a Data item."""
     repository = models.ForeignKey(Data)
+
+    class Meta:
+        app_label = 'repository'

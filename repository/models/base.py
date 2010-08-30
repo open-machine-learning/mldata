@@ -28,6 +28,9 @@ class Slug(models.Model):
     """
     text = models.CharField(max_length=32, unique=True)
 
+    class Meta:
+       app_label = 'repository'
+
     def __unicode__(self):
         return unicode(self.text)
 
@@ -42,6 +45,9 @@ class License(models.Model):
     """
     name = models.CharField(max_length=255, unique=True)
     url = models.CharField(max_length=255)
+
+    class Meta:
+       app_label = 'repository'
 
     def __unicode__(self):
         return unicode(self.name)
@@ -60,6 +66,9 @@ class FixedLicense(models.Model):
     """
     name = models.CharField(max_length=255, unique=True)
     url = models.CharField(max_length=255)
+
+    class Meta:
+       app_label = 'repository'
 
     def __unicode__(self):
         return unicode(self.name)
@@ -96,6 +105,7 @@ class Publication(models.Model):
 
     class Meta:
         ordering = ('title', )
+        app_label = 'repository'
 
     def __unicode__(self):
         return self.title
@@ -167,6 +177,7 @@ class Repository(models.Model):
         """
         ordering = ('-pub_date', )
         get_latest_by = 'pub_date'
+        app_label = 'repository'
 
     @classmethod
     def get_current_tagged_items(cls, user, tag):
@@ -506,6 +517,9 @@ class Rating(models.Model):
     user = models.ForeignKey(User, related_name='rating_user')
     interest = models.IntegerField(default=0)
     doc = models.IntegerField(default=0)
+
+    class Meta:
+        app_label = 'repository'
 
     def update(self, interest, doc):
         """Update rating for an item.

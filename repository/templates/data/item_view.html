@@ -177,8 +177,8 @@ $(function() {
 
 		<div id="tabs-comments">
 {% load comments %}
-{% get_comment_list for data.data current.id as comment_list %}
-{% get_comment_form for data.data current.id as form %}
+{% get_comment_list for repository.data current.id as comment_list %}
+{% get_comment_form for repository.data current.id as form %}
 {% include "comments/list.html" %}
 {% include "comments/form.html" %}
 		</div><!-- /tabs-comments -->
