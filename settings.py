@@ -14,6 +14,8 @@ if not PRODUCTION:
 else:
     DEBUG = False
     ADMINS = (
+        ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
+        ('Patrik Hoyer', 'patrik.hoyer@helsinki.fi'),
         ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
         ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
     )
