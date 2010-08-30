@@ -9,7 +9,7 @@ class ClassificationErrorRate:
 
         prediction = 0
         correct_class = 0
-        errors = 0
+        errors = 0.0
         index = 0
         size = len(matrix1)
 
