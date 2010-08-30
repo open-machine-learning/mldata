@@ -434,11 +434,12 @@ def _view(request, klass, slug_or_id, version=None):
             body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
             mail_admins(subject, body)
             info_dict['extract'] = None
+        return render_to_response('data/item_view.html', info_dict)
+
     elif klass == Task:
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         info_dict['extract'] = ml2h5.task.get_extract(fname_h5)
-
-    return render_to_response('repository/item_view.html', info_dict)
+        return render_to_response('task/item_view.html', info_dict)
 
 
 
@@ -547,7 +548,12 @@ def _new(request, klass):
         'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
-    return render_to_response('repository/item_new.html', info_dict)
+    if klass == Data:
+        return render_to_response('data/item_new.html', info_dict)
+    elif klass == Task:
+        return render_to_response('task/item_new.html', info_dict)
+    elif klass == Solution:
+        return render_to_response('solutions/item_new.html', info_dict)
 
 
 @transaction.commit_on_success
@@ -645,7 +651,12 @@ def _edit(request, klass, id):
         'section': 'repository',
     }
 
-    return render_to_response('repository/item_edit.html', info_dict)
+    if klass == Data:
+        return render_to_response('data/item_edit.html', info_dict)
+    elif klass == Task:
+        return render_to_response('task/item_edit.html', info_dict)
+    elif klass == Solution:
+        return render_to_response('solution/item_edit.html', info_dict)
 
 
 def _get_page(request, objects, PER_PAGE):
@@ -761,8 +772,12 @@ def _index(request, klass, my=False, searchterm=None):
     if searchterm:
         info_dict['searchterm'] = searchterm
 
-    return render_to_response('repository/item_index.html', info_dict)
-
+    if klass == Data:
+        return render_to_response('data/item_index.html', info_dict)
+    elif klass == Task:
+        return render_to_response('task/item_index.html', info_dict)
+    elif klass == Solution:
+        return render_to_response('solution/item_index.html', info_dict)
 
 
 def index(request):
@@ -1209,7 +1224,7 @@ def data_new_review(request, slug):
         'supported_formats': ', '.join(ml2h5.converter.HANDLERS.iterkeys()),
         'extract': ml2h5.data.get_extract(fname),
     }
-    return render_to_response('repository/data_new_review.html', info_dict)
+    return render_to_response('data/data_new_review.html', info_dict)
 
 
 
