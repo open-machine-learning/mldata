@@ -15,8 +15,8 @@
             <p class="head">{% trans "Search Repositories" %}</p>
             <p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
             <p>
-                <input type="checkbox" name="data" checked /> {% trans "Data repository" %}
-                <input type="checkbox" name="task" checked /> {% trans "Task repository" %}<br/>
+                <input type="checkbox" name="data" checked="checked" /><label for="data">{% trans "Data repository" %}</label>
+                <input type="checkbox" name="task" checked="checked" /><label for="task">{% trans "Task repository" %}</label><br/>
                 <!--<input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" />-->
             </p>
             <p>
