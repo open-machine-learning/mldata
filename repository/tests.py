@@ -6,7 +6,8 @@ Replace these with more appropriate tests for your application.
 """
 from django.test import TestCase
 from django.contrib.auth.models import User
-from datetime import datetime
+from django.core.files import File
+from datetime import datetime as dt
 
 from repository.models import *
 from preferences.models import *
@@ -51,7 +52,7 @@ class RepositoryTest(TestCase):
     # Some helper functions
     #
     def do_login(self):
-        if not self.client.login(username='user', password='user'):
+        if not self.client.login(username='user', password='pass'):
             raise Exception('Login unsuccessful')
 
     def do_get(self, url, follow=False):
@@ -65,12 +66,12 @@ class RepositoryTest(TestCase):
     #
 
     def setUp(self):
-        user = User.objects.create_user('user', 'user@mldata.org', 'user')
+        user = User.objects.create_user('user', 'user@mldata.org', 'pass')
         user.save()
         license = License(name='foobar', url='http://foobar.com')
         license.save()
         data = Data(name='foobar',
-            pub_date=datetime.now(), version=1, user_id=1, license_id=1,
+            pub_date=dt.now(), version=1, user_id=1, license_id=1,
             is_current=True, is_public=True, is_approved=True,
             tags='foobar')
         data.save()
@@ -143,38 +144,24 @@ class RepositoryTest(TestCase):
 
     def test_new_data_user_approve(self):
         """Post a new data set and approve"""
-<<<<<<< HEAD:repository/tests.py
-<<<<<<< HEAD:repository/tests.py
-=======
->>>>>>> starting the major refactoring one step at a time ;):repository/tests.py
 
         os.remove(self.data_file_name)
 
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
-<<<<<<< HEAD:repository/tests.py
-=======
+
         if not self.client.login(username='user', password='user'):
             raise Exception('Login unsuccessful')
         r = self.client.post(self.url['new_data'], self.minimal_data,
             follow=True)
->>>>>>> added fix for recent page when user page is not set.:repository/tests.py
-=======
->>>>>>> starting the major refactoring one step at a time ;):repository/tests.py
+
         self.minimal_data['file'].seek(0)
         self.assertTemplateUsed(r, 'repository/data_new_review.html')
         r = self.do_post('new_data_review', self.review_data_approve, follow=True)
         self.assertTemplateUsed(r, 'repository/item_view.html')
 
-<<<<<<< HEAD:repository/tests.py
-<<<<<<< HEAD:repository/tests.py
-        self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.')
-=======
         print r
->>>>>>> added fix for recent page when user page is not set.:repository/tests.py
-=======
         self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.')
->>>>>>> starting the major refactoring one step at a time ;):repository/tests.py
 
 
     def test_new_data_user_revert(self):
@@ -202,3 +189,14 @@ class RepositoryTest(TestCase):
     def test_view_tags_foobar(self):
         r = self.do_get('view_tags_foobar')
         self.assertEqual(r.context['section'], 'repository')
+        self.assertTemplateUsed(r, 'repository/tags_view.html')
+
+    def test_create_data_set(self):
+        d = Data(name = 'test_data_set',
+            user=User.objects.get(username='user'),
+            license=License.objects.get(name='foobar'))
+
+        d.create_slug()
+        d.attach_file(File(open('fixtures/breastcancer.txt', 'r')))
+        d.save()
+        self.assertEqual(1, len(Data.objects.filter(name='test_data_set')))

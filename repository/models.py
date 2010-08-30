@@ -2,20 +2,28 @@
 Model classes for app Repository
 """
 
-import os, random
-from django.db import models
-from django.db.models import Q
+from datetime import datetime as dt
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext as _
-
-import ml2h5.task, ml2h5.data, ml2h5.converter, ml2h5.fileformat
-from utils import slugify
+import ml2h5.converter
+import ml2h5.data
+import ml2h5.fileformat
+import ml2h5.task
+import os
+import random
+from settings import DATAPATH
+from settings import MEDIA_ROOT
+from settings import SCOREPATH
+from settings import TASKPATH
 from tagging.fields import TagField
-from tagging.models import Tag, TaggedItem
+from tagging.models import Tag
+from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
-from settings import DATAPATH, TASKPATH, SCOREPATH, MEDIA_ROOT
+from utils import slugify
 
 
 
@@ -165,7 +173,7 @@ class Repository(models.Model):
     @type rating_votes: integer / models.IntegerField
     """
     pub_date = models.DateTimeField()
-    version = models.IntegerField()
+    version = models.IntegerField(default=1)
     name = models.CharField(max_length=32)
     slug = models.ForeignKey(Slug)
     summary = models.CharField(max_length=255, blank=True)
@@ -183,9 +191,6 @@ class Repository(models.Model):
     downloads = models.IntegerField(editable=False, default=0)
     hits = models.IntegerField(editable=False, default=0)
 
-    def get_media_file_name(self):
-        raise NotImplementedError
-
     class Meta:
         """Inner meta class to specify options.
 
@@ -197,7 +202,6 @@ class Repository(models.Model):
         ordering = ('-pub_date',)
         get_latest_by = 'pub_date'
 
-
     @classmethod
     def get_recent(klass, user):
         """Get recently changed items.
@@ -208,10 +212,7 @@ class Repository(models.Model):
         @rtype: list of Repository
         """
         num = 3
-<<<<<<< HEAD:repository/models.py
 
-=======
->>>>>>> added fix for recent page when user page is not set.:repository/models.py
         # without if-construct sqlite3 barfs on AnonymousUser
         if user.id:
             qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
@@ -280,11 +281,11 @@ class Repository(models.Model):
             tags = Tag.objects.usage_for_queryset(klass.objects.filter(qs), counts=True)
         else:
             tags = Tag.objects.usage_for_queryset(
-                Data.objects.filter(qs & Q(is_approved=True)), counts=True)
+                                                  Data.objects.filter(qs & Q(is_approved=True)), counts=True)
             tags.extend(Tag.objects.usage_for_queryset(
-                Task.objects.filter(qs), counts=True))
+                        Task.objects.filter(qs), counts=True))
             tags.extend(Tag.objects.usage_for_queryset(
-                Solution.objects.filter(qs), counts=True))
+                        Solution.objects.filter(qs), counts=True))
 
         current = {}
         for t in tags:
@@ -316,10 +317,10 @@ class Repository(models.Model):
         """
         if version:
             obj = klass.objects.filter(
-                slug__text=slug_or_id, is_deleted=False, version=version)
+                                       slug__text=slug_or_id, is_deleted=False, version=version)
         else:
             obj = klass.objects.filter(
-                slug__text=slug_or_id, is_deleted=False, is_current=True)
+                                       slug__text=slug_or_id, is_deleted=False, is_current=True)
 
         if obj: # by slug
             obj = obj[0]
@@ -393,8 +394,8 @@ class Repository(models.Model):
         # only match name and summary for now
         #Q(version__icontains=q) | Q(description__icontains=q)
         found = objects.filter(
-            Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
-        )
+                               Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
+                               )
 
         if klass == Repository: # only approved Data items are allowed
             for f in found:
@@ -406,10 +407,15 @@ class Repository(models.Model):
         else:
             return found, False
 
+    def __init__(self, *args, **kwargs):
+        super(Repository, self).__init__(*args, **kwargs)
+        self.pub_date = dt.now()
 
     def __unicode__(self):
         return unicode(self.name)
 
+    def get_media_file_name(self):
+        raise NotImplementedError
 
     def save(self):
         """Save item.
@@ -457,8 +463,8 @@ class Repository(models.Model):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
         objects = self.__class__.objects.filter(
-            slug=self.slug_id, is_deleted=False
-        ).order_by('-version')
+                                                slug=self.slug_id, is_deleted=False
+                                                ).order_by('-version')
         return objects[0].version + 1
 
 
@@ -485,7 +491,7 @@ class Repository(models.Model):
         if hasattr(self, 'solution'):
             view = 'repository.views.solution_view_slug'
             return reverse(view, args=[
-                self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
+                           self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
         elif hasattr(self, 'task'):
             view = 'repository.views.task_view_slug'
             return reverse(view, args=[self.task.data.slug.text, self.slug.text])
@@ -664,8 +670,21 @@ class Repository(models.Model):
 
         return ret
 
+    def create_slug(self):
+        """Create the slug entry for this object.
 
+        Throws IntegrityError in case the slug already exists.
+        """
+        self.slug = self.make_slug();
 
+    def attach_file(self, file_object):
+        """
+        Attach the given file to the object.
+
+        file_object is suitable for the kind of object you get from
+        request.FILES, i.e. it implements the methods read(), size(), name().
+        """
+        raise NotImplementedError("attach_file not implemented for Repository objects.")
 
 class Data(Repository):
     """Repository item Data.
@@ -698,8 +717,8 @@ class Data(Repository):
     file = models.FileField(upload_to=DATAPATH)
     license = models.ForeignKey(License)
     is_approved = models.BooleanField(default=False)
-    num_instances = models.IntegerField(blank=True, default=0)
-    num_attributes = models.IntegerField(blank=True, default=0)
+    num_instances = models.IntegerField(blank=True, default=-1)
+    num_attributes = models.IntegerField(blank=True, default=-1)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
 
@@ -742,10 +761,10 @@ class Data(Repository):
 
             try:
                 c = ml2h5.converter.Converter(
-                    fname_orig, fname_h5, format_in=self.format,
-                    seperator=convdata['seperator'],
-                    attribute_names_first=anf
-                )
+                                              fname_orig, fname_h5, format_in=self.format,
+                                              seperator=convdata['seperator'],
+                                              attribute_names_first=anf
+                                              )
                 c.run(verify=verify)
             except ml2h5.converter.ConversionError, error:
                 if self.tags:
@@ -765,9 +784,8 @@ class Data(Repository):
 
         self.save()
 
-
-
-
+    def attach_file(self, file_object):
+        self.file = file_object
 
 class Task(Repository):
     """Repository item Task.
@@ -1027,9 +1045,11 @@ class Rating(models.Model):
 class DataRating(Rating):
     """Rating for a Data item."""
     repository = models.ForeignKey(Data)
+
 class TaskRating(Rating):
     """Rating for a Task item."""
     repository = models.ForeignKey(Task)
+
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)

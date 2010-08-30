@@ -7,7 +7,12 @@ Define the views of app Repository
 @type NUM_INDEX_PAGE: integer
 """
 
-import datetime, os, sys, subprocess, uuid, traceback
+import datetime
+import os
+import sys
+import subprocess
+import uuid
+import traceback
 from django.core import serializers
 from django.core.cache import cache
 from django.core.files import File
@@ -26,7 +31,10 @@ from repository.forms import *
 from settings import MEDIA_ROOT, TAG_SPLITSTR
 from preferences.models import Preferences
 from tagging.models import Tag
-import ml2h5.data, ml2h5.task, ml2h5.converter, ml2h5.fileformat
+import ml2h5.data
+import ml2h5.task
+import ml2h5.converter
+import ml2h5.fileformat
 from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
 
