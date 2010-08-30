@@ -12,7 +12,8 @@ If you don't have website/mldata/mldata.db, create the database with
 $ python manage.py syncdb
 
 Install fixtures:
-$ python manage.py loaddata license tasktype fixtures/site
+$ python manage.py loaddata `find ./ -name '*.json'`
+
 
 
 Run the webserver with

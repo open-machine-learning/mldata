@@ -108,9 +108,6 @@ $(function() {
 <div class="in">
 	{% trans "Supply only vital information under the Summary tab. You can fill in additional information under More Info or later on by editing." %}
 	{% ifequal klass "Data" %}{% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}{% endifequal %}
-	{% ifequal klass "Task" %}
-	<br /><br /><strong>ATTENTION PLEASE: TASKS ARE STILL UNSTABLE AND THE DATA YOU SUPPLY HERE MIGHT BE PURGED FROM THE DATABASE WITHOUT WARNING!</strong><br />
-	{% endifequal %}
 
 	<form id="form-new" action="{{ url_new }}" method="post" enctype="multipart/form-data">
 	{% if form.errors %}<p class="error">{% trans "There were some errors, please see below" %}.</td>{% endif %}
