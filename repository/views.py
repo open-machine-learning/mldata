@@ -26,9 +26,21 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
+
 from repository.models import *
 from repository.forms import *
-from settings import MEDIA_ROOT, TAG_SPLITSTR
+import repository.util as util
+
+from task.models import Task
+from task.forms import TaskForm
+
+from data.models import Data
+from data.forms import DataForm, DataReviewForm
+
+from solution.models import Solution
+from solution.forms import SolutionForm
+
+from settings import MEDIA_ROOT, TAG_SPLITSTR, DATAPATH
 from preferences.models import Preferences
 from tagging.models import Tag
 import ml2h5.data
@@ -89,7 +101,7 @@ def _get_tag_clouds(request):
     clouds = { 'Data': None, 'Task': None, 'Solution': None }
     for k in clouds.iterkeys():
         klass = eval(k)
-        clouds[k] = klass.get_tag_cloud(request.user)
+        clouds[k] = util.get_tag_cloud(klass, request.user)
     return clouds
 
 

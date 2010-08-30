@@ -9,23 +9,14 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-import ml2h5.converter
 import ml2h5.data
 import ml2h5.fileformat
 import ml2h5.task
-import os
 import random
-from settings import DATAPATH
-from settings import MEDIA_ROOT
-from settings import SCOREPATH
-from settings import TASKPATH
-from tagging.fields import TagField
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 from utils import slugify
-
-
 
 class Slug(models.Model):
     """Slug - URL-compatible item name.
@@ -54,7 +45,6 @@ class License(models.Model):
         return unicode(self.name)
 
 
-
 class FixedLicense(models.Model):
     """License to be used by Task or Solution items.
 
@@ -71,32 +61,6 @@ class FixedLicense(models.Model):
 
     def __unicode__(self):
         return unicode(self.name)
-
-
-
-class TaskType(models.Model):
-    """Type of a Task.
-
-    @cvar name: name of the type
-    @type name: string / models.CharField
-    """
-    name = models.CharField(max_length=255, unique=True)
-
-    def __unicode__(self):
-        return unicode(self.name)
-
-
-class TaskPerformanceMeasure(models.Model):
-    """Performance measure (evaluation function) of a Task.
-
-    @cvar name: name of the evaluation function
-    @type name: string / models.CharField
-    """
-    name = models.CharField(max_length=255, unique=True)
-
-    def __unicode__(self):
-        return unicode(self.name)
-
 
 
 class Publication(models.Model):
@@ -129,7 +93,7 @@ class Publication(models.Model):
 #    address = models.CharField(max_length=256, blank=True, null=True)
 
     class Meta:
-        ordering = ('title',)
+        ordering = ('title', )
 
     def __unicode__(self):
         return self.title
@@ -199,39 +163,11 @@ class Repository(models.Model):
         @cvar get_latest_by: latestness will be determined by this field
         @type get_latest_by: string
         """
-        ordering = ('-pub_date',)
+        ordering = ('-pub_date', )
         get_latest_by = 'pub_date'
 
     @classmethod
-    def get_recent(klass, user):
-        """Get recently changed items.
-
-        @param user: user to get recent items for
-        @type user: auth.models.user
-        @return: list of recently changed items
-        @rtype: list of Repository
-        """
-        num = 3
-
-        # without if-construct sqlite3 barfs on AnonymousUser
-        if user.id:
-            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
-        else:
-            qs = Q(is_public=True) & Q(is_current=True);
-            
-        # slices return max number of elements if num > max
-        recent_data = Data.objects.filter(qs).order_by('-pub_date')
-        recent_tasks = Task.objects.filter(qs).order_by('-pub_date')
-        recent = []
-        if len(recent_data) > 0:
-            recent.extend(recent_data[0:num])
-        if len(recent_tasks) > 0:
-            recent.extend(recent_tasks[0:num])
-        return sorted(recent, key=lambda r: r.pub_date, reverse=True)
-
-
-    @classmethod
-    def get_current_tagged_items(klass, user, tag):
+    def get_current_tagged_items(cls, user, tag):
         """Get current items with specific tag.
 
         @param user: user to get current items for
@@ -246,11 +182,10 @@ class Repository(models.Model):
             qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
         else:
             qs = Q(is_public=True) & Q(is_current=True)
-        if klass == Data:
-            qs &= Q(is_approved=True)
+        qs = cls.get_query(qs)
 
         tagged = TaggedItem.objects.filter(tag=tag)
-        current = klass.objects.filter(qs).order_by('name')
+        current = cls.objects.filter(qs).order_by('name')
         items = []
         for c in current:
             for t in tagged:
@@ -259,75 +194,28 @@ class Repository(models.Model):
                     break
         return items
 
-
     @classmethod
-    def get_tag_cloud(klass, user):
-        """Get current tags available to user.
-
-        @param user: user to get current items for
-        @type user: auth.models.user
-        @return: current tags available to user
-        @rtype: list of tagging.Tag
-        """
-        # without if-construct sqlite3 barfs on AnonymousUser
-        if user.id:
-            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
-        else:
-            qs = Q(is_public=True) & Q(is_current=True)
-
-        if klass:
-            if klass == Data:
-                qs = qs & Q(is_approved=True)
-            tags = Tag.objects.usage_for_queryset(klass.objects.filter(qs), counts=True)
-        else:
-            tags = Tag.objects.usage_for_queryset(
-                                                  Data.objects.filter(qs & Q(is_approved=True)), counts=True)
-            tags.extend(Tag.objects.usage_for_queryset(
-                        Task.objects.filter(qs), counts=True))
-            tags.extend(Tag.objects.usage_for_queryset(
-                        Solution.objects.filter(qs), counts=True))
-
-        current = {}
-        for t in tags:
-            if not t.name in current:
-                current[t.name] = t
-            else:
-                current[t.name].count += t.count
-
-        tags = current.values()
-        if tags:
-            cloud = calculate_cloud(tags, steps=2)
-            random.shuffle(cloud)
-        else:
-            cloud = None
-        return cloud
-
-
-
-    @classmethod
-    def get_object(klass, slug_or_id, version=None):
+    def get_object(cls, slug_or_id, version=None):
         """Retrieves an item by slug or id
 
-        @param slug_or_id: item's slug or id for lookup
-        @type slug_or_id: string or integer
-        @param version: specific version of the item to retrieve
-        @type version: integer
-        @return: found object or None
-        @rtype: Repository
-        """
+            @param slug_or_id: item's slug or id for lookup
+            @type slug_or_id: string or integer
+            @param version: specific version of the item to retrieve
+            @type version: integer
+            @return: found object or None
+            @rtype: Repository
+            """
         if version:
-            obj = klass.objects.filter(
-                                       slug__text=slug_or_id, is_deleted=False, version=version)
+            obj = cls.objects.filter(slug__text=slug_or_id, is_deleted=False, version=version)
         else:
-            obj = klass.objects.filter(
-                                       slug__text=slug_or_id, is_deleted=False, is_current=True)
+            obj = cls.objects.filter(slug__text=slug_or_id, is_deleted=False, is_current=True)
 
         if obj: # by slug
             obj = obj[0]
         else: # by id
             try:
-                obj = klass.objects.get(pk=slug_or_id)
-            except klass.DoesNotExist:
+                obj = cls.objects.get(pk=slug_or_id)
+            except cls.DoesNotExist:
                 return None
             if not obj or obj.is_deleted:
                 return None
@@ -335,80 +223,8 @@ class Repository(models.Model):
         return obj
 
 
-    @classmethod
-    def set_current(klass, slug):
-        """Set the latest version of the item identified by given slug to be the current one.
-
-        @param slug: slug of item to set
-        @type slug: repository.Slug
-        @return: the current item or None
-        @rtype: repository.Data/Task/Solution
-        """
-        cur = klass.objects.filter(slug=slug).\
-            filter(is_deleted=False).order_by('-version')
-        if not cur:
-            return None
-        else:
-            cur = cur[0]
-
-        prev = klass.objects.get(slug=slug, is_current=True)
-        if not prev: return
-
-        rklass = eval(klass.__name__ + 'Rating')
-        try:
-            rating = rklass.objects.get(user=cur.user, repository=prev)
-            rating.repository = cur
-            rating.save()
-        except rklass.DoesNotExist:
-            pass
-        cur.rating_avg = prev.rating_avg
-        cur.rating_avg_interest = prev.rating_avg_interest
-        cur.rating_avg_doc = prev.rating_avg_doc
-        cur.rating_votes = prev.rating_votes
-        cur.hits = prev.hits
-        cur.downloads = prev.downloads
-
-        Comment.objects.filter(object_pk=prev.pk).update(object_pk=cur.pk)
-
-        prev.is_current = False
-        cur.is_current = True
-
-        # this should be atomic:
-        prev.save()
-        cur.save()
-
-        return cur
-
-
-    @classmethod
-    def search(klass, objects, searchterm):
-        """Search for searchterm in objects queryset.
-
-        @param objects: queryset to search in
-        @type objects: Queryset
-        @param searchterm: term to search for
-        @type searchterm: string
-        @return: found objects and if search failed
-        @rtype: tuple of querset and boolean
-        """
-        # only match name and summary for now
-        #Q(version__icontains=q) | Q(description__icontains=q)
-        found = objects.filter(
-                               Q(name__icontains=searchterm) | Q(summary__icontains=searchterm)
-                               )
-
-        if klass == Repository: # only approved Data items are allowed
-            for f in found:
-                if hasattr(f, 'data') and not f.data.is_approved:
-                    found = found.exclude(id=f.id)
-
-        if found.count() < 1:
-            return objects, True
-        else:
-            return found, False
-
-    def __init__(self, *args, **kwargs):
-        super(Repository, self).__init__(*args, **kwargs)
+    def __init__(self, * args, ** kwargs):
+        super(Repository, self).__init__(*args, ** kwargs)
         self.pub_date = dt.now()
 
     def __unicode__(self):
@@ -416,6 +232,15 @@ class Repository(models.Model):
 
     def get_media_file_name(self):
         raise NotImplementedError
+
+    @classmethod
+    def get_query(cls, qs):
+        """Get a query for the given query.
+
+        This allows objects to add further query qualifications (currently,
+        Data: &= Q(is_approved=True)
+        """
+        return qs
 
     def save(self):
         """Save item.
@@ -436,8 +261,6 @@ class Repository(models.Model):
             Slug.objects.get(pk=self.slug.id).delete()
         except Slug.DoesNotExist:
             pass
-        # calling delete in parent not necessary
-        #super(Repository, self).delete()
 
 
     def make_slug(self):
@@ -499,8 +322,6 @@ class Repository(models.Model):
             view = 'repository.views.data_view_slug'
             return reverse(view, args=[self.slug.text])
 
-
-
     def is_owner(self, user):
         """Is given user owner of this
 
@@ -512,7 +333,6 @@ class Repository(models.Model):
         if user.is_staff or user.is_superuser or user == self.user:
             return True
         return False
-
 
     def can_activate(self, user):
         """Can given user activate this.
@@ -686,311 +506,6 @@ class Repository(models.Model):
         """
         raise NotImplementedError("attach_file not implemented for Repository objects.")
 
-class Data(Repository):
-    """Repository item Data.
-
-    @cvar source: source of the data
-    @type source: string / models.CharField
-    @cvar format: data format of original file, e.g. CSV, ARFF, HDF5
-    @type format: string / models.CharField
-    @cvar measurement_details: item's measurement details
-    @type measurement_details: string / models.TextField
-    @cvar usage_scenario: item's usage scenario
-    @type usage_scenario: string / models.TextField
-    @cvar file: data file
-    @type file: models.FileField
-    @cvar license: license of Data item
-    @type license: License
-    @cvar is_approved: is_approved is necessary for 2-step creation, don't want to call review ever again once the item is approved - review can remove permanently via 'Back' button!
-    @type is_approved: boolean / models.BooleanField
-    @cvar num_instances: number of instances in the Data file
-    @type num_instances: integer / models.IntegerField
-    @cvar num_attributes: number of attributes in the Data file
-    @type num_attributes: integer / models.IntegerField
-    @cvar tags: item's tags
-    @type tags: string / tagging.TagField
-    """
-    source = models.TextField(blank=True)
-    format = models.CharField(max_length=16)
-    measurement_details = models.TextField(blank=True)
-    usage_scenario = models.TextField(blank=True)
-    file = models.FileField(upload_to=DATAPATH)
-    license = models.ForeignKey(License)
-    is_approved = models.BooleanField(default=False)
-    num_instances = models.IntegerField(blank=True, default=-1)
-    num_attributes = models.IntegerField(blank=True, default=-1)
-    tags = TagField() # tagging doesn't work anymore if put into base class
-
-
-    def get_filename(self):
-        """Construct filename for Data file.
-
-        @return: filename for Data file
-        @rtype: string
-        @raise AttributeError: if slug is not set.
-        """
-        if not self.slug_id:
-            raise AttributeError, 'Attribute slug is not set!'
-
-        return self.slug.text + '.' + self.format
-
-    def get_media_file_name(self):
-        return os.path.join(MEDIA_ROOT, self.file.name)
-
-    def approve(self, fname_orig, convdata):
-        """Approve Data item.
-
-        @param fname_orig: original name of Data file
-        @type fname_orig: string
-        @param convdata: conversion-relevant data
-        @type convdata: dict of strings with keys seperator, convert, format + attribute_names_first
-        @raise: ml2h5.converter.ConversionError if conversion failed
-        """
-        self.is_approved = True
-        self.format = convdata['format']
-        fname_h5 = ml2h5.fileformat.get_filename(fname_orig)
-
-        if 'convert' in convdata and convdata['convert'] and self.format != 'h5':
-            if 'attribute_names_first' in convdata and convdata['attribute_names_first']:
-                anf = True
-            else:
-                anf = False
-
-            verify = True
-            if convdata['format'] == 'uci': verify = False
-
-            try:
-                c = ml2h5.converter.Converter(
-                                              fname_orig, fname_h5, format_in=self.format,
-                                              seperator=convdata['seperator'],
-                                              attribute_names_first=anf
-                                              )
-                c.run(verify=verify)
-            except ml2h5.converter.ConversionError, error:
-                if self.tags:
-                    self.tags += ', conversion_failed'
-                else:
-                    self.tags = 'conversion_failed'
-
-                self.save()
-                raise ml2h5.converter.ConversionError(error.value)
-
-        if os.path.isfile(fname_h5):
-            (self.num_instances, self.num_attributes) = ml2h5.data.get_num_instattr(fname_h5)
-            # keep original file for the time being
-            #os.remove(fname_orig)
-            # for some reason, FileField saves file.name as DATAPATH/<basename>
-            self.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
-
-        self.save()
-
-    def attach_file(self, file_object):
-        self.file = file_object
-
-class Task(Repository):
-    """Repository item Task.
-
-    @cvar input: item's input format
-    @type input: string / models.TextField
-    @cvar output: item's output format
-    @type output: string / models.TextField
-    @cvar performance_measure: performance measure (evaluation function)
-    @type performance_measure: TaskPerformanceMeasure
-    @cvar performance_ordering: true => up, false => down
-    @type performance_ordering: boolean / models.BooleanField
-    @cvar type: item's type, e.g. Regression, Classification
-    @type type: TaskType
-    @cvar data: related Data item
-    @type data: Data / models.ForeignKey
-    @cvar data_heldback: another optional, possibly private, Data item for challenge organisers
-    @type data_heldback: Data / models.ForeignKey
-    @cvar file: the Task file with splits, targets, features
-    @type file: models.FileField
-    @cvar license: item's license
-    @type license: FixedLicense
-    @cvar tags: item's tags
-    @type tags: string / tagging.TagField
-    """
-    input = models.TextField()
-    output = models.TextField()
-    performance_measure = models.ForeignKey(TaskPerformanceMeasure)
-    performance_ordering = models.BooleanField()
-    type = models.ForeignKey(TaskType)
-    data = models.ForeignKey(Data, related_name='task_data')
-    data_heldback = models.ForeignKey(Data, related_name='task_data_heldback', null=True, blank=True)
-    file = models.FileField(upload_to=TASKPATH)
-    license = models.ForeignKey(FixedLicense, editable=False)
-    tags = TagField() # tagging doesn't work anymore if put into base class
-
-    def get_media_path(self):
-        return os.path.join(MEDIA_ROOT, self.file.name)
-
-    def _find_dset_offset(self, contents, output_variables):
-        """Find the dataset in given contents that contains the
-        output_variable(s).
-
-        This would be easy if all the data was just in one blob, but it may be
-        in several datasets as defined by contents['ordering'], e.g. in
-        contents['label'] or contents['data'] or contents['nameofvariable'].
-
-        @param contents: contents of a Data file
-        @type contents: dict
-        @param output_variables: index of output_variables to look for
-        @type output_variables: integer
-        @return: dataset and offset in that dataset corresponding to
-        output_variables
-        @rtype: list of list and integer
-        """
-        ov = output_variables
-        for name in contents['ordering']:
-            try:
-                for i in xrange(len(contents[name][0])):
-                    if ov == 0:
-                        return contents[name], i
-                    else:
-                        ov -= 1
-            except: # dataset has only 1 variable as a list, not as array
-                if ov == 0:
-                    return contents[name], 0
-                else:
-                    ov -= 1
-
-        return None, None
-
-    def predict(self, data):
-        """Evaluate performance measure of given item through given data.
-
-        @param data: uploaded result data
-        @type data: string
-        @return: the computed score with descriptive text
-        @rtype: string
-        """
-        try:
-            fname_task = os.path.join(MEDIA_ROOT, self.file.name)
-            test_idx, output_variables = ml2h5.task.get_test_output(fname_task)
-        except:
-            return _("Couldn't get information from Task file!"), False
-
-        try:
-            fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
-            correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
-        except:
-            return _("Couldn't get correct results from Data file!"), False
-
-        try:
-            predicted = [float(d) for d in data.split("\n") if d]
-        except ValueError:
-            predicted = [d for d in data.split("\n") if d]
-        except:
-            return _("Format of given results is wrong!"), False
-
-        len_p = len(predicted)
-        len_c = len(correct)
-        if len_p != len_c:
-            return _("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
-
-        if self.performance_measure.id == 2:
-            from utils.performance_measure import ClassificationErrorRate as PM
-            formatstr = _('Error rate: %.2f %%')
-        elif self.performance_measure.id == 3:
-            from utils.performance_measure import RegressionMAE as PM
-            formatstr = _('Mean Absolute Error: %f')
-        elif self.performance_measure.id == 4:
-            from utils.performance_measure import RegressionRMSE as PM
-            formatstr = _('Root Mean Squared Error: %f')
-        else:
-            return _("Unknown performance measure!"), False
-
-        try:
-            score = PM().run(correct, predicted)
-            return formatstr % score, True
-        except Exception, e:
-            return str(e), False
-
-
-
-    def get_filename(self):
-        """Construct filename for Task file.
-
-        @return: filename for Task file
-        @rtype: string
-        @raise AttributeError: if slug is not set.
-        """
-        if not self.slug_id:
-            raise AttributeError, 'Attribute slug is not set!'
-
-        return ml2h5.fileformat.get_filename(self.slug.text)
-
-
-    def save(self, update_file=False, taskfile=None):
-        """Save Task item, also updates Task file.
-
-        @param update_file: if Task file should be updated on save
-        @type update_file: boolean
-        @param taskfile: data to write to Task file
-        @type taskfile: dict with indices train_idx, test_idx, input_variables, output_variables
-        """
-        is_new = False
-        if not self.file.name:
-            self.file.name = os.path.join(TASKPATH, self.get_filename())
-            is_new = True
-        super(Task, self).save()
-
-        if update_file or is_new:
-            fname = os.path.join(MEDIA_ROOT, self.file.name)
-            ml2h5.task.create(fname, self, taskfile)
-
-
-
-class Solution(Repository):
-    """Repository item Solution.
-
-    @cvar feature_processing: item's feature processing
-    @type feature_processing: string / models.TextField
-    @cvar parameters: item's parameters
-    @type parameters: string / models.CharField
-    @cvar os: operating system used
-    @type os: string / models.CharField
-    @cvar code: computer source code to provide solution
-    @type code: string / models.TextField
-    @cvar software_packages: software packages needed for evaluation
-    @type software_packages: string / models.TextField
-    @cvar score: score file
-    @type score: models.FileField
-    @cvar task: related Task
-    @type task: Task
-    @cvar license: item's license
-    @type license: FixedLicense
-    @cvar tags: item's tags
-    @type tags: string / tagging.TagField
-    """
-    feature_processing = models.TextField(blank=True)
-    parameters = models.CharField(max_length=255, blank=True)
-    os = models.CharField(max_length=255, blank=True)
-    code = models.TextField(blank=True)
-    software_packages = models.TextField(blank=True)
-    score = models.FileField(upload_to=SCOREPATH)
-    task = models.ForeignKey(Task)
-    license = models.ForeignKey(FixedLicense, editable=False)
-    tags = TagField() # tagging doesn't work anymore if put into base class
-
-
-    def get_scorename(self):
-        """Construct filename for score file.
-
-        @return: filename for score file
-        @rtype: string
-        @raise AttributeError: if slug is not set.
-        """
-        if not self.slug_id:
-            raise AttributeError, 'Attribute slug is not set!'
-
-        suffix = self.score.name.split('.')[-1]
-
-        return self.slug.text + '.' + suffix
-
-
-
 class Rating(models.Model):
     """Rating for a Repository item
 
@@ -1042,17 +557,8 @@ class Rating(models.Model):
         except AttributeError:
             return unicode("%s %s %s" % (self.user.username, _('on'), self.id))
 
-class DataRating(Rating):
-    """Rating for a Data item."""
-    repository = models.ForeignKey(Data)
 
-class TaskRating(Rating):
-    """Rating for a Task item."""
-    repository = models.ForeignKey(Task)
 
-class SolutionRating(Rating):
-    """Rating for a Solution item."""
-    repository = models.ForeignKey(Solution)
 
 
 

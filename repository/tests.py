@@ -4,14 +4,21 @@ unittest). These will both pass when you run "manage.py test".
 
 Replace these with more appropriate tests for your application.
 """
+import os
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.files import File
 from datetime import datetime as dt
 
+from settings import *
+
 from repository.models import *
 from preferences.models import *
 
+from task.models import Task
+from data.models import Data
+from solution.models import Solution
 
 class RepositoryTest(TestCase):
     url = {
@@ -88,13 +95,13 @@ class RepositoryTest(TestCase):
     def test_index_data(self):
         r = self.do_get('index_data')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/item_index.html')
+        self.assertTemplateUsed(r, 'data/item_index.html')
 
 
     def test_index_task(self):
         r = self.do_get('index_task')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/item_index.html')
+        self.assertTemplateUsed(r, 'task/item_index.html')
 
 
 #    def test_index_solution(self):
@@ -106,13 +113,13 @@ class RepositoryTest(TestCase):
     def test_index_data_my(self):
         r = self.do_get('index_data_my')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/item_index.html')
+        self.assertTemplateUsed(r, 'data/item_index.html')
 
 
     def test_index_task_my(self):
         r = self.do_get('index_task_my')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/item_index.html')
+        self.assertTemplateUsed(r, 'task/item_index.html')
 
 
 #    def test_index_solution_my(self):
@@ -138,7 +145,7 @@ class RepositoryTest(TestCase):
     def test_new_data_user(self):
         self.do_login()
         r = self.do_get('new_data', follow=True)
-        self.assertTemplateUsed(r, 'repository/item_new.html')
+        self.assertTemplateUsed(r, 'data/item_new.html')
 
 
 
@@ -156,9 +163,9 @@ class RepositoryTest(TestCase):
             follow=True)
 
         self.minimal_data['file'].seek(0)
-        self.assertTemplateUsed(r, 'repository/data_new_review.html')
+        self.assertTemplateUsed(r, 'data/data_new_review.html')
         r = self.do_post('new_data_review', self.review_data_approve, follow=True)
-        self.assertTemplateUsed(r, 'repository/item_view.html')
+        self.assertTemplateUsed(r, 'data/item_view.html')
 
         print r
         self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.')
@@ -168,15 +175,15 @@ class RepositoryTest(TestCase):
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
         self.minimal_data['file'].seek(0)
-        self.assertTemplateUsed(r, 'repository/data_new_review.html')
+        self.assertTemplateUsed(r, 'data/item_new.html')
         r = self.do_post('new_data_review', self.review_data_revert, follow=True)
-        self.assertTemplateUsed(r, 'repository/item_new.html')
+        self.assertTemplateUsed(r, 'data/item_new.html')
 
 
     def test_new_task_user(self):
         self.do_login()
         r = self.do_get('new_task', follow=True)
-        self.assertTemplateUsed(r, 'repository/item_new.html')
+        self.assertTemplateUsed(r, 'task/item_new.html')
 
 
 #    def test_new_solution_user(self):
@@ -189,7 +196,7 @@ class RepositoryTest(TestCase):
     def test_view_tags_foobar(self):
         r = self.do_get('view_tags_foobar')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/tags_view.html')
+        self.assertTemplateUsed(r, 'data/tags_view.html')
 
     def test_create_data_set(self):
         d = Data(name = 'test_data_set',
