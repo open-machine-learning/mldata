@@ -18,6 +18,8 @@ from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 from utils import slugify
 
+import repository
+
 class Slug(models.Model):
     """Slug - URL-compatible item name.
 
@@ -366,14 +368,8 @@ class Repository(models.Model):
         # don't delete if this is last item and something depends on it
         siblings = self.__class__.objects.filter(slug=self.slug)
         if len(siblings) == 1:
-            if self.__class__ == Data:
-                dependencies = Task.objects.filter(data=self)
-                if len(dependencies) > 0:
-                    return False
-            elif self.__class__ == Task:
-                dependencies = Solution.objects.filter(task=self)
-                if len(dependencies) > 0:
-                    return False
+            if repository.util.dependent_entries_exist(self):
+                return False
         return True
 
 
@@ -425,18 +421,7 @@ class Repository(models.Model):
         @return: completeness of item as a percentage
         @rtype: integer
         """
-        if self.__class__ == Data:
-            attrs = ['tags', 'description', 'license', 'summary', 'urls',
-                'publications', 'source', 'measurement_details', 'usage_scenario']
-        elif self.__class__ == Task:
-            attrs = ['tags', 'description', 'summary', 'urls', 'publications',
-                'input', 'output', 'performance_measure', 'type', 'file']
-        elif self.__class__ == Solution:
-            attrs = ['tags', 'description', 'summary', 'urls', 'publications',
-                'feature_processing', 'parameters', 'os', 'code',
-                'software_packages', 'score']
-        else:
-            return 0
+        attrs = self.get_completeness_properties()
 
         attrs_len = len(attrs)
         attrs_complete = 0
@@ -444,8 +429,11 @@ class Repository(models.Model):
             if eval('self.' + attr):
                 attrs_complete += 1
         return int((attrs_complete * 100) / attrs_len)
+
     completeness = property(get_completeness)
 
+    def get_completeness_properties(self):
+        return []
 
     def get_versions(self, user):
         """Retrieve all versions of this item viewable by user
@@ -458,9 +446,6 @@ class Repository(models.Model):
         qs = Q(slug__text=self.slug.text) & Q(is_deleted=False)
         items = self.__class__.objects.filter(qs).order_by('version')
         return [i for i in items if i.can_view(user)]
-
-
-
 
     def filter_related(self, user):
         """Filter Task/Solution related to a superior Data/Task to contain only
@@ -475,12 +460,7 @@ class Repository(models.Model):
         @return: filtered items
         @rtype: list of repository.Task or repository.Solution
         """
-        if self.__class__ == Data:
-            qs = self.task_data
-        elif self.__class__ == Task:
-            qs = self.solution_set
-        else:
-            return None
+        qs = self.qs_for_related()
 
         current = qs.filter(is_current=True)
         ret = []
@@ -489,6 +469,9 @@ class Repository(models.Model):
                 ret.append(c)
 
         return ret
+
+    def qs_for_related(self):
+        return None
 
     def create_slug(self):
         """Create the slug entry for this object.

@@ -63,6 +63,11 @@ class Solution(Repository):
 
         return self.slug.text + '.' + suffix
 
+    def get_completeness_properties(self):
+        return ['tags', 'description', 'summary', 'urls', 'publications',
+            'feature_processing', 'parameters', 'os', 'code',
+            'software_packages', 'score']
+
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)

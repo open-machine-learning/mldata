@@ -35,6 +35,7 @@ from task.models import Task
 from task.forms import TaskForm
 
 from data.models import Data
+from data.models import DataRating
 from data.forms import DataForm, DataReviewForm
 
 from solution.models import Solution

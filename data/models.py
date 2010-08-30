@@ -14,6 +14,9 @@ from tagging.utils import calculate_cloud
 
 from utils import slugify
 
+import ml2h5
+import os
+
 class Data(Repository):
     """Repository item Data.
 
@@ -118,6 +121,14 @@ class Data(Repository):
     @classmethod
     def get_query(cls, qs):
         return qs & Q(is_approved=True)
+
+    def qs_for_related(self):
+        return self.task_data
+
+    def get_completeness_properties(self):
+        return ['tags', 'description', 'license', 'summary', 'urls',
+            'publications', 'source', 'measurement_details', 'usage_scenario']
+
 
 class DataRating(Rating):
     """Rating for a Data item."""

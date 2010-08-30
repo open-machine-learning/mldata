@@ -15,6 +15,9 @@ from settings import TAG_SPLITSTR
 from django.http import HttpResponseRedirect
 import ml2h5.task
 
+from data.models import DataRating
+from task.models import TaskRating
+
 attrs_checkbox = { 'class': 'checkbox' }
 
 class RepositoryForm(forms.ModelForm):
@@ -43,13 +46,6 @@ class RepositoryForm(forms.ModelForm):
         """
         tags = self.cleaned_data['tags']
         return TAG_SPLITSTR.join([y for x in tags.split(' ') for y in x.split(',') if y])
-
-
-
-
-
-
-
 
 
 class RatingForm(forms.Form):
