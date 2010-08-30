@@ -7,7 +7,6 @@
 {% block extrahead %}
 {% include "autocomplete.html" %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
-{% ifequal klass "Data" %}<script type="text/javascript" src="/media/js/jquery/jquery.progressbar.min.js"></script>{% endifequal %}
 <script type="text/javascript">
 
 $(function() {
@@ -24,60 +23,6 @@ $(function() {
 
 	$('#tabs').tabs();
 
-{% ifequal klass "Data" %}
-	validate = function () {
-		error = false;
-		remove_error(['name', 'license', 'file']);
-
-		if (!$('#id_name').val()) error = append_error('name');
-		if ($('#id_license').val() < 1) error = append_error('license');
-		if (!$('#id_file').val()) error = append_error('file');
-
-		return !error;
-	}
-
-	$("#uploadprogressbar").progressBar();
-	$('#form-new').submit(function(){
-		if ($.data(this, 'submitted')) return false; // prevent multiple submits
-
-		if (!validate()) return false;
-
-		if (!$('#id_keep_private').is(':checked')) {
-			res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
-			if (!res) { return false; }
-		}
-
-		var freq = 1000; // freqency of update in ms
-		var uuid = '{{ uuid }}'; // id for this upload so we can fetch progress info.
-		var progress_url = '{% url repository.views.upload_progress %}'; // ajax view serving progress info
-		// Append X-Progress-ID uuid form action
-		this.action += (this.action.indexOf('?') == -1 ? '?' : '&') + 'X-Progress-ID=' + uuid;
-
-		$("#uploadprogressbar").fadeIn();
-		function update_progress_info() {
-			$.getJSON(progress_url, {'X-Progress-ID': uuid}, function(data, status){
-				if (data) {
-					var l = parseInt(data.length);
-					var tot = parseInt(data.uploaded);
-					var perc = (tot / l) * (100.00);
-					$("#uploadprogressbar").progressBar(perc);
-				}
-				window.setTimeout(update_progress_info, freq);
-			});
-		};
-		window.setTimeout(update_progress_info, freq);
-
-		$.data(this, 'submitted', true); // mark form as submitted.
-	});
-{% else %}
-	$('#form-new').submit(function() {
-		if (!$('#id_keep_private').is(':checked')) {
-			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
-		}
-	});
-{% endifequal %}
-
-{% ifequal klass "Task" %}
 	validate = function() {
 		error = false;
 		remove_error(['name', 'input', 'output', 'performance_measure', 'performance_ordering', 'type', 'data']);
@@ -96,9 +41,6 @@ $(function() {
 	$('#form-new').submit(function(){
 		if (!validate()) return false;
 	});
-
-{% endifequal %}
-
 });
 </script>
 {% endblock %}
@@ -107,7 +49,6 @@ $(function() {
 <h2 class="title-01">{% trans "Submit new" %} {{ klass }}</h2>
 <div class="in">
 	{% trans "Supply only vital information under the Summary tab. You can fill in additional information under More Info or later on by editing." %}
-	{% ifequal klass "Data" %}{% trans "Please note that the Data file cannot be changed, you would have to create a new Data item." %}{% endifequal %}
 
 	<form id="form-new" action="{{ url_new }}" method="post" enctype="multipart/form-data">
 	{% if form.errors %}<p class="error">{% trans "There were some errors, please see below" %}.</td>{% endif %}
@@ -131,17 +72,7 @@ $(function() {
 				<dd>{{ form.tags }}<br />
 				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
 
-		{% ifequal klass "Data" %}
-				<dt><label for="id_license">{% trans "License" %}</label> * {{ form.license.errors }}</dt>
-				<dd>{{ form.license }}<br />
-				    <span class="helptext">Choose a license for your data set. 
-            (<a target="_blank" href="{% url about_license %}">{% trans "more info" %}</a>)</span></dd>
-
-				<dt><label for="id_file">{% trans "Data file" %}</label> * {{ form.file.errors }}</dt>
-				<dd>{{ form.file }}<br />
-				    <span class="helptext">Data file must be smaller than <b>{{ upload_limit }}!</b> (<a href="{% url about_hdf5 %}#fileformats">{% trans "parsed formats" %}</a>)</span></dd>
-
-		{% else %}{% ifequal klass "Task" %}
+		{% ifequal klass "Task" %}
 				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
 				<dd>{{ form.input}}<br />
             <span class="helptext">
@@ -173,22 +104,7 @@ $(function() {
 				<dt><label for="id_file">{% trans "Task file" %}</label> {{ form.file.errors }}</dt>
 				<dd>{{ form.file }}<br/>
 				    <span class="helptext">Upload additional information in a file (code, description, etc.)</span></dd>
-			{% else %}{% ifequal klass "Solution" %}
-				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
-				<dd>{{ form.feature_processing }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_parameters">{% trans "Parameters" %}</label> {{ form.parameters.errors }}</dt>
-				<dd>{{ form.parameters }}</dd>
-				<dt><label for="id_os">{% trans "Operating System" %}</label> {{ form.os.errors }}</dt>
-				<dd>{{ form.os }}</dd>
-				<dt><label for="id_code">{% trans "Code" %}</label> {{ form.code.errors }}</dt>
-				<dd>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_software_packages">{% trans "Software Packages" %}</label> {{ form.software_packages.errors }}</dt>
-				<dd>{{ form.software_packages }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_task">{% trans "Task" %}</label> * {{ form.task.errors }}</dt>
-				<dd>{{ form.task }}</dd>
-				<dt><label for="id_score">{% trans "Score file" %}</label> {{ form.score.errors }}</dt>
-				<dt>{{ form.score }}</dd>
-			{% endifequal %}{% endifequal %}{% endifequal %}
+			{% endifequal %}
 			</dl></div><!-- /tabs-summary -->
 
 			<div id="tabs-more"><dl>
@@ -198,15 +114,6 @@ $(function() {
 				<dd>{{ form.urls }}</dd>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
 				<dd>{{ form.publications }}</dd>
-			{% ifequal klass "Data" %}
-				<dt><label for="id_source">{% trans "Data Source" %}</label> {{ form.source.errors }}</dt>
-				<dd>{{ form.source }}</dd>
-				<dt><label for="id_measurement_details">{% trans "Measurement details" %}</label> {{ form.measurement_details.errors }}</dt>
-				<dd>{{ form.measurement_details }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_usage_scenario">{% trans "Usage scenario" %}</label> {{ form.usage_scenario.errors }}</dt>
-				<dd>{{ form.usage_scenario }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-			{% endifequal %}
-			{% ifequal klass "Task" %}
 				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
 				<dd>{{ form.train_idx }}</dd>
 				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>
@@ -215,16 +122,10 @@ $(function() {
 				<dd>{{ form.input_variables }}</dd>
 				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
 				<dd>{{ form.output_variables }}</dd>
-			{% endifequal %}
 			</dl></div><!-- /tabs-more -->
 		</div>
 
 		<input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}
 	</form>
-
-{% ifequal klass "Data" %}
-	<br />
-	<span class="progressbar" id="uploadprogressbar">0%</span>
-{% endifequal %}
 </div><!-- /in -->
 {% endblock %}
