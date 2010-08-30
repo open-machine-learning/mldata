@@ -143,17 +143,28 @@ class RepositoryTest(TestCase):
 
     def test_new_data_user_approve(self):
         """Post a new data set and approve"""
+<<<<<<< HEAD:repository/tests.py
 
         os.remove(self.data_file_name)
 
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
+=======
+        if not self.client.login(username='user', password='user'):
+            raise Exception('Login unsuccessful')
+        r = self.client.post(self.url['new_data'], self.minimal_data,
+            follow=True)
+>>>>>>> added fix for recent page when user page is not set.:repository/tests.py
         self.minimal_data['file'].seek(0)
         self.assertTemplateUsed(r, 'repository/data_new_review.html')
         r = self.do_post('new_data_review', self.review_data_approve, follow=True)
         self.assertTemplateUsed(r, 'repository/item_view.html')
 
+<<<<<<< HEAD:repository/tests.py
         self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.')
+=======
+        print r
+>>>>>>> added fix for recent page when user page is not set.:repository/tests.py
 
 
     def test_new_data_user_revert(self):
@@ -181,5 +192,3 @@ class RepositoryTest(TestCase):
     def test_view_tags_foobar(self):
         r = self.do_get('view_tags_foobar')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'repository/tags_view.html')
-        

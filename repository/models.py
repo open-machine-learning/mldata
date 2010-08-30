@@ -208,7 +208,10 @@ class Repository(models.Model):
         @rtype: list of Repository
         """
         num = 3
+<<<<<<< HEAD:repository/models.py
 
+=======
+>>>>>>> added fix for recent page when user page is not set.:repository/models.py
         # without if-construct sqlite3 barfs on AnonymousUser
         if user.id:
             qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
