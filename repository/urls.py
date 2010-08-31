@@ -5,6 +5,8 @@ URL patterns for Repository
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 import repository.views as views
+import repository.views.data as data
+
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='repository_index'),
@@ -12,7 +14,7 @@ urlpatterns = patterns('',
     (r'^tags/data/(?P<tag>[A-Za-z0-9-_.]+)/$', views.tags_data_view),
     (r'^tags/task/(?P<tag>[A-Za-z0-9-_.]+)/$', views.tags_task_view),
     (r'^tags/solution/(?P<tag>[A-Za-z0-9-_.]+)/$', views.tags_solution_view),
-    (r'^view/(?P<slug>[A-Za-z0-9-_]+)/$', views.data_view_slug),
+    (r'^view/(?P<slug>[A-Za-z0-9-_]+)/$', views.data.view_slug),
     (r'^view/(?P<slug>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.data_view_slug),
     (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/$', views.task_view_slug),
     (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.task_view_slug),

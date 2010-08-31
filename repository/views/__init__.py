@@ -41,60 +41,10 @@ import ml2h5.converter
 import ml2h5.fileformat
 from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
-
-NUM_HISTORY_PAGE = 20
-NUM_PAGINATOR_RANGE = 10
-PER_PAGE_INTS = [10, 20, 50, 100, 999999]
+from repository.views.util import *
 
 MEGABYTE = 1048576
 
-
-def _get_versions_paginator(request, obj):
-    """Get a paginator for item versions.
-
-    @param request: request data
-    @type request: Django request
-    @param obj: item to get versions for
-    @type obj: either class Data, Task or Solution
-    @return: paginator for item versions
-    @rtype: Django paginator
-    """
-    items = obj.get_versions(request.user)
-    paginator = Paginator(items, NUM_HISTORY_PAGE)
-
-    try:
-        # dunno a better way than looping thru, since index != obj.version
-        index = 0
-        for v in items:
-            if v.id == obj.id:
-                break
-            else:
-                index += 1
-        default_page = (index / NUM_HISTORY_PAGE) + 1
-        page = int(request.GET.get('page', str(default_page)))
-    except ValueError:
-        page = 1
-    try:
-        versions = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        versions = paginator.page(paginator.num_pages)
-
-    return versions
-
-
-def _get_tag_clouds(request):
-    """Convenience function to retrieve tag clouds for all item types.
-
-    @param request: request data
-    @type request: Django request
-    @return: list of tags with attributes font_size
-    @rtype: hash with keys 'Data', 'Task', 'Solution' containing lists of tagging.Tag
-    """
-    clouds = { 'Data': None, 'Task': None, 'Solution': None }
-    for k in clouds.iterkeys():
-        klass = eval(k)
-        clouds[k] = util.get_tag_cloud(klass, request.user)
-    return clouds
 
 
 @transaction.commit_on_success
@@ -395,7 +345,7 @@ def _view(request, klass, slug_or_id, version=None):
     obj.klass = klass.__name__
     # need tags in list
     obj.tags = obj.tags.split(TAG_SPLITSTR)
-    obj.versions = _get_versions_paginator(request, obj)
+    obj.versions = get_versions_paginator(request, obj)
     klassname = klass.__name__.lower()
     obj.url_activate = reverse(eval(klassname + '_activate'), args=[obj.id])
     obj.url_edit = reverse(eval(klassname + '_edit'), args=[obj.id])
@@ -420,7 +370,7 @@ def _view(request, klass, slug_or_id, version=None):
         'can_delete': obj.can_delete(request.user),
         'current': current,
         'rating_form': RatingForm.get(request, obj),
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
         'related': obj.filter_related(request.user),
         'klass': klass.__name__,
         'section': 'repository',
@@ -547,7 +497,7 @@ def _new(request, klass):
         'url_new': url_new,
         'form': form,
         'request': request,
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
         'section': 'repository',
         'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
@@ -651,7 +601,7 @@ def _edit(request, klass, id):
         'object': prev,
         'request': request,
         'publication_form': PublicationForm(),
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
         'section': 'repository',
     }
 
@@ -770,7 +720,7 @@ def _index(request, klass, my=False, searchterm=None):
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
         'per_page': PER_PAGE,
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
         'section': 'repository',
     }
     if searchterm:
@@ -795,7 +745,7 @@ def index(request):
     info_dict = {
         'request': request,
         'section': 'repository',
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
     }
     return render_to_response('repository/index.html', info_dict)
 
@@ -1223,7 +1173,7 @@ def data_new_review(request, slug):
         'object': obj,
         'form': form,
         'request': request,
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
         'section': 'repository',
         'supported_formats': ', '.join(ml2h5.converter.HANDLERS.iterkeys()),
         'extract': ml2h5.data.get_extract(fname),
@@ -1287,7 +1237,7 @@ def _tags_view(request, tag, klass):
         'section': 'repository',
         'klass': klass.__name__,
         'tag': tag,
-        'tagcloud': _get_tag_clouds(request),
+        'tagcloud': get_tag_clouds(request),
         'objects': objects,
     }
     return render_to_response('repository/tags_view.html', info_dict)

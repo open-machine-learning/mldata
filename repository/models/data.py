@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models import Q
+from django.core.mail import mail_admins
 from repository.models import Repository
 from repository.models import License
 
-from settings import DATAPATH
+from settings import DATAPATH, MEDIA_ROOT
 
 from repository.models import Rating
 
@@ -130,6 +131,24 @@ class Data(Repository):
     def get_completeness_properties(self):
         return ['tags', 'description', 'license', 'summary', 'urls',
             'publications', 'source', 'measurement_details', 'usage_scenario']
+
+    def get_extract(self):
+        extract = None
+        fname_h5 = os.path.join(MEDIA_ROOT, self.file.name)
+        try:
+            extract = ml2h5.data.get_extract(fname_h5)
+        except Exception, e: # catch exceptions in general, but notify admins
+            subject = 'Failed data extract of %s' % (fname_h5)
+            body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
+            mail_admins(subject, body)
+        return extract
+
+    def has_h5(self):
+        self.has_h5 = False
+        if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, self.file.name)) == 'h5':
+            self.has_h5 = True
+        if 'conversion_failed' in self.tags:
+            self.conversion_failed = True
 
 
 class DataRating(Rating):
