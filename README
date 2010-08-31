@@ -71,3 +71,12 @@ memcached
 python-memcache
 
 There is no python-h5py in debian, but you can install it by hand.
+
+
+
+Potentially useful projects
+---------------------------
+
+http://ericholscher.com/projects/django-test-utils/
+http://bitbucket.org/jespern/django-piston/wiki/Home
+http://agiliq.com/
