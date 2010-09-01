@@ -26,7 +26,6 @@ def view_slug(request, slug, version=None):
 def view(request, slug_or_id, version=None):
     """View data item
     """
-    print "hello!"
 
     obj = Data.get_object(slug_or_id, version)
     if not obj: raise Http404
