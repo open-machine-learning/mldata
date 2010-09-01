@@ -56,6 +56,19 @@ class Data(Repository):
     class Meta:
         app_label = 'repository'
 
+    @classmethod
+    def get_public_active_objects(cls):
+        """Get the currently active objects.
+
+        Currently, this includes:
+
+        * not deleted
+        * approved
+        * current
+        * public
+        """
+        return cls.objects.filter(is_deleted=False, is_approved=True, is_current=True, is_public=True)
+
     def get_filename(self):
         """Construct filename for Data file.
 

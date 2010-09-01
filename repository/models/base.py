@@ -235,6 +235,10 @@ class Repository(models.Model):
 
         return obj
 
+    @classmethod
+    def set_current(cls, slug):
+        repository.util.set_current(cls, slug)
+
 
     def __init__(self, * args, ** kwargs):
         super(Repository, self).__init__(*args, ** kwargs)
@@ -332,7 +336,7 @@ class Repository(models.Model):
             view = 'repository.views.task_view_slug'
             return reverse(view, args=[self.task.data.slug.text, self.slug.text])
         else:
-            view = 'repository.views.data_view_slug'
+            view = 'repository.views.data.view_slug'
             return reverse(view, args=[self.slug.text])
 
     def is_owner(self, user):

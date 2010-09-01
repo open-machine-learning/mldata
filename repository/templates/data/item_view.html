@@ -99,15 +99,15 @@ $(function() {
 			<dd>
 				{% trans "# Instances" %}: {{ object.num_instances }} / {% trans "# Attributes" %}: {{ object.num_attributes }}<br />
 				{% if object.has_h5 %}
-					<a href="{% url repository.views.data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-					<a href="{% url repository.views.data_download_xml object.slug %}">{% trans "XML" %}</a>
-					<a href="{% url repository.views.data_download_csv object.slug %}">{% trans "CSV" %}</a>
-					<a href="{% url repository.views.data_download_arff object.slug %}">{% trans "ARFF" %}</a>
-					<a href="{% url repository.views.data_download_libsvm object.slug %}">{% trans "LibSVM" %}</a>
-					<a href="{% url repository.views.data_download_matlab object.slug %}">{% trans "Matlab" %}</a>
-					<a href="{% url repository.views.data_download_octave object.slug %}">{% trans "Octave" %}</a>
+					<a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+					<a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
+					<a href="{% url repository.views.data.download_csv object.slug %}">{% trans "CSV" %}</a>
+					<a href="{% url repository.views.data.download_arff object.slug %}">{% trans "ARFF" %}</a>
+					<a href="{% url repository.views.data.download_libsvm object.slug %}">{% trans "LibSVM" %}</a>
+					<a href="{% url repository.views.data.download_matlab object.slug %}">{% trans "Matlab" %}</a>
+					<a href="{% url repository.views.data.download_octave object.slug %}">{% trans "Octave" %}</a>
 				{% else %}
-					<a href="{% url repository.views.data_download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+					<a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 				{% endif %}
 			</dd>
 		</dl>

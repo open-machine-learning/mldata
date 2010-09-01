@@ -68,8 +68,8 @@ $(function() {
 
 		$.data(this, 'submitted', true); // mark form as submitted.
 	});
-{% else %}
-	$('#form-new').submit(function() {
+
+$('#form-new').submit(function() {
 		if (!$('#id_keep_private').is(':checked')) {
 			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
 		}

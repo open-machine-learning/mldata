@@ -1,10 +1,11 @@
 import os.path
 
 from django.db.models import Q
+from django.contrib.comments.models import Comment
 
-from repository.models import Data
-from repository.models import Task
-from repository.models import Solution
+from repository.models import Data, DataRating
+from repository.models import Task, TaskRating
+from repository.models import Solution, SolutionRating
 
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
