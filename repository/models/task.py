@@ -212,6 +212,12 @@ class Task(Repository):
         return ['tags', 'description', 'summary', 'urls', 'publications',
             'input', 'output', 'performance_measure', 'type', 'file']
 
+    def get_related_data(self):
+        return self.data
+
+    def get_extract(self):
+        return ml2h5.task.get_extract(os.path.join(MEDIA_ROOT, self.file.name))
+
 
 class TaskRating(Rating):
     """Rating for a Task item."""

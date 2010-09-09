@@ -5,11 +5,13 @@
         <data xmlns="http://nbpython.dev.java.net/ns/php-project/1">
             <name>mldata-site</name>
             <sources>
+                <root id="src.about.dir"/>
                 <root id="src.utils.dir"/>
                 <root id="src.repository.dir"/>
                 <root id="src.data.dir"/>
                 <root id="src.task.dir"/>
                 <root id="src.solution.dir"/>
+                <root id="src.templates.dir"/>
             </sources>
             <tests/>
         </data>

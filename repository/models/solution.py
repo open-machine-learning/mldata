@@ -70,6 +70,9 @@ class Solution(Repository):
             'feature_processing', 'parameters', 'os', 'code',
             'software_packages', 'score']
 
+    def get_related_data(self):
+        return self.task.data
+
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)

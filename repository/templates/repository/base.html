@@ -9,17 +9,17 @@
 <h4 class="title-03">{% trans "Data" %}</h4>
 <div class="in">
 	<ul id="subnav">
-		{% url repository.views.data_index as url_index %}
-		{% url repository.views.data_my as url_my %}
-		{% url repository.views.data_new as url_new %}
+		{% url repository.views.data.index as url_index %}
+		{% url repository.views.data.my as url_my %}
+		{% url repository.views.data.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data Sets" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
 		<li class="search">{% trans "Search" %}
-		<form method="get" action="{% url repository.views.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="data" name="data" value="Data" /></form>
+		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="data" name="data" value="Data" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_data_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.data.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->
@@ -29,17 +29,17 @@
 <h4 class="title-03">{% trans "Task" %}</h4>
 <div class="in">
 	<ul id="subnav">
-		{% url repository.views.task_index as url_index %}
-		{% url repository.views.task_my as url_my %}
-		{% url repository.views.task_new as url_new %}
+		{% url repository.views.task.index as url_index %}
+		{% url repository.views.task.my as url_my %}
+		{% url repository.views.task.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Tasks" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Task" %}</a></li>
 		<li class="search">{% trans "Search" %}
-		<form method="get" action="{% url repository.views.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="task" name="task" value="Task" /></form>
+		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="task" name="task" value="Task" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Task %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_task_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Task %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.task.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->
@@ -49,14 +49,14 @@
 <h4 class="title-03">{% trans "Solution" %}</h4>
 <div class="in">
 	<ul id="subnav">
-		{% url repository.views.solution_index as url_index %}
-		{% url repository.views.solution_my as url_my %}
-		{% url repository.views.solution_new as url_new %}
+		{% url repository.views.solution.index as url_index %}
+		{% url repository.views.solution.my as url_my %}
+		{% url repository.views.solution.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
 		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Solution" %}</li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Solution" %}</a></li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.tags_solution_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.solution.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->

@@ -156,12 +156,18 @@ class Data(Repository):
             mail_admins(subject, body)
         return extract
 
-    def has_h5(self):
+    #
+    # stuff by Mikio below
+    #
+    def check_has_h5(self):
         self.has_h5 = False
         if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, self.file.name)) == 'h5':
             self.has_h5 = True
         if 'conversion_failed' in self.tags:
             self.conversion_failed = True
+
+    def check_is_approved(self):
+        return self.is_approved
 
 
 class DataRating(Rating):

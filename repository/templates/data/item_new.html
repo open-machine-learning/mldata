@@ -48,7 +48,7 @@ $(function() {
 
 		var freq = 1000; // freqency of update in ms
 		var uuid = '{{ uuid }}'; // id for this upload so we can fetch progress info.
-		var progress_url = '{% url repository.views.upload_progress %}'; // ajax view serving progress info
+		var progress_url = '{% url repository.views.ajax.upload_progress %}'; // ajax view serving progress info
 		// Append X-Progress-ID uuid form action
 		this.action += (this.action.indexOf('?') == -1 ? '?' : '&') + 'X-Progress-ID=' + uuid;
 

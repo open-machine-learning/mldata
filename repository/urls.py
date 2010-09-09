@@ -3,22 +3,25 @@ URL patterns for Repository
 """
 
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
 import repository.views as views
-import repository.views.data as data
-
+import repository.views.base
+import repository.views.data
+import repository.views.task
+import repository.views.solution
+import repository.views.ajax
+import repository.views.publication
 
 urlpatterns = patterns('',
     # index
-    url(r'^$', views.index, name='repository_index'),
+    url(r'^$', views.base.main_index, name='repository_index'),
 
     # search
-    (r'^search/$', views.search),
+    (r'^search/$', views.base.search),
 
     # tags
-    (r'^tags/data/(?P<tag>[A-Za-z0-9-_.]+)/$', views.tags_data_view),
-    (r'^tags/task/(?P<tag>[A-Za-z0-9-_.]+)/$', views.tags_task_view),
-    (r'^tags/solution/(?P<tag>[A-Za-z0-9-_.]+)/$', views.tags_solution_view),
+    (r'^tags/data/(?P<tag>[A-Za-z0-9-_.]+)/$', views.data.tags_view),
+    (r'^tags/task/(?P<tag>[A-Za-z0-9-_.]+)/$', views.task.tags_view),
+    (r'^tags/solution/(?P<tag>[A-Za-z0-9-_.]+)/$', views.solution.tags_view),
 
     # data sets
     url(r'^data/$', views.data.index, name='data_index'),
@@ -43,20 +46,20 @@ urlpatterns = patterns('',
     url(r'^data/rate/(?P<id>\d+)/$', views.data.rate, name='repository_data_rate'),
 
     # tasks
-    url(r'^task/$', views.task_index, name='task_index'),
-    (r'^task/my/$', views.task_my),
-    (r'^task/new/$', views.task_new),
-    (r'^task/view/(?P<id>\d+)/$', views.task_view),
+    url(r'^task/$', views.task.index, name='task_index'),
+    (r'^task/my/$', views.task.my),
+    (r'^task/new/$', views.task.new),
+    (r'^task/view/(?P<id>\d+)/$', views.task.view),
 
-    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/$', views.task_view_slug),
-    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.task_view_slug),
+    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/$', views.task.view_slug),
+    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.task.view_slug),
 
-    (r'^task/edit/(?P<id>\d+)/$', views.task_edit),
-    (r'^task/delete/(?P<id>\d+)/$', views.task_delete),
-    (r'^task/activate/(?P<id>\d+)/$', views.task_activate),
-    url(r'^task/rate/(?P<id>\d+)/$', views.task_rate, name='repository_task_rate'),
-    (r'^task/download/(?P<slug>[A-Za-z0-9-_]+)/$', views.task_download),
-    (r'^task/predict/(?P<slug>[A-Za-z0-9-_]+)/$', views.task_predict),
+    (r'^task/edit/(?P<id>\d+)/$', views.task.edit),
+    (r'^task/delete/(?P<id>\d+)/$', views.task.delete),
+    (r'^task/activate/(?P<id>\d+)/$', views.task.activate),
+    url(r'^task/rate/(?P<id>\d+)/$', views.task.rate, name='repository_task_rate'),
+    (r'^task/download/(?P<slug>[A-Za-z0-9-_]+)/$', views.task.download),
+    (r'^task/predict/(?P<slug>[A-Za-z0-9-_]+)/$', views.task.predict),
 
     # solutions
 #    url(r'^solution/$', views.solution_index, name='solution_index'),
@@ -72,9 +75,9 @@ urlpatterns = patterns('',
 #    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<slug_solution>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.solution_view_slug),
 
     # publications
-    (r'^publication/edit/$', views.publication_edit),
-    (r'^publication/get/(?P<id>\d+)/$', views.publication_get),
+    (r'^publication/edit/$', views.publication.edit),
+    (r'^publication/get/(?P<id>\d+)/$', views.publication.get),
 
     # upload progress AJAX
-    (r'^upload_progress/$', views.upload_progress),
+    (r'^upload_progress/$', views.ajax.upload_progress),
 )

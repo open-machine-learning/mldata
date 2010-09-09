@@ -1,21 +1,7 @@
-import datetime
 import os
-import sys
-import subprocess
-import uuid
-import traceback
-from django.core import serializers
-from django.core.cache import cache
-from django.core.files import File
 from django.core.mail import mail_admins
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from django.core.servers.basehttp import FileWrapper
-from django.db import IntegrityError, transaction
-from django.db.models import Q
-from django.forms.util import ErrorDict
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, HttpResponseServerError, Http404
-from django.shortcuts import render_to_response, get_object_or_404
-from django.utils import simplejson
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
@@ -23,14 +9,7 @@ from repository.models import *
 from repository.forms import *
 import repository.util as util
 
-from settings import MEDIA_ROOT, TAG_SPLITSTR, DATAPATH
 from preferences.models import Preferences
-from tagging.models import Tag
-import ml2h5.data
-import ml2h5.task
-import ml2h5.converter
-import ml2h5.fileformat
-from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 
 NUM_HISTORY_PAGE = 20
 NUM_PAGINATOR_RANGE = 10
@@ -184,3 +163,19 @@ def sendfile(fileobj, ctype):
         raise Http404
 
     return response
+
+def is_newer(first, second):
+    """Check if second given file is newer than first given file.
+
+    @param first: name of first file
+    @type first: string
+    @param second: name of second file
+    @type second: string
+    """
+    stats_first = os.stat(first)
+    stats_second = os.stat(second)
+    # index 8 is last modified
+    if stats_second[8] > stats_first[8]:
+        return True
+    else:
+        return False

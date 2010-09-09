@@ -179,6 +179,51 @@ class Repository(models.Model):
         get_latest_by = 'pub_date'
         app_label = 'repository'
 
+    #
+    # New stuff by Mikio here
+    #
+
+    def check_is_approved(self):
+        """Checks whether this object is approved.
+        
+        True by default. Overwritten in Data because
+        of the extra review step."""
+        return True
+
+    def update_current_hits(self):
+        """Update the hits count on the given object.
+        """
+        current = Repository.objects.get(slug=self.slug, is_current=True)
+        current.hits += 1
+        current.save()
+        return current
+
+    def check_has_h5(self):
+        """Checks whether has h5 and updates the object if this is the case.
+
+        No-Op by default, overwritten for Data. If overwritten, sets the has_h5
+        attribute, or the conversion-failed attribute.
+        """
+        pass
+
+    def get_related_data(self):
+        """Returns the data set related to this data set.
+
+        No-op by default. Overwritten in Task and Data.
+        """
+        return None
+
+    def get_extract(self):
+        """Get an h5 based extract for this data set.
+
+        No-op by default, overwritten in Task and Data.
+        """
+        return None
+    
+    #
+    # Old stuff by Sebastian below
+    #
+
     @classmethod
     def get_current_tagged_items(cls, user, tag):
         """Get current items with specific tag.
@@ -329,11 +374,11 @@ class Repository(models.Model):
         @rtype: string
         """
         if hasattr(self, 'solution'):
-            view = 'repository.views.solution_view_slug'
+            view = 'repository.views.solution.view_slug'
             return reverse(view, args=[
                            self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
         elif hasattr(self, 'task'):
-            view = 'repository.views.task_view_slug'
+            view = 'repository.views.task.view_slug'
             return reverse(view, args=[self.task.data.slug.text, self.slug.text])
         else:
             view = 'repository.views.data.view_slug'

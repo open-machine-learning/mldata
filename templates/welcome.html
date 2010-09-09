@@ -11,7 +11,7 @@
     <p>{% trans "We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods. Also, you will eventually be able to set up challenges easily." %}</p>
 
     <div class="leftbox">
-        <form method="get" action="{% url repository.views.search %}">
+        <form method="get" action="{% url repository.views.base.search %}">
             <p class="head">{% trans "Search Repositories" %}</p>
             <p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
             <p>
@@ -38,7 +38,7 @@
             <form action="{% url repository.views.data.new %}">
                 <input class="stdbutton" type="submit" value="{% trans 'New Data' %}" />
             </form>
-            <form action="{% url repository.views.task_new %}">
+            <form action="{% url repository.views.task.new %}">
                 <input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
             </form>
         </div>
@@ -46,15 +46,26 @@
 
     <br style="float:none">
 
-	<div class="centerbox">
-		<p class="head">{% trans "Recent Items" %}</p>
-			<ul class="recent">
-				{% for r in recent %}<li>
-					<a href="{% if r.data %}{% url repository.views.task_view_slug r.data.slug r.slug %}{% else %}{% url repository.views.data_view_slug r.slug %}{% endif %}">{{ r.name }}</a>, {{ r.pub_date|date:"Y-m-d H:i" }}<br />
-					{{ r.summary }}
-				</li>{% endfor %}
-			</ul>
-	</div>
+    <div class="centerbox">
+        <p class="head">{% trans "Recent Items" %}</p>
+        <ul class="recent">
+            {% for r in recent %}
+                <li>
+                    {% if r.data %}
+                    Task <a href="{% url repository.views.task.view_slug r.data.slug r.slug %}">
+                        {{ r.name }}
+                    </a>,
+                    {% else %}
+                    Data <a href="{% url repository.views.data.view_slug r.slug %}">
+                        {{ r.name }}
+                    </a>,
+                    {% endif %}
+                    {{ r.pub_date|date:"Y-m-d H:i" }}<br />
+                    {{ r.summary }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 
 </div><!-- /in -->
 {% endblock %}
