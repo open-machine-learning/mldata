@@ -6,7 +6,7 @@
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
-<a href="{{ object.d.get_absolute_slugurl }}">{{ object.d.name }}</a> / {{ object.name }}
+<a href="{{ object.data.get_absolute_slugurl }}">{{ object.data.name }}</a> / {{ object.name }}
 {% endblock %}
 {% block extrahead %}
 <script type="text/javascript" src="/media/js/fileuploader.js"></script>
@@ -64,7 +64,12 @@ $(function() {
 		onComplete: function(id, fname, data) {
 			$('#prediction-score-value').html(data.score);
 			$('#prediction-score').show();
-		}
+			},
+		template: '<div class="qq-uploader">' +
+				'<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+				'<div class="qq-upload-button">Upload Solution...</div>' +
+				'<ul class="qq-upload-list"></ul>' +
+				'</div>'
 	});
 
 	$('#tabs').tabs();
