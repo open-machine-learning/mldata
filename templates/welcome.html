@@ -32,6 +32,7 @@
         <ul>
             <li>{% trans "A raw <b>data</b> set." %}</li>
             <li>{% trans "A learning <b>task</b> defined on existing data sets." %}</li>
+			<li>{% trans "Submitting a <b>solution</b> for an exisiting task." %}</li>
         </ul>
 
         <div class="buttonrow">
@@ -40,6 +41,9 @@
             </form>
             <form action="{% url repository.views.task.new %}">
                 <input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
+            </form>
+            <form action="{% url repository.views.solution.new %}">
+                <input class="stdbutton" type="submit" value="{% trans 'New Solution' %}" />
             </form>
         </div>
     </div>

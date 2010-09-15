@@ -1,0 +1,131 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {% trans "New" %}{% endblock %}
+
+{% block extrahead %}
+{% include "autocomplete.html" %}
+<script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+
+$(function() {
+	remove_error = function(errors) {
+		$.each(errors, function (idx, val) {
+			$('#error_' + val).remove();
+		});
+	}
+	append_error = function(id) {
+		$('label[for|=id_' + id + ']').append(
+			'<span id="error_' + id + '" class="error">' + '{% trans "REQUIRED" %}' + '</span>');
+		return true;
+	}
+
+	$('#tabs').tabs();
+
+	validate = function() {
+		error = false;
+		remove_error(['name', 'input', 'output', 'performance_measure', 'performance_ordering', 'type', 'data']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+		if (!$('#id_input').val()) error = append_error('input');
+		if (!$('#id_output').val()) error = append_error('output');
+		if (!$('#id_performance_measure').val()) error = append_error('performance_measure');
+		if (!$('#id_performance_ordering').val()) error = append_error('performance_ordering');
+		if (!$('#id_type').val() && !$('#id_freeformtype').val()) error = append_error('type');
+		if (!$('#id_data').val()) error = append_error('data');
+
+		return !error;
+	};
+
+	$('#form-new').submit(function(){
+		if (!validate()) return false;
+	});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "Submit new" %} {{ klass }}</h2>
+<div class="in">
+	{% trans "Supply only vital information under the Summary tab. You can fill in additional information under More Info or later on by editing." %}
+
+	<form id="form-new" action="{{ url_new }}" method="post" enctype="multipart/form-data">
+	{% if form.errors %}<p class="error">{% trans "There were some errors, please see below" %}.</td>{% endif %}
+		<div id="tabs">
+			<ul class="clearfix">
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+			</ul>
+
+
+			<div id="tabs-summary"><dl>
+				<dt><label for="id_name">{% trans "Name" %}</label> * {{ form.name.errors }}</dt>
+				<dd>{{ form.name }}<br />
+				    <span class="helptext">{% trans "Come up with good name. <b>IT CANNOT BE CHANGED LATER ON!</b> The name will also be used for creating the 'slug', that is, the readable id for this item." %}</span></dd>
+
+				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
+				<dd>{{ form.summary }}<br />
+            <span class="helptext">{% trans "One-line summary of your data set" %}</span></dd>
+
+				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
+				<dd>{{ form.tags }}<br />
+				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
+
+		{% ifequal klass "Task" %}
+				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
+				<dd>{{ form.input}}<br />
+            <span class="helptext">
+  						{% trans 'Describe the format of the <b>input features</b> for this learning task.' %}<br/>
+							{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+
+				<dt><label for="id_output">{% trans "Output format" %}</label> * {{ form.output.errors }}</dt>
+				<dd>{{ form.output }}<br /><span class="helptext">
+						{% trans 'Describe the format of the <b>output features</b> for this learning task.' %}<br/>
+						{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+
+				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
+				<dd>{{ form.performance_measure }}<br /><span class="helptext"> {% trans 'Describe how the <b>performance</b> of the learned model is evaluated.' %}<br/></span></dd>
+
+				<dt><label for="id_performance_ordering">{% trans "Performance Ordering" %}</label> {{ form.performance_ordering.errors }}</dt>
+				<dd>{% trans "higher is better (unchecked implies lower is better)" %}: {{ form.performance_ordering }}</dd>
+
+				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }}{{ form.freeformtype.errors }}</dt>
+				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
+
+				<dt><label for="id_data">{% trans "Data" %}</label> * {{ form.data.errors }}</dt>
+				<dd>{{ form.data }}<br/>
+				    <span class="helptext">{% trans 'Data set on which the learning task is defined' %}</span></dd>
+
+				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
+				<dd>{{ form.data_heldback }}<br/>
+				    <span class="helptext">{% trans 'Held back data file (for example for challenges)' %}</span></dd>
+
+				<dt><label for="id_file">{% trans "Task file" %}</label> {{ form.file.errors }}</dt>
+				<dd>{{ form.file }}<br/>
+				    <span class="helptext">Upload additional information in a file (code, description, etc.)</span></dd>
+			{% endifequal %}
+			</dl></div><!-- /tabs-summary -->
+
+			<div id="tabs-more"><dl>
+				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
+				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
+				<dd>{{ form.urls }}</dd>
+				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
+				<dd>{{ form.publications }}</dd>
+				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
+				<dd>{{ form.train_idx }}</dd>
+				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>
+				<dd>{{ form.test_idx }}</dd>
+				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
+				<dd>{{ form.input_variables }}</dd>
+				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
+				<dd>{{ form.output_variables }}</dd>
+			</dl></div><!-- /tabs-more -->
+		</div>
+
+		<input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}
+	</form>
+</div><!-- /in -->
+{% endblock %}

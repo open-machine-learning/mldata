@@ -1,0 +1,116 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / <a href="{% url repository.views.task.view_slug object.data.slug object.slug %}">{{ object.name }}</a>{% endblock %}
+
+{% block extrahead %}
+{% include "autocomplete.html" %}
+<script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('.cancel').click(function() {
+		window.history.back(-1);
+	});
+	$('#form-edit').submit(function() {
+		if ($('#id_keep_private').length != 0 && !$('#id_keep_private').is(':checked')) {
+			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+		}
+		return true;
+	});
+
+	$('#tabs-publications select').removeAttr('multiple');
+	$('#tabs-publications select').prepend($("<option></option>").attr("value", 0).text('')); 
+	$("#tabs-publications select option[value='0']").attr('selected', 'selected')
+	$('#tabs-publications select').change(function() {
+		id = $('#tabs-publications #id_publications').val()
+		// trickery to use django's URL function
+		url = "{% url repository.views.publication.get 0 %}"
+		url = url.substr(0, url.length - 2) + id;
+		$.getJSON(url, function(data){
+			$('#tabs-publications #id_title').val(data[0].fields.title);
+			$('#tabs-publications #id_content').val(data[0].fields.content);
+			$('#tabs-publications #id_id').val(id);
+		});
+	});
+	$('#tabs-publications #id_title').val('');
+	$('#tabs-publications #id_content').val('');
+
+
+	$('#tabs').tabs();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "Edit" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h2>
+<div class="in">
+		{% if form.errors %}
+		<div class="error">{% trans "There had been errors, please see below" %}.</div>
+		{% endif %}
+		<div id="tabs">
+			<ul class="clearfix">
+				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
+				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+				<li><a title="{% trans "Add or edit a publication" %}" href="#tabs-publications">{% trans "Publications" %}</a></li>
+			</ul>
+
+			<form id="form-edit" action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
+			<div id="tabs-summary"><dl>
+				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
+				<dd>{{ form.summary }}</dd>
+				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
+				<dd>{{ form.tags }}</dd>
+				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
+				<dd>{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_output">{% trans "Output format" %}</label> * {{ form.output.errors }}</dt>
+				<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
+				<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_performance_ordering">{% trans "Performance Ordering" %}</label> * {{ form.performance_ordering.errors }}</dt>
+				<dd>{% trans "Up (unchecked implies Down)" %} {{ form.performance_ordering }}</dd>
+				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
+				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
+				<dt><label for="id_data">{% trans "Data" %}</label> *{{ form.data.errors }}</dt>
+				<dd>{{ form.data }}</dd>
+				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
+				<dd>{{ form.data_heldback }}</dd>
+				<dt><label for="id_file">{% trans "Task file" %}</label>: {{ form.file.errors }}</dt>
+				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task.download object.slug %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
+				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
+			</dl></div><!-- /tabs-summary -->
+
+			<div id="tabs-more"><dl>
+				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
+				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
+				<dd>{{ form.urls }}</dd>
+				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
+				<dd>{{ form.train_idx }}</dd>
+				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>
+				<dd>{{ form.test_idx }}</dd>
+				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
+				<dd>{{ form.input_variables }}</dd>
+				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
+				<dd>{{ form.output_variables }}</dd>
+				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
+				<dd>{{ form.publications }}</dd>
+				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_more" name="cancel_more" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
+			</dl></div><!-- /tabs-more -->
+			</form>
+
+			<div id="tabs-publications"><form method="post" action="{% url repository.views.publication.edit %}"><dl>
+				<dt><label for="id_publications">{% trans "Select an existing publication to edit or leave it blank to create a new one" %}</label></dt>
+				<dd>{{ form.publications }}</dd>
+				<dt><label for="id_title">{% trans "Title" %}</label> {{ publication_form.title.errors }}</dt>
+				<dd>{{ publication_form.title }}</dd>
+				<dt><label for="id_content">{% trans "Content" %}</label> {{ publication_form.content.errors }}</dt>
+				<dd>{{ publication_form.content }}</dd>
+				<input type="hidden" name="next" id="id_next" value="{{ request.path }}#tabs-more" />
+				<input type="hidden" name="id" id="id_id" value="0" />
+				<input type="submit" class="submit" value="{% trans "Submit Publication" %}" /> <input type="button" id="cancel_publication" name="cancel_publication" class="submit cancel" value="{% trans "Cancel" %}" />
+			</dl></form></div>
+		</div><!-- /tabs -->
+</div><!-- /in -->
+{% endblock %}
+

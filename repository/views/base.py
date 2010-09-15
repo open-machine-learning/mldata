@@ -542,9 +542,12 @@ def tags_view(request, tag, klass):
         'tagcloud': get_tag_clouds(request),
         'objects': objects,
     }
-    return render_to_response('repository/tags_view.html', info_dict)
-
-
+    if klass == Data:
+        return render_to_response('data/tags_view.html', info_dict)
+    elif klass == Task:
+        return render_to_response('task/tags_view.html', info_dict)
+    elif klass == Solution:
+        return render_to_response('solutions/tags_view.html', info_dict)
 
 def rate(request, klass, id):
     """Rate an item given by id and klass.

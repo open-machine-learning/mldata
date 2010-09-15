@@ -68,6 +68,8 @@ $(function() {
 		<p{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url data_index %}">{% trans "Data" %}</a></p>
 		<hr width="100%" />
 		<p{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url task_index %}">{% trans "Task" %}</a></p>
+		<hr width="100%" />
+		<p{% ifequal klass 'Solution' %} class="active"{% endifequal %}><a href="{% url solution_index %}">{% trans "Solution" %}</a></p>
 	</div><!-- /nav1 -->
 
 	<hr class="noscreen" />

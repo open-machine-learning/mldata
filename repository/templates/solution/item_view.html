@@ -105,7 +105,7 @@ $(function() {
 			<dt>{% trans "License" %}</dt>
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
 			<dt>{% trans "Tags" %}</dt>
-			<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.task.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
+			<dd>{% for tag in object.tags %}{% if tag %}<a href="{% url repository.views.task.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Input format" %}</dt>
 			<dd>{{ object.input|markdown }}</dd>
 			<dt>{% trans "Output format" %}</dt>

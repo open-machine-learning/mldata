@@ -1,0 +1,49 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {{ my_or_archive }}{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{{ my_or_archive }} {{ klass }}</h2>
+<div class="in">
+{% if searcherror %}
+<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
+{% endif%}
+{% if page.object_list %}
+	{% include "repository/paginator_index.html" %}
+	<ul class="index_list">
+	{% for object in page.object_list %}
+		<li>
+		  <h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
+                        {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}
+			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
+			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
+			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
+			{% if object.num_instances %}<br />{% trans "# Instances" %}: {{ object.num_instances }}, {% trans "# Attributes" %}: {{ object.num_attributes }}{% endif %}
+		</li>
+	{% endfor %}
+	</ul>
+	{% include "repository/paginator_index.html" %}
+{% else %}
+	<p>{% trans "Sorry, no items available" %}.</p>
+{% endif %}
+
+{% if unapproved %}
+	<br /><hr />
+	<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
+	<ul class="index_list">
+	{% for object in unapproved %}
+		<li>
+		  <h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
+                        {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}
+			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
+			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
+			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
+			{% if object.num_instances %}<br />{% trans "# Instances" %}: {{ object.num_instances }}, {% trans "# Attributes" %}: {{ object.num_attributes }}{% endif %}
+		</li>
+	{% endfor %}
+	</ul>
+{% endif %}
+</div><!-- /in -->
+{% endblock %}
