@@ -211,7 +211,6 @@ class Task(Repository):
 
         if update_file or is_new:
             fname = os.path.join(MEDIA_ROOT, self.file.name)
-            print "Creating task file at " + fname
             ml2h5.task.create(fname, self, taskfile)
 
     def qs_for_related(self):

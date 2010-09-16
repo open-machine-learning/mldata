@@ -331,7 +331,6 @@ def new(request, klass):
                         new.score = request.FILES['score']
                         new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    print "new obj created"
                     new.save()
                 else:
                     raise Http404
