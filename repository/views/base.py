@@ -236,6 +236,12 @@ def view(request, klass, slug_or_id, version=None):
         'data': obj.get_related_data()
     }
 
+    if klass == Task:
+        objects=Solution.objects.filter(task=obj)
+        PER_PAGE = get_per_page(objects.count())
+        info_dict['page']=get_page(request, objects, PER_PAGE)
+        info_dict['per_page']=PER_PAGE
+
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
 
