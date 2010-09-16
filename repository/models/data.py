@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.mail import mail_admins
 from repository.models import Repository
@@ -144,6 +145,15 @@ class Data(Repository):
     def get_completeness_properties(self):
         return ['tags', 'description', 'license', 'summary', 'urls',
             'publications', 'source', 'measurement_details', 'usage_scenario']
+
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
+
+        @return: an absolute URL or None
+        @rtype: string
+        """
+        view = 'repository.views.data.view_slug'
+        return reverse(view, args=[self.slug.text])
 
     def get_extract(self):
         extract = None

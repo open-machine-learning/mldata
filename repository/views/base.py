@@ -331,6 +331,8 @@ def new(request, klass):
                         new.score = request.FILES['score']
                         new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    print "new obj created"
+                    new.save()
                 else:
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())
@@ -353,7 +355,7 @@ def new(request, klass):
     elif klass == Task:
         return render_to_response('task/item_new.html', info_dict)
     elif klass == Solution:
-        return render_to_response('solutions/item_new.html', info_dict)
+        return render_to_response('solution/item_new.html', info_dict)
 
 
 @transaction.commit_on_success
@@ -547,7 +549,7 @@ def tags_view(request, tag, klass):
     elif klass == Task:
         return render_to_response('task/tags_view.html', info_dict)
     elif klass == Solution:
-        return render_to_response('solutions/tags_view.html', info_dict)
+        return render_to_response('solution/tags_view.html', info_dict)
 
 def rate(request, klass, id):
     """Rate an item given by id and klass.

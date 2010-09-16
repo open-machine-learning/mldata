@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from repository.forms import *
 from repository.models import *
 from repository.views.util import *
+import traceback
 from django.db import transaction
 
 import repository.views.base as base
@@ -20,7 +21,7 @@ import ml2h5.fileformat
 def index(request):
     return base.index(request, Data)
 
-def my(request, id):
+def my(request):
     return base.index(request, Data, True)
 
 #############################################################################
@@ -79,7 +80,7 @@ def new_review(request, slug):
                     obj.approve(fname, form.cleaned_data)
                 except ml2h5.converter.ConversionError, error:
                     url = 'http://' + request.META['HTTP_HOST'] + reverse(
-                        data_view_slug, args=[obj.slug])
+                        view_slug, args=[obj.slug])
                     subject = 'Failed conversion to HDF5: %s' % url
                     body = "Hi admin!\n\n" +\
                         'URL: ' + url + "\n\n" +\
@@ -111,7 +112,7 @@ def delete(request, id):
     """
     return base.delete(request, Data, id)
 
-def activate(request, Data, id):
+def activate(request, id):
     """Activate data item by id
     """
     return base.activate(request, Data, id)

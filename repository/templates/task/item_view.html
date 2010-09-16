@@ -157,10 +157,23 @@ $(function() {
 		</div>
 
 		<div id="prediction-upload">
+			{% if page.object_list %}
+			<h2>Solutions associated to task {{ object.name }}</h2>
+			{% include "repository/paginator_index.html" %}
+			<ul>
+				{% for object in page.object_list %}
+				<li>
+				<h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
+				</li>
+				{% endfor %}
+			</ul>
+			{% include "repository/paginator_index.html" %}
+			{% endif %}
+
 			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are.</p>
 			<div id="prediction-upload-form"></div>
-<!--
 			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
+<!--
 				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
 				<input type="hidden" name="foo" value="foo" />
 				<input type="text" name="bar" value="boo" />

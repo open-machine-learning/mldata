@@ -7,8 +7,4 @@ from rating import RatingForm
 from base import RepositoryForm
 from data import DataForm, DataReviewForm
 from task import TaskForm
-
-
-
-
-
+from solution import SolutionForm

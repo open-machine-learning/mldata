@@ -6,7 +6,7 @@ from repository.forms import RepositoryForm
 from repository.models import *
 from repository.widgets import *
 
-from solution.models import Solution
+from repository.models import Solution
 
 
 class SolutionForm(RepositoryForm):

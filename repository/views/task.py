@@ -12,7 +12,7 @@ def index(request):
     return base.index(request, Task)
 
 def my(request):
-    return base.index(request, Task, true)
+    return base.index(request, Task, True)
 
 def new(request):
     return base.new(request, Task)

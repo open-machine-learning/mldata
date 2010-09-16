@@ -272,6 +272,10 @@ class Repository(models.Model):
             obj = obj[0]
         else: # by id
             try:
+                id=int(slug_or_id)
+            except ValueError:
+                return None
+            try:
                 obj = cls.objects.get(pk=slug_or_id)
             except cls.DoesNotExist:
                 return None
@@ -362,27 +366,6 @@ class Repository(models.Model):
         view = 'repository.views.' + self.__class__.__name__.lower() + '_view'
         return reverse(view, args=[self.id])
 
-
-    def get_absolute_slugurl(self):
-        """Get absolute URL for this item, using its slug.
-
-        FIXME:
-        Unfortunately, it has knowledge about its derived classes which seems
-        oo-unclean but is necessary for e.g. results of search function. :(
-
-        @return: an absolute URL or None
-        @rtype: string
-        """
-        if hasattr(self, 'solution'):
-            view = 'repository.views.solution.view_slug'
-            return reverse(view, args=[
-                           self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
-        elif hasattr(self, 'task'):
-            view = 'repository.views.task.view_slug'
-            return reverse(view, args=[self.task.data.slug.text, self.slug.text])
-        else:
-            view = 'repository.views.data.view_slug'
-            return reverse(view, args=[self.slug.text])
 
     def is_owner(self, user):
         """Is given user owner of this
@@ -521,6 +504,9 @@ class Repository(models.Model):
         @rtype: list of repository.Task or repository.Solution
         """
         qs = self.qs_for_related()
+
+        if not qs:
+            return None
 
         current = qs.filter(is_current=True)
         ret = []

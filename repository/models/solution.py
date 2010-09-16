@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 from repository.models import Repository
 from repository.models import Rating
@@ -70,8 +71,21 @@ class Solution(Repository):
             'feature_processing', 'parameters', 'os', 'code',
             'software_packages', 'score']
 
+    def qs_for_related(self):
+        return Solution.objects.filter(task=self.task)
+
     def get_related_data(self):
         return self.task.data
+
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
+
+        @return: an absolute URL or None
+        @rtype: string
+        """
+        view = 'repository.views.solution.view_slug'
+        return reverse(view, args=[
+                       self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
 
 class SolutionRating(Rating):
     """Rating for a Solution item."""

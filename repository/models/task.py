@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.urlresolvers import reverse
+import gettext
 
 from settings import TASKPATH
 
@@ -171,7 +173,14 @@ class Task(Repository):
         except Exception, e:
             return str(e), False
 
+    def get_absolute_slugurl(self):
+        """Get absolute URL for this item, using its slug.
 
+        @return: an absolute URL or None
+        @rtype: string
+        """
+        view = 'repository.views.task.view_slug'
+        return reverse(view, args=[self.task.data.slug.text, self.slug.text])
 
     def get_filename(self):
         """Construct filename for Task file.
