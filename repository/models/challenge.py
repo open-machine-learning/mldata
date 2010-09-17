@@ -25,7 +25,7 @@ class Challenge(Repository):
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
     track = models.CharField(max_length=255, blank=True)
-    task = models.ManyToManyField(Task, blank=True)
+    task = models.ManyToManyField(Task)
 
     class Meta:
         app_label = 'repository'

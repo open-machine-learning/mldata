@@ -8,11 +8,8 @@ from repository.widgets import *
 
 class ChallengeForm(RepositoryForm):
     """Form class for Challenge.
-
-    @cvar score: is not required in form (but in model)
-    @type score: forms.FileField
     """
-    score = forms.FileField(required=False)
+    tasks= forms.ModelMultipleChoiceField(queryset=Task.objects.all(), required=True)
 
     class Meta:
         """Inner meta class to specify model and exclude options.

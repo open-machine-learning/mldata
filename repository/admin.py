@@ -24,3 +24,8 @@ class TaskAdmin(admin.ModelAdmin):
     """Admin class for Task"""
     list_display = ('pub_date', 'slug', 'is_public')
 admin.site.register(Task, TaskAdmin)
+
+class ChallengeAdmin(admin.ModelAdmin):
+    """Admin class for Challenge"""
+    list_display = ('pub_date', 'slug', 'is_public')
+admin.site.register(Challenge, ChallengeAdmin)

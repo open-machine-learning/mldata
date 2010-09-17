@@ -242,6 +242,9 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
 
+    if klass == Challenge:
+        info_dict['tasks']=urls
+
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
 
