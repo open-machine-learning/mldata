@@ -1,0 +1,224 @@
+{% extends "repository/base.html" %}
+{% load i18n %}
+{% load markup %}
+{% load show_stars %}
+{% load repository_filters %}
+
+{% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
+<a href="{{ object.data.get_absolute_slugurl }}">{{ object.data.name }}</a> / {{ object.name }}
+{% endblock %}
+{% block extrahead %}
+<script type="text/javascript" src="/media/js/fileuploader.js"></script>
+<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/fileuploader.css" />
+<script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+var hover_timer = null;
+var hover_delay = 500;
+
+function hover_del_timer() {
+	if (hover_timer) {
+		clearTimeout(hover_timer);
+		hover_timer = null;
+	}
+}
+
+function hover_set_timer(elem) {
+	hover_del_timer();
+	hover_timer = setTimeout(function() {
+		$(elem).css('visibility', 'visible');
+	}, hover_delay);
+}
+
+
+$(function() {
+	$('#delete').click(function() {
+		if (confirm('{% trans "Do you really want to delete this version?" %}')) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+
+{% if not object.is_public and can_activate %}
+	$('#activate').click(function() {
+		if (confirm('{% trans "WARNING: Activating will make this item current and public! Do you really want that?" %}')) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+{% endif %}
+
+	$('#rating').hover(function() { hover_set_timer('#rating-hide'); });
+	$('#rating').mouseleave(function() { hover_del_timer(); });
+	$('#rating-hide-close').click(function() {
+		$('#rating-hide').css('visibility', 'hidden');
+		return false; // otherwise browser would append '#' to url
+	});
+
+	$('#prediction-score').hide();
+	uploader = new qq.FileUploader({
+		element: document.getElementById('prediction-upload-form'),
+		action: '{% url repository.views.task.predict object.slug %}',
+		onComplete: function(id, fname, data) {
+			$('#prediction-score-value').html(data.score);
+			$('#prediction-score').show();
+			},
+		template: '<div class="qq-uploader">' +
+				'<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+				'<div class="qq-upload-button">Upload Solution...</div>' +
+				'<ul class="qq-upload-list"></ul>' +
+				'</div>'
+	});
+
+	$('#tabs').tabs();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "View" %} {{ object.name }} ({% if object.is_public %}{% trans "public" %}{% else %}{% trans "private" %}{% endif %})</h2>
+<div class="in">
+	<div id="info">
+		{{ object.pub_date|date:"Y-m-d H:i" }} {% trans "by" %} {{ object.user.username }} | {% trans "Version" %} {{ object.version }} | <span id="rating"><a href="#">{% trans "Rating" %}</a> {% show_stars current.rating_avg of 5 round to half %}</span>
+		<div id="rating-hide">{% include "repository/rating_hide.html" %}</div>
+	</div>
+
+	<div id="actions">
+            {% if can_activate %}<a id="activate" href="{{ urls.activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
+            <a href="{{ urls.edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
+            {% if can_delete %}<a id="delete" href="{{ urls.delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
+	</div><br style="clear:both" />
+
+{% include "repository/conversion_failed.html" %}
+
+	<div id="tabs">
+		<ul class="clearfix">
+			<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
+			<li><a title="{% trans "Info from Task file" %}" href="#tabs-task">{% trans "Task" %}</a></li>
+			<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
+			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
+			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
+			<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Solution" %}</a></li>
+		</ul>
+
+		<div id="tabs-summary"><dl id="news">
+			<dt>{% trans "Summary" %}</dt>
+			<dd>{{ object.summary|edit_if_empty }}</dd>
+			<dt>{% trans "License" %}</dt>
+			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
+			<dt>{% trans "Tags" %}</dt>
+			<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.task.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
+			<dt>{% trans "Input format" %}</dt>
+			<dd>{{ object.input|markdown }}</dd>
+			<dt>{% trans "Output format" %}</dt>
+			<dd>{{ object.output|markdown }}</dd>
+			<dt>{% trans "Performance Measure" %}</dt>
+			<dd>{{ object.performance_measure }}<br />{% trans "Ordering" %}: {% if object.performance_ordering %}{% trans "Up" %}{% else %}{% trans "Down" %}{% endif%}</dd>
+			<dt>{% trans "Type" %}</dt>
+			<dd>{{ object.type }}</dd>
+			<dt>{% trans "Data" %}</dt>
+			<dd><a href="{{ object.data.get_absolute_slugurl }}">{{ object.data.name }}</a></dd>
+			{% if object.data_heldback and can_view_heldback %}
+			<dt>{% trans "Data (held back)" %}</dt>
+			<dd><a href="{{ object.data_heldback.get_absolute_slugurl }}">{{ object.data_heldback.name }}</a></dd>
+			{% endif %}
+			<dt>{% trans "Related Solution(s)" %}</dt>
+			<dd>{% for s in related %}<a href="{% url repository.views.solution.view_slug object.data.slug.text object.slug.text s.slug.text %}">{{ s.name }}</a> {% endfor %}</dd>
+			{% if object.file and object.file.size %}
+			<dt>{% trans "Download" %}</dt>
+			<dd><a href="{% url repository.views.task.download object.slug %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
+			{% endif %}
+		</dl>
+		<div>
+			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
+			{% trans "You can" %} <a href="{{ object.url_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
+		</div>
+</div><!-- /tabs-summary -->
+
+	<div id="tabs-task"><dl id="news">
+		<dt>{% trans "Train Indices" %}</dt>
+		<dd>{{ extract.train_idx|join:', ' }}</dd>
+		<dt>{% trans "Test Indices" %}</dt>
+		<dd>{{ extract.test_idx|join:', ' }}</dd>
+		<dt>{% trans "Input Variables" %}</dt>
+		<dd>{{ extract.input_variables|join:', ' }}</dd>
+		<dt>{% trans "Output Variables" %}</dt>
+		<dd>{{ extract.output_variables }}</dd>
+	</dl></div><!-- /tabs-task -->
+
+	<div id="tabs-solution">
+		<div id="prediction-score">
+			<p style="margin-bottom:5em">The score after evaluation with performance measure <strong>{{ object.performance_measure }}</strong> is:<br />
+			<strong><span id="prediction-score-value" style="font-size:large"></span></strong>
+			</p>
+		</div>
+
+		<div id="prediction-upload">
+			{% if page.object_list %}
+			<h2>Solutions associated to task {{ object.name }}</h2>
+			{% include "repository/paginator_index.html" %}
+			<ul>
+				{% for object in page.object_list %}
+				<li>
+				<h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }}</h2>
+				</li>
+				{% endfor %}
+			</ul>
+			{% include "repository/paginator_index.html" %}
+			{% endif %}
+
+			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are.</p>
+			<div id="prediction-upload-form"></div>
+			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
+<!--
+				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
+				<input type="hidden" name="foo" value="foo" />
+				<input type="text" name="bar" value="boo" />
+				<input type="submit" class="submit" value="{% trans "Submit" %}" />
+			</form>
+-->
+		</div>
+	</div><!-- /tabs-solution -->
+
+	<div id="tabs-more"><dl id="news">
+		<dt>{% trans "Description" %}</dt>
+		<dd>{{ object.description|edit_if_empty }}</dd>
+		<dt>{% trans "URLs" %}</dt>
+		<dd>{{ object.urls|edit_if_empty }}</dd>
+		<dt>{% trans "Publications" %}</dt>
+		<dd><ul>{% for p in object.publications.all %}
+			<li>{{ p.content|markdown|edit_if_empty }}</li>
+		{% endfor %}</ul></dd>
+	</dl></div><!-- /tabs-more -->
+
+	<div id="tabs-history">
+		{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
+		<dl id="news">{% for v in object.versions.object_list %}
+			
+			<dt{% if v.is_current %} class="active"{% endif %}>
+	  <a href="{{v.get_absolute_slugurl }}{{ v.version }}">revision {{ v.version }}</a>
+	</dt>
+			<dd>by {{ v.user }} on {{ v.pub_date|date:"Y-m-d H:i" }}</dd>
+		{% endfor %}</dl>
+		{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
+	</div><!-- /tabs-history -->
+
+	<div id="tabs-comments">
+{% load comments %}
+{% get_comment_list for repository.task current.id as comment_list %}
+{% get_comment_form for repository.task current.id as form %}
+{% include "comments/list.html" %}
+{% include "comments/form.html" %}
+		</div><!-- /tabs-comments -->
+
+		<div id="tabs-stats">
+			<p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
+		</div><!-- /tabs-stats -->
+	</div><!-- /tabs -->
+
+</div><!-- /in -->
+
+{% endblock %}

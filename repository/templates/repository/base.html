@@ -62,11 +62,28 @@
 </div><!-- /in -->
 {% endifequal %}
 
+{% ifequal klass "Challenge" %}
+<h4 class="title-03">{% trans "Challenge" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		{% url repository.views.challenge.index as url_index %}
+		{% url repository.views.challenge.my as url_my %}
+		{% url repository.views.challenge.new as url_new %}
+		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Challenge" %}</li>{% endif %}
+		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Challenge" %}</a></li>
+		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
+		{% for t in tagcloud.Challenge %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.challenge.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		</li>
+	</ul>
+</div><!-- /in -->
+{% endifequal %}
+
 <h4 class="title-03">{% trans "Disclaimer" %}</h4>
 <div class="in">
 	<p>{% trans "We are acting in good faith to make datasets submitted for the use of the scientific community available to everybody, but if you are a copyright holder and would like us to remove a dataset please" %} <a href="{% url about_impressum %}">{% trans "inform us" %}</a> {% trans "and we will do it as soon as possible." %}</p>
 
-	<p><a href="{% url data_index %}">{% trans "Data" %}</a> | <a href="{% url task_index %}">{% trans "Task" %}</a> | <a href="{% url solution_index %}">{% trans "Solution" %}</a></p>
+	<p><a href="{% url data_index %}">{% trans "Data" %}</a> | <a href="{% url task_index %}">{% trans "Task" %}</a> | <a href="{% url solution_index %}">{% trans "Solution" %}</a> | <a href="{% url challenge_index %}">{% trans "Challenge" %}</a></p>
 </div>
 
 

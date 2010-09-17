@@ -6,7 +6,7 @@
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
-<a href="{{ object.task.data.get_absolute_slugurl }}">{{ object.task.data.name }}</a> / <a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a> / {{ object.name }}
+Solution / {{ object.name }}
 {% endblock %}
 {% block extrahead %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>

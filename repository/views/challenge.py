@@ -9,37 +9,37 @@ from repository.views.util import *
 import repository.views.base as base
 
 def index(request):
-    """Index page of Solution section.
+    """Index page of Challenge section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return base.index(request, Solution)
+    return base.index(request, Challenge)
 
 def my(request):
-    """My page of Solution section.
+    """My page of Challenge section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return base.index(request, Solution, True)
+    return base.index(request, Challenge, True)
 
 def new(request):
-    """New page of Solution section.
+    """New page of Challenge section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return base.new(request, Solution)
+    return base.new(request, Challenge)
 
 def view(request, id):
-    """View Solution item by id.
+    """View Challenge item by id.
 
     @param request: request data
     @type request: Django request
@@ -48,10 +48,10 @@ def view(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.view(request, Solution, id)
+    return base.view(request, Challenge, id)
 
-def view_slug(request, slug_solution, version=None):
-    """View page of Solution section.
+def view_slug(request, slug_data, slug_task, slug_solution, version=None):
+    """View page of Challenge section.
 
     @param request: request data
     @type request: Django request
@@ -66,10 +66,10 @@ def view_slug(request, slug_solution, version=None):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.view(request, Solution, slug_solution, version)
+    return base.view(request, Challenge, slug_solution, version)
 
 def edit(request, id):
-    """Edit page of Solution section.
+    """Edit page of Challenge section.
 
     @param request: request data
     @type request: Django request
@@ -78,10 +78,10 @@ def edit(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.edit(request, Solution, id)
+    return base.edit(request, Challenge, id)
 
 def activate(request, id):
-    """Activate of Solution section.
+    """Activate of Challenge section.
 
     @param request: request data
     @type request: Django request
@@ -90,10 +90,10 @@ def activate(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.activate(request, Solution, id)
+    return base.activate(request, Challenge, id)
 
 def delete(request, id):
-    """Delete of Solution section.
+    """Delete of Challenge section.
 
     @param request: request data
     @type request: Django request
@@ -102,24 +102,24 @@ def delete(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.delete(request, Solution, id)
+    return base.delete(request, Challenge, id)
 
 
 def tags_view(request, tag):
-    """View all items by given tag in Solution.
+    """View all items by given tag in Challenge.
 
     @param request: request data
     @type request: Django request
     @param tag: name of the tag
     @type tag: string
     """
-    return base.tags_view(request, tag, Solution)
+    return base.tags_view(request, tag, Challenge)
 
 def rate(request, id):
-    return base.rate(request, Solution, id)
+    return base.rate(request, Challenge, id)
 
 def score_download(request, slug):
-    """Download of Solution section.
+    """Download of Challenge section.
 
     @param request: request data
     @type request: Django request
@@ -128,5 +128,4 @@ def score_download(request, slug):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.download(request, Solution, slug)
-
+    return base.download(request, Challenge, slug)

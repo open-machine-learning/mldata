@@ -8,6 +8,7 @@ import repository.views.base
 import repository.views.data
 import repository.views.task
 import repository.views.solution
+import repository.views.challenge
 import repository.views.ajax
 import repository.views.publication
 
@@ -71,8 +72,21 @@ urlpatterns = patterns('',
     (r'^solution/activate/(?P<id>\d+)/$', views.solution.activate),
     url(r'^solution/rate/(?P<id>\d+)/$', views.solution.rate, name='repository_solution_rate'),
     (r'^score/download/(?P<id>\d+)/$', views.solution.score_download),
-    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<slug_solution>[A-Za-z0-9-_]+)/$', views.solution.view_slug),
-    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<slug_solution>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.solution.view_slug),
+    (r'^viewsolution/(?P<slug_solution>[A-Za-z0-9-_]+)/$', views.solution.view_slug),
+    (r'^viewsolution/(?P<slug_solution>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.solution.view_slug),
+
+    # challenge
+    url(r'^challenge/$', views.challenge.index, name='challenge_index'),
+    (r'^challenge/my/$', views.challenge.my),
+    (r'^challenge/view/(?P<id>\d+)/$', views.challenge.view),
+    (r'^challenge/new/$', views.challenge.new),
+    (r'^challenge/edit/(?P<id>\d+)/$', views.challenge.edit),
+    (r'^challenge/delete/(?P<id>\d+)/$', views.challenge.delete),
+    (r'^challenge/activate/(?P<id>\d+)/$', views.challenge.activate),
+    url(r'^challenge/rate/(?P<id>\d+)/$', views.challenge.rate, name='repository_challenge_rate'),
+    (r'^score/download/(?P<id>\d+)/$', views.challenge.score_download),
+    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<slug_challenge>[A-Za-z0-9-_]+)/$', views.challenge.view_slug),
+    (r'^view/(?P<slug_data>[A-Za-z0-9-_]+)/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<slug_challenge>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.challenge.view_slug),
 
     # publications
     (r'^publication/edit/$', views.publication.edit),

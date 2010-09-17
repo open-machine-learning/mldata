@@ -126,11 +126,11 @@ div.mainbox p {padding:.2em;}
 div.leftbox {border:0; float:left; width:45%;}
 div.centerbox { width: 100%; clear: both; padding-top: 30px; }
 div.rightbox {border:0; float:right; width:45%;}
-input.searchsubmit {width:20%;}
+input.searchsubmit {width:20%; padding: 1px; text-decoration:none; color:#000000; font-size:small; font-weight:normal; padding:4px;}
 p.head {background:#eee; font-weight:bold; font-size:larger;}
 
-input.stdbutton { width: auto; }
 div.buttonrow { margin-top: 15px; }
 div.buttonrow form { display: inline; }
+input.stdbutton { width: auto; padding: 1px; text-decoration:none; color:#000000; font-size:small; font-weight:normal; padding:4px;}
 
 ul.recent li { margin-bottom:0.5em;}

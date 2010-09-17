@@ -5,12 +5,12 @@ from repository.models import Repository
 from repository.models import Rating
 from repository.models import FixedLicense
 
-from task import Task
-
 from tagging.fields import TagField
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
+from task import Task
+from challenge import Challenge
 
 from utils import slugify
 
@@ -44,8 +44,6 @@ class Solution(Repository):
     os = models.CharField(max_length=255, blank=True)
     code = models.TextField(blank=True)
     software_packages = models.TextField(blank=True)
-    score = models.FileField(upload_to=SCOREPATH)
-    task = models.ForeignKey(Task)
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
@@ -71,12 +69,6 @@ class Solution(Repository):
             'feature_processing', 'parameters', 'os', 'code',
             'software_packages', 'score']
 
-    def qs_for_related(self):
-        return Solution.objects.filter(task=self.task)
-
-    def get_related_data(self):
-        return self.task.data
-
     def get_absolute_slugurl(self):
         """Get absolute URL for this item, using its slug.
 
@@ -84,12 +76,30 @@ class Solution(Repository):
         @rtype: string
         """
         view = 'repository.views.solution.view_slug'
-        return reverse(view, args=[
-                       self.solution.task.data.slug.text, self.solution.task.slug.text, self.slug.text])
+        return reverse(view, args=[self.slug.text])
 
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)
+
+    class Meta:
+        app_label = 'repository'
+
+class Result(Repository):
+    task = models.ForeignKey(Task)
+    solution = models.ForeignKey(Solution)
+    challenge = models.ForeignKey(Challenge)
+    output_file = models.FileField(upload_to=SCOREPATH)
+    aggregation_score = models.FloatField(editable=False, default=-1)
+    complex_result= models.TextField(blank=True)
+    complex_result_type = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        app_label = 'repository'
+
+class ResultRating(Rating):
+    """Rating for a Solution item."""
+    repository = models.ForeignKey(Result)
 
     class Meta:
         app_label = 'repository'

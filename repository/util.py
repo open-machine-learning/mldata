@@ -6,6 +6,7 @@ from django.contrib.comments.models import Comment
 from repository.models import Data, DataRating
 from repository.models import Task, TaskRating
 from repository.models import Solution, SolutionRating
+from repository.models import Challenge, Result
 
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
@@ -152,10 +153,11 @@ def dependent_entries_exist(obj):
     for Task objects, checks whether there exists a Data object.
     """
     if obj.__class__ == Data:
-        dependencies = Task.objects.filter(data=obj)
-        if len(dependencies) > 0:
+        if Task.objects.filter(data=obj).count() > 0:
             return True
     elif obj.__class__ == Task:
-        dependencies = Solution.objects.filter(task=obj)
-        if len(dependencies) > 0:
+        if Challenge.objects.filter(task=obj).count() > 0:
+            return True
+
+        if Result.objects.filter(task=obj).count() > 0:
             return True

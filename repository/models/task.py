@@ -214,9 +214,6 @@ class Task(Repository):
             fname = os.path.join(MEDIA_ROOT, self.file.name)
             ml2h5.task.create(fname, self, taskfile)
 
-    def qs_for_related(self):
-        return self.solution_set
-
     def get_completeness_properties(self):
         return ['tags', 'description', 'summary', 'urls', 'publications',
             'input', 'output', 'performance_measure', 'type', 'file']

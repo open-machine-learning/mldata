@@ -237,7 +237,7 @@ def view(request, klass, slug_or_id, version=None):
     }
 
     if klass == Task:
-        objects=Solution.objects.filter(task=obj)
+        objects=Result.objects.filter(task=obj)
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
@@ -338,6 +338,9 @@ def new(request, klass):
                         new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
+                elif klass == Challenge:
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    new.save()
                 else:
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())
@@ -361,6 +364,8 @@ def new(request, klass):
         return render_to_response('task/item_new.html', info_dict)
     elif klass == Solution:
         return render_to_response('solution/item_new.html', info_dict)
+    elif klass == Challenge:
+        return render_to_response('challenge/item_new.html', info_dict)
 
 
 @transaction.commit_on_success
@@ -520,6 +525,8 @@ def index(request, klass, my=False, searchterm=None):
         return render_to_response('task/item_index.html', info_dict)
     elif klass == Solution:
         return render_to_response('solution/item_index.html', info_dict)
+    elif klass == Challenge:
+        return render_to_response('challenge/item_index.html', info_dict)
 
 def tags_view(request, tag, klass):
     """View all items tagged by given tag in given klass.

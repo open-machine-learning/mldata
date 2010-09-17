@@ -16,8 +16,9 @@
             <p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
             <p>
                 <input type="checkbox" name="data" checked="checked" /><label for="data">{% trans "Data repository" %}</label>
-                <input type="checkbox" name="task" checked="checked" /><label for="task">{% trans "Task repository" %}</label><br/>
-                <!--<input type="button" id="id_solution" name="solution" value="{% trans "Solution" %}" />-->
+                <input type="checkbox" name="task" checked="checked" /><label for="task">{% trans "Task repository" %}</label>
+                <input type="checkbox" name="solution" checked="checked" /><label for="solution">{% trans "Solutions" %}</label>
+                <input type="checkbox" name="challenge" checked="checked" /><label for="challenge">{% trans "Challenges" %}</label>
             </p>
             <p>
                 <input class="searchsubmit" type="submit" id="search" value="{% trans "Search" %}" />
@@ -33,6 +34,7 @@
             <li>{% trans "A raw <b>data</b> set." %}</li>
             <li>{% trans "A learning <b>task</b> defined on existing data sets." %}</li>
 			<li>{% trans "Submitting a <b>solution</b> for an exisiting task." %}</li>
+			<li>{% trans "Creating a <b>challenge</b> by grouping existing tasks." %}</li>
         </ul>
 
         <div class="buttonrow">
@@ -44,6 +46,9 @@
             </form>
             <form action="{% url repository.views.solution.new %}">
                 <input class="stdbutton" type="submit" value="{% trans 'New Solution' %}" />
+            </form>
+            <form action="{% url repository.views.challenge.new %}">
+                <input class="stdbutton" type="submit" value="{% trans 'New Challenge' %}" />
             </form>
         </div>
     </div>
