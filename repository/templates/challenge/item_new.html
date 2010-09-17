@@ -23,21 +23,6 @@ $(function() {
 
 	$('#tabs').tabs();
 
-	validate = function() {
-		error = false;
-		remove_error(['name', 'input', 'output', 'performance_measure', 'performance_ordering', 'type', 'data']);
-
-		if (!$('#id_name').val()) error = append_error('name');
-		if (!$('#id_input').val()) error = append_error('input');
-		if (!$('#id_output').val()) error = append_error('output');
-		if (!$('#id_performance_measure').val()) error = append_error('performance_measure');
-		if (!$('#id_performance_ordering').val()) error = append_error('performance_ordering');
-		if (!$('#id_type').val() && !$('#id_freeformtype').val()) error = append_error('type');
-		if (!$('#id_data').val()) error = append_error('data');
-
-		return !error;
-	};
-
 	$('#form-new').submit(function(){
 		if (!validate()) return false;
 	});
@@ -71,8 +56,8 @@ $(function() {
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
 				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
-				<dt><label for="id_tasks">{% trans "Tasks" %}</label> {{ form.tasks.errors }}</dt>
-				<dd>{{ form.tasks }}<br />
+				<dt><label for="id_tasks">{% trans "Tasks" %}</label> {{ form.task.errors }}</dt>
+				<dd>{{ form.task }}<br />
 				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>
 
 			</dl></div><!-- /tabs-summary -->

@@ -9,7 +9,7 @@ from repository.widgets import *
 class ChallengeForm(RepositoryForm):
     """Form class for Challenge.
     """
-    tasks= forms.ModelMultipleChoiceField(queryset=Task.objects.all(), required=True)
+    task= forms.ModelMultipleChoiceField(queryset=Task.objects.all(), required=True)
 
     class Meta:
         """Inner meta class to specify model and exclude options.
