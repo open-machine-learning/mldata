@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
-import gettext
+from gettext import gettext as _
+
 
 from settings import TASKPATH
 
