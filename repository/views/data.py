@@ -123,27 +123,27 @@ def activate(request, id):
 #
 
 def download(request, slug):
-    """Download file relating to item given by id and klass and possibly type.
+    """Download file relating to item given by slug and klass and possibly type.
     """
     return base.download(request, Data, slug)
 
-def download_xml(request, id):
-    return base.download(request, Data, id, 'xml')
+def download_xml(request, slug):
+    return base.download(request, Data, slug, 'xml')
 
-def download_csv(request, id):
-    return base.download(request, Data, id, 'csv')
+def download_csv(request, slug):
+    return base.download(request, Data, slug, 'csv')
 
-def download_arff(request, id):
-    return base.download(request, Data, id, 'arff')
+def download_arff(request, slug):
+    return base.download(request, Data, slug, 'arff')
 
-def download_libsvm(request, id):
-    return base.download(request, Data, id, 'libsvm')
+def download_libsvm(request, slug):
+    return base.download(request, Data, slug, 'libsvm')
 
-def download_matlab(request, id):
-    return base.download(request, Data, id, 'matlab')
+def download_matlab(request, slug):
+    return base.download(request, Data, slug, 'matlab')
 
-def download_octave(request, id):
-    return base.download(request, Data, id, 'octave')
+def download_octave(request, slug):
+    return base.download(request, Data, slug, 'octave')
 
 def rate(request, id):
     """Rate an item given by id and klass.
