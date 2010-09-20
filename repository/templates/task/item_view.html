@@ -163,7 +163,7 @@ $(function() {
 			<ul>
 				{% for object in page.object_list %}
 				<li>
-				<h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }}</h2>
+				<h2 class="title-02"><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }} {{ object.aggregation_score }} </h2>
 				</li>
 				{% endfor %}
 			</ul>

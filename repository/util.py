@@ -21,7 +21,7 @@ def get_recent(cls, user):
         @return: list of recently changed items
         @rtype: list of Repository
         """
-    num = 3
+    num = 10
 
     # without if-construct sqlite3 barfs on AnonymousUser
     if user.id:
@@ -30,14 +30,29 @@ def get_recent(cls, user):
         qs = Q(is_public=True) & Q(is_current=True);
 
     # slices return max number of elements if num > max
-    recent_data = Data.objects.filter(qs).order_by('-pub_date')
+    recent_data = Repository.objects.filter(qs).order_by('-pub_date')
     recent_tasks = Task.objects.filter(qs).order_by('-pub_date')
+    recent_challenges = Challenge.objects.filter(qs).order_by('-pub_date')
+    recent_results = Result.objects.filter(qs).order_by('-pub_date')
+
     recent = []
-    if len(recent_data) > 0:
-        recent.extend(recent_data[0:num])
-    if len(recent_tasks) > 0:
-        recent.extend(recent_tasks[0:num])
-    return sorted(recent, key=lambda r: r.pub_date, reverse=True)
+    if recent_data.count() > 0:
+        data=recent_data[:num]
+        l=list(zip(len(data)*['Data'],data))
+        recent.extend(l)
+    if recent_tasks.count() > 0:
+        tasks=recent_tasks[:num]
+        l=list(zip(len(tasks)*['Tasks'],tasks))
+        recent.extend(l)
+    if recent_challenges.count() > 0:
+        challenges=recent_challenges[:num]
+        l=list(zip(len(challenges)*['Challenges'],challenges))
+        recent.extend(l)
+    if recent_results.count() > 0:
+        results=recent_results[:num]
+        l=list(zip(len(results)*['Solutions'],results))
+        recent.extend(l)
+    return sorted(recent, key=lambda r: r[1].pub_date, reverse=True)
 
 def get_tag_cloud(cls, user):
     """Get current tags available to user.

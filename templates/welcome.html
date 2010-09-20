@@ -8,73 +8,65 @@
 <h2 class="title-01">{% trans "Welcome" %}</h2>
 
 <div class="in">
-    <p>{% trans "We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods. Also, you will eventually be able to set up challenges easily." %}</p>
+	<p>{% trans "We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods. Also, you will eventually be able to set up challenges easily." %}</p>
 
-    <div class="leftbox">
-        <form method="get" action="{% url repository.views.base.search %}">
-            <p class="head">{% trans "Search Repositories" %}</p>
-            <p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
-            <p>
-                <input type="checkbox" name="data" checked="checked" /><label for="data">{% trans "Data repository" %}</label>
-                <input type="checkbox" name="task" checked="checked" /><label for="task">{% trans "Task repository" %}</label>
-                <input type="checkbox" name="solution" checked="checked" /><label for="solution">{% trans "Solutions" %}</label>
-                <input type="checkbox" name="challenge" checked="checked" /><label for="challenge">{% trans "Challenges" %}</label>
-            </p>
-            <p>
-                <input class="searchsubmit" type="submit" id="search" value="{% trans "Search" %}" />
-            </p>
-        </form>
-    </div>
+	<div class="leftbox">
+		<form method="get" action="{% url repository.views.base.search %}">
+			<p class="head">{% trans "Search Repositories" %}</p>
+			<p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
+			<p>
+			<input type="checkbox" name="data" checked="checked" /><label for="data">{% trans "Data repository" %}</label>
+			<input type="checkbox" name="task" checked="checked" /><label for="task">{% trans "Task repository" %}</label>
+			<input type="checkbox" name="solution" checked="checked" /><label for="solution">{% trans "Solutions" %}</label>
+			<input type="checkbox" name="challenge" checked="checked" /><label for="challenge">{% trans "Challenges" %}</label>
+			</p>
+			<p>
+			<input class="searchsubmit" type="submit" id="search" value="{% trans "Search" %}" />
+			</p>
+		</form>
+	</div>
 
-    <div class="rightbox">
-        <p class="head">{% trans "Create A New Entry" %}</p>
+	<div class="rightbox">
+		<p class="head">{% trans "Create A New Entry" %}</p>
 
-        <p>{% trans "Choose between" %}</p>
-        <ul>
-            <li>{% trans "A raw <b>data</b> set." %}</li>
-            <li>{% trans "A learning <b>task</b> defined on existing data sets." %}</li>
+		<p>{% trans "Choose between" %}</p>
+		<ul>
+			<li>{% trans "A raw <b>data</b> set." %}</li>
+			<li>{% trans "A learning <b>task</b> defined on existing data sets." %}</li>
 			<li>{% trans "Submitting a <b>solution</b> for an exisiting task." %}</li>
 			<li>{% trans "Creating a <b>challenge</b> by grouping existing tasks." %}</li>
-        </ul>
+		</ul>
 
-        <div class="buttonrow">
-            <form action="{% url repository.views.data.new %}">
-                <input class="stdbutton" type="submit" value="{% trans 'New Data' %}" />
-            </form>
-            <form action="{% url repository.views.task.new %}">
-                <input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
-            </form>
-            <form action="{% url repository.views.solution.new %}">
-                <input class="stdbutton" type="submit" value="{% trans 'New Solution' %}" />
-            </form>
-            <form action="{% url repository.views.challenge.new %}">
-                <input class="stdbutton" type="submit" value="{% trans 'New Challenge' %}" />
-            </form>
-        </div>
-    </div>
+		<div class="buttonrow">
+			<form action="{% url repository.views.data.new %}">
+				<input class="stdbutton" type="submit" value="{% trans 'New Data' %}" />
+			</form>
+			<form action="{% url repository.views.task.new %}">
+				<input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
+			</form>
+			<form action="{% url repository.views.solution.new %}">
+				<input class="stdbutton" type="submit" value="{% trans 'New Solution' %}" />
+			</form>
+			<form action="{% url repository.views.challenge.new %}">
+				<input class="stdbutton" type="submit" value="{% trans 'New Challenge' %}" />
+			</form>
+		</div>
+	</div>
 
-    <br style="float:none">
+	<br style="float:none">
 
-    <div class="centerbox">
-        <p class="head">{% trans "Recent Items" %}</p>
-        <ul class="recent">
-            {% for r in recent %}
-                <li>
-                    {% if r.data %}
-                    Task <a href="{% url repository.views.task.view_slug r.data.slug r.slug %}">
-                        {{ r.name }}
-                    </a>,
-                    {% else %}
-                    Data <a href="{% url repository.views.data.view_slug r.slug %}">
-                        {{ r.name }}
-                    </a>,
-                    {% endif %}
-                    {{ r.pub_date|date:"Y-m-d H:i" }}<br />
-                    {{ r.summary }}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+	<div class="centerbox">
+		<p class="head">{% trans "Recent Items" %}</p>
+		<ul class="recent">
+			{% for r in recent %}
+			<li>
+			{{ r.0}} <a href="{% url repository.views.task.view_slug r.1.slug %}"> {{ r.1.name }}</a>
+			{{ r.1.pub_date|date:"Y-m-d H:i" }}<br />
+			{{ r.1.summary }}
+			</li>
+			{% endfor %}
+		</ul>
+		</div>
 
-</div><!-- /in -->
-{% endblock %}
+	</div><!-- /in -->
+	{% endblock %}
