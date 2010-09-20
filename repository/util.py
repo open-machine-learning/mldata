@@ -3,10 +3,11 @@ import os.path
 from django.db.models import Q
 from django.contrib.comments.models import Comment
 
+from repository.models import Repository
 from repository.models import Data, DataRating
 from repository.models import Task, TaskRating
 from repository.models import Solution, SolutionRating
-from repository.models import Challenge, Result
+from repository.models import Challenge, ChallengeRating, Result
 
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
@@ -133,8 +134,9 @@ def search(klass, objects, searchterm):
         @rtype: tuple of querset and boolean
         """
     # only match name and summary for now
-    #Q(version__icontains=q) | Q(description__icontains=q)
-    found = objects.filter(Q(name__icontains=searchterm) | Q(summary__icontains=searchterm))
+    found = objects.filter(Q(name__icontains=searchterm) |
+			Q(summary__icontains=searchterm))#.filter(is_public=True,
+					#is_current=True, is_deleted!=False)
 
     if klass == Repository: # only approved Data items are allowed
         for f in found:

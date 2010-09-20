@@ -6,9 +6,6 @@ from repository.models import Rating
 from repository.models import FixedLicense
 
 from tagging.fields import TagField
-from tagging.models import Tag
-from tagging.models import TaggedItem
-from tagging.utils import calculate_cloud
 from task import Task
 from challenge import Challenge
 
@@ -32,8 +29,6 @@ class Solution(Repository):
     @type software_packages: string / models.TextField
     @cvar score: score file
     @type score: models.FileField
-    @cvar task: related Task
-    @type task: Task
     @cvar license: item's license
     @type license: FixedLicense
     @cvar tags: item's tags

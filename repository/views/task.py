@@ -20,7 +20,7 @@ def new(request):
 def view(request, id, version=None):
     return base.view(request, Task, id)
 
-def view_slug(request, slug_data, slug_task, version=None):
+def view_slug(request, slug_task, version=None):
     """View Task item by slug.
     """
     return base.view(request, Task, slug_task, version)

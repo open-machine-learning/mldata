@@ -50,23 +50,17 @@ def view(request, id):
     """
     return base.view(request, Challenge, id)
 
-def view_slug(request, slug_data, slug_task, slug_solution, version=None):
+def view_slug(request, slug_challenge, version=None):
     """View page of Challenge section.
 
     @param request: request data
     @type request: Django request
-    @param slug_data: data slug of the item to view
-    @type slug_data: string
-    @param slug_task: task slug of the item to view
-    @type slug_task: string
-    @param slug_solution: solution slug of the item to view
-    @type slug_solution: string
     @param version: version of item to view
     @type version: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return base.view(request, Challenge, slug_solution, version)
+    return base.view(request, Challenge, slug_challenge, version)
 
 def edit(request, id):
     """Edit page of Challenge section.

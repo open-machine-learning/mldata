@@ -2,8 +2,8 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / <a href="{% url repository.views.task.view_slug object.data.slug object.slug %}">{{ object.name }}</a>{% endblock %}
-
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} / Challenge /
+<a href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a>{% endblock %}
 {% block extrahead %}
 {% include "autocomplete.html" %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
@@ -61,22 +61,9 @@ $(function() {
 				<dd>{{ form.summary }}</dd>
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}</dd>
-				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>
-				<dd>{{ form.input }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_output">{% trans "Output format" %}</label> * {{ form.output.errors }}</dt>
-				<dd>{{ form.output }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_performance_measure">{% trans "Performance Measure" %}</label> * {{ form.performance_measure.errors }}</dt>
-				<dd>{{ form.performance_measure }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_performance_ordering">{% trans "Performance Ordering" %}</label> * {{ form.performance_ordering.errors }}</dt>
-				<dd>{% trans "Up (unchecked implies Down)" %} {{ form.performance_ordering }}</dd>
-				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
-				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
-				<dt><label for="id_data">{% trans "Data" %}</label> *{{ form.data.errors }}</dt>
-				<dd>{{ form.data }}</dd>
-				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
-				<dd>{{ form.data_heldback }}</dd>
-				<dt><label for="id_file">{% trans "Task file" %}</label>: {{ form.file.errors }}</dt>
-				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task.download object.slug %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
+				<dt><label for="id_tasks">{% trans "Tasks" %}</label> {{ form.task.errors }}</dt>
+				<dd>{{ form.task }}<br />
+				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
 
@@ -85,14 +72,6 @@ $(function() {
 				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
 				<dd>{{ form.urls }}</dd>
-				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
-				<dd>{{ form.train_idx }}</dd>
-				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>
-				<dd>{{ form.test_idx }}</dd>
-				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
-				<dd>{{ form.input_variables }}</dd>
-				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
-				<dd>{{ form.output_variables }}</dd>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
 				<dd>{{ form.publications }}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_more" name="cancel_more" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}

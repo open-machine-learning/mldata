@@ -181,7 +181,7 @@ class Task(Repository):
         @rtype: string
         """
         view = 'repository.views.task.view_slug'
-        return reverse(view, args=[self.task.data.slug.text, self.slug.text])
+        return reverse(view, args=[self.slug.text])
 
     def get_filename(self):
         """Construct filename for Task file.

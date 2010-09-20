@@ -55,10 +55,6 @@ def view_slug(request, slug_solution, version=None):
 
     @param request: request data
     @type request: Django request
-    @param slug_data: data slug of the item to view
-    @type slug_data: string
-    @param slug_task: task slug of the item to view
-    @type slug_task: string
     @param slug_solution: solution slug of the item to view
     @type slug_solution: string
     @param version: version of item to view

@@ -13,7 +13,7 @@
 		{% url repository.views.data.my as url_my %}
 		{% url repository.views.data.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data Sets" %}</li>{% endif %}
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Data Sets" %}</a></li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Data" %}</a></li>
 		<li class="search">{% trans "Search" %}
 		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="data" name="data" value="Data" /></form>
@@ -33,7 +33,7 @@
 		{% url repository.views.task.my as url_my %}
 		{% url repository.views.task.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Tasks" %}</li>{% endif %}
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Tasks" %}</a></li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Task" %}</a></li>
 		<li class="search">{% trans "Search" %}
 		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="task" name="task" value="Task" /></form>
@@ -53,8 +53,11 @@
 		{% url repository.views.solution.my as url_my %}
 		{% url repository.views.solution.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Solution" %}</li>{% endif %}
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Solution" %}</a></li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Solution" %}</a></li>
+		<li class="search">{% trans "Search" %}
+		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="solution" name="solution" value="Solution" /></form>
+		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
 		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.solution.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
@@ -70,8 +73,11 @@
 		{% url repository.views.challenge.my as url_my %}
 		{% url repository.views.challenge.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Challenge" %}</li>{% endif %}
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Challenge" %}</a></li>{% endif %}
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Challenge" %}</a></li>
+		<li class="search">{% trans "Search" %}
+		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="challenge" name="challenge" value="Challenge" /></form>
+		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
 		{% for t in tagcloud.Challenge %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.challenge.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>

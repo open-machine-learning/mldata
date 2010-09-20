@@ -243,7 +243,7 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['per_page']=PER_PAGE
 
     if klass == Challenge:
-        info_dict['tasks']=urls
+        info_dict['tasks']=obj.get_tasks()
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
@@ -444,6 +444,9 @@ def edit(request, klass, id):
                     next.score = prev.score
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
+            elif klass == Challenge:
+                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                next.save()
             else:
                 raise Http404
 
@@ -470,6 +473,8 @@ def edit(request, klass, id):
         return render_to_response('task/item_edit.html', info_dict)
     elif klass == Solution:
         return render_to_response('solution/item_edit.html', info_dict)
+    elif klass == Challenge:
+        return render_to_response('challenge/item_edit.html', info_dict)
 
 def index(request, klass, my=False, searchterm=None):
     """Index/My page for section given by klass.
@@ -505,7 +510,7 @@ def index(request, klass, my=False, searchterm=None):
 
     searcherror = False
     if searchterm:
-        objects, searcherror = klass.search(objects, searchterm)
+        objects, searcherror = util.search(klass, objects, searchterm)
 
     PER_PAGE = get_per_page(objects.count())
     info_dict = {
@@ -565,6 +570,8 @@ def tags_view(request, tag, klass):
         return render_to_response('task/tags_view.html', info_dict)
     elif klass == Solution:
         return render_to_response('solution/tags_view.html', info_dict)
+    elif klass == Challenge:
+        return render_to_response('challenge/tags_view.html', info_dict)
 
 def rate(request, klass, id):
     """Rate an item given by id and klass.
@@ -624,6 +631,10 @@ def search(request):
             return index(request, Data, False, searchterm)
         elif 'task' in request.GET and not 'data' in request.GET:
             return index(request, Task, False, searchterm)
+        elif 'solution' in request.GET:
+            return index(request, Solution, False, searchterm)
+        elif 'challenge' in request.GET:
+            return index(request, Challenge, False, searchterm)
         else: # all
             return index(request, Repository, False, searchterm)
     else:

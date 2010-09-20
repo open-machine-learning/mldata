@@ -57,7 +57,7 @@ def get_tag_clouds(request):
     @return: list of tags with attributes font_size
     @rtype: hash with keys 'Data', 'Task', 'Solution' containing lists of tagging.Tag
     """
-    clouds = { 'Data': None, 'Task': None, 'Solution': None }
+    clouds = { 'Data': None, 'Task': None, 'Solution': None, 'Challenge' : None}
     for k in clouds.iterkeys():
         klass = eval(k)
         clouds[k] = util.get_tag_cloud(klass, request.user)

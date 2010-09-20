@@ -23,9 +23,9 @@ class Challenge(Repository):
     @type tags: string / tagging.TagField
     """
     license = models.ForeignKey(FixedLicense, editable=False)
-    tags = TagField() # tagging doesn't work anymore if put into base class
     track = models.CharField(max_length=255, blank=True)
     task = models.ManyToManyField(Task)
+    tags = TagField() # tagging doesn't work anymore if put into base class
 
     class Meta:
         app_label = 'repository'
@@ -41,8 +41,10 @@ class Challenge(Repository):
         @rtype: string
         """
         view = 'repository.views.challenge.view_slug'
-        return reverse(view, args=[
-                       self.challenge.task.data.slug.text, self.challenge.task.slug.text, self.slug.text])
+        return reverse(view, args=[self.slug.text])
+    
+    def get_tasks(self):
+        return self.task.all()
 
 class ChallengeRating(Rating):
     """Rating for a Challenge item."""

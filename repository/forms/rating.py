@@ -10,6 +10,7 @@ from tagging.forms import TagField
 from settings import TAG_SPLITSTR
 from django.http import HttpResponseRedirect
 import ml2h5.task
+from repository.models.challenge import ChallengeRating
 
 
 class RatingForm(forms.Form):
