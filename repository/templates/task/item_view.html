@@ -170,10 +170,10 @@ $(function() {
 			{% include "repository/paginator_index.html" %}
 			{% endif %}
 
-			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are.</p>
+			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are. If you are happy with the result <a href="{% url repository.views.solution.new %}">submit a solution</a>.</p>
 			<div id="prediction-upload-form"></div>
-			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
 <!--
+			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
 				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
 				<input type="hidden" name="foo" value="foo" />
 				<input type="text" name="bar" value="boo" />
