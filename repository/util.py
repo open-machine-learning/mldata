@@ -30,7 +30,7 @@ def get_recent(cls, user):
         qs = Q(is_public=True) & Q(is_current=True);
 
     # slices return max number of elements if num > max
-    recent_data = Repository.objects.filter(qs).order_by('-pub_date')
+    recent_data = Data.objects.filter(qs).order_by('-pub_date')
     recent_tasks = Task.objects.filter(qs).order_by('-pub_date')
     recent_challenges = Challenge.objects.filter(qs).order_by('-pub_date')
     recent_results = Result.objects.filter(qs).order_by('-pub_date')

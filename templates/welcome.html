@@ -60,7 +60,7 @@
 		<ul class="recent">
 			{% for r in recent %}
 			<li>
-			{{ r.0}} <a href="{% url repository.views.task.view_slug r.1.slug %}"> {{ r.1.name }}</a>
+			{{ r.0}} <a href="{{ r.1.get_absolute_slugurl }}"> {{ r.1.name }}</a>
 			{{ r.1.pub_date|date:"Y-m-d H:i" }}<br />
 			{{ r.1.summary }}
 			</li>
