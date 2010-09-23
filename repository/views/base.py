@@ -639,3 +639,19 @@ def search(request):
             return index(request, Repository, False, searchterm)
     else:
         return HttpResponseRedirect(reverse(index))
+
+def _is_newer(first, second):
+    """Check if second given file is newer than first given file.
+    
+    @param first: filename of first file
+    @type first: string
+    @param second: filename of second file
+    @type second: string 371
+    """
+    stats_first = os.stat(first)
+    stats_second = os.stat(second)
+    # index 8 is last modified
+    if stats_second[8] > stats_first[8]:
+        return True
+    else:
+        return False 
