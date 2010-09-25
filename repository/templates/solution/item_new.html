@@ -36,7 +36,7 @@ $(function() {
 {% block content %}
 <h2 class="title-01">{% trans "Submit new" %} {{ klass }}</h2>
 <div class="in">
-	{% trans "Supply only vital information under the Summary tab. You can fill in additional information under More Info or later on by editing." %}
+	{% trans "Supply only the description of your solution under the Summary tab. You can upload your outputs later on by editing. Additional information can be entered under More Info or later on by editing." %}
 
 	<form id="form-new" action="{{ url_new }}" method="post" enctype="multipart/form-data">
 	{% if form.errors %}<p class="error">{% trans "There were some errors, please see below" %}.</td>{% endif %}

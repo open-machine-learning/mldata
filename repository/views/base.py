@@ -107,8 +107,7 @@ def delete(request, klass, id):
     if current:
         return HttpResponseRedirect(current.get_absolute_slugurl())
 
-    func = eval(klass.__name__.lower() + '_my')
-    return HttpResponseRedirect(reverse(func))
+    return HttpResponseRedirect(reverse('repository.views.'+klass.__name__.lower() + '.my'))
 
 def download(request, klass, slug, type='plain'):
     """Download file relating to item given by id and klass and possibly type.
@@ -488,6 +487,7 @@ def edit(request, klass, id):
     elif klass == Task:
         return render_to_response('task/item_edit.html', info_dict)
     elif klass == Solution:
+        info_dict['result_form'] = ResultForm()
         return render_to_response('solution/item_edit.html', info_dict)
     elif klass == Challenge:
         return render_to_response('challenge/item_edit.html', info_dict)

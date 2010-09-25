@@ -9,3 +9,4 @@ from data import DataForm, DataReviewForm
 from task import TaskForm
 from solution import SolutionForm
 from challenge import ChallengeForm
+from result import ResultForm
