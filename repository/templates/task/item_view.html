@@ -150,23 +150,20 @@ $(function() {
 	</dl></div><!-- /tabs-task -->
 
 	<div id="tabs-solution">
-		<div id="prediction-score">
-			<p style="margin-bottom:5em">The score after evaluation with performance measure <strong>{{ object.performance_measure }}</strong> is:<br />
-			<strong><span id="prediction-score-value" style="font-size:large"></span></strong>
-			</p>
-		</div>
-
 		<div id="prediction-upload">
 			{% if page.object_list %}
-			<h2>Solutions associated to task {{ object.name }}</h2>
+			<h3>Solutions associated to task {{ object.name }}</h3>
 			{% include "repository/paginator_index.html" %}
-			<ul>
+			<table>
+				<tr><th>Solution</th><th>Score</th><th>Date</th></tr>
 				{% for object in page.object_list %}
-				<li>
-				<h2 class="title-02"><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }} {{ object.aggregation_score }} </h2>
-				</li>
+				<tr>
+					<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
+					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
+					<td>{{ object.aggregation_score }}</td>
+				</tr>
 				{% endfor %}
-			</ul>
+			</table>
 			{% include "repository/paginator_index.html" %}
 			{% endif %}
 

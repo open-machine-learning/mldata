@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / <a href="{% url repository.views.solution.view_slug object.task.data.slug object.task.slug object.slug %}">{{ object.name }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ object.klass }} / {% trans "Edit" %} / <a href="{% url repository.views.solution.view_slug object.slug %}">{{ object.name }}</a>{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -72,10 +72,6 @@ $(function() {
 				<dd>{{ form.code }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_software_packages">{% trans "Software Packages" %}</label> {{ form.software_packages.errors }}</dt>
 				<dd>{{ form.software_packages }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
-				<dt><label for="id_task">{% trans "Task" %}</label> * {{ form.task.errors }}</dt>
-				<dd>{{ form.task }}</dd>
-				<dt><label for="id_score">{% trans "Score file" %}</label>: {{ form.score.errors }}</dt>
-				<dd>{{ form.score }}{% if object.score %}<br /><a href="{% url repository.views.score_download object.slug %}">{% trans "Download Score" %}</a>{% endif %}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
 

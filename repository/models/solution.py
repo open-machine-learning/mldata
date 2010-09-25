@@ -27,8 +27,6 @@ class Solution(Repository):
     @type code: string / models.TextField
     @cvar software_packages: software packages needed for evaluation
     @type software_packages: string / models.TextField
-    @cvar score: score file
-    @type score: models.FileField
     @cvar license: item's license
     @type license: FixedLicense
     @cvar tags: item's tags
@@ -45,24 +43,10 @@ class Solution(Repository):
     class Meta:
         app_label = 'repository'
 
-    def get_scorename(self):
-        """Construct filename for score file.
-
-        @return: filename for score file
-        @rtype: string
-        @raise AttributeError: if slug is not set.
-        """
-        if not self.slug_id:
-            raise AttributeError, 'Attribute slug is not set!'
-
-        suffix = self.score.name.split('.')[-1]
-
-        return self.slug.text + '.' + suffix
-
     def get_completeness_properties(self):
         return ['tags', 'description', 'summary', 'urls', 'publications',
             'feature_processing', 'parameters', 'os', 'code',
-            'software_packages', 'score']
+            'software_packages']
 
     def get_absolute_slugurl(self):
         """Get absolute URL for this item, using its slug.
@@ -81,13 +65,33 @@ class SolutionRating(Rating):
         app_label = 'repository'
 
 class Result(Repository):
+    """Repository item Result.
+
+    @cvar score: score file
+    @type score: models.FileField
+	"""
+
     task = models.ForeignKey(Task)
     solution = models.ForeignKey(Solution)
-    challenge = models.ForeignKey(Challenge)
+    challenge = models.ForeignKey(Challenge, blank=True, null=True)
     output_file = models.FileField(upload_to=SCOREPATH)
-    aggregation_score = models.FloatField(editable=False, default=-1)
+    aggregation_score = models.FloatField(default=-1)
     complex_result= models.TextField(blank=True)
     complex_result_type = models.CharField(max_length=255, blank=True)
+
+    def get_scorename(self):
+        """Construct filename for score file.
+
+        @return: filename for score file
+        @rtype: string
+        @raise AttributeError: if slug is not set.
+        """
+        if not self.slug_id:
+            raise AttributeError, 'Attribute slug is not set!'
+
+        suffix = self.score.name.split('.')[-1]
+
+        return self.slug.text + '.' + suffix
 
     class Meta:
         app_label = 'repository'

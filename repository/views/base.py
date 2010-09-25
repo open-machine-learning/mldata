@@ -132,9 +132,9 @@ def download(request, klass, slug, type='plain'):
     if klass == Data or klass == Task:
         fileobj = obj.file
         fname = obj.file.name
-    elif klass == Solution:
-        fileobj = obj.score
-        fname = obj.score.name
+    #elif klass == Solution:
+    #    fileobj = obj.score
+    #    fname = obj.score.name
     else:
         raise Http404
     format = ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, fname))
@@ -242,6 +242,12 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
 
+    if klass == Solution:
+        objects=Result.objects.filter(solution=obj)
+        PER_PAGE = get_per_page(objects.count())
+        info_dict['page']=get_page(request, objects, PER_PAGE)
+        info_dict['per_page']=PER_PAGE
+
     if klass == Challenge:
         info_dict['tasks']=obj.get_tasks()
 
@@ -336,9 +342,9 @@ def new(request, klass):
                     }
                     new.save(update_file=True, taskfile=taskfile)
                 elif klass == Solution:
-                    if 'score' in request.FILES:
-                        new.score = request.FILES['score']
-                        new.score.name = new.get_scorename()
+                    #if 'score' in request.FILES:
+                    #    new.score = request.FILES['score']
+                    #    new.score.name = new.get_scorename()
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save()
                 elif klass == Challenge:
@@ -434,14 +440,14 @@ def edit(request, klass, id):
                 }
                 next.save(update_file=True, taskfile=taskfile)
             elif klass == Solution:
-                if 'score' in request.FILES:
-                    next.score = request.FILES['score']
-                    next.score.name = next.get_scorename()
-                    filename = os.path.join(MEDIA_ROOT, prev.score.name)
-                    if os.path.isfile(filename):
-                        os.remove(filename)
-                else:
-                    next.score = prev.score
+                #if 'score' in request.FILES:
+                #    next.score = request.FILES['score']
+                #    next.score.name = next.get_scorename()
+                #    filename = os.path.join(MEDIA_ROOT, prev.score.name)
+                #    if os.path.isfile(filename):
+                #        os.remove(filename)
+                #else:
+                #    next.score = prev.score
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
             elif klass == Challenge:
