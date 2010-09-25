@@ -236,20 +236,30 @@ def view(request, klass, slug_or_id, version=None):
         'data': obj.get_related_data()
     }
 
-    if klass == Task:
+    if klass == Data:
+        objects=Task.objects.filter(data=obj)
+        PER_PAGE = get_per_page(objects.count())
+        info_dict['page']=get_page(request, objects, PER_PAGE)
+        info_dict['per_page']=PER_PAGE
+
+    elif klass == Task:
         objects=Result.objects.filter(task=obj)
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
 
-    if klass == Solution:
+    elif klass == Solution:
         objects=Result.objects.filter(solution=obj)
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
 
-    if klass == Challenge:
+    elif klass == Challenge:
         info_dict['tasks']=obj.get_tasks()
+        objects=Result.objects.filter(challenge=obj).order_by('task__name','aggregation_score')
+        PER_PAGE = get_per_page(objects.count())
+        info_dict['page']=get_page(request, objects, PER_PAGE)
+        info_dict['per_page']=PER_PAGE
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)

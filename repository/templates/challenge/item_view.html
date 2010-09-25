@@ -82,6 +82,7 @@ $(function() {
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
+			<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Solution" %}</a></li>
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -110,6 +111,38 @@ $(function() {
 				<li>{{ p.content|markdown|edit_if_empty }}</li>
 			{% endfor %}</ul></dd>
 		</dl></div><!-- /tabs-more -->
+
+	<div id="tabs-solution">
+		<div id="prediction-upload">
+			{% if page.object_list %}
+			<h3>Solutions submitted to challenge {{ object.name }}</h3>
+			{% include "repository/paginator_index.html" %}
+			<table>
+				<tr><th>Solution</th><th>Task</th><th>Score</th><th>Date</th></tr>
+				{% for object in page.object_list %}
+				<tr>
+					<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
+					<td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
+					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
+					<td>{{ object.aggregation_score }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+			{% include "repository/paginator_index.html" %}
+			{% endif %}
+
+			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are. If you are happy with the result <a href="{% url repository.views.solution.new %}">submit a solution</a>.</p>
+			<div id="prediction-upload-form"></div>
+<!--
+			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
+				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
+				<input type="hidden" name="foo" value="foo" />
+				<input type="text" name="bar" value="boo" />
+				<input type="submit" class="submit" value="{% trans "Submit" %}" />
+			</form>
+-->
+		</div>
+	</div><!-- /tabs-solution -->
 
 		<div id="tabs-history">
 			{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}

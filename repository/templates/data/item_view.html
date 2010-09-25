@@ -108,6 +108,9 @@
             <li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
             <li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
             <li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
+			{% if page.object_list %}
+			<li id="tab-tabs-solution"><a title="{% trans "Tasks defined on dataset" %}" href="#tabs-solution">{% trans "Tasks" %}</a></li>
+			{% endif %}
         </ul>
 
         <div id="tabs-summary">
@@ -211,6 +214,35 @@
         <div id="tabs-stats">
             <p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
         </div><!-- /tabs-stats -->
+
+	{% if page.object_list %}
+	<div id="tabs-solution">
+		<div id="prediction-upload">
+			<h3>Tasks defined on dataset {{ object.name }}</h3>
+			{% include "repository/paginator_index.html" %}
+			<ul>
+				{% for object in page.object_list %}
+				<li>
+				<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }}
+				</li>
+				{% endfor %}
+			</ul>
+			{% include "repository/paginator_index.html" %}
+
+			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are. If you are happy with the result <a href="{% url repository.views.solution.new %}">submit a solution</a>.</p>
+			<div id="prediction-upload-form"></div>
+<!--
+			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
+				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
+				<input type="hidden" name="foo" value="foo" />
+				<input type="text" name="bar" value="boo" />
+				<input type="submit" class="submit" value="{% trans "Submit" %}" />
+			</form>
+-->
+		</div>
+	</div><!-- /tabs-solution -->
+	{% endif %}
+
     </div><!-- /tabs -->
 
 </div><!-- /in -->
