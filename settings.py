@@ -9,6 +9,9 @@ if not PRODUCTION:
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
     ADMINS = (
+        ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
+        ('Patrik Hoyer', 'patrik.hoyer@helsinki.fi'),
+        ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
         ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
     )
 else:
@@ -40,15 +43,15 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 
 # on production server, path has to be inserted in django.wsgi
 if not PRODUCTION:
-	import os
-	import sys
-	PROJECT_ROOT = os.path.dirname(__file__)
-	sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
+    import os
+    import sys
+    PROJECT_ROOT = os.path.dirname(__file__)
+    sys.path.insert(0, os.path.join(PROJECT_ROOT, 'utils'))
 
 # in which directory items are saved as files, relative to MEDIA_ROOT
 DATAPATH = 'data'
 TASKPATH = 'task'
-SCOREPATH = 'score'
+SOLUTIONPATH = 'solution'
 
 # Tagging stuff
 #FORCE_LOWERCASE_TAGS = 'False'

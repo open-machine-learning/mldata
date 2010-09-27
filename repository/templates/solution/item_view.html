@@ -85,7 +85,7 @@ $(function() {
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-			<li id="tab-tabs-solution"><a title="{% trans "Statistics about item" %}" href="#tabs-solution-task">{% trans "Results/Tasks" %}</a></li>
+			<li id="tab-tabs-solution"><a title="{% trans "Statistics about item" %}" href="#tabs-solution">{% trans "Results/Tasks" %}</a></li>
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -130,15 +130,15 @@ $(function() {
 		</dl></div><!-- /tabs-more -->
 
 		<div id="tabs-history">
-			{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
-			<dl id="news">{% for v in object.versions.object_list %}
+			{% if versions.has_previous %}<a href="?page={{ versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
+			<dl id="news">{% for v in versions.object_list %}
 				
 				<dt{% if v.is_current %} class="active"{% endif %}>
           <a href="{{v.get_absolute_slugurl }}{{ v.version }}">revision {{ v.version }}</a>
         </dt>
 				<dd>by {{ v.user }} on {{ v.pub_date|date:"Y-m-d H:i" }}</dd>
 			{% endfor %}</dl>
-			{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
+			{% if versions.has_next %}<a href="?page={{ versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
 		</div><!-- /tabs-history -->
 
 		<div id="tabs-comments">
@@ -153,35 +153,33 @@ $(function() {
 			<p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
 		</div><!-- /tabs-stats -->
 
-	<div id="tabs-solution-task">
-		<div id="prediction-upload">
-			{% if page.object_list %}
-			<h3>Solution {{ object.name }} has been submitted to the following tasks: </h3>
-			{% include "repository/paginator_index.html" %}
-			<table>
-				<tr><th>Task</th><th>Score</th><th>Date</th></tr>
-				{% for object in page.object_list %}
-				<tr>
-					<td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
-					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
-					<td>{{ object.aggregation_score }}</td>
-				</tr>
-				{% endfor %}
-			</table>
-			{% include "repository/paginator_index.html" %}
-			{% endif %}
-
-			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are.</p>
-			<div id="prediction-upload-form"></div>
-			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
-<!--
-				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
-				<input type="hidden" name="foo" value="foo" />
-				<input type="text" name="bar" value="boo" />
-				<input type="submit" class="submit" value="{% trans "Submit" %}" />
-			</form>
--->
-		</div>
+	<div id="tabs-solution">
+		{% if page.object_list %}
+		<h3>Solution {{ object.name }} has been submitted to the following tasks: </h3>
+		{% include "repository/paginator_index.html" %}
+		<table>
+			<tr><th>Task</th><th>Score</th><th>Date</th></tr>
+			{% for object in page.object_list %}
+			<tr>
+				<td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
+				<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
+				<td>{{ object.aggregation_score }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% include "repository/paginator_index.html" %}
+		{% endif %}
+		<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
+				<dt><label for="id_task">{% trans "Select Task" %}</label> {{ result_form.task.errors }}</dt>
+				<dd>{{ result_form.task }}</dd>
+				<dt><label for="id_challenge">{% trans "Select Challenge" %}</label> {{ result_form.challenge.errors }}</dt>
+				<dd>{{ result_form.challenge }}</dd>
+				<dt><label for="id_output_file">{% trans "Upload Outputs" %}</label> {{ result_form.output_file.errors }}</dt>
+				<dd>{{ result_form.output_file }}</dd>
+				<input type="hidden" name="solution" id="id_solution" value="{{ object.id }}" />
+				<input type="hidden" name="id" id="id_id" value="0" />
+				<input type="submit" class="submit" value="{% trans "Submit Result" %}" />
+		</dl></form>
 	</div><!-- /tabs-solution -->
 
 

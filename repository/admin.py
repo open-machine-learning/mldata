@@ -22,7 +22,7 @@ admin.site.register(Solution, SolutionAdmin)
 
 class ResultAdmin(admin.ModelAdmin):
     """Admin class for Result"""
-    list_display = ('name', 'pub_date', 'slug', 'is_public',)
+    list_display = ('solution', 'task', 'challenge', 'aggregation_score', 'pub_date',)
 admin.site.register(Result, ResultAdmin)
 
 class TaskAdmin(admin.ModelAdmin):

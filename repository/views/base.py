@@ -246,12 +246,23 @@ def view(request, klass, slug_or_id, version=None):
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
+        info_dict['result_form'] = ResultForm()
 
     elif klass == Solution:
         objects=Result.objects.filter(solution=obj)
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
+        if request.method == 'POST':
+            form = ResultForm(request.POST, request.FILES)
+            if form.is_valid():
+                new = form.save(commit=False)
+                new.aggregation_score=-1
+                new.output_file = request.FILES['output_file']
+                new.save()
+        else:
+            form = ResultForm()
+        info_dict['result_form'] = form
 
     elif klass == Challenge:
         info_dict['tasks']=obj.get_tasks()
@@ -259,6 +270,7 @@ def view(request, klass, slug_or_id, version=None):
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
+        info_dict['result_form'] = ResultForm()
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
@@ -449,14 +461,6 @@ def edit(request, klass, id):
                 }
                 next.save(update_file=True, taskfile=taskfile)
             elif klass == Solution:
-                #if 'score' in request.FILES:
-                #    next.score = request.FILES['score']
-                #    next.score.name = next.get_scorename()
-                #    filename = os.path.join(MEDIA_ROOT, prev.score.name)
-                #    if os.path.isfile(filename):
-                #        os.remove(filename)
-                #else:
-                #    next.score = prev.score
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
             elif klass == Challenge:
@@ -487,7 +491,6 @@ def edit(request, klass, id):
     elif klass == Task:
         return render_to_response('task/item_edit.html', info_dict)
     elif klass == Solution:
-        info_dict['result_form'] = ResultForm()
         return render_to_response('solution/item_edit.html', info_dict)
     elif klass == Challenge:
         return render_to_response('challenge/item_edit.html', info_dict)

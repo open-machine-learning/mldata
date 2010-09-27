@@ -53,7 +53,6 @@ $(function() {
 				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
 				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
 				<li><a title="{% trans "Add or edit a publication" %}" href="#tabs-publications">{% trans "Publications" %}</a></li>
-				<li id="tab-tabs-solution"><a title="{% trans "Statistics about item" %}" href="#tabs-solution-task">{% trans "Results/Tasks" %}</a></li>
 			</ul>
 
 			<form id="form-edit" action="{{ object.url_edit }}" method="post" enctype="multipart/form-data">
@@ -98,18 +97,6 @@ $(function() {
 				<input type="hidden" name="id" id="id_id" value="0" />
 				<input type="submit" class="submit" value="{% trans "Submit Publication" %}" /> <input type="button" id="cancel_publication" name="cancel_publication" class="submit cancel" value="{% trans "Cancel" %}" />
 			</dl></form></div>
-			<div id="tabs-solution-task">
-				<form method="post" action="{% url repository.forms.result.edit %}"><dl>
-						<dt><label for="id_task">{% trans "Select Task" %}</label> {{ form.task.errors }}</dt>
-						<dd>{{ result_form.task }}</dd>
-						<dt><label for="id_challenge">{% trans "Select Challenge" %}</label> {{ form.challenge.errors }}</dt>
-						<dd>{{ result_form.challenge }}</dd>
-						<dt><label for="id_ouput_file">{% trans "Upload Outputs" %}</label> {{ form.output_file.errors }}</dt>
-						<dd>{{ result_form.output_file }}</dd>
-						<input type="hidden" name="id" id="id_id" value="0" />
-						<input type="submit" class="submit" value="{% trans "Submit Result" %}" />
-				</dl></form>
-			</div><!-- /tabs-solution -->
 		</div><!-- /tabs -->
 </div><!-- /in -->
 {% endblock %}

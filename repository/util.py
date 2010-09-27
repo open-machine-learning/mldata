@@ -26,14 +26,16 @@ def get_recent(cls, user):
     # without if-construct sqlite3 barfs on AnonymousUser
     if user.id:
         qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        qs_result = (Q(solution__user=user) | Q(solution__is_public=True)) & Q(solution__is_current=True)
     else:
         qs = Q(is_public=True) & Q(is_current=True);
+        qs_result = Q(solution__is_public=True) & Q(solution__is_current=True);
 
     # slices return max number of elements if num > max
     recent_data = Data.objects.filter(qs).order_by('-pub_date')
     recent_tasks = Task.objects.filter(qs).order_by('-pub_date')
     recent_challenges = Challenge.objects.filter(qs).order_by('-pub_date')
-    recent_results = Result.objects.filter(qs).order_by('-pub_date')
+    recent_results = Result.objects.filter(qs_result).order_by('-pub_date')
 
     recent = []
     if recent_data.count() > 0:

@@ -92,9 +92,6 @@ urlpatterns = patterns('',
     (r'^publication/edit/$', views.publication.edit),
     (r'^publication/get/(?P<id>\d+)/$', views.publication.get),
 
-    # result
-    (r'^result/edit/$', forms.result.edit),
-
     # upload progress AJAX
     (r'^upload_progress/$', views.ajax.upload_progress),
 )

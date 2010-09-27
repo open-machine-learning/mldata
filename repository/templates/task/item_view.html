@@ -57,21 +57,6 @@ $(function() {
 		return false; // otherwise browser would append '#' to url
 	});
 
-	$('#prediction-score').hide();
-	uploader = new qq.FileUploader({
-		element: document.getElementById('prediction-upload-form'),
-		action: '{% url repository.views.task.predict object.slug %}',
-		onComplete: function(id, fname, data) {
-			$('#prediction-score-value').html(data.score);
-			$('#prediction-score').show();
-			},
-		template: '<div class="qq-uploader">' +
-				'<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-				'<div class="qq-upload-button">Upload Solution...</div>' +
-				'<ul class="qq-upload-list"></ul>' +
-				'</div>'
-	});
-
 	$('#tabs').tabs();
 });
 </script>
@@ -168,7 +153,6 @@ $(function() {
 			{% endif %}
 
 			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are. If you are happy with the result <a href="{% url repository.views.solution.new %}">submit a solution</a>.</p>
-			<div id="prediction-upload-form"></div>
 <!--
 			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
 				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
@@ -192,15 +176,15 @@ $(function() {
 	</dl></div><!-- /tabs-more -->
 
 	<div id="tabs-history">
-		{% if object.versions.has_previous %}<a href="?page={{ object.versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
-		<dl id="news">{% for v in object.versions.object_list %}
+		{% if versions.has_previous %}<a href="?page={{ versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
+		<dl id="news">{% for v in versions.object_list %}
 			
 			<dt{% if v.is_current %} class="active"{% endif %}>
 	  <a href="{{v.get_absolute_slugurl }}{{ v.version }}">revision {{ v.version }}</a>
 	</dt>
 			<dd>by {{ v.user }} on {{ v.pub_date|date:"Y-m-d H:i" }}</dd>
 		{% endfor %}</dl>
-		{% if object.versions.has_next %}<a href="?page={{ object.versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
+		{% if versions.has_next %}<a href="?page={{ versions.next_page_number }}#contents-history">{% trans "next" %} &raquo;</a>{% endif %}
 	</div><!-- /tabs-history -->
 
 	<div id="tabs-comments">

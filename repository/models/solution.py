@@ -11,7 +11,7 @@ from challenge import Challenge
 
 from utils import slugify
 
-from settings import SCOREPATH
+from settings import SOLUTIONPATH
 
 # Create your models here.
 class Solution(Repository):
@@ -64,20 +64,21 @@ class SolutionRating(Rating):
     class Meta:
         app_label = 'repository'
 
-class Result(Repository):
+class Result(models.Model):
     """Repository item Result.
 
     @cvar score: score file
     @type score: models.FileField
-	"""
+    """
 
+    pub_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     task = models.ForeignKey(Task)
     solution = models.ForeignKey(Solution)
     challenge = models.ForeignKey(Challenge, blank=True, null=True)
-    output_file = models.FileField(upload_to=SCOREPATH)
-    aggregation_score = models.FloatField(default=-1)
-    complex_result= models.TextField(blank=True)
-    complex_result_type = models.CharField(max_length=255, blank=True)
+    output_file = models.FileField(upload_to=SOLUTIONPATH)
+    aggregation_score = models.FloatField(default=-1, blank=True)
+    complex_result= models.TextField(null=True, blank=True)
+    complex_result_type = models.CharField(max_length=255, null=True, blank=True)
 
     def get_scorename(self):
         """Construct filename for score file.
@@ -92,13 +93,6 @@ class Result(Repository):
         suffix = self.score.name.split('.')[-1]
 
         return self.slug.text + '.' + suffix
-
-    class Meta:
-        app_label = 'repository'
-
-class ResultRating(Rating):
-    """Rating for a Solution item."""
-    repository = models.ForeignKey(Result)
 
     class Meta:
         app_label = 'repository'
