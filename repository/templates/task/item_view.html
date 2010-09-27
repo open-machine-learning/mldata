@@ -135,33 +135,33 @@ $(function() {
 	</dl></div><!-- /tabs-task -->
 
 	<div id="tabs-solution">
-		<div id="prediction-upload">
-			{% if page.object_list %}
-			<h3>Solutions associated to task {{ object.name }}</h3>
-			{% include "repository/paginator_index.html" %}
-			<table>
-				<tr><th>Solution</th><th>Score</th><th>Date</th></tr>
-				{% for object in page.object_list %}
-				<tr>
-					<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
-					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
-					<td>{{ object.aggregation_score }}</td>
-				</tr>
-				{% endfor %}
-			</table>
-			{% include "repository/paginator_index.html" %}
-			{% endif %}
+		{% if page.object_list %}
+		<h3>Solutions associated to task {{ object.name }}</h3>
+		{% include "repository/paginator_index.html" %}
+		<table>
+			<tr><th>Solution</th><th>Score</th><th>Date</th></tr>
+			{% for object in page.object_list %}
+			<tr>
+				<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
+				<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
+				<td>{{ object.aggregation_score }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% include "repository/paginator_index.html" %}
+		{% endif %}
 
-			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are. If you are happy with the result <a href="{% url repository.views.solution.new %}">submit a solution</a>.</p>
-<!--
-			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
-				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
-				<input type="hidden" name="foo" value="foo" />
-				<input type="text" name="bar" value="boo" />
-				<input type="submit" class="submit" value="{% trans "Submit" %}" />
-			</form>
--->
-		</div>
+        <form method="post" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
+                <dt><label for="id_challenge">{% trans "Select Challenge" %}</label> {{ result_form.challenge.errors }}</dt>
+                <dd>{{ result_form.challenge }}</dd>
+                <dt><label for="id_solution">{% trans "Select Solution" %}</label> {{ result_form.solution.errors }}</dt>
+                <dd>{{ result_form.solution }}</dd>
+                <dt><label for="id_output_file">{% trans "Upload Outputs" %}</label> {{ result_form.output_file.errors }}</dt>
+                <dd>{{ result_form.output_file }}</dd>
+				<input type="hidden" name="task" id="id_task" value="{{ object.id }}" />
+                <input type="hidden" name="id" id="id_id" value="0" />
+                <input type="submit" class="submit" value="{% trans "Submit Result" %}" />
+        </dl></form>
 	</div><!-- /tabs-solution -->
 
 	<div id="tabs-more"><dl id="news">

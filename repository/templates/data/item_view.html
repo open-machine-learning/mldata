@@ -217,29 +217,16 @@
 
 	{% if page.object_list %}
 	<div id="tabs-solution">
-		<div id="prediction-upload">
-			<h3>Tasks defined on dataset {{ object.name }}</h3>
-			{% include "repository/paginator_index.html" %}
-			<ul>
-				{% for object in page.object_list %}
-				<li>
-				<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }}
-				</li>
-				{% endfor %}
-			</ul>
-			{% include "repository/paginator_index.html" %}
-
-			<p>Upload your results file. An evaluation score will be calculated to see how good your predictions are. If you are happy with the result <a href="{% url repository.views.solution.new %}">submit a solution</a>.</p>
-			<div id="prediction-upload-form"></div>
-<!--
-			<form id="form-prediction" action="#" method="post" enctype="multipart/form-data">
-				<label for="id_file">{% trans "Results file" %}</label>: <input id="id_file" name="file" type="file" />
-				<input type="hidden" name="foo" value="foo" />
-				<input type="text" name="bar" value="boo" />
-				<input type="submit" class="submit" value="{% trans "Submit" %}" />
-			</form>
--->
-		</div>
+		<h3>Tasks defined on dataset {{ object.name }}</h3>
+		{% include "repository/paginator_index.html" %}
+		<ul>
+			{% for object in page.object_list %}
+			<li>
+			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> {{ object.pub_date|date:"Y-m-d H:i" }}
+			</li>
+			{% endfor %}
+		</ul>
+		{% include "repository/paginator_index.html" %}
 	</div><!-- /tabs-solution -->
 	{% endif %}
 
