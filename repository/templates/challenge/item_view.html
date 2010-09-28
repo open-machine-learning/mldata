@@ -129,6 +129,8 @@ $(function() {
         </table>
         {% include "repository/paginator_index.html" %}
         {% endif %}
+
+		{% if result_form %}
         <form method="post" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
                 <dt><label for="id_task">{% trans "Select Task" %}</label> {{ result_form.task.errors }}</dt>
                 <dd>{{ result_form.task }}</dd>
@@ -140,6 +142,9 @@ $(function() {
                 <input type="hidden" name="id" id="id_id" value="0" />
                 <input type="submit" class="submit" value="{% trans "Submit Result" %}" />
         </dl></form>
+		{% else %}
+			{% trans "To submit a result, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
+		{% endif %}
 	</div><!-- /tabs-solution -->
 
 		<div id="tabs-history">

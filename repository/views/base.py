@@ -241,17 +241,18 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
     else:
-        if request.method == 'POST':
-            form = ResultForm(request.POST, request.FILES)
-            if form.is_valid():
-                new = form.save(commit=False)
-                new.aggregation_score=-1
-                new.output_file = request.FILES['output_file']
-                new.save()
-        else:
-            form = ResultForm()
+        if request.user.is_authenticated():
+            if request.method == 'POST':
+                form = ResultForm(request.POST, request.FILES)
+                if form.is_valid():
+                    new = form.save(commit=False)
+                    new.aggregation_score=-1
+                    new.output_file = request.FILES['output_file']
+                    new.save()
+            else:
+                form = ResultForm()
 
-        info_dict['result_form'] = form
+            info_dict['result_form'] = form
 
         if klass == Task:
             objects=Result.objects.filter(task=obj)
@@ -266,11 +267,16 @@ def view(request, klass, slug_or_id, version=None):
             info_dict['per_page']=PER_PAGE
 
         elif klass == Challenge:
-            info_dict['tasks']=obj.get_tasks()
+            t=obj.get_tasks()
+            if request.user.is_authenticated():
+                form.fields['task'].queryset = t
+                form.fields['challenge'] = obj
+            info_dict['tasks']=t
             objects=Result.objects.filter(challenge=obj).order_by('task__name','aggregation_score')
             PER_PAGE = get_per_page(objects.count())
             info_dict['page']=get_page(request, objects, PER_PAGE)
             info_dict['per_page']=PER_PAGE
+
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
