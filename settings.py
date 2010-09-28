@@ -1,6 +1,10 @@
 # Django settings for mldata project.
 
 import os
+from django.conf import global_settings 
+
+FILE_UPLOAD_HANDLERS = ('mldata.utils.uploadprogresscachedhandler.UploadProgressCachedHandler', ) + \
+		    global_settings.FILE_UPLOAD_HANDLERS
 
 VERSION = "r0000"
 PRODUCTION = False # set to True when project goes live

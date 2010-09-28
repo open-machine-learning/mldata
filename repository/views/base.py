@@ -38,7 +38,6 @@ from settings import TAG_SPLITSTR
 import subprocess
 from tagging.models import Tag
 import traceback
-from utils.uploadprogresscachedhandler import UploadProgressCachedHandler
 import uuid
 
 from repository.views.util import *
@@ -304,8 +303,6 @@ def new(request, klass):
     upload_limit = Preferences.objects.get(pk=1).max_data_size
     formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
-        request.upload_handlers.insert(0,
-            UploadProgressCachedHandler(request=request))
         form = formfunc(request.POST, request.FILES, request=request)
 
         # manual validation coz it's required for new, but not edited Data
