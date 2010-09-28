@@ -292,7 +292,6 @@ class Repository(models.Model):
 
     def __init__(self, * args, ** kwargs):
         super(Repository, self).__init__(*args, ** kwargs)
-        self.pub_date = dt.now()
 
     def __unicode__(self):
         return unicode(self.name)
@@ -309,13 +308,20 @@ class Repository(models.Model):
         """
         return qs
 
-    def save(self):
+    def save(self, **kwargs):
         """Save item.
 
         Creates a slug if necessary.
         """
         if not self.slug_id:
             self.slug = self.make_slug()
+
+        silent_update =  kwargs.has_key('silent_update')
+        if silent_update:
+            kwargs.pop('silent_update')
+        else:
+            self.pub_date = dt.now()
+
         super(Repository, self).save()
 
 
@@ -456,7 +462,7 @@ class Repository(models.Model):
         """Increase hit counter for current version of given item."""
         obj = self.__class__.objects.get(slug=self.slug, is_current=True)
         obj.downloads += 1
-        obj.save()
+        obj.save(silent_update=True)
 
 
     def get_completeness(self):

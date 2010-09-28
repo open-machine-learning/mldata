@@ -21,7 +21,7 @@ def get_recent(cls, user):
         @return: list of recently changed items
         @rtype: list of Repository
         """
-    num = 10
+    num = 5
 
     # without if-construct sqlite3 barfs on AnonymousUser
     if user.id:
@@ -44,17 +44,19 @@ def get_recent(cls, user):
         recent.extend(l)
     if recent_tasks.count() > 0:
         tasks=recent_tasks[:num]
-        l=list(zip(len(tasks)*['Tasks'],tasks))
+        l=list(zip(len(tasks)*['Task'],tasks))
         recent.extend(l)
     if recent_challenges.count() > 0:
         challenges=recent_challenges[:num]
-        l=list(zip(len(challenges)*['Challenges'],challenges))
+        l=list(zip(len(challenges)*['Challenge'],challenges))
         recent.extend(l)
     if recent_results.count() > 0:
         results=recent_results[:num]
-        l=list(zip(len(results)*['Solutions'],results))
+        l=list(zip(len(results)*['Solution'],results))
         recent.extend(l)
-    return sorted(recent, key=lambda r: r[1].pub_date, reverse=True)
+
+    recent.sort(key=lambda r: r[1].pub_date, reverse=True)
+    return recent[:num]
 
 def get_tag_cloud(cls, user):
     """Get current tags available to user.

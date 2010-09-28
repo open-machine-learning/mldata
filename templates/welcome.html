@@ -60,9 +60,15 @@
 		<ul class="recent">
 			{% for r in recent %}
 			<li>
+			{% ifequal r.0 "Solution" %}
+			{{ r.0}} <a href="{{ r.1.solution.get_absolute_slugurl }}"> {{ r.1.solution.name }}</a>
+			{{ r.1.pub_date|date:"Y-m-d H:i" }}<br />
+			{{ r.1.solution.summary }}
+			{% else %}
 			{{ r.0}} <a href="{{ r.1.get_absolute_slugurl }}"> {{ r.1.name }}</a>
 			{{ r.1.pub_date|date:"Y-m-d H:i" }}<br />
 			{{ r.1.summary }}
+			{% endifequal %}
 			</li>
 			{% endfor %}
 		</ul>
