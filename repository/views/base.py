@@ -240,19 +240,7 @@ def view(request, klass, slug_or_id, version=None):
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
-
-    elif klass == Task:
-        objects=Result.objects.filter(task=obj)
-        PER_PAGE = get_per_page(objects.count())
-        info_dict['page']=get_page(request, objects, PER_PAGE)
-        info_dict['per_page']=PER_PAGE
-        info_dict['result_form'] = ResultForm()
-
-    elif klass == Solution:
-        objects=Result.objects.filter(solution=obj)
-        PER_PAGE = get_per_page(objects.count())
-        info_dict['page']=get_page(request, objects, PER_PAGE)
-        info_dict['per_page']=PER_PAGE
+    else:
         if request.method == 'POST':
             form = ResultForm(request.POST, request.FILES)
             if form.is_valid():
@@ -262,15 +250,27 @@ def view(request, klass, slug_or_id, version=None):
                 new.save()
         else:
             form = ResultForm()
+
         info_dict['result_form'] = form
 
-    elif klass == Challenge:
-        info_dict['tasks']=obj.get_tasks()
-        objects=Result.objects.filter(challenge=obj).order_by('task__name','aggregation_score')
-        PER_PAGE = get_per_page(objects.count())
-        info_dict['page']=get_page(request, objects, PER_PAGE)
-        info_dict['per_page']=PER_PAGE
-        info_dict['result_form'] = ResultForm()
+        if klass == Task:
+            objects=Result.objects.filter(task=obj)
+            PER_PAGE = get_per_page(objects.count())
+            info_dict['page']=get_page(request, objects, PER_PAGE)
+            info_dict['per_page']=PER_PAGE
+
+        elif klass == Solution:
+            objects=Result.objects.filter(solution=obj)
+            PER_PAGE = get_per_page(objects.count())
+            info_dict['page']=get_page(request, objects, PER_PAGE)
+            info_dict['per_page']=PER_PAGE
+
+        elif klass == Challenge:
+            info_dict['tasks']=obj.get_tasks()
+            objects=Result.objects.filter(challenge=obj).order_by('task__name','aggregation_score')
+            PER_PAGE = get_per_page(objects.count())
+            info_dict['page']=get_page(request, objects, PER_PAGE)
+            info_dict['per_page']=PER_PAGE
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)

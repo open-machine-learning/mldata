@@ -143,8 +143,8 @@ $(function() {
 			{% for object in page.object_list %}
 			<tr>
 				<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
-				<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
 				<td>{{ object.aggregation_score }}</td>
+				<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
 			</tr>
 			{% endfor %}
 		</table>

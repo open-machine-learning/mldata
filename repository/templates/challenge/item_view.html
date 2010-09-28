@@ -68,7 +68,7 @@ $(function() {
 	</div>
 
 	<div id="actions">
-		{% if can_activate %}<a id="activate" href="{{ object.url_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
+		{% if can_activate %}<a id="activate" href="{{ urls.activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
 		<a href="{{ urls.edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
 		{% if can_delete %}<a id="delete" href="{{ object.url_delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 	</div><br style="clear:both" />
@@ -93,7 +93,7 @@ $(function() {
 			<dt>{% trans "Tags" %}</dt>
 			<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.challenge.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Tasks" %}</dt>
-			{% for t in object.get_tasks %}<dd><a href="{{ t.get_absolute_slugurl }}">{{ t.name }}</a></dd>{% endfor %}
+			{% for t in tasks %}<dd><a href="{{ t.get_absolute_slugurl }}">{{ t.name }}</a></dd>{% endfor %}
 		</dl>
 		<div>
 			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
@@ -122,8 +122,8 @@ $(function() {
             <tr>
                 <td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
                 <td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
-                <td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
                 <td>{{ object.aggregation_score }}</td>
+                <td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
             </tr>
             {% endfor %}
         </table>
