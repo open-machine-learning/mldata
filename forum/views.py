@@ -9,7 +9,7 @@ and posts, adding new threads, and adding replies.
 from datetime import datetime
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, HttpResponseForbidden
-from django.template import RequestContext, Context, loader
+from django.template import RequestContext, loader
 from django import forms
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -189,7 +189,7 @@ def reply(request, thread):
                         mail_from = settings.DEFAULT_FROM_EMAIL
 
                     mail_tpl = loader.get_template('forum/notify.txt')
-                    c = Context({
+                    c = RequestContext({
                         'body': wordwrap(striptags(body), 72),
                         'site' : Site.objects.get_current(),
                         'thread': t,

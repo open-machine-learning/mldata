@@ -23,7 +23,7 @@ from django.contrib.sites.models import Site
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response as render
-from django.template import RequestContext, loader, Context
+from django.template import RequestContext, loader
 
 
 from django.core.urlresolvers import reverse

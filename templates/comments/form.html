@@ -3,7 +3,7 @@
 {% load comments %}
 <h3 class="title-02">{% trans "Leave a comment" %}</h3>
 {% if request.user.is_authenticated %}
-	<form action="{% comment_form_target %}" method="POST">
+	<form action="{% comment_form_target %}" method="POST">{% csrf_token %} 
 		<dl>
 			<dt><textarea id="id_comment" rows="10" cols="40" name="comment">{{ comment }}</textarea></dt>
 			<dd><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
@@ -11,7 +11,7 @@
 		</dl>
 		<span style="display:none">
 			<label for="id_honeypot">{% trans "If you enter anything in this field your comment will be treated as spam" %}:</label>
-			<input type="text" name="honeypot" id="id_honeypot" />
+			{{ form.honeypot }}
 		</span>
 		{{ form.content_type }}
 		{{ form.object_pk }}
