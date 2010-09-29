@@ -58,7 +58,7 @@ def new_review(request, slug):
     @raise Http404: if item couldn't be found
     """
     if not request.user.is_authenticated():
-        return redirect_to_signin('repository.views.data.new_review', args=[slug])
+        return redirect_to_signin('repository.views.data.new_review', kwargs={'slug' : slug})
 
     obj = Data.get_object(slug)
     if not obj: raise Http404

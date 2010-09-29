@@ -131,8 +131,8 @@ def get_page(request, objects, PER_PAGE):
 def get_upload_limit():
     return Preferences.objects.get(pk=1).max_data_size
 
-def redirect_to_signin(next_link, *args):
-    return HttpResponseRedirect(reverse('user_signin') + "?next=" + reverse(next_link, args=args))
+def redirect_to_signin(next_link, kwargs):
+	return HttpResponseRedirect(reverse('user_signin') + "?next=" + reverse(next_link, kwargs=kwargs))
 
 def sendfile(fileobj, ctype):
     """Send given file to client.
