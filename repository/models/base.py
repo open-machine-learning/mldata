@@ -286,8 +286,8 @@ class Repository(models.Model):
         return obj
 
     @classmethod
-    def set_current(cls, slug):
-        repository.util.set_current(cls, slug)
+    def set_current(cls, obj):
+        repository.util.set_current(cls, obj)
 
 
     def __init__(self, * args, ** kwargs):

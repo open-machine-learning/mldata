@@ -72,7 +72,8 @@ def activate(request, klass, id):
     if obj.can_activate(request.user):
         obj.is_public = True
         obj.save()
-        klass.set_current(obj.slug)
+        obj.current=klass.set_current(obj)
+        obj.save()
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 
@@ -102,7 +103,7 @@ def delete(request, klass, id):
     obj.is_deleted = True
     obj.save()
 
-    current = klass.set_current(obj.slug)
+    current = klass.set_current(obj)
     if current:
         return HttpResponseRedirect(current.get_absolute_slugurl())
 
@@ -474,7 +475,7 @@ def edit(request, klass, id):
                 raise Http404
 
             form.save_m2m() # for publications
-            klass.set_current(next.slug)
+            klass.set_current(next)
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
         form = formfunc(instance=prev, request=request)

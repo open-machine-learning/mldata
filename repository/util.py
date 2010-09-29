@@ -98,22 +98,18 @@ def get_tag_cloud(cls, user):
         cloud = None
     return cloud
 
-def set_current(klass, slug):
-    """Set the latest version of the item identified by given slug to be the current one.
+def set_current(klass, cur):
+    """Set the latest version of the item identified by given obj to be the current one.
 
-        @param slug: slug of item to set
-        @type slug: repository.Slug
+        @param cur: item to set
+        @type object: repository object
         @return: the current item or None
         @rtype: repository.Data/Task/Solution
         """
-    cur = klass.objects.filter(slug=slug).\
-        filter(is_deleted=False).order_by('-version')
-    if not cur:
+    if cur.is_deleted:
         return None
-    else:
-        cur = cur[0]
 
-    prev = klass.objects.get(slug=slug, is_current=True)
+    prev = klass.objects.get(slug=cur.slug, is_current=True)
     if not prev: return
 
     rklass = eval(klass.__name__ + 'Rating')
@@ -154,8 +150,8 @@ def search(klass, objects, searchterm):
         """
     # only match name and summary for now
     found = objects.filter(Q(name__icontains=searchterm) |
-			Q(summary__icontains=searchterm))#.filter(is_public=True,
-					#is_current=True, is_deleted!=False)
+            Q(summary__icontains=searchterm))#.filter(is_public=True,
+    #is_current=True, is_deleted!=False)
 
     if klass == Repository: # only approved Data items are allowed
         for f in found:
@@ -181,4 +177,7 @@ def dependent_entries_exist(obj):
             return True
 
         if Result.objects.filter(task=obj).count() > 0:
+            return True
+    elif obj.__class__ == Solution:
+        if Result.objects.filter(solution=obj).count() > 0:
             return True
