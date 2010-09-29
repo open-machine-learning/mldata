@@ -1,0 +1,154 @@
+{% extends "about/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %} :: {% trans "Evaluation" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / <a href="{% url about_evaluation %}"></a> / {% trans "Evaluation" %}{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "Evaluation" %}</h2>
+<div class="in">
+  <h3>Adding a new performance measure</h3>
+  <p>If you'd like to add a new measure get mldata-utils open up
+  mleval/evaluation.py in your editor and define a function, that gets two
+  arguments, output and truth, write some nice short docuemntation e.g.:</p>
+<pre>
+def accuracy(out, lab):
+   """
+     Computes Accuracy.
+     Expects labels to be +/-1 and predictions sign(output)
+   """
+   return numpy.mean(numpy.sign(out) == lab)
+</pre>
+  <p>and add a line to 'register' that measure to the pm dictionary. Here
+	keys are human readable names values are tuples of</p> 
+<pre>
+(functioname, application domain ('Classification', 'Regression', ...),
+description), e.g.
+
+pm['Accuracy'] = (accuracy, 'Classification', accuracy.__doc__)
+</pre>
+
+  <h3>Currently supported measures</h3>
+  <h4>Regression</h4>
+  <ul>
+	<li>
+	  Mean absolute error
+	</li>
+	<li>
+	  Root mean square error
+	</li>
+  </ul>
+  <h4>Binary Classification</h4>
+  <ul>
+	<li>
+ "Area under Precision Recall Curve"
+
+     Computes the area under the precision recall curve.
+     Expects labels to be +/-1 and real-valued predictions
+</li>
+<li>
+ "Weighted Relative Accuracy"
+
+     Computes Weighted Relative Accuracy.
+     Expects labels to be +/-1 and predictions sign(output)
+</li>
+<li>
+
+
+ "True Positive Rate"
+
+     Computes True Positive Rate.
+     Expects labels to be +/-1 and predictions sign(output)
+</li>
+<li>
+
+
+ "Cross Correlation Coefficient"
+
+     Computes the cross correlation coefficient.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "False Positive Rate"
+
+     Computes False Positive Rate.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "Balanced Error"
+
+     Computes the Balanced Error.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "True Negative Rate"
+
+     Computes True Negative Rate.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "Area under ROC Curve"
+
+     Computes the area under the ROC curve.
+     Expects labels to be +/-1 and real-valued predictions
+
+</li>
+<li>
+
+ "Precision Recall Curve"
+
+     Computes the precision recall curve.
+     Expects labels to be +/-1 and real-valued predictions
+
+</li>
+<li>
+
+ "F1 Score"
+
+     Computes the F1 score.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "Error"
+
+     Computes Error Rate.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "ROC Curve"
+
+     Computes the ROC curve.
+     Expects labels to be +/-1 and real-valued predictions
+
+</li>
+<li>
+
+ "False Negative Rate"
+
+     Computes False Negative Rate.
+     Expects labels to be +/-1 and predictions sign(output)
+
+</li>
+<li>
+
+ "Accuracy"
+
+     Computes Accuracy.
+     Expects labels to be +/-1 and predictions sign(output)
+</li>
+  </ul>
+</div><!-- /in -->
+{% endblock %}
+
