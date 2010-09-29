@@ -187,6 +187,7 @@ def download(request, klass, slug, type='plain'):
     obj.increase_downloads()
     return response
 
+@transaction.commit_on_success
 def view(request, klass, slug_or_id, version=None):
     """View item given by slug and klass.
 
@@ -248,6 +249,8 @@ def view(request, klass, slug_or_id, version=None):
                     new.aggregation_score=-1
                     new.output_file = request.FILES['output_file']
                     new.save()
+                else:
+                    print form.errors
             else:
                 form = ResultForm()
 

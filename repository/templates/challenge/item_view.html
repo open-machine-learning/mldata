@@ -99,7 +99,7 @@ $(function() {
 			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
 			{% trans "You can" %} <a href="{{ urls.edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
 		</div>
-</div><!-- /tabs-summary -->
+		</div><!-- /tabs-summary -->
 
 		<div id="tabs-more"><dl id="news">
 			<dt>{% trans "Description" %}</dt>
@@ -111,41 +111,6 @@ $(function() {
 				<li>{{ p.content|markdown|edit_if_empty }}</li>
 			{% endfor %}</ul></dd>
 		</dl></div><!-- /tabs-more -->
-
-	<div id="tabs-solution">
-        {% if page.object_list %}
-        <h3>Solutions submitted to challenge {{ object.name }}</h3>
-        {% include "repository/paginator_index.html" %}
-        <table>
-            <tr><th>Solution</th><th>Task</th><th>Score</th><th>Date</th></tr>
-            {% for object in page.object_list %}
-            <tr>
-                <td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
-                <td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
-                <td>{{ object.aggregation_score }}</td>
-                <td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        {% include "repository/paginator_index.html" %}
-        {% endif %}
-
-		{% if result_form %}
-        <form method="post" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
-                <dt><label for="id_task">{% trans "Select Task" %}</label> {{ result_form.task.errors }}</dt>
-                <dd>{{ result_form.task }}</dd>
-                <dt><label for="id_solution">{% trans "Select Solution" %}</label> {{ result_form.solution.errors }}</dt>
-                <dd>{{ result_form.solution }}</dd>
-                <dt><label for="id_output_file">{% trans "Upload Outputs" %}</label> {{ result_form.output_file.errors }}</dt>
-                <dd>{{ result_form.output_file }}</dd>
-				<input type="hidden" name="challenge" id="id_challenge" value="{{ object.id }}" />
-                <input type="hidden" name="id" id="id_id" value="0" />
-                <input type="submit" class="submit" value="{% trans "Submit Result" %}" />
-        </dl></form>
-		{% else %}
-			{% trans "To submit a result, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
-		{% endif %}
-	</div><!-- /tabs-solution -->
 
 		<div id="tabs-history">
 			{% if versions.has_previous %}<a href="?page={{ versions.previous_page_number }}#contents-history">&laquo; {% trans "prev" %}</a>{% endif %}
@@ -170,6 +135,42 @@ $(function() {
 		<div id="tabs-stats">
 			<p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
 		</div><!-- /tabs-stats -->
+
+		<div id="tabs-solution">
+			{% if page.object_list %}
+			<h3>Solutions submitted to challenge {{ object.name }}</h3>
+			{% include "repository/paginator_index.html" %}
+			<table>
+				<tr><th>Solution</th><th>Task</th><th>Score</th><th>Date</th></tr>
+				{% for object in page.object_list %}
+				<tr>
+					<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
+					<td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
+					<td>{{ object.aggregation_score }}</td>
+					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+			{% include "repository/paginator_index.html" %}
+			{% endif %}
+
+			{% if result_form %}
+			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
+					<dt><label for="id_task">{% trans "Select Task" %}</label> {{ result_form.task.errors }}</dt>
+					<dd>{{ result_form.task }}</dd>
+					<dt><label for="id_solution">{% trans "Select Solution" %}</label> {{ result_form.solution.errors }}</dt>
+					<dd>{{ result_form.solution }}</dd>
+					<dt><label for="id_output_file">{% trans "Upload Outputs" %}</label> {{ result_form.output_file.errors }}</dt>
+					<dd>{{ result_form.output_file }}</dd>
+					<input type="hidden" name="challenge" id="id_challenge" value="{{ object.id }}" />
+					<input type="hidden" name="id" id="id_id" value="0" />
+					<input type="submit" class="submit" value="{% trans "Submit Result" %}" />
+			</dl></form>
+			{% else %}
+				{% trans "To submit a result, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
+			{% endif %}
+		</div><!-- /tabs-solution -->
+
 	</div><!-- /tabs -->
 
 </div><!-- /in -->
