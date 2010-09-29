@@ -249,8 +249,6 @@ def view(request, klass, slug_or_id, version=None):
                     new.aggregation_score=-1
                     new.output_file = request.FILES['output_file']
                     new.save()
-                else:
-                    print form.errors
             else:
                 form = ResultForm()
 
