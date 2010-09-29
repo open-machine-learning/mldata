@@ -196,7 +196,7 @@ class Task(Repository):
         return ml2h5.fileformat.get_filename(self.slug.text)
 
 
-    def save(self, update_file=False, taskfile=None):
+    def save(self, update_file=False, taskfile=None, silent_update=False):
         """Save Task item, also updates Task file.
 
         @param update_file: if Task file should be updated on save
@@ -208,7 +208,11 @@ class Task(Repository):
         if not self.file.name:
             self.file.name = os.path.join(TASKPATH, self.get_filename())
             is_new = True
-        super(Task, self).save()
+
+        if silent_update:
+            super(Task, self).save(silent_update=True)
+        else:
+            super(Task, self).save()
 
         if update_file or is_new:
             fname = os.path.join(MEDIA_ROOT, self.file.name)
