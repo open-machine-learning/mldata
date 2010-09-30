@@ -40,6 +40,11 @@ $(function() {
 
 	$('#form-new').submit(function(){
 		if (!validate()) return false;
+
+		if (!$('#id_keep_private').is(':checked')) {
+			res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+			if (!res) { return false; }
+		}
 	});
 });
 </script>
