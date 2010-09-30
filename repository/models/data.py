@@ -82,7 +82,7 @@ class Data(Repository):
 
         return self.slug.text + '.' + self.format
 
-    def get_media_file_name(self):
+    def get_data_filename(self):
         return os.path.join(MEDIA_ROOT, self.file.name)
 
     def approve(self, fname_orig, convdata):

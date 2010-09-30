@@ -16,7 +16,6 @@ from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 
 from data import Data
-
 from utils import slugify
 
 import os
@@ -89,7 +88,7 @@ class Task(Repository):
     class Meta:
         app_label = 'repository'
 
-    def get_media_path(self):
+    def get_task_filename(self):
         return os.path.join(MEDIA_ROOT, self.file.name)
 
     def _find_dset_offset(self, contents, output_variables):
@@ -123,56 +122,6 @@ class Task(Repository):
                     ov -= 1
 
         return None, None
-
-    def predict(self, data):
-        """Evaluate performance measure of given item through given data.
-
-        @param data: uploaded result data
-        @type data: string
-        @return: the computed score with descriptive text
-        @rtype: string
-        """
-        try:
-            fname_task = os.path.join(MEDIA_ROOT, self.file.name)
-            test_idx, output_variables = ml2h5.task.get_test_output(fname_task)
-        except:
-            return _("Couldn't get information from Task file!"), False
-
-        try:
-            fname_data = os.path.join(MEDIA_ROOT, self.data.file.name)
-            correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
-        except:
-            return _("Couldn't get correct results from Data file!"), False
-
-        try:
-            predicted = [float(d) for d in data.split("\n") if d]
-        except ValueError:
-            predicted = [d for d in data.split("\n") if d]
-        except:
-            return _("Format of given results is wrong!"), False
-
-        len_p = len(predicted)
-        len_c = len(correct)
-        if len_p != len_c:
-            return _("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
-
-        if self.performance_measure.id == 2:
-            from utils.performance_measure import ClassificationErrorRate as PM
-            formatstr = _('Error rate: %.2f %%')
-        elif self.performance_measure.id == 3:
-            from utils.performance_measure import RegressionMAE as PM
-            formatstr = _('Mean Absolute Error: %f')
-        elif self.performance_measure.id == 4:
-            from utils.performance_measure import RegressionRMSE as PM
-            formatstr = _('Root Mean Squared Error: %f')
-        else:
-            return _("Unknown performance measure!"), False
-
-        try:
-            score = PM().run(correct, predicted)
-            return formatstr % score, True
-        except Exception, e:
-            return str(e), False
 
     def get_absolute_slugurl(self):
         """Get absolute URL for this item, using its slug.

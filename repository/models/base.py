@@ -298,9 +298,6 @@ class Repository(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
-    def get_media_file_name(self):
-        raise NotImplementedError
-
     @classmethod
     def get_query(cls, qs):
         """Get a query for the given query.

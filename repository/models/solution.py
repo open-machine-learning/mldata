@@ -8,10 +8,16 @@ from repository.models import FixedLicense
 from tagging.fields import TagField
 from task import Task
 from challenge import Challenge
+from gettext import gettext as _
 
 from utils import slugify
 
-from settings import SOLUTIONPATH
+from mleval import evaluation
+import ml2h5
+import os
+import numpy
+
+from settings import SOLUTIONPATH, MEDIA_ROOT
 
 # Create your models here.
 class Solution(Repository):
@@ -93,6 +99,56 @@ class Result(models.Model):
         suffix = self.score.name.split('.')[-1]
 
         return self.slug.text + '.' + suffix
+
+    def get_output_filename(self):
+        return os.path.join(MEDIA_ROOT, SOLUTIONPATH, self.output_file.name)
+
+    def predict(self):
+        """Evaluate performance measure.
+
+        @return: score, message, ok flag
+        @rtype: string
+        """
+        try:
+            fname_task = self.task.get_task_filename()
+            test_idx, output_variables = ml2h5.task.get_test_output(fname_task)
+        except:
+            return -1,_("Couldn't get information from Task file!"), False
+
+        try:
+            fname_data = self.task.data.get_data_filename()
+            correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
+        except Exception:
+            return -1,_("Couldn't extract true outputs from Data file!"), False
+
+        try:
+            data = file(self.get_output_filename()).read()
+        except Exception:
+            return -1,_("Failed to read predictions"), False
+
+        try:
+            predicted = [float(d) for d in data.split("\n") if d]
+        except ValueError:
+            predicted = [d for d in data.split("\n") if d]
+        except Exception:
+            return -1,_("Format of given results is wrong!"), False
+
+        data=numpy.array(data)
+        predicted=numpy.array(predicted)
+
+        len_p = len(predicted)
+        len_c = len(correct)
+        if len_p != len_c:
+            return -1,_("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
+
+        try:
+            k=self.task.performance_measure.name
+            measure=evaluation.pm[k][0]
+            score = measure(predicted, correct)
+            return score, _('%s: %2.2f %%') % (k, score), True
+        except Exception, e:
+            return -1, str(e), False
+
 
     class Meta:
         app_label = 'repository'

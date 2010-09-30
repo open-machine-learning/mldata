@@ -1,6 +1,19 @@
 [
 {"pk": 1, "model": "repository.taskperformancemeasure", "fields": {"name": "other"}},
-{"pk": 2, "model": "repository.taskperformancemeasure", "fields": {"name": "classification.errorrate"}},
-{"pk": 3, "model": "repository.taskperformancemeasure", "fields": {"name": "regression.mae"}},
-{"pk": 4, "model": "repository.taskperformancemeasure", "fields": {"name": "regression.rmse"}}
+{"pk": 2, "model": "repository.taskperformancemeasure", "fields": {"name": "Area under ROC Curve"}},
+{"pk": 3, "model": "repository.taskperformancemeasure", "fields": {"name": "Weighted Relative Accuracy"}},
+{"pk": 4, "model": "repository.taskperformancemeasure", "fields": {"name": "True Positive Rate"}},
+{"pk": 5, "model": "repository.taskperformancemeasure", "fields": {"name": "Root Mean Squared Error"}},
+{"pk": 6, "model": "repository.taskperformancemeasure", "fields": {"name": "Mean Absolute Error"}},
+{"pk": 7, "model": "repository.taskperformancemeasure", "fields": {"name": "Cross Correlation Coefficient"}},
+{"pk": 8, "model": "repository.taskperformancemeasure", "fields": {"name": "False Positive Rate"}},
+{"pk": 9, "model": "repository.taskperformancemeasure", "fields": {"name": "Balanced Error"}},
+{"pk": 10, "model": "repository.taskperformancemeasure", "fields": {"name": "True Negative Rate"}},
+{"pk": 11, "model": "repository.taskperformancemeasure", "fields": {"name": "Area under Precision Recall Curve"}},
+{"pk": 12, "model": "repository.taskperformancemeasure", "fields": {"name": "ROC Curve"}},
+{"pk": 13, "model": "repository.taskperformancemeasure", "fields": {"name": "F1 Score"}},
+{"pk": 14, "model": "repository.taskperformancemeasure", "fields": {"name": "Error"}},
+{"pk": 15, "model": "repository.taskperformancemeasure", "fields": {"name": "Precision Recall Curve"}},
+{"pk": 16, "model": "repository.taskperformancemeasure", "fields": {"name": "False Negative Rate"}},
+{"pk": 17, "model": "repository.taskperformancemeasure", "fields": {"name": "Accuracy"}}
 ]

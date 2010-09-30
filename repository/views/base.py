@@ -249,7 +249,14 @@ def view(request, klass, slug_or_id, version=None):
                     new = form.save(commit=False)
                     new.aggregation_score=-1
                     new.output_file = request.FILES['output_file']
-                    new.save()
+                    new.aggregation_score, msg, ok = new.predict()
+                    print new.aggregation_score
+                    print msg
+                    print ok
+                    if ok:
+                        new.save()
+                    else:
+                        form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
             else:
                 form = ResultForm()
 
