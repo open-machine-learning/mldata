@@ -2,6 +2,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseForbidden, Http404
+from django.core import serializers
 
 from repository.models import *
 from repository.forms import *
@@ -123,3 +124,26 @@ def score_download(request, slug):
     @rtype: Django response
     """
     return base.download(request, Challenge, slug)
+
+def get_tasks(request, id):
+    """AJAX: Get tasks associated to challenge that is specified by id.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to edit
+    @type id: integer
+    @return: tasks in response page
+    @rtype: Django response
+    """
+    try:
+        tasks=Challenge.objects.get(pk=id).get_tasks()
+    except Challenge.DoesNotExist:
+        tasks=Task.objects.all()
+
+    data = serializers.serialize('json', tasks, fields=('name'))
+    print data
+    tasks = [ t.repository_ptr for t in tasks ]
+    data = serializers.serialize('json', tasks, fields=('name'))
+    print data
+
+    return HttpResponse(data, mimetype='text/plain')

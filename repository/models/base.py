@@ -160,6 +160,7 @@ class Repository(models.Model):
     is_public = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False, editable=True)
     is_current = models.BooleanField(default=False, editable=True)
+    #user = models.ForeignKey(User, related_name='%(app_label)s_%(class)s_related')
     user = models.ForeignKey(User, related_name='repository_user')
     rating_avg = models.FloatField(editable=False, default=-1)
     rating_avg_interest = models.FloatField(editable=False, default=-1)
@@ -179,6 +180,7 @@ class Repository(models.Model):
         ordering = ('-pub_date', )
         get_latest_by = 'pub_date'
         app_label = 'repository'
+        #abstract = True
 
     #
     # New stuff by Mikio here

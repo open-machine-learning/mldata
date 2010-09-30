@@ -57,6 +57,23 @@ $(function() {
 		return false; // otherwise browser would append '#' to url
 	});
 
+	$('#tabs-solution #id_challenge').change(function() {
+		id = $('#tabs-solution #id_challenge').val()
+		// trickery to use django's URL function
+		url = "{% url repository.views.challenge.get_tasks 0 %}"
+		url = url.substr(0, url.length - 2) + id;
+		$.getJSON(url, function(data){
+			opt = document.getElementById("id_task").options;
+			opt.length=0;
+			for (var i = 0; i < data.length; i++) {
+			opt.add(new Option(data[i].fields.name, data[i].pk));
+			}
+			$('#tabs-solution #id_id').val(id);
+		});
+	});
+	$('#tabs-solution #id_title').val('');
+	$('#tabs-publications #id_content').val('');
+
 	$('#tabs').tabs();
 });
 </script>

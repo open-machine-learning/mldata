@@ -87,6 +87,7 @@ urlpatterns = patterns('',
     (r'^challenge/activate/(?P<id>\d+)/$', views.challenge.activate),
     url(r'^challenge/rate/(?P<id>\d+)/$', views.challenge.rate, name='repository_challenge_rate'),
     (r'^challenge/score/download/(?P<id>\d+)/$', views.challenge.score_download),
+    (r'^challenge/tasks/(?P<id>\d+)/$', views.challenge.get_tasks),
 
     # publications
     (r'^publication/edit/$', views.publication.edit),
