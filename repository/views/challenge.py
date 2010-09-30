@@ -141,9 +141,7 @@ def get_tasks(request, id):
         tasks=Task.objects.all()
 
     data = serializers.serialize('json', tasks, fields=('name'))
-    print data
     tasks = [ t.repository_ptr for t in tasks ]
     data = serializers.serialize('json', tasks, fields=('name'))
-    print data
 
     return HttpResponse(data, mimetype='text/plain')
