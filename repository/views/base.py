@@ -250,9 +250,6 @@ def view(request, klass, slug_or_id, version=None):
                     new.aggregation_score=-1
                     new.output_file = request.FILES['output_file']
                     new.aggregation_score, msg, ok = new.predict()
-                    print new.aggregation_score
-                    print msg
-                    print ok
                     if ok:
                         new.save()
                     else:
