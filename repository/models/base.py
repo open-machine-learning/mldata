@@ -255,7 +255,7 @@ class Repository(models.Model):
         @rtype: list of Data, Task or Solution
         """
         # without if-construct sqlite3 barfs on AnonymousUser
-        qs = cls.get_public_qs()
+        qs = cls().get_public_qs()
 
         tagged = TaggedItem.objects.filter(tag=tag)
         current = cls.objects.filter(qs).order_by('name')
