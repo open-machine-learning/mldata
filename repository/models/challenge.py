@@ -43,8 +43,9 @@ class Challenge(Repository):
         view = 'repository.views.challenge.view_slug'
         return reverse(view, args=[self.slug.text])
     
-    def get_tasks(self):
-        return self.task.all()
+    def get_tasks(self, user=None):
+        qs=self.get_public_qs(user)
+        return self.task.filter(qs)
 
 class ChallengeRating(Rating):
     """Rating for a Challenge item."""

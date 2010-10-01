@@ -122,7 +122,7 @@ class Result(models.Model):
             return -1,_("Couldn't extract true outputs from Data file!"), False
 
         try:
-            data = file(self.get_output_filename()).read()
+            data = self.output_file.read()
         except Exception:
             return -1,_("Failed to read predictions"), False
 

@@ -222,7 +222,23 @@ class Repository(models.Model):
         No-op by default, overwritten in Task and Data.
         """
         return None
-    
+
+    def get_public_qs(self, user=None, queryset=None):
+        """Returns the public most current object or private one owned
+        by the user
+        """
+        if user and user.id:
+            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        else:
+            qs = Q(is_public=True) & Q(is_current=True)
+
+        if queryset:
+            qs = qs & queryset
+
+        qs = qs & Q(is_deleted=False)
+
+        return qs
+
     #
     # Old stuff by Sebastian below
     #
@@ -239,11 +255,7 @@ class Repository(models.Model):
         @rtype: list of Data, Task or Solution
         """
         # without if-construct sqlite3 barfs on AnonymousUser
-        if user.id:
-            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
-        else:
-            qs = Q(is_public=True) & Q(is_current=True)
-        qs = cls.get_query(qs)
+        qs = cls.get_public_qs()
 
         tagged = TaggedItem.objects.filter(tag=tag)
         current = cls.objects.filter(qs).order_by('name')
@@ -297,15 +309,6 @@ class Repository(models.Model):
 
     def __unicode__(self):
         return unicode(self.name)
-
-    @classmethod
-    def get_query(cls, qs):
-        """Get a query for the given query.
-
-        This allows objects to add further query qualifications (currently,
-        Data: &= Q(is_approved=True)
-        """
-        return qs
 
     def save(self, **kwargs):
         """Save item.

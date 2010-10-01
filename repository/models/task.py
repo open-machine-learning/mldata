@@ -174,8 +174,9 @@ class Task(Repository):
     def get_related_data(self):
         return self.data
 
-    def get_challenges(self):
-        return self.challenge_set.all()
+    def get_challenges(self, user=None):
+        qs=self.get_public_qs(user)
+        return self.challenge_set.filter(qs)
 
     def get_extract(self):
         return ml2h5.task.get_extract(os.path.join(MEDIA_ROOT, self.file.name))

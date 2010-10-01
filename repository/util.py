@@ -73,7 +73,6 @@ def get_tag_cloud(cls, user):
         qs = Q(is_public=True) & Q(is_current=True)
 
     if cls:
-        qs = cls.get_query(qs)
         tags = Tag.objects.usage_for_queryset(cls.objects.filter(qs), counts=True)
     else:
         tags = Tag.objects.usage_for_queryset(

@@ -135,9 +135,14 @@ class Data(Repository):
     def attach_file(self, file_object):
         self.file = file_object
 
-    @classmethod
-    def get_query(cls, qs):
-        return qs & Q(is_approved=True)
+    def get_public_qs(self, user=None, queryset=None):
+        qs=super(Data, self).get_public_qs(user)
+
+        if queryset:
+            qs=qs & Q(is_approved=True)
+
+        return qs
+
 
     def qs_for_related(self):
         return self.task_data

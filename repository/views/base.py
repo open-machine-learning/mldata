@@ -237,7 +237,8 @@ def view(request, klass, slug_or_id, version=None):
     }
 
     if klass == Data:
-        objects=Task.objects.filter(data=obj)
+        qs=obj.get_public_qs(request.user)
+        objects=Task.objects.filter(qs, data=obj)
         PER_PAGE = get_per_page(objects.count())
         info_dict['page']=get_page(request, objects, PER_PAGE)
         info_dict['per_page']=PER_PAGE
