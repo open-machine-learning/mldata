@@ -175,7 +175,8 @@ list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:5px; 
 #rating-hide-results img {vertical-align:top;}
 #rating-hide-form {margin:.5em; margin-top:1em;}
 #rating-hide-form ul {padding:0; margin:0; list-style-type:none;}
-#rating-hide-form li {display:inline; font-size:small;}
+#rating-hide-form li {display:inline; font-size:small; }
+#rating-hide-form input[type="radio"] { width: 1em; }
 
 /* other item styles */
 #info { padding:0; margin:0; font-weight: bold; width:75%; float:left; text-align:left; vertical-align:bottom;}
