@@ -7,6 +7,30 @@ from repository.models import *
 from repository.forms import *
 from repository.views.util import *
 import repository.views.base as base
+import json
+
+from  mleval import evaluation
+
+def get_measures(request, type):
+    """AJAX: Get measures associated with type
+    """
+    try:
+        choices = evaluation.pm_hierarchy[type].keys()
+    except KeyError:
+        choices=[]
+    choices.sort()
+    data = json.dumps(choices)
+    return HttpResponse(data, mimetype='text/plain')
+
+def get_measure_help(request, type, name):
+    """AJAX: Get measure help for type/name
+    """
+    try:
+        helptxt = evaluation.pm_hierarchy[type][name][1]
+    except KeyError:
+        helptxt=[]
+    data = json.dumps(helptxt)
+    return HttpResponse(data, mimetype='text/plain')
 
 def index(request):
     return base.index(request, Task)

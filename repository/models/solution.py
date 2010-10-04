@@ -142,10 +142,11 @@ class Result(models.Model):
             return -1,_("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
 
         try:
-            k=self.task.performance_measure.name
-            measure=evaluation.pm[k][0]
+            t=self.task.type
+            pm=self.task.performance_measure
+            measure=evaluation.pm_hierarchy[t][pm][0]
             score = measure(predicted, correct)
-            return score, _('%s: %2.2f %%') % (k, score), True
+            return score, _('%s, %s: %2.2f %%') % (t, pm, score), True
         except Exception, e:
             return -1, str(e), False
 

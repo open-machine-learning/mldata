@@ -198,7 +198,7 @@ class Repository(models.Model):
         """
         current = Repository.objects.get(slug=self.slug, is_current=True)
         current.hits += 1
-        current.save()
+        current.save(silent_update=True)
         return current
 
     def check_has_h5(self):
@@ -586,7 +586,7 @@ class Rating(models.Model):
             d += r.doc
 
         num_scores = 2.0
-        repo.rating_avg = (i + d) / (num_scores * l)
+        repo.rating_avg = float(i + d) / (num_scores * l)
         repo.rating_avg_interest = float(i) / l
         repo.rating_avg_doc = float(d) / l
         repo.rating_votes = l

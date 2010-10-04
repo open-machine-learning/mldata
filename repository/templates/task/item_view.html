@@ -101,7 +101,7 @@ $(function() {
 			<dt>{% trans "Output format" %}</dt>
 			<dd>{{ object.output|markdown }}</dd>
 			<dt>{% trans "Performance Measure" %}</dt>
-			<dd>{{ object.performance_measure }}<br />{% trans "Ordering" %}: {% if object.performance_ordering %}{% trans "Up" %}{% else %}{% trans "Down" %}{% endif%}</dd>
+			<dd>{{ object.performance_measure }}<br />
 			<dt>{% trans "Type" %}</dt>
 			<dd>{{ object.type }}</dd>
 			<dt>{% trans "Data" %}</dt>
@@ -171,7 +171,7 @@ $(function() {
 		<div id="tabs-solution">
 			{% if page.object_list %}
 			<h3>Solutions associated to task {{ object.name }}</h3>
-			{% include "repository/paginator_index.html" %}
+			{% include "repository/paginator_index_solution.html" %}
 			<table>
 				<tr><th>Solution</th><th>Score</th><th>Date</th></tr>
 				{% for object in page.object_list %}
@@ -182,7 +182,7 @@ $(function() {
 				</tr>
 				{% endfor %}
 			</table>
-			{% include "repository/paginator_index.html" %}
+			{% include "repository/paginator_index_solution.html" %}
 			{% endif %}
 
 			{% if result_form %}

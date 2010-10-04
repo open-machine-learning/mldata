@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
 
 import ml2h5.task
+from  mleval import evaluation
 
 from settings import TAG_SPLITSTR
 
@@ -15,8 +16,19 @@ from repository.widgets import *
 from repository.forms import RepositoryForm
 from tagging.forms import TagField
 
-from repository.models import TaskType, Task
-from repository.models import Data
+from repository.models import Data, Task
+
+def extract_choices():
+    choices=[]
+    for t in evaluation.pm_hierarchy.keys():
+        choices.extend([ (x,x) for x in evaluation.pm_hierarchy[t].keys() ])
+    choices.sort()
+    return choices
+
+def extract_types():
+    types=[(x,x) for x in evaluation.pm_hierarchy.keys()]
+    types.sort()
+    return types
 
 class TaskForm(RepositoryForm):
     """Form class for Task.
@@ -29,8 +41,10 @@ class TaskForm(RepositoryForm):
     @type freeformtype: forms.CharField
     """
     file = forms.FileField(required=False)
-    type = forms.ModelChoiceField(queryset=TaskType.objects.all(), required=False)
-    freeformtype = forms.CharField(required=False)
+    performance_measure = forms.ChoiceField(choices= \
+        extract_choices(), required=True)
+    type = forms.ChoiceField(choices=extract_types(),
+            initial='Binary Classification', required=True)
     train_idx = forms.CharField(required=False)
     test_idx = forms.CharField(required=False)
     input_variables = forms.CharField(required=False)
@@ -88,26 +102,6 @@ class TaskForm(RepositoryForm):
             except TypeError:
                 self.fields[name].initial = str(extract[name])
 
-
-
-    def clean_freeformtype(self):
-        """Override type from freeformtype.
-        """
-        fftype = None
-        if 'freeformtype' in self.cleaned_data:
-            fftype = self.cleaned_data['freeformtype'].strip()
-
-        if fftype:
-            try:
-                t = TaskType(name=fftype)
-                t.save()
-            except IntegrityError: # already exists
-                t = TaskType.objects.get(name=fftype)
-            self.cleaned_data['type'] = t
-        elif not ('type' in self.cleaned_data and self.cleaned_data['type']):
-            raise ValidationError(_('No type given.'))
-
-        return fftype
 
 
     def _clean_commaseplistofintegers(self, name):

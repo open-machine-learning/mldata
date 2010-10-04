@@ -22,34 +22,6 @@ import os
 import ml2h5
 from settings import MEDIA_ROOT
 
-class TaskPerformanceMeasure(models.Model):
-    """Performance measure (evaluation function) of a Task.
-
-    @cvar name: name of the evaluation function
-    @type name: string / models.CharField
-    """
-    name = models.CharField(max_length=255, unique=True)
-
-    class Meta:
-        app_label = 'repository'
-
-    def __unicode__(self):
-        return unicode(self.name)
-
-class TaskType(models.Model):
-    """Type of a Task.
-
-    @cvar name: name of the type
-    @type name: string / models.CharField
-    """
-    name = models.CharField(max_length=255, unique=True)
-
-    class Meta:
-        app_label = 'repository'
-
-    def __unicode__(self):
-        return unicode(self.name)
-
 class Task(Repository):
     """Repository item Task.
 
@@ -58,11 +30,9 @@ class Task(Repository):
     @cvar output: item's output format
     @type output: string / models.TextField
     @cvar performance_measure: performance measure (evaluation function)
-    @type performance_measure: TaskPerformanceMeasure
-    @cvar performance_ordering: true => up, false => down
-    @type performance_ordering: boolean / models.BooleanField
+    @type performance_measure: string / name
     @cvar type: item's type, e.g. Regression, Classification
-    @type type: TaskType
+    @type type: string
     @cvar data: related Data item
     @type data: Data / models.ForeignKey
     @cvar data_heldback: another optional, possibly private, Data item for challenge organisers
@@ -76,9 +46,8 @@ class Task(Repository):
     """
     input = models.TextField()
     output = models.TextField()
-    performance_measure = models.ForeignKey(TaskPerformanceMeasure)
-    performance_ordering = models.BooleanField()
-    type = models.ForeignKey(TaskType)
+    performance_measure = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
     data = models.ForeignKey(Data, related_name='task_data')
     data_heldback = models.ForeignKey(Data, related_name='task_data_heldback', null=True, blank=True)
     file = models.FileField(upload_to=TASKPATH)

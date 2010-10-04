@@ -139,7 +139,7 @@ $(function() {
 		<div id="tabs-solution">
 			{% if page.object_list %}
 			<h3>Solutions submitted to challenge {{ object.name }}</h3>
-			{% include "repository/paginator_index.html" %}
+			{% include "repository/paginator_index_solution.html" %}
 			<table>
 				<tr><th>Solution</th><th>Task</th><th>Score</th><th>Date</th></tr>
 				{% for object in page.object_list %}
@@ -151,7 +151,7 @@ $(function() {
 				</tr>
 				{% endfor %}
 			</table>
-			{% include "repository/paginator_index.html" %}
+			{% include "repository/paginator_index_solution.html" %}
 			{% endif %}
 
 			{% if result_form %}

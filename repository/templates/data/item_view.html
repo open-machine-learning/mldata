@@ -218,7 +218,7 @@
 	{% if page.object_list %}
 	<div id="tabs-solution">
 		<h3>Tasks defined on dataset {{ object.name }}</h3>
-		{% include "repository/paginator_index.html" %}
+		{% include "repository/paginator_index_solution.html" %}
 		<ul>
 			{% for object in page.object_list %}
 			<li>
@@ -226,7 +226,7 @@
 			</li>
 			{% endfor %}
 		</ul>
-		{% include "repository/paginator_index.html" %}
+		{% include "repository/paginator_index_solution.html" %}
 	</div><!-- /tabs-solution -->
 	{% endif %}
 
