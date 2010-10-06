@@ -77,6 +77,7 @@ urlpatterns = patterns('',
     url(r'^solution/rate/(?P<id>\d+)/$', views.solution.rate, name='repository_solution_rate'),
     (r'^solution/score/download/(?P<id>\d+)/$', views.solution.score_download),
     (r'^solution/result/(?P<id>\d+)/(?P<resolution>[a-z]+)/$', views.solution.plot_single_curve),
+    (r'^solution/results/(?P<id>\d+)/(?P<resolution>[a-z]+)/$', views.solution.plot_multiple_curves),
 
     # challenge
     url(r'^challenge/$', views.challenge.index, name='challenge_index'),

@@ -115,11 +115,11 @@ class Result(models.Model):
         except:
             return -1,_("Couldn't get information from Task file!"), False
 
-        #try:
-        fname_data = self.task.data.get_data_filename()
-        correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
-        #except Exception:
-        #    return -1,_("Couldn't extract true outputs from Data file!"), False
+        try:
+            fname_data = self.task.data.get_data_filename()
+            correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
+        except Exception:
+            return -1,_("Couldn't extract true outputs from Data file!"), False
 
         try:
             data = self.output_file.read()
@@ -142,19 +142,19 @@ class Result(models.Model):
         if len_p != len_c:
             return -1,_("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
 
-        #try:
-        t=self.task.type
-        pm=self.task.performance_measure
-        measure=evaluation.pm_hierarchy[t][pm][0]
-        score = measure(predicted, correct)
-        if type(score)==float:
-            s=score
-        else:
-            s=score[0]
+        try:
+            t=self.task.type
+            pm=self.task.performance_measure
+            measure=evaluation.pm_hierarchy[t][pm][0]
+            score = measure(predicted, correct)
+            try:
+                s=score[0]
+            except:
+                s=score
 
-        return score, _('%s, %s: %2.2f %%') % (t, pm, s), True
-        #except Exception, e:
-        #    return -1, str(e), False
+            return score, _('%s, %s: %2.2f %%') % (t, pm, s), True
+        except Exception, e:
+            return -1, str(e), False
 
 
     class Meta:

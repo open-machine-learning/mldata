@@ -182,13 +182,10 @@ $(function() {
 					<td>{{ object.aggregation_score }}</td>
 					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
                     <td><a href="{% url repository.views.solution.plot_single_curve object.pk 'large' %}"><img src="{% url repository.views.solution.plot_single_curve object.pk 'tiny' %}"\></a></td>
-                    <!--<td><img src="{% url repository.views.solution.plot_single_curve object.pk 'small' %}"\> </td>
-                    <td><img src="{% url repository.views.solution.plot_single_curve object.pk 'medium' %}"\> </td>
-                    <td><img src="{% url repository.views.solution.plot_single_curve object.pk 'large' %}"\> </td>
-                    <td><img src="{% url repository.views.solution.plot_single_curve object.pk 'huge' %}"\> </td>-->
 				</tr>
 				{% endfor %}
 			</table>
+            <img src="{% url repository.views.solution.plot_multiple_curves object.pk 'medium' %}"\>
 			{% include "repository/paginator_index_solution.html" %}
 			{% endif %}
 
