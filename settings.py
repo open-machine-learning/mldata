@@ -95,6 +95,7 @@ MEDIA_URL = '/media/'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media_admin/'
 
+RESOLUTIONS = { 'tiny' : 5, 'small' : 20, 'medium' : 50, 'large' : 100, 'huge': 200 }
 
 # needed for registration
 SITE_ID = 1

@@ -39,6 +39,7 @@ import subprocess
 from tagging.models import Tag
 import traceback
 import uuid
+import cPickle as pickle
 
 from repository.views.util import *
 
@@ -250,7 +251,16 @@ def view(request, klass, slug_or_id, version=None):
                     new = form.save(commit=False)
                     new.aggregation_score=-1
                     new.output_file = request.FILES['output_file']
-                    new.aggregation_score, msg, ok = new.predict()
+                    score, msg, ok = new.predict()
+                    try:
+                        new.aggregation_score=score[0]
+                        new.complex_result_type=score[1]
+                        new.complex_result=pickle.dumps(score[2])
+                        import pdb
+                        pdb.set_trace()
+                    except TypeError:
+                        new.aggregation_score=score
+
                     if ok:
                         new.save()
                     else:

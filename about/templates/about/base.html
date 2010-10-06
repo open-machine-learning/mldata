@@ -23,11 +23,4 @@
 		<li{% ifequal request.path url_tos %} class="active"{% endifequal %}><a title="{% trans "Terms of Service" %}" href="{{ url_tos }}">{% trans "TOS" %}</a></li>
 	</ul>
 </div>
-
-<h4 class="title-04">{% trans "Acknowledgements" %}</h4>
-<div class="in">
-{% trans "This project is supported by PASCAL (Pattern Analysis, Statistical Modelling and Computational Learning)" %}
-<br />
-<a href="http://www.pascal-network.org/">http://www.pascal-network.org/</a>.
-</div>
 {% endblock %}
