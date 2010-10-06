@@ -170,8 +170,8 @@ def plot_single_curve(request, id, resolution='tiny'):
     ax = fig.add_subplot(111)
 
 
-    ax.plot(x,y,'bo-', alpha=0.7, linewidth=5)
-    #ax.plot(x,y,'b-',linewidth=1, alpha=0.5)
+    ax.plot(x,y,'bo-', alpha=0.3, linewidth=5)
+    #ax.plot(x,y,'rx',linewidth=1, alpha=0.9)
     #ax.bar(x,y)
 
     ax.set_title(title)

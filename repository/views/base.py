@@ -256,8 +256,6 @@ def view(request, klass, slug_or_id, version=None):
                         new.aggregation_score=score[0]
                         new.complex_result_type=score[1]
                         new.complex_result=pickle.dumps(score[2])
-                        import pdb
-                        pdb.set_trace()
                     except TypeError:
                         new.aggregation_score=score
 
