@@ -122,12 +122,6 @@ $(function() {
 			<dd>{{ object.code|markdown }}</dd>
 			<dt>{% trans "Software Packages" %}</dt>
 			<dd>{{ object.software_packages|markdown }}</dd>
-			<dt>{% trans "Task" %}</dt>
-			<dd><a href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></dd>
-			{% if object.score %}
-			<dt>{% trans "Download" %}</dt>
-			<dd><a href="{% url repository.views.score_download object.slug %}">{% trans "This Score" %} ({{ object.score.size|filesizeformat }})</a></dd>
-			{% endif %}
 		</dl>
 		<div>
 			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />

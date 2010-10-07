@@ -135,6 +135,8 @@ def get_tasks(request, id):
     @return: tasks in response page
     @rtype: Django response
     """
+    qs_task=Task().get_public_qs(request.user)
+
     try:
         tasks=Challenge.objects.get(pk=id).get_tasks()
     except Challenge.DoesNotExist:

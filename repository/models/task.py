@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.core.urlresolvers import reverse
 from gettext import gettext as _
 
@@ -144,7 +145,7 @@ class Task(Repository):
         return self.data
 
     def get_challenges(self, user=None):
-        qs=self.get_public_qs(user)
+        qs=self.get_public_qs(user, Q(is_current=True))
         return self.challenge_set.filter(qs)
 
     def get_extract(self):

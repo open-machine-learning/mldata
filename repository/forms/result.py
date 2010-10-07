@@ -1,13 +1,27 @@
 from django.db import transaction
 from django import forms
-from repository.models import Task, Challenge, Result
+from repository.models import Task, Challenge, Result, Solution
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 class ResultForm(forms.ModelForm):
-    task = forms.ModelChoiceField(queryset=Task.objects.all(), required=True)
-    challenge = forms.ModelChoiceField(queryset=Challenge.objects.all(), required=False)
+    task = forms.ModelChoiceField(queryset=None, required=True)
+    challenge = forms.ModelChoiceField(queryset=None, required=False)
+    solution = forms.ModelChoiceField(queryset=None, required=False)
     output_file = forms.FileField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        user=None
+        if kwargs.has_key('user'):
+            user = kwargs.pop('user')
+        super(ResultForm, self).__init__(*args, **kwargs)
+
+        qs_task=Task().get_public_qs(user)
+        self.fields['task'].queryset=Task.objects.filter(qs_task)
+        qs_challenge=Challenge().get_public_qs(user)
+        self.fields['challenge'].queryset=Challenge.objects.filter(qs_challenge)
+        qs_solution=Solution().get_public_qs(user)
+        self.fields['solution'].queryset=Solution.objects.filter(qs_solution)
 
     class Meta:
         model = Result
@@ -42,6 +56,6 @@ def edit(request):
             result.save()
             return HttpResponseRedirect(form.cleaned_data['next'])
         else:
-			info_dict['result_form'] = ResultForm(request)
-			return render_to_response('solution/item_edit.html', info_dict)
+            info_dict['result_form'] = ResultForm(request)
+            return render_to_response('solution/item_edit.html', info_dict)
     return HttpResponseRedirect(reverse('repository_index'))

@@ -44,7 +44,7 @@ class Challenge(Repository):
         return reverse(view, args=[self.slug.text])
     
     def get_tasks(self, user=None):
-        qs=self.get_public_qs(user)
+        qs=self.get_public_qs(user, Q(is_current=True))
         return self.task.filter(qs)
 
 class ChallengeRating(Rating):

@@ -265,7 +265,7 @@ def view(request, klass, slug_or_id, version=None):
                     else:
                         form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
             else:
-                form = ResultForm()
+                form = ResultForm(user=request.user)
 
             info_dict['result_form'] = form
 
