@@ -119,7 +119,7 @@ class TaskForm(RepositoryForm):
 	    if check_split_str(self.cleaned_data[name]): 
                 return [int(x) for x in expand_split_str(self.cleaned_data[name])]
 	    else:
-		    raise ValidationError(_('Invalid Format (smpl: 1,2,3:5).'))
+		    raise ValidationError(_('Invalid format (example: 0,1,2:5,5 = 0,1,2,3,4,5).'))
 
     def clean_train_idx(self):
         """Ensure train_idx are given as comma-seperated list of integers."""
@@ -137,8 +137,5 @@ class TaskForm(RepositoryForm):
         if 'output_variables' in self.cleaned_data:
             if not self.cleaned_data['output_variables']:
                 return None
-            try:
-                return int(self.cleaned_data['output_variables'])
-            except:
-                raise ValidationError(_('Not a single integer.'))
+	    return self._clean_valid_inputformat('output_variables')
 

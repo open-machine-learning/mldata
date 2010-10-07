@@ -41,6 +41,7 @@ import traceback
 import uuid
 import cPickle as pickle
 
+
 from repository.views.util import *
 
 from repository.views.url_helper import UrlHelper
@@ -297,9 +298,9 @@ def view(request, klass, slug_or_id, version=None):
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
-
+    print klass.__name__
+    print obj.get_extract()
     info_dict['extract'] = obj.get_extract()
-
     return response_for(klass, 'item_view', info_dict)
 
 
@@ -377,8 +378,8 @@ def new(request, klass):
                         new.file = request.FILES['file']
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     taskfile = {
-                        'train_idx': form.cleaned_data['train_idx'],
-                        'test_idx': form.cleaned_data['test_idx'],
+                        'train_idx': (form.cleaned_data['train_idx']),
+                        'test_idx': (form.cleaned_data['test_idx']),
                         'input_variables': form.cleaned_data['input_variables'],
                         'output_variables': form.cleaned_data['output_variables']
                     }
