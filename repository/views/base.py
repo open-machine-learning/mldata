@@ -298,8 +298,6 @@ def view(request, klass, slug_or_id, version=None):
 
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
-    print klass.__name__
-    print obj.get_extract()
     info_dict['extract'] = obj.get_extract()
     return response_for(klass, 'item_view', info_dict)
 
