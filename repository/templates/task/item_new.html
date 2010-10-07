@@ -100,11 +100,11 @@ $(function() {
 
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
 				<dd>{{ form.summary }}<br />
-            <span class="helptext">{% trans "One-line summary of your data set" %}</span></dd>
+            <span class="helptext">{% trans "One-line summary of your task" %}</span></dd>
 
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
-				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
+				    <span class="helptext">{% trans "Space separated tags for your task (see tag cloud on the right)." %}</span></dd>
 
 		{% ifequal klass "Task" %}
 				<dt><label for="id_input">{% trans "Input format" %}</label> * {{ form.input.errors }}</dt>

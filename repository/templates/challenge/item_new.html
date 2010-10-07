@@ -51,11 +51,11 @@ $(function() {
 
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
 				<dd>{{ form.summary }}<br />
-            <span class="helptext">{% trans "One-line summary of your data set" %}</span></dd>
+            <span class="helptext">{% trans "One-line summary of your challenge" %}</span></dd>
 
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
-				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
+				    <span class="helptext">{% trans "Space separated tags for your challenge (see tag cloud on the right)." %}</span></dd>
 				<dt><label for="id_tasks">{% trans "Tasks" %}</label> {{ form.task.errors }}</dt>
 				<dd>{{ form.task }}<br />
 				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>

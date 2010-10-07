@@ -54,11 +54,11 @@ $(function() {
 
 				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
 				<dd>{{ form.summary }}<br />
-            <span class="helptext">{% trans "One-line summary of your data set" %}</span></dd>
+            <span class="helptext">{% trans "One-line summary of your solution" %}</span></dd>
 
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
-				    <span class="helptext">{% trans "Space separated tags for you data set (see tag cloud on the right)." %}</span></dd>
+				    <span class="helptext">{% trans "Space separated tags for your solution (see tag cloud on the right)." %}</span></dd>
 
 				<dt><label for="id_feature_processing">{% trans "Feature Processing" %}</label> {{ form.feature_processing.errors }}</dt>
 				<dd>{{ form.feature_processing }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
