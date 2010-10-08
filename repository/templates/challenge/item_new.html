@@ -23,8 +23,23 @@ $(function() {
 
 	$('#tabs').tabs();
 
+	validate = function() {
+		error = false;
+		remove_error(['name', 'task']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+		if (!$('#id_task').val()) error = append_error('task');
+
+		return !error;
+	};
+
 	$('#form-new').submit(function(){
 		if (!validate()) return false;
+
+		if (!$('#id_keep_private').is(':checked')) {
+			res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+			if (!res) { return false; }
+		}
 	});
 });
 </script>
@@ -56,7 +71,7 @@ $(function() {
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
 				    <span class="helptext">{% trans "Space separated tags for your challenge (see tag cloud on the right)." %}</span></dd>
-				<dt><label for="id_tasks">{% trans "Tasks" %}</label> {{ form.task.errors }}</dt>
+				<dt><label for="id_task">{% trans "Tasks" %}</label> * {{ form.task.errors }}</dt>
 				<dd>{{ form.task }}<br />
 				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>
 

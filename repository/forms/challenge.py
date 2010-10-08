@@ -9,7 +9,7 @@ from repository.widgets import *
 class ChallengeForm(RepositoryForm):
     """Form class for Challenge.
     """
-    task= forms.ModelMultipleChoiceField(queryset=Task.objects.all(), required=True)
+    task= forms.ModelMultipleChoiceField(queryset=None, required=True)
 
     class Meta:
         """Inner meta class to specify model and exclude options.
@@ -32,8 +32,17 @@ class ChallengeForm(RepositoryForm):
             request = kwargs.pop('request')
         else:
             request = None
+
+        try:
+            user=request.user
+        except:
+            user=None
+
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
+
+        qs_task=Task().get_public_qs(user)
+        self.fields['task'].queryset=Task.objects.filter(qs_task)
 
 #        if request:
 #            cv = Task.objects.filter(Q(is_current=True) &

@@ -12,7 +12,20 @@ $(function() {
 	$('.cancel').click(function() {
 		window.history.back(-1);
 	});
+
+	validate = function() {
+		error = false;
+		remove_error(['name', 'task']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+		if (!$('#id_task').val()) error = append_error('task');
+
+		return !error;
+	};
+
 	$('#form-edit').submit(function() {
+		if (!validate()) return false;
+
 		if ($('#id_keep_private').length != 0 && !$('#id_keep_private').is(':checked')) {
 			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
 		}
@@ -61,7 +74,7 @@ $(function() {
 				<dd>{{ form.summary }}</dd>
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}</dd>
-				<dt><label for="id_tasks">{% trans "Tasks" %}</label> {{ form.task.errors }}</dt>
+				<dt><label for="id_task">{% trans "Tasks" %}</label> * {{ form.task.errors }}</dt>
 				<dd>{{ form.task }}<br />
 				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}

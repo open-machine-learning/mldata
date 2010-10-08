@@ -31,21 +31,20 @@ $(function() {
 		if (!$('#id_input').val()) error = append_error('input');
 		if (!$('#id_output').val()) error = append_error('output');
 		if (!$('#id_performance_measure').val()) error = append_error('performance_measure');
-		if (!$('#id_performance_ordering').val()) error = append_error('performance_ordering');
-		if (!$('#id_type').val() && !$('#id_freeformtype').val()) error = append_error('type');
+		if (!$('#id_type').val()) error = append_error('type');
 		if (!$('#id_data').val()) error = append_error('data');
 
 		return !error;
 	};
 
-	//$('#form-new').submit(function(){
-	//	if (!validate()) return false;
+	$('#form-new').submit(function(){
+		if (!validate()) return false;
 
-	//	if (!$('#id_keep_private').is(':checked')) {
-	//		res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
-	//		if (!res) { return false; }
-	//	}
-	//});
+		if (!$('#id_keep_private').is(':checked')) {
+			res = window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+			if (!res) { return false; }
+		}
+	});
 
 	$('#id_type').change(function() {
 		type = $('#id_type').val()

@@ -173,10 +173,11 @@ $(function() {
 			<h3>Solutions associated to task {{ object.name }}</h3>
 			{% include "repository/paginator_index_solution.html" %}
 			<table>
-				<tr><th>Solution</th><th>Score</th><th>Date</th></tr>
+				<tr><th>Solution</th><th>Curve</th><th>Score</th><th>Date</th></tr>
 				{% for object in page.object_list %}
 				<tr>
 					<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
+					<td>{% ifequal object.complex_result_type "Curve" %} <a href="{% url repository.views.solution.plot_single_curve object.pk 'large' %}"><img src="{% url repository.views.solution.plot_single_curve object.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
 					<td>{{ object.aggregation_score }}</td>
 					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
 				</tr>

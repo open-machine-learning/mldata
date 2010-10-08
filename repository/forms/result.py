@@ -12,9 +12,17 @@ class ResultForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user=None
-        if kwargs.has_key('user'):
-            user = kwargs.pop('user')
+        if kwargs.has_key('request'):
+            request = kwargs.pop('request')
+        else:
+            request = None
+
         super(ResultForm, self).__init__(*args, **kwargs)
+
+        try:
+            user=request.user
+        except:
+            user=None
 
         qs_task=Task().get_public_qs(user)
         self.fields['task'].queryset=Task.objects.filter(qs_task)

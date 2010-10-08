@@ -71,6 +71,7 @@ class ResultForm(RepositoryForm):
             request = kwargs.pop('request')
         else:
             request = None
+
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:

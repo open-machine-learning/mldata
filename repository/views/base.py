@@ -247,7 +247,7 @@ def view(request, klass, slug_or_id, version=None):
     else:
         if request.user.is_authenticated():
             if request.method == 'POST':
-                form = ResultForm(request.POST, request.FILES)
+                form = ResultForm(request.POST, request.FILES, request=request)
                 if form.is_valid():
                     new = form.save(commit=False)
                     new.aggregation_score=-1
@@ -265,7 +265,7 @@ def view(request, klass, slug_or_id, version=None):
                     else:
                         form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
             else:
-                form = ResultForm(user=request.user)
+                form = ResultForm(request=request)
 
             info_dict['result_form'] = form
 
@@ -390,6 +390,8 @@ def new(request, klass):
                     new.save()
                 elif klass == Challenge:
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    new.save()
+                    new.task=form.cleaned_data['task']
                     new.save()
                 else:
                     raise Http404
