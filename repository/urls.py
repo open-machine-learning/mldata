@@ -60,7 +60,7 @@ urlpatterns = patterns('',
     (r'^task/activate/(?P<id>\d+)/$', views.task.activate),
     url(r'^task/rate/(?P<id>\d+)/$', views.task.rate, name='repository_task_rate'),
     (r'^task/download/(?P<slug>[A-Za-z0-9-_]+)/$', views.task.download),
-    (r'^task/predict/(?P<slug>[A-Za-z0-9-_]+)/$', views.task.predict),
+    #(r'^task/predict/(?P<slug>[A-Za-z0-9-_]+)/$', views.task.predict),
     (r'^task/measures/list/(?P<type>[A-Za-z0-9-_ ]+)/$', views.task.get_measures),
     (r'^task/measures/help/(?P<type>[A-Za-z0-9-_ ]+)/(?P<name>[A-Za-z0-9-_ ]+)/$', views.task.get_measure_help),
 

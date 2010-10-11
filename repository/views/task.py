@@ -70,22 +70,22 @@ def download(request, slug):
     return base.download(request, Task, slug)
 
 
-def predict(request, slug):
-    """AJAX: Evaluate results for Task given by id.
-    """
-    obj = Task.get_object(slug)
-    if not obj: raise Http404
-    if not obj.can_view(request.user):
-        return HttpResponseForbidden()
-
-    if 'qqfile' in request.FILES: # non-XHR style
-        indata = request.FILES['qqfile'].read()
-    else:
-        indata = request.raw_post_data
-    score, success = obj.predict(indata)
-
-    data = '{"score": "' + score + '", "success": "' + str(success) + '"}'
-    return HttpResponse(data, mimetype='text/plain')
+#def predict(request, slug):
+#    """AJAX: Evaluate results for Task given by id.
+#    """
+#    obj = Task.get_object(slug)
+#    if not obj: raise Http404
+#    if not obj.can_view(request.user):
+#        return HttpResponseForbidden()
+#
+#    if 'qqfile' in request.FILES: # non-XHR style
+#        indata = request.FILES['qqfile'].read()
+#    else:
+#        indata = request.raw_post_data
+#    score, success = obj.predict(indata)
+#
+#    data = '{"score": "' + score + '", "success": "' + str(success) + '"}'
+#    return HttpResponse(data, mimetype='text/plain')
 
 
 def rate(request, id):
