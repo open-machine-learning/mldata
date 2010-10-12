@@ -42,5 +42,7 @@ def paginator(context, adjacent_pages=2):
 
         if context.has_key('search_term'):
             r['search_term']=quote(context['search_term'],'')
+            if context.has_key('klass'):
+                r['klass']=quote(context['klass'],'')
 
         return r
