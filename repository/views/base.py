@@ -576,6 +576,8 @@ def index(request, klass, my=False, searchterm=None):
         return render_to_response('solution/item_index.html', info_dict)
     elif klass == Challenge:
         return render_to_response('challenge/item_index.html', info_dict)
+    elif klass == Repository:
+        return render_to_response('repository/item_index.html', info_dict)
 
 def tags_view(request, tag, klass):
     """View all items tagged by given tag in given klass.
@@ -668,9 +670,9 @@ def search(request):
     """
     if request.method == 'GET' and 'searchterm' in request.GET:
         searchterm = request.GET['searchterm']
-        if 'data' in request.GET and not 'task' in request.GET:
+        if 'data' in request.GET:
             return index(request, Data, False, searchterm)
-        elif 'task' in request.GET and not 'data' in request.GET:
+        elif 'task' in request.GET:
             return index(request, Task, False, searchterm)
         elif 'solution' in request.GET:
             return index(request, Solution, False, searchterm)
@@ -678,8 +680,7 @@ def search(request):
             return index(request, Challenge, False, searchterm)
         else: # all
             return index(request, Repository, False, searchterm)
-    else:
-        return HttpResponseRedirect(reverse(index))
+    raise Http404
 
 def _is_newer(first, second):
     """Check if second given file is newer than first given file.
