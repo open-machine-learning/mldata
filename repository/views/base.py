@@ -32,9 +32,7 @@ from preferences.models import Preferences
 from repository.forms import *
 from repository.models import *
 import repository.util as util
-from settings import DATAPATH
-from settings import MEDIA_ROOT
-from settings import TAG_SPLITSTR
+from settings import DATAPATH, CACHE_ROOT, MEDIA_ROOT, TAG_SPLITSTR
 import subprocess
 from tagging.models import Tag
 import traceback
