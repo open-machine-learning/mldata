@@ -160,6 +160,7 @@ def download(request, klass, slug, type='plain'):
                 cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
                 if not subprocess.call(cmd, shell=True) == 0:
                     mail_admins('Download: Failed conversion of %s to XML' % (fname_h5), cmd)
+                    download_cleanup(fname_export)
                     raise Http404
         elif type in ('csv', 'arff', 'libsvm', 'matlab', 'octave'):
             if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
@@ -170,6 +171,7 @@ def download(request, klass, slug, type='plain'):
                     subject = 'Download: Failed conversion of %s to %s' % (fname_h5, type)
                     body = traceback.format_exc() + "\n" + str(e)
                     mail_admins(subject, body)
+                    download_cleanup(fname_export)
                     raise Http404
         else:
             raise Http404
@@ -186,10 +188,16 @@ def download(request, klass, slug, type='plain'):
     response = sendfile(fileobj, ctype)
 
     fileobj.close()
-    if fname_export: # remove exported file
-        os.remove(fname_export)
+    download_cleanup(fname_export)
     obj.increase_downloads()
     return response
+
+def download_cleanup(fname_export):
+    """ erase exported file """
+    try:
+        os.remove(fname_export)
+    except:
+        pass
 
 @transaction.commit_on_success
 def view(request, klass, slug_or_id, version=None):
