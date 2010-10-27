@@ -171,9 +171,6 @@ class Data(Repository):
             mail_admins(subject, body)
         return extract
 
-    #
-    # stuff by Mikio below
-    #
     def check_has_h5(self):
         self.has_h5 = False
         if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, self.file.name)) == 'h5':

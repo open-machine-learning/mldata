@@ -82,8 +82,10 @@ USE_I18N = True
 # Example: "/home/media/media.lawrence.com/"
 if PRODUCTION:
     MEDIA_ROOT = '/home/mldata/private'
+    CACHE_ROOT = '/home/mldata/private/cache'
 else:
     MEDIA_ROOT = os.path.join(ABSDIR, 'media/private')
+    CACHE_ROOT = os.path.join(ABSDIR, 'media/private/cache')
     
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).

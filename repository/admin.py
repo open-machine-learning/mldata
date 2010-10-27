@@ -7,7 +7,11 @@ from repository.models import *
 
 class DataAdmin(admin.ModelAdmin):
     """Admin class for Data"""
-    list_display = ('name', 'pub_date', 'slug', 'is_public')
+    list_display = ('name', 'pub_date', 'slug', 'user', 'is_public', 'file', 'format')
+    date_hierarchy = 'pub_date'
+    list_filter =['pub_date', 'user', 'is_public', 'tags', 'format']
+    search_fields = ['name','file']
+
 admin.site.register(Data, DataAdmin)
 
 class SlugAdmin(admin.ModelAdmin):

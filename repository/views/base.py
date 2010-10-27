@@ -152,7 +152,8 @@ def download(request, klass, slug, type='plain'):
         if format != 'h5': # only convert h5 files
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
-        fname_export = fname_h5 + '.' + type
+        prefix, dummy = os.path.splitext(obj.file.name)
+        fname_export = os.path.join(CACHE_ROOT, prefix + '.' + type)
 
         if type == 'xml':
             if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):

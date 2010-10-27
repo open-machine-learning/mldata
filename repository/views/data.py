@@ -66,7 +66,8 @@ def new_review(request, slug):
     if not obj.can_edit(request.user) or obj.is_approved:
         return HttpResponseForbidden()
 
-    fname = os.path.join(MEDIA_ROOT, obj.file.name)
+    dummy, ext = os.path.splitext(obj.file.name)
+    fname = os.path.join(MEDIA_ROOT, '%s_v%d%s' % (slug, obj.version, ext))
     form = None
     if request.method == 'POST':
         if request.POST.has_key('revert'):
