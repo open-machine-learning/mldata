@@ -225,9 +225,6 @@ def view(request, klass, slug_or_id, version=None):
     versions = get_versions_paginator(request, obj)
     urls = UrlHelper(obj, obj.id)
 
-    # klass-specific
-    obj.check_has_h5()
-
     info_dict = {
         'object': obj,
         'request': request,
