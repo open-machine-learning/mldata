@@ -171,16 +171,22 @@ class Data(Repository):
             mail_admins(subject, body)
         return extract
 
-    def check_has_h5(self):
-        self.has_h5 = False
-        if ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, self.file.name)) == 'h5':
-            self.has_h5 = True
-        if 'conversion_failed' in self.tags:
-            self.conversion_failed = True
+    def has_h5(self):
+        return self.file.name.endswith('.h5')
 
     def check_is_approved(self):
         return self.is_approved
 
+    def can_convert_to_arff():
+        return ml2h5.fileformat.can_convert_to('arff', self.file.name)
+    def can_convert_to_libsvm():
+        return ml2h5.fileformat.can_convert_to('libsvm', self.file.name)
+    def can_convert_to_octave():
+        return ml2h5.fileformat.can_convert_to('octave', self.file.name)
+    def can_convert_to_matlab():
+        return ml2h5.fileformat.can_convert_to('matlab', self.file.name)
+    def can_convert_to_csv():
+        return ml2h5.fileformat.can_convert_to('csv', self.file.name)
 
 class DataRating(Rating):
     """Rating for a Data item."""

@@ -201,13 +201,13 @@ class Repository(models.Model):
         current.save(silent_update=True)
         return current
 
-    def check_has_h5(self):
+    def has_h5(self):
         """Checks whether has h5 and updates the object if this is the case.
 
         No-Op by default, overwritten for Data. If overwritten, sets the has_h5
         attribute, or the conversion-failed attribute.
         """
-        pass
+        return False
 
     def get_related_data(self):
         """Returns the data set related to this data set.
