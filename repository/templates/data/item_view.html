@@ -129,11 +129,11 @@
                     {% if object.has_h5 %}
                     <a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
                     <a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
-                    {% if object.can_convert_to_csv %}<a href="{% url repository.views.data.download_csv object.slug %}">{% trans "CSV" %}</a>{% endif %}
-                    {% if object.can_convert_to_arff %}<a href="{% url repository.views.data.download_arff object.slug %}">{% trans "ARFF" %}</a>{% endif %}
-                    {% if object.can_convert_to_libsvm %}<a href="{% url repository.views.data.download_libsvm object.slug %}">{% trans "LibSVM" %}</a>{% endif %}
-                    {% if object.can_convert_to_matlab %}<a href="{% url repository.views.data.download_matlab object.slug %}">{% trans "Matlab" %}</a>{% endif %}
-                    {% if object.can_convert_to_octave %}<a href="{% url repository.views.data.download_octave object.slug %}">{% trans "Octave" %}</a>{% endif %}
+                    <a{% if object.can_convert_to_csv %} href="{% url repository.views.data.download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
+                    <a{% if object.can_convert_to_arff %} href="{% url repository.views.data.download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
+                    <a{% if object.can_convert_to_libsvm %} href="{% url repository.views.data.download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
+                    <a{% if object.can_convert_to_matlab %} href="{% url repository.views.data.download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+                    <a{% if object.can_convert_to_octave %} href="{% url repository.views.data.download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
                                     {% else %}
                     <a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
                                     {% endif %}

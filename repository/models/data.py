@@ -162,7 +162,7 @@ class Data(Repository):
 
     def get_extract(self):
         extract = None
-        fname_h5 = os.path.join(MEDIA_ROOT, self.file.name)
+        fname_h5 = self.get_data_filename()
         try:
             extract = ml2h5.data.get_extract(fname_h5)
         except Exception, e: # catch exceptions in general, but notify admins
@@ -172,21 +172,21 @@ class Data(Repository):
         return extract
 
     def has_h5(self):
-        return self.file.name.endswith('.h5')
+        return self.get_data_filename().endswith('.h5')
 
     def check_is_approved(self):
         return self.is_approved
 
-    def can_convert_to_arff():
-        return ml2h5.fileformat.can_convert_to('arff', self.file.name)
-    def can_convert_to_libsvm():
-        return ml2h5.fileformat.can_convert_to('libsvm', self.file.name)
-    def can_convert_to_octave():
-        return ml2h5.fileformat.can_convert_to('octave', self.file.name)
-    def can_convert_to_matlab():
-        return ml2h5.fileformat.can_convert_to('matlab', self.file.name)
-    def can_convert_to_csv():
-        return ml2h5.fileformat.can_convert_to('csv', self.file.name)
+    def can_convert_to_arff(self):
+        return ml2h5.fileformat.can_convert_h5_to('arff', self.get_data_filename())
+    def can_convert_to_libsvm(self):
+        return ml2h5.fileformat.can_convert_h5_to('libsvm', self.get_data_filename())
+    def can_convert_to_octave(self):
+        return ml2h5.fileformat.can_convert_h5_to('octave', self.get_data_filename())
+    def can_convert_to_matlab(self):
+        return ml2h5.fileformat.can_convert_h5_to('matlab', self.get_data_filename())
+    def can_convert_to_csv(self):
+        return ml2h5.fileformat.can_convert_h5_to('csv', self.get_data_filename())
 
 class DataRating(Rating):
     """Rating for a Data item."""
