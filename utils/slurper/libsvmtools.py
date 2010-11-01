@@ -169,8 +169,10 @@ class LibSVMTools(Slurper):
         """
         tmp = self.concat(fnames)
         data = self.create_data(parsed, tmp)
-        if ml2h5.fileformat.get(data.file.name) == 'h5':
-            self.create_task(parsed, data, fnames)
+
+        # do no longer automagicaly create tasks
+        #if ml2h5.fileformat.get(data.file.name) == 'h5':
+        #    self.create_task(parsed, data, fnames)
         os.remove(tmp)
 
 

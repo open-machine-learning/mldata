@@ -4,7 +4,7 @@ from HTMLParser import HTMLParseError
 from django.core.files import File
 from django.db import IntegrityError
 
-from repository.models import Repository, Data, Task, TaskType, Publication
+from repository.models import Repository, Data, Task, Publication
 from preferences.models import Preferences
 from settings import MEDIA_ROOT, DATAPATH
 
@@ -288,11 +288,32 @@ class Slurper(object):
         )
         try:
             obj = self._add_slug(obj)
+            self.progress('Creating Data item ' + obj.name + '.', 4)
         except IntegrityError:
             self.warn('Slug already exists, skipping Data item ' + obj.name + '!')
-            self.problematic.append(parsed['name'])
-            return None
-        self.progress('Creating Data item ' + obj.name + '.', 4)
+            slug=slugify(parsed['name'])
+            try:
+                obj=Data.objects.get(slug=slug)
+                if obj.name != parsed['name']:
+                    raise DoesNotExist
+                self.progress('Updating Data item ' + obj.name + '.', 4)
+                
+                obj.pub_date=datetime.datetime.now()
+                obj.name=parsed['name']
+                obj.source=parsed['source']
+                obj.description=parsed['description']
+                obj.summary=parsed['summary']
+                obj.version=1
+                obj.is_public=False
+                obj.is_current=True
+                obj.is_approved=True
+                obj.user_id=1
+                obj.license_id=parsed['license']
+                obj.format=ml2h5.fileformat.get(fname)
+
+            except DoesNotExist:
+                self.problematic.append(parsed['name'])
+                return None
 
         obj.tags = self._get_tags(parsed['tags'], obj)
         obj.save() # need to save before publications can be added
@@ -366,7 +387,7 @@ class Slurper(object):
             ttype = 'Classification'
         else:
             ttype = parsed['task']
-        obj.type, created = TaskType.objects.get_or_create(name=ttype)
+        obj.type=ttype
         obj.save()
 
         self._add_taskdata(obj, splitnames)
