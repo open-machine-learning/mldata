@@ -29,8 +29,8 @@ def my(request):
 # Viewing data objects
 #
 
-def view(request, slug_or_id, version=None):
-    return base.view(request, Data, slug_or_id)
+def view(request, id, version=None):
+    return base.view(request, Data, id)
 
 def view_slug(request, slug, version=None):
     return base.view(request, Data, slug, version)
