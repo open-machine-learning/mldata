@@ -14,5 +14,3 @@ for d in Data.objects.all():
             d.save(silent_update=True)
         else:
             print "not hdf5 ignoring", src1
-
-    print d.format
