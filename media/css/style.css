@@ -134,3 +134,9 @@ div.buttonrow form { display: inline; }
 input.stdbutton { width: auto; padding: 1px; text-decoration:none; color:#000000; font-size:small; font-weight:normal; padding:4px;}
 
 ul.recent li { margin-bottom:0.5em;}
+ul.index { list-style: none; margin-left: 0; padding-left: 1em; text-indent: -1em; }
+ul.index li { margin:-1px; padding: 0;}
+/* ul.index li:before { content: "\00BB \0020"; } */
+span.index { float: right; background-color: #eee}
+span.index_right { float: right; }
+span.index_head { background-color: #eee}

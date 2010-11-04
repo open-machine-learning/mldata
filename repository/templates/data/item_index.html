@@ -1,5 +1,8 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
+{% load markup %}
+{% load show_stars %}
+{% load repository_filters %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url data_index %}">{% trans "Data" %}</a> / {{ my_or_archive }}{% endblock %}
@@ -15,13 +18,52 @@
 	<ul class="index_list">
 	{% for object in page.object_list %}
 		<li>
-		  <h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
-                        {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}
+		<h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a>
+			<span class="index">
+				{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}
+			</span>
+		</h2>
+		{% trans "by" %} {{ object.user.username }} <span class="index_right"> {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}</span>
+		{{object.hits }} views, {{ object.downloads }} downloads
 			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
-			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
-			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
-			{% if object.num_instances %}<br />{% trans "# Instances" %}: {{ object.num_instances }}, {% trans "# Attributes" %}: {{ object.num_attributes }}{% endif %}
-		</li>
+			<ul class="index">
+				{% if object.score %}<li>{% trans "File size" %}: {{ object.score.size|filesizeformat }}</li>{% endif %}
+			</ul>
+        <div id="tabs-summary">
+            <dl id="news">
+                <dt>{% trans "Summary" %}</dt>
+                <dd>{{ object.summary|edit_if_empty }}</dd>
+				{% if object.num_instances %}<dt>{% trans "Shape of Datasets " %}</dt><dd>Attributes x Instances: {{ object.num_attributes }}x{{ object.num_instances }} 
+				</dd>{% endif %}
+                <dt>{% trans "License" %}</dt>
+                <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
+				{% if object.tags %}<dt>{% trans "Tags" %}</dt>
+				<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd> {% endif %}
+				{% if related %} <dt>{% trans "Related Task(s)" %}</dt>
+                <dd>{% for t in related %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
+				{% endif %}
+				<dt>{% trans "Download" %}</a>
+				{% if object.file %}{% endif %}
+			</dt>
+                <dd>
+                    {% if object.has_h5 %}
+                    <a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+                    <a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
+                    <a{% if object.can_convert_to_csv %} href="{% url repository.views.data.download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
+                    <a{% if object.can_convert_to_arff %} href="{% url repository.views.data.download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
+                    <a{% if object.can_convert_to_libsvm %} href="{% url repository.views.data.download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
+                    <a{% if object.can_convert_to_matlab %} href="{% url repository.views.data.download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+                    <a{% if object.can_convert_to_octave %} href="{% url repository.views.data.download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+                                    {% else %}
+                    <a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+                                    {% endif %}
+                </dd>
+            </dl>
+            <div>
+                {% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
+                {% trans "You can" %} <a href="{{ urls.edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
+            </div>
+        </div><!-- /tabs-summary -->
 	{% endfor %}
 	</ul>
 	{% include "repository/paginator_index.html" %}
@@ -36,7 +78,10 @@
 	{% for object in unapproved %}
 		<li>
 		  <h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h2>
-                        {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}
+			{% trans "by" %} {{ object.user.username }}
+			<span id="rating">
+				<a href="#">{% trans "Rating" %}</a> {% show_stars object.rating_avg of 5 round to half %}
+			</span>
 			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
 			{% if object.file %}<br />{% trans "File size" %}: {{ object.file.size|filesizeformat }}{% endif %}
 			{% if object.score %}<br />{% trans "File size" %}: {{ object.score.size|filesizeformat }}{% endif %}
