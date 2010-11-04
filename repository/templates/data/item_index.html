@@ -18,36 +18,36 @@
 	<ul class="index_list">
 	{% for object in page.object_list %}
 		<li>
-        <div id="gallery">
-            <h4 class="title-03 gallery"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h4>
-        </div>
-		<h2 class="title-02">
-            {% trans "by" %} {{ object.user.username }} <span class="index"> {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}</span><br \>
-		{{object.hits }} views, {{ object.downloads }} downloads
-			<span class="index">
-				{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}
+		<h2 class="title-03 gallery">
+			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> 
+			- {{ object.pub_date|date:"F j, Y, H:i:s" }} CET
+			<span class="index_right">
+			({{object.hits }} views, {{ object.downloads }} downloads) 
 			</span>
+			<br \>
+			{% trans "Submitted by" %} {{ object.user.username }}
+			<span class="index_right">{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}</span>
 		</h2>
-			<ul class="index">
-				{% if object.score %}<li>{% trans "File size" %}: {{ object.score.size|filesizeformat }}</li>{% endif %}
-			</ul>
+		<br \>
+
         <div id="tabs-summary">
+		<div class=index_bg">
             <dl id="news">
-                <dt>{% trans "Summary" %}</dt>
-                <dd>{{ object.summary|edit_if_empty }}</dd>
-				{% if object.num_instances %}<dt>{% trans "Shape of Datasets " %}</dt><dd>Attributes x Instances: {{ object.num_attributes }}x{{ object.num_instances }} 
-				</dd>{% endif %}
-                <dt>{% trans "License" %}</dt>
-                <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
-				{% if tags %}<dt>{% trans "Tags" %}</dt>
-				<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd> {% endif %}
+                <dt>{% trans "Summary:" %}
+				<span class="index_plain">{{ object.summary|edit_if_empty }}</span></dt>
+				{% if object.num_instances %}<dt>{% trans "Data Shape:" %}
+				<span class="index_plain">{{ object.num_attributes }} attributes, {{ object.num_instances }} instances</span></dt>
+				{% endif %}
+				<dt>{% trans "License:" %}
+				<span class="index_plain"><a href="{{ object.license.url }}">{{ object.license.name }}</a></span></dt>
+				{% if tags %}<dt>{% trans "Tags:" %}
+				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span></dt>
+				{% endif %}
 				{% if related %} <dt>{% trans "Related Task(s)" %}</dt>
                 <dd>{% for t in related %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
 				{% endif %}
-				<dt>{% trans "Download" %}</a>
-				{% if object.file %}{% endif %}
-			</dt>
-                <dd>
+				<dt>{% trans "Download:" %}
+				<span class="index_plain">
                     {% if object.has_h5 %}
                     <a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
                     <a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
@@ -59,9 +59,11 @@
                                     {% else %}
                     <a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
                                     {% endif %}
-                </dd>
+								</span>
+                </dt>
             </dl>
         </div><!-- /tabs-summary -->
+	</div>
 	{% endfor %}
 	</ul>
 	{% include "repository/paginator_index.html" %}

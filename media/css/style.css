@@ -90,6 +90,8 @@ dl#news dt.active {background-color:#e2f4ff;}
 .title-03, .title-03.gallery {background-color:#0081C7; color:#fff;}
 .title-03 a {color:#FFF;}
 .title-04 {color:#0081C7;}
+.title-05 { font-size: 100%; background-color: ##0081C7; color:#fff; padding: 3px 3px 3px 10px; margin-top: 0; }
+.title-05 span {padding-right:5px;}
 
 .comment, .more {color:#3F3F3F;}
 
@@ -137,6 +139,5 @@ ul.recent li { margin-bottom:0.5em;}
 ul.index { list-style: none; margin-left: 0; padding-left: 1em; text-indent: -1em; }
 ul.index li { margin:-1px; padding: 0;}
 /* ul.index li:before { content: "\00BB \0020"; } */
-span.index { float: right; background-color: #eee}
 span.index_right { float: right; }
-span.index_head { background-color: #eee}
+span.index_plain { font-weight:normal;}
