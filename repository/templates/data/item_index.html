@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {{ my_or_archive }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url data_index %}">{% trans "Data" %}</a> / {{ my_or_archive }}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{{ my_or_archive }} {{ klass }}</h2>

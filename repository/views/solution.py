@@ -11,7 +11,7 @@ from repository.views.util import *
 import repository.views.base as base
 import settings
 
-def index(request):
+def index(request, order_by='-pub_date'):
     """Index page of Solution section.
 
     @param request: request data
@@ -19,7 +19,7 @@ def index(request):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.index(request, Solution)
+    return base.index(request, Solution, order_by=order_by)
 
 def my(request):
     """My page of Solution section.

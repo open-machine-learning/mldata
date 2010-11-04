@@ -5,8 +5,7 @@
 {% load repository_filters %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
-<a href="{{ object.data.get_absolute_slugurl }}">{{ object.data.name }}</a> / {{ object.name }}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url task_index %}">{% trans "Task" %}</a> / {% trans "View" %} / {{ object.name }}
 {% endblock %}
 {% block extrahead %}
 <script type="text/javascript" src="/media/js/fileuploader.js"></script>

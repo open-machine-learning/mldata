@@ -1,6 +1,7 @@
 import sys
 
 import datetime
+from django.template import RequestContext
 from django.core import serializers
 from django.core.cache import cache
 from django.core.files import File
@@ -521,7 +522,7 @@ def edit(request, klass, id):
     elif klass == Challenge:
         return render_to_response('challenge/item_edit.html', info_dict)
 
-def index(request, klass, my=False, searchterm=None):
+def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
     """Index/My page for section given by klass.
 
     @param request: request data
@@ -535,12 +536,12 @@ def index(request, klass, my=False, searchterm=None):
     @return: section's index or My page
     @rtype: Django response
     """
-    objects = klass.objects.filter(is_deleted=False).order_by('-pub_date')
+    objects = klass.objects.filter(is_deleted=False)
     if klass == Data:
         objects = objects.filter(is_approved=True)
 
     if my and request.user.is_authenticated():
-        objects = objects.filter(user=request.user, is_current=True).order_by('slug')
+        objects = objects.filter(user=request.user, is_current=True)
         if klass == Data:
             unapproved = klass.objects.filter(
                 user=request.user, is_approved=False
@@ -556,6 +557,9 @@ def index(request, klass, my=False, searchterm=None):
     searcherror = False
     if searchterm:
         objects, searcherror = util.search(klass, objects, searchterm)
+
+    objects = objects.order_by(order_by, '-pub_date')
+
 
     PER_PAGE = get_per_page(objects.count())
     info_dict = {

@@ -18,8 +18,8 @@ import ml2h5.fileformat
 # Main index
 #
 
-def index(request):
-    return base.index(request, Data)
+def index(request, order_by='-pub_date'):
+    return base.index(request, Data, order_by=order_by)
 
 def my(request):
     return base.index(request, Data, True)

@@ -5,7 +5,7 @@
 {% load repository_filters %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "View" %} /
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url data_index %}">{% trans "Data" %}</a> / {% trans "View" %} /
 {{object.name }}
 {% endblock %}
 {% block extrahead %}

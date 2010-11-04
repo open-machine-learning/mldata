@@ -9,7 +9,7 @@ from repository.forms import *
 from repository.views.util import *
 import repository.views.base as base
 
-def index(request):
+def index(request, order_by='-pub_date'):
     """Index page of Challenge section.
 
     @param request: request data
@@ -17,7 +17,7 @@ def index(request):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.index(request, Challenge)
+    return base.index(request, Challenge, order_by=order_by)
 
 def my(request):
     """My page of Challenge section.
