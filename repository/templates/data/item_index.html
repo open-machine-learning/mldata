@@ -28,7 +28,6 @@
 				{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}
 			</span>
 		</h2>
-			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
 			<ul class="index">
 				{% if object.score %}<li>{% trans "File size" %}: {{ object.score.size|filesizeformat }}</li>{% endif %}
 			</ul>

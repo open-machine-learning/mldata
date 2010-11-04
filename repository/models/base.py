@@ -238,10 +238,6 @@ class Repository(models.Model):
 
         return qs
 
-    #
-    # Old stuff by Sebastian below
-    #
-
     @classmethod
     def get_current_tagged_items(cls, user, tag):
         """Get current items with specific tag.

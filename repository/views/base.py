@@ -607,22 +607,27 @@ def tags_view(request, tag, klass):
     except Tag.DoesNotExist:
         raise Http404
 
+    PER_PAGE = get_per_page(len(objects))
     info_dict = {
         'request': request,
         'section': 'repository',
         'klass': klass.__name__,
         'tag': tag,
         'tagcloud': get_tag_clouds(request),
-        'objects': objects,
+        'page': get_page(request, objects, PER_PAGE),
+        'section': 'repository',
+        'per_page': PER_PAGE,
     }
     if klass == Data:
-        return render_to_response('data/tags_view.html', info_dict)
+        return render_to_response('data/item_index.html', info_dict)
     elif klass == Task:
-        return render_to_response('task/tags_view.html', info_dict)
+        return render_to_response('task/item_index.html', info_dict)
     elif klass == Solution:
-        return render_to_response('solution/tags_view.html', info_dict)
+        return render_to_response('solution/item_index.html', info_dict)
     elif klass == Challenge:
-        return render_to_response('challenge/tags_view.html', info_dict)
+        return render_to_response('challenge/item_index.html', info_dict)
+    elif klass == Repository:
+        return render_to_response('repository/item_index.html', info_dict)
 
 def rate(request, klass, id):
     """Rate an item given by id and klass.

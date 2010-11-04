@@ -17,6 +17,7 @@ from tagging.utils import calculate_cloud
 from utils import slugify
 
 import ml2h5
+import ml2h5.data
 import os
 
 class Data(Repository):
@@ -52,6 +53,7 @@ class Data(Repository):
     is_approved = models.BooleanField(default=False)
     num_instances = models.IntegerField(blank=True, default=-1)
     num_attributes = models.IntegerField(blank=True, default=-1)
+    #has_missing_values = models.BooleanField(blank=True, default=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
     class Meta:
@@ -180,6 +182,9 @@ class Data(Repository):
 
     def check_is_approved(self):
         return self.is_approved
+
+    def get_attribute_types(self):
+        return ml2h5.data.get_attribute_types(self.get_data_filename())
 
     def can_convert_to_arff(self):
         return ml2h5.fileformat.can_convert_h5_to('arff', self.get_data_filename())

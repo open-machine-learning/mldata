@@ -123,9 +123,14 @@
                 <dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
                 <dt>{% trans "Related Task(s)" %}</dt>
                 <dd>{% for t in related %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
+                <dt>{% trans "Attribute Types" %}</a></dt>
+                <dd>
+				{{ object.get_attribute_types }}
+				</dd>
                 <dt>{% trans "Download" %}</a></dt>
                 <dd>
                     {% trans "# Instances" %}: {{ object.num_instances }} / {% trans "# Attributes" %}: {{ object.num_attributes }}<br />
+					{% if object.slug %}
                     {% if object.has_h5 %}
                     <a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
                     <a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
@@ -134,9 +139,10 @@
                     <a{% if object.can_convert_to_libsvm %} href="{% url repository.views.data.download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
                     <a{% if object.can_convert_to_matlab %} href="{% url repository.views.data.download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
                     <a{% if object.can_convert_to_octave %} href="{% url repository.views.data.download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
-                                    {% else %}
+					{% else %}
                     <a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
-                                    {% endif %}
+					{% endif %}
+					{% endif %}
                 </dd>
             </dl>
             <div>
