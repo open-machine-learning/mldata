@@ -141,3 +141,4 @@ ul.index li { margin:-1px; padding: 0;}
 /* ul.index li:before { content: "\00BB \0020"; } */
 span.index_right { float: right; }
 span.index_plain { font-weight:normal;}
+span.index_plain_right { float: right; font-weight:normal;}

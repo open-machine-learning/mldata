@@ -20,13 +20,14 @@
 		<li>
 		<h2 class="title-03 gallery">
 			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> 
-			- {{ object.pub_date|date:"F j, Y, H:i:s" }} CET
-			<span class="index_right">
-			({{object.hits }} views, {{ object.downloads }} downloads) 
+			-
+			<span class="index_plain">{{ object.pub_date|date:"M j, Y, H:i" }} CET</span>
+			<span class="index_plain_right">
+			{{object.hits }} views, {{ object.downloads }} downloads
 			</span>
 			<br \>
-			{% trans "Submitted by" %} {{ object.user.username }}
-			<span class="index_right">{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}</span>
+			<span class="index_plain">{% trans "Submitted by" %} {{ object.user.username }}</span>
+			<span class="index_plain_right">{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}</span>
 		</h2>
 		<br \>
 
