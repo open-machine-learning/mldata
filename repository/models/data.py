@@ -104,13 +104,17 @@ class Data(Repository):
             else:
                 anf = False
 
-            verify = True
-            if convdata['format'] == 'uci': verify = False
+            #verify = True
+            #if convdata['format'] == 'uci': verify = False
+            verify = False
 
             try:
+                seperator=convdata['seperator']
+                if seperator and not len(seperator):
+                    seperator=None
                 c = ml2h5.converter.Converter(
                                               fname_orig, fname_h5, format_in=self.format,
-                                              seperator=convdata['seperator'],
+                                              seperator=seperator,
                                               attribute_names_first=anf
                                               )
                 c.run(verify=verify)

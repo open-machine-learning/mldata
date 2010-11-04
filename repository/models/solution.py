@@ -8,7 +8,7 @@ from repository.models import FixedLicense
 from tagging.fields import TagField
 from task import Task
 from challenge import Challenge
-from gettext import gettext as _
+from django.utils.translation import ugettext as _
 
 from utils import slugify
 

@@ -17,7 +17,6 @@ from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 from utils import slugify
-from gettext import gettext as _
 
 import repository
 

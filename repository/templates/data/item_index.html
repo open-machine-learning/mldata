@@ -18,13 +18,16 @@
 	<ul class="index_list">
 	{% for object in page.object_list %}
 		<li>
-		<h2 class="title-02"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a>
+        <div id="gallery">
+            <h4 class="title-03 gallery"><a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a></h4>
+        </div>
+		<h2 class="title-02">
+            {% trans "by" %} {{ object.user.username }} <span class="index"> {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}</span><br \>
+		{{object.hits }} views, {{ object.downloads }} downloads
 			<span class="index">
 				{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}
 			</span>
 		</h2>
-		{% trans "by" %} {{ object.user.username }} <span class="index_right"> {% trans "last modified" %}: {{ object.pub_date|date:"Y-m-d H:i" }}</span>
-		{{object.hits }} views, {{ object.downloads }} downloads
 			{% if object.summary %}<br />{% trans "Summary" %}: {{ object.summary }}{% endif %}
 			<ul class="index">
 				{% if object.score %}<li>{% trans "File size" %}: {{ object.score.size|filesizeformat }}</li>{% endif %}
@@ -37,7 +40,7 @@
 				</dd>{% endif %}
                 <dt>{% trans "License" %}</dt>
                 <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
-				{% if object.tags %}<dt>{% trans "Tags" %}</dt>
+				{% if tags %}<dt>{% trans "Tags" %}</dt>
 				<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd> {% endif %}
 				{% if related %} <dt>{% trans "Related Task(s)" %}</dt>
                 <dd>{% for t in related %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
@@ -59,10 +62,6 @@
                                     {% endif %}
                 </dd>
             </dl>
-            <div>
-                {% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-                {% trans "You can" %} <a href="{{ urls.edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
-            </div>
         </div><!-- /tabs-summary -->
 	{% endfor %}
 	</ul>

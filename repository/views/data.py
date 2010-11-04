@@ -10,7 +10,7 @@ import traceback
 from django.db import transaction
 
 import repository.views.base as base
-from settings import MEDIA_ROOT
+from settings import MEDIA_ROOT, DATAPATH
 import ml2h5.fileformat
 
 ############################################################################
@@ -67,13 +67,16 @@ def new_review(request, slug):
         return HttpResponseForbidden()
 
     dummy, ext = os.path.splitext(obj.file.name)
-    fname = os.path.join(MEDIA_ROOT, '%s_v%d%s' % (slug, obj.version, ext))
+    fname = os.path.join(MEDIA_ROOT, DATAPATH, '%s%s' % (slug, ext))
     form = None
     if request.method == 'POST':
         if request.POST.has_key('revert'):
-            os.remove(fname)
+            try:
+                os.remove(fname)
+            except:
+                pass
             obj.delete()
-            return HttpResponseRedirect(reverse(data_new))
+            return HttpResponseRedirect(reverse(new))
         elif request.POST.has_key('approve'):
             form = DataReviewForm(request.POST)
             if form.is_valid():
