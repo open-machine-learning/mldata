@@ -122,7 +122,7 @@
                 <dt>{% trans "Tags" %}</dt>
                 <dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
                 <dt>{% trans "Related Task(s)" %}</dt>
-                <dd>{% for t in related %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
+                <dd>{% for t in object.get_related_tasks %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
                 <dt>{% trans "Attribute Types" %}</a></dt>
                 <dd>
 				{{ object.get_attribute_types }}

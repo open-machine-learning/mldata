@@ -145,7 +145,7 @@ class Task(Repository):
         return self.data
 
     def get_challenges(self, user=None):
-        qs=self.get_public_qs(user, Q(is_current=True))
+        qs=self.get_public_qs(user)
         return self.challenge_set.filter(qs)
 
     def get_extract(self):

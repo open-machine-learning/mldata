@@ -494,35 +494,6 @@ class Repository(models.Model):
         items = self.__class__.objects.filter(qs).order_by('version')
         return [i for i in items if i.can_view(user)]
 
-    def filter_related(self, user):
-        """Filter Task/Solution related to a superior Data/Task to contain only
-        current and permitted Task/Solution.
-
-        This might be part of a manager class, because it works on table-level
-        for the related items. But then it works on row-level for the item
-        which is looked at...
-
-        @param user: User to filter for
-        @type user: models.User
-        @return: filtered items
-        @rtype: list of repository.Task or repository.Solution
-        """
-        qs = self.qs_for_related()
-
-        if not qs:
-            return None
-
-        current = qs.filter(is_current=True)
-        ret = []
-        for c in current:
-            if c.can_view(user):
-                ret.append(c)
-
-        return ret
-
-    def qs_for_related(self):
-        return None
-
     def create_slug(self):
         """Create the slug entry for this object.
 

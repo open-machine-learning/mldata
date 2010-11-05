@@ -234,7 +234,6 @@ def view(request, klass, slug_or_id, version=None):
         'current': current,
         'rating_form': RatingForm.get(request, obj),
         'tagcloud': get_tag_clouds(request),
-        'related': obj.filter_related(request.user),
         'klass': klass.__name__,
         'section': 'repository',
         'tags': tags,
@@ -244,11 +243,11 @@ def view(request, klass, slug_or_id, version=None):
     }
 
     if klass == Data:
-        qs=obj.get_public_qs(request.user)
-        objects=Task.objects.filter(qs, data=obj)
-        PER_PAGE = get_per_page(objects.count())
-        info_dict['page']=get_page(request, objects, PER_PAGE)
+        tasks=obj.get_related_tasks(request.user)
+        PER_PAGE = get_per_page(tasks.count())
+        info_dict['page']=get_page(request, tasks, PER_PAGE)
         info_dict['per_page']=PER_PAGE
+        info_dict['related_tasks']=tasks
     else:
         if request.user.is_authenticated():
             if request.method == 'POST':

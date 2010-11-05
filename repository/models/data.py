@@ -2,8 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.mail import mail_admins
-from repository.models import Repository
-from repository.models import License
+from repository.models import License, Repository
 
 from settings import DATAPATH, MEDIA_ROOT
 
@@ -149,9 +148,17 @@ class Data(Repository):
 
         return qs
 
+    def get_related_tasks(self, user=None):
+        from repository.models.task import Task
+        return Task.objects.filter(Q(data=self.pk) & self.get_public_qs(self))
 
-    def qs_for_related(self):
-        return self.task_data
+    def get_related_solutions(self):
+        from repository.models.solution import Result
+        return Result.objects.filter(task__data=self.pk)
+
+    def get_related_challenges(self, user=None):
+        from repository.models.challenge import Challenge
+        return Challenge.objects.filter(Q(task__data=self.pk) & self.get_public_qs(self))
 
     def get_completeness_properties(self):
         return ['tags', 'description', 'license', 'summary', 'urls',
