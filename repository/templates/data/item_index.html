@@ -35,29 +35,26 @@
 		<div class=index_bg">
             <dl id="news">
                 <dt>{% trans "Summary:" %}
-				<span class="index_plain">{{ object.summary|edit_if_empty }}</span></dt>
+				<span class="index_plain">{{ object.summary|edit_if_empty }}</span>
+				</dt>
 				{% if object.num_instances %}<dt>{% trans "Data Shape:" %}
-				<span class="index_plain">{{ object.num_attributes }} attributes, {{ object.num_instances }} instances</span></dt>
+				<span class="index_plain">{{ object.num_attributes }} attributes, {{ object.num_instances }} instances
+				({{ object.get_attribute_types }})
+				</dt>
 				{% endif %}
 				<dt>{% trans "License:" %}
-				<span class="index_plain"><a href="{{ object.license.url }}">{{ object.license.name }}</a></span></dt>
+				<span class="index_plain"><a href="{{ object.license.url }}">{{ object.license.name }}</a></span>
+				</dt>
 				{% if tags %}<dt>{% trans "Tags:" %}
-				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span></dt>
+				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				</dt>
 				{% endif %}
 				<dt> {% trans "Tasks / Solutions / Challenges:" %}
 				<span class="index_plain">
 				{{ object.get_related_tasks.count }} tasks, 
 				{{ object.get_related_solutions.count }} solutions, 
 				{{ object.get_related_challenges.count }} challenges
-			</span>
-				<!--{% if object.get_related_tasks %} <dt>{% trans "Related Task(s):" %}
-				<span class="index_plain">
-					{% for t in object.get_related_tasks %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</span>
-				{% endif %}
-				{% if object.get_related_solutions %} <dt>{% trans "Related Solutions(s):" %}
-				<span class="index_plain">
-					{% for s in object.get_related_solutions %}<a href="{% url repository.views.solution.view_slug s.solution.slug.text %}">{{ s.solution.name }}</a> {% endfor %}</span>
-				{% endif %}-->
+				</span></dt>
 				<dt>{% trans "Download:" %}
 				<span class="index_plain">
                     {% if object.has_h5 %}
