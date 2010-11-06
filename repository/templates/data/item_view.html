@@ -55,7 +55,10 @@
             return false; // otherwise browser would append '#' to url
         });
 
-        $('#tabs').tabs();
+        var $tabs = $('#tabs').tabs();
+		{% if show_comments %}
+		$tabs.tabs('select', '#tabs-comments');
+		{% endif %}
     });
 </script>
 {% endblock %}

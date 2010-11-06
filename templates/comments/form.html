@@ -20,7 +20,7 @@
 		{% if next %}
 		<input type="hidden" name="next" value="{{ next }}" />
 		{% else %}
-		<input type="hidden" name="next" value="{{ object.get_absolute_url }}" />
+		<input type="hidden" name="next" value="{{ object.get_absolute_slugurl }}" />
 		{% endif %}
 		<input type="hidden" name="name" id="id_name" maxlength="50" value="{{ user.username }}" />
 	</form>

@@ -226,6 +226,7 @@ def view(request, klass, slug_or_id, version=None):
     versions = get_versions_paginator(request, obj)
     urls = UrlHelper(obj, obj.id)
 
+
     info_dict = {
         'object': obj,
         'request': request,
@@ -240,6 +241,8 @@ def view(request, klass, slug_or_id, version=None):
         'versions': versions,
         'urls': urls,
     }
+    if request.method == 'GET' and 'c' in request.GET:
+        info_dict['show_comments'] = True
 
     if klass == Data:
         tasks=obj.get_related_tasks(request.user)
