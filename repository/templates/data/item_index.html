@@ -26,7 +26,7 @@
 			{{object.hits }} views, {{ object.downloads }} downloads
 			</span>
 			<br \>
-			<span class="index_plain">{% trans "Submitted by" %} {{ object.user.username }}</span>
+			<span class="index_plain">{% trans "Submitted by" %} {{ object.get_initial_submission.user.username }}, {% trans "last edited by" %} {{ object.user.username }}</span>
 			<span class="index_plain_right">{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}</span>
 		</h2>
 		<br \>

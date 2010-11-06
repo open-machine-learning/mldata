@@ -86,6 +86,9 @@ class Data(Repository):
     def get_data_filename(self):
         return os.path.join(MEDIA_ROOT, self.file.name)
 
+    def get_initial_submission(self):
+        return Data.objects.get(slug__text=self.slug.text, version=1)
+
     def approve(self, fname_orig, convdata):
         """Approve Data item.
 

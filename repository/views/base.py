@@ -239,7 +239,6 @@ def view(request, klass, slug_or_id, version=None):
         'tags': tags,
         'versions': versions,
         'urls': urls,
-        'data': obj.get_related_data()
     }
 
     if klass == Data:
@@ -281,6 +280,7 @@ def view(request, klass, slug_or_id, version=None):
             PER_PAGE = get_per_page(objects.count())
             info_dict['page']=get_page(request, objects, PER_PAGE)
             info_dict['per_page']=PER_PAGE
+            info_dict['data']=obj.get_data()
 
         elif klass == Solution:
             objects=Result.objects.filter(solution=obj)

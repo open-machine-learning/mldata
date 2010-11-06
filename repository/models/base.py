@@ -181,10 +181,6 @@ class Repository(models.Model):
         app_label = 'repository'
         #abstract = True
 
-    #
-    # New stuff by Mikio here
-    #
-
     def check_is_approved(self):
         """Checks whether this object is approved.
         
@@ -207,13 +203,6 @@ class Repository(models.Model):
         attribute, or the conversion-failed attribute.
         """
         return False
-
-    def get_related_data(self):
-        """Returns the data set related to this data set.
-
-        No-op by default. Overwritten in Task and Data.
-        """
-        return None
 
     def get_extract(self):
         """Get an h5 based extract for this data set.

@@ -141,7 +141,7 @@ class Task(Repository):
         return ['tags', 'description', 'summary', 'urls', 'publications',
             'input', 'output', 'performance_measure', 'type', 'file']
 
-    def get_related_data(self):
+    def get_data(self):
         return self.data
 
     def get_challenges(self, user=None):
