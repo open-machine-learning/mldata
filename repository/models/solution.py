@@ -140,7 +140,7 @@ class Result(models.Model):
         len_p = len(predicted)
         len_c = len(correct)
         if len_p != len_c:
-            return -1,_("Length of correct results and submitted results doesn't match, %d != %d") % (len_c, len_p), False
+            return -1,_("Length of correct results and submitted results doesn't match, expected %d, got %d") % (len_c, len_p), False
 
         try:
             t=self.task.type
