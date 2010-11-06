@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 class ResultForm(forms.ModelForm):
     task = forms.ModelChoiceField(queryset=None, required=True)
     challenge = forms.ModelChoiceField(queryset=None, required=False)
-    solution = forms.ModelChoiceField(queryset=None, required=False)
+    solution = forms.ModelChoiceField(queryset=None, required=True)
     output_file = forms.FileField(required=True)
 
     def __init__(self, *args, **kwargs):
