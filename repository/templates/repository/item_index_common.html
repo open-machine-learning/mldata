@@ -1,0 +1,107 @@
+{% load i18n %}
+{% load markup %}
+{% load show_stars %}
+{% load repository_filters %}
+{% load comments %}
+
+{% if page.object_list %}
+	{% if per_page %}
+		{% include "repository/paginator_index.html" %}
+	{% endif %}
+	<ul class="index_list">
+	{% for object in page.object_list %}
+		<li>
+		<h2 class="title-03 gallery">
+			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> 
+			<span class="index_plain"> - {% trans "submitted by" %} {{ object.get_initial_submission.user.username }}</span>
+			{% get_comment_count for object as comment_count %}
+			<span class="index_plain_right">
+				{{object.hits }} view{{ object.hits|pluralize}}, {{ object.downloads }} download{{ object.downloads|pluralize}}, {{ comment_count }} comment{{ comment_count|pluralize}}
+			</span>
+			<br \>
+			<span class="index_plain">{% trans "last edited by" %} {{ object.user.username }}</span>
+			-
+			<span class="index_plain">{{ object.pub_date|date:"M j, Y, H:i" }} CET</span>
+			<span class="index_plain_right">{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}</span>
+		</h2>
+		<br \>
+
+        <div id="tabs-summary">
+		<div class=index_bg">
+            <dl id="news">
+                <dt>{% trans "Summary:" %}
+				<span class="index_plain">{{ object.summary|edit_if_empty }}</span>
+				</dt>
+				{% if object.num_instances %}<dt>{% trans "Data Shape:" %}
+				<span class="index_plain">{{ object.num_attributes }} attributes, {{ object.num_instances }} instances
+				({{ object.get_attribute_types }})
+				</dt>
+				{% endif %}
+				<dt>{% trans "License:" %}
+				<span class="index_plain"><a href="{{ object.license.url }}">{{ object.license.name }}</a></span>
+				</dt>
+				{% if tags %}<dt>{% trans "Tags:" %}
+				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				</dt>
+				{% endif %}
+				{% if object.format %}
+				<dt> {% trans "Tasks / Solutions / Challenges:" %}
+				<span class="index_plain">
+				{{ object.get_related_tasks.count }} tasks, 
+				{{ object.get_related_solutions.count }} solutions, 
+				{{ object.get_related_challenges.count }} challenges
+				</span></dt>
+				{% endif %}
+				{% if object.type %}
+				<dt> {% trans "Performance Measure:" %}
+				<span class="index_plain">
+				{{ object.performance_measure }}
+				</span></dt>
+				<dt> {% trans "Task Type:" %}
+				<span class="index_plain">
+				{{ object.type }}
+				</span></dt>
+				<dt> {% trans "Solutions / Challenges:" %}
+				<span class="index_plain">
+				{{ object.get_related_solutions.count }} solutions, 
+				{{ object.get_challenges.count }} challenges
+				</span></dt>
+				{% endif %}
+				{% ifequal klass 'Solution' %}
+				<dt> {% trans "Results:" %}
+				<span class="index_plain">
+				{{ object.get_related_results.count }} results
+				</span></dt>
+				{% endifequal %}
+				{% ifequal klass 'Challenge' %}
+				<dt> {% trans "Solutions:" %}
+				<span class="index_plain">
+				{{ object.get_related_solutions.count }} solutions
+				</span></dt>
+				{% endifequal %}
+				{% if object.file %}
+				<dt>{% trans "Download:" %}
+				<span class="index_plain">
+                    {% if object.has_h5 %}
+						<a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
+						<a{% if object.can_convert_to_csv %} href="{% url repository.views.data.download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
+						<a{% if object.can_convert_to_arff %} href="{% url repository.views.data.download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
+						<a{% if object.can_convert_to_libsvm %} href="{% url repository.views.data.download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
+						<a{% if object.can_convert_to_matlab %} href="{% url repository.views.data.download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+						<a{% if object.can_convert_to_octave %} href="{% url repository.views.data.download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+					{% else %}
+						<a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+					{% endif %}
+				</span>
+                </dt>
+				{% endif %}
+			</dl><!-- /news -->
+		</div><!-- /index_bg -->
+	</div><!-- /tabs-summary -->
+	{% endfor %}
+	</ul>
+	{% include "repository/paginator_index.html" %}
+{% else %}
+	<p>{% trans "Sorry, no items available" %}.</p>
+{% endif %}
