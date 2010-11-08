@@ -142,3 +142,5 @@ ul.index li { margin:-1px; padding: 0;}
 span.index_right { float: right; }
 span.index_plain { font-weight:normal;}
 span.index_plain_right { float: right; font-weight:normal;}
+#header a { color:#ffffff; text-decoration:none;}
+#header a:hover { color:#c3ebfd; text-decoration:none;text-decoration:underline;}
