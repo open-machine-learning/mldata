@@ -42,12 +42,10 @@ import cPickle as pickle
 
 
 from repository.views.util import *
-
 from repository.views.url_helper import UrlHelper
 
 def response_for(klass, name, info_dict):
     return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict)
-    
 
 @transaction.commit_on_success
 def activate(request, klass, id):
@@ -417,15 +415,7 @@ def new(request, klass):
         'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
-    if klass == Data:
-        return render_to_response('data/item_new.html', info_dict)
-    elif klass == Task:
-        return render_to_response('task/item_new.html', info_dict)
-    elif klass == Solution:
-        return render_to_response('solution/item_new.html', info_dict)
-    elif klass == Challenge:
-        return render_to_response('challenge/item_new.html', info_dict)
-
+    return response_for(klass, 'item_new', info_dict)
 
 @transaction.commit_on_success
 def edit(request, klass, id):
@@ -515,14 +505,7 @@ def edit(request, klass, id):
         'section': 'repository',
     }
 
-    if klass == Data:
-        return render_to_response('data/item_edit.html', info_dict)
-    elif klass == Task:
-        return render_to_response('task/item_edit.html', info_dict)
-    elif klass == Solution:
-        return render_to_response('solution/item_edit.html', info_dict)
-    elif klass == Challenge:
-        return render_to_response('challenge/item_edit.html', info_dict)
+    return response_for(klass, 'item_edit', info_dict)
 
 def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
     """Index/My page for section given by klass.
@@ -563,31 +546,23 @@ def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
     objects = objects.order_by(order_by, '-pub_date')
 
 
+    kname=klass.__name__.lower()
     PER_PAGE = get_per_page(objects.count())
     info_dict = {
         'request': request,
-        'page': get_page(request, objects, PER_PAGE),
+        kname: get_page(request, objects, PER_PAGE),
+        kname + '_per_page': PER_PAGE,
+        'klass' : klass.__name__,
         'searcherror': searcherror,
-        'klass': klass.__name__,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
-        'per_page': PER_PAGE,
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
     }
     if searchterm:
         info_dict['searchterm'] = searchterm
 
-    if klass == Data:
-        return render_to_response('data/item_index.html', info_dict)
-    elif klass == Task:
-        return render_to_response('task/item_index.html', info_dict)
-    elif klass == Solution:
-        return render_to_response('solution/item_index.html', info_dict)
-    elif klass == Challenge:
-        return render_to_response('challenge/item_index.html', info_dict)
-    elif klass == Repository:
-        return render_to_response('repository/item_index.html', info_dict)
+    return render_to_response('repository/item_index.html', info_dict)
 
 def tags_view(request, tag, klass):
     """View all items tagged by given tag in given klass.
@@ -610,26 +585,17 @@ def tags_view(request, tag, klass):
         raise Http404
 
     PER_PAGE = get_per_page(len(objects))
+    kname = klass.__name__.lower()
+
     info_dict = {
         'request': request,
-        'section': 'repository',
-        'klass': klass.__name__,
         'tag': tag,
         'tagcloud': get_tag_clouds(request),
-        'page': get_page(request, objects, PER_PAGE),
-        'section': 'repository',
-        'per_page': PER_PAGE,
+        kname : get_page(request, objects, PER_PAGE),
+        'klass' : klass.__name__,
+        kname + '_per_page': PER_PAGE,
     }
-    if klass == Data:
-        return render_to_response('data/item_index.html', info_dict)
-    elif klass == Task:
-        return render_to_response('task/item_index.html', info_dict)
-    elif klass == Solution:
-        return render_to_response('solution/item_index.html', info_dict)
-    elif klass == Challenge:
-        return render_to_response('challenge/item_index.html', info_dict)
-    elif klass == Repository:
-        return render_to_response('repository/item_index.html', info_dict)
+    return render_to_response('repository/item_index.html', info_dict)
 
 def rate(request, klass, id):
     """Rate an item given by id and klass.
@@ -695,6 +661,62 @@ def search(request):
             return index(request, Challenge, False, searchterm)
         else: # all
             return index(request, Repository, False, searchterm)
+    raise Http404
+
+def search_all(request):
+    """Search the repository for given term.
+
+    @param request: request data
+    @type request: Django request
+    @return: rendered response page
+    @rtype: Django response
+    """
+    if request.method == 'GET' and 'searchterm' in request.GET:
+        searchterm = request.GET['searchterm']
+
+        classes = { Data: None, Task: None, Solution: None, Challenge: None }
+
+        for klass in classes.keys():
+            objects = klass.objects.filter(is_deleted=False)
+            if klass == Data:
+                objects = objects.filter(is_approved=True)
+
+            if my and request.user.is_authenticated():
+                objects = objects.filter(user=request.user, is_current=True)
+                if klass == Data:
+                    unapproved = klass.objects.filter(
+                        user=request.user, is_approved=False
+                    )
+                else:
+                    unapproved = None
+                my_or_archive = _('My')
+            else:
+                objects = objects.filter(is_current=True, is_public=True)
+                unapproved = None
+                my_or_archive = _('Public Archive')
+
+            searcherror = False
+            if searchterm:
+                objects, searcherror = util.search(klass, objects, searchterm)
+
+            objects = objects.order_by(order_by, '-pub_date')
+
+            PER_PAGE = get_per_page(objects.count())
+            info_dict = {
+                'request': request,
+                klass.__name__.lower(): get_page(request, data, PER_PAGE),
+                'klass' : klass.__name__,
+                'searcherror': searcherror,
+                'unapproved': unapproved,
+                'my_or_archive': my_or_archive,
+                'per_page': PER_PAGE,
+                'tagcloud': get_tag_clouds(request),
+                'section': 'repository',
+            }
+            if searchterm:
+                info_dict['searchterm'] = searchterm
+
+        return render_to_response('repository/item_index.html', info_dict)
     raise Http404
 
 def _is_newer(first, second):

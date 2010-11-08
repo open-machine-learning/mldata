@@ -63,6 +63,10 @@ class Solution(Repository):
         view = 'repository.views.solution.view_slug'
         return reverse(view, args=[self.slug.text])
 
+    def get_related_results(self):
+        from repository.models.solution import Result
+        return Result.objects.filter(solution=self.pk)
+
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)

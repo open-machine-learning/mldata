@@ -5,7 +5,7 @@
 {% block breadcrumbs %}{% trans "Repository" %}{% endblock %}
 
 {% block aside %}
-{% ifequal klass "Data" %}
+{% if data %}
 <h4 class="title-03">{% trans "Data" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -23,9 +23,9 @@
 		</li>
 	</ul>
 </div><!-- /in -->
-{% endifequal %}
+{% endif %}
 
-{% ifequal klass "Task" %}
+{% if task %}
 <h4 class="title-03">{% trans "Task" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -43,9 +43,9 @@
 		</li>
 	</ul>
 </div><!-- /in -->
-{% endifequal %}
+{% endif %}
 
-{% ifequal klass "Solution" %}
+{% if solution %}
 <h4 class="title-03">{% trans "Solution" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -63,9 +63,9 @@
 		</li>
 	</ul>
 </div><!-- /in -->
-{% endifequal %}
+{% endif %}
 
-{% ifequal klass "Challenge" %}
+{% if challenge %}
 <h4 class="title-03">{% trans "Challenge" %}</h4>
 <div class="in">
 	<ul id="subnav">
@@ -83,12 +83,12 @@
 		</li>
 	</ul>
 </div><!-- /in -->
-{% endifequal %}
+{% endif %}
 
 <h4 class="title-03">{% trans "Sort by" %}</h4>
 <div class="in">
 	<ul id="subnav">
-{% ifequal klass "Data" %}
+{% if data %}
 		<li><a href="{% url data_index_by_submitter %}">Submitter</a></li>
 		<li><a href="{% url data_index_by_name %}">Name</a></li>
 		<li><a href="{% url data_index_by_pub_date %}">Publication Date</a></li>
@@ -97,31 +97,31 @@
 		<li><a href="{% url data_index_by_views %}">Number of Views</a></li>
 		<li><a href="{% url data_index_by_instances %}">Number of Instances</a></li>
 		<li><a href="{% url data_index_by_attributes %}">Number of Attributes</a></li>
-{% endifequal %}
-{% ifequal klass "Task" %}
+{% endif %}
+{% if task %}
 		<li><a href="{% url task_index_by_submitter %}">Submitter</a></li>
 		<li><a href="{% url task_index_by_name %}">Name</a></li>
 		<li><a href="{% url task_index_by_pub_date %}">Publication Date</a></li>
 		<li><a href="{% url task_index_by_rating %}">Rating</a></li>
 		<li><a href="{% url task_index_by_downloads %}">Number of Downloads</a></li>
 		<li><a href="{% url task_index_by_views %}">Number of Views</a></li>
-{% endifequal %}
-{% ifequal klass "Solution" %}
+{% endif %}
+{% if solution %}
 		<li><a href="{% url solution_index_by_submitter %}">Submitter</a></li>
 		<li><a href="{% url solution_index_by_name %}">Name</a></li>
 		<li><a href="{% url solution_index_by_pub_date %}">Publication Date</a></li>
 		<li><a href="{% url solution_index_by_rating %}">Rating</a></li>
 		<li><a href="{% url solution_index_by_downloads %}">Number of Downloads</a></li>
 		<li><a href="{% url solution_index_by_views %}">Number of Views</a></li>
-{% endifequal %}
-{% ifequal klass "Challenge" %}
+{% endif %}
+{% if challenge %}
 		<li><a href="{% url challenge_index_by_submitter %}">Submitter</a></li>
 		<li><a href="{% url challenge_index_by_name %}">Name</a></li>
 		<li><a href="{% url challenge_index_by_pub_date %}">Publication Date</a></li>
 		<li><a href="{% url challenge_index_by_rating %}">Rating</a></li>
 		<li><a href="{% url challenge_index_by_downloads %}">Number of Downloads</a></li>
 		<li><a href="{% url challenge_index_by_views %}">Number of Views</a></li>
-{% endifequal %}
+{% endif %}
 	</ul>
 </div>
 

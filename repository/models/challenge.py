@@ -48,6 +48,10 @@ class Challenge(Repository):
         qs=self.get_public_qs(user, Q(is_current=True))
         return self.task.filter(qs)
 
+    def get_related_solutions(self):
+        from repository.models.solution import Result
+        return Result.objects.filter(solution=self.pk)
+
 class ChallengeRating(Rating):
     """Rating for a Challenge item."""
     repository = models.ForeignKey(Challenge)

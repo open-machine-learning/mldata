@@ -144,6 +144,10 @@ class Task(Repository):
     def get_data(self):
         return self.data
 
+    def get_related_solutions(self):
+        from repository.models.solution import Result
+        return Result.objects.filter(task=self.pk)
+
     def get_challenges(self, user=None):
         qs=self.get_public_qs(user)
         return self.challenge_set.filter(qs)
