@@ -44,8 +44,8 @@
 {% if data %}
 <div id="tabs-data">
 {% if data_searcherror %}
-<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
-{% endif%}
+<div class="error">{% trans "Your search did not yield any results." %}</div>
+{% else %}
 	{% with data as page %}
 	{% with data_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -61,14 +61,15 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+{% endif%}
 </div>
 {% endif %}
 
 {% if task %}
 <div id="tabs-task">
 {% if task_searcherror %}
-<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
-{% endif%}
+<div class="error">{% trans "Your search did not yield any results." %}</div>
+{% else %}
 	{% with task as page %}
 	{% with task_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -84,14 +85,15 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+{% endif%}
 </div>
 {% endif %}
 
 {% if solution %}
 <div id="tabs-solution">
 {% if solution_searcherror %}
-<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
-{% endif%}
+<div class="error">{% trans "Your search did not yield any results." %}</div>
+{% else %}
 	{% with solution as page %}
 	{% with solution_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -107,14 +109,15 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+{% endif%}
 </div>
 {% endif %}
 
 {% if challenge %}
 <div id="tabs-challenge">
 {% if challenge_searcherror %}
-<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
-{% endif%}
+<div class="error">{% trans "Your search did not yield any results." %}</div>
+{% else %}
 	{% with challenge as page %}
 	{% with challenge_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -130,6 +133,7 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+{% endif%}
 </div>
 {% endif %}
 

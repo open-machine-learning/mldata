@@ -665,11 +665,9 @@ def search(request):
 
             if searchterm:
                 info_dict['searchterm'] = searchterm
-                found = objects.filter(Q(name__icontains=searchterm) |
+                objects = objects.filter(Q(name__icontains=searchterm) |
                         Q(summary__icontains=searchterm)).order_by('-pub_date')
-                searcherror = found.count()==0
-                if found:
-                    objects=found
+                searcherror = objects.count()==0
 
             kname=klass.__name__.lower()
             PER_PAGE = get_per_page(objects.count())
