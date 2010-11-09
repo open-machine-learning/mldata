@@ -4,7 +4,7 @@ from urllib import quote
 register = template.Library()
 @register.inclusion_tag('paginator.html', takes_context=True)
 
-def paginator(context, adjacent_pages=2):
+def paginator(context, adjacent_pages=5):
     """
     To be used in conjunction with the object_list generic view.
 
@@ -40,8 +40,8 @@ def paginator(context, adjacent_pages=2):
                 'show_last': context['pages'] not in page_numbers,
                 }
 
-        if context.has_key('search_term'):
-            r['search_term']=quote(context['search_term'],'')
+        if context.has_key('searchterm'):
+            r['searchterm']=quote(context['searchterm'],'')
             if context.has_key('klass'):
                 r['klass']=quote(context['klass'],'')
 
