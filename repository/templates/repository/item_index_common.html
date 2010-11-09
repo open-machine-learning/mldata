@@ -6,7 +6,7 @@
 {% load paginator %}
 
 {% if page.count %}
-	{% paginator 2 %}
+	{% paginator %}
 	<ul class="index_list">
 	{% with page.page_obj.object_list as object_list %}
 	{% for object in object_list %}
