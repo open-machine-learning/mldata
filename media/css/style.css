@@ -144,3 +144,4 @@ span.index_plain { font-weight:normal;}
 span.index_plain_right { float: right; font-weight:normal;}
 #header a { color:#ffffff; text-decoration:none;}
 #header a:hover { color:#c3ebfd; text-decoration:underline;}
+div.paginator {position:relative;margin:0; text-align: center; }
