@@ -641,7 +641,6 @@ def search(request):
     @rtype: Django response
     """
     if request.method == 'GET' and 'searchterm' in request.GET:
-        print request.GET
         searchterm = request.GET['searchterm']
 
         classes=[]
