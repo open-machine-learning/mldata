@@ -3,13 +3,12 @@
 {% load show_stars %}
 {% load repository_filters %}
 {% load comments %}
+{% load paginator %}
 
-{% if page.object_list %}
-	{% if per_page %}
-		{% include "repository/paginator_index.html" %}
-	{% endif %}
+{% if object_list %}
+	{% paginator 5 %} 
 	<ul class="index_list">
-	{% for object in page.object_list %}
+	{% for object in object_list %}
 		<li>
 		<h2 class="title-03 gallery">
 			<a title="{{ object.summary }}" href="{{ object.get_absolute_slugurl }}">{{ object.name }}</a> 
@@ -102,7 +101,7 @@
 	</div><!-- /tabs-summary -->
 	{% endfor %}
 	</ul>
-	{% include "repository/paginator_index.html" %}
+	{% paginator %} 
 {% else %}
 	<p>{% trans "Sorry, no items available" %}.</p>
 {% endif %}
