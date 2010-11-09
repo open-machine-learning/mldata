@@ -507,7 +507,7 @@ def edit(request, klass, id):
 
     return response_for(klass, 'item_edit', info_dict)
 
-def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
+def index(request, klass, my=False, order_by='-pub_date'):
     """Index/My page for section given by klass.
 
     @param request: request data
@@ -516,8 +516,6 @@ def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
     @type klass: either Data, Task or Solution
     @param my: if the page should be a My page or the archive index of the section
     @type my: boolean
-    @param searchterm: search term to reduce queryset
-    @type searchterm: string
     @return: section's index or My page
     @rtype: Django response
     """
@@ -539,10 +537,6 @@ def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
         unapproved = None
         my_or_archive = _('Public Archive')
 
-    searcherror = False
-    if searchterm:
-        objects, searcherror = util.search(klass, objects, searchterm)
-
     objects = objects.order_by(order_by, '-pub_date')
 
 
@@ -553,14 +547,11 @@ def index(request, klass, my=False, searchterm=None, order_by='-pub_date'):
         kname: get_page(request, objects, PER_PAGE),
         kname + '_per_page': PER_PAGE,
         'klass' : klass.__name__,
-        'searcherror': searcherror,
         'unapproved': unapproved,
         'my_or_archive': my_or_archive,
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
     }
-    if searchterm:
-        info_dict['searchterm'] = searchterm
 
     return render_to_response('repository/item_index.html', info_dict)
 
@@ -650,71 +641,43 @@ def search(request):
     @rtype: Django response
     """
     if request.method == 'GET' and 'searchterm' in request.GET:
-        searchterm = request.GET['searchterm']
-        if 'data' in request.GET:
-            return index(request, Data, False, searchterm)
-        elif 'task' in request.GET:
-            return index(request, Task, False, searchterm)
-        elif 'solution' in request.GET:
-            return index(request, Solution, False, searchterm)
-        elif 'challenge' in request.GET:
-            return index(request, Challenge, False, searchterm)
-        else: # all
-            return index(request, Repository, False, searchterm)
-    raise Http404
-
-def search_all(request):
-    """Search the repository for given term.
-
-    @param request: request data
-    @type request: Django request
-    @return: rendered response page
-    @rtype: Django response
-    """
-    if request.method == 'GET' and 'searchterm' in request.GET:
+        print request.GET
         searchterm = request.GET['searchterm']
 
-        classes = { Data: None, Task: None, Solution: None, Challenge: None }
+        classes=[]
+        for c in (Data, Task, Solution, Challenge):
+            kname=c.__name__.lower()
+            if kname in request.GET:
+                classes.append(c)
 
-        for klass in classes.keys():
-            objects = klass.objects.filter(is_deleted=False)
+        info_dict = {
+            'request': request,
+            'tagcloud': get_tag_clouds(request),
+            'section': 'repository',
+            'my_or_archive' : _('Search Results for "%s"' % searchterm)
+        }
+
+        for klass in classes:
+            objects = klass.objects.filter(is_deleted=False, is_current=True, is_public=True)
             if klass == Data:
                 objects = objects.filter(is_approved=True)
 
-            if my and request.user.is_authenticated():
-                objects = objects.filter(user=request.user, is_current=True)
-                if klass == Data:
-                    unapproved = klass.objects.filter(
-                        user=request.user, is_approved=False
-                    )
-                else:
-                    unapproved = None
-                my_or_archive = _('My')
-            else:
-                objects = objects.filter(is_current=True, is_public=True)
-                unapproved = None
-                my_or_archive = _('Public Archive')
+            search_error = True
 
-            searcherror = False
-            if searchterm:
-                objects, searcherror = util.search(klass, objects, searchterm)
-
-            objects = objects.order_by(order_by, '-pub_date')
-
-            PER_PAGE = get_per_page(objects.count())
-            info_dict = {
-                'request': request,
-                klass.__name__.lower(): get_page(request, data, PER_PAGE),
-                'klass' : klass.__name__,
-                'searcherror': searcherror,
-                'unapproved': unapproved,
-                'my_or_archive': my_or_archive,
-                'per_page': PER_PAGE,
-                'tagcloud': get_tag_clouds(request),
-                'section': 'repository',
-            }
             if searchterm:
                 info_dict['searchterm'] = searchterm
+                found = objects.filter(Q(name__icontains=searchterm) |
+                        Q(summary__icontains=searchterm)).order_by('-pub_date')
+                searcherror = found.count()==0
+                if found:
+                    objects=found
+
+            kname=klass.__name__.lower()
+            PER_PAGE = get_per_page(objects.count())
+            info_dict[kname]=get_page(request, objects, PER_PAGE)
+            info_dict[kname + '_per_page']=PER_PAGE
+            #info_dict['klass']=klass.__name__
+            info_dict[kname + '_searcherror']=searcherror
 
         return render_to_response('repository/item_index.html', info_dict)
     raise Http404

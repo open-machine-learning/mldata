@@ -31,6 +31,7 @@
             <dl id="news">
                 <dt>{% trans "Summary:" %}
 				<span class="index_plain">{{ object.summary|edit_if_empty }}</span>
+				<span class="index_plain_right"><img src="/media/images/logo_small.png"></img></span>
 				</dt>
 				{% if object.num_instances %}<dt>{% trans "Data Shape:" %}
 				<span class="index_plain">{{ object.num_attributes }} attributes, {{ object.num_instances }} instances

@@ -1,5 +1,15 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
+{% block extrahead %}
+{% if searchterm %}
+<script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#tabs').tabs();
+    });
+</script>
+{% endif %}
+{% endblock %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
 
@@ -13,11 +23,29 @@
 {% block content %}
 <h2 class="title-01">{{ my_or_archive }} {{ klass }}</h2>
 <div class="in">
-{% if searcherror %}
-<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
-{% endif%}
+{% if searchterm %}
+    <div id="tabs">
+        <ul class="clearfix">
+{% if data %}
+<li><a title="{% trans "Data" %}" href="#tabs-data">{% trans "Data" %} ({{ data.object_list|length }})</a></li>
+{% endif %}
+{% if task %}
+            <li><a title="{% trans "Task" %}" href="#tabs-task">{% trans "Task" %} ({{ task.object_list|length }})</a></li>
+{% endif %}
+{% if solution %}
+            <li><a title="{% trans "Solution" %}" href="#tabs-solution">{% trans "Solution" %} ({{ solution.object_list|length }})</a></li>
+{% endif %}
+{% if challenge %}
+            <li><a title="{% trans "Challenge" %}" href="#tabs-challenge">{% trans "Challenge" %} ({{ challenge.object_list|length }})</a></li>
+{% endif %}
+        </ul>
+{% endif %}
 
 {% if data %}
+<div id="tabs-data">
+{% if data_searcherror %}
+<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
+{% endif%}
 	{% with data as page %}
 	{% with data_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -33,9 +61,14 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+</div>
 {% endif %}
 
 {% if task %}
+<div id="tabs-task">
+{% if task_searcherror %}
+<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
+{% endif%}
 	{% with task as page %}
 	{% with task_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -51,9 +84,14 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+</div>
 {% endif %}
 
 {% if solution %}
+<div id="tabs-solution">
+{% if solution_searcherror %}
+<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
+{% endif%}
 	{% with solution as page %}
 	{% with solution_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -69,9 +107,14 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+</div>
 {% endif %}
 
 {% if challenge %}
+<div id="tabs-challenge">
+{% if challenge_searcherror %}
+<div class="error">{% trans "Your search did not yield any results, showing normal index of items:" %}</div>
+{% endif%}
 	{% with challenge as page %}
 	{% with challenge_per_page as per_page %}
 		{% include "repository/item_index_common.html" %}
@@ -87,7 +130,11 @@
 		{% endwith %}
 		{% endwith %}
 	{% endif %}
+</div>
 {% endif %}
 
+{% if searchterm %}
+</div><!-- /tabs -->
+{% endif %}
 </div><!-- /in -->
 {% endblock %}

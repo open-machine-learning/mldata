@@ -23,6 +23,20 @@
 		</li>
 	</ul>
 </div><!-- /in -->
+
+<h4 class="title-03">{% trans "Sort Data by" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		<li><a href="{% url data_index_by_submitter %}">Submitter</a></li>
+		<li><a href="{% url data_index_by_name %}">Name</a></li>
+		<li><a href="{% url data_index_by_pub_date %}">Publication Date</a></li>
+		<li><a href="{% url data_index_by_rating %}">Rating</a></li>
+		<li><a href="{% url data_index_by_downloads %}">Number of Downloads</a></li>
+		<li><a href="{% url data_index_by_views %}">Number of Views</a></li>
+		<li><a href="{% url data_index_by_instances %}">Number of Instances</a></li>
+		<li><a href="{% url data_index_by_attributes %}">Number of Attributes</a></li>
+	</ul>
+</div>
 {% endif %}
 
 {% if task %}
@@ -43,6 +57,18 @@
 		</li>
 	</ul>
 </div><!-- /in -->
+
+<h4 class="title-03">{% trans "Sort Task by" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		<li><a href="{% url task_index_by_submitter %}">Submitter</a></li>
+		<li><a href="{% url task_index_by_name %}">Name</a></li>
+		<li><a href="{% url task_index_by_pub_date %}">Publication Date</a></li>
+		<li><a href="{% url task_index_by_rating %}">Rating</a></li>
+		<li><a href="{% url task_index_by_downloads %}">Number of Downloads</a></li>
+		<li><a href="{% url task_index_by_views %}">Number of Views</a></li>
+	</ul>
+</div>
 {% endif %}
 
 {% if solution %}
@@ -63,6 +89,18 @@
 		</li>
 	</ul>
 </div><!-- /in -->
+
+<h4 class="title-03">{% trans "Sort Solution by" %}</h4>
+<div class="in">
+	<ul id="subnav">
+		<li><a href="{% url solution_index_by_submitter %}">Submitter</a></li>
+		<li><a href="{% url solution_index_by_name %}">Name</a></li>
+		<li><a href="{% url solution_index_by_pub_date %}">Publication Date</a></li>
+		<li><a href="{% url solution_index_by_rating %}">Rating</a></li>
+		<li><a href="{% url solution_index_by_downloads %}">Number of Downloads</a></li>
+		<li><a href="{% url solution_index_by_views %}">Number of Views</a></li>
+	</ul>
+</div>
 {% endif %}
 
 {% if challenge %}
@@ -83,56 +121,20 @@
 		</li>
 	</ul>
 </div><!-- /in -->
-{% endif %}
 
-<h4 class="title-03">{% trans "Sort by" %}</h4>
+<h4 class="title-03">{% trans "Sort Challenge by" %}</h4>
 <div class="in">
 	<ul id="subnav">
-{% if data %}
-		<li><a href="{% url data_index_by_submitter %}">Submitter</a></li>
-		<li><a href="{% url data_index_by_name %}">Name</a></li>
-		<li><a href="{% url data_index_by_pub_date %}">Publication Date</a></li>
-		<li><a href="{% url data_index_by_rating %}">Rating</a></li>
-		<li><a href="{% url data_index_by_downloads %}">Number of Downloads</a></li>
-		<li><a href="{% url data_index_by_views %}">Number of Views</a></li>
-		<li><a href="{% url data_index_by_instances %}">Number of Instances</a></li>
-		<li><a href="{% url data_index_by_attributes %}">Number of Attributes</a></li>
-{% endif %}
-{% if task %}
-		<li><a href="{% url task_index_by_submitter %}">Submitter</a></li>
-		<li><a href="{% url task_index_by_name %}">Name</a></li>
-		<li><a href="{% url task_index_by_pub_date %}">Publication Date</a></li>
-		<li><a href="{% url task_index_by_rating %}">Rating</a></li>
-		<li><a href="{% url task_index_by_downloads %}">Number of Downloads</a></li>
-		<li><a href="{% url task_index_by_views %}">Number of Views</a></li>
-{% endif %}
-{% if solution %}
-		<li><a href="{% url solution_index_by_submitter %}">Submitter</a></li>
-		<li><a href="{% url solution_index_by_name %}">Name</a></li>
-		<li><a href="{% url solution_index_by_pub_date %}">Publication Date</a></li>
-		<li><a href="{% url solution_index_by_rating %}">Rating</a></li>
-		<li><a href="{% url solution_index_by_downloads %}">Number of Downloads</a></li>
-		<li><a href="{% url solution_index_by_views %}">Number of Views</a></li>
-{% endif %}
-{% if challenge %}
 		<li><a href="{% url challenge_index_by_submitter %}">Submitter</a></li>
 		<li><a href="{% url challenge_index_by_name %}">Name</a></li>
 		<li><a href="{% url challenge_index_by_pub_date %}">Publication Date</a></li>
 		<li><a href="{% url challenge_index_by_rating %}">Rating</a></li>
 		<li><a href="{% url challenge_index_by_downloads %}">Number of Downloads</a></li>
 		<li><a href="{% url challenge_index_by_views %}">Number of Views</a></li>
+	</ul>
+</div><!-- /in -->
 {% endif %}
-	</ul>
-</div>
 
-<!--
-<h4 class="title-03">{% trans "Filter by" %}</h4>
-<div class="in">
-	<ul id="subnav">
-		<li></li>
-	</ul>
-</div>
--->
 <h4 class="title-03">{% trans "Disclaimer" %}</h4>
 <div class="in">
 	<p>{% trans "We are acting in good faith to make datasets submitted for the use of the scientific community available to everybody, but if you are a copyright holder and would like us to remove a dataset please" %} <a href="{% url about_impressum %}">{% trans "inform us" %}</a> {% trans "and we will do it as soon as possible." %}</p>

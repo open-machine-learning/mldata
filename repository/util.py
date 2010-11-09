@@ -137,31 +137,6 @@ def set_current(klass, cur):
     return cur
 
 
-def search(klass, objects, searchterm):
-    """Search for searchterm in objects queryset.
-
-        @param objects: queryset to search in
-        @type objects: Queryset
-        @param searchterm: term to search for
-        @type searchterm: string
-        @return: found objects and if search failed
-        @rtype: tuple of querset and boolean
-        """
-    # only match name and summary for now
-    found = objects.filter(Q(name__icontains=searchterm) |
-            Q(summary__icontains=searchterm))#.filter(is_public=True,
-    #is_current=True, is_deleted!=False)
-
-    if klass == Repository: # only approved Data items are allowed
-        for f in found:
-            if hasattr(f, 'data') and not f.data.is_approved:
-                found = found.exclude(id=f.id)
-
-    if found.count() < 1:
-        return objects, True
-    else:
-        return found, False
-
 def dependent_entries_exist(obj):
     """Check whether there exists an object which depends on obj.
 
