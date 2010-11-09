@@ -5,19 +5,22 @@
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$('#tabs').tabs();
-		{% if data_list %}
+        var $tabs = $('#tabs').tabs();
+		{% if selecttab %}
+		$tabs.tabs('select', '#{{selecttab}}');
+		{% endif %}
+		{% if data %}
 			$('#data-nav-right').show();
 			$('#task-nav-right').hide();
 			$('#solution-nav-right').hide();
 			$('#challenge-nav-right').hide();
 		{% else %}
-			{% if task_list %}
+			{% if task %}
 				$('#task-nav-right').show();
 				$('#solution-nav-right').hide();
 				$('#challenge-nav-right').hide();
 			{% else %}
-				{% if solution_list %}
+				{% if solution %}
 				$('#solution-nav-right').show();
 				$('#challenge-nav-right').hide();
 				{% endif %}
@@ -62,10 +65,10 @@
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
 
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="
-{% if data_list %}{% url data_index %}{% endif %}
-{% if task_list %}{% url task_index %}{% endif %}
-{% if solution_list %}{% url solution_index %}{% endif %}
-{% if challenge_list %}{% url challenge_index %}{% endif %}
+{% if data %}{% url data_index %}{% endif %}
+{% if task %}{% url task_index %}{% endif %}
+{% if solution %}{% url solution_index %}{% endif %}
+{% if challenge %}{% url challenge_index %}{% endif %}
 ">{% trans klass %}</a> / {{ my_or_archive }}{% endblock %}
 
 {% block content %}
@@ -74,34 +77,34 @@
 {% if searchterm %}
     <div id="tabs">
         <ul class="clearfix">
-{% if data_list %}
-<li><a title="{% trans "Data" %}" href="#tabs-data">{% trans "Data" %} ({{ data.object_list|length }})</a></li>
+{% if data %}
+<li><a title="{% trans "Data" %}" href="#tabs-data">{% trans "Data" %} ({{ data.count }})</a></li>
 {% endif %}
-{% if task_list %}
-            <li><a title="{% trans "Task" %}" href="#tabs-task">{% trans "Task" %} ({{ task.object_list|length }})</a></li>
+{% if task %}
+            <li><a title="{% trans "Task" %}" href="#tabs-task">{% trans "Task" %} ({{ task.count }})</a></li>
 {% endif %}
-{% if solution_list %}
-            <li><a title="{% trans "Solution" %}" href="#tabs-solution">{% trans "Solution" %} ({{ solution.object_list|length }})</a></li>
+{% if solution %}
+            <li><a title="{% trans "Solution" %}" href="#tabs-solution">{% trans "Solution" %} ({{ solution.count }})</a></li>
 {% endif %}
-{% if challenge_list %}
-            <li><a title="{% trans "Challenge" %}" href="#tabs-challenge">{% trans "Challenge" %} ({{ challenge.object_list|length }})</a></li>
+{% if challenge %}
+            <li><a title="{% trans "Challenge" %}" href="#tabs-challenge">{% trans "Challenge" %} ({{ challenge.count }})</a></li>
 {% endif %}
         </ul>
 {% endif %}
 
-{% if data_list %}
+{% if data %}
 <div id="tabs-data">
 {% if data_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with data_list as object_list %}
+	{% with data as page %}
 	{% include "repository/item_index_common.html" %}
 	{% endwith %}
 
 	{% if unapproved %}
 		<br /><hr />
 		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as object_list %}
+		{% with unapproved as page %}
 		{% include "repository/item_index_common.html" %}
 		{% endwith %}
 	{% endif %}
@@ -109,19 +112,19 @@
 </div>
 {% endif %}
 
-{% if task_list %}
+{% if task %}
 <div id="tabs-task">
 {% if task_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with task_list as object_list %}
+	{% with task as page %}
 	{% include "repository/item_index_common.html" %}
 	{% endwith %}
 
 	{% if unapproved %}
 		<br /><hr />
 		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as object_list %}
+		{% with unapproved as page %}
 		{% include "repository/item_index_common.html" %}
 		{% endwith %}
 	{% endif %}
@@ -129,19 +132,19 @@
 </div>
 {% endif %}
 
-{% if solution_list %}
+{% if solution %}
 <div id="tabs-solution">
 {% if solution_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with solution_list as object_list %}
+	{% with solution as page %}
 	{% include "repository/item_index_common.html" %}
 	{% endwith %}
 
 	{% if unapproved %}
 		<br /><hr />
 		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as object_list %}
+		{% with unapproved as page %}
 			{% include "repository/item_index_common.html" %}
 		{% endwith %}
 	{% endif %}
@@ -149,19 +152,19 @@
 </div>
 {% endif %}
 
-{% if challenge_list %}
+{% if challenge %}
 <div id="tabs-challenge">
 {% if challenge_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with challenge_list as object_list %}
+	{% with challenge as page %}
 	{% include "repository/item_index_common.html" %}
 	{% endwith %}
 
 	{% if unapproved %}
 		<br /><hr />
 		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as object_list %}
+		{% with unapproved as page %}
 			{% include "repository/item_index_common.html" %}
 		{% endwith %}
 	{% endif %}

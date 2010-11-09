@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
+from settings import PAGINATE_BY
 from repository.models import *
 from repository.forms import *
 import repository.util as util
@@ -13,7 +14,7 @@ from preferences.models import Preferences
 
 NUM_HISTORY_PAGE = 20
 NUM_PAGINATOR_RANGE = 10
-PER_PAGE_INTS = [10, 20, 50, 100, 999999]
+PER_PAGE_INTS = [10, 20, 50]
 MEGABYTE = 1048576
 
 def get_versions_paginator(request, obj):
@@ -69,70 +70,53 @@ def get_tag_clouds(request):
 #
 
 def get_per_page(count):
-    PER_PAGE=[ str(p) for p in PER_PAGE_INTS if p < count ]
-    PER_PAGE.append(_('all'))
+    PER_PAGE=[ p for p in PER_PAGE_INTS if p < count ]
+    if not PER_PAGE:
+        PER_PAGE.append(PER_PAGE_INTS[0])
     return PER_PAGE
 
-def get_page(request, objects, PER_PAGE):
-    """Get paginator page for the given objects.
-
-    @param request: request data
-    @type request: Django request
-    @param objects: objects to get page for
-    @type objects: list of repository.Data/Task/Solution
-    @return: a paginator page for the given objects
-    @rtype: paginator.page
-    """
+def get_page(request, queryset, PER_PAGE):
+    perpage = PER_PAGE[0]
     try:
-        perpage = request.GET.get('pp', PER_PAGE[0])
+        perpage = int(request.GET.get('pp', PER_PAGE[0]))
+    except:
+        pass
+
+    if perpage not in PER_PAGE_INTS:
+        perpage = PER_PAGE[0]
+
+    paginator = Paginator(queryset, perpage, allow_empty_first_page=True)
+
+    page = request.GET.get('page', 1)
+    try:
+        page_number = int(page)
     except ValueError:
-        perpage = PER_PAGE[0]
-    if perpage not in PER_PAGE:
-        perpage = PER_PAGE[0]
-    if perpage == 'all':
-        l = len(objects)
-        if l < 1:
-            perpage = 1
+        if page == 'last':
+            page_number = paginator.num_pages
         else:
-            perpage = l
-    paginator = Paginator(objects, int(perpage), allow_empty_first_page=True)
-
+            # Page is not 'last', nor can it be converted to an int.
+            raise Http404
     try:
-        num = int(request.GET.get('page', '1'))
-    except ValueError:
-        num = 1
-    try:
-        page = paginator.page(num)
-    except (EmptyPage, InvalidPage):
-        page = paginator.page(paginator.num_pages)
+        page_obj = paginator.page(page_number)
+    except InvalidPage:
+        raise Http404
 
-    prev = page.number - (NUM_PAGINATOR_RANGE - 1)
-    if prev > 0:
-        page.prev = prev
-    else:
-        page.prev = False
-        prev = 1
-
-    next = page.number + (NUM_PAGINATOR_RANGE - 1)
-    if next < paginator.num_pages:
-        page.next = next
-    else:
-        page.next = False
-        next = paginator.num_pages
-
-    page.page_range = range(prev, page.number)
-    page.page_range.extend(range(page.number, next + 1))
-    page.first = 1
-    page.last = paginator.num_pages
-    page.perpage = perpage
-
-    return page
+    paginator.page_obj = page_obj
+    if request.GET.has_key('data'):
+        paginator.search_data=True
+    if request.GET.has_key('task'):
+        paginator.search_task=True
+    if request.GET.has_key('solution'):
+        paginator.search_solution=True
+    if request.GET.has_key('challenge'):
+        paginator.search_challenge=True
+    return paginator
 
 def get_upload_limit():
     return Preferences.objects.get(pk=1).max_data_size
 
 def redirect_to_signin(next_link, kwargs):
-	return HttpResponseRedirect(reverse('user_signin') + "?next=" + reverse(next_link, kwargs=kwargs))
+    return HttpResponseRedirect(reverse('user_signin') + "?next=" + reverse(next_link, kwargs=kwargs))
 
 def sendfile(fileobj, ctype):
     """Send given file to client.

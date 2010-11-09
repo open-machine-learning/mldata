@@ -544,7 +544,7 @@ def index(request, klass, my=False, order_by='-pub_date'):
     PER_PAGE = get_per_page(objects.count())
     info_dict = {
         'request': request,
-        kname: get_page(request, objects, PER_PAGE),
+        kname : get_page(request, objects, PER_PAGE),
         kname + '_per_page': PER_PAGE,
         'klass' : klass.__name__,
         'unapproved': unapproved,

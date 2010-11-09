@@ -4,27 +4,27 @@
 	<h4>
 		{% trans "Showing Items" %} {{ first_this_page }}-{{ last_this_page }} {% trans "of" %} {{ hits }} {% trans "on page" %} {{ page }} {% trans "of" %} {{ pages }}:
 		{% if show_first %}<a> </a>
-			{% if searchterm %}<a href="?page=1&searchterm={{ searchterm }}">{% trans "First" %}</a>{% else %}<a href="?page=1">{% trans "First" %}</a>{% endif %}
+			{% if searchterm %}<a href="?page=1&searchterm={{ searchterm }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "First" %}</a>{% else %}<a href="?page=1{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "First" %}</a>{% endif %}
 		{% endif %}
 
 		{% if has_previous %}<a> </a>
-			{% if searchterm %}<a href="?page={{ previous }}&searchterm={{ searchterm }}">{% trans "Previous" %}</a>{% else %}<a href="?page={{ previous }}">{% trans "Previous" %}</a>{% endif %}
+			{% if searchterm %}<a href="?page={{ previous }}&searchterm={{ searchterm }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "Previous" %}</a>{% else %}<a href="?page={{ previous }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "Previous" %}</a>{% endif %}
 		{% endif %}
 
 		{% for pg in page_numbers %}
 		{% ifequal pg page %}
 			<a> </a><a>{{ pg }}</a><a> </a>
 		{% else %}
-			{% if searchterm %}<a> </a><a href="?page={{ pg }}&searchterm={{ searchterm }}">{{ pg }}</a><a> </a>{% else %}<a> </a><a href="?page={{ pg }}">{{ pg }}</a><a> </a>{% endif %}
+			{% if searchterm %}<a> </a><a href="?page={{ pg }}&searchterm={{ searchterm }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{{ pg }}</a><a> </a>{% else %}<a> </a><a href="?page={{ pg }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{{ pg }}</a><a> </a>{% endif %}
 		{% endifequal %}
 		{% endfor %}
 
 		{% if has_next %}
-			{% if searchterm %}<a href="?page={{ next }}&searchterm={{ searchterm }}">{% trans "Next" %}</a><a> </a>{% else %}<a href="?page={{ next }}">{% trans "Next" %}</a><a> </a>{% endif %}
+			{% if searchterm %}<a href="?page={{ next }}&searchterm={{ searchterm }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "Next" %}</a><a> </a>{% else %}<a href="?page={{ next }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "Next" %}</a><a> </a>{% endif %}
 		{% endif %}
 
 		{% if show_last %}
-			{% if searchterm %}<a href="?page=last&searchterm={{ searchterm }}">{% trans "Last" %}</a>{% else %}<a href="?page=last">{% trans "Last" %}</a>{% endif %}
+			{% if searchterm %}<a href="?page=last&searchterm={{ searchterm }}{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "Last" %}</a>{% else %}<a href="?page=last{% if search_data %}&data=on{% endif %}{% if search_task %}&task=on{% endif %}{% if search_solution %}&solution=on{% endif %}{% if search_challenge %}&challenge=on{% endif %}">{% trans "Last" %}</a>{% endif %}
 		{% endif %}
 	</h4>
 </div>

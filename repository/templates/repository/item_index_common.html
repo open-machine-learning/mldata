@@ -5,9 +5,10 @@
 {% load comments %}
 {% load paginator %}
 
-{% if object_list %}
-	{% paginator 5 %} 
+{% if page.count %}
+	{% paginator 2 %}
 	<ul class="index_list">
+	{% with page.page_obj.object_list as object_list %}
 	{% for object in object_list %}
 		<li>
 		<h2 class="title-03 gallery">
@@ -100,6 +101,7 @@
 		</div><!-- /index_bg -->
 	</div><!-- /tabs-summary -->
 	{% endfor %}
+	{% endwith %}
 	</ul>
 	{% paginator %} 
 {% else %}
