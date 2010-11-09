@@ -5,7 +5,6 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
-from settings import PAGINATE_BY
 from repository.models import *
 from repository.forms import *
 import repository.util as util
