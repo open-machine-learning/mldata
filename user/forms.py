@@ -120,7 +120,8 @@ class ChangeUserDetailsForm(forms.Form):
         u.first_name=self.cleaned_data['firstname']
         u.last_name=self.cleaned_data['lastname']
         u.email=self.cleaned_data['email']
-        u.set_password(self.cleaned_data['password1'])
+        if self.cleaned_data['password1']:
+            u.set_password(self.cleaned_data['password1'])
         u.save()
 
         # for some strange reason (primary key == openid_url != int?), a new

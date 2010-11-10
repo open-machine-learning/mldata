@@ -44,8 +44,9 @@ import cPickle as pickle
 from repository.views.util import *
 from repository.views.url_helper import UrlHelper
 
-def response_for(klass, name, info_dict):
-    return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict)
+def response_for(request, klass, name, info_dict):
+    return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict,
+            context_instance=RequestContext(request))
 
 @transaction.commit_on_success
 def activate(request, klass, id):
@@ -306,7 +307,7 @@ def view(request, klass, slug_or_id, version=None):
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
     info_dict['extract'] = obj.get_extract()
-    return response_for(klass, 'item_view', info_dict)
+    return response_for(request, klass, 'item_view', info_dict)
 
 
 @transaction.commit_on_success
@@ -417,7 +418,7 @@ def new(request, klass):
         'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
-    return response_for(klass, 'item_new', info_dict)
+    return response_for(request, klass, 'item_new', info_dict)
 
 @transaction.commit_on_success
 def edit(request, klass, id):
@@ -507,7 +508,7 @@ def edit(request, klass, id):
         'section': 'repository',
     }
 
-    return response_for(klass, 'item_edit', info_dict)
+    return response_for(request, klass, 'item_edit', info_dict)
 
 def index(request, klass, my=False, order_by='-pub_date'):
     """Index/My page for section given by klass.
@@ -555,7 +556,8 @@ def index(request, klass, my=False, order_by='-pub_date'):
         'section': 'repository',
     }
 
-    return render_to_response('repository/item_index.html', info_dict)
+    return render_to_response('repository/item_index.html',
+            info_dict, context_instance=RequestContext(request))
 
 def tags_view(request, tag, klass):
     """View all items tagged by given tag in given klass.
@@ -588,7 +590,8 @@ def tags_view(request, tag, klass):
         'klass' : klass.__name__,
         kname + '_per_page': PER_PAGE,
     }
-    return render_to_response('repository/item_index.html', info_dict)
+    return render_to_response('repository/item_index.html', info_dict,
+            context_instance=RequestContext(request))
 
 def rate(request, klass, id):
     """Rate an item given by id and klass.
@@ -631,7 +634,8 @@ def main_index(request):
         'section': 'repository',
         'tagcloud': get_tag_clouds(request),
     }
-    return render_to_response('repository/index.html', info_dict)
+    return render_to_response('repository/index.html', info_dict,
+            context_instance=RequestContext(request))
 
 
 def search(request):
@@ -678,7 +682,8 @@ def search(request):
             #info_dict['klass']=klass.__name__
             info_dict[kname + '_searcherror']=searcherror
 
-        return render_to_response('repository/item_index.html', info_dict)
+        return render_to_response('repository/item_index.html', info_dict,
+                context_instance=RequestContext(request))
     raise Http404
 
 def _is_newer(first, second):

@@ -70,8 +70,8 @@ def update_user(request, user_id):
         'lastname': entry.last_name,
         'email': entry.email,
         'openid_url': entry.openid_url,
-        'password1': entry.password,
-        'password2': entry.password,
+        'password1': '',
+        'password2': '',
     })
 
     if request.method == 'POST':
