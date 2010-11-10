@@ -13,6 +13,10 @@
 
 	<form method="post" action="">
 	<dl>
+	<dt><label for="id_firstname">{% trans "First Name" %}:</label>{% if form.firstname.errors %} <span class="error">{{ form.firstname.errors|join:", " }}</span>{% endif %}</dt>
+	<dd>{{ form.firstname|safe }}</dd>
+	<dt><label for="id_lastname">{% trans "Last Name" %}:</label>{% if form.lastname.errors %} <span class="error">{{ form.lastname.errors|join:", " }}</span>{% endif %}</dt>
+	<dd>{{ form.lastname|safe }}</dd>
 	<dt><label for="id_username">{% trans "Username" %}:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
 	<dd>{{ form.username|safe }}</dd>
 	<dt><label for="id_email">{% trans "Email address" %}:</label>{% if form.email.errors %} <span class="error">{{ form.email.errors|join:", " }}</span>{% endif %}</dt>
@@ -30,7 +34,7 @@
 {% endblock %}
 
 {% block aside %}
-<h4 class="title-03">{% trans "Contents" %}</h4>
+<h4 class="title-03">{% trans "Hint" %}</h4>
 <div class="in">
 {% trans "Fill out the form to the right (all fields are required), and your account will be created; you'll be sent an email with instructions on how to finish your registration." %}
 </div><!-- /in -->

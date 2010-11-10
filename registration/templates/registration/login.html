@@ -1,24 +1,10 @@
-{% extends "base-1col.html" %}
+{% extends "base-2col.html" %}
 {% load i18n %}
 
 {% block sectionid %}accounts{% endblock %}
 {% block title %}{% trans "Log in" %}{% endblock %}
 {% block billboard %}{% trans "Log in" %} {{ next }} {% endblock %}
 
-{% block content-related %}
-<p>
-	{% trans "If you don't have an account, you can" %} <a href="{% url registration_register %}">{% trans "sign up" %}</a> {% trans "for one; it's free, and you'll be able to add content to this site" %}.
-</p>
-<p>
-	{% trans "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one" %}.
-<form action="{% url auth_password_reset %}" method="post">
-<p>
-	<label for="id_email">{% trans "E-mail address" %}:</label><br />
-	<input id="id_email" type="text" name="email" maxlength="75" /><br />
-	<input type="submit" value="{% trans "Reset my password" %}" />
-</p>
-</form>
-{% endblock %}
 
 {% block content %}
 <h1>{% trans "Login" %}</h1>
@@ -37,5 +23,20 @@
 <dd>{{ form.password|safe }}</dd>
 <dt><input type="submit" value="{% trans "Log in" %}" /></dt>
 </dl>
+</form>
+{% endblock %}
+
+{% block aside %}
+<p>
+	{% trans "If you don't have an account, you can" %} <a href="{% url registration_register %}">{% trans "sign up" %}</a> {% trans "for one; it's free, and you'll be able to add content to this site" %}.
+</p>
+<p>
+	{% trans "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one" %}.
+<form action="{% url auth_password_reset %}" method="post">
+<p>
+	<label for="id_email">{% trans "E-mail address" %}:</label><br />
+	<input id="id_email" type="text" name="email" maxlength="75" /><br />
+	<input type="submit" value="{% trans "Reset my password" %}" />
+</p>
 </form>
 {% endblock %}
