@@ -21,7 +21,7 @@ def paginator(context, adjacent_pages=5):
         page_numbers = [n for n in \
                         range(page_number - adjacent_pages, page_number + adjacent_pages + 1) \
                         if n > 0 and n <= page.num_pages]
-        results_this_page = page_obj.object_list.count()
+
         range_base = ((page_number - 1) * page.per_page)
         if len(page_numbers)<=1:
             page_numbers=[]
@@ -29,9 +29,8 @@ def paginator(context, adjacent_pages=5):
         r= {
                 'hits': page.count,
                 'results_per_page': page.per_page,
-                'results_this_page': results_this_page,
-                'first_this_page': range_base + 1,
-                'last_this_page': range_base + results_this_page,
+                'first_this_page': page_obj.start_index(),
+                'last_this_page': page_obj.end_index(),
                 'page': page_number,
                 'pages': page.num_pages,
                 'page_numbers': page_numbers,
