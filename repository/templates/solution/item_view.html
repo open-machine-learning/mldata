@@ -3,6 +3,7 @@
 {% load markup %}
 {% load show_stars %}
 {% load repository_filters %}
+{% load paginator %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url solution_index %}">{% trans "Solution" %}</a> / {% trans "View" %} /
@@ -167,7 +168,7 @@ $(function() {
 		<div id="tabs-solution">
 			{% if page.object_list %}
 			<h3>Solution {{ object.name }} has been submitted to the following tasks: </h3>
-			{% include "repository/paginator_index_solution.html" %}
+			{% paginator %}
 			<table>
 				<tr><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
 				{% for object in page.object_list %}
@@ -180,7 +181,7 @@ $(function() {
 				{% endfor %}
 			</table>
             <img src="{% url repository.views.solution.plot_multiple_curves object.pk 'medium' %}"\>
-			{% include "repository/paginator_index_solution.html" %}
+			{% paginator %}
 			{% endif %}
 
 			{% if result_form %}

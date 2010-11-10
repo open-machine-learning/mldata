@@ -92,6 +92,7 @@ def get_tag_cloud(cls, user):
     tags = current.values()
     if tags:
         cloud = calculate_cloud(tags, steps=2)
+        random.seed(hash(cls)+len(tags))
         random.shuffle(cloud)
     else:
         cloud = None

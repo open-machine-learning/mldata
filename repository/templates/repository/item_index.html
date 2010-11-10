@@ -1,5 +1,6 @@
 {% extends "repository/base.html" %}
 {% load i18n %}
+{% load item_index %}
 {% block extrahead %}
 {% if searchterm %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
@@ -97,16 +98,12 @@
 {% if data_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with data as page %}
-	{% include "repository/item_index_common.html" %}
-	{% endwith %}
+    {% item_index data 'Data' %}
 
 	{% if unapproved %}
 		<br /><hr />
-		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as page %}
-		{% include "repository/item_index_common.html" %}
-		{% endwith %}
+		<h2>{% trans "My Unapproved Data" %}</h2>
+        {% item_index unapproved 'Data' %}
 	{% endif %}
 {% endif%}
 </div>
@@ -117,16 +114,12 @@
 {% if task_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with task as page %}
-	{% include "repository/item_index_common.html" %}
-	{% endwith %}
+    {% item_index task 'Task' %}
 
 	{% if unapproved %}
 		<br /><hr />
-		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as page %}
-		{% include "repository/item_index_common.html" %}
-		{% endwith %}
+		<h2>{% trans "My Unapproved Task" %}</h2>
+        {% item_index unapproved 'Task' %}
 	{% endif %}
 {% endif%}
 </div>
@@ -137,16 +130,12 @@
 {% if solution_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with solution as page %}
-	{% include "repository/item_index_common.html" %}
-	{% endwith %}
+    {% item_index solution 'Solution' %}
 
 	{% if unapproved %}
 		<br /><hr />
-		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as page %}
-			{% include "repository/item_index_common.html" %}
-		{% endwith %}
+		<h2>{% trans "My Unapproved Solution" %}</h2>
+        {% item_index unapproved 'Solution' %}
 	{% endif %}
 {% endif%}
 </div>
@@ -157,16 +146,12 @@
 {% if challenge_searcherror %}
 <div class="error">{% trans "Your search did not yield any results." %}</div>
 {% else %}
-	{% with challenge as page %}
-	{% include "repository/item_index_common.html" %}
-	{% endwith %}
+    {% item_index challenge 'Challenge' %}
 
 	{% if unapproved %}
 		<br /><hr />
-		<h2>{% trans "My Unapproved" %} {{ klass }}</h2>
-		{% with unapproved as page %}
-			{% include "repository/item_index_common.html" %}
-		{% endwith %}
+		<h2>{% trans "My Unapproved Challenge" %} </h2>
+        {% item_index unapproved 'Challenge' %}
 	{% endif %}
 {% endif%}
 </div>

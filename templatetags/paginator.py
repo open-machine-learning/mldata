@@ -14,9 +14,16 @@ def paginator(context, adjacent_pages=5):
 
     """
 
-    if context.has_key('page'):
-        page=context['page']
+    if not context.has_key('page_name'):
+        return
+
+    page_name=context['page_name']
+
+    if context.has_key(page_name):
+        page=context[page_name]
         page_obj=page.page_obj
+        if not page_obj:
+            return
         page_number=page_obj.number
         page_numbers = [n for n in \
                         range(page_number - adjacent_pages, page_number + adjacent_pages + 1) \
@@ -31,6 +38,7 @@ def paginator(context, adjacent_pages=5):
                 'results_per_page': page.per_page,
                 'first_this_page': page_obj.start_index(),
                 'last_this_page': page_obj.end_index(),
+                'page_name': page_name,
                 'page': page_number,
                 'pages': page.num_pages,
                 'page_numbers': page_numbers,
@@ -55,5 +63,7 @@ def paginator(context, adjacent_pages=5):
             r['searchterm']=quote(context['searchterm'],'')
             if context.has_key('klass'):
                 r['klass']=quote(context['klass'],'')
+        if context.has_key('selecttab'):
+            r['selecttab']=context['selecttab']
 
         return r

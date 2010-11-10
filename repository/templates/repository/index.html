@@ -6,12 +6,14 @@
 <div class="in">
 	<p>{% trans "The following kinds of objects are stored in the repository, we will illustrate each class with the MNIST5 data set:" %}</p>
 	<dl id="news">
-		<dt><a href="{% url repository.views.data.index %}">Data</a></dt>
+		<dt><a href="{% url data_index %}">Data</a></dt>
 		<dd>{% trans "This is &quot;raw data&quot;, available in any one of a number of standard formats (including, for example, CSV, ARFF, netCDF, HDF5, ODBC), together with a description of the data, sources, possibly publications. For MNIST, the data is the images with corresponding labels. These data files will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a> {% trans ". You can download our converter tool from" %} <a href="http://mloss.org/software/view/262">mloss.org</a> {% trans "and convert locally to check if everything is transformed appropriately, maybe even help debugging problems." %}</dd>
-		<dt><a href="{% url repository.views.task.index %}">Task</a></dt>
+		<dt><a href="{% url task_index %}">Task</a></dt>
 		<dd>{% trans "This is a learning task, consisting of a formal description of input-output relationships based on a data set and methods for evaluating the results. This might also include fixed partitionings into training and test data for the base data set. For the MNIST example, a learning task might be to perform multiclass classification for all ten classes, using the F1-score as performance measure." %}</dd>
-		<dt><a href="{% url repository.views.solution.index %}">Solution</a></dt>
+		<dt><a href="{% url solution_index %}">Solution</a></dt>
 		<dd>{% trans "Essentially, a solution consists of a specific machine learning method applied to a learning task, but including all the other information, for example, what kind of feature processing has been applied, how parameters of the learning method have been selected, what operating system has been used, etc. Ideally, a solution also provides a single parameterless piece of code for others to re-run the experiments, preferably with source code." %}</dd>
+		<dt><a href="{% url challenge_index %}">Challenge</a></dt>
+		<dd>{% trans "Challenges are a collection of tasks that are to be solved." %}</dd>
 	</dl>
 
 	<p>{% trans "These descriptions boil down to the following properties for the respective object classes:" %}</p>

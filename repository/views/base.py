@@ -225,6 +225,7 @@ def view(request, klass, slug_or_id, version=None):
     urls = UrlHelper(obj, obj.id)
 
 
+    kname=klass.__name__.lower()
     info_dict = {
         'object': obj,
         'request': request,
@@ -233,6 +234,7 @@ def view(request, klass, slug_or_id, version=None):
         'current': current,
         'rating_form': RatingForm.get(request, obj),
         'tagcloud': get_tag_clouds(request),
+        kname : True,
         'klass': klass.__name__,
         'section': 'repository',
         'tags': tags,

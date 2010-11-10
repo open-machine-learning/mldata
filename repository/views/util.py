@@ -12,7 +12,6 @@ import repository.util as util
 from preferences.models import Preferences
 
 NUM_HISTORY_PAGE = 20
-NUM_PAGINATOR_RANGE = 10
 PER_PAGE_INTS = [10, 20, 50]
 MEGABYTE = 1048576
 
@@ -75,6 +74,17 @@ def get_per_page(count):
     return PER_PAGE
 
 def get_page(request, queryset, PER_PAGE):
+    class dummy:
+        pass
+
+    try:
+        klass=type(queryset[0])
+    except:
+        klass=dummy
+        pass
+    
+    kname=klass.__name__.lower()
+
     perpage = PER_PAGE[0]
     try:
         perpage = int(request.GET.get('pp', PER_PAGE[0]))
@@ -86,7 +96,7 @@ def get_page(request, queryset, PER_PAGE):
 
     paginator = Paginator(queryset, perpage, allow_empty_first_page=True)
 
-    page = request.GET.get('page', 1)
+    page = request.GET.get(kname + '_page', 1)
     try:
         page_number = int(page)
     except ValueError:
@@ -94,11 +104,13 @@ def get_page(request, queryset, PER_PAGE):
             page_number = paginator.num_pages
         else:
             # Page is not 'last', nor can it be converted to an int.
-            raise Http404
+            paginator.page_obj = None
+            return paginator
     try:
         page_obj = paginator.page(page_number)
     except InvalidPage:
-        raise Http404
+        paginator.page_obj = None
+        return paginator
 
     paginator.page_obj = page_obj
     if request.GET.has_key('data'):

@@ -3,6 +3,7 @@
 {% load markup %}
 {% load show_stars %}
 {% load repository_filters %}
+{% load paginator %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url data_index %}">{% trans "Data" %}</a> / {% trans "View" %} /
@@ -227,7 +228,7 @@
 	{% if page.object_list %}
 	<div id="tabs-solution">
 		<h3>Tasks defined on dataset {{ object.name }}</h3>
-		{% include "repository/paginator_index_solution.html" %}
+		{% paginator %}
 		<ul>
 			{% for object in page.object_list %}
 			<li>
@@ -235,7 +236,7 @@
 			</li>
 			{% endfor %}
 		</ul>
-		{% include "repository/paginator_index_solution.html" %}
+		{% paginator %}
 	</div><!-- /tabs-solution -->
 	{% endif %}
 
