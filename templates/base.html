@@ -23,14 +23,6 @@
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="/media/css/main-msie.css" /><![endif]-->
 	<link rel="stylesheet" media="screen,projection" type="text/css" href="/media/css/style.css" />
 	<link rel="stylesheet" media="print" type="text/css" href="/media/css/print.css" />
-	<script type="text/javascript" src="/media/js/jquery/jquery.min.js"></script>
-	<script type="text/javascript">
-$(function() {
-	$('#nav-link-repository').hover(function() { $('#nav-repository').css('visibility', 'visible') });
-	$('#nav-repository').mouseleave(function() { $('#nav-repository').css('visibility', 'hidden') });
-});
-	</script>
-
 	{% block extrahead %}{% endblock %}
 </head>
 
@@ -47,9 +39,18 @@ $(function() {
 	<div id="nav" class="box">
 		<ul>
 			<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
-			<li{% ifequal section 'repository' %} class="active"{% endifequal %}><a id="nav-link-repository" href="{% url repository_index %}">{% trans "Repository" %}</a></li>
-			<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
-			<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
+		</ul>
+		<div class="repositoryy">
+			<ul>
+				<li{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url data_index %}">{% trans "Data" %}</a></li>
+				<li{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url task_index %}">{% trans "Task" %}</a></li>
+				<li{% ifequal klass 'Solution' %} class="active"{% endifequal %}><a href="{% url solution_index %}">{% trans "Solution" %}</a></li>
+				<li{% ifequal klass 'Challenge' %} class="active"{% endifequal %}><a href="{% url challenge_index %}">{% trans "Challenge" %}</a></li>
+			</ul>
+		</div>
+		<ul>
+		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
+		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
 		{% if request.user.is_authenticated %}
 			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
 			<li class="last"><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
@@ -65,12 +66,6 @@ $(function() {
 		</p><!-- /feeds -->
 	</div><!-- /nav -->
 
-	<div id="nav-repository">
-		<p{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url data_index %}">{% trans "Data" %}</a></p>
-		<p{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url task_index %}">{% trans "Task" %}</a></p>
-		<p{% ifequal klass 'Solution' %} class="active"{% endifequal %}><a href="{% url solution_index %}">{% trans "Solution" %}</a></p>
-		<p{% ifequal klass 'Challenge' %} class="active"{% endifequal %}><a href="{% url challenge_index %}">{% trans "Challenge" %}</a></p>
-	</div><!-- /nav1 -->
 
 	<hr class="noscreen" />
 
