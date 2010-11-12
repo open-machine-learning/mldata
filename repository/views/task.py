@@ -32,8 +32,8 @@ def get_measure_help(request, type, name):
     data = json.dumps(helptxt)
     return HttpResponse(data, mimetype='text/plain')
 
-def index(request, order_by='-pub_date'):
-    return base.index(request, Task, order_by=order_by)
+def index(request, order_by='-pub_date', filter_type=None):
+    return base.index(request, Task, order_by=order_by, filter_type=filter_type)
 
 def my(request):
     return base.index(request, Task, True)

@@ -20,6 +20,13 @@ urlpatterns = patterns('',
     (r'^viewslug/(?P<slug_task>[A-Za-z0-9-_]+)/$', views.task.view_slug),
     (r'^viewslug/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.task.view_slug),
 
+    url(r'^task_binclass/$', views.task.index, {'filter_type' : 'Binary Classification'},
+        name='task_binclass'),
+    url(r'^task_multiclass/$', views.task.index, {'filter_type' : 'Multi Class Classification'},
+        name='task_multiclass'),
+    url(r'^task_regression/$', views.task.index, {'filter_type' : 'Regression'},
+        name='task_regression'),
+
     (r'^edit/(?P<id>\d+)/$', views.task.edit),
     (r'^delete/(?P<id>\d+)/$', views.task.delete),
     (r'^activate/(?P<id>\d+)/$', views.task.activate),

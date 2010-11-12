@@ -510,7 +510,7 @@ def edit(request, klass, id):
 
     return response_for(request, klass, 'item_edit', info_dict)
 
-def index(request, klass, my=False, order_by='-pub_date'):
+def index(request, klass, my=False, order_by='-pub_date', filter_type=None):
     """Index/My page for section given by klass.
 
     @param request: request data
@@ -523,6 +523,10 @@ def index(request, klass, my=False, order_by='-pub_date'):
     @rtype: Django response
     """
     objects = klass.objects.filter(is_deleted=False)
+
+    if klass == Task and filter_type:
+        objects = objects.filter(type=filter_type)
+        
     if klass == Data:
         objects = objects.filter(is_approved=True)
 

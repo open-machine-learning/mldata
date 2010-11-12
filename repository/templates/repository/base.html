@@ -71,6 +71,12 @@
 		<li><a href="{% url task_index_by_downloads %}">Number of Downloads</a></li>
 		<li><a href="{% url task_index_by_views %}">Number of Views</a></li>
 	</ul>
+	<p>Filter by task type:</p>
+	<ul id="subnav">
+	        <li><a href="{% url task_binclass %}">Binary Classification</a></li>
+	        <li><a href="{% url task_multiclass %}">Multiclass</a></li>
+	        <li><a href="{% url task_regression %}">Regression</a></li>
+	</ul>
 </div>
 </div><!-- data-nav-right -->
 {% endif %}
