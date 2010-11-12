@@ -120,7 +120,8 @@ $(function() {
 				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
 				<dd>{{ form.input_variables }}</dd>
 				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
-				<dd>{{ form.output_variables }}</dd>
+				<dd>{{ form.output_variables }}
+				<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
 				<dd>{{ form.publications }}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_more" name="cancel_more" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}

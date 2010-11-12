@@ -29,6 +29,9 @@ urlpatterns = patterns('',
     url(r'^hdf5/$', direct_to_template, {
         'template':'about/hdf5.html', 'extra_context':extra_context},
        name='about_hdf5'),
+    url(r'^slicing/$', direct_to_template, {
+        'template':'about/slicing.html', 'extra_context':extra_context},
+       name='about_slicing'),
     url(r'^evaluation/$', direct_to_template, {
         'template':'about/evaluation.html', 'extra_context':extra_context},
        name='about_evaluation'),

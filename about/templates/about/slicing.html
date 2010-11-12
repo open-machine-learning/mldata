@@ -1,0 +1,27 @@
+{% extends "about/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "About" %} :: {% trans "Slicing" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / <a href="{% url about_slicing %}"></a> / {% trans "Slicing" %}{% endblock %}
+
+{% block content %}
+<h2 class="title-01">{% trans "Slicing" %}</h2>
+<div class="in">
+  <h3>We use python style slicing to define indices</h3>
+  <p>When defining tasks, it is often useful to be able to define
+  ranges of rows or columns. In particular, this applies to the
+  definition of <it>Train Indices, Test Indices, Input Variables,
+  Output Variables</it>. Of course, you can just list the indices
+  directly:</p>
+  <pre>
+3,4,5,6,7,8,9
+  </pre>
+  <p>But often, it would be more convenient to define ranges:</p>
+  <pre>
+3:10
+  </pre>
+  <p>where the range is defined in a left-closed, right-open interval
+  [x,y).</p>
+</div><!-- /in -->
+{% endblock %}
+

@@ -131,7 +131,8 @@ $(function() {
 			<dt>{% trans "Input Variables" %}</dt>
 			<dd>{{ extract.input_variables|join:', ' }}</dd>
 			<dt>{% trans "Output Variables" %}</dt>
-			<dd>{{ extract.output_variables|join:', ' }}</dd>
+			<dd>{{ extract.output_variables|join:', ' }}
+			<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
 		</dl></div><!-- /tabs-task -->
 
 		<div id="tabs-more"><dl id="news">
