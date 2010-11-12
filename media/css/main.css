@@ -63,6 +63,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
         background:#efefef;
         z-index:42;
         visibility:hidden;
+        border: solid 1px #0081c7;
     }
     #nav-repository p {
         padding: 3px 20px 3px 20px;
