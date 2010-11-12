@@ -55,10 +55,24 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     #nav #feeds {position:absolute; top:9px; right:25px; margin:0;}
     #nav #feeds a:hover {text-decoration:none;}
 
-    #nav-repository {position:absolute; padding:0; margin-left:63px; background:url("../images/nav.gif") 0 0 repeat-x; z-index:42; visibility:hidden;}
-    #nav-repository p {padding:5px 30px; margin:0; background:none; text-decoration;border: solid 2px #ffffff; border-left-color:#eeeeff;border-right-color:#777777;border-bottom-color:#777777}
-    #nav-repository p a:hover {text-decoration:underline;}
-    #nav-repository p.active, #nav-repository p.active a {font-weight:bold;}
+
+    #nav-repository {
+        position: absolute;
+        padding: 0;
+        margin-left: 63px;
+        background:#efefef;
+        z-index:42;
+        visibility:hidden;
+    }
+    #nav-repository p {
+        padding: 3px 20px 3px 20px;
+        margin:0;
+        background:none;
+    }
+    #nav-repository hr {color:#3f3f3f;}
+    #nav-repository p a { text-decoration: none; color:#3f3f3f; }
+    #nav-repository p a:hover { text-decoration: underline; }
+    #nav-repository p.active, #nav-repository p.active a { font-weight:bold; color:#0081C7; }
 
     #cols1 {margin-bottom:10px; background:url("../images/col.gif") 0 0 no-repeat;}
     #cols1-in {min-height:430px; padding:5px 20px; background:url("../images/col-in.gif") 100% 100% no-repeat;}

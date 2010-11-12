@@ -12,6 +12,7 @@
                 <root id="src.task.dir"/>
                 <root id="src.solution.dir"/>
                 <root id="src.templates.dir"/>
+                <root id="src.media.dir"/>
             </sources>
             <tests/>
         </data>

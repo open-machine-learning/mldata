@@ -49,11 +49,6 @@ code {font-family:"Courier";}
     #nav a {color:#3f3f3f;}
     #nav ul li.active, #nav ul li.active a {color:#0081C7;}
 
-    #nav-repository {border:none; background:#EFEFEF;}
-    #nav-repository a {color:#3f3f3f;}
-    #nav-repository hr {color:#3f3f3f;}
-    #nav-repository p.active, #nav-repository p.active a {color:#0081C7;}
-
     #footer, #footer a {color:#5F5F5F;}
     #footer a:hover {color:#3f3f3f;}
     

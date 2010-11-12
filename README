@@ -3,10 +3,12 @@ To install django (Assuming you have python)
 Get the source from
 http://www.djangoproject.com/download/
 
-$ tar xzvf Django-1.1.1.tar.gz
-$ cd Django-1.1.1
+$ tar xzvf Django-1.2.3.tar.gz
+$ cd Django-1.2.3
 $ sudo python setup.py install
 
+(If you have an old version, you need to delete the previous installation
+under /usr/lib/python2.5/site-packages/django by hand!)
 
 If you don't have website/mldata/mldata.db, create the database with
 $ python manage.py syncdb
@@ -54,9 +56,18 @@ these modules with "sudo python setup.py install"
 
   https://sourceforge.net/projects/scipy/files/
 
-- ml2h5
+- mldata-utils
+  
+  http://mloss.org/software/view/262/
 
-  http://mloss.org/software/view/262
+  Or our SVN:
+
+  https://ml01.zrz.tu-berlin.de/svn/mldata/mldata-utils
+
+- python-json
+
+  http://pypi.python.org/pypi/python-json
+  
 
 
 As debian packages
@@ -69,6 +80,7 @@ python-h5py
 python-scipy
 memcached 
 python-memcache
+python-json
 
 There is no python-h5py in debian, but you can install it by hand.
 
