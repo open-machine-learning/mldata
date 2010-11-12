@@ -667,7 +667,7 @@ def search(request):
             if klass == Data:
                 objects = objects.filter(is_approved=True)
 
-            search_error = True
+            searcherror = True
 
             if searchterm:
                 info_dict['searchterm'] = searchterm
