@@ -63,8 +63,11 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
         background:#efefef;
         z-index:42;
         visibility:hidden;
-        border: solid 1px #0081c7;
-        border-top: none;
+        border: solid 1px;
+        border-top-color: #fff;
+        border-bottom-color: #444;
+        border-right-color: #888;
+        border-left-color: #eee;
     }
     #nav-repository p {
         padding: 3px 20px 3px 20px;
