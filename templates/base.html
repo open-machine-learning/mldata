@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load get_version %}
+{% load permute_items %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -74,9 +75,9 @@
 
 	<hr class="noscreen" />
 
-	<div id="footer" class="box">&copy; 2009-{% now "Y" %} <a href="https://kodeaffe.de">Sebastian Henschel</a>,
-		<a href="http://www.inf.ethz.ch/~cong/">Cheng Soon Ong</a>, <a href="http://ml.cs.tu-berlin.de/~mikio">Mikio L. Braun</a>, <a href="http://sonnenburgs.de/soeren">Soeren Sonnenburg</a>, <a href="http://www.cs.helsinki.fi/u/phoyer">Patrik O. Hoyer</a> | <a href="{% url about_impressum %}">Impressum</a> | <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">Visuals</a> | {% trans "Hosting " %} <a href="http://www.ml.tu-berlin.de">ML Group</a> <a href="http://www.tu-berlin.de">TU Berlin</a> | {% get_version %}.
-		<!--|   | Visual styles based on <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">http://www.nuviotemplates.com</a>-->
+	<div id="footer" class="box">&copy; 2009-{% now "Y" %}
+		{% permute_items <a href="https://kodeaffe.de">Sebastian Henschel</a>|<a href="http://www.inf.ethz.ch/~cong/">Cheng Soon Ong</a>|<a href="http://ml.cs.tu-berlin.de/~mikio">Mikio L. Braun</a>|<a href="http://sonnenburgs.de/soeren">Soeren Sonnenburg</a>|<a href="http://www.cs.helsinki.fi/u/phoyer">Patrik O. Hoyer</a> %}
+		| <a href="{% url about_impressum %}">Impressum</a> | <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">Visuals</a> | {% trans "Hosting " %} <a href="http://www.ml.tu-berlin.de">ML Group</a> <a href="http://www.tu-berlin.de">TU Berlin</a> | {% get_version %}.  <!--|   | Visual styles based on <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">http://www.nuviotemplates.com</a>-->
 	</div><!-- /footer -->
 </div><!-- /main -->
 
