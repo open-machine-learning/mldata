@@ -5,6 +5,7 @@ URL patterns for Repository
 from django.conf.urls.defaults import *
 import repository.views as views
 import repository.views.task
+from repository.models.data import Data
 
 urlpatterns = patterns('',
     url(r'^$', views.task.index, name='task_index'),
@@ -16,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^by_views/$', views.task.index, {'order_by' : '-hits'}, name='task_index_by_views'),
     (r'^my/$', views.task.my),
     (r'^new/$', views.task.new),
+    (r'^new_from_data/(?P<cur_data>[A-Za-z0-9-_]+)/$', views.task.new_from_data),
     (r'^view/(?P<id>\d+)/$', views.task.view),
     (r'^viewslug/(?P<slug_task>[A-Za-z0-9-_]+)/$', views.task.view_slug),
     (r'^viewslug/(?P<slug_task>[A-Za-z0-9-_]+)/(?P<version>\d+)/$', views.task.view_slug),

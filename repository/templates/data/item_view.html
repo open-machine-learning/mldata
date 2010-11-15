@@ -112,9 +112,7 @@
             <li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
             <li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
             <li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-			{% if page.object_list %}
-			<li id="tab-tabs-solution"><a title="{% trans "Tasks defined on dataset" %}" href="#tabs-solution">{% trans "Tasks" %}</a></li>
-			{% endif %}
+	    <li id="tab-tabs-solution"><a title="{% trans "Tasks defined on dataset" %}" href="#tabs-solution">{% trans "Tasks" %}</a></li>
         </ul>
 
         <div id="tabs-summary">
@@ -125,8 +123,6 @@
                 <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
                 <dt>{% trans "Tags" %}</dt>
                 <dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.data.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
-                <dt>{% trans "Related Task(s)" %}</dt>
-                <dd>{% for t in object.get_related_tasks %}<a href="{% url repository.views.task.view_slug t.slug.text %}">{{ t.name }}</a> {% endfor %}</dd>
                 <dt>{% trans "Attribute Types" %}</a></dt>
                 <dd>
 				{{ object.get_attribute_types }}
@@ -225,8 +221,8 @@
             <p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
         </div><!-- /tabs-stats -->
 
-	{% if page.object_list %}
 	<div id="tabs-solution">
+		{% if page.object_list %}
 		<h3>Tasks defined on dataset {{ object.name }}</h3>
 		{% paginator %}
 		<ul>
@@ -237,8 +233,12 @@
 			{% endfor %}
 		</ul>
 		{% paginator %}
+		{% else %}
+		<h3>No Tasks yet on dataset {{ object.name }}</h3>
+		{% endif %}	
+		<a href="{% url repository.views.task.new_from_data cur_data=object %}">
+		{% trans "Submit a new Task for this Data item" %}</a>
 	</div><!-- /tabs-solution -->
-	{% endif %}
 
     </div><!-- /tabs -->
 

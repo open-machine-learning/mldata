@@ -311,7 +311,7 @@ def view(request, klass, slug_or_id, version=None):
 
 
 @transaction.commit_on_success
-def new(request, klass):
+def new(request, klass, default_arg=None):
     """Create a new item of given klass.
 
     @param request: request data
@@ -383,6 +383,7 @@ def new(request, klass):
                     if 'file' in request.FILES:
                         new.file = request.FILES['file']
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    new.data = default_arg
                     taskfile = {
                         'train_idx': (form.cleaned_data['train_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),

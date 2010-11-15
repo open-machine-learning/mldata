@@ -41,6 +41,9 @@ def my(request):
 def new(request):
     return base.new(request, Task)
 
+def new_from_data(request, cur_data=None):
+    return base.new(request, Task, default_arg=cur_data)
+
 def view(request, id, version=None):
     return base.view(request, Task, id)
 
