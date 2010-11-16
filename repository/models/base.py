@@ -262,6 +262,9 @@ class Repository(models.Model):
             @return: found object or None
             @rtype: Repository
             """
+        if not slug_or_id:
+            return None
+
         if version:
             obj = cls.objects.filter(slug__text=slug_or_id, is_deleted=False, version=version)
         else:
