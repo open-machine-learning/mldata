@@ -71,7 +71,9 @@
 		<li><a href="{% url task_index_by_downloads %}">Number of Downloads</a></li>
 		<li><a href="{% url task_index_by_views %}">Number of Views</a></li>
 	</ul>
-	<p>Filter by task type:</p>
+</div>
+<h4 class="title-03">{% trans "Filter by task type" %}:</h4>
+<div class="in">
 	<ul id="subnav">
 	        <li><a href="{% url task_binclass %}">Binary Classification</a></li>
 	        <li><a href="{% url task_multiclass %}">Multiclass</a></li>
