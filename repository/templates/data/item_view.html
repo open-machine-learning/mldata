@@ -236,7 +236,7 @@
 		{% else %}
 		<h3>No Tasks yet on dataset {{ object.name }}</h3>
 		{% endif %}	
-		<a href="{% url repository.views.task.new_from_data cur_data=object %}">
+		<a href="{% url repository.views.task.new_from_data cur_data=object.slug %}">
 		{% trans "Submit a new Task for this Data item" %}</a>
 	</div><!-- /tabs-solution -->
 

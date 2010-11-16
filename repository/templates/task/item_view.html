@@ -110,8 +110,6 @@ $(function() {
 			<dt>{% trans "Data (held back)" %}</dt>
 			<dd><a href="{{ object.data_heldback.get_absolute_slugurl }}">{{ object.data_heldback.name }}</a></dd>
 			{% endif %}
-			<dt>{% trans "Related Solution(s)" %}</dt>
-			<dd>{% for s in related %}<a href="{% url repository.views.solution.view_slug object.data.slug.text object.slug.text s.slug.text %}">{{ s.name }}</a> {% endfor %}</dd>
 			{% if object.file and object.file.size %}
 			<dt>{% trans "Download" %}</dt>
 			<dd><a href="{% url repository.views.task.download object.slug %}">{% trans "Task file" %} ({{ object.file.size|filesizeformat }})</a></dd>
@@ -185,6 +183,8 @@ $(function() {
 				{% endfor %}
 			</table>
 			{% paginator %}
+			{% else %}
+			<h3>No Solutions yet for task {{ object.name }}</h3>
 			{% endif %}
 
 			{% if result_form %}

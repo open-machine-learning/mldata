@@ -383,7 +383,6 @@ def new(request, klass, default_arg=None):
                     if 'file' in request.FILES:
                         new.file = request.FILES['file']
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    new.data = default_arg
                     taskfile = {
                         'train_idx': (form.cleaned_data['train_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),
@@ -406,7 +405,7 @@ def new(request, klass, default_arg=None):
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
-        form = formfunc(request=request)
+        form = formfunc(request=request, cur_data=default_arg)
 
     info_dict = {
         'klass': klass.__name__,

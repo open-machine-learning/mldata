@@ -72,6 +72,11 @@ class TaskForm(RepositoryForm):
             request = kwargs.pop('request')
         else:
             request = None
+        if kwargs.has_key('cur_data'):
+            cur_slug = kwargs.pop('cur_data')
+            cur_data = Data.get_object(cur_slug)
+        else:
+            cur_data = None
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
@@ -84,7 +89,10 @@ class TaskForm(RepositoryForm):
             self.fields['data'].queryset = qs
             self.fields['data_heldback'].queryset = qs
             choices = [(d.id, d.name) for d in qs]
-            self.fields['data'].choices = choices
+            if cur_data:
+                self.fields['data'].choices = [(cur_data.id, cur_data.name)]
+            else:
+                self.fields['data'].choices = choices
             choices.insert(0, ('', '---------'))
             #choices.append(('', '-----'))
             self.fields['data_heldback'].choices = choices
