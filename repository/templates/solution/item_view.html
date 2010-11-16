@@ -180,7 +180,9 @@ $(function() {
 				</tr>
 				{% endfor %}
 			</table>
+			{% ifequal object.complex_result_type "Curve" %}
             <img src="{% url repository.views.solution.plot_multiple_curves object.pk 'medium' %}"\>
+			{% endifequal %}
 			{% paginator %}
 			{% endif %}
 

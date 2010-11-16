@@ -92,7 +92,11 @@
 						<a{% if object.can_convert_to_matlab %} href="{% url repository.views.data.download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
 						<a{% if object.can_convert_to_octave %} href="{% url repository.views.data.download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
 					{% else %}
+						{% if object.performance_measure %}
+						<a href="{% url repository.views.task.download object.slug %}">Task File ({{ object.file.size|filesizeformat }})</a>
+						{% else %}
 						<a href="{% url repository.views.data.download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+						{% endif %}
 					{% endif %}
 				</span>
                 </dt>

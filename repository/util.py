@@ -132,7 +132,7 @@ def set_current(klass, cur):
     cur.is_current = True
 
     # this should be atomic:
-    prev.save()
+    prev.save(silent_update=True)
     cur.save()
 
     return cur
