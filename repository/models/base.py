@@ -290,9 +290,8 @@ class Repository(models.Model):
     def set_current(cls, obj):
         repository.util.set_current(cls, obj)
 
-    @classmethod
-    def get_initial_submission(cls):
-        return cls.objects.get(slug__text=self.slug.text, version=1)
+    def get_initial_submission(self):
+        return Repository.objects.get(slug__text=self.slug.text, version=1)
 
     def __init__(self, * args, ** kwargs):
         super(Repository, self).__init__(*args, ** kwargs)
