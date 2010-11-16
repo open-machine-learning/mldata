@@ -405,7 +405,10 @@ def new(request, klass, default_arg=None):
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
-        form = formfunc(request=request, cur_data=default_arg)
+        if default_arg:
+            form = formfunc(request=request, cur_data=default_arg)
+        else:
+            form = formfunc(request=request)
 
     info_dict = {
         'klass': klass.__name__,
