@@ -142,12 +142,11 @@ def plot_multiple_curves(request, id, resolution='medium'):
     if num_col == 0.0:
         raise Http404
 
-    import matplotlib
-    matplotlib.use('Cairo')
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    #from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
     from matplotlib.figure import Figure
-    from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
-    from StringIO import StringIO
-    col=matplotlib.cm.jet
+    from matplotlib.cm import jet as col
+
     #legend=list()
     if dpi<=40:
         bgcol='#f7f7f7'
@@ -155,7 +154,6 @@ def plot_multiple_curves(request, id, resolution='medium'):
         bgcol='#ffffff'
 
     fig = Figure(figsize=(8,6), dpi=dpi, facecolor=bgcol)
-    canvas = FigureCanvas(fig)
     ax = fig.add_subplot(111)
     i=0.0
 
@@ -185,11 +183,10 @@ def plot_multiple_curves(request, id, resolution='medium'):
     ax.grid(True)
     ax.axis("tight")
 
-    canvas.draw()
-    imdata=StringIO()
-    fig.savefig(imdata,format='png', dpi=dpi, facecolor=bgcol)
-    return HttpResponse(imdata.getvalue(), mimetype='image/png')
-
+    canvas = FigureCanvas(fig)
+    response=HttpResponse(mimetype='image/png')
+    canvas.print_png(response)
+    return response
 
 def plot_single_curve(request, id, resolution='tiny'):
     result=get_object_or_404(Result, pk=id)
@@ -209,18 +206,15 @@ def plot_single_curve(request, id, resolution='tiny'):
     x_name=result['x_name']
     y_name=result['y_name']
 
-    import matplotlib
-    matplotlib.use('Cairo')
+    from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+    #from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
     from matplotlib.figure import Figure
-    from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
-    from StringIO import StringIO
 
     if dpi<=40:
         bgcol='#f7f7f7'
     else:
         bgcol='#ffffff'
     fig = Figure(figsize=(8,6), dpi=dpi, facecolor=bgcol)
-    canvas = FigureCanvas(fig)
     ax = fig.add_subplot(111)
 
 
@@ -234,8 +228,7 @@ def plot_single_curve(request, id, resolution='tiny'):
     ax.grid(True)
     ax.axis("tight")
 
-    canvas.draw()
-    imdata=StringIO()
-    fig.savefig(imdata,format='png', dpi=dpi, facecolor=bgcol)
-    return HttpResponse(imdata.getvalue(), mimetype='image/png')
-
+    canvas = FigureCanvas(fig)
+    response=HttpResponse(mimetype='image/png')
+    canvas.print_png(response)
+    return response
