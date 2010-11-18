@@ -71,9 +71,9 @@ $(function() {
 	</div>
 
 	<div id="actions">
-            {% if can_activate %}<a id="activate" href="{{ urls.activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
-            <a href="{{ urls.edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
-            {% if can_delete %}<a id="delete" href="{{ urls.delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
+            {% if can_activate %}<a id="activate" href="{{ task_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
+            <a href="{{ task_edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
+            {% if can_delete %}<a id="delete" href="{{ task_delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 	</div><br style="clear:both" />
 
 {% include "repository/conversion_failed.html" %}
@@ -117,7 +117,7 @@ $(function() {
 		</dl>
 		<div>
 			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-			{% trans "You can" %} <a href="{{ urls.edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
+			{% trans "You can" %} <a href="{{ task_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
 		</div>
 		</div><!-- /tabs-summary -->
 

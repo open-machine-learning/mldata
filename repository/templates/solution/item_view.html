@@ -89,9 +89,9 @@ $(function() {
 	</div>
 
 	<div id="actions">
-		{% if can_activate %}<a id="activate" href="{{ urls.activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
-		<a href="{{ urls.edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
-		{% if can_delete %}<a id="delete" href="{{ urls.delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
+		{% if can_activate %}<a id="activate" href="{{ solution_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
+		<a href="{{ solution_edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
+		{% if can_delete %}<a id="delete" href="{{ solution_delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
 	</div><br style="clear:both" />
 
 {% include "repository/conversion_failed.html" %}

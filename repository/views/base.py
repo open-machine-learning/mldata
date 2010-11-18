@@ -42,7 +42,6 @@ import cPickle as pickle
 
 
 from repository.views.util import *
-from repository.views.url_helper import UrlHelper
 
 def response_for(request, klass, name, info_dict):
     return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict,
@@ -223,8 +222,6 @@ def view(request, klass, slug_or_id, version=None):
     # need tags in list
     tags = obj.tags.split(TAG_SPLITSTR)
     versions = get_versions_paginator(request, obj)
-    urls = UrlHelper(obj, obj.id)
-
 
     kname=klass.__name__.lower()
     info_dict = {
@@ -240,7 +237,6 @@ def view(request, klass, slug_or_id, version=None):
         'section': 'repository',
         'tags': tags,
         'versions': versions,
-        'urls': urls,
     }
     if request.method == 'GET' and 'c' in request.GET:
         info_dict['show_comments'] = True
