@@ -15,6 +15,8 @@ def item_index(context, queryset, klass):
     if context.has_key('searchterm'):
         r['searchterm']=quote(context['searchterm'],'')
         r['selecttab']='#tabs-' + klass.lower()
-        if context.has_key('klass'):
-            r['klass']=quote(context['klass'],'')
+    if context.has_key('klass'):
+        r['klass']=quote(context['klass'],'')
+    if context.has_key('tagcloud'):
+        r['tagcloud']=context['tagcloud']
     return r

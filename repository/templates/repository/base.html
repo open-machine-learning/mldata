@@ -20,7 +20,7 @@
 		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="data" name="data" value="Data" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.data.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Data %}<span style="font-size:{{ t.font_size }}em"><a href="{% url data_tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->
@@ -56,7 +56,7 @@
 		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="task" name="task" value="Task" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Task %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.task.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Task %}<span style="font-size:{{ t.font_size }}em"><a href="{% url task_tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->
@@ -98,7 +98,7 @@
 		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="solution" name="solution" value="Solution" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.solution.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url solution_tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->
@@ -132,7 +132,7 @@
 		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="challenge" name="challenge" value="Challenge" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Challenge %}<span style="font-size:{{ t.font_size }}em"><a href="{% url repository.views.challenge.tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Challenge %}<span style="font-size:{{ t.font_size }}em"><a href="{% url challenge_tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->

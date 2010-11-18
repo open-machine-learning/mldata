@@ -79,6 +79,18 @@ def edit(request, id):
     """
     return base.edit(request, Solution, id)
 
+def fork(request, id):
+    """Fork page of Solution section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to fork
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return base.fork(request, Solution, id)
+
 def activate(request, id):
     """Activate of Solution section.
 

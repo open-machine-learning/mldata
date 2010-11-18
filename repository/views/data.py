@@ -111,6 +111,18 @@ def new_review(request, slug):
 def edit(request, id):
     return base.edit(request, Data, id)
 
+def fork(request, id):
+    """Fork page of Data section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to fork
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return base.fork(request, Data, id)
+
 def delete(request, id):
     """Delete data item specified by id
     """

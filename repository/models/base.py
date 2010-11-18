@@ -17,6 +17,7 @@ from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 from utils import slugify
+from settings import TAG_SPLITSTR
 
 import repository
 
@@ -227,6 +228,9 @@ class Repository(models.Model):
 
         return qs
 
+    def get_tags(self):
+        return self.tags.split(TAG_SPLITSTR)
+
     @classmethod
     def get_current_tagged_items(cls, user, tag):
         """Get current items with specific tag.
@@ -394,6 +398,17 @@ class Repository(models.Model):
 
         return False
 
+    def can_edit(self, user):
+        """Can given user edit this item.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can activate this
+        @rtype: boolean
+        """
+        if repository.util.dependent_entries_exist(self):
+            return False
+        return self.can_view(user)
 
     def can_delete(self, user):
         """Can given user delete this item.
@@ -407,8 +422,7 @@ class Repository(models.Model):
         if not ret:
             return False
         # don't delete if this is last item and something depends on it
-        siblings = self.__class__.objects.filter(slug=self.slug)
-        if len(siblings) == 1:
+        if self.__class__.objects.filter(slug=self.slug).count() == 1:
             if repository.util.dependent_entries_exist(self):
                 return False
         return True
@@ -433,17 +447,6 @@ class Repository(models.Model):
         @param user: user to check for
         @type user: Django User
         @return: if user can download this
-        @rtype: boolean
-        """
-        return self.can_view(user)
-
-
-    def can_edit(self, user):
-        """Can given user edit this.
-
-        @param user: user to check for
-        @type user: Django User
-        @return: if user can edit this
         @rtype: boolean
         """
         return self.can_view(user)

@@ -57,6 +57,11 @@ def edit(request, id):
     """
     return base.edit(request, Task, id)
 
+def fork(request, id):
+    """Fork page of Task section.
+    """
+    return base.fork(request, Task, id)
+
 def delete(request, id):
     """Delete of Task section.
     """

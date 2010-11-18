@@ -33,7 +33,7 @@ from preferences.models import Preferences
 from repository.forms import *
 from repository.models import *
 import repository.util as util
-from settings import DATAPATH, CACHE_ROOT, MEDIA_ROOT, TAG_SPLITSTR
+from settings import DATAPATH, CACHE_ROOT, MEDIA_ROOT
 import subprocess
 from tagging.models import Tag
 import traceback
@@ -220,13 +220,13 @@ def view(request, klass, slug_or_id, version=None):
     current = obj.update_current_hits()
 
     # need tags in list
-    tags = obj.tags.split(TAG_SPLITSTR)
     versions = get_versions_paginator(request, obj)
 
     kname=klass.__name__.lower()
     info_dict = {
         'object': obj,
         'request': request,
+        'can_edit': obj.can_edit(request.user),
         'can_activate': obj.can_activate(request.user),
         'can_delete': obj.can_delete(request.user),
         'current': current,
@@ -235,7 +235,6 @@ def view(request, klass, slug_or_id, version=None):
         kname : True,
         'klass': klass.__name__,
         'section': 'repository',
-        'tags': tags,
         'versions': versions,
     }
     if request.method == 'GET' and 'c' in request.GET:
@@ -421,6 +420,96 @@ def new(request, klass, default_arg=None):
 
 @transaction.commit_on_success
 def edit(request, klass, id):
+    """Edit existing item given by slug or id and klass.
+
+    @param request: request data
+    @type request: Django request
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Solution
+    @param id: id of the item to activate
+    @type id: integer
+    @return: user login page, item's view page or this page again on failed form validation
+    @rtype: Django response
+    @raise Http404: if item couldn't be found or given klass is unexpected
+    """
+    prev = klass.get_object(id)
+    if not prev: raise Http404
+    prev.klass = klass.__name__
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
+    if not prev.can_edit(request.user):
+        return HttpResponseForbidden()
+
+    formfunc = eval(klass.__name__ + 'Form')
+    if request.method == 'POST':
+        request.POST['name'] = prev.name # cheat a little
+        form = formfunc(request.POST, request=request)
+
+        if form.is_valid():
+            next = form.save(commit=False)
+            next.pub_date = datetime.datetime.now()
+            next.slug = prev.slug
+            next.version = next.get_next_version()
+            next.user = request.user
+
+            if prev.is_public: # once public, always public
+                next.is_public = True
+            elif not form.cleaned_data['keep_private']:
+                next.is_public = True
+
+            if klass == Data:
+                next.format = prev.format
+                next.is_approved = prev.is_approved
+                next.file = prev.file
+                next.save()
+            elif klass == Task:
+                if 'file' in request.FILES:
+                    next.file = request.FILES['file']
+                    next.file.name = next.get_filename()
+                    filename = os.path.join(MEDIA_ROOT, prev.file.name)
+                    if os.path.isfile(filename):
+                        os.remove(filename)
+                else:
+                    next.file = prev.file
+
+                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                taskfile = {
+                    'train_idx': form.cleaned_data['train_idx'],
+                    'test_idx': form.cleaned_data['test_idx'],
+                    'input_variables': form.cleaned_data['input_variables'],
+                    'output_variables': form.cleaned_data['output_variables']
+                }
+                next.save(update_file=True, taskfile=taskfile)
+            elif klass == Solution:
+                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                next.save()
+            elif klass == Challenge:
+                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                next.save()
+            else:
+                raise Http404
+
+            form.save_m2m() # for publications
+            klass.set_current(next)
+            return HttpResponseRedirect(next.get_absolute_slugurl())
+    else:
+        form = formfunc(instance=prev, request=request)
+        if klass == Task:
+            form.prefill(os.path.join(MEDIA_ROOT, prev.file.name))
+
+    info_dict = {
+        'form': form,
+        'object': prev,
+        'request': request,
+        'publication_form': PublicationForm(),
+        'tagcloud': get_tag_clouds(request),
+        'section': 'repository',
+    }
+
+    return response_for(request, klass, 'item_edit', info_dict)
+
+@transaction.commit_on_success
+def fork(request, klass, id):
     """Edit existing item given by slug or id and klass.
 
     @param request: request data

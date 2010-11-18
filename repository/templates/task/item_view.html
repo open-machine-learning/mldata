@@ -71,9 +71,10 @@ $(function() {
 	</div>
 
 	<div id="actions">
-            {% if can_activate %}<a id="activate" href="{{ task_activate }}" title="{% trans "Make this version current and public" %}">{% trans "ACTIVATE" %}</a>{% endif %}
-            <a href="{{ task_edit }}" title="{% trans "Edit this version to create a new current one" %}">{% trans "EDIT" %}</a>
-            {% if can_delete %}<a id="delete" href="{{ task_delete }}" title="{% trans "Delete this version" %}">{% trans "DELETE" %}</a>{% endif %}
+		<a{% if can_activate %} id="activate" href="{% url task_activate object.pk %}" title="{% trans "Make this version current and public" %}"{% else %} id="disabled"{% endif %}>{% trans "ACTIVATE" %}</a>
+		<a{% if can_edit %} href="{% url task_edit object.pk %}" title="{% trans "Edit this version to create a new current one" %}"{% else %} id="disabled"{% endif %}>{% trans "EDIT" %}</a>
+		<a href="{% url task_fork object.pk %}" title="{% trans "Fork this version to create a new one based on the current one" %}">{% trans "FORK" %}</a>
+		<a{% if can_delete %} id="delete" href="{% url task_delete object.pk %}" title="{% trans "Delete this version" %}"{% else %} id="disabled"{% endif %}>{% trans "DELETE" %}</a>
 	</div><br style="clear:both" />
 
 {% include "repository/conversion_failed.html" %}
@@ -95,7 +96,7 @@ $(function() {
 			<dt>{% trans "License" %}</dt>
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
 			<dt>{% trans "Tags" %}</dt>
-			<dd>{% for tag in tags %}{% if tag %}<a href="{% url repository.views.task.tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
+			<dd>{% for tag in object.get_tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Input format" %}</dt>
 			<dd>{{ object.input|markdown }}</dd>
 			<dt>{% trans "Output format" %}</dt>

@@ -75,6 +75,18 @@ def edit(request, id):
     """
     return base.edit(request, Challenge, id)
 
+def fork(request, id):
+    """fork page of Challenge section.
+
+    @param request: request data
+    @type request: Django request
+    @param id: id of item to edit
+    @type id: integer
+    @return: rendered response page
+    @rtype: Django response
+    """
+    return base.fork(request, Challenge, id)
+
 def activate(request, id):
     """Activate of Challenge section.
 

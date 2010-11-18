@@ -41,19 +41,18 @@
 				<dt>{% trans "License:" %}
 				<span class="index_plain"><a href="{{ object.license.url }}">{{ object.license.name }}</a></span>
 				</dt>
-				{% if tags %}<dt>{% trans "Tags:" %}
+				{% if object.get_tags %}<dt>{% trans "Tags:" %}
 				{% ifequal klass 'Data' %}
-				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
-				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url data_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url data_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Task' %}
-				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Solution' %}
-				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url solution_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url solution_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Challenge' %}
-				<span class="index_plain">{% for tag in tags %}{% if tag %}<a href="{% url challenge_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url challenge_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				</dt>
 				{% endif %}
