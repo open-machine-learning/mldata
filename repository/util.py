@@ -142,17 +142,22 @@ def dependent_entries_exist(obj):
     """Check whether there exists an object which depends on obj.
 
     For Data objects, checks whether there exists a Task object,
-    for Task objects, checks whether there exists a Data object.
+    for Task objects, checks whether there exists a Challenge or Result object.
+    for Solution objects, checks whether there exists a Result object.
+    for Challenge objects, checks whether there exists a Result object.
     """
     if obj.__class__ == Data:
-        if Task.objects.filter(data=obj).count() > 0:
+        if Task.objects.filter(data__slug=obj.slug).count() > 0:
             return True
     elif obj.__class__ == Task:
-        if Challenge.objects.filter(task=obj).count() > 0:
+        if Challenge.objects.filter(task__slug=obj.slug).count() > 0:
             return True
 
-        if Result.objects.filter(task=obj).count() > 0:
+        if Result.objects.filter(task__slug=obj.slug).count() > 0:
             return True
     elif obj.__class__ == Solution:
-        if Result.objects.filter(solution=obj).count() > 0:
+        if Result.objects.filter(solution__slug=obj.slug).count() > 0:
+            return True
+    elif obj.__class__ == Challenge:
+        if Result.objects.filter(challenge__slug=obj.slug).count() > 0:
             return True
