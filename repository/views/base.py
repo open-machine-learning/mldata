@@ -511,7 +511,7 @@ def edit(request, klass, id):
     return response_for(request, klass, 'item_edit', info_dict)
 
 @transaction.commit_on_success
-def fork(request, klass, id)
+def fork(request, klass, id):
     """Create a new item of given klass.
 
     @param request: request data
@@ -522,6 +522,9 @@ def fork(request, klass, id)
     @rtype: Django response
     @raise Http404: if given klass is unexpected
     """
+    prev = klass.get_object(id)
+    if not prev: raise Http404
+    prev.klass = klass.__name__
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
 
@@ -605,10 +608,7 @@ def fork(request, klass, id)
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
-        if default_arg:
-            form = formfunc(request=request, cur_data=default_arg)
-        else:
-            form = formfunc(request=request)
+        form = formfunc(request=request, prev=prev)
 
     info_dict = {
         'klass': klass.__name__,
