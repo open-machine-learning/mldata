@@ -261,6 +261,10 @@ def view(request, klass, slug_or_id, version=None):
                 form = ResultForm(request.POST, request.FILES, request=request)
                 if form.is_valid():
                     new = form.save(commit=False)
+                    r=Result.objects.filter(solution=new.solution, task=new.task, challenge=new.challenge)
+                    if r.count():
+                        new=r[0]
+
                     new.aggregation_score=-1
                     new.output_file = request.FILES['output_file']
                     score, msg, ok = new.predict()
