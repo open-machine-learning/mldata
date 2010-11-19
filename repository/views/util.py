@@ -7,7 +7,6 @@ from django.core.urlresolvers import reverse
 
 from repository.models import *
 from repository.forms import *
-import repository.util as util
 
 from preferences.models import Preferences
 
