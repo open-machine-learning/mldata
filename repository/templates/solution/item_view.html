@@ -90,8 +90,8 @@ $(function() {
 
 	<div id="actions">
 		<a{% if can_activate %} id="activate" href="{% url solution_activate object.pk %}" title="{% trans "Make this version current and public" %}"{% else %} id="disabled"{% endif %}>{% trans "ACTIVATE" %}</a>
-		<a{% if can_edit %} href="{% solution_edit object.pk %}" title="{% trans "Edit this version to create a new current one" %}{% else %} id="disabled"{% endif %}">{% trans "EDIT" %}</a>
-		<a href="{% solution_fork object.pk %}" title="{% trans "Fork this version to create a new one based on the current one" %}">{% trans "FORK" %}</a>
+		<a{% if can_edit %} href="{% url solution_edit object.pk %}" title="{% trans "Edit this version to create a new current one" %}{% else %} id="disabled"{% endif %}">{% trans "EDIT" %}</a>
+		<a href="{% url solution_fork object.pk %}" title="{% trans "Fork this version to create a new one based on the current one" %}">{% trans "FORK" %}</a>
 		<a{% if can_delete %} id="delete" href="{% url solution_delete object.pk %}" title="{% trans "Delete this version" %}"{% else %} id="disabled"{% endif %}>{% trans "DELETE" %}</a>
 	</div><br style="clear:both" />
 

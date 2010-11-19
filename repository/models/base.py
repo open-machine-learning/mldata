@@ -232,6 +232,93 @@ class Repository(models.Model):
         return self.tags.split(TAG_SPLITSTR)
 
     @classmethod
+    def get_recent(cls, user):
+        """Get recently changed items.
+
+            @param user: user to get recent items for
+            @type user: auth.models.user
+            @return: list of recently changed items
+            @rtype: list of Repository
+            """
+        num = 5
+
+        # without if-construct sqlite3 barfs on AnonymousUser
+        if user.id:
+            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+            qs_result = (Q(solution__user=user) | Q(solution__is_public=True)) & Q(solution__is_current=True)
+        else:
+            qs = Q(is_public=True) & Q(is_current=True);
+            qs_result = Q(solution__is_public=True) & Q(solution__is_current=True);
+
+        # slices return max number of elements if num > max
+        recent_data = repository.models.Data.objects.filter(qs).order_by('-pub_date')
+        recent_tasks = repository.models.Task.objects.filter(qs).order_by('-pub_date')
+        recent_challenges = repository.models.Challenge.objects.filter(qs).order_by('-pub_date')
+        recent_results = repository.models.Result.objects.filter(qs_result).order_by('-pub_date')
+
+        recent = []
+        if recent_data.count() > 0:
+            data=recent_data[:num]
+            l=list(zip(len(data)*['Data'],data))
+            recent.extend(l)
+        if recent_tasks.count() > 0:
+            tasks=recent_tasks[:num]
+            l=list(zip(len(tasks)*['Task'],tasks))
+            recent.extend(l)
+        if recent_challenges.count() > 0:
+            challenges=recent_challenges[:num]
+            l=list(zip(len(challenges)*['Challenge'],challenges))
+            recent.extend(l)
+        if recent_results.count() > 0:
+            results=recent_results[:num]
+            l=list(zip(len(results)*['Solution'],results))
+            recent.extend(l)
+
+        recent.sort(key=lambda r: r[1].pub_date, reverse=True)
+        return recent[:num]
+
+    @classmethod
+    def get_tag_cloud(cls, user):
+        """Get current tags available to user.
+
+            @param user: user to get current items for
+            @type user: auth.models.user
+            @return: current tags available to user
+            @rtype: list of tagging.Tag
+            """
+        # without if-construct sqlite3 barfs on AnonymousUser
+        if user.id:
+            qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
+        else:
+            qs = Q(is_public=True) & Q(is_current=True)
+
+        if cls:
+            tags = Tag.objects.usage_for_queryset(cls.objects.filter(qs), counts=True)
+        else:
+            tags = Tag.objects.usage_for_queryset(
+                                                  repository.models.Data.objects.filter(qs & Q(is_approved=True)), counts=True)
+            tags.extend(Tag.objects.usage_for_queryset(
+                        repository.models.Task.objects.filter(qs), counts=True))
+            tags.extend(Tag.objects.usage_for_queryset(
+                        repository.models.Solution.objects.filter(qs), counts=True))
+
+        current = {}
+        for t in tags:
+            if not t.name in current:
+                current[t.name] = t
+            else:
+                current[t.name].count += t.count
+
+        tags = current.values()
+        if tags:
+            cloud = calculate_cloud(tags, steps=2)
+            random.seed(hash(cls)+len(tags))
+            random.shuffle(cloud)
+        else:
+            cloud = None
+        return cloud
+
+    @classmethod
     def get_current_tagged_items(cls, user, tag):
         """Get current items with specific tag.
 
@@ -291,8 +378,62 @@ class Repository(models.Model):
         return obj
 
     @classmethod
-    def set_current(cls, obj):
-        repository.util.set_current(cls, obj)
+    def set_current(klass, cur):
+        """Set the latest version of the item identified by given obj to be the current one.
+
+            @param cur: item to set
+            @type object: repository object
+            @return: the current item or None
+            @rtype: repository.Data/Task/Solution
+            """
+
+        # handle deleted case first
+        if cur.is_deleted:
+            # we did not delete the current version of the object but an older one
+            # so just return current version of the object which must exist
+            if not cur.is_current:
+                obj=klass.objects.get(slug=cur.slug, is_current=True)
+                return obj
+
+            # else we are deleting the most current version
+            cur.is_current=False
+            cur.save(silent_update=True)
+
+            new_cur = klass.objects.filter(slug=cur.slug,
+                    is_deleted=False).order_by('-version')
+            if new_cur.count():
+                prev = cur
+                cur=new_cur[0]
+                cur.is_current=True
+                cur.save(silent_update=True)
+            else:
+                return None
+        else:
+            prev = klass.objects.get(slug=cur.slug, is_current=True)
+
+        rklass = eval('repository.models.' + klass.__name__ + 'Rating')
+        try:
+            rating = rklass.objects.get(user=cur.user, repository=prev)
+            rating.repository = cur
+            rating.save()
+        except rklass.DoesNotExist:
+            pass
+        cur.rating_avg = prev.rating_avg
+        cur.rating_avg_interest = prev.rating_avg_interest
+        cur.rating_avg_doc = prev.rating_avg_doc
+        cur.rating_votes = prev.rating_votes
+        cur.hits = prev.hits
+        cur.downloads = prev.downloads
+
+        Comment.objects.filter(object_pk=prev.pk).update(object_pk=cur.pk)
+
+        # this should be atomic:
+        prev.is_current = False
+        prev.save(silent_update=True)
+        cur.is_current = True
+        cur.save(silent_update=True)
+
+        return cur
 
     def get_initial_submission(self):
         return Repository.objects.get(slug__text=self.slug.text, version=1)
@@ -406,7 +547,7 @@ class Repository(models.Model):
         @return: if user can activate this
         @rtype: boolean
         """
-        if repository.util.dependent_entries_exist(self):
+        if self.dependent_entries_exist():
             return False
         return self.can_view(user)
 
@@ -423,7 +564,7 @@ class Repository(models.Model):
             return False
         # don't delete if this is last item and something depends on it
         #if self.__class__.objects.filter(slug=self.slug).count() == 1:
-        if repository.util.dependent_entries_exist(self):
+        if self.dependent_entries_exist():
             return False
         return True
 

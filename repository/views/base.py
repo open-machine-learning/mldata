@@ -32,7 +32,6 @@ import os
 from preferences.models import Preferences
 from repository.forms import *
 from repository.models import *
-import repository.util as util
 from settings import DATAPATH, CACHE_ROOT, MEDIA_ROOT
 import subprocess
 from tagging.models import Tag
@@ -41,7 +40,8 @@ import uuid
 import cPickle as pickle
 
 
-from repository.views.util import *
+from repository.views.util import get_versions_paginator, get_page, get_per_page
+from repository.views.util import get_tag_clouds, sendfile
 
 def response_for(request, klass, name, info_dict):
     return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict,
@@ -100,7 +100,7 @@ def delete(request, klass, id):
     if not obj.can_delete(request.user):
         return HttpResponseForbidden()
     obj.is_deleted = True
-    obj.save()
+    obj.save(silent_update=True)
 
     current = klass.set_current(obj)
     if current:
@@ -147,6 +147,8 @@ def download(request, klass, slug, type='plain'):
         if not fileobj: # maybe no file attached to this item
             raise Http404
         if format != 'h5': # only convert h5 files
+            raise Http404
+        if not ml2h5.fileformat.can_convert_h5_to(type, self.get_data_filename()):
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         prefix, dummy = os.path.splitext(os.path.basename(obj.file.name))

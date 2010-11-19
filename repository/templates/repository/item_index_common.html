@@ -95,8 +95,8 @@
 				<dt>{% trans "Download:" %}
 				<span class="index_plain">
                     {% if object.has_h5 %}
-						<a href="{% url repository.views.data.download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-						<a href="{% url repository.views.data.download_xml object.slug %}">{% trans "XML" %}</a>
+						<a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url data_download_xml object.slug %}">{% trans "XML" %}</a>
 						<a{% if object.can_convert_to_csv %} href="{% url data_download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
 						<a{% if object.can_convert_to_arff %} href="{% url data_download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
 						<a{% if object.can_convert_to_libsvm %} href="{% url data_download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>

@@ -1,9 +1,8 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 
-from repository.models import Repository
-from repository.models import Rating
-from repository.models import FixedLicense
+import repository
+from repository.models import Repository, Rating, FixedLicense
 
 from tagging.fields import TagField
 from task import Task
@@ -66,6 +65,15 @@ class Solution(Repository):
     def get_related_results(self):
         from repository.models.solution import Result
         return Result.objects.filter(solution=self.pk)
+
+    def dependent_entries_exist(self):
+        """Check whether there exists an object which depends on self.
+
+        for Solution objects, checks whether there exists a Result object.
+        """
+        if Result.objects.filter(solution__slug=self.slug).count() > 0:
+            return True
+        return False
 
 class SolutionRating(Rating):
     """Rating for a Solution item."""

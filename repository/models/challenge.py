@@ -2,9 +2,8 @@ from django.db import models
 from django.db.models import Q
 from django.core.urlresolvers import reverse
 
-from repository.models import Repository
-from repository.models import Rating
-from repository.models import FixedLicense
+import repository
+from repository.models import Repository, Rating, FixedLicense
 from task import Task
 
 from tagging.fields import TagField
@@ -49,8 +48,17 @@ class Challenge(Repository):
         return self.task.filter(qs)
 
     def get_related_solutions(self):
-        from repository.models.solution import Result
-        return Result.objects.filter(solution=self.pk)
+        return repository.models.solution.Result.objects.filter(solution=self.pk)
+
+    def dependent_entries_exist(self):
+        """Check whether there exists an object which depends on self.
+
+        for Challenge objects, checks whether there exists a Result object.
+        """
+        if repository.models.solution.Result.objects.filter(challenge__slug=self.slug).count() > 0:
+            return True
+
+        return False
 
 class ChallengeRating(Rating):
     """Rating for a Challenge item."""

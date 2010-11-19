@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.mail import mail_admins
+import repository
 from repository.models import License, Repository
 
 from settings import DATAPATH, MEDIA_ROOT
@@ -136,6 +137,15 @@ class Data(Repository):
             self.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
 
         self.save()
+
+    def dependent_entries_exist(self):
+        """Check whether there exists an object which depends on self.
+
+        For Data objects, checks whether there exists a Task object,
+        """
+        if repository.models.Task.objects.filter(data__slug=self.slug).count() > 0:
+            return True
+        return False
 
     def attach_file(self, file_object):
         self.file = file_object

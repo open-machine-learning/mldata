@@ -59,7 +59,7 @@ def get_tag_clouds(request):
     clouds = { 'Data': None, 'Task': None, 'Solution': None, 'Challenge' : None}
     for k in clouds.iterkeys():
         klass = eval(k)
-        clouds[k] = util.get_tag_cloud(klass, request.user)
+        clouds[k] = klass.get_tag_cloud(request.user)
     return clouds
 
 ###############################################################################

@@ -4,12 +4,10 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 
 
-from settings import TASKPATH
+from settings import TASKPATH, MEDIA_ROOT
 
-from repository.models import Slug
-from repository.models import Repository
-from repository.models import Rating
-from repository.models import FixedLicense
+import repository
+from repository.models import Slug, Repository, Rating, FixedLicense
 
 from tagging.fields import TagField
 from tagging.models import Tag
@@ -21,7 +19,6 @@ from utils import slugify
 
 import os
 import ml2h5
-from settings import MEDIA_ROOT
 
 class Task(Repository):
     """Repository item Task.
@@ -154,6 +151,15 @@ class Task(Repository):
 
     def get_extract(self):
         return ml2h5.task.get_extract(os.path.join(MEDIA_ROOT, self.file.name))
+
+    def dependent_entries_exist(self):
+        """Check whether there exists an object which depends on self.
+
+        for Task objects, checks whether there exists a Challenge or Result object.
+        """
+        if repository.models.Challenge.objects.filter(task__slug=self.slug).count() > 0:
+            return True
+        return False
 
 
 class TaskRating(Rating):
