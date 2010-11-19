@@ -231,6 +231,9 @@ class Repository(models.Model):
     def get_tags(self):
         return self.tags.split(TAG_SPLITSTR)
 
+    def has_tags(self):
+        return self.tags
+
     @classmethod
     def get_recent(cls, user):
         """Get recently changed items.

@@ -145,7 +145,6 @@ def download(request, klass, slug, type='plain'):
             ctype = 'application/x-hdf'
         else:
             ctype = 'application/octet-stream'
-
     else:
         if not fileobj: # maybe no file attached to this item
             raise Http404

@@ -41,7 +41,7 @@
 				<dt>{% trans "License:" %}
 				<span class="index_plain"><a href="{{ object.license.url }}">{{ object.license.name }}</a></span>
 				</dt>
-				{% if object.get_tags %}<dt>{% trans "Tags:" %}
+				{% if object.has_tags %}<dt>{% trans "Tags:" %}
 				{% ifequal klass 'Data' %}
 				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url data_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
