@@ -148,7 +148,7 @@ def download(request, klass, slug, type='plain'):
             raise Http404
         if format != 'h5': # only convert h5 files
             raise Http404
-        if not ml2h5.fileformat.can_convert_h5_to(type, self.get_data_filename()):
+        if not ml2h5.fileformat.can_convert_h5_to(type, obj.get_data_filename()):
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         prefix, dummy = os.path.splitext(os.path.basename(obj.file.name))
@@ -511,94 +511,117 @@ def edit(request, klass, id):
     return response_for(request, klass, 'item_edit', info_dict)
 
 @transaction.commit_on_success
-def fork(request, klass, id):
-    """Edit existing item given by slug or id and klass.
+def fork(request, klass, id)
+    """Create a new item of given klass.
 
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
     @type klass: either Data, Task or Solution
-    @param id: id of the item to activate
-    @type id: integer
     @return: user login page, item's view page or this page again on failed form validation
     @rtype: Django response
-    @raise Http404: if item couldn't be found or given klass is unexpected
+    @raise Http404: if given klass is unexpected
     """
-    prev = klass.get_object(id)
-    if not prev: raise Http404
-    prev.klass = klass.__name__
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
-    if not prev.can_edit(request.user):
-        return HttpResponseForbidden()
 
+    upload_limit = Preferences.objects.get(pk=1).max_data_size
     formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
-        request.POST['name'] = prev.name # cheat a little
-        form = formfunc(request.POST, request=request)
+        form = formfunc(request.POST, request.FILES, request=request)
+
+        # manual validation coz it's required for new, but not edited Data
+        if not request.FILES and klass == Data:
+            form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
+
+        # check whether file is too large
+        if klass == Data:
+            if len(request.FILES['file']) > upload_limit:
+                form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
 
         if form.is_valid():
-            next = form.save(commit=False)
-            next.pub_date = datetime.datetime.now()
-            next.slug = prev.slug
-            next.version = next.get_next_version()
-            next.user = request.user
-
-            if prev.is_public: # once public, always public
-                next.is_public = True
-            elif not form.cleaned_data['keep_private']:
-                next.is_public = True
-
-            if klass == Data:
-                next.format = prev.format
-                next.is_approved = prev.is_approved
-                next.file = prev.file
-                next.save()
-            elif klass == Task:
-                if 'file' in request.FILES:
-                    next.file = request.FILES['file']
-                    next.file.name = next.get_filename()
-                    filename = os.path.join(MEDIA_ROOT, prev.file.name)
-                    if os.path.isfile(filename):
-                        os.remove(filename)
-                else:
-                    next.file = prev.file
-
-                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                taskfile = {
-                    'train_idx': form.cleaned_data['train_idx'],
-                    'test_idx': form.cleaned_data['test_idx'],
-                    'input_variables': form.cleaned_data['input_variables'],
-                    'output_variables': form.cleaned_data['output_variables']
-                }
-                next.save(update_file=True, taskfile=taskfile)
-            elif klass == Solution:
-                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                next.save()
-            elif klass == Challenge:
-                next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                next.save()
+            new = form.save(commit=False)
+            new.pub_date = datetime.datetime.now()
+            try:
+                new.slug = new.make_slug()
+            except IntegrityError:
+                # looks quirky...
+                d = ErrorDict({'':
+                    _('The given name yields an already existing slug. Please try another name.')})
+                form.errors['name'] = d.as_ul()
             else:
-                raise Http404
+                new.version = 1
+                new.is_current = True
+                new.is_public = False
+                new.user = request.user
 
-            form.save_m2m() # for publications
-            klass.set_current(next)
-            return HttpResponseRedirect(next.get_absolute_slugurl())
+                if not form.cleaned_data['keep_private']:
+                    new.is_public = True
+
+                if klass == Data:
+                    new.file = request.FILES['file']
+                    new.num_instances = -1
+                    new.num_attributes = -1
+                    new.save()
+
+                    # InMemoryUploadedFile returns file-like object whereas
+                    # zipfile/tarfile modules used in get_uncompressed() require
+                    # filename (prior to python 2.7), so we have to save it to
+                    # disk, then rename, then save object again.
+                    name_old = os.path.join(MEDIA_ROOT, new.file.name)
+                    uncompressed = ml2h5.data.get_uncompressed(name_old)
+                    if uncompressed:
+                        os.remove(name_old)
+                        name_old = uncompressed
+
+                    new.format = ml2h5.fileformat.get(name_old)
+                    name_new = os.path.join(DATAPATH, new.get_filename())
+                    os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
+                    new.file.name = name_new
+                    new.save()
+                elif klass == Task:
+                    if 'file' in request.FILES:
+                        new.file = request.FILES['file']
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    taskfile = {
+                        'train_idx': (form.cleaned_data['train_idx']),
+                        'test_idx': (form.cleaned_data['test_idx']),
+                        'input_variables': form.cleaned_data['input_variables'],
+                        'output_variables': form.cleaned_data['output_variables']
+                    }
+                    new.save(update_file=True, taskfile=taskfile)
+                elif klass == Solution:
+                    #if 'score' in request.FILES:
+                    #    new.score = request.FILES['score']
+                    #    new.score.name = new.get_scorename()
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    new.save()
+                elif klass == Challenge:
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                    new.save()
+                    new.task=form.cleaned_data['task']
+                    new.save()
+                else:
+                    raise Http404
+                return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
-        form = formfunc(instance=prev, request=request)
-        if klass == Task:
-            form.prefill(os.path.join(MEDIA_ROOT, prev.file.name))
+        if default_arg:
+            form = formfunc(request=request, cur_data=default_arg)
+        else:
+            form = formfunc(request=request)
 
     info_dict = {
+        'klass': klass.__name__,
+        'uuid': uuid.uuid4(), # for upload progress bar
+        'url_new': request.path,
         'form': form,
-        'object': prev,
         'request': request,
-        'publication_form': PublicationForm(),
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
+        'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
-    return response_for(request, klass, 'item_edit', info_dict)
+    return response_for(request, klass, 'item_new', info_dict)
 
 def index(request, klass, my=False, order_by='-pub_date', filter_type=None):
     """Index/My page for section given by klass.
