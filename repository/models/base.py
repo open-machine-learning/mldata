@@ -422,9 +422,9 @@ class Repository(models.Model):
         if not ret:
             return False
         # don't delete if this is last item and something depends on it
-        if self.__class__.objects.filter(slug=self.slug).count() == 1:
-            if repository.util.dependent_entries_exist(self):
-                return False
+        #if self.__class__.objects.filter(slug=self.slug).count() == 1:
+        if repository.util.dependent_entries_exist(self):
+            return False
         return True
 
 
