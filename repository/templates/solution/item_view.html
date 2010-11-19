@@ -127,7 +127,7 @@ $(function() {
 		</dl>
 		<div>
 			{% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-			{% if can_edit %}{% trans "You can" %} <a href="{% solution_edit object.pk %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.{% endif %}
+			{% if can_edit %}{% trans "You can" %} <a href="{% url solution_edit object.pk %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.{% endif %}
 		</div>
 		</div><!-- /tabs-summary -->
 
@@ -171,9 +171,10 @@ $(function() {
 			<h3>Solution {{ object.name }} has been submitted to the following tasks: </h3>
 			{% paginator %}
 			<table>
-				<tr><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
+				<tr><th>Submitter</th><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
 				{% for o in page.object_list %}
 				<tr>
+					<td>{{ o.solution.user }}</td>
 					<td><a title="{{ o.task.summary }}" href="{{ o.task.get_absolute_slugurl }}">{{ o.task.name }}</a></td>
 					<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.solution.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.solution.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
 					<td>{{ o.aggregation_score }}</td>

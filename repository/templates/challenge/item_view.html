@@ -143,14 +143,15 @@ $(function() {
 			<h3>Solutions submitted to challenge {{ object.name }}</h3>
 			{% paginator %}
 			<table>
-				<tr><th>Solution</th><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
-				{% for object in page.object_list %}
+				<tr><th>Submitter</th><th>Solution</th><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
+				{% for o in page.object_list %}
 				<tr>
-					<td><a title="{{ object.solution.summary }}" href="{{ object.solution.get_absolute_slugurl }}">{{ object.solution.name }}</a></td>
-					<td><a title="{{ object.task.summary }}" href="{{ object.task.get_absolute_slugurl }}">{{ object.task.name }}</a></td>
-					<td>{% ifequal object.complex_result_type "Curve" %} <a href="{% url repository.views.solution.plot_single_curve object.pk 'large' %}"><img src="{% url repository.views.solution.plot_single_curve object.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
-					<td>{{ object.aggregation_score }}</td>
-					<td>{{ object.pub_date|date:"Y-m-d H:i" }}</td>
+					<td>{{ o.solution.user }}</td>
+					<td><a title="{{ o.solution.summary }}" href="{{ o.solution.get_absolute_slugurl }}">{{ o.solution.name }}</a></td>
+					<td><a title="{{ o.task.summary }}" href="{{ o.task.get_absolute_slugurl }}">{{ o.task.name }}</a></td>
+					<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.solution.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.solution.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
+					<td>{{ o.aggregation_score }}</td>
+					<td>{{ o.pub_date|date:"Y-m-d H:i" }}</td>
 				</tr>
 				{% endfor %}
 			</table>
