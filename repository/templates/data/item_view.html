@@ -133,7 +133,7 @@
             </dl>
             <div>
                 {% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-                {% trans "You can" %} <a href="{{ data_edit }}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.
+				{% if can_edit %}{% trans "You can" %} <a href="{% url data_edit object.pk %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.{% endif %}
             </div>
         </div><!-- /tabs-summary -->
 
