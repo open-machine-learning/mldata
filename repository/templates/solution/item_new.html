@@ -23,7 +23,18 @@ $(function() {
 
 	$('#tabs').tabs();
 
+	validate = function() {
+		error = false;
+		remove_error(['name']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+
+		return !error;
+	};
+
 	$('#form-new').submit(function() {
+		if (!validate()) return false;
+
 		if (!$('#id_keep_private').is(':checked')) {
 			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
 		}

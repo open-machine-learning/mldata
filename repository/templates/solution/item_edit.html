@@ -12,12 +12,6 @@ $(function() {
 	$('.cancel').click(function() {
 		window.history.back(-1);
 	});
-	$('#form-edit').submit(function() {
-		if ($('#id_keep_private').length != 0 && !$('#id_keep_private').is(':checked')) {
-			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
-		}
-		return true;
-	});
 
 	$('#tabs-publications select').removeAttr('multiple');
 	$('#tabs-publications select').prepend($("<option></option>").attr("value", 0).text('')); 
@@ -38,6 +32,25 @@ $(function() {
 
 
 	$('#tabs').tabs();
+
+	validate = function() {
+		error = false;
+		remove_error(['name']);
+
+		if (!$('#id_name').val()) error = append_error('name');
+
+		return !error;
+	};
+
+	$('#form-edit').submit(function() {
+		if (!validate()) return false;
+
+		if ($('#id_keep_private').length != 0 && !$('#id_keep_private').is(':checked')) {
+			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+		}
+		return true;
+	});
+
 });
 </script>
 {% endblock %}

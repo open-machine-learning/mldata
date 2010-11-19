@@ -12,12 +12,6 @@ $(function() {
 	$('.cancel').click(function() {
 		window.history.back(-1);
 	});
-	$('#form-edit').submit(function() {
-		if ($('#id_keep_private').length != 0 && !$('#id_keep_private').is(':checked')) {
-			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
-		}
-		return true;
-	});
 
 	$('#tabs-publications select').removeAttr('multiple');
 	$('#tabs-publications select').prepend($("<option></option>").attr("value", 0).text('')); 
@@ -38,6 +32,26 @@ $(function() {
 
 
 	$('#tabs').tabs();
+
+	validate = function() {
+		error = false;
+		remove_error(['input', 'output', 'performance_measure', 'performance_ordering', 'type', 'data']);
+
+		if (!$('#id_input').val()) error = append_error('input');
+		if (!$('#id_output').val()) error = append_error('output');
+		if (!$('#id_performance_measure').val()) error = append_error('performance_measure');
+		if (!$('#id_type').val()) error = append_error('type');
+		if (!$('#id_data').val()) error = append_error('data');
+
+		return !error;
+	};
+
+	$('#form-edit').submit(function() {
+		if ($('#id_keep_private').length != 0 && !$('#id_keep_private').is(':checked')) {
+			return window.confirm('{% trans "WARNING: You are about to make this item public, it cannot be made private again!" %}');
+		}
+		return true;
+	});
 
 	$('#id_type').change(function() {
 		type = $('#id_type').val();

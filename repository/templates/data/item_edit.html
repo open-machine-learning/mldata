@@ -38,6 +38,15 @@ $(function() {
 
 
 	$('#tabs').tabs();
+
+	validate = function () {
+		error = false;
+		remove_error(['name', 'license', 'file']);
+
+		if ($('#id_license').val() < 1) error = append_error('license');
+
+		return !error;
+	}
 });
 </script>
 {% endblock %}
