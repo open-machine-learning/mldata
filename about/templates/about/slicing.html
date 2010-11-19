@@ -11,17 +11,25 @@
   <p>When defining tasks, it is often useful to be able to define
   ranges of rows or columns. In particular, this applies to the
   definition of <it>Train Indices, Test Indices, Input Variables,
-  Output Variables</it>. Of course, you can just list the indices
+  Output Variables</it>. Since we are using python style indexing, all indices are <strong>zero-based</strong>.
+  Of course, you can just list the indices
   directly:</p>
   <pre>
-3,4,5,6,7,8,9
+0,1,2,3,4,5,6,7,8,9
   </pre>
   <p>But often, it would be more convenient to define ranges:</p>
   <pre>
-3:10
+0:10
   </pre>
   <p>where the range is defined in a left-closed, right-open interval
   [x,y).</p>
+
+  <p>
+  Note that we also supported a mixed syntax enumerations and slice-ranges, e.g.,
+  </p>
+  <pre>
+0:10,17,99,100:200
+  </pre>
 </div><!-- /in -->
 {% endblock %}
 
