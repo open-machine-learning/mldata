@@ -75,6 +75,18 @@ class Solution(Repository):
             return True
         return False
 
+    def can_edit(self, user):
+        """Can given user edit this item.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can activate this
+        @rtype: boolean
+        """
+        if self.dependent_entries_exist():
+            return False
+        return self.user==user
+
 class SolutionRating(Rating):
     """Rating for a Solution item."""
     repository = models.ForeignKey(Solution)
