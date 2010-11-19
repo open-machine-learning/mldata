@@ -43,6 +43,7 @@ class DataForm(RepositoryForm):
         """
         if kwargs.has_key('request'):
             kwargs.pop('request')
+
         super(RepositoryForm, self).__init__(*args, **kwargs)
 
 class DataReviewForm(forms.Form):

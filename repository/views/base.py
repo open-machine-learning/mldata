@@ -1,6 +1,11 @@
 import sys
-
 import datetime
+import subprocess
+import traceback
+import os
+import uuid
+import cPickle as pickle
+
 from django.template import RequestContext
 from django.core import serializers
 from django.core.cache import cache
@@ -24,24 +29,21 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response
 from django.utils import simplejson
 from django.utils.translation import ugettext as _
+
 import ml2h5.converter
 import ml2h5.data
 import ml2h5.fileformat
 import ml2h5.task
-import os
+
 from preferences.models import Preferences
 from repository.forms import *
 from repository.models import *
-from settings import DATAPATH, CACHE_ROOT, MEDIA_ROOT
-import subprocess
-from tagging.models import Tag
-import traceback
-import uuid
-import cPickle as pickle
-
-
 from repository.views.util import get_versions_paginator, get_page, get_per_page
 from repository.views.util import get_tag_clouds, sendfile
+from settings import DATAPATH, CACHE_ROOT, MEDIA_ROOT
+from tagging.models import Tag
+
+MEGABYTE = 1048576
 
 def response_for(request, klass, name, info_dict):
     return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict,
@@ -522,11 +524,13 @@ def fork(request, klass, id):
     @rtype: Django response
     @raise Http404: if given klass is unexpected
     """
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
+
     prev = klass.get_object(id)
     if not prev: raise Http404
     prev.klass = klass.__name__
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
+    prev.name+=' (forked)'
 
     upload_limit = Preferences.objects.get(pk=1).max_data_size
     formfunc = eval(klass.__name__ + 'Form')
@@ -608,7 +612,7 @@ def fork(request, klass, id):
                     raise Http404
                 return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
-        form = formfunc(request=request, prev=prev)
+        form = formfunc(request=request, instance=prev)
 
     info_dict = {
         'klass': klass.__name__,

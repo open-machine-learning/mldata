@@ -72,11 +72,13 @@ class TaskForm(RepositoryForm):
             request = kwargs.pop('request')
         else:
             request = None
+
         if kwargs.has_key('cur_data'):
             cur_slug = kwargs.pop('cur_data')
             cur_data = Data.get_object(cur_slug)
         else:
             cur_data = None
+
         # super needs to be called before to have attribute fields
         super(RepositoryForm, self).__init__(*args, **kwargs)
         if request:
@@ -124,10 +126,10 @@ class TaskForm(RepositoryForm):
         if name in self.cleaned_data:
             if not self.cleaned_data[name]:
                 return None
-	    if check_split_str(self.cleaned_data[name]): 
+        if check_split_str(self.cleaned_data[name]): 
                 return [int(x) for x in expand_split_str(self.cleaned_data[name])]
-	    else:
-		    raise ValidationError(_('Invalid format (example: 0,1,2:5,5 = 0,1,2,3,4,5).'))
+        else:
+            raise ValidationError(_('Invalid format (example: 0,1,2:5,5 = 0,1,2,3,4,5).'))
 
     def clean_train_idx(self):
         """Ensure train_idx are given as comma-seperated list of integers."""
@@ -145,5 +147,4 @@ class TaskForm(RepositoryForm):
         if 'output_variables' in self.cleaned_data:
             if not self.cleaned_data['output_variables']:
                 return None
-	    return self._clean_valid_inputformat('output_variables')
-
+        return self._clean_valid_inputformat('output_variables')

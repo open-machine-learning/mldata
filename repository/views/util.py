@@ -12,7 +12,6 @@ from preferences.models import Preferences
 
 NUM_HISTORY_PAGE = 20
 PER_PAGE_INTS = [10, 20, 50]
-MEGABYTE = 1048576
 
 def get_versions_paginator(request, obj):
     """Get a paginator for item versions.
