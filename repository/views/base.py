@@ -5,6 +5,7 @@ import traceback
 import os
 import uuid
 import cPickle as pickle
+import time
 
 from django.template import RequestContext
 from django.core import serializers
@@ -154,7 +155,10 @@ def download(request, klass, slug, type='plain'):
             raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         prefix, dummy = os.path.splitext(os.path.basename(obj.file.name))
-        fname_export = os.path.join(CACHE_ROOT, prefix + '.' + type)
+        # create unique export filename
+        fname_export = os.path.join(CACHE_ROOT, prefix + '_' + repr(time.time()).replace('.','') + '.' + type)
+        # create humanly readable export filename
+        fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.' + type)
 
         if type == 'xml':
             if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
@@ -182,6 +186,7 @@ def download(request, klass, slug, type='plain'):
         else:
             ctype = 'application/' + type
         fileobj = File(open(fname_export, 'r'))
+        fileobj.name=fname_export_visible # use humanly readable name
 
     if not fileobj: # something went wrong
         raise Http404

@@ -138,11 +138,6 @@ def sendfile(fileobj, ctype):
     @rtype: HTTPResponse
     @raise: Http404 on OSError
     """
-    # fails to work when OpenID Middleware is activated
-#    filename = os.path.join(MEDIA_ROOT, fileobj.name)
-#    wrapper = FileWrapper(file(filename))
-#    response = HttpResponse(wrapper, content_type='application/octet-stream')
-    # not sure if this alternative is a memory hog...
     response = HttpResponse()
     response['Content-Type'] = ctype
     try:
