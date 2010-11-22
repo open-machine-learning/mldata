@@ -65,17 +65,18 @@ def activate(request, klass, id):
     @raise Http404: if item couldn't be found
     """
     if not request.user.is_authenticated():
-        func = eval(klass.__name__.lower() + '_activate')
-        url = reverse(func, args=[id])
+        url = reverse(klass.__name__.lower() + '_activate', args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = klass.get_object(id)
     if not obj: raise Http404
-    if obj.can_activate(request.user):
-        obj.is_public = True
-        obj.save()
-        obj.current=klass.set_current(obj)
-        obj.save()
+    if not obj.can_activate(request.user):
+        return HttpResponseForbidden()
+
+    obj.is_public = True
+    obj.save()
+    obj.current=klass.set_current(obj)
+    obj.save()
 
     return HttpResponseRedirect(obj.get_absolute_slugurl())
 
@@ -94,14 +95,14 @@ def delete(request, klass, id):
     @raise Http404: if item couldn't be found
     """
     if not request.user.is_authenticated():
-        func = eval(klass.__name__.lower() + '_delete')
-        url = reverse(func, args=[id])
+        url = reverse(klass.__name__.lower() + '_delete', args=[id])
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = klass.get_object(id)
     if not obj: raise Http404
     if not obj.can_delete(request.user):
         return HttpResponseForbidden()
+
     obj.is_deleted = True
     obj.save(silent_update=True)
 
@@ -109,7 +110,7 @@ def delete(request, klass, id):
     if current:
         return HttpResponseRedirect(current.get_absolute_slugurl())
 
-    return HttpResponseRedirect(reverse('repository.views.'+klass.__name__.lower() + '.my'))
+    return HttpResponseRedirect(reverse(klass.__name__.lower() + '_my'))
 
 def download(request, klass, slug, type='plain'):
     """Download file relating to item given by id and klass and possibly type.

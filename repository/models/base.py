@@ -532,6 +532,8 @@ class Repository(models.Model):
         """
         if not self.is_owner(user):
             return False
+        if self.dependent_entries_exist():
+            return False
         if not self.is_public:
             return True
         if not self.is_current:
