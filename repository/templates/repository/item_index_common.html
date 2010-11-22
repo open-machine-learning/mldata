@@ -95,6 +95,13 @@
 				<dt>{% trans "Download:" %}
 				<span class="index_plain">
                     {% if object.has_h5 %}
+                        {% ifequal klass 'Task' %}
+						<a href="{% url task_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url task_download_xml object.slug %}">{% trans "XML" %}</a>
+						<a{% if object.can_convert_to_matlab %} href="{% url task_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+						<a{% if object.can_convert_to_octave %} href="{% url task_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+						{% endifequal %}
+                        {% ifequal klass 'Data' %}
 						<a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
 						<a href="{% url data_download_xml object.slug %}">{% trans "XML" %}</a>
 						<a{% if object.can_convert_to_csv %} href="{% url data_download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
@@ -102,6 +109,7 @@
 						<a{% if object.can_convert_to_libsvm %} href="{% url data_download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
 						<a{% if object.can_convert_to_matlab %} href="{% url data_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
 						<a{% if object.can_convert_to_octave %} href="{% url data_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+						{% endifequal %}
 					{% else %}
                         {% ifequal klass 'Task' %}
 						<a href="{% url task_download object.slug %}">Task File ({{ object.file.size|filesizeformat }})</a>

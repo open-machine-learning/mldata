@@ -150,8 +150,13 @@ def download(request, klass, slug, type='plain'):
             raise Http404
         if format != 'h5': # only convert h5 files
             raise Http404
-        if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, obj.get_data_filename()):
-            raise Http404
+
+        if klass == Data:
+            if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, obj.get_data_filename()):
+                raise Http404
+        elif klass == Task:
+            if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, obj.get_task_filename()):
+                raise Http404
         fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
         prefix, dummy = os.path.splitext(os.path.basename(obj.file.name))
         # create unique export filename

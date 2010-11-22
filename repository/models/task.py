@@ -160,6 +160,13 @@ class Task(Repository):
             return True
         return False
 
+    def has_h5(self):
+        return self.get_task_filename().endswith('.h5')
+    def can_convert_to_octave(self):
+        return ml2h5.fileformat.can_convert_h5_to('octave', self.get_task_filename())
+    def can_convert_to_matlab(self):
+        return ml2h5.fileformat.can_convert_h5_to('matlab', self.get_task_filename())
+
 
 class TaskRating(Rating):
     """Rating for a Task item."""

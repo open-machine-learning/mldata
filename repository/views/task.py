@@ -77,6 +77,14 @@ def download(request, slug):
     """
     return base.download(request, Task, slug)
 
+def download_xml(request, slug):
+    return base.download(request, Task, slug, 'xml')
+
+def download_matlab(request, slug):
+    return base.download(request, Task, slug, 'matlab')
+
+def download_octave(request, slug):
+    return base.download(request, Task, slug, 'octave')
 
 #def predict(request, slug):
 #    """AJAX: Evaluate results for Task given by id.
