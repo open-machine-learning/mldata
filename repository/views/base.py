@@ -390,13 +390,13 @@ def new(request, klass, default_arg=None):
                     if 'file' in request.FILES:
                         new.file = request.FILES['file']
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    taskfile = {
+                    taskinfo = {
                         'train_idx': (form.cleaned_data['train_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),
                         'input_variables': form.cleaned_data['input_variables'],
                         'output_variables': form.cleaned_data['output_variables']
                     }
-                    new.save(update_file=True, taskfile=taskfile)
+                    new.save(update_file=True, taskinfo=taskinfo)
                 elif klass == Solution:
                     #if 'score' in request.FILES:
                     #    new.score = request.FILES['score']

@@ -109,16 +109,16 @@ class Task(Repository):
         if not self.slug_id:
             raise AttributeError, 'Attribute slug is not set!'
 
-        return ml2h5.fileformat.get_filename(self.slug.text)
+        return ml2h5.fileformat.get_filename('%s_v%d' % (self.slug.text, self.version))
 
 
-    def save(self, update_file=False, taskfile=None, silent_update=False):
+    def save(self, update_file=False, taskinfo=None, silent_update=False):
         """Save Task item, also updates Task file.
 
         @param update_file: if Task file should be updated on save
         @type update_file: boolean
-        @param taskfile: data to write to Task file
-        @type taskfile: dict with indices train_idx, test_idx, input_variables, output_variables
+        @param taskinfo: data to write to Task file
+        @type taskinfo: dict with indices train_idx, test_idx, input_variables, output_variables
         """
         is_new = False
         if not self.file.name:
@@ -130,9 +130,8 @@ class Task(Repository):
         else:
             super(Task, self).save()
 
-        if update_file or is_new:
-            fname = os.path.join(MEDIA_ROOT, self.file.name)
-            ml2h5.task.create(fname, self, taskfile)
+        fname = os.path.join(MEDIA_ROOT, self.file.name)
+        ml2h5.task.update_or_create(fname, self, taskinfo)
 
     def get_completeness_properties(self):
         return ['tags', 'description', 'summary', 'urls', 'publications',
