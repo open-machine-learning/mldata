@@ -104,7 +104,7 @@
         <div id="tabs-summary">
             <dl id="news">
                 <dt>{% trans "Summary" %}</dt>
-                <dd>{{ object.summary|edit_if_empty|markdown:safe }}</dd>
+                <dd>{{ object.summary|edit_if_empty|markdown:"safe" }}</dd>
                 <dt>{% trans "License" %}</dt>
                 <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
                 <dt>{% trans "Tags" %}</dt>
@@ -145,7 +145,7 @@
             <dt>{% trans "Version" %} mldata</dt>
             <dd>{{ extract.mldata }}</dd>
             <dt>{% trans "Comment" %}</dt>
-            <dd>{{ extract.comment|markdown:safe }}</dd>
+            <dd>{{ extract.comment|markdown:"safe" }}</dd>
             <dt>{% trans "Names" %}</dt>
             <dd>{% for name in extract.names %}{{ name }},{% endfor %}</dd>
             {% if extract.types %}
@@ -166,19 +166,19 @@
 
         <div id="tabs-more"><dl id="news">
             <dt>{% trans "Description" %}</dt>
-            <dd>{{ object.description|edit_if_empty|markdown:safe }}</dd>
+            <dd>{{ object.description|edit_if_empty|markdown:"safe" }}</dd>
             <dt>{% trans "URLs" %}</dt>
             <dd>{{ object.urls|edit_if_empty }}</dd>
             <dt>{% trans "Publications" %}</dt>
             <dd><ul>{% for p in object.publications.all %}
-                    <li>{{ p.content|edit_if_empty|markdown:safe }}</li>
+                    <li>{{ p.content|edit_if_empty|markdown:"safe" }}</li>
                 {% endfor %}</ul></dd>
             <dt>{% trans "Data Source" %}</dt>
             <dd>{{ object.source }}</dd>
             <dt>{% trans "Measurement Details" %}</dt>
-            <dd>{{ object.measurement_details|markdown:safe }}</dd>
+            <dd>{{ object.measurement_details|markdown:"safe" }}</dd>
             <dt>{% trans "Usage Scenario" %}</dt>
-            <dd>{{ object.usage_scenario|markdown:safe }}</dd>
+            <dd>{{ object.usage_scenario|markdown:"safe" }}</dd>
         </dl></div><!-- /tabs-more -->
 
         <div id="tabs-history">

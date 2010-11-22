@@ -92,15 +92,15 @@ $(function() {
 
 		<div id="tabs-summary"><dl id="news">
 			<dt>{% trans "Summary" %}</dt>
-			<dd>{{ object.summary|edit_if_empty|markdown:safe }}</dd>
+			<dd>{{ object.summary|edit_if_empty|markdown:"safe" }}</dd>
 			<dt>{% trans "License" %}</dt>
 			<dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
 			<dt>{% trans "Tags" %}</dt>
 			<dd>{% for tag in object.get_tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
 			<dt>{% trans "Input format" %}</dt>
-			<dd>{{ object.input|markdown:safe }}</dd>
+			<dd>{{ object.input|markdown:"safe" }}</dd>
 			<dt>{% trans "Output format" %}</dt>
-			<dd>{{ object.output|markdown:safe }}</dd>
+			<dd>{{ object.output|markdown:"safe" }}</dd>
 			<dt>{% trans "Performance Measure" %}</dt>
 			<dd>{{ object.performance_measure }}<br />
 			<dt>{% trans "Type" %}</dt>
@@ -145,12 +145,12 @@ $(function() {
 
 		<div id="tabs-more"><dl id="news">
 			<dt>{% trans "Description" %}</dt>
-			<dd>{{ object.description|edit_if_empty|markdown:safe }}</dd>
+			<dd>{{ object.description|edit_if_empty|markdown:"safe" }}</dd>
 			<dt>{% trans "URLs" %}</dt>
 			<dd>{{ object.urls|edit_if_empty }}</dd>
 			<dt>{% trans "Publications" %}</dt>
 			<dd><ul>{% for p in object.publications.all %}
-				<li>{{ p.content|edit_if_empty|markdown:safe }}</li>
+				<li>{{ p.content|edit_if_empty|markdown:"safe" }}</li>
 			{% endfor %}</ul></dd>
 		</dl></div><!-- /tabs-more -->
 
