@@ -111,27 +111,58 @@ class Task(Repository):
 
         return ml2h5.fileformat.get_filename('%s_v%d' % (self.slug.text, self.version))
 
+    def create_next_file(self, prev, file):
+        if file:
+            self.file = file
+            self.approve()
+        else:
+            prev_filename = os.path.join(MEDIA_ROOT, prev.file.name)
+            self.file = prev.file
+            self.file.name = os.path.join(TASKPATH, self.get_filename())
+            next_filename = os.path.join(MEDIA_ROOT, self.file.name)
+            os.link(prev_filename, next_filename)
 
-    def save(self, update_file=False, taskinfo=None, silent_update=False):
+    def approve(self):
+        fname_orig=self.file.name
+        format = ml2h5.fileformat.get(fname_orig)
+        fname_h5 = ml2h5.fileformat.get_filename(fname_orig)
+
+        if not format in ('matlab','h5','octave'):
+            raise ml2h5.converter.ConversionError, 'Format not supported (only matlab, \
+                    octave, h5) are supported'
+        try:
+            c = ml2h5.converter.Converter(fname_orig, fname_h5, format_in=format)
+            c.run(verify=False)
+        except ml2h5.converter.ConversionError, error:
+            if self.tags:
+                self.tags += ', conversion_failed'
+            else:
+                self.tags = 'conversion_failed'
+
+            self.save()
+            raise ml2h5.converter.ConversionError(error.value)
+
+        self.file.name = os.path.join(TASKPATH, self.get_filename())
+        self.save()
+
+        try:
+            os.remove(fname_orig)
+        except:
+            pass
+
+    def save(self, taskinfo=None, silent_update=False):
         """Save Task item, also updates Task file.
 
-        @param update_file: if Task file should be updated on save
-        @type update_file: boolean
         @param taskinfo: data to write to Task file
         @type taskinfo: dict with indices train_idx, test_idx, input_variables, output_variables
         """
-        is_new = False
-        if not self.file.name:
-            self.file.name = os.path.join(TASKPATH, self.get_filename())
-            is_new = True
+        self.file.name = os.path.join(TASKPATH, self.get_filename())
 
-        if silent_update:
-            super(Task, self).save(silent_update=True)
-        else:
-            super(Task, self).save()
+        super(Task, self).save(silent_update)
 
-        fname = os.path.join(MEDIA_ROOT, self.file.name)
-        ml2h5.task.update_or_create(fname, self, taskinfo)
+        if taskinfo:
+            fname = os.path.join(MEDIA_ROOT, self.file.name)
+            ml2h5.task.update_or_create(fname, self, taskinfo)
 
     def get_completeness_properties(self):
         return ['tags', 'description', 'summary', 'urls', 'publications',

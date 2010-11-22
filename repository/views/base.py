@@ -347,7 +347,7 @@ def new(request, klass, default_arg=None):
             form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
 
         # check whether file is too large
-        if klass == Data:
+        if klass in (Data, Task) and 'file' in request.FILES:
             if len(request.FILES['file']) > upload_limit:
                 form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
 
@@ -392,16 +392,18 @@ def new(request, klass, default_arg=None):
                     new.file.name = name_new
                     new.save()
                 elif klass == Task:
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     if 'file' in request.FILES:
                         new.file = request.FILES['file']
-                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                        new.save()
+                        new.approve() #
                     taskinfo = {
                         'train_idx': (form.cleaned_data['train_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),
                         'input_variables': form.cleaned_data['input_variables'],
                         'output_variables': form.cleaned_data['output_variables']
                     }
-                    new.save(update_file=True, taskinfo=taskinfo)
+                    new.save(taskinfo=taskinfo)
                 elif klass == Solution:
                     #if 'score' in request.FILES:
                     #    new.score = request.FILES['score']
@@ -480,15 +482,6 @@ def edit(request, klass, id):
                 next.file = prev.file
                 next.save()
             elif klass == Task:
-                if 'file' in request.FILES:
-                    next.file = request.FILES['file']
-                    next.file.name = next.get_filename()
-                    filename = os.path.join(MEDIA_ROOT, prev.file.name)
-                    if os.path.isfile(filename):
-                        os.remove(filename)
-                else:
-                    next.file = prev.file
-
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 taskinfo = {
                     'train_idx': form.cleaned_data['train_idx'],
@@ -496,7 +489,11 @@ def edit(request, klass, id):
                     'input_variables': form.cleaned_data['input_variables'],
                     'output_variables': form.cleaned_data['output_variables']
                 }
-                next.save(update_file=True, taskinfo=taskinfo)
+                file = None
+                if 'file' in request.FILES:
+                    file = request.FILES['file']
+                next.create_next_file(prev, file)
+                next.save(taskinfo=taskinfo)
             elif klass == Solution:
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
@@ -555,7 +552,7 @@ def fork(request, klass, id):
             form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
 
         # check whether file is too large
-        if klass == Data:
+        if klass in (Data, Task) and 'file' in request.FILES:
             if len(request.FILES['file']) > upload_limit:
                 form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
 
@@ -609,7 +606,7 @@ def fork(request, klass, id):
                         'input_variables': form.cleaned_data['input_variables'],
                         'output_variables': form.cleaned_data['output_variables']
                     }
-                    new.save(update_file=True, taskinfo=taskinfo)
+                    new.save(taskinfo=taskinfo)
                 elif klass == Solution:
                     #if 'score' in request.FILES:
                     #    new.score = request.FILES['score']

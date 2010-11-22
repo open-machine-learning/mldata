@@ -455,10 +455,7 @@ class Repository(models.Model):
         if not self.slug_id:
             self.slug = self.make_slug()
 
-        silent_update =  kwargs.has_key('silent_update')
-        if silent_update:
-            kwargs.pop('silent_update')
-        else:
+        if not kwargs.has_key('silent_update') or not kwargs.pop('silent_update'):
             self.pub_date = dt.now()
 
         super(Repository, self).save()

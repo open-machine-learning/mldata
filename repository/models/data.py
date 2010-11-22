@@ -133,7 +133,6 @@ class Data(Repository):
             (self.num_instances, self.num_attributes) = ml2h5.data.get_num_instattr(fname_h5)
             # keep original file for the time being
             #os.remove(fname_orig)
-            # for some reason, FileField saves file.name as DATAPATH/<basename>
             self.file.name = os.path.join(DATAPATH, fname_h5.split(os.path.sep)[-1])
 
         self.save()
