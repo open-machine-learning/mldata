@@ -34,5 +34,5 @@ urlpatterns = patterns('',
     url(r'^download/libsvm/([A-Za-z0-9-_]+)/$', views.data.download_libsvm, name='data_download_libsvm'),
     url(r'^download/matlab/([A-Za-z0-9-_]+)/$', views.data.download_matlab, name='data_download_matlab'),
     url(r'^download/octave/([A-Za-z0-9-_]+)/$', views.data.download_octave, name='data_download_octave'),
-    url(r'^rate/(?P<id>\d+)/$', views.data.rate, name='repository_data_rate'),
+    url(r'^rate/(?P<id>\d+)/$', views.data.rate, name='data_rate'),
 )

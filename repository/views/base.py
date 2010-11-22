@@ -1,6 +1,5 @@
 import sys
 import datetime
-import subprocess
 import traceback
 import os
 import uuid
@@ -46,7 +45,14 @@ from tagging.models import Tag
 
 MEGABYTE = 1048576
 
-def response_for(request, klass, name, info_dict):
+def _download_cleanup(fname_export):
+    """ erase exported file """
+    try:
+        os.remove(fname_export)
+    except:
+        pass
+
+def _response_for(request, klass, name, info_dict):
     return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict,
             context_instance=RequestContext(request))
 
@@ -125,21 +131,20 @@ def download(request, klass, slug, type='plain'):
     @rtype: Django response
     @raise Http404: if item couldn't be retrieved or given klass is unexpected or file doesn't exist or a conversion error occurred
     """
+    if not klass in (Data, Task):
+        raise Http404
+
     obj = klass.get_object(slug)
     if not obj: raise Http404
+    if not obj.file:
+        raise Http404
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
     fname_export = None
-    if klass == Data or klass == Task:
-        fileobj = obj.file
-        fname = obj.file.name
-    #elif klass == Solution:
-    #    fileobj = obj.score
-    #    fname = obj.score.name
-    else:
-        raise Http404
-    format = ml2h5.fileformat.get(os.path.join(MEDIA_ROOT, fname))
+    fileobj = obj.file
+    fname = os.path.join(MEDIA_ROOT, obj.file.name)
+    format = ml2h5.fileformat.get(fname)
 
     if type == 'plain':
         if format == 'h5':
@@ -147,42 +152,28 @@ def download(request, klass, slug, type='plain'):
         else:
             ctype = 'application/octet-stream'
     else:
-        if not fileobj: # maybe no file attached to this item
-            raise Http404
         if format != 'h5': # only convert h5 files
             raise Http404
 
-        if klass == Data:
-            if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, obj.get_data_filename()):
-                raise Http404
-        elif klass == Task:
-            if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, obj.get_task_filename()):
-                raise Http404
-        fname_h5 = os.path.join(MEDIA_ROOT, obj.file.name)
+        if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, fname):
+            raise Http404
+
         prefix, dummy = os.path.splitext(os.path.basename(obj.file.name))
         # create unique export filename
         fname_export = os.path.join(CACHE_ROOT, prefix + '_' + repr(time.time()).replace('.','') + '.' + type)
         # create humanly readable export filename
         fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.' + type)
 
-        if type == 'xml':
-            if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
-                cmd = 'h5dump --xml ' + fname_h5 + ' > ' + fname_export
-                if not subprocess.call(cmd, shell=True) == 0:
-                    mail_admins('Download: Failed conversion of %s to XML' % (fname_h5), cmd)
-                    download_cleanup(fname_export)
-                    raise Http404
-        elif type in ('csv', 'arff', 'libsvm', 'matlab', 'octave'):
-            if not os.path.exists(fname_export) or _is_newer(fname_export, fname_h5):
-                try:
-                    c = ml2h5.converter.Converter(fname_h5, fname_export, format_out=type)
-                    c.run()
-                except ml2h5.converter.ConversionError, e:
-                    subject = 'Download: Failed conversion of %s to %s' % (fname_h5, type)
-                    body = traceback.format_exc() + "\n" + str(e)
-                    mail_admins(subject, body)
-                    download_cleanup(fname_export)
-                    raise Http404
+        if type in ('xml', 'csv', 'arff', 'libsvm', 'matlab', 'octave'):
+            try:
+                c = ml2h5.converter.Converter(fname, fname_export, format_out=type)
+                c.run()
+            except ml2h5.converter.ConversionError, e:
+                subject = 'Download: Failed conversion of %s to %s' % (fname, type)
+                body = traceback.format_exc() + "\n" + str(e)
+                mail_admins(subject, body)
+                _download_cleanup(fname_export)
+                raise Http404
         else:
             raise Http404
 
@@ -193,22 +184,10 @@ def download(request, klass, slug, type='plain'):
         fileobj = File(open(fname_export, 'r'))
         fileobj.name=fname_export_visible # use humanly readable name
 
-    if not fileobj: # something went wrong
-        raise Http404
-
     response = sendfile(fileobj, ctype)
-
-    fileobj.close()
-    download_cleanup(fname_export)
+    _download_cleanup(fname_export)
     obj.increase_downloads()
     return response
-
-def download_cleanup(fname_export):
-    """ erase exported file """
-    try:
-        os.remove(fname_export)
-    except:
-        pass
 
 @transaction.commit_on_success
 def view(request, klass, slug_or_id, version=None):
@@ -224,19 +203,19 @@ def view(request, klass, slug_or_id, version=None):
     @rtype: Django response
     @raise Http404: if item couldn't be found
     """
+    kname=klass.__name__.lower()
     obj = klass.get_object(slug_or_id, version)
     if not obj: raise Http404
     if not obj.can_view(request.user):
         return HttpResponseForbidden()
     if not obj.check_is_approved():
-        return HttpResponseRedirect(reverse('repository.views.data.new_review', args=[obj.slug]))
+        return HttpResponseRedirect(reverse(kname + '_review', args=[obj.slug]))
 
     current = obj.update_current_hits()
 
     # need tags in list
     versions = get_versions_paginator(request, obj)
 
-    kname=klass.__name__.lower()
     info_dict = {
         'object': obj,
         'request': request,
@@ -320,7 +299,7 @@ def view(request, klass, slug_or_id, version=None):
     if hasattr(obj, 'data_heldback') and obj.data_heldback:
         info_dict['can_view_heldback'] = obj.data_heldback.can_view(request.user)
     info_dict['extract'] = obj.get_extract()
-    return response_for(request, klass, 'item_view', info_dict)
+    return _response_for(request, klass, 'item_view', info_dict)
 
 
 @transaction.commit_on_success
@@ -436,7 +415,7 @@ def new(request, klass, default_arg=None):
         'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
-    return response_for(request, klass, 'item_new', info_dict)
+    return _response_for(request, klass, 'item_new', info_dict)
 
 @transaction.commit_on_success
 def edit(request, klass, id):
@@ -490,10 +469,11 @@ def edit(request, klass, id):
                     'input_variables': form.cleaned_data['input_variables'],
                     'output_variables': form.cleaned_data['output_variables']
                 }
-                file = None
+                next.file = None
                 if 'file' in request.FILES:
-                    file = request.FILES['file']
-                next.create_next_file(prev, file)
+                    next.file = request.FILES['file']
+                next.save()
+                next.create_next_file(prev)
                 next.save(taskinfo=taskinfo)
             elif klass == Solution:
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
@@ -521,7 +501,7 @@ def edit(request, klass, id):
         'section': 'repository',
     }
 
-    return response_for(request, klass, 'item_edit', info_dict)
+    return _response_for(request, klass, 'item_edit', info_dict)
 
 @transaction.commit_on_success
 def fork(request, klass, id):
@@ -540,6 +520,8 @@ def fork(request, klass, id):
 
     prev = klass.get_object(id)
     if not prev: raise Http404
+    if not prev.can_fork():
+        return HttpResponseForbidden()
     prev.klass = klass.__name__
     prev.name+=' (forked)'
 
@@ -636,7 +618,7 @@ def fork(request, klass, id):
         'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
     }
 
-    return response_for(request, klass, 'item_new', info_dict)
+    return _response_for(request, klass, 'item_new', info_dict)
 
 def index(request, klass, my=False, order_by='-pub_date', filter_type=None):
     """Index/My page for section given by klass.
@@ -739,8 +721,8 @@ def rate(request, klass, id):
     @raise Http404: if item could not be found
     """
     if not request.user.is_authenticated():
-        next = '?next=' + reverse(eval(klass.__name__.lower() + '_rate'), args=[id])
-        return HttpResponseRedirect(reverse('user_signin') + next)
+        url = reverse(klass.__name__.lower() + '_rate', args=[id])
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + url)
 
     obj = klass.get_object(id)
     if not obj: raise Http404
@@ -811,25 +793,8 @@ def search(request):
             PER_PAGE = get_per_page(objects.count())
             info_dict[kname]=get_page(request, objects, PER_PAGE)
             info_dict[kname + '_per_page']=PER_PAGE
-            #info_dict['klass']=klass.__name__
             info_dict[kname + '_searcherror']=searcherror
 
         return render_to_response('repository/item_index.html', info_dict,
                 context_instance=RequestContext(request))
     raise Http404
-
-def _is_newer(first, second):
-    """Check if second given file is newer than first given file.
-    
-    @param first: filename of first file
-    @type first: string
-    @param second: filename of second file
-    @type second: string 371
-    """
-    stats_first = os.stat(first)
-    stats_second = os.stat(second)
-    # index 8 is last modified
-    if stats_second[8] > stats_first[8]:
-        return True
-    else:
-        return False 

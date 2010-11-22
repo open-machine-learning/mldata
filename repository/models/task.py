@@ -111,9 +111,8 @@ class Task(Repository):
 
         return ml2h5.fileformat.get_filename('%s_v%d' % (self.slug.text, self.version))
 
-    def create_next_file(self, prev, file):
-        if file:
-            self.file = file
+    def create_next_file(self, prev):
+        if self.file:
             self.approve()
         else:
             prev_filename = os.path.join(MEDIA_ROOT, prev.file.name)
@@ -158,7 +157,7 @@ class Task(Repository):
         """
         self.file.name = os.path.join(TASKPATH, self.get_filename())
 
-        super(Task, self).save(silent_update)
+        super(Task, self).save(silent_update=silent_update)
 
         if taskinfo:
             fname = os.path.join(MEDIA_ROOT, self.file.name)

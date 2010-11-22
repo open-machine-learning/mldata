@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     url(r'^delete/(?P<id>\d+)/$', views.challenge.delete, name='challenge_delete'),
     url(r'^activate/(?P<id>\d+)/$', views.challenge.activate, name='challenge_activate'),
     url(r'^fork/(?P<id>\d+)/$', views.challenge.fork, name='challenge_fork'),
-    url(r'^rate/(?P<id>\d+)/$', views.challenge.rate, name='repository_challenge_rate'),
+    url(r'^rate/(?P<id>\d+)/$', views.challenge.rate, name='challenge_rate'),
     url(r'^score/download/(?P<id>\d+)/$', views.challenge.score_download, name='challenge_download'),
     url(r'^tasks/(?P<id>\d+)/$', views.challenge.get_tasks, name='challenge_tasks'),
 )

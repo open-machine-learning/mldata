@@ -553,6 +553,16 @@ class Repository(models.Model):
             return False
         return self.can_view(user)
 
+    def can_fork(self, user):
+        """Can given user fork this item.
+
+        @param user: user to check for
+        @type user: Django User
+        @return: if user can activate this
+        @rtype: boolean
+        """
+        return self.can_view(user)
+
     def can_delete(self, user):
         """Can given user delete this item.
 

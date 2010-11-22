@@ -50,6 +50,6 @@ class RatingForm(forms.Form):
         except rklass.DoesNotExist:
             form = RatingForm()
 
-        form.action = reverse('repository_' + klassname.lower() + '_rate', args=[current.id])
+        form.action = reverse(klassname.lower() + '_rate', args=[current.id])
         return form
 
