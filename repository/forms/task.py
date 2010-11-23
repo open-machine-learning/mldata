@@ -73,8 +73,8 @@ class TaskForm(RepositoryForm):
         else:
             request = None
 
-        if kwargs.has_key('cur_data'):
-            cur_slug = kwargs.pop('cur_data')
+        if kwargs.has_key('default_arg'):
+            cur_slug = kwargs.pop('default_arg')
             cur_data = Data.get_object(cur_slug)
         else:
             cur_data = None

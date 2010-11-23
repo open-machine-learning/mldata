@@ -400,7 +400,7 @@ def new(request, klass, default_arg=None):
                 return HttpResponseRedirect(new.get_absolute_slugurl())
     else:
         if default_arg:
-            form = formfunc(request=request, cur_data=default_arg)
+            form = formfunc(request=request, default_arg=default_arg)
         else:
             form = formfunc(request=request)
 

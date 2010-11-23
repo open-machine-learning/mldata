@@ -197,6 +197,8 @@ $(function() {
 			{% else %}
 			<h3>No Solutions yet for task {{ object.name }}</h3>
 			{% endif %}
+			<a href="{% url solution_new %}">
+			{% trans "Submit a new Solution" %}</a>			
 
 			{% if result_form %}
 			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>

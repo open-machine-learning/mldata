@@ -38,11 +38,11 @@ def index(request, order_by='-pub_date', filter_type=None):
 def my(request):
     return base.index(request, Task, True)
 
-def new(request):
-    return base.new(request, Task)
-
-def new_from_data(request, cur_data=None):
-    return base.new(request, Task, default_arg=cur_data)
+def new(request, cur_data=None):
+    if cur_data:
+        return base.new(request, Task, default_arg=cur_data)
+    else:
+        return base.new(request, Task)
 
 def view(request, id, version=None):
     return base.view(request, Task, id)
