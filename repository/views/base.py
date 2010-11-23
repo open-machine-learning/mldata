@@ -472,9 +472,10 @@ def edit(request, klass, id):
                 next.file = None
                 if 'file' in request.FILES:
                     next.file = request.FILES['file']
-                next.save()
-                next.create_next_file(prev)
-                next.save(taskinfo=taskinfo)
+                    next.save()
+                    next.create_next_file(prev)
+                else:
+                    next.save(taskinfo=taskinfo)
             elif klass == Solution:
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
