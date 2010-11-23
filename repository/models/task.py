@@ -119,10 +119,11 @@ class Task(Repository):
                 os.remove(filename)
             except:
                 pass
-            import pdb
-            pdb.set_trace()
             self.save(taskinfo)
         else:
+            if not prev:
+                return
+
             prev_filename = os.path.join(MEDIA_ROOT, prev.file.name)
             self.file = prev.file
             self.file.name = os.path.join(TASKPATH, self.get_filename())

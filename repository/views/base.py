@@ -373,17 +373,19 @@ def new(request, klass, default_arg=None):
                     new.save()
                 elif klass == Task:
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
-                    if 'file' in request.FILES:
-                        new.file = request.FILES['file']
-                        new.save()
-                        new.approve() #
                     taskinfo = {
                         'train_idx': (form.cleaned_data['train_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),
                         'input_variables': form.cleaned_data['input_variables'],
                         'output_variables': form.cleaned_data['output_variables']
                     }
-                    new.save(taskinfo=taskinfo)
+                    new.file = None
+                    if 'file' in request.FILES:
+                        new.file = request.FILES['file']
+                        new.save()
+                        new.create_next_file(prev=None)
+                    else:
+                        new.save(taskinfo=taskinfo)
                 elif klass == Solution:
                     #if 'score' in request.FILES:
                     #    new.score = request.FILES['score']
@@ -581,15 +583,20 @@ def fork(request, klass, id):
                     new.file.name = name_new
                     new.save()
                 elif klass == Task:
-                    if 'file' in request.FILES:
-                        new.file = request.FILES['file']
-                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     taskinfo = {
                         'train_idx': (form.cleaned_data['train_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),
                         'input_variables': form.cleaned_data['input_variables'],
                         'output_variables': form.cleaned_data['output_variables']
                     }
+                    new.file = None
+                    if 'file' in request.FILES:
+                        new.file = request.FILES['file']
+                        new.save()
+                        new.create_next_file(prev=None)
+                    else:
+                        new.save(taskinfo=taskinfo)
+                    new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save(taskinfo=taskinfo)
                 elif klass == Solution:
                     #if 'score' in request.FILES:
