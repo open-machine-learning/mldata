@@ -76,7 +76,9 @@ $(function() {
 				<dd>{{ form.tags }}</dd>
 				<dt><label for="id_task">{% trans "Tasks" %}</label> * {{ form.task.errors }}</dt>
 				<dd>{{ form.task }}<br />
-				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>
+				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span><br/>
+				<a href="{% url task_new %}">{% trans "Add a new Task" %}</a>
+				</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
 
