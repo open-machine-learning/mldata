@@ -158,9 +158,23 @@
             {% endif %}
             <dt>{% trans "Data (first 10 data points)" %}</dt>
             <dd><ol>
-		{% for d in extract.data %}
-                    <li>{{ d|join:', ' }}</li>
-		{% endfor %}
+            <table border="1"> 
+            {% if extract.names_cut %}
+                <tr>    
+                {% for d in extract.names_cut %}
+                    <th>{{d}}</th>        
+                {% endfor %}
+                </tr>
+            {% endif %}    
+            {% for d in extract.data %}
+                <tr>          
+		        {% for c in d %}
+                    <td>{{c}}</td>
+                    <!--            <li>{{ d|join:', ' }}</li> -->
+                {% endfor %}
+                </tr>    
+            {% endfor %}
+        </table>
                 </ol></dd>
         </dl></div><!-- /tabs-data -->
 
