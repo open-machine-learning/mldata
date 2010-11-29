@@ -1,13 +1,13 @@
 from django.db import transaction
 from django import forms
-from repository.models import Task, Challenge, Result, Solution
+from repository.models import Task, Challenge, Result, Method
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 class ResultForm(forms.ModelForm):
     task = forms.ModelChoiceField(queryset=None, required=True)
     challenge = forms.ModelChoiceField(queryset=None, required=False)
-    solution = forms.ModelChoiceField(queryset=None, required=True)
+    method= forms.ModelChoiceField(queryset=None, required=True)
     output_file = forms.FileField(required=True)
 
     def __init__(self, *args, **kwargs):
@@ -28,8 +28,8 @@ class ResultForm(forms.ModelForm):
         self.fields['task'].queryset=Task.objects.filter(qs_task)
         qs_challenge=Challenge().get_public_qs(user)
         self.fields['challenge'].queryset=Challenge.objects.filter(qs_challenge)
-        qs_solution=Solution().get_public_qs(user)
-        self.fields['solution'].queryset=Solution.objects.filter(qs_solution)
+        qs_method=Method().get_public_qs(user)
+        self.fields['method'].queryset=Method.objects.filter(qs_method)
 
     class Meta:
         model = Result
@@ -65,5 +65,5 @@ def edit(request):
             return HttpResponseRedirect(form.cleaned_data['next'])
         else:
             info_dict['result_form'] = ResultForm(request)
-            return render_to_response('solution/item_edit.html', info_dict)
+            return render_to_response('method/item_edit.html', info_dict)
     return HttpResponseRedirect(reverse('repository_index'))

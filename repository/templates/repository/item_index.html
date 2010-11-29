@@ -12,17 +12,17 @@
 		{% endif %}
 		{% if data %}
 			$('#data-nav-right').show();
+			$('#method-nav-right').hide();
 			$('#task-nav-right').hide();
-			$('#solution-nav-right').hide();
 			$('#challenge-nav-right').hide();
 		{% else %}
 			{% if task %}
+				$('#method-nav-right').hide();
 				$('#task-nav-right').show();
-				$('#solution-nav-right').hide();
 				$('#challenge-nav-right').hide();
 			{% else %}
-				{% if solution %}
-				$('#solution-nav-right').show();
+				{% if method %}
+				$('#method-nav-right').show();
 				$('#challenge-nav-right').hide();
 				{% endif %}
 			{% endif %}
@@ -32,29 +32,29 @@
 			if (/data$/.test(ui.tab))
 			{
 				$('#data-nav-right').show();
+				$('#method-nav-right').hide();
 				$('#task-nav-right').hide();
-				$('#solution-nav-right').hide();
 				$('#challenge-nav-right').hide();
 			}
 			else if (/task$/.test(ui.tab))
 			{
 				$('#data-nav-right').hide();
+				$('#method-nav-right').hide();
 				$('#task-nav-right').show();
-				$('#solution-nav-right').hide();
 				$('#challenge-nav-right').hide();
 			}
-			else if (/solution$/.test(ui.tab))
+			else if (/method$/.test(ui.tab))
 			{
 				$('#data-nav-right').hide();
+				$('#method-nav-right').show();
 				$('#task-nav-right').hide();
-				$('#solution-nav-right').show();
 				$('#challenge-nav-right').hide();
 			}
 			else if (/challenge$/.test(ui.tab))
 			{
 				$('#data-nav-right').hide();
+				$('#method-nav-right').hide();
 				$('#task-nav-right').hide();
-				$('#solution-nav-right').hide();
 				$('#challenge-nav-right').show();
 			}
 			});
@@ -72,8 +72,8 @@
 
 {% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="
 {% if data %}{% url data_index %}{% endif %}
+{% if method %}{% url method_index %}{% endif %}
 {% if task %}{% url task_index %}{% endif %}
-{% if solution %}{% url solution_index %}{% endif %}
 {% if challenge %}{% url challenge_index %}{% endif %}
 ">{% trans klass %}</a> / {{ my_or_archive }}{% endblock %}
 
@@ -86,11 +86,11 @@
 {% if data %}
 <li><a title="{% trans "Data" %}" href="#tabs-data">{% trans "Data" %} ({{ data.count }})</a></li>
 {% endif %}
+{% if method %}
+            <li><a title="{% trans "Method" %}" href="#tabs-method">{% trans "Method" %} ({{ method.count }})</a></li>
+{% endif %}
 {% if task %}
             <li><a title="{% trans "Task" %}" href="#tabs-task">{% trans "Task" %} ({{ task.count }})</a></li>
-{% endif %}
-{% if solution %}
-            <li><a title="{% trans "Solution" %}" href="#tabs-solution">{% trans "Solution" %} ({{ solution.count }})</a></li>
 {% endif %}
 {% if challenge %}
             <li><a title="{% trans "Challenge" %}" href="#tabs-challenge">{% trans "Challenge" %} ({{ challenge.count }})</a></li>
@@ -114,6 +114,22 @@
 </div>
 {% endif %}
 
+{% if method %}
+<div id="tabs-solution">
+{% if method_searcherror %}
+<div class="error">{% trans "Your search did not yield any results." %}</div>
+{% else %}
+    {% item_index method 'Method' %}
+
+	{% if unapproved %}
+		<br /><hr />
+		<h2>{% trans "My Unapproved Method" %}</h2>
+        {% item_index unapproved 'Method' %}
+	{% endif %}
+{% endif%}
+</div>
+{% endif %}
+
 {% if task %}
 <div id="tabs-task">
 {% if task_searcherror %}
@@ -125,22 +141,6 @@
 		<br /><hr />
 		<h2>{% trans "My Unapproved Task" %}</h2>
         {% item_index unapproved 'Task' %}
-	{% endif %}
-{% endif%}
-</div>
-{% endif %}
-
-{% if solution %}
-<div id="tabs-solution">
-{% if solution_searcherror %}
-<div class="error">{% trans "Your search did not yield any results." %}</div>
-{% else %}
-    {% item_index solution 'Solution' %}
-
-	{% if unapproved %}
-		<br /><hr />
-		<h2>{% trans "My Unapproved Solution" %}</h2>
-        {% item_index unapproved 'Solution' %}
 	{% endif %}
 {% endif%}
 </div>

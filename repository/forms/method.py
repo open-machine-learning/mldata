@@ -6,11 +6,11 @@ from repository.forms import RepositoryForm
 from repository.models import *
 from repository.widgets import *
 
-from repository.models import Solution
+from repository.models import Method
 from repository.models import Result
 
 
-class SolutionForm(RepositoryForm):
+class MethodForm(RepositoryForm):
     """Form class for Solution.
 
     @cvar score: is not required in form (but in model)
@@ -22,16 +22,16 @@ class SolutionForm(RepositoryForm):
         """Inner meta class to specify model and exclude options.
 
         @cvar model: model to use
-        @type model: models.Solution
+        @type model: models.Method
         @cvar exclude: which fields to exclude in form validation
         @type exclude: list
         """
-        model = Solution
+        model = Method
         exclude = ('pub_date', 'version', 'slug', 'user',)
 
 
     def __init__(self, *args, **kwargs):
-        """Initialize SolutionForm.
+        """Initialize MethodForm.
 
         Filter available choices of Task items.
         """

@@ -15,7 +15,7 @@ import ml2h5.task
 attrs_checkbox = { 'class': 'checkbox' }
 
 class RepositoryForm(forms.ModelForm):
-    """Base class for item types Data, Task and Solution.
+    """Base class for item types Data, Task and Method.
 
     @cvar tags: an input field with its contents autocompleted
     @type tags: tagging.forms.TagField

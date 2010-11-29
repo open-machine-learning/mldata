@@ -167,7 +167,7 @@ def rate(request, id):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param id: item's id
     @type id: integer
     @return: redirect to item's view page

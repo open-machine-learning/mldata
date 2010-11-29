@@ -47,15 +47,15 @@ class Challenge(Repository):
         qs=self.get_public_qs(user, Q(is_current=True))
         return self.task.filter(qs)
 
-    def get_related_solutions(self):
-        return repository.models.solution.Result.objects.filter(solution=self.pk)
+    def get_related_methods(self):
+        return repository.models.method.Result.objects.filter(method=self.pk)
 
     def dependent_entries_exist(self):
         """Check whether there exists an object which depends on self.
 
         for Challenge objects, checks whether there exists a Result object.
         """
-        if repository.models.solution.Result.objects.filter(challenge__slug=self.slug).count() > 0:
+        if repository.models.method.Result.objects.filter(challenge__slug=self.slug).count() > 0:
             return True
 
         return False

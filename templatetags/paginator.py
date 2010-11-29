@@ -54,8 +54,8 @@ def paginator(context, adjacent_pages=5):
             r['search_data']=page.search_data
         if hasattr(page, "search_task"):
                 r['search_task']=page.search_task
-        if hasattr(page, "search_solution"):
-                r['search_solution']=page.search_solution
+        if hasattr(page, "search_method"):
+                r['search_method']=page.search_method
         if hasattr(page, "search_challenge"):
                 r['search_challenge']=page.search_challenge
 

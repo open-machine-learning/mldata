@@ -84,7 +84,7 @@ $(function() {
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-			<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Results/Solutions" %}</a></li>
+			<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Results/Methods" %}</a></li>
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -140,16 +140,16 @@ $(function() {
 
 		<div id="tabs-solution">
 			{% if page.object_list %}
-			<h3>Solutions submitted to challenge {{ object.name }}</h3>
+			<h3>Methods submitted to challenge {{ object.name }}</h3>
 			{% paginator %}
 			<table>
-				<tr><th>Submitter</th><th>Solution</th><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
+				<tr><th>Submitter</th><th>Method</th><th>Task</th><th>Curve</th><th>Score</th><th>Date</th></tr>
 				{% for o in page.object_list %}
 				<tr>
-					<td>{{ o.solution.user }}</td>
-					<td><a title="{{ o.solution.summary }}" href="{{ o.solution.get_absolute_slugurl }}">{{ o.solution.name }}</a></td>
+					<td>{{ o.method.user }}</td>
+					<td><a title="{{ o.method.summary }}" href="{{ o.method.get_absolute_slugurl }}">{{ o.method.name }}</a></td>
 					<td><a title="{{ o.task.summary }}" href="{{ o.task.get_absolute_slugurl }}">{{ o.task.name }}</a></td>
-					<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.solution.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.solution.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
+					<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.method.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.method.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
 					<td>{{ o.aggregation_score }}</td>
 					<td>{{ o.pub_date|date:"Y-m-d H:i" }}</td>
 				</tr>
@@ -159,11 +159,11 @@ $(function() {
 			{% endif %}
 
 			{% if result_form %}
-			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
+			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-method"><dl>
 					<dt><label for="id_task">{% trans "Select Task" %}</label> {{ result_form.task.errors }}</dt>
 					<dd>{{ result_form.task }}</dd>
-					<dt><label for="id_solution">{% trans "Select Solution" %}</label> {{ result_form.solution.errors }}</dt>
-					<dd>{{ result_form.solution }}</dd>
+					<dt><label for="id_method">{% trans "Select Method" %}</label> {{ result_form.method.errors }}</dt>
+					<dd>{{ result_form.method }}</dd>
 					<dt><label for="id_output_file">{% trans "Upload Outputs" %}</label> {{ result_form.output_file.errors }}</dt>
 					<dd>{{ result_form.output_file }}</dd>
 					<input type="hidden" name="challenge" id="id_challenge" value="{{ object.id }}" />

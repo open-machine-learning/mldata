@@ -2,6 +2,6 @@
 # is in the other sub-modules:
 #
 # base - the main handling routines
-# data, task, solution, publication - views for the actual models
+# data, task, method, publication - views for the actual models
 # ajax - ajaxy stuff
 # publication - publications

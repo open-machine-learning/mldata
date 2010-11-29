@@ -161,8 +161,8 @@ class Data(Repository):
         from repository.models.task import Task
         return Task.objects.filter(Q(data=self.pk) & self.get_public_qs(self))
 
-    def get_related_solutions(self):
-        from repository.models.solution import Result
+    def get_related_methods(self):
+        from repository.models.method import Result
         return Result.objects.filter(task__data=self.pk)
 
     def get_related_challenges(self, user=None):

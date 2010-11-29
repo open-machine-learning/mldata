@@ -65,7 +65,7 @@ def activate(request, klass, id):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param id: id of the item to activate
     @type id: integer
     @return: redirect user to login page or item's page
@@ -95,7 +95,7 @@ def delete(request, klass, id):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param id: id of the item to delete
     @type id: integer
     @return: redirect user to login page or item's page or user's my page
@@ -126,7 +126,7 @@ def download(request, klass, slug, type='plain'):
     @param request: request data
     @type request: Django request
     @param klass: item's class
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param slug: slug of item to downlaod
     @type slug: string
     @return: download file response
@@ -198,7 +198,7 @@ def view(request, klass, slug_or_id, version=None):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param slug_or_id: slug or id of the item to view
     @type slug_or_id: string or integer
     @return: view page or review page if klass Data and item not approved
@@ -251,7 +251,7 @@ def view(request, klass, slug_or_id, version=None):
                 form = ResultForm(request.POST, request.FILES, request=request)
                 if form.is_valid():
                     new = form.save(commit=False)
-                    r=Result.objects.filter(solution=new.solution, task=new.task, challenge=new.challenge)
+                    r=Result.objects.filter(method=new.method, task=new.task, challenge=new.challenge)
                     if r.count():
                         new=r[0]
 
@@ -286,8 +286,8 @@ def view(request, klass, slug_or_id, version=None):
             info_dict['data']=obj.get_data()
             info_dict['dependent_link']='foo'
 
-        elif klass == Solution:
-            objects=Result.objects.filter(solution=obj)
+        elif klass == Method:
+            objects=Result.objects.filter(method=obj)
             PER_PAGE = get_per_page(objects.count())
             info_dict['page']=get_page(request, objects, PER_PAGE)
             info_dict['per_page']=PER_PAGE
@@ -317,7 +317,7 @@ def new(request, klass, default_arg=None):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @return: user login page, item's view page or this page again on failed form validation
     @rtype: Django response
     @raise Http404: if given klass is unexpected
@@ -394,7 +394,7 @@ def new(request, klass, default_arg=None):
                         new.create_next_file(prev=None)
                     else:
                         new.save(taskinfo=taskinfo)
-                elif klass == Solution:
+                elif klass == Method:
                     #if 'score' in request.FILES:
                     #    new.score = request.FILES['score']
                     #    new.score.name = new.get_scorename()
@@ -434,7 +434,7 @@ def edit(request, klass, id):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param id: id of the item to activate
     @type id: integer
     @return: user login page, item's view page or this page again on failed form validation
@@ -486,7 +486,7 @@ def edit(request, klass, id):
                     next.create_next_file(prev)
                 else:
                     next.save(taskinfo=taskinfo)
-            elif klass == Solution:
+            elif klass == Method:
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 next.save()
             elif klass == Challenge:
@@ -521,7 +521,7 @@ def fork(request, klass, id):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @return: user login page, item's view page or this page again on failed form validation
     @rtype: Django response
     @raise Http404: if given klass is unexpected
@@ -606,7 +606,7 @@ def fork(request, klass, id):
                         new.save(taskinfo=taskinfo)
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     new.save(taskinfo=taskinfo)
-                elif klass == Solution:
+                elif klass == Method:
                     #if 'score' in request.FILES:
                     #    new.score = request.FILES['score']
                     #    new.score.name = new.get_scorename()
@@ -642,7 +642,7 @@ def index(request, klass, my=False, order_by='-pub_date', filter_type=None):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param my: if the page should be a My page or the archive index of the section
     @type my: boolean
     @return: section's index or My page
@@ -699,7 +699,7 @@ def tags_view(request, tag, klass):
     @param tag: name of the tag
     @type tag: string
     @param klass: klass of tagged item
-    @type klass: repository.Data/Task/Solution
+    @type klass: repository.Data/Task/Method
     @return: rendered response page
     @rtype: Django response
     @raise Http404: if tag doesn't exist or no items are tagged by given tag
@@ -732,7 +732,7 @@ def rate(request, klass, id):
     @param request: request data
     @type request: Django request
     @param klass: item's class for lookup in correct database table
-    @type klass: either Data, Task or Solution
+    @type klass: either Data, Task or Method
     @param id: item's id
     @type id: integer
     @return: redirect to item's view page
@@ -785,7 +785,7 @@ def search(request):
         searchterm = request.GET['searchterm']
 
         classes=[]
-        for c in (Data, Task, Solution, Challenge):
+        for c in (Data, Task, Method, Challenge):
             kname=c.__name__.lower()
             if kname in request.GET:
                 classes.append(c)

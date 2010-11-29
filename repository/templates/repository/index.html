@@ -10,8 +10,8 @@
 		<dd>{% trans "This is &quot;raw data&quot;, available in any one of a number of standard formats (including, for example, CSV, ARFF, netCDF, HDF5, ODBC), together with a description of the data, sources, possibly publications. For MNIST, the data is the images with corresponding labels. These data files will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a> {% trans ". You can download our converter tool from" %} <a href="http://mloss.org/software/view/262">mloss.org</a> {% trans "and convert locally to check if everything is transformed appropriately, maybe even help debugging problems." %}</dd>
 		<dt><a href="{% url task_index %}">Task</a></dt>
 		<dd>{% trans "This is a learning task, consisting of a formal description of input-output relationships based on a data set and methods for evaluating the results. This might also include fixed partitionings into training and test data for the base data set. For the MNIST example, a learning task might be to perform multiclass classification for all ten classes, using the F1-score as performance measure." %}</dd>
-		<dt><a href="{% url solution_index %}">Solution</a></dt>
-		<dd>{% trans "Essentially, a solution consists of a specific machine learning method applied to a learning task, but including all the other information, for example, what kind of feature processing has been applied, how parameters of the learning method have been selected, what operating system has been used, etc. Ideally, a solution also provides a single parameterless piece of code for others to re-run the experiments, preferably with source code." %}</dd>
+		<dt><a href="{% url method_index %}">Method</a></dt>
+		<dd>{% trans "Essentially capturing the 'Materials and Methods' section of papers, Methods consists of a specific machine learning method applied to a learning task, but including all the other information, for example, what kind of feature processing has been applied, how parameters of the learning method have been selected, what operating system has been used, etc. Ideally, a method also provides a single parameterless piece of code for others to re-run the experiments, preferably with source code." %}</dd>
 		<dt><a href="{% url challenge_index %}">Challenge</a></dt>
 		<dd>{% trans "Challenges are a collection of tasks that are to be solved." %}</dd>
 	</dl>
@@ -19,12 +19,12 @@
 	<p>{% trans "These descriptions boil down to the following properties for the respective object classes:" %}</p>
 	<ul>
 		<li>{% trans "Common to all: papers, external urls, free form description, version, time stamps, possibly also back links" %}</li>
-		<li>{% trans "Data: container format, source url, measurement details, usage scenario, links to tasks, links to solutions" %}</li>
-		<li>{% trans "Task: input format, output format, performance measure, links to data, links to solutions" %}</li>
-		<li>{% trans "Solution: numerical scores for given data and task, computational pipeline" %}</li>
+		<li>{% trans "Data: container format, source url, measurement details, usage scenario, links to tasks, links to methods" %}</li>
+		<li>{% trans "Task: input format, output format, performance measure, links to data, links to methods" %}</li>
+		<li>{% trans "Method: details of the computational pipeline" %}</li>
 	</ul>
 
-	<p>{% trans "Between data sets and tasks, the relationship is one-to-many, as a data set can give rise to many different learning tasks. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task. These relationships are illustrated in the image below." %}</p>
+	<p>{% trans "Between data sets and tasks, the relationship is one-to-many, as a data set can give rise to many different learning tasks. A method can also be applied to several different tasks, giving rise to solutions. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task. These relationships are illustrated in the image below." %}</p>
 <img src="/media/images/datatask2cropped.gif" width="500" alt="Data sets, tasks and solutions" />
 	<p>{% trans "Given the described infrastructure, organising a challenge essentially boils down to selecting a group of datasets and appropriate data splits into training validation and test data, and choosing a machine learning task. As the data storage and evaluating mechanism is already taken care of by the basic data-repository one merely needs to add an administration interface and a challenge &quot;view&quot; on the data." %}</p>
 </div><!-- /in -->

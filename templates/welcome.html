@@ -8,7 +8,8 @@
 <h2 class="title-01">{% trans "Welcome" %}</h2>
 
 <div class="in">
-	<p>{% trans "We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods. Also, you will eventually be able to set up challenges easily." %}</p>
+	<p>{% trans "We built this web site as a repository for your machine learning data." %}
+	<br/>{% trans "Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods." %}</p>
 
 	<div class="leftbox">
 		<form method="get" action="{% url repository.views.base.search %}">
@@ -17,7 +18,7 @@
 			<p>
 			<input type="checkbox" name="data" checked="checked" /><label for="data">{% trans "Data repository" %}</label>
 			<input type="checkbox" name="task" checked="checked" /><label for="task">{% trans "Task repository" %}</label>
-			<input type="checkbox" name="solution" checked="checked" /><label for="solution">{% trans "Solutions" %}</label>
+			<input type="checkbox" name="method" checked="checked" /><label for="method">{% trans "Methods" %}</label>
 			<input type="checkbox" name="challenge" checked="checked" /><label for="challenge">{% trans "Challenges" %}</label>
 			</p>
 			<p>
@@ -32,8 +33,8 @@
 		<p>{% trans "Choose between" %}</p>
 		<ul>
 			<li>{% trans "A raw <b>data</b> set." %}</li>
+			<li>{% trans "Describing a machine learning <b>method</b>." %}</li>
 			<li>{% trans "A learning <b>task</b> defined on existing data sets." %}</li>
-			<li>{% trans "Submitting a <b>solution</b> for an exisiting task." %}</li>
 			<li>{% trans "Creating a <b>challenge</b> by grouping existing tasks." %}</li>
 		</ul>
 
@@ -41,11 +42,11 @@
 			<form action="{% url repository.views.data.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Data' %}" />
 			</form>
+			<form action="{% url repository.views.method.new %}">
+				<input class="stdbutton" type="submit" value="{% trans 'New Method' %}" />
+			</form>
 			<form action="{% url repository.views.task.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
-			</form>
-			<form action="{% url repository.views.solution.new %}">
-				<input class="stdbutton" type="submit" value="{% trans 'New Solution' %}" />
 			</form>
 			<form action="{% url repository.views.challenge.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Challenge' %}" />
@@ -60,12 +61,12 @@
 		<ul class="recent">
 			{% for r in recent %}
 			<li>
-			{% ifequal r.0 "Solution" %}
-			{{ r.0}} <a href="{{ r.1.solution.get_absolute_slugurl }}"> {{ r.1.solution.name }}</a>
+			{% ifequal r.0 "Method" %}
+			{{ r.0 }} <a href="{{ r.1.method.get_absolute_slugurl }}"> {{ r.1.method.name }}</a>
 			{{ r.1.pub_date|date:"Y-m-d H:i" }}<br />
-			{{ r.1.solution.summary }}
+			{{ r.1.method.summary }}
 			{% else %}
-			{{ r.0}} <a href="{{ r.1.get_absolute_slugurl }}"> {{ r.1.name }}</a>
+			{{ r.0 }} <a href="{{ r.1.get_absolute_slugurl }}"> {{ r.1.name }}</a>
 			{{ r.1.pub_date|date:"Y-m-d H:i" }}<br />
 			{{ r.1.summary }}
 			{% endifequal %}

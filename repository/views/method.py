@@ -12,37 +12,37 @@ import repository.views.base as base
 import settings
 
 def index(request, order_by='-pub_date'):
-    """Index page of Solution section.
+    """Index page of Method section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return base.index(request, Solution, order_by=order_by)
+    return base.index(request, Method, order_by=order_by)
 
 def my(request):
-    """My page of Solution section.
+    """My page of Method section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return base.index(request, Solution, True)
+    return base.index(request, Method, True)
 
 def new(request):
-    """New page of Solution section.
+    """New page of Method section.
 
     @param request: request data
     @type request: Django request
     @return: rendered response page
     @rtype: Django response
     """
-    return base.new(request, Solution)
+    return base.new(request, Method)
 
 def view(request, id):
-    """View Solution item by id.
+    """View Method item by id.
 
     @param request: request data
     @type request: Django request
@@ -51,24 +51,24 @@ def view(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.view(request, Solution, id)
+    return base.view(request, Method, id)
 
-def view_slug(request, slug_solution, version=None):
-    """View page of Solution section.
+def view_slug(request, slug_method, version=None):
+    """View page of Method section.
 
     @param request: request data
     @type request: Django request
-    @param slug_solution: solution slug of the item to view
-    @type slug_solution: string
+    @param slug_method: method slug of the item to view
+    @type slug_method: string
     @param version: version of item to view
     @type version: integer
     @return: rendered response page
     @rtype: Django response
     """
-    return base.view(request, Solution, slug_solution, version)
+    return base.view(request, Method, slug_method, version)
 
 def edit(request, id):
-    """Edit page of Solution section.
+    """Edit page of Method section.
 
     @param request: request data
     @type request: Django request
@@ -77,10 +77,10 @@ def edit(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.edit(request, Solution, id)
+    return base.edit(request, Method, id)
 
 def fork(request, id):
-    """Fork page of Solution section.
+    """Fork page of Method section.
 
     @param request: request data
     @type request: Django request
@@ -89,10 +89,10 @@ def fork(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.fork(request, Solution, id)
+    return base.fork(request, Method, id)
 
 def activate(request, id):
-    """Activate of Solution section.
+    """Activate of Method section.
 
     @param request: request data
     @type request: Django request
@@ -101,10 +101,10 @@ def activate(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.activate(request, Solution, id)
+    return base.activate(request, Method, id)
 
 def delete(request, id):
-    """Delete of Solution section.
+    """Delete of Method section.
 
     @param request: request data
     @type request: Django request
@@ -113,24 +113,24 @@ def delete(request, id):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.delete(request, Solution, id)
+    return base.delete(request, Method, id)
 
 
 def tags_view(request, tag):
-    """View all items by given tag in Solution.
+    """View all items by given tag in Method.
 
     @param request: request data
     @type request: Django request
     @param tag: name of the tag
     @type tag: string
     """
-    return base.tags_view(request, tag, Solution)
+    return base.tags_view(request, tag, Method)
 
 def rate(request, id):
-    return base.rate(request, Solution, id)
+    return base.rate(request, Method, id)
 
 def score_download(request, slug):
-    """Download of Solution section.
+    """Download of Method section.
 
     @param request: request data
     @type request: Django request
@@ -139,11 +139,11 @@ def score_download(request, slug):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.download(request, Solution, slug)
+    return base.download(request, Method, slug)
 
 def plot_multiple_curves(request, id, resolution='medium'):
-    solution=get_object_or_404(Solution, pk=id)
-    results=Result.objects.filter(solution=solution)
+    method=get_object_or_404(Method, pk=id)
+    results=Result.objects.filter(method=method)
 
     try:
         dpi=settings.RESOLUTIONS[resolution]

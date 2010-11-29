@@ -48,8 +48,8 @@
 				{% ifequal klass 'Task' %}
 				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
-				{% ifequal klass 'Solution' %}
-				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url solution_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				{% ifequal klass 'Method' %}
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url method_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Challenge' %}
 				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url challenge_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
@@ -57,10 +57,10 @@
 				</dt>
 				{% endif %}
 				{% if object.format %}
-				<dt> {% trans "Tasks / Solutions / Challenges:" %}
+				<dt> {% trans "Tasks / Methods / Challenges:" %}
 				<span class="index_plain">
 				{{ object.get_related_tasks.count }} tasks, 
-				{{ object.get_related_solutions.count }} solutions, 
+				{{ object.get_related_methods.count }} methods, 
 				{{ object.get_related_challenges.count }} challenges
 				</span></dt>
 				{% endif %}
@@ -73,9 +73,9 @@
 				<span class="index_plain">
 				{{ object.type }}
 				</span></dt>
-				<dt> {% trans "Solutions / Challenges:" %}
+				<dt> {% trans "Methods / Challenges:" %}
 				<span class="index_plain">
-				{{ object.get_related_solutions.count }} solutions, 
+				{{ object.get_related_methods.count }} methods, 
 				{{ object.get_challenges.count }} challenges
 				</span></dt>
 				{% endif %}
@@ -86,9 +86,9 @@
 				</span></dt>
 				{% endifequal %}
 				{% ifequal klass 'Challenge' %}
-				<dt> {% trans "Solutions:" %}
+				<dt> {% trans "Methods:" %}
 				<span class="index_plain">
-				{{ object.get_related_solutions.count }} solutions
+				{{ object.get_related_methods.count }} methods
 				</span></dt>
 				{% endifequal %}
 				{% if object.file %}

@@ -19,8 +19,8 @@ import numpy
 from settings import SOLUTIONPATH, MEDIA_ROOT
 
 # Create your models here.
-class Solution(Repository):
-    """Repository item Solution.
+class Method(Repository):
+    """Repository item Method.
 
     @cvar feature_processing: item's feature processing
     @type feature_processing: string / models.TextField
@@ -59,19 +59,19 @@ class Solution(Repository):
         @return: an absolute URL or None
         @rtype: string
         """
-        view = 'repository.views.solution.view_slug'
+        view = 'repository.views.method.view_slug'
         return reverse(view, args=[self.slug.text])
 
     def get_related_results(self):
-        from repository.models.solution import Result
-        return Result.objects.filter(solution=self.pk)
+        from repository.models.method import Result
+        return Result.objects.filter(method=self.pk)
 
     def dependent_entries_exist(self):
         """Check whether there exists an object which depends on self.
 
-        for Solution objects, checks whether there exists a Result object.
+        for Method objects, checks whether there exists a Result object.
         """
-        if Result.objects.filter(solution__slug=self.slug).count() > 0:
+        if Result.objects.filter(method__slug=self.slug).count() > 0:
             return True
         return False
 
@@ -87,9 +87,9 @@ class Solution(Repository):
             return False
         return self.user==user
 
-class SolutionRating(Rating):
-    """Rating for a Solution item."""
-    repository = models.ForeignKey(Solution)
+class MethodRating(Rating):
+    """Rating for a Method item."""
+    repository = models.ForeignKey(Method)
 
     class Meta:
         app_label = 'repository'
@@ -103,7 +103,7 @@ class Result(models.Model):
 
     pub_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     task = models.ForeignKey(Task)
-    solution = models.ForeignKey(Solution)
+    method = models.ForeignKey(Method)
     challenge = models.ForeignKey(Challenge, blank=True, null=True)
     output_file = models.FileField(upload_to=SOLUTIONPATH)
     aggregation_score = models.FloatField(default=-1, blank=True)

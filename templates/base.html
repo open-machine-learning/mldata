@@ -33,7 +33,7 @@
 	<div id="header">
 		<p id="logo"><a href="/"><img width="315" height="100" src="/media/images/mldata-logo.png" alt="mldata.org logo"></img></a></p>
 		<!--<div id="slogan">Machine Learning Data Set Repository</div>-->
-		<div id="slogan"><a href="{% url data_index %}">Data</a>, <a href="{% url task_index %}">Tasks</a>, <a href="{% url solution_index %}">Solutions</a>, <a href="{% url challenge_index %}">Challenges</a></div>
+		<div id="slogan"><a href="{% url data_index %}">Data</a>, <a href="{% url task_index %}">Tasks</a>, <a href="{% url method_index %}">Methods</a>, <a href="{% url challenge_index %}">Challenges</a></div>
 	</div><!-- /header -->
 
 	<hr class="noscreen" />
@@ -42,11 +42,11 @@
 		<ul>
 			<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
 		</ul>
-		<div class="repositoryy">
+		<div class="repository">
 			<ul>
 				<li{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url data_index %}">{% trans "Data" %}</a></li>
 				<li{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url task_index %}">{% trans "Task" %}</a></li>
-				<li{% ifequal klass 'Solution' %} class="active"{% endifequal %}><a href="{% url solution_index %}">{% trans "Solution" %}</a></li>
+				<li{% ifequal klass 'Method' %} class="active"{% endifequal %}><a href="{% url method_index %}">{% trans "Method" %}</a></li>
 				<li{% ifequal klass 'Challenge' %} class="active"{% endifequal %}><a href="{% url challenge_index %}">{% trans "Challenge" %}</a></li>
 			</ul>
 		</div>

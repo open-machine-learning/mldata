@@ -83,22 +83,22 @@
 </div><!-- data-nav-right -->
 {% endif %}
 
-{% if solution %}
-<div id="solution-nav-right">
-<h4 class="title-03">{% trans "Solution" %}</h4>
+{% if method %}
+<div id="method-nav-right">
+<h4 class="title-03">{% trans "Method" %}</h4>
 <div class="in">
 	<ul id="subnav">
-		{% url repository.views.solution.index as url_index %}
-		{% url repository.views.solution.my as url_my %}
-		{% url repository.views.solution.new as url_new %}
+		{% url repository.views.method.index as url_index %}
+		{% url repository.views.method.my as url_my %}
+		{% url repository.views.method.new as url_new %}
 		<li{% ifequal request.path url_index %} class="active"{% endifequal %}><a href="{{ url_index }}">{% trans "Public Archive" %}</a></li>
-		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Solution" %}</a></li>{% endif %}
-		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Solution" %}</a></li>
+		{% if request.user.is_authenticated %}<li{% ifequal request.path url_my %} class="active"{% endifequal %}><a href="{{ url_my }}">{% trans "My Method" %}</a></li>{% endif %}
+		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a href="{{ url_new }}">{% trans "Submit new Method" %}</a></li>
 		<li class="search">{% trans "Search" %}
-		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="solution" name="solution" value="Solution" /></form>
+		<form method="get" action="{% url repository.views.base.search %}"><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="{{ searchterm}}" /><input type="hidden" id="method" name="method" value="Method" /></form>
 		</li>
 		<li class="tagcloud">{% trans "Tag Cloud" %}<br />
-		{% for t in tagcloud.Solution %}<span style="font-size:{{ t.font_size }}em"><a href="{% url solution_tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
+		{% for t in tagcloud.Method %}<span style="font-size:{{ t.font_size }}em"><a href="{% url method_tags_view t.name %}">{{ t.name }}</a></span> {% endfor %}
 		</li>
 	</ul>
 </div><!-- /in -->
@@ -106,15 +106,15 @@
 <h4 class="title-03">{% trans "Sort by" %}</h4>
 <div class="in">
 	<ul id="subnav">
-		<li><a href="{% url solution_index_by_submitter %}">Submitter</a></li>
-		<li><a href="{% url solution_index_by_name %}">Name</a></li>
-		<li><a href="{% url solution_index_by_pub_date %}">Publication Date</a></li>
-		<li><a href="{% url solution_index_by_rating %}">Rating</a></li>
-		<li><a href="{% url solution_index_by_downloads %}">Number of Downloads</a></li>
-		<li><a href="{% url solution_index_by_views %}">Number of Views</a></li>
+		<li><a href="{% url method_index_by_submitter %}">Submitter</a></li>
+		<li><a href="{% url method_index_by_name %}">Name</a></li>
+		<li><a href="{% url method_index_by_pub_date %}">Publication Date</a></li>
+		<li><a href="{% url method_index_by_rating %}">Rating</a></li>
+		<li><a href="{% url method_index_by_downloads %}">Number of Downloads</a></li>
+		<li><a href="{% url method_index_by_views %}">Number of Views</a></li>
 	</ul>
 </div>
-</div><!-- solution-nav-right -->
+</div><!-- method-nav-right -->
 {% endif %}
 
 {% if challenge %}
@@ -155,7 +155,7 @@
 <div class="in">
 	<p>{% trans "We are acting in good faith to make datasets submitted for the use of the scientific community available to everybody, but if you are a copyright holder and would like us to remove a dataset please" %} <a href="{% url about_impressum %}">{% trans "inform us" %}</a> {% trans "and we will do it as soon as possible." %}</p>
 
-	<p><a href="{% url data_index %}">{% trans "Data" %}</a> | <a href="{% url task_index %}">{% trans "Task" %}</a> | <a href="{% url solution_index %}">{% trans "Solution" %}</a> | <a href="{% url challenge_index %}">{% trans "Challenge" %}</a></p>
+	<p><a href="{% url data_index %}">{% trans "Data" %}</a> | <a href="{% url task_index %}">{% trans "Task" %}</a> | <a href="{% url method_index %}">{% trans "Method" %}</a> | <a href="{% url challenge_index %}">{% trans "Challenge" %}</a></p>
 </div>
 
 

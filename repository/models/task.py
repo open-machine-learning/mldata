@@ -99,6 +99,15 @@ class Task(Repository):
         view = 'repository.views.task.view_slug'
         return reverse(view, args=[self.slug.text])
 
+    def get_absolute_slugurlver(self):
+        """Get absolute URL for this item, using its slug and version.
+
+        @return: an absolute URL or None
+        @rtype: string
+        """
+        view = 'repository.views.task.view_slug'
+        return reverse(view, args=[self.slug.text, self.version])
+
     def get_filename(self):
         """Construct filename for Task file.
 
@@ -151,8 +160,8 @@ class Task(Repository):
     def get_data(self):
         return self.data
 
-    def get_related_solutions(self):
-        from repository.models.solution import Result
+    def get_related_methods(self):
+        from repository.models.method import Result
         return Result.objects.filter(task=self.pk)
 
     def get_challenges(self, user=None):

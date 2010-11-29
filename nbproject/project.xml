@@ -10,7 +10,7 @@
                 <root id="src.repository.dir"/>
                 <root id="src.data.dir"/>
                 <root id="src.task.dir"/>
-                <root id="src.solution.dir"/>
+                <root id="src.method.dir"/>
                 <root id="src.templates.dir"/>
                 <root id="src.media.dir"/>
             </sources>

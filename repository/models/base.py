@@ -55,7 +55,7 @@ class License(models.Model):
 
 
 class FixedLicense(models.Model):
-    """License to be used by Task or Solution items.
+    """License to be used by Task or Method items.
 
     For some reason, it didn't work when just inheriting, so
     the code needs to be duplicated.
@@ -114,7 +114,7 @@ class Publication(models.Model):
 
 
 class Repository(models.Model):
-    """Base class for Repository items: Data, Task, Solution
+    """Base class for Repository items: Data, Task, Method
 
     @cvar pub_date: publication date (item creation date)
     @type pub_date: models.DateTimeField
@@ -248,10 +248,10 @@ class Repository(models.Model):
         # without if-construct sqlite3 barfs on AnonymousUser
         if user.id:
             qs = (Q(user=user) | Q(is_public=True)) & Q(is_current=True)
-            qs_result = (Q(solution__user=user) | Q(solution__is_public=True)) & Q(solution__is_current=True)
+            qs_result = (Q(method__user=user) | Q(method__is_public=True)) & Q(method__is_current=True)
         else:
             qs = Q(is_public=True) & Q(is_current=True);
-            qs_result = Q(solution__is_public=True) & Q(solution__is_current=True);
+            qs_result = Q(method__is_public=True) & Q(method__is_current=True);
 
         # slices return max number of elements if num > max
         recent_data = repository.models.Data.objects.filter(qs).order_by('-pub_date')
@@ -274,7 +274,7 @@ class Repository(models.Model):
             recent.extend(l)
         if recent_results.count() > 0:
             results=recent_results[:num]
-            l=list(zip(len(results)*['Solution'],results))
+            l=list(zip(len(results)*['Method'],results))
             recent.extend(l)
 
         recent.sort(key=lambda r: r[1].pub_date, reverse=True)
@@ -303,7 +303,7 @@ class Repository(models.Model):
             tags.extend(Tag.objects.usage_for_queryset(
                         repository.models.Task.objects.filter(qs), counts=True))
             tags.extend(Tag.objects.usage_for_queryset(
-                        repository.models.Solution.objects.filter(qs), counts=True))
+                        repository.models.Method.objects.filter(qs), counts=True))
 
         current = {}
         for t in tags:
@@ -330,7 +330,7 @@ class Repository(models.Model):
         @param tag: tag to get tagged items for
         @type tag: tagging.Tag
         @return: current tagged items
-        @rtype: list of Data, Task or Solution
+        @rtype: list of Data, Task or Method
         """
         # without if-construct sqlite3 barfs on AnonymousUser
         qs = cls().get_public_qs()
@@ -387,7 +387,7 @@ class Repository(models.Model):
             @param cur: item to set
             @type object: repository object
             @return: the current item or None
-            @rtype: repository.Data/Task/Solution
+            @rtype: repository.Data/Task/Method
             """
 
         # handle deleted case first

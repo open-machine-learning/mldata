@@ -31,7 +31,7 @@ class RatingForm(forms.Form):
         @param request: request data
         @type request: Django request
         @param obj: item to get rating form for
-        @type obj: either of Data, Task, Solution
+        @type obj: either of Data, Task, Method
         @return: a rating form
         @rtype: forms.RatingForm
         """

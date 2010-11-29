@@ -19,7 +19,7 @@ def get_versions_paginator(request, obj):
     @param request: request data
     @type request: Django request
     @param obj: item to get versions for
-    @type obj: either class Data, Task or Solution
+    @type obj: either class Data, Task or Method
     @return: paginator for item versions
     @rtype: Django paginator
     """
@@ -52,9 +52,9 @@ def get_tag_clouds(request):
     @param request: request data
     @type request: Django request
     @return: list of tags with attributes font_size
-    @rtype: hash with keys 'Data', 'Task', 'Solution' containing lists of tagging.Tag
+    @rtype: hash with keys 'Data', 'Task', 'Method' containing lists of tagging.Tag
     """
-    clouds = { 'Data': None, 'Task': None, 'Solution': None, 'Challenge' : None}
+    clouds = { 'Data': None, 'Task': None, 'Method': None, 'Challenge' : None}
     for k in clouds.iterkeys():
         klass = eval(k)
         clouds[k] = klass.get_tag_cloud(request.user)
@@ -115,8 +115,8 @@ def get_page(request, queryset, PER_PAGE):
         paginator.search_data=True
     if request.GET.has_key('task'):
         paginator.search_task=True
-    if request.GET.has_key('solution'):
-        paginator.search_solution=True
+    if request.GET.has_key('method'):
+        paginator.search_method=True
     if request.GET.has_key('challenge'):
         paginator.search_challenge=True
     return paginator

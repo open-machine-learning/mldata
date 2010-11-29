@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {% trans "Tags" %} :: {{ tag }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository.views.solution.index %}">{% trans "Repository" %}</a> / {% trans "Tags" %} / {{ klass }} / {{ tag }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository.views.method.index %}">{% trans "Repository" %}</a> / {% trans "Tags" %} / {{ klass }} / {{ tag }}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{{ klass }} {% trans "items tagged by" %} <strong>{{ tag }}</strong></h2>

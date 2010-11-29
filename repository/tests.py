@@ -18,22 +18,22 @@ from preferences.models import *
 
 from task.models import Task
 from data.models import Data
-from solution.models import Solution
+from method.models import Method
 
 class RepositoryTest(TestCase):
     url = {
         'index': '/repository/',
         'index_data': '/repository/data/',
         'index_task': '/repository/task/',
-        'index_solution': '/repository/solution/',
+        'index_method': '/repository/method/',
         'index_tags': '/repository/tags/',
         'view_tags_foobar': '/repository/tags/data/foobar/',
         'index_data_my': '/repository/data/my/',
         'index_task_my': '/repository/task/my/',
-        'index_solution_my': '/repository/solution/my/',
+        'index_method_my': '/repository/method/my/',
         'new_data': '/repository/data/new/',
         'new_task': '/repository/task/new/',
-        'new_solution': '/repository/solution/new/',
+        'new_method': '/repository/method/new/',
         'new_data_review': '/repository/data/new/review/test/',
     }
     minimal_data = {
@@ -104,8 +104,8 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'task/item_index.html')
 
 
-#    def test_index_solution(self):
-#        r = self.client.get(self.url['index_solution'])
+#    def test_index_method(self):
+#        r = self.client.get(self.url['index_method'])
 #        self.assertEqual(r.context['section'], 'repository')
 #        self.assertTemplateUsed(r, 'repository/item_index.html')
 
@@ -122,8 +122,8 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'task/item_index.html')
 
 
-#    def test_index_solution_my(self):
-#        r = self.client.get(self.url['index_solution_my'])
+#    def test_index_method_my(self):
+#        r = self.client.get(self.url['index_method_my'])
 #        self.assertEqual(r.context['section'], 'repository')
 #        self.assertTemplateUsed(r, 'repository/item_index.html')
 
@@ -138,8 +138,8 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'authopenid/signin.html')
 
 
-#    def test_new_solution_anon(self):
-#        r = self.client.get(self.url['new_solution'], follow=True)
+#    def test_new_method_anon(self):
+#        r = self.client.get(self.url['new_method'], follow=True)
 #        self.assertTemplateUsed(r, 'authopenid/signin.html')
 
     def test_new_data_user(self):
@@ -186,10 +186,10 @@ class RepositoryTest(TestCase):
         self.assertTemplateUsed(r, 'task/item_new.html')
 
 
-#    def test_new_solution_user(self):
+#    def test_new_method_user(self):
 #        if not self.client.login(username='user', password='user'):
 #            raise Exception('Login unsuccessful')
-#        r = self.client.get(self.url['new_solution'], follow=True)
+#        r = self.client.get(self.url['new_method'], follow=True)
 #        self.assertTemplateUsed(r, 'repository/item_new.html')
 
 
