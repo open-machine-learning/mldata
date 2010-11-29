@@ -45,6 +45,8 @@ from tagging.models import Tag
 
 MEGABYTE = 1048576
 
+DOWNLOAD_WARNING_LIMIT = 30000 # MEGABYTE
+
 def _download_cleanup(fname_export):
     """ erase exported file """
     try:
@@ -222,9 +224,12 @@ def view(request, klass, slug_or_id, version=None):
         'can_edit': obj.can_edit(request.user),
         'can_activate': obj.can_activate(request.user),
         'can_delete': obj.can_delete(request.user),
+        'dependent_entries_exist': obj.dependent_entries_exist(),
+        'dependent_link': '',
         'current': current,
         'rating_form': RatingForm.get(request, obj),
         'tagcloud': get_tag_clouds(request),
+        'download_warning_limit': DOWNLOAD_WARNING_LIMIT,
         kname : True,
         'klass': klass.__name__,
         'section': 'repository',
@@ -239,6 +244,7 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['page']=get_page(request, tasks, PER_PAGE)
         info_dict['per_page']=PER_PAGE
         info_dict['related_tasks']=tasks
+        info_dict['dependent_link']='#tabs-solutions'
     else:
         if request.user.is_authenticated():
             if request.method == 'POST':
@@ -268,6 +274,7 @@ def view(request, klass, slug_or_id, version=None):
 
             info_dict['result_form'] = form
 
+
         if klass == Task:
             objects=Result.objects.filter(task=obj)
             if request.user.is_authenticated():
@@ -277,6 +284,7 @@ def view(request, klass, slug_or_id, version=None):
             info_dict['page']=get_page(request, objects, PER_PAGE)
             info_dict['per_page']=PER_PAGE
             info_dict['data']=obj.get_data()
+            info_dict['dependent_link']='foo'
 
         elif klass == Solution:
             objects=Result.objects.filter(solution=obj)
@@ -676,6 +684,8 @@ def index(request, klass, my=False, order_by='-pub_date', filter_type=None):
         'my_or_archive': my_or_archive,
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
+        'download_warning_limit': DOWNLOAD_WARNING_LIMIT,
+        'yeah': 'index',
     }
 
     return render_to_response('repository/item_index.html',
@@ -711,6 +721,7 @@ def tags_view(request, tag, klass):
         kname : get_page(request, objects, PER_PAGE),
         'klass' : klass.__name__,
         kname + '_per_page': PER_PAGE,
+        'download_warning_limit': DOWNLOAD_WARNING_LIMIT,
     }
     return render_to_response('repository/item_index.html', info_dict,
             context_instance=RequestContext(request))
@@ -755,6 +766,8 @@ def main_index(request):
         'request': request,
         'section': 'repository',
         'tagcloud': get_tag_clouds(request),
+        'download_warning_limit': DOWNLOAD_WARNING_LIMIT,
+        'yeah': 'main_index',
     }
     return render_to_response('repository/index.html', info_dict,
             context_instance=RequestContext(request))
@@ -781,6 +794,8 @@ def search(request):
             'request': request,
             'tagcloud': get_tag_clouds(request),
             'section': 'repository',
+            'download_warning_limit': DOWNLOAD_WARNING_LIMIT,
+            'yeah': 'search',
             'my_or_archive' : _('Search Results for "%s"' % searchterm)
         }
 

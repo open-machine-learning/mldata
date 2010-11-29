@@ -103,12 +103,12 @@
 						{% endifequal %}
                         {% ifequal klass 'Data' %}
 						<a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-						<a href="{% url data_download_xml object.slug %}">{% trans "XML" %}</a>
-						<a{% if object.can_convert_to_csv %} href="{% url data_download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
-						<a{% if object.can_convert_to_arff %} href="{% url data_download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
-						<a{% if object.can_convert_to_libsvm %} href="{% url data_download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
-						<a{% if object.can_convert_to_matlab %} href="{% url data_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
-						<a{% if object.can_convert_to_octave %} href="{% url data_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+						<a href="{% url data_download_xml object.slug %}" class="download-convert-link">{% trans "XML" %}</a>
+						<a{% if object.can_convert_to_csv %} class="download-convert-link" href="{% url data_download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
+						<a{% if object.can_convert_to_arff %} class="download-convert-link" href="{% url data_download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
+						<a{% if object.can_convert_to_libsvm %} class="download-convert-link" href="{% url data_download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
+						<a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url data_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+						<a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url data_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
 						{% endifequal %}
 					{% else %}
                         {% ifequal klass 'Task' %}
@@ -120,6 +120,9 @@
 					{% endif %}
 				</span>
                 </dt>
+                                                {% if object.file.size > download_warning_limit %}
+                                <dd class="download-note">{% trans "Files are converted on demand and the process can take up to a minute. Please wait until download begins." %}</dd>
+                                                {% endif %}
 				{% endif %}
 			</dl><!-- /news -->
 		</div><!-- /index_bg -->

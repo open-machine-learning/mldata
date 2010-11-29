@@ -2,10 +2,10 @@
 {% load i18n %}
 {% load item_index %}
 {% block extrahead %}
-{% if searchterm %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+{% if searchterm %}
         var $tabs = $('#tabs').tabs();
 		{% if selecttab %}
 		$tabs.tabs('select', '#{{selecttab}}');
@@ -58,9 +58,14 @@
 				$('#challenge-nav-right').show();
 			}
 			});
+{% endif %}
+
+
+              $("a.download-convert-link").click(function(event) {
+                  $(this).parents("dt").next("dd.download-note").fadeIn('slow');
+              });
 	});
 </script>
-{% endif %}
 {% endblock %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
