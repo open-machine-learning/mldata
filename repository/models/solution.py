@@ -158,7 +158,9 @@ class Result(models.Model):
             return -1,_("Format of given results is wrong!"), False
 
         data=numpy.array(data)
-        predicted=numpy.array(predicted)
+        if type(predicted[0]) == type(''):
+            correct = map(str, correct)
+        predicted = numpy.array(predicted)
         correct = numpy.array(correct)
 
         len_p = len(predicted)
