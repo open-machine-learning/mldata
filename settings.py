@@ -12,12 +12,7 @@ PRODUCTION = False # set to True when project goes live
 if not PRODUCTION:
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
-    ADMINS = (
-        ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
-        ('Patrik Hoyer', 'patrik.hoyer@helsinki.fi'),
-        ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
-        ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
-    )
+    ADMINS = ()
 else:
     DEBUG = False
     ADMINS = (
