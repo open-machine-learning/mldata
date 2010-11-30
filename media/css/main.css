@@ -54,10 +54,10 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     #nav #feeds {position:absolute; top:4px; right:25px; margin:0;}
     #nav #feeds a:hover {text-decoration:none;}
 
-	#nav .repositoryy ul li a {background:#5f5f5f; color:#ffffff;}
-	#nav .repositoryy ul li a:hover {background:#ffffff; color:#000000;}
-	#nav .repositoryy ul li.active a {color:#ffffff;}
-	#nav .repositoryy ul li.active a:hover {color:#000000;}
+	#nav .repository ul li a {background:#5f5f5f; color:#ffffff;}
+	#nav .repository ul li a:hover {background:#ffffff; color:#000000;}
+	#nav .repository ul li.active a {color:#ffffff;}
+	#nav .repository ul li.active a:hover {color:#000000;}
     #cols1 {margin-bottom:10px; background:url("../images/col.gif") 0 0 no-repeat;}
     #cols1-in {min-height:430px; padding:5px 20px; background:url("../images/col-in.gif") 100% 100% no-repeat;}
     #cols2 {margin-bottom:10px; background:url("../images/cols.gif") 0 0 no-repeat;}
