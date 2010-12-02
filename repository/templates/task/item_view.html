@@ -182,13 +182,14 @@ $(function() {
 			<h3>Methods associated to task {{ object.name }}</h3>
 			{% paginator %}
 			<table>
-				<tr><th>Submitter</th><th>Method</th><th>Curve</th><th>Score</th><th>Date</th></tr>
+				<tr><th>Submitter</th><th>Method (version)</th><th>Curve</th><th>Score</th><th>Date</th></tr>
 				{% for o in page.object_list %}
 				<tr>
 					<td>{{ o.method.user }}</td>
-					<td><a title="{{ o.method.summary }}" href="{{ o.method.get_absolute_slugurl }}">{{ o.method.name }}</a></td>
+					<td><a title="{{ o.method.summary }}" href="{{ o.method.get_absolute_slugurl }}">{{ o.method.name }}&nbsp;({{ o.task.version }})</a></td>
 					<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.method.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.method.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
-					<td>{{ o.aggregation_score }}</td>
+					<td>{{ o.aggregation_score }}&nbsp;
+                                        <a href="{% url method_predictions o.pk %}">predictions</a></td>
 					<td>{{ o.pub_date|date:"Y-m-d H:i" }}</td>
 				</tr>
 				{% endfor %}
