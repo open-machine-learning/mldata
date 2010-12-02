@@ -164,7 +164,10 @@ def download(request, klass, slug, type='plain'):
         # create unique export filename
         fname_export = os.path.join(CACHE_ROOT, prefix + '_' + repr(time.time()).replace('.','') + '.' + type)
         # create humanly readable export filename
-        fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.' + type)
+        if type == 'matlab':
+            fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.mat')
+        else:
+            fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.' + type)
 
         if type in ('xml', 'csv', 'arff', 'libsvm', 'matlab', 'octave'):
             try:
