@@ -531,7 +531,7 @@ def fork(request, klass, id):
 
     prev = klass.get_object(id)
     if not prev: raise Http404
-    if not prev.can_fork():
+    if not prev.can_fork(request.user):
         return HttpResponseForbidden()
     prev.klass = klass.__name__
     prev.name+=' (forked)'
