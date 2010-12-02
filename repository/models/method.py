@@ -125,7 +125,7 @@ class Result(models.Model):
         return self.slug.text + '.' + suffix
 
     def get_output_filename(self):
-        return os.path.join(MEDIA_ROOT, SOLUTIONPATH, self.output_file.name)
+        return os.path.join(MEDIA_ROOT, self.output_file.name)
 
     def predict(self):
         """Evaluate performance measure.

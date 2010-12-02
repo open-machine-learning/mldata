@@ -175,9 +175,10 @@ $(function() {
 				{% for o in page.object_list %}
 				<tr>
 					<td>{{ o.method.user }}</td>
-					<td><a title="{{ o.task.summary }}" href="{{ o.task.get_absolute_slugurlver }}">{{ o.task.name }}({{ o.task.version }})</a></td>
+					<td><a title="{{ o.task.summary }}" href="{{ o.task.get_absolute_slugurlver }}">{{ o.task.name }}&nbsp;({{ o.task.version }})</a></td>
 					<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.method.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.method.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
-					<td>{{ o.aggregation_score }}</td>
+					<td>{{ o.aggregation_score }}&nbsp;
+					<a href="{% url method_predictions o.pk %}">predictions</a></td>
 					<td>{{ o.pub_date|date:"Y-m-d H:i" }}</td>
 				</tr>
 				{% endfor %}

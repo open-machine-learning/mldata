@@ -1,14 +1,19 @@
+import os
+
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import get_object_or_404
+from django.core.files import File
+from settings import CACHE_ROOT
 import cPickle as pickle
 
 from repository.models import *
 from repository.forms import *
 from repository.views.util import *
 import repository.views.base as base
+from repository.views.util import sendfile
 import settings
 
 def index(request, order_by='-pub_date'):
@@ -244,3 +249,14 @@ def plot_single_curve(request, id, resolution='tiny'):
     response=HttpResponse(mimetype='image/png')
     canvas.print_png(response)
     return response
+
+def get_predictions(request, id):
+    """Extract the list of predictions from Result and return it"""
+    print 'get_predictions', id
+    obj = get_object_or_404(Result, pk=id)
+    fname = obj.get_output_filename()
+    fileobj = File(open(fname, 'r'))
+    # create humanly readable export filename
+    fname_export_visible = os.path.basename(fname)
+    fileobj.name = fname_export_visible
+    return sendfile(fileobj, 'text')

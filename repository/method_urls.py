@@ -4,7 +4,6 @@ URL patterns for Repository
 
 from django.conf.urls.defaults import *
 import repository.views as views
-import repository.views.method
 
 urlpatterns = patterns('',
     url(r'^$', views.method.index, name='method_index'),
@@ -27,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^score/download/(?P<id>\d+)/$', views.method.score_download, name='method_download'),
     url(r'^result/(?P<id>\d+)/(?P<resolution>[a-z]+)/$', views.method.plot_single_curve, name='method_result_curve'),
     url(r'^results/(?P<id>\d+)/(?P<resolution>[a-z]+)/$', views.method.plot_multiple_curves, name='method_result_curves'),
+    url(r'^result/predictions/(?P<id>\d+)/$', views.method.get_predictions, name='method_predictions'),
 )
