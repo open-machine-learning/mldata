@@ -11,7 +11,7 @@ from repository.models import Result
 
 
 class MethodForm(RepositoryForm):
-    """Form class for Solution.
+    """Form class for Method.
 
     @cvar score: is not required in form (but in model)
     @type score: forms.FileField

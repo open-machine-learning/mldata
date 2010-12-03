@@ -106,7 +106,7 @@
             <li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
             <li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
             <li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-	    <li id="tab-tabs-solution"><a title="{% trans "Tasks defined on dataset" %}" href="#tabs-solution">{% trans "Tasks" %}</a></li>
+	    <li id="tab-tabs-method"><a title="{% trans "Tasks defined on dataset" %}" href="#tabs-method">{% trans "Tasks" %}</a></li>
         </ul>
 
         <div id="tabs-summary">
@@ -232,7 +232,7 @@
             <p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
         </div><!-- /tabs-stats -->
 
-	<div id="tabs-solution">
+	<div id="tabs-method">
 		{% if page.object_list %}
 		<h3>Tasks defined on dataset {{ object.name }}</h3>
 		{% paginator %}
@@ -249,7 +249,7 @@
 		{% endif %}	
 		<a href="{% url task_new_from_data cur_data=object.slug %}">
 		{% trans "Submit a new Task for this Data item" %}</a>
-	</div><!-- /tabs-solution -->
+	</div><!-- /tabs-method -->
 
     </div><!-- /tabs -->
 

@@ -58,8 +58,8 @@ $(function() {
 		return false; // otherwise browser would append '#' to url
 	});
 
-	$('#tabs-solution #id_challenge').change(function() {
-		id = $('#tabs-solution #id_challenge').val()
+	$('#tabs-method #id_challenge').change(function() {
+		id = $('#tabs-method #id_challenge').val()
 		// trickery to use django's URL function
 		url = "{% url repository.views.challenge.get_tasks 0 %}"
 		url = url.substr(0, url.length - 2) + id;
@@ -69,10 +69,10 @@ $(function() {
 			for (var i = 0; i < data.length; i++) {
 			opt.add(new Option(data[i].fields.name, data[i].pk));
 			}
-			$('#tabs-solution #id_id').val(id);
+			$('#tabs-method #id_id').val(id);
 		});
 	});
-	$('#tabs-solution #id_title').val('');
+	$('#tabs-method #id_title').val('');
 	$('#tabs-publications #id_content').val('');
 
 	$('#tabs').tabs();
@@ -104,7 +104,7 @@ $(function() {
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-			<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Results/Tasks" %}</a></li>
+			<li id="tab-tabs-method"><a title="{% trans "Evaluate your results" %}" href="#tabs-method">{% trans "Results/Tasks" %}</a></li>
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -166,7 +166,7 @@ $(function() {
 			<p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
 		</div><!-- /tabs-stats -->
 
-		<div id="tabs-solution">
+		<div id="tabs-method">
 			{% if page.object_list %}
 			<h3>Method {{ object.name }} has been applied the following tasks: </h3>
 			{% paginator %}
@@ -191,7 +191,7 @@ $(function() {
 			{% endifequal %}
 
 			{% if result_form %}
-			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-solution"><dl>
+			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-method"><dl>
 					<dt><label for="id_task">{% trans "Select Task" %}</label> {{ result_form.task.errors }}</dt>
 					<dd>{{ result_form.task }}</dd>
 					<dt><label for="id_challenge">{% trans "Select Challenge" %}</label> {{ result_form.challenge.errors }}</dt>
@@ -205,7 +205,7 @@ $(function() {
 			{% else %}
 				{% trans "To submit a result, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
 			{% endif %}
-		</div><!-- /tabs-solution -->
+		</div><!-- /tabs-method -->
 
 
 	</div><!-- /tabs -->

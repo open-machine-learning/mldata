@@ -247,7 +247,7 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['page']=get_page(request, tasks, PER_PAGE)
         info_dict['per_page']=PER_PAGE
         info_dict['related_tasks']=tasks
-        info_dict['dependent_link']='#tabs-solutions'
+        info_dict['dependent_link']='#tabs-method'
     else:
         if request.user.is_authenticated():
             if request.method == 'POST':

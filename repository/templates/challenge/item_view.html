@@ -84,7 +84,7 @@ $(function() {
 			<li><a title="{% trans "History of item" %}" href="#tabs-history">{% trans "History" %}</a></li>
 			<li><a title="{% trans "Comments on item" %}" href="#tabs-comments">{% trans "Comments" %}</a></li>
 			<li><a title="{% trans "Statistics about item" %}" href="#tabs-stats">{% trans "Stats" %}</a></li>
-			<li id="tab-tabs-solution"><a title="{% trans "Evaluate your results" %}" href="#tabs-solution">{% trans "Results/Methods" %}</a></li>
+			<li id="tab-tabs-method"><a title="{% trans "Evaluate your results" %}" href="#tabs-method">{% trans "Results/Methods" %}</a></li>
 		</ul>
 
 		<div id="tabs-summary"><dl id="news">
@@ -138,7 +138,7 @@ $(function() {
 			<p>This item was downloaded {{ current.downloads }} times and viewed {{ current.hits }} times.</p>
 		</div><!-- /tabs-stats -->
 
-		<div id="tabs-solution">
+		<div id="tabs-method">
 			{% if page.object_list %}
 			<h3>Methods submitted to challenge {{ object.name }}</h3>
 			{% paginator %}
@@ -173,7 +173,7 @@ $(function() {
 			{% else %}
 				{% trans "To submit a result, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
 			{% endif %}
-		</div><!-- /tabs-solution -->
+		</div><!-- /tabs-method -->
 
 	</div><!-- /tabs -->
 
