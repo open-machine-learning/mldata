@@ -178,6 +178,8 @@ class Task(Repository):
         """
         if repository.models.Challenge.objects.filter(task__slug=self.slug).count() > 0:
             return True
+        if repository.models.Result.objects.filter(task__slug=self.slug).count() > 0:
+            return True
         return False
 
     def has_h5(self):
