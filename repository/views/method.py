@@ -252,7 +252,6 @@ def plot_single_curve(request, id, resolution='tiny'):
 
 def get_predictions(request, id):
     """Extract the list of predictions from Result and return it"""
-    print 'get_predictions', id
     obj = get_object_or_404(Result, pk=id)
     fname = obj.get_output_filename()
     fileobj = File(open(fname, 'r'))
