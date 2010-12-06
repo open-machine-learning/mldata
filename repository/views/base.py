@@ -45,7 +45,7 @@ from tagging.models import Tag
 
 MEGABYTE = 1048576
 
-DOWNLOAD_WARNING_LIMIT = 30000 # MEGABYTE
+DOWNLOAD_WARNING_LIMIT = 3000 # MEGABYTE
 
 def _download_cleanup(fname_export):
     """ erase exported file """
