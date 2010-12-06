@@ -98,8 +98,8 @@
                         {% ifequal klass 'Task' %}
 						<a href="{% url task_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
 						<a href="{% url task_download_xml object.slug %}">{% trans "XML" %}</a>
-						<a{% if object.can_convert_to_matlab %} href="{% url task_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
-						<a{% if object.can_convert_to_octave %} href="{% url task_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+						<a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url task_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+						<a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url task_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
 						{% endifequal %}
                         {% ifequal klass 'Data' %}
 						<a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
