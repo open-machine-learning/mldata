@@ -73,7 +73,11 @@ $(function() {
 		<a{% if can_edit %} href="{% url challenge_edit object.pk %}" title="{% trans "Edit this version to create a new current one" %}"{% else %} id="disabled"{% endif %}>{% trans "EDIT" %}</a>
 		<a href="{% url challenge_fork object.pk %}" title="{% trans "Fork this version to create a new one based on the current one" %}">{% trans "FORK" %}</a>
 		<a id="delete"{% if can_delete %} href="{% url challenge_delete object.pk %}" title="{% trans "Delete this version" %}"{% else %} id="disabled"{% endif %}>{% trans "DELETE" %}</a>
-	</div><br style="clear:both" />
+        {% if dependent_entries_exist %}
+        <br>
+        <p class="action-note">Object is <b>LOCKED</b> because others depend on it.<br> Fork to change.</p>
+        {% endif %}
+        </div><br style="clear:both" />
 
 {% include "repository/conversion_failed.html" %}
 
