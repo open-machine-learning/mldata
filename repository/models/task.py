@@ -186,6 +186,8 @@ class Task(Repository):
         return self.get_task_filename().endswith('.h5')
     def can_convert_to_octave(self):
         return ml2h5.fileformat.can_convert_h5_to('octave', self.get_task_filename())
+    def can_convert_to_rdata(self):
+        return ml2h5.fileformat.can_convert_h5_to('rdata', self.get_task_filename())
     def can_convert_to_matlab(self):
         return ml2h5.fileformat.can_convert_h5_to('matlab', self.get_task_filename())
 

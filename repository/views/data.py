@@ -161,6 +161,9 @@ def download_matlab(request, slug):
 def download_octave(request, slug):
     return base.download(request, Data, slug, 'octave')
 
+def download_rdata(request, slug):
+    return base.download(request, Data, slug, 'rdata')
+
 def rate(request, id):
     """Rate an item given by id and klass.
 

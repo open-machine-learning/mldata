@@ -166,10 +166,12 @@ def download(request, klass, slug, type='plain'):
         # create humanly readable export filename
         if type == 'matlab':
             fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.mat')
+        elif type == 'rdata':
+            fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.RData')
         else:
             fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.' + type)
 
-        if type in ('xml', 'csv', 'arff', 'libsvm', 'matlab', 'octave'):
+        if type in ('xml', 'csv', 'arff', 'libsvm', 'matlab', 'octave', 'rdata'):
             try:
                 c = ml2h5.converter.Converter(fname, fname_export, format_out=type)
                 c.run()
