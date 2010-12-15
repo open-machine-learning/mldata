@@ -67,6 +67,10 @@ these modules with "sudo python setup.py install"
 - python-json
 
   http://pypi.python.org/pypi/python-json
+
+- rpy2
+
+  http://rpy.sourceforge.net/rpy2.html
   
 
 
@@ -81,6 +85,7 @@ python-scipy
 memcached 
 python-memcache
 python-json
+python-rpy2
 
 There is no python-h5py in debian, but you can install it by hand.
 
