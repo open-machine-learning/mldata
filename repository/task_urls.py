@@ -39,4 +39,8 @@ urlpatterns = patterns('',
     #(r'^predict/(?P<slug>[A-Za-z0-9-_]+)/$', views.task.predict, name='task_predict'),
     url(r'^measures/list/(?P<type>[A-Za-z0-9-_ ]+)/$', views.task.get_measures, name='task_measure_list'),
     url(r'^measures/help/(?P<type>[A-Za-z0-9-_ ]+)/(?P<name>[A-Za-z0-9-_ ]+)/$', views.task.get_measure_help, name='task_measure_help'),
-)
+
+    url(r'^viewsplit/(?P<id>\d+)/(?P<split_nr>\d+)/$', views.task.plot_data_split,name='task_viewsplit'),
+    url(r'^viewsplit/(?P<id>\d+)/$', views.task.plot_data_split_array,name='task_viewsplit'),
+)    
+

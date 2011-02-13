@@ -171,6 +171,9 @@ class Task(Repository):
     def get_extract(self):
         return ml2h5.task.get_extract(os.path.join(MEDIA_ROOT, self.file.name))
 
+    def get_split_image(self,split_nr):
+        return ml2h5.task.get_split_image(os.path.join(MEDIA_ROOT, self.file.name),split_nr)
+
     def dependent_entries_exist(self):
         """Check whether there exists an object which depends on self.
 

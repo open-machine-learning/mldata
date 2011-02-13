@@ -2,6 +2,15 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseForbidden, Http404
+from django.shortcuts import get_object_or_404
+
+import matplotlib
+matplotlib.use('Cairo')
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from StringIO import StringIO
 
 from repository.models import *
 from repository.forms import *
@@ -117,3 +126,76 @@ def tags_view(request, tag):
 
 def task_rate(request, id):
     return base.rate(request, Task, id)
+
+
+def plot_data_split_array(request,id):
+    task=get_object_or_404(Task, pk=id)
+    split_array=[]
+    split_nr=0
+    img = task.get_split_image(split_nr)
+    while img!=None:
+        split_array.append(img)
+        split_nr+=1    
+        img = task.get_split_image(split_nr)
+        
+    dpi=60
+    bgcol='#ffffff'
+    #fig = Figure(figsize=(7,0.3), dpi=dpi, facecolor=bgcol)
+
+    fig = plt.figure( dpi=dpi, facecolor=bgcol)
+    ax = fig.add_subplot(111)
+    #canvas = FigureCanvas(fig)
+    #ax.set_yticklabels([])
+    ax.set_xticklabels([])
+    #import pdb
+    #pdb.set_trace()
+
+    ax.imshow(split_array,aspect='auto',interpolation='nearest',cmap=cm.jet)
+
+
+    #plt.colorbar()
+    imdata=StringIO()
+    fig.savefig(imdata,format='png', dpi=dpi, facecolor=bgcol)
+    return HttpResponse(imdata.getvalue(),mimetype='image/png')
+
+
+def plot_data_split(request,id,split_nr):
+    split_nr=int(split_nr)
+    task=get_object_or_404(Task, pk=id)
+    img = [task.get_split_image(split_nr)]
+    #import pdb
+    #pdb.set_trace()
+    if (img == None):
+        return None    
+
+    #import matplotlib
+    #matplotlib.use('Cairo')
+    #from matplotlib.figure import Figure
+    #from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
+    #import matplotlib.cm as cm
+    from StringIO import StringIO
+    dpi=60
+    bgcol='#ffffff'
+    fig = Figure(figsize=(7,0.3), dpi=dpi, facecolor=bgcol)
+
+#    fig = Figure( dpi=dpi, facecolor=bgcol)
+    canvas = FigureCanvas(fig)
+    bx = fig.add_subplot(111)
+    bx.set_yticklabels([])
+    bx.set_xticklabels([])
+    #import pdb
+    #pdb.set_trace()
+
+    bx.imshow(img,aspect='auto',interpolation='nearest',cmap=cm.jet)
+
+#    bx = fig.add_subplot(212)
+#    bx.set_yticklabels([])
+#    bx.set_xticklabels([])
+
+#    bx.imshow(img,aspect='auto',interpolation='nearest',cmap=cm.jet,extent=[0,len(img[0])-1,0,1])
+
+    canvas.draw()
+    imdata=StringIO()
+    fig.savefig(imdata,format='png', dpi=dpi, facecolor=bgcol)
+    return HttpResponse(imdata.getvalue(),mimetype='image/png')
+

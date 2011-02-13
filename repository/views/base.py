@@ -388,9 +388,11 @@ def new(request, klass, default_arg=None):
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     taskinfo = {
                         'train_idx': (form.cleaned_data['train_idx']),
+                        'val_idx': (form.cleaned_data['val_idx']),
                         'test_idx': (form.cleaned_data['test_idx']),
                         'input_variables': form.cleaned_data['input_variables'],
-                        'output_variables': form.cleaned_data['output_variables']
+                        'output_variables': form.cleaned_data['output_variables'],
+                        'data_size': form.cleaned_data['data'].num_instances
                     }
                     new.file = None
                     if 'file' in request.FILES:
@@ -480,9 +482,11 @@ def edit(request, klass, id):
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                 taskinfo = {
                     'train_idx': form.cleaned_data['train_idx'],
+                    'val_idx': form.cleaned_data['val_idx'],
                     'test_idx': form.cleaned_data['test_idx'],
                     'input_variables': form.cleaned_data['input_variables'],
-                    'output_variables': form.cleaned_data['output_variables']
+                    'output_variables': form.cleaned_data['output_variables'],
+                    'data_size': prev.data.num_instances
                 }
                 next.file = None
                 if 'file' in request.FILES:
@@ -515,8 +519,8 @@ def edit(request, klass, id):
         'publication_form': PublicationForm(),
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
+        'extract': prev.get_extract(),
     }
-
     return _response_for(request, klass, 'item_edit', info_dict)
 
 @transaction.commit_on_success
@@ -533,7 +537,8 @@ def fork(request, klass, id):
     """
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
-
+    import pdb
+    pdb.set_trace()
     prev = klass.get_object(id)
     if not prev: raise Http404
     if not prev.can_fork(request.user):

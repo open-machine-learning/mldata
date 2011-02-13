@@ -135,16 +135,40 @@ $(function() {
 			{% if can_edit %}{% trans "You can" %} <a href="{% url task_edit object.pk %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.{% endif %}
 		</div>
 		</div><!-- /tabs-summary -->
-
+        <!-- tabs-task  -->
 		<div id="tabs-task"><dl id="news">
-			<dt>{% trans "Train Indices" %}</dt>
-			<dd>{{ extract.train_idx|join:', ' }}</dd>
-			<dt>{% trans "Test Indices" %}</dt>
-			<dd>{{ extract.test_idx|join:', ' }}</dd>
 			<dt>{% trans "Input Variables" %}</dt>
 			<dd>{{ extract.input_variables|join:', ' }}</dd>
 			<dt>{% trans "Output Variables" %}</dt>
 			<dd>{{ extract.output_variables|join:', ' }}
+            <!-- #plot datasplits  -->
+			<dt>{% trans "Datasplits" %}</dt>
+            {% if extract.split_overflow %}
+                <dd><img src="{% url repository.views.task.plot_data_split_array object.pk %}"/></dd>
+            {% else %}
+                <table border="1">
+                    <th>Nr</th><th>Splitimage</th>    
+                    {% for sp in extract.split_idx %}    
+                    <tr>
+                        <td>{{ sp.0 }}</td><td><img src="{% url repository.views.task.plot_data_split object.pk  sp.0%}"/></td> 
+                    </tr>
+                    {% endfor %}    
+                </table>
+            {% endif %}
+            <!-- table of Datasplits -->
+            <table border="1">
+                <tr>
+                    <th>Nr</th><th>Train Indices</th><th>Validation Indices</th><th>Test Indices</th>
+                </tr>        
+                {% for sp in extract.reduce_split_idx %}    
+                <tr>
+                    <td>{{ sp.0 }}</td> 
+                    <td>{{ sp.1|join:', ' }}</td> 
+                    <td>{{ sp.2|join:', ' }}</td> 
+                    <td>{{ sp.3|join:', ' }}</td> 
+                </tr>
+                {% endfor %}    
+            </table>
 			<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
 		</dl></div><!-- /tabs-task -->
 

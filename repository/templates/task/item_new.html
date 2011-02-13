@@ -74,6 +74,27 @@ $(function() {
 	});
 
     $('#id_performance_measure').change();
+
+
+    $('#id_split_cont > tbody:last tr').live('change',function(){
+        var act_row=this;
+        if ($(act_row).next().html()==null) {
+            var last_row=act_row;
+            var train=$(last_row).find('td:first input').val();
+            if (train!=="") {
+                $('#id_split_cont > tbody:last').append('<tr><td><input type="text" name="train_idx" value=""/></td><td><input type="text" name="val_idx" value="" /></td><td><input type="text" name="test_idx" value="" /></td></tr>');
+            }
+        }
+        else {    
+            var middle_row=act_row;
+            var train=$(middle_row).find('td:first input').val();
+            var test=$(middle_row).find('td:last input').val();
+            if (train=="") {
+                $(middle_row).remove();
+            }
+        }    
+    });       
+
 });
 </script>
 {% endblock %}
@@ -89,6 +110,7 @@ $(function() {
 			<ul class="clearfix">
 				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
 				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+				<li><a title="{% trans "Info for Task file" %}" href="#tabs-task">{% trans "Task" %}</a></li>
 			</ul>
 
 
@@ -144,16 +166,26 @@ $(function() {
 				<dd>{{ form.urls }}</dd>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
 				<dd>{{ form.publications }}</dd>
-				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
-				<dd>{{ form.train_idx }}</dd>
-				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>
-				<dd>{{ form.test_idx }}</dd>
+            </dl></div>            
+            <!-- tabs-task  -->
+		    <div id="tabs-task"><dl id="news">
 				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
 				<dd>{{ form.input_variables }}</dd>
 				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
 				<dd>{{ form.output_variables }}
+
+                <dt>Datasplits</dt>
+                <dd><table border="1" id="id_split_cont" name="split_cont"> 
+                <tr>
+                        <th>Train Indices</th><th>Validation Indices</th><th>Test Indices</th>
+                </tr>                
+                <tbody>                
+                <tr><td><input type="text" name="train_idx" value=""/></td><td><input type="text" name="val_idx" value="" /></td><td><input type="text" name="test_idx" value="" /></td></tr>
+                </tbody>
+                </table></dd>
+
 				<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
-			</dl></div><!-- /tabs-more -->
+			</dl></div><!-- /tabs-task -->
 		</div>
 
 		<input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}

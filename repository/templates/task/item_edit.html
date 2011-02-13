@@ -8,6 +8,8 @@
 {% include "autocomplete.html" %}
 <script type="text/javascript" src="/media/js/jquery/jquery-ui.min.js"></script>
 <script type="text/javascript">
+
+        
 $(function() {
 	$('.cancel').click(function() {
 		window.history.back(-1);
@@ -69,6 +71,7 @@ $(function() {
 		});
 	});
 
+
     $('#id_type').change();
 
 	$('#id_performance_measure').change(function() {
@@ -83,7 +86,29 @@ $(function() {
 	});
 
     $('#id_performance_measure').change();
+
+
+    $('#id_split_cont > tbody:last tr').live('change',function(){
+        var act_row=this;
+        if ($(act_row).next().html()==null) {
+            var last_row=act_row;
+            var train=$(last_row).find('td:first input').val();
+            if (train!=="") {
+                $('#id_split_cont > tbody:last').append('<tr><td><input type="text" name="train_idx" value=""/></td><td><input type="text" name="val_idx" value="" /></td><td><input type="text" name="test_idx" value="" /></td></tr>');
+            }
+        }
+        else {    
+            var middle_row=act_row;
+            var train=$(middle_row).find('td:first input').val();
+            var test=$(middle_row).find('td:last input').val();
+            if (train=="") {
+                $(middle_row).remove();
+            }
+        }    
+    });       
+
 });
+
 </script>
 {% endblock %}
 
@@ -96,6 +121,7 @@ $(function() {
 		<div id="tabs">
 			<ul class="clearfix">
 				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
+				<li><a title="{% trans "Add or edit a datasplit" %}" href="#tabs-task">{% trans "Task" %}</a></li>
 				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
 				<li><a title="{% trans "Add or edit a publication" %}" href="#tabs-publications">{% trans "Publications" %}</a></li>
 			</ul>
@@ -116,7 +142,7 @@ $(function() {
 				<dt><label for="id_type">{% trans "Type" %}</label> * {{ form.type.errors }} {{ form.freeformtype.errors }}</dt>
 				<dd>{{ form.type }} {{ form.freeformtype }}<br /><span class="helptext">{% trans "Select type of Task or add a new one by filling in the text field" %}.</span></dd>
 				<dt><label for="id_data">{% trans "Data" %}</label> *{{ form.data.errors }}</dt>
-				<dd>{{ form.data }}</dd>
+                <dd>{{ form.data }}</dd>
 				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
 				<dd>{{ form.data_heldback }}</dd>
 				<dt><label for="id_file">{% trans "Task file" %}</label>: {{ form.file.errors }}</dt>
@@ -129,20 +155,46 @@ $(function() {
 				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
 				<dd>{{ form.urls }}</dd>
-				<dt><label for="id_train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt>
-				<dd>{{ form.train_idx }}</dd>
-				<dt><label for="id_test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt>
-				<dd>{{ form.test_idx }}</dd>
-				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
-				<dd>{{ form.input_variables }}</dd>
-				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
-				<dd>{{ form.output_variables }}
-				<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
 				<dd>{{ form.publications }}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_more" name="cancel_more" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-more -->
-			</form>
+
+            <div id="tabs-task"><dl> <!-- tab-Task -->
+				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
+				<dd>{{ form.input_variables }}</dd>
+				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
+				<dd>{{ form.output_variables }}
+                <dt>Datasplits</dt>
+                {% if extract.split_overflow or extract.split_string_overflow %}
+                    <dd>{% if object.file %}
+                        <a href="{% url repository.views.task.download object.slug %}">{% trans "Datasplit to large, please edit the Taskfile manually" %}</a><br /> 
+                    {% endif %}
+                    <img src="{% url repository.views.task.plot_data_split_array object.pk %}"/></dd>
+                    {% for sp in extract.split_idx %}
+                        <input type="hidden" name="train_idx" value="{{ sp.1|join:', ' }}"/><input type="hidden" name="test_idx" value="{{ sp.2|join:', ' }}" />
+                    {% endfor %}
+                {% else %}
+                <table border="1" id="id_split_cont" name="split_cont"> 
+                <tr>
+                        <th><dt><label for="train_idx">{% trans "Train Indices" %}</label> {{ form.train_idx.errors }}</dt></th><th><dt><label for="val_idx">{% trans "Validation Indices" %}</label> {{ form.val_idx.errors }}</dt></th><th><dt><label for="test_idx">{% trans "Test Indices" %}</label> {{ form.test_idx.errors }}</dt></th>
+                </tr>                
+                <tbody>                
+                {% for sp in extract.split_idx %}
+                <tr><td><input type="text" name="train_idx" value="{{ sp.1|join:', ' }}"/></td><td><input type="text" name="val_idx" value="{{ sp.2|join:', ' }}" /></td><td><input type="text" name="test_idx" value="{{ sp.3|join:', ' }}" /></td></tr>
+                {% endfor %}
+                <tr><td><input type="text" name="train_idx" value=""/></td><td><input type="text" name="val_idx" value="" /></td><td><input type="text" name="test_idx" value="" /></td></tr>
+                </tbody>
+                </table>
+
+                {% endif %}
+				<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
+                </label> {{ publication_form.content.errors }}</dt>
+                <input type="hidden" name="next" id="id_next" value="{{ request.path }}" /><br />
+                <input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
+</dl></div> <!-- tabs-task  -->
+
+            </form>
 
 			<div id="tabs-publications"><form method="post" action="{% url repository.views.publication.edit %}"><dl>
 				<dt><label for="id_publications">{% trans "Select an existing publication to edit or leave it blank to create a new one" %}</label></dt>
@@ -154,7 +206,8 @@ $(function() {
 				<input type="hidden" name="next" id="id_next" value="{{ request.path }}#tabs-more" />
 				<input type="hidden" name="id" id="id_id" value="0" />
 				<input type="submit" class="submit" value="{% trans "Submit Publication" %}" /> <input type="button" id="cancel_publication" name="cancel_publication" class="submit cancel" value="{% trans "Cancel" %}" />
-			</dl></form></div>
+            </dl></form></div>
+
 		</div><!-- /tabs -->
 </div><!-- /in -->
 {% endblock %}
