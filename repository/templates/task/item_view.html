@@ -123,7 +123,9 @@ $(function() {
 				<a href="{% url task_download_xml object.slug %}">{% trans "XML" %}</a>
 				<a{% if object.can_convert_to_matlab %} href="{% url task_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
 				<a{% if object.can_convert_to_octave %} href="{% url task_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+				{% comment %}
 				<a{% if object.can_convert_to_rdata %} href="{% url task_download_rdata object.slug %}"{% endif %}>{% trans "RData" %}</a>
+				{% endcomment %}
 				{% else %}
 				<a href="{% url task_download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 				{% endif %}
