@@ -12,7 +12,7 @@ DATABASE_PASSWORD = os.environ.get("TAGGING_DATABASE_PASSWORD", "")
 DATABASE_HOST = os.environ.get("TAGGING_DATABASE_HOST", "localhost")
 
 if test_engine == "sqlite":
-DATABASE_NAME = os.path.join(DIRNAME, 'tagging_test.db')
+    DATABASE_NAME = os.path.join(DIRNAME, 'tagging_test.db')
 
     DATABASE_HOST = ""
 elif test_engine == "mysql":
