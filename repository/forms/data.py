@@ -6,8 +6,6 @@ from django.db import IntegrityError
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
 
-from settings import TAG_SPLITSTR
-
 import ml2h5.task
 
 from repository.models import *

@@ -4,7 +4,7 @@ import os
 from django.conf import global_settings 
 
 FILE_UPLOAD_HANDLERS = ('mldata.utils.uploadprogresscachedhandler.UploadProgressCachedHandler', ) + \
-		    global_settings.FILE_UPLOAD_HANDLERS
+        global_settings.FILE_UPLOAD_HANDLERS
 
 VERSION = "r0000"
 PRODUCTION = False # set to True when project goes live
@@ -18,6 +18,7 @@ else:
     ADMINS = (
         ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
         ('Patrik Hoyer', 'patrik.hoyer@helsinki.fi'),
+        ('Hagen Zahn', 'hzahn@informatik.hu-berlin.de'),
         ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
         ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
     )
@@ -50,12 +51,6 @@ if not PRODUCTION:
 DATAPATH = 'data'
 TASKPATH = 'task'
 SOLUTIONPATH = 'solution'
-
-# Tagging stuff
-#FORCE_LOWERCASE_TAGS = 'False'
-#MAX_TAG_LENGTH = 30
-TAG_SPLITSTR = ', '
-
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -120,8 +115,8 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.middleware.csrf.CsrfResponseMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django_authopenid.middleware.OpenIDMiddleware',
     'django.middleware.transaction.TransactionMiddleware',

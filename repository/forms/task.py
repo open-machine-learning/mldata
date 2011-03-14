@@ -10,8 +10,6 @@ import ml2h5.task
 from ml2h5.indexsplit import expand_split_str,check_split_str,check_split_intersec
 from  mleval import evaluation
 
-from settings import TAG_SPLITSTR
-
 from repository.models import *
 from repository.widgets import *
 from repository.forms import RepositoryForm

@@ -17,7 +17,6 @@ from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import calculate_cloud
 from utils import slugify
-from settings import TAG_SPLITSTR
 
 import repository
 
@@ -229,7 +228,7 @@ class Repository(models.Model):
         return qs
 
     def get_tags(self):
-        return self.tags.split(TAG_SPLITSTR)
+        return self.tags.split()
 
     def has_tags(self):
         return self.tags

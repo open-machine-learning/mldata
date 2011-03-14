@@ -7,7 +7,6 @@ from django.utils.translation import ugettext as _
 from repository.models import *
 from repository.widgets import *
 from tagging.forms import TagField
-from settings import TAG_SPLITSTR
 from django.http import HttpResponseRedirect
 import ml2h5.task
 
@@ -36,7 +35,8 @@ class RepositoryForm(forms.ModelForm):
     def clean_tags(self):
         """Cleans field tags.
 
-        We want to avoid tags like 'foo, bar baz'
+        We want to avoid tags like 'foo, bar baz', i.e. we want foo, bar, baz
+        to be tags, so split based on spaces and then comma
         """
         tags = self.cleaned_data['tags']
-        return TAG_SPLITSTR.join([y for x in tags.split(' ') for y in x.split(',') if y])
+        return ','.join([y for x in tags.split() for y in x.split(',') if y])
