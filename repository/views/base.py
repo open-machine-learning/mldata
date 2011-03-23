@@ -222,7 +222,6 @@ def view(request, klass, slug_or_id, version=None):
 
     # need tags in list
     versions = get_versions_paginator(request, obj)
-
     info_dict = {
         'object': obj,
         'request': request,
@@ -537,8 +536,6 @@ def fork(request, klass, id):
     """
     if not request.user.is_authenticated():
         return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
-    import pdb
-    pdb.set_trace()
     prev = klass.get_object(id)
     if not prev: raise Http404
     if not prev.can_fork(request.user):

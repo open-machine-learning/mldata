@@ -107,17 +107,18 @@ class TaskForm(RepositoryForm):
         #import pdb
         #pdb.set_trace()
         for name in extract.keys():
-            try:
-                self.fields[name].initial = ','.join([str(d) for d in extract[name][0]])
-            except TypeError:
-                try:    
-                    self.fields[name].initial = str(extract[name])
-                except KeyError:
-                    pass        
+            try:    
+                if name in self.fields:    
+                    if len(extract[name]) > 0 and not type(extract[name][0]) in (numpy.string_,str):
+                        try:
+                            self.fields[name].initial = ','.join([str(d) for d in extract[name][0]])
+                        except TypeError:
+                            self.fields[name].initial = str(extract[name])
+                    else:
+                        self.fields[name].initial = str(extract[name][0])
             except KeyError:
-                pass    
-
-
+                pass        
+            
 
     def _clean_valid_inputformat(self, name):
         """Ensure field with given name has a valid format.
@@ -138,12 +139,12 @@ class TaskForm(RepositoryForm):
                     if not check_split_str(split):
                         raise forms.ValidationError('invalid format')
                     else:        
-                        split = [str(x) for x in expand_split_str(split)]
+                        split = [int(x) for x in expand_split_str(split)]
                         if len(split)>0 and (int(split[-1]) >= self.cleaned_data['data'].num_instances or int(split[0]) < 0):
                             raise forms.ValidationError('index out of bounds')
                                                 
                         splits.append(split)
-                        out.append([', '.join(split)])
+                        out.append(split)
                 dset=['train_idx','val_idx','test_idx']
                 for d in dset:
                     if self.data.has_key(d) and d != name:
