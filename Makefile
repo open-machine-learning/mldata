@@ -40,7 +40,7 @@ release: clean
 		rm -rf static/media \; \
 		mv -f $(WEBSITEDIR)/$(RELEASENAME)/media static/ \; \
 		cd $(WEBSITEDIR) \; ln -snf $(RELEASENAME) mldata \; \
-		sudo /etc/apache2/apache_restart \
+		sudo /etc/init.d/fapws3 restart \
 		\)
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 
