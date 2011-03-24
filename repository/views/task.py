@@ -150,7 +150,7 @@ def plot_data_split_array(request,id):
     #import pdb
     #pdb.set_trace()
 
-    ax.imshow(split_array,aspect='auto',interpolation='nearest',cmap=cm.jet)
+    ax.imshow(split_array,aspect='auto',interpolation='nearest',cmap=cm.Greys)
 
 
     #plt.colorbar()
@@ -168,6 +168,9 @@ def plot_data_split(request,id,split_nr):
     if (img == None):
         return None    
 
+#   why it does not work ? 
+    from pylab import axis
+    axis('off')
     #import matplotlib
     #matplotlib.use('Cairo')
     #from matplotlib.figure import Figure
@@ -185,8 +188,9 @@ def plot_data_split(request,id,split_nr):
     bx.set_xticklabels([])
     #import pdb
     #pdb.set_trace()
-
-    bx.imshow(img,aspect='auto',interpolation='nearest',cmap=cm.jet)
+    #mldata_col = {'red':((0,0,0),(0.1,0.1,0.1),(0.2,0.2,0.2)),'green':((0,0,0),(0.1,0.1,0.1),(0.2,0.2,0.2)),'blue':((0,0,0),(0.1,0.1,0.1),(0.2,0.2,0.2))}
+    #mldata_cmap=matplotlib.colors.LinearSegmentedColormap('mldata_colormap',mldata_col,256)
+    bx.imshow(img,aspect='auto',interpolation='nearest',cmap=cm.Greys)
 
 #    bx = fig.add_subplot(212)
 #    bx.set_yticklabels([])
