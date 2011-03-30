@@ -144,7 +144,9 @@ $(function() {
 			<dt>{% trans "Output Variables" %}</dt>
 			<dd>{{ extract.output_variables|join:', ' }}
             <!-- #plot datasplits  -->
-			<dt>{% trans "Datasplits" %}</dt>
+            <dt>{% trans "Datasplits" %}</dt>
+            <!-- plot legend -->
+            <dd><img src="{% url repository.views.task.plot_legend %}"/></dd>
             {% if extract.split_overflow %}
                 <dd><img src="{% url repository.views.task.plot_data_split_array object.pk %}"/></dd>
             {% else %}
@@ -157,6 +159,7 @@ $(function() {
                     {% endfor %}    
                 </table>
             {% endif %}
+
             <!-- table of Datasplits -->
             <table border="1">
                 <tr>

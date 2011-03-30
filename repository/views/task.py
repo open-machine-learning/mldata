@@ -10,6 +10,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+cmap_mldata=cm.Greys
 from StringIO import StringIO
 
 from repository.models import *
@@ -19,6 +20,7 @@ import repository.views.base as base
 import json
 
 from  mleval import evaluation
+
 
 def get_measures(request, type):
     """AJAX: Get measures associated with type
@@ -150,7 +152,7 @@ def plot_data_split_array(request,id):
     #import pdb
     #pdb.set_trace()
 
-    ax.imshow(split_array,aspect='auto',interpolation='nearest',cmap=cm.Greys)
+    ax.imshow(split_array,aspect='auto',interpolation='nearest',vmin=0,vmax=3,cmap=cmap_mldata)
 
 
     #plt.colorbar()
@@ -171,27 +173,21 @@ def plot_data_split(request,id,split_nr):
 #   why it does not work ? 
     from pylab import axis
     axis('off')
-    #import matplotlib
-    #matplotlib.use('Cairo')
-    #from matplotlib.figure import Figure
-    #from matplotlib.backends.backend_cairo import FigureCanvasCairo as FigureCanvas
-    #import matplotlib.cm as cm
+
     from StringIO import StringIO
     dpi=60
     bgcol='#ffffff'
     fig = Figure(figsize=(7,0.3), dpi=dpi, facecolor=bgcol)
 
-#    fig = Figure( dpi=dpi, facecolor=bgcol)
     canvas = FigureCanvas(fig)
     bx = fig.add_subplot(111)
     bx.set_yticklabels([])
     bx.set_xticklabels([])
+    bx.set_yticks([])
     #import pdb
     #pdb.set_trace()
-    #mldata_col = {'red':((0,0,0),(0.1,0.1,0.1),(0.2,0.2,0.2)),'green':((0,0,0),(0.1,0.1,0.1),(0.2,0.2,0.2)),'blue':((0,0,0),(0.1,0.1,0.1),(0.2,0.2,0.2))}
-    #mldata_cmap=matplotlib.colors.LinearSegmentedColormap('mldata_colormap',mldata_col,256)
-    bx.imshow(img,aspect='auto',interpolation='nearest',cmap=cm.Greys)
-
+    bx.imshow(img,aspect='auto',interpolation='nearest',vmin=0,vmax=3,cmap=cmap_mldata)
+    
 #    bx = fig.add_subplot(212)
 #    bx.set_yticklabels([])
 #    bx.set_xticklabels([])
@@ -203,3 +199,77 @@ def plot_data_split(request,id,split_nr):
     fig.savefig(imdata,format='png', dpi=dpi, facecolor=bgcol)
     return HttpResponse(imdata.getvalue(),mimetype='image/png')
 
+def plot_legend(request):
+    import numpy
+    img=numpy.array([[0,1,2,3]])
+    #from pylab import axis
+    #axis('off')
+
+    from StringIO import StringIO
+    dpi=25
+    bgcol='#ffffff'
+    fig = Figure(figsize=(7,1.5), dpi=dpi, facecolor=bgcol)
+
+    canvas = FigureCanvas(fig)
+    ax = fig.add_subplot(171)
+    ax.set_title('not used')
+    ax.title.set_fontsize(30)
+
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
+
+    ax.set_yticks([])
+    ax.set_xticks([])
+    ax.imshow([[0]],interpolation='nearest',vmin=0,vmax=3,cmap=cmap_mldata)
+
+    bx = fig.add_subplot(173)
+    bx.set_title('train')
+    bx.title.set_fontsize(30)
+
+    bx.set_yticklabels([])
+    bx.set_xticklabels([])
+
+    bx.set_yticks([])
+    bx.set_xticks([])
+
+    bx.imshow([[1]],interpolation='nearest',vmin=0,vmax=3,cmap=cmap_mldata)
+
+    cx = fig.add_subplot(175)
+    cx.set_title('validation')
+    cx.title.set_fontsize(30)
+
+    cx.set_yticklabels([])
+    cx.set_xticklabels([])
+
+    cx.set_yticks([])
+    cx.set_xticks([])
+
+    cx.imshow([[2]],interpolation='nearest',vmin=0,vmax=3,cmap=cmap_mldata)
+    dx = fig.add_subplot(177)
+    dx.set_title('test')
+    dx.title.set_fontsize(30)
+
+    dx.set_yticklabels([])
+    dx.set_xticklabels([])
+
+    dx.set_yticks([])
+    dx.set_xticks([])
+
+    dx.imshow([[3]],interpolation='nearest',vmin=0,vmax=3,cmap=cmap_mldata)
+  #bx.set_title('legend')
+    #bx.set_yticklabels([])
+    #bx.set_xticklabels([])
+
+    #bx.set_yticklabels([])
+    #bx.set_xticklabels(['not used','train','validation','test'])
+
+    #bx.set_yticks([])
+    #bx.set_xticks([2,7,12,17])
+    #for label in bx.get_xticklabels():
+    #    label.set_fontsize(12) 
+    #bx.imshow([[0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3]],aspect=None,interpolation='nearest',cmap=cm.Greys)
+
+    canvas.draw()
+    imdata=StringIO()
+    fig.savefig(imdata,format='png', dpi=dpi, facecolor=bgcol)
+    return HttpResponse(imdata.getvalue(),mimetype='image/png')

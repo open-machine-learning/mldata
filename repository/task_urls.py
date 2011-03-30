@@ -42,5 +42,6 @@ urlpatterns = patterns('',
 
     url(r'^viewsplit/(?P<id>\d+)/(?P<split_nr>\d+)/$', views.task.plot_data_split,name='task_viewsplit'),
     url(r'^viewsplit/(?P<id>\d+)/$', views.task.plot_data_split_array,name='task_viewsplit'),
+    url(r'^viewlegend$', views.task.plot_legend,name='task_legend'),
 )    
 
