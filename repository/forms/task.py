@@ -160,15 +160,17 @@ class TaskForm(RepositoryForm):
                     if len(split)>0:
                         if (split[-1] >= self.cleaned_data['data'].num_attributes or split[0] < 0):
                             raise forms.ValidationError('index out of bounds')
-                dset=['input_variables','output_variables']
-                #import pdb
-                #pdb.set_trace()
-                for d in dset:
-                    if self.data.has_key(d) and d != name:
-                        intersec=check_split_intersec([[int(i) for i in expand_split_str(self.data.getlist(d))],split])    
-                        if intersec:
-                            raise forms.ValidationError('index intersection')
-
+                    dset=['input_variables','output_variables']
+                    #import pdb
+                    #pdb.set_trace()
+                    for d in dset:
+                        if self.data.has_key(d) and d != name:
+                            intersec=check_split_intersec([[int(i) for i in expand_split_str(self.data.getlist(d))],split])    
+                            if intersec:
+                                raise forms.ValidationError('index intersection')
+                else:
+                    raise forms.ValidationError('invalid format')
+                            
                 return split 
         else:
             raise ValidationError(_('Invalid format (example: 0,1,2:5,5 = 0,1,2,3,4,5).'))
