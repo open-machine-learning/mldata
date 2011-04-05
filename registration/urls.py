@@ -27,6 +27,7 @@ from django.contrib.auth import views as auth_views
 from registration.views import activate
 from registration.views import register
 
+#NOTE THAT THE AUTH URLS ARE HANDLED IN AUTHOPENID NOT THIS MODULE
 
 urlpatterns = patterns('',
                        url(r'^register/$',
@@ -61,7 +62,8 @@ urlpatterns = patterns('',
                            name='auth_password_change_done'),
                        url(r'^password/reset/$',
                            auth_views.password_reset,
-                           {'template_name': 'registration/pw_reset.html'},
+                           {'template_name': 'registration/pw_reset.html',
+                               'email_template_name' : 'registration/password_reset_email.html'},
                            name='auth_password_reset'),
                        url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
                            auth_views.password_reset_confirm,
