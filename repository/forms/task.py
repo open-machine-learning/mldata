@@ -173,7 +173,7 @@ class TaskForm(RepositoryForm):
                             
                 return split 
         else:
-            raise ValidationError(_('Invalid format (example: 0,1,2:5,5 = 0,1,2,3,4,5).'))
+            raise ValidationError(_('Invalid format (example: 0,1,2:5,5 = 0,1,2,3,4,5)'))
 
     def clean_train_idx(self):
         """Ensure train_idx are given as comma-seperated list of integers."""
@@ -207,3 +207,8 @@ class TaskForm(RepositoryForm):
             if not self.cleaned_data['output_variables']:
                 return None
         return self._clean_valid_inputformat('output_variables')
+
+    def clean_file(self):
+        if self.cleaned_data['file'] and not Task.check_taskfile(self.cleaned_data['file']):
+            raise forms.ValidationError( 'Format not supported' )
+        return self.cleaned_data['file']  

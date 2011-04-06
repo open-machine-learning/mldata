@@ -52,6 +52,10 @@ class Task(Repository):
     license = models.ForeignKey(FixedLicense, editable=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
 
+    @staticmethod
+    def check_taskfile(fname):
+        return ml2h5.task.check_taskfile(fname)    
+
     class Meta:
         app_label = 'repository'
 
