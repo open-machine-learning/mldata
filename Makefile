@@ -50,7 +50,7 @@ dev:
 tar: clean
 	rm -rf "$(RELEASEDIR)/$(RELEASENAME)"
 	svn export . $(RELEASEDIR)/$(RELEASENAME)
-	cd $(RELEASEDIR) && tar cjvf $(RELEASETAR) $(RELEASENAME)
+	cd $(RELEASEDIR) && tar czvf $(RELEASETAR) $(RELEASENAME)
 	rm -rf "$(RELEASEDIR)/$(RELEASENAME)"
 
 clean:
