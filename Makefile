@@ -1,6 +1,6 @@
 VER=r$(shell svn info  | grep Revision | cut -f 2 -d ' ')
 RELEASENAME:=mldata-$(VER)
-RELEASETAR:=mldata-$(VER).tar.bz2
+RELEASETAR:=mldata-$(VER).tar.gz
 RELEASEDIR:=/tmp/
 
 WEBSITEDIR:=django
