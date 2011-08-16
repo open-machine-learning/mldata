@@ -207,3 +207,14 @@ class RepositoryTest(TestCase):
         d.attach_file(File(open('fixtures/breastcancer.txt', 'r')))
         d.save()
         self.assertEqual(1, len(Data.objects.filter(name='test_data_set')))
+
+    def test_tags_with_comma(self):
+        d = Data(name = 'test_data_set_tags',
+            user=User.objects.get(username='user'),
+            license=License.objects.get(name='foobar'),
+            tags="test, test2")
+
+        d.create_slug()
+        d.attach_file(File(open('fixtures/breastcancer.txt', 'r')))
+        d.save()
+        self.assertEqual(1, len(Data.objects.filter(name='test_data_set')))

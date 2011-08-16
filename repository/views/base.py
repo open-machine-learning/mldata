@@ -419,9 +419,11 @@ def new(request, klass, default_arg=None):
             form = formfunc(request=request, default_arg=default_arg)
         else:
             form = formfunc(request=request)
+    kname=klass.__name__.lower()
 
     info_dict = {
         'klass': klass.__name__,
+        kname: True,
         'uuid': uuid.uuid4(), # for upload progress bar
         'url_new': request.path,
         'form': form,

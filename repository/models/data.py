@@ -122,9 +122,12 @@ class Data(Repository):
                 c.run(verify=verify)
             except ml2h5.converter.ConversionError, error:
                 if self.tags:
-                    self.tags += ', conversion_failed'
+                    self.tags += ' conversion_failed'
                 else:
                     self.tags = 'conversion_failed'
+
+                # remove everything which is not underscore or a string
+                self.tags = re.sub(r'[^\w]', ' ', self.tags)
 
                 self.save()
                 raise ml2h5.converter.ConversionError(error.value)

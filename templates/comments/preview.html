@@ -9,6 +9,10 @@
 {% block content %}
 <h2 class="title-01">{% trans "Preview" %}</h2>
 <div class="in">
+{% if form.errors %}
+Errors:
+{{ form.errors }}
+{% endif %}
 <dl>
 	<dd>{{ comment|markdown }}</dd>
 </dl>

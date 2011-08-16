@@ -18,13 +18,13 @@
 			<span class="index_plain_right">
 				{{object.hits }} view{{ object.hits|pluralize}}, {{ object.downloads }} download{{ object.downloads|pluralize}}, {{ comment_count }} comment{{ comment_count|pluralize}}
 			</span>
-			<br \>
+			<br />
 			<span class="index_plain">{% trans "last edited by" %} {{ object.user.username }}</span>
 			-
 			<span class="index_plain">{{ object.pub_date|date:"M j, Y, H:i" }} CET</span>
 			<span class="index_plain_right">{% trans "Rating" %} {% show_stars object.rating_avg of 5 round to half %}</span>
 		</h2>
-		<br \>
+		<br />
 
         <div id="tabs-summary">
 		<div class=index_bg">
@@ -33,7 +33,7 @@
 				<span class="index_plain">{{ object.summary|edit_if_empty }}</span>
 				<span class="index_plain_right"><img src="/media/images/logo_small.png"></img></span>
 				</dt>
-				{% if object.num_instances %}<dt>{% trans "Data Shape:" %}
+				{% if object.num_instances > 0 and object.num_attributes > 0 %}<dt>{% trans "Data Shape:" %}
 				<span class="index_plain">{{ object.num_attributes }} attributes, {{ object.num_instances }} instances
 				({{ object.get_attribute_types }})
 				</dt>

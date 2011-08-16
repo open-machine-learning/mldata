@@ -59,7 +59,7 @@ class RegistrationManager(models.Manager):
                 return user
         return False
     
-    def create_inactive_user(self, firstname, lastname, username, password, email,
+    def create_inactive_user(self, username, password, email, firstname="", lastname="", 
                              send_email=True, profile_callback=None):
         """
         Create a new, inactive ``User``, generates a

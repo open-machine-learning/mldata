@@ -123,7 +123,9 @@
 				</dd>
                 <dt>{% trans "Download" %}</a></dt>
                 <dd>
+                	{% if object.num_instances > 0 and object.num_attributes > 0 %}
                     {% trans "# Instances" %}: {{ object.num_instances }} / {% trans "# Attributes" %}: {{ object.num_attributes }}<br />
+                    {% endif %}
 					{% if object.slug %}
                     {% if object.has_h5 %}
                     <a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
@@ -196,7 +198,7 @@
             <dt>{% trans "Description" %}</dt>
             <dd>{{ object.description|edit_if_empty|markdown:"safe" }}</dd>
             <dt>{% trans "URLs" %}</dt>
-            <dd>{{ object.urls|edit_if_empty }}</dd>
+            <dd>{{ object.urls|edit_if_empty|urlize }}</dd>
             <dt>{% trans "Publications" %}</dt>
             <dd><ul>{% for p in object.publications.all %}
                     <li>{{ p.content|edit_if_empty|markdown:"safe" }}</li>

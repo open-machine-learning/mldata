@@ -86,8 +86,7 @@ memcached
 python-memcache
 python-json
 python-rpy2
-
-There is no python-h5py in debian, but you can install it by hand.
+python-matplotlib
 
 
 
