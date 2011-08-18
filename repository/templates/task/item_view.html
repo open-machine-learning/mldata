@@ -181,7 +181,7 @@ $(function() {
 			<dt>{% trans "Description" %}</dt>
 			<dd>{{ object.description|edit_if_empty|markdown:"safe" }}</dd>
 			<dt>{% trans "URLs" %}</dt>
-			<dd>{{ object.urls|edit_if_empty }}</dd>
+			<dd>{{ object.urls|edit_if_empty|urlize }}</dd>
 			<dt>{% trans "Publications" %}</dt>
 			<dd><ul>{% for p in object.publications.all %}
 				<li>{{ p.content|edit_if_empty|markdown:"safe" }}</li>
