@@ -24,9 +24,10 @@
 ---------------------------------------------------------------------------------------------------------- */
 
 /*body {padding:5px 0; background:url("../images/bg.gif") 0 0 repeat-x; font: 0.75em/1.5 "arial", sans-serif;}*/
-body  { padding: 5px 0; background:url("../images/bg.gif") 0 0 repeat-x; font: 0.75em/1.5 "arial", sans-serif; }
+body  { background-color: #d8eaed; padding: 0px 0; /*background:url("../images/bg.gif") 0 0 repeat-x;*/ font-size: 13px; font-family: Verdana, Arial, sans-serif; }
+p, ul, ol, td, div { color: #444444; line-height: 150%; }
 
-h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px 0;}
+h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:5px 0;}
 
 /* ----------------------------------------------------------------------------------------------------------
 2) HTML styles
@@ -37,12 +38,17 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
 3) Layout
 ---------------------------------------------------------------------------------------------------------- */
 
-#main {width:940px; padding:5px; margin:0 auto; overflow:hidden;}
+#main {width:940px; padding:5px; margin:0 auto; overflow:hidden; beckground-color: #ffffff; border: 1px solid #7ec1cf; border-top: 0;}
 
-    #header {position:relative; height:100px; padding:0 0 0 35px; background:url("../images/header.gif") 0 0 no-repeat; overflow:hidden;}
+    #header {position:relative; height:100px; padding:0 0 0 35px; /*background:url("../images/header.gif") 0 0 no-repeat;*/ overflow:hidden;}
     #header #logo {margin:0;}
     
-		#slogan {position:absolute; top:30px; right:0; width:275px; padding:10px 10px 10px 15px; background:url("../images/pattern.gif");}
+		#slogan {
+		-moz-border-bottom-left-radius: 10px;
+		-moz-border-top-left-radius: 10px;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		position:absolute; top:30px; right:0; width:275px; padding:10px 10px 10px 15px; background:url("../images/pattern.gif");}
     
     #nav {position:relative; padding:0 15px;}
     #nav ul {margin:0; list-style:none; padding-left:0;}
@@ -54,20 +60,20 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
     #nav #feeds {position:absolute; top:4px; right:25px; margin:0;}
     #nav #feeds a:hover {text-decoration:none;}
 
-	#nav .repository ul li a {background:#5f5f5f; color:#ffffff;}
+	#nav .repository ul li a {background: #eeeeee; color:#000000;}
 	#nav .repository ul li a:hover {background:#ffffff; color:#000000;}
-	#nav .repository ul li.active a {color:#ffffff;}
-	#nav .repository ul li.active a:hover {color:#000000;}
-    #cols1 {margin-bottom:10px; background:url("../images/col.gif") 0 0 no-repeat;}
-    #cols1-in {min-height:430px; padding:5px 20px; background:url("../images/col-in.gif") 100% 100% no-repeat;}
-    #cols2 {margin-bottom:10px; background:url("../images/cols.gif") 0 0 no-repeat;}
-    #cols2-in {min-height:430px; padding:5px 20px; background:url("../images/cols-in.gif") 0 100% no-repeat;}
+	#nav .repository ul li.active a {}
+	#nav .repository ul li.active a:hover {}
+    #cols1 {margin-bottom:10px; /*background:url("../images/col.gif") 0 0 no-repeat;*/}
+    #cols1-in {min-height:430px; padding:5px 20px; /*background:url("../images/col-in.gif") 100% 100% no-repeat;*/}
+    #cols2 {margin-bottom:10px; /*background:url("../images/cols.gif") 0 0 no-repeat;*/}
+    #cols2-in {min-height:430px; padding:5px 20px; /*background:url("../images/cols-in.gif") 0 100% no-repeat;*/}
     #content-cols1 {float:left; width:100%; background:#FFF;}
     #content-cols2 {float:left; width:600px; background:#FFF;}
     #aside {float:right; width:280px;}
     #content-cols1 .in, #content-cols2 .in, #aside .in {padding:5px 15px;}
 
-    #footer {padding:15px 15px 5px 15px;}
+    #footer {padding:5px 15px 5px 15px; border-top: 1px dashed #bbbbbb;}
     #footer p {margin:0;}
     
         #ico-print {padding-left:12px; background:url("../images/ico-print.gif") 0 50% no-repeat;}
@@ -81,7 +87,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
 4-1) Page: Homepage
 ---------------------------------------------------------------------------------------------------------- */
 
-#breadcrumbs {margin:0; font-size:90%;}
+#breadcrumbs {margin:0; font-size:90%; color: #999999;}
 #breadcrumbs a:hover {text-decoration:none;}
 #breadcrumbs span {margin:0 3px;}
 
@@ -109,13 +115,13 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:15px
 
 ul {margin-bottom:3px; padding-left:15px; }
 ol {margin-bottom:3px; padding-left:15px; }
-dl dd {margin-bottom:5px; }
+dl dd {margin-bottom:4px; padding-bottom: 4px; border-bottom: 1px solid #f2f2f2; }
 
-dl#news {margin:0; background:url("../images/dot-02.gif") 3px 0 repeat-y;}
+dl#news {margin:0;}
 dl#news dt {margin-bottom:3px; padding-left:15px; background:url("../images/news-dt.gif") 0 50% no-repeat; font-weight:bold; vertical-align: top;}
 dl#news dd {margin:0; margin-bottom:10px; padding-left:15px;}
 dl#news a:hover {text-decoration:none;}
-
+div#tabs dl#news {border: 1px solid #8AC7CF; border-top: 0; padding: 8px; background:url("../images/dot-02.gif") 11px 8px repeat-y;}
 
 #gallery-in {padding:15px; background:url("../images/gallery.gif") 0 0 repeat-x;}
 #gallery .separator {width:910px; height:2px; margin:10px 0; background:url("../images/separator.gif") 0 0 repeat-x; font-size:0; line-height:0; overflow:hidden;}
@@ -126,13 +132,30 @@ dl#news a:hover {text-decoration:none;}
 5) Others
 ---------------------------------------------------------------------------------------------------------- */
 
-.title-01 {margin:0; padding:15px 15px 15px 45px; background:url("../images/square-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
+.title-01 {
+/*-moz-border-radius: 10px;
+border-radius: 10px;*/
+border-bottom: 1px dashed #999999;
+margin:0;
+padding:12px 7px 12px 45px;
+background:url("../images/square-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
 /*.title-02 {background:url("../images/dot-01.gif") 0 60% repeat-x; font-size:100%;}*/
-.title-02 { font-size: 100%; background-color: #eee; padding: 3px 3px 3px 10px; margin-top: 0; }
+.title-02 {
+-moz-border-radius: 8px;
+border-radius: 8px;
+font-size: 100%;
+background-color: #eee;
+padding: 3px 3px 3px 10px; margin-top: 0; }
 .title-02 span {padding-right:5px;}
-.title-03 {margin:0; padding:13px 10px 13px 15px; background:url("../images/square-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
+.title-03 {
+-moz-border-radius: 6px;
+border-radius: 6px;
+margin:0; padding:10px 7px 10px 12px; background:url("../images/square-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
 .title-03.gallery {background:url("../images/square-02.gif") 903px 50% no-repeat;}
-.title-04 {margin:0 5px; padding:13px 30px 13px 15px; background:url("../images/title-04.gif") 0 0  repeat-x; font-size:100%; font-weight:bold;}
+.title-04 {
+-moz-border-radius: 4px;
+border-radius: 4px;
+margin:0 5px; padding:13px 30px 13px 15px; background:url("../images/title-04.gif") 0 0  repeat-x; font-size:100%; font-weight:bold;}
 
 .more {padding-right:14px; background:url("../images/more.gif") 100% 5px no-repeat;}
 a:hover.more {text-decoration:none;}
@@ -143,11 +166,11 @@ th { padding: 5px; text-align: left; border: solid 1px #eee; background-color: #
 td { padding: 5px; border: solid 1px #eee;}
 
 /* tabs */
-.ui-tabs .ui-tabs-nav {border-bottom:1px solid #0081c7; margin:10px 0; width:100%; padding:0;}
-.ui-tabs .ui-tabs-nav li {border:1px solid #0081c7; float:left;
+.ui-tabs .ui-tabs-nav {border-bottom:1px solid #8AC7CF; margin:0; margin-top: 15px; width:100%; padding:0;}
+.ui-tabs .ui-tabs-nav li {border:1px solid #8AC7CF; float:left;
 list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topright:5px; -webkit-border-top-right-radius:5px; border-top-left-radius:5px; border-top-right-radius:5px; background-color:#eeeeee;}
-.ui-tabs .ui-tabs-nav li a {float:left; text-decoration:none; padding:3px 5px; margin:3px;}
-.ui-tabs .ui-tabs-nav li.ui-tabs-selected {background-color:#fff; border-color:#0081c7;border-bottom-color:#fff;}
+.ui-tabs .ui-tabs-nav li a {float:left; text-decoration:none; padding:1px 2px; margin:3px;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {background-color:#fff; border-color:#8AC7CF;border-bottom-color:#fff;}
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a {background-color:#fff; color:#000;}
 .ui-tabs .ui-tabs-panel {background:#fff;}
 .ui-tabs .ui-tabs-hide {display: none !important;}
@@ -159,13 +182,18 @@ list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:5px; 
 * html .clearfix {height:1%;}
 .clearfix {display:block;}
 
-
+.shadow, #rating-hide {
+-moz-box-shadow: 3px 3px 3px #aaa;
+-webkit-box-shadow: 3px 3px 3px #aaa;
+box-shadow: 3px 3px 3px #aaa;
+}
 
 /* rating */
-#rating-hide {visibility: hidden; position:absolute; background:#FFF; z-index:42; border: 3px solid #0081C7;}
-#rating-hide-title {width:100%; background:#0081C7; font-size:large; color:#FFF;}
-#rating-hide-head {text-align:left; width:90%; background:#0081C7;}
-#rating-hide-close {text-align:right; width:10%; background:#0081C7;}
+#rating-hide { font-size: 10px;}
+#rating-hide {visibility: hidden; position:absolute; background:#FFF; z-index:42; border: 1px solid #44afc2;}
+#rating-hide-title {width:100%; background:#44afc2; font-size:14px; color:#FFF;}
+#rating-hide-head {text-align:left; width:90%; background:#44afc2; color: #fff;}
+#rating-hide-close {text-align:right; width:10%; background:#44afc2;}
 #rating-hide-close a {text-decoration:none; color:#FFF;}
 #rating-hide-close a:hover {text-decoration:blink;}
 #rating-hide-results {margin:.5em; padding:0; padding-top:.5em; text-align:left;}
@@ -173,12 +201,12 @@ list-style:none; margin:0 2px -1px; width:auto; -moz-border-radius-topleft:5px; 
 #rating-hide-results img {vertical-align:top;}
 #rating-hide-form {margin:.5em; margin-top:1em;}
 #rating-hide-form ul {padding:0; margin:0; list-style-type:none;}
-#rating-hide-form li {display:inline; font-size:small; }
+#rating-hide-form li {display:inline; }
 #rating-hide-form input[type="radio"] { width: 1em; }
 
 /* other item styles */
-#info { padding:0; margin:0; font-weight: bold; width:70%; float:left; text-align:left; vertical-align:bottom;}
-#actions { padding:0; margin:0; font-weight: bold; width:30%; float:right; text-align:right; vertical-align:bottom;}
+#info { padding:0; margin:0; font-weight: bold; text-align:left; vertical-align:bottom;}
+#actions { padding:0; margin:0; font-weight: bold; text-align:left; vertical-align:bottom;}
 #actions p.action-note { margin: 0px; font-weight: normal; }
 .fullwidth {width:100%; height:100%;}
 #disabled { color:#cccccc; }
