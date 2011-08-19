@@ -6,5 +6,6 @@
 {"pk": 5, "model": "repository.license", "fields": {"url": "http://www.cs.waikato.ac.nz/ml/weka/index_datasets.html", "name": "unknown (from Weka repository)"}},
 {"pk": 6, "model": "repository.license", "fields": {"url": "http://archive.ics.uci.edu/ml/", "name": "unknown (from UCI repository)"}},
 {"pk": 7, "model": "repository.license", "fields": {"url": "http://www.opendatacommons.org/licenses/by/1.0/", "name": "ODC-By"}},
+{"pk": 8, "model": "repository.license", "fields": {"url": "", "name": "uhnknown"}},
 {"pk": 1, "model": "repository.fixedlicense", "fields": {"url": "http://creativecommons.org/licenses/by-sa/3.0/", "name": "CC-BY-SA 3.0"}}
 ]

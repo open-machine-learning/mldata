@@ -10,13 +10,7 @@ $ sudo python setup.py install
 (If you have an old version, you need to delete the previous installation
 under /usr/lib/python2.5/site-packages/django by hand!)
 
-If you don't have website/mldata/mldata.db, create the database with
-$ python manage.py syncdb
-
-Install fixtures:
-$ python manage.py loaddata `find ./ -name '*.json'`
-
-Download sample data:
+Create database and load sample data:
 $ python setup.py install
 
 
