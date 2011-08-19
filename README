@@ -13,6 +13,8 @@ under /usr/lib/python2.5/site-packages/django by hand!)
 Create database and load sample data:
 $ python setup.py install
 
+Warning:
+Default admin user mldata/mldata is created!
 
 Run the webserver with
 $ cd website/mldata/

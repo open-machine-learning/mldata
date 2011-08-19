@@ -37,6 +37,7 @@ def install():
     os.remove(out_dir + file_name)
 
     print "Done!"
+    print "Type 'python manage.py runserver' to start!"
 
 if __name__ == '__main__':
     import sys
