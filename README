@@ -16,6 +16,8 @@ $ python manage.py syncdb
 Install fixtures:
 $ python manage.py loaddata `find ./ -name '*.json'`
 
+Download sample data:
+$ python setup.py install
 
 
 Run the webserver with
