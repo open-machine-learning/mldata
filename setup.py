@@ -18,6 +18,11 @@ def download(url):
     localFile.close()
 
 def install():
+    print 'Creating database... '
+    os.system("python manage.py syncdb --noinput")
+    print 'Loading fixtures... '
+    os.system("python manage.py loaddata `find ./ -name '*.json'`")
+
     try:
         print 'Downloading %s... ' % (file_name,)
         download(src + file_name)
