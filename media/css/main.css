@@ -43,12 +43,7 @@ h1, h2, h3, h4, h5, h6, p, address, blockquote, table, dl, fieldset {margin:5px 
     #header {position:relative; height:100px; padding:0 0 0 35px; /*background:url("../images/header.gif") 0 0 no-repeat;*/ overflow:hidden;}
     #header #logo {margin:0;}
     
-		#slogan {
-		-moz-border-bottom-left-radius: 10px;
-		-moz-border-top-left-radius: 10px;
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
-		position:absolute; top:30px; right:0; width:275px; padding:10px 10px 10px 15px; background:url("../images/pattern.gif");}
+		#slogan {-moz-border-bottom-left-radius: 10px;-moz-border-top-left-radius: 10px;border-top-left-radius: 10px;border-bottom-left-radius: 10px;position:absolute; top:30px; right:0; width:275px; padding:10px 10px 10px 15px; background:url("../images/pattern.gif");}
     
     #nav {position:relative; padding:0 15px;}
     #nav ul {margin:0; list-style:none; padding-left:0;}
@@ -132,30 +127,13 @@ div#tabs dl#news {border: 1px solid #8AC7CF; border-top: 0; padding: 8px; backgr
 5) Others
 ---------------------------------------------------------------------------------------------------------- */
 
-.title-01 {
-/*-moz-border-radius: 10px;
-border-radius: 10px;*/
-border-bottom: 1px dashed #999999;
-margin:0;
-padding:12px 7px 12px 45px;
-background:url("../images/square-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
+.title-01 {/*-moz-border-radius: 10px;border-radius: 10px;*/border-bottom: 1px dashed #999999;margin:0;padding:12px 7px 12px 45px;background:url("../images/square-01.gif") 15px 50% no-repeat; font-size:150%; font-weight:normal;}
 /*.title-02 {background:url("../images/dot-01.gif") 0 60% repeat-x; font-size:100%;}*/
-.title-02 {
--moz-border-radius: 8px;
-border-radius: 8px;
-font-size: 100%;
-background-color: #eee;
-padding: 3px 3px 3px 10px; margin-top: 0; }
+.title-02 {-moz-border-radius: 8px;border-radius: 8px;font-size: 100%;background-color: #eee;padding: 3px 3px 3px 10px; margin-top: 0; }
 .title-02 span {padding-right:5px;}
-.title-03 {
--moz-border-radius: 6px;
-border-radius: 6px;
-margin:0; padding:10px 7px 10px 12px; background:url("../images/square-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
+.title-03 {-moz-border-radius: 6px;border-radius: 6px;margin:0; padding:10px 7px 10px 12px; background:url("../images/square-02.gif") 245px 50% no-repeat; font-size:100%; font-weight:bold;}
 .title-03.gallery {background:url("../images/square-02.gif") 903px 50% no-repeat;}
-.title-04 {
--moz-border-radius: 4px;
-border-radius: 4px;
-margin:0 5px; padding:13px 30px 13px 15px; background:url("../images/title-04.gif") 0 0  repeat-x; font-size:100%; font-weight:bold;}
+.title-04 {-moz-border-radius: 4px;border-radius: 4px;margin:0 5px; padding:13px 30px 13px 15px; background:url("../images/title-04.gif") 0 0  repeat-x; font-size:100%; font-weight:bold;}
 
 .more {padding-right:14px; background:url("../images/more.gif") 100% 5px no-repeat;}
 a:hover.more {text-decoration:none;}
