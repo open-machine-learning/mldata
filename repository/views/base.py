@@ -49,14 +49,14 @@ MEGABYTE = 1048576
 DOWNLOAD_WARNING_LIMIT = 30000 # 30k is this a good margin?
 
 # Data-upload helper functions
-def validate_file_size(request, form, klass):
+def _validate_file_size(request, form, klass):
     # check whether file is too large
     upload_limit = Preferences.objects.get(pk=1).max_data_size
     if klass in (Data, Task) and 'file' in request.FILES:
         if len(request.FILES['file']) > upload_limit:
             form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
             
-def upload_data_file(new, file):
+def _upload_data_file(new, file):
     new.file = file
     new.num_instances = -1
     new.num_attributes = -1
@@ -369,7 +369,7 @@ def new(request, klass, default_arg=None):
         if not request.FILES and klass == Data:
             form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
 
-        validate_file_size(request, form, klass)
+        _validate_file_size(request, form, klass)
         
         if form.is_valid():
             new = form.save(commit=False)
@@ -391,7 +391,7 @@ def new(request, klass, default_arg=None):
                     new.is_public = True
 
                 if klass == Data:
-                    upload_data_file(new, request.FILES['file'])
+                    _upload_data_file(new, request.FILES['file'])
                     new.save()
                 elif klass == Task:
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
@@ -473,7 +473,7 @@ def edit(request, klass, id):
         request.POST['name'] = prev.name # cheat a little
         form = formfunc(request.POST, request=request)
 
-        validate_file_size(request, form, klass)
+        _validate_file_size(request, form, klass)
 
         if form.is_valid():
             next = form.save(commit=False)
@@ -493,7 +493,7 @@ def edit(request, klass, id):
                     next.format = prev.format
                     next.file = prev.file
                 else:
-                    upload_data_file(next, request.FILES['file'])
+                    _upload_data_file(next, request.FILES['file'])
                 next.save()
             elif klass == Task:
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
