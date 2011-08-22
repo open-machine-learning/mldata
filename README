@@ -35,8 +35,10 @@ these modules with "sudo python setup.py install"
 - memcache:
 
   For caching, you need memcache, both the actual server and
-  the python package. See http://docs.djangoproject.com/en/1.1/topics/cache/
-  For example, you can install http://gijsbert.org/cmemcache/
+  the python package. See http://docs.djangoproject.com/en/1.3/topics/cache/
+  For example, you can install:
+    http://memcached.org/ and
+    http://www.tummy.com/Community/software/python-memcached/
 
 - python-openid:
 
