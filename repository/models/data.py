@@ -121,17 +121,8 @@ class Data(Repository):
                                               )
                 c.run(verify=verify)
             except ml2h5.converter.ConversionError, error:
-                # add tag conversion_failed, if there is comma in string then 
-                # string is comma-seperated, otherwise it is space-separated
-                tag_separator = ' '
-                if ',' in self.tags:
-                    tag_separator = ','
-                
-                if self.tags:
-                    self.tags += tag_separator + ' conversion_failed'
-                else:
-                    self.tags = 'conversion_failed'
-
+                # save it anyway but keep private
+                self.is_public = False
                 self.save()
                 raise ml2h5.converter.ConversionError(error.value)
 

@@ -48,6 +48,36 @@ MEGABYTE = 1048576
 
 DOWNLOAD_WARNING_LIMIT = 30000 # 30k is this a good margin?
 
+# Data-upload helper functions
+def validate_file_size(request, form, klass):
+    # check whether file is too large
+    upload_limit = Preferences.objects.get(pk=1).max_data_size
+    if klass in (Data, Task) and 'file' in request.FILES:
+        if len(request.FILES['file']) > upload_limit:
+            form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
+            
+def upload_data_file(new, file):
+    new.file = file
+    new.num_instances = -1
+    new.num_attributes = -1
+    new.save()
+
+    # InMemoryUploadedFile returns file-like object whereas
+    # zipfile/tarfile modules used in get_uncompressed() require
+    # filename (prior to python 2.7), so we have to save it to
+    # disk, then rename, then save object again.
+    name_old = os.path.join(MEDIA_ROOT, new.file.name)
+    uncompressed = ml2h5.data.get_uncompressed(name_old)
+    if uncompressed:
+        os.remove(name_old)
+        name_old = uncompressed
+
+    new.format = ml2h5.fileformat.get(name_old)
+    name_new = os.path.join(DATAPATH, new.get_filename())
+    os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
+    new.file.name = name_new
+
+
 def _download_cleanup(fname_export):
     """ erase exported file """
     try:
@@ -315,7 +345,6 @@ def view(request, klass, slug_or_id, version=None):
     info_dict['extract'] = obj.get_extract()
     return _response_for(request, klass, 'item_view', info_dict)
 
-
 @transaction.commit_on_success
 def new(request, klass, default_arg=None):
     """Create a new item of given klass.
@@ -340,11 +369,8 @@ def new(request, klass, default_arg=None):
         if not request.FILES and klass == Data:
             form.errors['file'] = ErrorDict({'': _('This field is required.')}).as_ul()
 
-        # check whether file is too large
-        if klass in (Data, Task) and 'file' in request.FILES:
-            if len(request.FILES['file']) > upload_limit:
-                form.errors['file'] = ErrorDict({'': _('File is too large!  Must be smaller than %dMB!' % (upload_limit / MEGABYTE))}).as_ul()
-
+        validate_file_size(request, form, klass)
+        
         if form.is_valid():
             new = form.save(commit=False)
             new.pub_date = datetime.datetime.now()
@@ -365,25 +391,7 @@ def new(request, klass, default_arg=None):
                     new.is_public = True
 
                 if klass == Data:
-                    new.file = request.FILES['file']
-                    new.num_instances = -1
-                    new.num_attributes = -1
-                    new.save()
-
-                    # InMemoryUploadedFile returns file-like object whereas
-                    # zipfile/tarfile modules used in get_uncompressed() require
-                    # filename (prior to python 2.7), so we have to save it to
-                    # disk, then rename, then save object again.
-                    name_old = os.path.join(MEDIA_ROOT, new.file.name)
-                    uncompressed = ml2h5.data.get_uncompressed(name_old)
-                    if uncompressed:
-                        os.remove(name_old)
-                        name_old = uncompressed
-
-                    new.format = ml2h5.fileformat.get(name_old)
-                    name_new = os.path.join(DATAPATH, new.get_filename())
-                    os.rename(name_old, os.path.join(MEDIA_ROOT, name_new))
-                    new.file.name = name_new
+                    upload_data_file(new, request.FILES['file'])
                     new.save()
                 elif klass == Task:
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
@@ -459,10 +467,13 @@ def edit(request, klass, id):
     if not prev.can_edit(request.user):
         return HttpResponseForbidden()
 
+    upload_limit = Preferences.objects.get(pk=1).max_data_size
     formfunc = eval(klass.__name__ + 'Form')
     if request.method == 'POST':
         request.POST['name'] = prev.name # cheat a little
         form = formfunc(request.POST, request=request)
+
+        validate_file_size(request, form, klass)
 
         if form.is_valid():
             next = form.save(commit=False)
@@ -477,9 +488,12 @@ def edit(request, klass, id):
                 next.is_public = True
 
             if klass == Data:
-                next.format = prev.format
                 next.is_approved = prev.is_approved
-                next.file = prev.file
+                if next.is_public or not request.FILES['file']:
+                    next.format = prev.format
+                    next.file = prev.file
+                else:
+                    upload_data_file(next, request.FILES['file'])
                 next.save()
             elif klass == Task:
                 next.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
@@ -511,7 +525,7 @@ def edit(request, klass, id):
             klass.set_current(next)
             return HttpResponseRedirect(next.get_absolute_slugurl())
     else:
-        form = formfunc(instance=prev, request=request)
+        form = formfunc(instance=prev, request=request, initial={'keep_private': not prev.is_public})
         if klass == Task:
             form.prefill(os.path.join(MEDIA_ROOT, prev.file.name))
 

@@ -73,7 +73,10 @@ $(function() {
 				<dd>{{ form.summary }}</dd>
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}</dd>
-
+				{% if not form.instance.is_public %}
+				<dt><label for="id_file">{% trans "File" %}</label> {{ form.file.errors }}</dt>
+				<dd>{{ form.file }}</dd>
+				{% endif %}
 				<dt><label for="id_license">{% trans "License" %}</label> (<a href="{% url about_license %}">{% trans "more info" %}</a>) {{ form.license.errors }}</dt>
 				<dd>{{ form.license }}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}

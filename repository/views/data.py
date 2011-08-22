@@ -63,7 +63,7 @@ def new_review(request, slug):
     obj = Data.get_object(slug)
     if not obj: raise Http404
     # don't want users to be able to remove items once approved
-    if not obj.can_edit(request.user) or obj.is_approved:
+    if not obj.can_edit(request.user) or (obj.is_approved and obj.is_public):
         return HttpResponseForbidden()
 
     dummy, ext = os.path.splitext(obj.file.name)
