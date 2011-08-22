@@ -23,10 +23,10 @@
 1) HTML tags
 ---------------------------------------------------------------------------------------------------------- */
 
-body {/*background-color:#dfdfdf; color:#3f3f3f;*/}
+body {background-color:#dfdfdf; color:#3f3f3f;}
 
-a {color:#7F171F;}
-a:hover {color:#DE9D7F;}
+a {color:#0081C7;}
+a:hover {color:#000;}
 
 blockquote {font-style:italic;}
 code {font-family:"Courier";}
@@ -41,11 +41,11 @@ code {font-family:"Courier";}
 
 #main {background:#FFF;}
 
-    #header {background-color:#44afc2;}
+    #header {background-color:#0081C7;}
     
         #slogan {color:#FFF;font-size:medium;}
     
-    #nav {/* border-top:1px solid #FFF; */ border-bottom:1px solid #5c949c; background:#ffffff;}
+    #nav {border-top:1px solid #FFF; border-bottom:1px solid #FFF; background:#EFEFEF;}
     #nav a {color:#3f3f3f;}
     #nav ul li.active, #nav ul li.active a {color:#0081C7;}
 
@@ -73,19 +73,19 @@ dl dt {font-weight:bold;}
 dl#news dt {background-color:#FFF;}
 dl#news dd a {color:#3f3f3f;}
 dl#news dt.active {background-color:#e2f4ff;}
-7F171F
+
 #gallery-in {border-bottom:1px solid #DDDDDD; background-color:#EFEFEF;}
 
 /* ----------------------------------------------------------------------------------------------------------
 5) Others
 ---------------------------------------------------------------------------------------------------------- */
 
-.title-01 {background-color:#ffffff; color:#7F171F;}
+.title-01 {background-color:#5f5f5f; color:#fff;}
 .title-02 span {background:#FFF;}
-.title-03, .title-03.gallery {background-color: #ebf4f5; border: 1px solid #7ec1cf; color:#7F171F;}
-/*.title-03 a {color:#FFF;}*/
-.title-04 {color:#7F171F;}
-.title-05 { font-size: 100%; background-color: #8ac7cf; border: 1px solid #44afc2; color:#fff; padding: 3px 3px 3px 10px; margin-top: 0; }
+.title-03, .title-03.gallery {background-color:#0081C7; color:#fff;}
+.title-03 a {color:#FFF;}
+.title-04 {color:#0081C7;}
+.title-05 { font-size: 100%; background-color: ##0081C7; color:#fff; padding: 3px 3px 3px 10px; margin-top: 0; }
 .title-05 span {padding-right:5px;}
 
 .comment, .more {color:#3F3F3F;}
@@ -124,7 +124,7 @@ div.leftbox {border:0; float:left; width:45%;}
 div.centerbox { width: 100%; clear: both; padding-top: 30px; }
 div.rightbox {border:0; float:right; width:45%;}
 input.searchsubmit {width:20%; padding: 1px; text-decoration:none; color:#000000; font-size:small; font-weight:normal; padding:4px;}
-p.head {background:#eee; font-weight:bold; font-size: 14px;; padding: 6px; color: #7F171F;}
+p.head {background:#eee; font-weight:bold; font-size:larger;}
 
 div.buttonrow { margin-top: 15px; }
 div.buttonrow form { display: inline; }
@@ -135,8 +135,8 @@ ul.index { list-style: none; margin-left: 0; padding-left: 1em; text-indent: -1e
 ul.index li { margin:-1px; padding: 0;}
 /* ul.index li:before { content: "\00BB \0020"; } */
 span.index_right { float: right; }
-span.index_plain { font-weight:normal; font-size: 11px;}
-span.index_plain_right { float: right;; font-size: 11px; font-weight:normal;}
+span.index_plain { font-weight:normal;}
+span.index_plain_right { float: right; font-weight:normal;}
 #header a { color:#ffffff; text-decoration:none;}
 #header a:hover { color:#c3ebfd; text-decoration:underline;}
 div.paginator {position:relative;margin:0; text-align: center; }
