@@ -1,9 +1,8 @@
-{% if object.conversion_failed %}
+{% if object.conversion_failed and not object.is_public %}
 {% load i18n %}
 <div id="conversion_failed">
 <p class="error">
-	{% trans "The conversion of this item has failed! Please contact the maintainers and forward the following URL:" %}<br />
-	http://{{ request.META.HTTP_HOST }}{{ request.path }}
+	{% trans "The conversion has failed. Your data is marked as private. You can edit dataset by clicking EDIT action or publish it anyway by clicking ACTIVATE (loosing permission to edit it afterwards). If you expirience further problems, please contact the administrator." %}<br />
 </p>
 </div>
 {% endif %}
