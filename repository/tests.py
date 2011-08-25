@@ -95,13 +95,13 @@ class RepositoryTest(TestCase):
     def test_index_data(self):
         r = self.do_get('index_data')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'data/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
     def test_index_task(self):
         r = self.do_get('index_task')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'task/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
 #    def test_index_method(self):
@@ -113,13 +113,13 @@ class RepositoryTest(TestCase):
     def test_index_data_my(self):
         r = self.do_get('index_data_my')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'data/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
     def test_index_task_my(self):
         r = self.do_get('index_task_my')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'task/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
 #    def test_index_method_my(self):
