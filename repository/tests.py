@@ -16,9 +16,9 @@ from settings import *
 from repository.models import *
 from preferences.models import *
 
-from task.models import Task
-from data.models import Data
-from method.models import Method
+from repository.models.task import Task
+from repository.models.data import Data
+from repository.models.method import Method
 
 class RepositoryTest(TestCase):
     url = {
