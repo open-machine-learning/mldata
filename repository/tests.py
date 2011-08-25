@@ -198,7 +198,7 @@ class RepositoryTest(TestCase):
     def test_view_tags_foobar(self):
         r = self.do_get('view_tags_foobar')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'data/tags_view.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
     def test_create_data_set(self):
         d = Data(name = 'test_data_set',
