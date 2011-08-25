@@ -152,13 +152,15 @@ class RepositoryTest(TestCase):
     def test_new_data_user_approve(self):
         """Post a new data set and approve"""
 
-        os.remove(self.data_file_name)
+        try:
+            os.remove(self.data_file_name)
+        except OSError, e:
+            # No file to be removed
+            pass
 
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
 
-        if not self.client.login(username='user', password='user'):
-            raise Exception('Login unsuccessful')
         r = self.client.post(self.url['new_data'], self.minimal_data,
             follow=True)
 
@@ -177,7 +179,7 @@ class RepositoryTest(TestCase):
         self.minimal_data['file'].seek(0)
         self.assertTemplateUsed(r, 'data/item_new.html')
         r = self.do_post('new_data_review', self.review_data_revert, follow=True)
-        self.assertTemplateUsed(r, 'data/item_new.html')
+        self.assertTemplateUsed(r, 'data/data_new_review.html')
 
 
     def test_new_task_user(self):
@@ -217,4 +219,10 @@ class RepositoryTest(TestCase):
         d.create_slug()
         d.attach_file(File(open('fixtures/breastcancer.txt', 'r')))
         d.save()
-        self.assertEqual(1, len(Data.objects.filter(name='test_data_set')))
+        
+        datasets = Data.objects.filter(name='test_data_set_tags')
+        self.assertEqual(1, len(datasets))
+        
+        # if tags were added properly then TagField
+        # returnes them without comma. Functionality tested in tagging app
+        self.assertEqual("test test2", datasets[0].tags)
