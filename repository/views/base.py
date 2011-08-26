@@ -746,6 +746,7 @@ def tags_view(request, tag, klass):
         kname : get_page(request, objects, PER_PAGE),
         'klass' : klass.__name__,
         kname + '_per_page': PER_PAGE,
+        'section': 'repository',
         'download_warning_limit': DOWNLOAD_WARNING_LIMIT,
     }
     return render_to_response('repository/item_index.html', info_dict,

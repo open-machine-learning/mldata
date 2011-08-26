@@ -58,6 +58,11 @@ class Data(Repository):
 
     class Meta:
         app_label = 'repository'
+        
+    def conversion_failed(self):
+        if self.format != 'hd5':
+            return True
+        return False
 
     @classmethod
     def get_public_active_objects(cls):

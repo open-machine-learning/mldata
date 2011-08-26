@@ -16,9 +16,9 @@ from settings import *
 from repository.models import *
 from preferences.models import *
 
-from task.models import Task
-from data.models import Data
-from method.models import Method
+from repository.models.task import Task
+from repository.models.data import Data
+from repository.models.method import Method
 
 class RepositoryTest(TestCase):
     url = {
@@ -44,6 +44,7 @@ class RepositoryTest(TestCase):
         'file': open('fixtures/breastcancer.txt', 'r'),
     }
     data_file_name = os.path.join(MEDIA_ROOT, 'data', 'test.libsvm.h5')
+    data_file_name_src = os.path.join(MEDIA_ROOT, 'data', 'breastcancer.txt')
     review_data_approve = {
         'format': 'arff',
         'seperator': ' ',
@@ -95,13 +96,13 @@ class RepositoryTest(TestCase):
     def test_index_data(self):
         r = self.do_get('index_data')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'data/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
     def test_index_task(self):
         r = self.do_get('index_task')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'task/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
 #    def test_index_method(self):
@@ -113,13 +114,13 @@ class RepositoryTest(TestCase):
     def test_index_data_my(self):
         r = self.do_get('index_data_my')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'data/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
     def test_index_task_my(self):
         r = self.do_get('index_task_my')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'task/item_index.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
 
 #    def test_index_method_my(self):
@@ -152,30 +153,29 @@ class RepositoryTest(TestCase):
     def test_new_data_user_approve(self):
         """Post a new data set and approve"""
 
-        os.remove(self.data_file_name)
+        try:
+            os.remove(self.data_file_name)
+        except OSError, e:
+            # No file to be removed
+            pass
 
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
-
-        if not self.client.login(username='user', password='user'):
-            raise Exception('Login unsuccessful')
-        r = self.client.post(self.url['new_data'], self.minimal_data,
-            follow=True)
 
         self.minimal_data['file'].seek(0)
         self.assertTemplateUsed(r, 'data/data_new_review.html')
         r = self.do_post('new_data_review', self.review_data_approve, follow=True)
         self.assertTemplateUsed(r, 'data/item_view.html')
 
-        print r
-        self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.')
+        self.assertTrue(os.access(self.data_file_name_src, os.R_OK), 'Cannot read ' + self.data_file_name_src)
+        self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.\nProbably conversion error')
 
 
     def test_new_data_user_revert(self):
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
         self.minimal_data['file'].seek(0)
-        self.assertTemplateUsed(r, 'data/item_new.html')
+        self.assertTemplateUsed(r, 'data/data_new_review.html')
         r = self.do_post('new_data_review', self.review_data_revert, follow=True)
         self.assertTemplateUsed(r, 'data/item_new.html')
 
@@ -196,7 +196,7 @@ class RepositoryTest(TestCase):
     def test_view_tags_foobar(self):
         r = self.do_get('view_tags_foobar')
         self.assertEqual(r.context['section'], 'repository')
-        self.assertTemplateUsed(r, 'data/tags_view.html')
+        self.assertTemplateUsed(r, 'repository/item_index.html')
 
     def test_create_data_set(self):
         d = Data(name = 'test_data_set',
@@ -217,4 +217,10 @@ class RepositoryTest(TestCase):
         d.create_slug()
         d.attach_file(File(open('fixtures/breastcancer.txt', 'r')))
         d.save()
-        self.assertEqual(1, len(Data.objects.filter(name='test_data_set')))
+        
+        datasets = Data.objects.filter(name='test_data_set_tags')
+        self.assertEqual(1, len(datasets))
+        
+        # if tags were added properly then TagField
+        # returnes them without comma. Functionality tested in tagging app
+        self.assertEqual("test test2", datasets[0].tags)

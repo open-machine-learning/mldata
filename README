@@ -62,7 +62,7 @@ these modules with "sudo python setup.py install"
 
   Or our SVN:
 
-  https://ml01.zrz.tu-berlin.de/svn/mldata/mldata-utils
+  https://github.com/open-machine-learning/mldata-utils
 
 - python-json
 
