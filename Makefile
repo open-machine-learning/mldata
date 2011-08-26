@@ -1,4 +1,5 @@
-VER=r$(shell svn info  | grep Revision | cut -f 2 -d ' ')
+#VER=r$(shell svn info  | grep Revision | cut -f 2 -d ' ')
+VER=$(shell git tag -l)
 RELEASENAME:=mldata-$(VER)
 RELEASETAR:=mldata-$(VER).tar.gz
 RELEASEDIR:=/tmp/
@@ -22,9 +23,13 @@ HOST=mldata.org
 
 release: clean
 #	svn commit
-	svn update
+#	svn update
+	git pull
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
-	svn export . $(RELEASEDIR)/$(RELEASENAME)
+#	svn export . $(RELEASEDIR)/$(RELEASENAME)
+	mkdir $(RELEASEDIR)/$(RELEASENAME)
+	cp -r * $(RELEASEDIR)/$(RELEASENAME)
+	rm -rf $(RELEASEDIR)/$(RELEASENAME)/.git
 	rm -f $(RELEASEDIR)/$(RELEASENAME)/mldata.db $(RELEASEDIR)/$(RELEASENAME)/Makefile
 	ssh mldata@$(HOST) rm -rf $(WEBSITEDIR)/$(RELEASENAME) 
 	tar cjvf - -C $(RELEASEDIR) $(RELEASENAME) | \
