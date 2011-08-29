@@ -19,6 +19,7 @@ else:
         ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
         ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
         ('Mikio Braun', 'mikio@cs.tu-berlin.de'),
+        ('Lukasz Kidzinski', 'lukasz.mldata@gmail.com'),
     )
 
 
