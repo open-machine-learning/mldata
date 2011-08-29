@@ -21,6 +21,15 @@ from repository.models.data import Data
 from repository.models.method import Method
 
 class RepositoryTest(TestCase):
+    def remove_if_exists(self, path):
+        try:
+            os.remove(path)
+        except OSError, e:
+            # No file to be removed
+            pass
+
+
+    
     url = {
         'index': '/repository/',
         'index_data': '/repository/data/',
@@ -36,13 +45,16 @@ class RepositoryTest(TestCase):
         'new_method': '/repository/method/new/',
         'new_data_review': '/repository/data/new/review/test/',
         'new_data_view': '/repository/data/view/test/',
-    }
+
+        'new_data_review_generic': '/repository/data/new/review/%s/',
+        'new_data_view_generic': '/repository/data/view/%s/',
+        }
     minimal_data = {
         'license': '1',
         'name': 'test',
         'summary': 'summary',
         'tags': 'test, data',
-        'file': open('fixtures/breastcancer.txt', 'r'),
+        'file': open('fixtures/breastcancer-small.txt', 'r'),
     }
     data_file_name = os.path.join(MEDIA_ROOT, 'data', 'test.h5')
     data_file_name_src = os.path.join(MEDIA_ROOT, 'data', 'breastcancer.txt')
@@ -154,12 +166,7 @@ class CorrectnessTest(RepositoryTest):
 
     def test_new_data_user_approve(self):
         """Post a new data set and approve"""
-
-        try:
-            os.remove(self.data_file_name)
-        except OSError, e:
-            # No file to be removed
-            pass
+        self.remove_if_exists(self.data_file_name)
 
         self.do_login()
         r = self.do_post('new_data', self.minimal_data, follow=True)
@@ -229,28 +236,47 @@ class CorrectnessTest(RepositoryTest):
         
 
 class PerformenceTest(RepositoryTest):
-    def add_data(self):
-        try:
-            os.remove(self.data_file_name)
-        except OSError, e:
-            # No file to be removed
-            pass
-
+    def add_data(self, suffix=''):
         self.do_login()
-        r = self.do_post('new_data', self.minimal_data, follow=True)
+        data = self.minimal_data.copy()
+        
+        data['name'] = data['name'] + suffix
+        self.remove_if_exists(os.path.join(MEDIA_ROOT, 'data', data['name'] + ".h5"))
+        r = self.client.post(self.url['new_data'],
+                             data,
+                             follow=True)
 
         self.minimal_data['file'].seek(0)
         self.assertTemplateUsed(r, 'data/data_new_review.html')
-        r = self.do_post('new_data_review', self.review_data_approve, follow=True)
+        r = self.client.post(self.url['new_data_review_generic'] % data['name'],
+                             self.review_data_approve,
+                             follow=True)
         self.assertTemplateUsed(r, 'data/item_view.html')
 
     def test_view_data_queries(self):
         from django.conf import settings
         from django.db import connection
     
+        self.remove_if_exists(self.data_file_name)
         settings.DEBUG = True
         self.add_data()
         connection.queries = []
         r = self.do_post('new_data_view', {}, follow=True)
         self.assertLess(len(connection.queries), 5, "More than 5 queries executed during simple data view")
         settings.DEBUG = False
+        
+    def test_view_many_datasets(self):
+        from django.conf import settings
+        from django.db import connection
+    
+        for i in xrange(1, 100):
+            self.add_data(i.__str__())
+    
+        import time
+        start = time.time()
+        settings.DEBUG = True
+        connection.queries = []
+        r = self.do_post('new_data_view', {}, follow=True)
+        self.assertLess(len(connection.queries), 5, "More than 5 queries executed during simple data view")
+        settings.DEBUG = False
+        self.assertLess(time.time() - start, 1000, "Slow response ( > 1 sek)")
