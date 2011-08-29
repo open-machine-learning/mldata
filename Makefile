@@ -27,9 +27,7 @@ release: clean
 	git pull
 	rm -rf $(RELEASEDIR)/$(RELEASENAME)
 #	svn export . $(RELEASEDIR)/$(RELEASENAME)
-	mkdir $(RELEASEDIR)/$(RELEASENAME)
-	cp -r * $(RELEASEDIR)/$(RELEASENAME)
-	rm -rf $(RELEASEDIR)/$(RELEASENAME)/.git
+	git checkout-index -f -a --prefix=$(RELEASEDIR)/$(RELEASENAME)/
 	rm -f $(RELEASEDIR)/$(RELEASENAME)/mldata.db $(RELEASEDIR)/$(RELEASENAME)/Makefile
 	ssh mldata@$(HOST) rm -rf $(WEBSITEDIR)/$(RELEASENAME) 
 	tar cjvf - -C $(RELEASEDIR) $(RELEASENAME) | \
