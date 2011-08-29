@@ -35,6 +35,7 @@ class RepositoryTest(TestCase):
         'new_task': '/repository/task/new/',
         'new_method': '/repository/method/new/',
         'new_data_review': '/repository/data/new/review/test/',
+        'new_data_view': '/repository/data/view/test/',
     }
     minimal_data = {
         'license': '1',
@@ -43,12 +44,12 @@ class RepositoryTest(TestCase):
         'tags': 'test, data',
         'file': open('fixtures/breastcancer.txt', 'r'),
     }
-    data_file_name = os.path.join(MEDIA_ROOT, 'data', 'test.libsvm.h5')
+    data_file_name = os.path.join(MEDIA_ROOT, 'data', 'test.h5')
     data_file_name_src = os.path.join(MEDIA_ROOT, 'data', 'breastcancer.txt')
     review_data_approve = {
-        'format': 'arff',
+        'format': 'libsvm',
         'seperator': ' ',
-        'convert': '0',
+        'convert': '1',
         'approve': '1',
     }
     review_data_revert = {
@@ -87,6 +88,7 @@ class RepositoryTest(TestCase):
         p.save()
 
 
+class CorrectnessTest(RepositoryTest):
     def test_index(self):
         r = self.do_get('index')
         self.assertEqual(r.context['section'], 'repository')
@@ -165,8 +167,8 @@ class RepositoryTest(TestCase):
         self.minimal_data['file'].seek(0)
         self.assertTemplateUsed(r, 'data/data_new_review.html')
         r = self.do_post('new_data_review', self.review_data_approve, follow=True)
-        self.assertTemplateUsed(r, 'data/item_view.html')
 
+        self.assertTemplateUsed(r, 'data/item_view.html')
         self.assertTrue(os.access(self.data_file_name_src, os.R_OK), 'Cannot read ' + self.data_file_name_src)
         self.assertTrue(os.access(self.data_file_name, os.R_OK), 'Cannot read ' + self.data_file_name + '.\nProbably conversion error')
 
@@ -224,3 +226,31 @@ class RepositoryTest(TestCase):
         # if tags were added properly then TagField
         # returnes them without comma. Functionality tested in tagging app
         self.assertEqual("test test2", datasets[0].tags)
+        
+
+class PerformenceTest(RepositoryTest):
+    def add_data(self):
+        try:
+            os.remove(self.data_file_name)
+        except OSError, e:
+            # No file to be removed
+            pass
+
+        self.do_login()
+        r = self.do_post('new_data', self.minimal_data, follow=True)
+
+        self.minimal_data['file'].seek(0)
+        self.assertTemplateUsed(r, 'data/data_new_review.html')
+        r = self.do_post('new_data_review', self.review_data_approve, follow=True)
+        self.assertTemplateUsed(r, 'data/item_view.html')
+
+    def test_view_data_queries(self):
+        from django.conf import settings
+        from django.db import connection
+    
+        settings.DEBUG = True
+        self.add_data()
+        connection.queries = []
+        r = self.do_post('new_data_view', {}, follow=True)
+        self.assertLess(len(connection.queries), 5, "More than 5 queries executed during simple data view")
+        settings.DEBUG = False
