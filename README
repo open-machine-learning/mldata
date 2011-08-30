@@ -72,6 +72,9 @@ these modules with "sudo python setup.py install"
 
   http://rpy.sourceforge.net/rpy2.html
   
+- python-recaptcha
+
+  http://pypi.python.org/pypi/recaptcha-client
 
 
 As debian packages
@@ -87,7 +90,7 @@ python-memcache
 python-json
 python-rpy2
 python-matplotlib
-
+python-recaptcha
 
 
 Potentially useful projects
