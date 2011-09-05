@@ -31,6 +31,8 @@ release: clean
 		ssh mldata@$(HOST) \
 		\( tar xjvf - -C $(WEBSITEDIR) \; sync \; sync \; sync \; \
 		sed -i "s#XXXXXXXXX#\`cat /home/mldata/.mysql_password\`#" $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
+		sed -i "s#RECAPTCHAPUBLIC#\`cat /home/mldata/.recaptcha_public\`#" $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
+		sed -i "s#RECAPTCHAPRIVATE#\`cat /home/mldata/.recaptcha_private\`#" $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		sed -i '"s/^PRODUCTION = False/PRODUCTION = True/g"' $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		sed -i '"s/^VERSION = \"r0000\"/VERSION = \"$(VER)\"/g"' $(WEBSITEDIR)/$(RELEASENAME)/settings.py \; \
 		python -mcompileall $(WEBSITEDIR)/$(RELEASENAME)/ \; \
