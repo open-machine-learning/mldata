@@ -1,5 +1,5 @@
 #VER=r$(shell svn info  | grep Revision | cut -f 2 -d ' ')
-VER=$(shell git tag -l)
+VER=$(shell git tag -l | tail -1)
 RELEASENAME:=mldata-$(VER)
 RELEASETAR:=mldata-$(VER).tar.gz
 RELEASEDIR:=/tmp/
