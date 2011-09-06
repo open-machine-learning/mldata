@@ -157,4 +157,8 @@ INSTALLED_APPS = (
     'mldata.tagging',
     'mldata.django_authopenid',
     'mldata.preferences',
+    'mldata.captcha',
 )
+
+RECAPTCHA_PUBLIC_KEY = '6LeInMcSAAAAAOPta5JOqCy4IPMhm2UfnKWPjCEE'
+RECAPTCHA_PRIVATE_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'

@@ -1,0 +1,66 @@
+==========================
+ mldata developer's guide
+==========================
+:Info: See <https://github.com/open-machine-learning/mldata> for git repository.
+
+Django Modules
+==============
+List of applications used in the project.
+
+=================  ===========================================================
+Module name        Desciption
+=================  ===========================================================
+about              Module used for defining static pages. Content of each
+                   static page is defined in corresponding template.
+blog               Blog application. Displays blog posts and manages them
+                   through admin interface.
+captcha            Application for captcha in registration. Based on 
+                   <http://code.google.com/p/django-recaptcha/>, slightly
+                   adjusted.
+django_authopenid  Application for logging in by open-id. Currently disabled,
+                   however registration uses it's views.
+forum              Forum application.
+preferences        ??? Simple model to store maximum data sizes ???
+registration       Module resposible for managing user's registration and
+                   account activation. Fork of django-registration
+                   <http://code.google.com/p/django-registration/>
+repository         Website's main module. Described below.
+tagging            Module responsible for tagging repository entities. Fork of
+                   <http://code.google.com/p/django-tagging/>
+user               Views for user's account management.  
+=================  ===========================================================
+
+Repository module
+=================
+Major part of website's logic is contained in the repository module. 
+
+Design goals
+------------
+
+Structure
+---------
+Mldata's data entities are separated into 4 classes:
+* Data,
+* Task,
+* Method,
+* Result.
+
+Data
+~~~~
+
+Task
+~~~~
+
+Method
+~~~~~~
+
+Result
+~~~~~~
+
+Implementation
+--------------
+
+
+Future plans
+============
+

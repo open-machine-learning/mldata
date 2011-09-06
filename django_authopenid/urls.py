@@ -20,6 +20,7 @@ from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
 from django_authopenid import views as oid_views
 from registration import views as reg_views
+from captcha.forms import RegistrationFormCaptcha
 
 extra_context = {
     'section': 'accounts',
@@ -65,7 +66,8 @@ urlpatterns = patterns('',
     url(r'^signin/$', oid_views.signin, name='user_signin'),
     url(r'^signup/$', reg_views.register, 
         {'template_name': 'registration/signup.html',
-        'extra_context': extra_context},
+        'extra_context': extra_context,
+        'form_class': RegistrationFormCaptcha},
         name='registration_register'),
     url(r'^signup/complete/$',direct_to_template, 
         {'template': 'registration/activation_sent.html',
