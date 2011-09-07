@@ -9,7 +9,7 @@ Django Modules
 List of applications used in the project.
 
 =================  ===========================================================
-Module name        Desciption
+Module name        Description
 =================  ===========================================================
 about              Module used for defining static pages. Content of each
                    static page is defined in corresponding template.
@@ -22,7 +22,7 @@ django_authopenid  Application for logging in by open-id. Currently disabled,
                    however registration uses it's views.
 forum              Forum application.
 preferences        ??? Simple model to store maximum data sizes ???
-registration       Module resposible for managing user's registration and
+registration       Module responsible for managing user's registration and
                    account activation. Fork of django-registration
                    <http://code.google.com/p/django-registration/>
 repository         Website's main module. Described below.
@@ -40,7 +40,7 @@ Design goals
 List of some design decisions made in mldata.org
 
 * Main models, as Data, Task, Method and Challenge, share exactly the same Slug
-space. It is imposible to create Task and Result with exactly the same slug.
+space. It is impossible to create Task and Result with exactly the same slug.
 
 * Each item in mldata can have various version. Number of version is increased
 after each edit. One of the design choices was not to delete anything from
@@ -57,10 +57,10 @@ all conversion using the schema:
     input format -> HDF5 -> output format
 while storing only one file.
 
-* Only one file is stored as a dataset - all conversions are handeled on-line.
+* Only one file is stored as a dataset - all conversions are handled on-line.
 
 * Data files and conversions are provided by other application called
-mldata-utils which consists banch of various corverters into one tool.
+mldata-utils which consists bunch of various converters into one tool.
 Conversion is then held in three lines in python shell:
 > from ml2h5.converter import Converter
 > conv = Converter("inputfile.type", "outputfile.type")
@@ -80,7 +80,7 @@ Mldata's data entities are separated into 4 classes:
 * Method,
 * Challenge.
 
-All four entities inherit the Base model, since thay share similar behaviour.
+All four entities inherit the Base model, since they share similar behavior.
 Base contains such attributes as date, ratings, number of hits, etc.
 
 Base model is also responsible for handling common operations as checking
@@ -108,22 +108,22 @@ More info about views which implement this transaction is provided below.
 If transaction fails than dataset is stored anyway, however in this case
 it is marked as private and user is asked for repair.
 
-Method resposible for conversion is called approved. It's name is related to
-the idea that after filling information form and submiting a file, user is
-asked for cheching if everything was uploaded correctly and for providing
+Method responsible for conversion is called approved. It's name is related to
+the idea that after filling information form and submitting a file, user is
+asked for checking if everything was uploaded correctly and for providing
 details about how would he like the file to be converted.
 
 Task
 ~~~~
-Entities represents data split for machine learning task. It is related
-to a dataset and defines which instances should be used for training and
-which for validation and testing. It also alose to define multiple
-multiple splits in the same dataset.
+Entities represents data split for machine learning task. It is related to
+a dataset and defines which instances should be used for training and which
+for validation and testing. It also possible to define multiple splits in the
+same dataset.
 
 Service allows user to export the task to the hdf5 file using mldata-utils.
 
 Task contains also prediction measure, which is stored as an string.
-All performence measures are hardcoded in mleval packege of mldata-utils.
+All performance measures are hardcoded in mleval package of mldata-utils.
 mlevel.evaluation provides a list of those functions indexed with strings.
 
 Method
@@ -134,7 +134,7 @@ repository/models/method.py.
 
 Apart of that in the same file Result is defined. This model allows user
 to provide output of application of his Method for given machine learning
-Task. Result is then evalated using the Task related evaluation function.
+Task. Result is then evaluated using the Task related evaluation function.
 Evaluation process is defined in function predict of Result model.
 
 
