@@ -165,12 +165,12 @@ def download(request, klass, slug, type='plain'):
     @raise Http404: if item couldn't be retrieved or given klass is unexpected or file doesn't exist or a conversion error occurred
     """
     if not klass in (Data, Task):
-        raise Exception('Wrong class name \'%s\'. Should be Task or Data' % (klass))
+        raise Http404
 
     obj = klass.get_object(slug)
-    if not obj: raise Exception('No object with slug \'%s\'' % (slug))
+    if not obj: raise Http404
     if not obj.file:
-        raise Exception('Object with slug \'%s\' has no file' % (slug))
+        raise Http404
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
@@ -209,12 +209,11 @@ def download(request, klass, slug, type='plain'):
             except ml2h5.converter.ConversionError, e:
                 subject = 'Download: Failed conversion of %s to %s' % (fname, type)
                 body = traceback.format_exc() + "\n" + str(e)
-                print body
                 mail_admins(subject, body)
                 _download_cleanup(fname_export)
-                raise Exception('Conversion of %s to %s failed' % (fname, type))
+                raise Http404
         else:
-            raise Exception('Type %s unsupported' % (type))
+            raise Http404
 
         if type == 'matlab':
             ctype = 'application/x-matlab'
