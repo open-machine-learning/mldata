@@ -38,14 +38,14 @@ Design goals
 ------------
 List of some design decisions made in mldata.org
 
-* Main models, as Data, Task, Method and Result, share exactly the same Slug
+* Main models, as Data, Task, Method and Challenge, share exactly the same Slug
 space. It is imposible to create Task and Result with exactly the same slug.
 
 * Each item in mldata can have various version. Number of version is increased
 after each edit. One of the design choices was not to delete anything from
 database and using hiding of old items wherever it is possible 
 
-* Since instances of Data, Task, Model and Result are similar in many senses
+* Since instances of Data, Task, Model and Challenge are similar in many senses
 and they share many feature as related publications, ratings, description,
 we want to store and present them in similar fashion.
 
@@ -56,7 +56,20 @@ all conversion using the schema:
     input format -> HDF5 -> output format
 while storing only one file.
 
-* Only one file is stored as a dataset - all conversions all handeled on-line.
+* Only one file is stored as a dataset - all conversions are handeled on-line.
+
+* Data files and conversions are provided by other application called
+mldata-utils which consists banch of various corverters into one tool.
+Conversion is then held in three lines in python shell:
+> from ml2h5.converter import Converter
+> conv = Converter("inputfile.type", "outputfile.type")
+> conv.run()
+For details about mldata-utils check it's documentation.
+
+* No edit is available when any dependency to the item appears. For instance
+if we create dataset and task relying on it, then dataset cannot be changed.
+
+* Forking mechanism instead of edit is provided.
 
 Structure
 ---------
@@ -64,7 +77,7 @@ Mldata's data entities are separated into 4 classes:
 * Data,
 * Task,
 * Method,
-* Result.
+* Challenge.
 
 All four entities inherit the Base model, since thay share similar behaviour.
 Base contains such attributes as date, ratings, number of hits, etc.
@@ -78,23 +91,43 @@ Other models implemented there as
 * Publication,
 * Licence,
 * Slug,
-* Rating
+* Rating (this is base rating class of which other inherits for providing
+  more detailed reviewing)
 are also used commonly among whole repository. 
 
-Lets 
+In following subsections main repository models are described in details.
 
 Data
 ~~~~
+Model representing dataset entities. Saving instances is consisted of two
+steps:
+1) filling standard information form,
+2) managing conversion.
+More info about views which implement this transaction is provided below.
+If transaction fails than dataset is stored anyway, however in this case
+it is marked as private and user is asked for repair.
 
+Method resposible for conversion is called approved. It's name is related to
+the idea that after filling information form and submiting a file, user is
+asked for cheching if everything was uploaded correctly and for providing
+details about how would he like the file to be converted.
 
 Task
 ~~~~
+Entities represents data split for machine learning task. It is related
+to a dataset and defines which instances should be used for training and
+which for validation and testing. It also alose to define multiple
+multiple splits in the same dataset.
+
+Service allows user to export the task to the hdf5 file using mldata-utils.
 
 Method
 ~~~~~~
 
-Result
-~~~~~~
+
+
+Challenge
+~~~~~~~~~
 
 Implementation
 --------------
