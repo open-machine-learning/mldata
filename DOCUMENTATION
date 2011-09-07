@@ -2,6 +2,7 @@
  mldata developer's guide
 ==========================
 :Info: See <https://github.com/open-machine-learning/mldata> for git repository.
+:Version: 0.1.1
 
 Django Modules
 ==============
@@ -121,19 +122,39 @@ multiple splits in the same dataset.
 
 Service allows user to export the task to the hdf5 file using mldata-utils.
 
+Task contains also prediction measure, which is stored as an string.
+All performence measures are hardcoded in mleval packege of mldata-utils.
+mlevel.evaluation provides a list of those functions indexed with strings.
+
 Method
 ~~~~~~
+Method is an entity which allows user to describe methodology of his
+approach for tackling a machine learning problem. It is specified in
+repository/models/method.py.
 
+Apart of that in the same file Result is defined. This model allows user
+to provide output of application of his Method for given machine learning
+Task. Result is then evalated using the Task related evaluation function.
+Evaluation process is defined in function predict of Result model.
 
 
 Challenge
 ~~~~~~~~~
-
-Implementation
---------------
+This model constitutes a set of tasks.
 
 
-Future plans
-============
+Views implementation
+--------------------
+Similary to models, repository views also inherit from base views.
+Listings and item details are almost the same for all models - major
+difference appear only in controllers of dataset edit and save.
 
+Each repository view returns in context following values
+(among others):
+* request
+* klass, which is name of the class
+* 'data', 'task', 'method' or 'challenge' variable with current
+  'page' object
+* tagcloud
+* section equal to 'repository'
 
