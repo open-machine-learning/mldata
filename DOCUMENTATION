@@ -36,6 +36,27 @@ Major part of website's logic is contained in the repository module.
 
 Design goals
 ------------
+List of some design decisions made in mldata.org
+
+* Main models, as Data, Task, Method and Result, share exactly the same Slug
+space. It is imposible to create Task and Result with exactly the same slug.
+
+* Each item in mldata can have various version. Number of version is increased
+after each edit. One of the design choices was not to delete anything from
+database and using hiding of old items wherever it is possible 
+
+* Since instances of Data, Task, Model and Result are similar in many senses
+and they share many feature as related publications, ratings, description,
+we want to store and present them in similar fashion.
+
+* All datasets are converted into one format if only it is possible, due to
+consistency reasons. As the main format hdf5 was chosen because of its
+generality. Idea is that after such conversion it is easier to manage
+all conversion using the schema:
+    input format -> HDF5 -> output format
+while storing only one file.
+
+* Only one file is stored as a dataset - all conversions all handeled on-line.
 
 Structure
 ---------
@@ -45,8 +66,26 @@ Mldata's data entities are separated into 4 classes:
 * Method,
 * Result.
 
+All four entities inherit the Base model, since thay share similar behaviour.
+Base contains such attributes as date, ratings, number of hits, etc.
+
+Base model is also responsible for handling common operations as checking
+user's rights to access an entity, increasing number of hits, managing forks,
+etc.
+
+Implementation of Base model is stored in mldata/repository/models/base.py.
+Other models implemented there as
+* Publication,
+* Licence,
+* Slug,
+* Rating
+are also used commonly among whole repository. 
+
+Lets 
+
 Data
 ~~~~
+
 
 Task
 ~~~~
@@ -63,4 +102,5 @@ Implementation
 
 Future plans
 ============
+
 
