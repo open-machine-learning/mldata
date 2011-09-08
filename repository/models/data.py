@@ -43,6 +43,8 @@ class Data(Repository):
     @type num_attributes: integer / models.IntegerField
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
+    @cvar dependencies: dataset dependencies (one way relation)
+    @type dependencies: Data / models.ManyToManyField
     """
     source = models.TextField(blank=True)
     format = models.CharField(max_length=16)
@@ -55,6 +57,7 @@ class Data(Repository):
     num_attributes = models.IntegerField(blank=True, default=-1)
     #has_missing_values = models.BooleanField(blank=True, default=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
+    dependencies = models.ManyToManyField('Data', blank=True, related_name="base_for")
 
     class Meta:
         app_label = 'repository'

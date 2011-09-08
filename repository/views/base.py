@@ -392,6 +392,7 @@ def new(request, klass, default_arg=None):
                 if klass == Data:
                     _upload_data_file(new, request.FILES['file'])
                     new.save()
+                    form.save_m2m() # it couldn't be done automatically because of commit=False
                 elif klass == Task:
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     taskinfo = {
