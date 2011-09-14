@@ -191,19 +191,21 @@ class Data(Repository):
         return reverse(view, args=[self.slug.text])
 
     def get_extract(self):
-        extr = ''
         if not self.extract:
             fname_h5 = self.get_data_filename()
             try:
                 self.extract = ml2h5.data.get_extract(fname_h5)
                 extr = self.extract
-                self.save()
+                self.save(silent_update=True)
             except Exception, e: # catch exceptions in general, but notify admins
                 subject = 'Failed data extract of %s' % (fname_h5)
                 body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
                 mail_admins(subject, body)
         else:
-            extr = eval(self.extract)
+            try:
+                extr = eval(self.extract)
+            except Exception, e:
+                extr = {}
         return extr
 
     def has_h5(self):
@@ -213,9 +215,9 @@ class Data(Repository):
         return self.is_approved
 
     def get_attribute_types(self):
-        if not self.attribute_types or len(self.attribute_types) < 1:
+        if not self.attribute_types:
             self.attribute_types = ml2h5.data.get_attribute_types(self.get_data_filename())
-            self.save()
+            self.save(silent_update=True)
         attr = self.attribute_types
         return attr
 
