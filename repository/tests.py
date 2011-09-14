@@ -16,9 +16,9 @@ from settings import *
 from repository.models import *
 from preferences.models import *
 
-from repository.models.task import Task
-from repository.models.data import Data
-from repository.models.method import Method
+from repository.models.task import *
+from repository.models.data import *
+from repository.models.method import *
 
 class RepositoryTest(TestCase):
     def remove_if_exists(self, path):
@@ -90,6 +90,8 @@ class RepositoryTest(TestCase):
         user = User.objects.create_user('user', 'user@mldata.org', 'pass')
         user.save()
         license = License(name='foobar', url='http://foobar.com')
+        license.save()
+        license = FixedLicense(name='foobar', url='http://foobar.com')
         license.save()
         data = Data(name='foobar',
             pub_date=dt.now(), version=1, user_id=1, license_id=1,
@@ -234,6 +236,72 @@ class CorrectnessTest(RepositoryTest):
         # returnes them without comma. Functionality tested in tagging app
         self.assertEqual("test test2", datasets[0].tags)
         
+    def test_task_results(self):
+        #login user
+        self.do_login()
+        
+        # create collaborative-filtering dataset by hand
+        file = open('fixtures/ratings.csv', 'w')
+        file.write("1,1,5\n3,1,2\n1,3,3\n3,4,5\n2,1,5\n2,3,5\n2,4,2\n3,3,4\n1,2,2\n")
+        file.close()
+        
+        # convert file to hdf5
+        from ml2h5.converter import Converter
+        Converter("fixtures/ratings.csv","fixtures/ratings.h5").run()
+
+        # create a dataset by adding Data entity (not via www which was tested bedore)
+        d = Data(name = 'test_data_set_recommends',
+            user=User.objects.get(username='user'),
+            license=License.objects.get(name='foobar'),
+            tags="")
+        d.create_slug()
+        d.attach_file(File(open('fixtures/ratings.h5', 'r')))
+        
+        # following fields are required for creating task
+        d.num_instances = 9
+        d.num_attributes = 3
+        d.is_approved = True
+        d.is_current = True
+        d.is_public = True
+        d.save()
+        
+        # create task via www (since we want to indicate variables, and train/test set
+        r = self.do_post('new_task', {
+                 'name': 'test_task_recommends',
+                 'data': data.id,
+                 'input_variables': '0:2',
+                 'output_variables': '2:3',
+                 'train_idx': '0:6',
+                 'test_idx': '6:9',
+                 'input': ' ',
+                 'output': ' ',
+                 'type': 'Regression',
+                 'performance_measure': 'Root Mean Squared Error'
+            }, follow=True)
+        t = Task.objects.get(slug__text='test_task_recommends')
+        
+        # create dummy method
+        m = Method(name = 'Collaborative-filtering',
+                 user=User.objects.get(username='user'),
+                 license=FixedLicense.objects.get(name='foobar'),
+                 )
+        m.save()
+        
+        # write some results for task
+        file = open('fixtures/res.txt', 'w')
+        file.write("1\n1\n3\n")
+        file.close()
+        
+        # create results entity
+        r = Result(task = t, method = m, output_file=File(open('fixtures/res.txt','r')))
+        r.save()
+        
+        # store predictions
+        score,msg,success = r.predict()
+        
+        # check if whole path succeeded
+        self.assertGreater(score,-1,msg)
+        
 
 class PerformenceTest(RepositoryTest):
     def add_data(self, suffix=''):
@@ -269,7 +337,7 @@ class PerformenceTest(RepositoryTest):
         from django.conf import settings
         from django.db import connection
     
-        for i in xrange(1, 100):
+        for i in xrange(1, 10):
             self.add_data(i.__str__())
     
         import time

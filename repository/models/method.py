@@ -141,7 +141,7 @@ class Result(models.Model):
 
         try:
             fname_data = self.task.data.get_data_filename()
-            correct = ml2h5.data.get_correct(fname_data, test_idx, output_variables)
+            correct = ml2h5.data.get_correct(fname_data, test_idx[0], output_variables)
         except Exception:
             return -1,_("Couldn't extract true outputs from Data file!"), False
 

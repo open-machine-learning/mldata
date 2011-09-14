@@ -115,6 +115,9 @@
                 <dd>{{ object.summary|edit_if_empty|markdown:"safe" }}</dd>
                 <dt>{% trans "License" %}</dt>
                 <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
+                <dt>{% trans "Dependencies" %}</dt>
+                <dd>{% for obj in object.dependencies.all %}<a href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a> {% endfor %}
+                {% for obj in object.base_for.all %}<a href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a> {% endfor %}</dd>
                 <dt>{% trans "Tags" %}</dt>
                 <dd>{% for tag in object.get_tags %}{% if tag %}<a href="{% url data_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
                 <dt>{% trans "Attribute Types" %}</a></dt>

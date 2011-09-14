@@ -165,12 +165,12 @@ def download(request, klass, slug, type='plain'):
     @raise Http404: if item couldn't be retrieved or given klass is unexpected or file doesn't exist or a conversion error occurred
     """
     if not klass in (Data, Task):
-        raise Exception('Wrong class name \'%s\'. Should be Task or Data' % (klass))
+        raise Http404('Wrong class name \'%s\'. Should be Task or Data' % (klass))
 
     obj = klass.get_object(slug)
-    if not obj: raise Exception('No object with slug \'%s\'' % (slug))
+    if not obj: raise Http404('No object with slug \'%s\'' % (slug))
     if not obj.file:
-        raise Exception('Object with slug \'%s\' has no file' % (slug))
+        raise Http404('Object with slug \'%s\' has no file' % (slug))
     if not obj.can_download(request.user):
         return HttpResponseForbidden()
 
@@ -186,10 +186,10 @@ def download(request, klass, slug, type='plain'):
             ctype = 'application/octet-stream'
     else:
         if format != 'h5': # only convert h5 files
-            raise Exception('Object with slug \'%s\' has no file' % (slug))
+            raise Http404('Object with slug \'%s\' has no file' % (slug))
 
         if type!='xml' and not ml2h5.fileformat.can_convert_h5_to(type, fname):
-            raise Exception('ml2h5 can not convert h5 to %s' % (type))
+            raise Http404('ml2h5 can not convert h5 to %s' % (type))
 
         prefix, dummy = os.path.splitext(os.path.basename(obj.file.name))
         # create unique export filename
@@ -209,12 +209,11 @@ def download(request, klass, slug, type='plain'):
             except ml2h5.converter.ConversionError, e:
                 subject = 'Download: Failed conversion of %s to %s' % (fname, type)
                 body = traceback.format_exc() + "\n" + str(e)
-                print body
                 mail_admins(subject, body)
                 _download_cleanup(fname_export)
-                raise Exception('Conversion of %s to %s failed' % (fname, type))
+                raise Http404('Conversion of %s to %s failed' % (fname, type))
         else:
-            raise Exception('Type %s unsupported' % (type))
+            raise Http404('Type %s unsupported' % (type))
 
         if type == 'matlab':
             ctype = 'application/x-matlab'
@@ -393,6 +392,7 @@ def new(request, klass, default_arg=None):
                 if klass == Data:
                     _upload_data_file(new, request.FILES['file'])
                     new.save()
+                    form.save_m2m() # it couldn't be done automatically because of commit=False
                 elif klass == Task:
                     new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
                     taskinfo = {

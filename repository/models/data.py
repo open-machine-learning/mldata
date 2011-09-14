@@ -43,6 +43,8 @@ class Data(Repository):
     @type num_attributes: integer / models.IntegerField
     @cvar tags: item's tags
     @type tags: string / tagging.TagField
+    @cvar dependencies: dataset dependencies (one way relation)
+    @type dependencies: Data / models.ManyToManyField
     """
     source = models.TextField(blank=True)
     format = models.CharField(max_length=16)
@@ -55,6 +57,10 @@ class Data(Repository):
     num_attributes = models.IntegerField(blank=True, default=-1)
     #has_missing_values = models.BooleanField(blank=True, default=False)
     tags = TagField() # tagging doesn't work anymore if put into base class
+    dependencies = models.ManyToManyField('Data', blank=True, related_name="base_for")
+
+    extract = models.TextField(blank=True)
+    attribute_types = models.TextField(blank=True)
 
     class Meta:
         app_label = 'repository'
@@ -185,15 +191,20 @@ class Data(Repository):
         return reverse(view, args=[self.slug.text])
 
     def get_extract(self):
-        extract = None
-        fname_h5 = self.get_data_filename()
-        try:
-            extract = ml2h5.data.get_extract(fname_h5)
-        except Exception, e: # catch exceptions in general, but notify admins
-            subject = 'Failed data extract of %s' % (fname_h5)
-            body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
-            mail_admins(subject, body)
-        return extract
+        extr = ''
+        if not self.extract:
+            fname_h5 = self.get_data_filename()
+            try:
+                self.extract = ml2h5.data.get_extract(fname_h5)
+                extr = self.extract
+                self.save()
+            except Exception, e: # catch exceptions in general, but notify admins
+                subject = 'Failed data extract of %s' % (fname_h5)
+                body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
+                mail_admins(subject, body)
+        else:
+            extr = eval(self.extract)
+        return extr
 
     def has_h5(self):
         return self.get_data_filename().endswith('.h5')
@@ -202,7 +213,11 @@ class Data(Repository):
         return self.is_approved
 
     def get_attribute_types(self):
-        return ml2h5.data.get_attribute_types(self.get_data_filename())
+        if not self.attribute_types or len(self.attribute_types) < 1:
+            self.attribute_types = ml2h5.data.get_attribute_types(self.get_data_filename())
+            self.save()
+        attr = self.attribute_types
+        return attr
 
     def can_convert_to_arff(self):
         return ml2h5.fileformat.can_convert_h5_to('arff', self.get_data_filename())
