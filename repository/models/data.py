@@ -191,7 +191,6 @@ class Data(Repository):
         return reverse(view, args=[self.slug.text])
 
     def get_extract(self):
-        extr = ''
         if not self.extract:
             fname_h5 = self.get_data_filename()
             try:
@@ -203,7 +202,10 @@ class Data(Repository):
                 body = "Hi Admin!" + "\n\n" + subject + ":\n\n" + str(e)
                 mail_admins(subject, body)
         else:
-            extr = eval(self.extract)
+            try:
+                extr = eval(self.extract)
+            except Exception, e:
+                extr = {}
         return extr
 
     def has_h5(self):
