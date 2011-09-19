@@ -1,0 +1,32 @@
+<resource xmlns="http://datacite.org/schema/kernel-2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://datacite.org/schema/kernel-2.1 http://schema.datacite.org/meta/kernel-2.1/metadata.xsd">
+	<identifier identifierType="DOI">{{ data.doi }}</identifier>
+	<creators>
+		<creator>
+			<creatorName>{{ data.user.get_full_name }}</creatorName>
+		</creator>
+	</creators>
+	<titles>
+		<title>{{ data.name }}</title>
+	</titles>
+	<dates>
+		<date dateType="Accepted">{{ data.pub_date }}</date>
+	</dates>
+	<language>eng</language>
+	<relatedIdentifiers>
+		<relatedIdentifier relatedIdentifierType="DOI" relationType="IsCitedBy">{{ data.doi }}</relatedIdentifier>
+		<relatedIdentifier relatedIdentifierType="URN" relationType="Cites">http://{{ request.META.HTTP_HOST }}{{ data.get_absolute_slugurl }}</relatedIdentifier>
+	</relatedIdentifiers>
+	<sizes>
+		<size>{{ data.file.size|filesizeformat }}</size>
+	</sizes>
+	<formats>
+		<format>{{ data.format }}</format>
+	</formats>
+	<version>{{ data.version }}</version>
+	<rights>{{ data.licence }}</rights>
+	<descriptions>
+		<description descriptionType="Other">
+		{{ data.summary }}
+		</description>
+	</descriptions>
+</resource>
