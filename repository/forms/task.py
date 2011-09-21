@@ -118,6 +118,8 @@ class TaskForm(RepositoryForm):
                         self.fields[name].initial = str(extract[name][0])
             except KeyError:
                 pass        
+            except TypeError:
+                pass        
             
 
     def _clean_valid_inputformat(self, name):
