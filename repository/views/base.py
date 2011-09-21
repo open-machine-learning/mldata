@@ -704,7 +704,7 @@ def index(request, klass, my=False, order_by='-pub_date', filter_type=None):
         kname : get_page(request, objects, PER_PAGE),
         kname + '_per_page': PER_PAGE,
         'klass' : klass.__name__,
-        'unapproved': get_page(request, unapproved, PER_PAGE),
+        'unapproved': get_page(request, unapproved, PER_PAGE) if unapproved else [],
         'my_or_archive': my_or_archive,
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
