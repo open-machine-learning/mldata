@@ -141,7 +141,9 @@ class Result(models.Model):
 
         try:
             fname_data = self.task.data.get_data_filename()
-            correct = ml2h5.data.get_correct(fname_data, test_idx[0], output_variables)
+            correct = range(0,len(output_variables))
+            for i in range(0,len(output_variables)):
+                correct[i] = ml2h5.data.get_correct(fname_data, test_idx[0], output_variables[i])
         except Exception:
             return -1,_("Couldn't extract true outputs from Data file!"), False
 
@@ -151,16 +153,16 @@ class Result(models.Model):
             return -1,_("Failed to read predictions"), False
 
         try:
-            predicted = [float(d) for d in data.split("\n") if d]
+            predicted = [[float(v) for v in d.split(",")] for d in data.split("\n") if d]
         except ValueError:
-            predicted = [d for d in data.split("\n") if d]
+            predicted = [[v for v in d.split(",")] for d in data.split("\n") if d]
         except Exception:
             return -1,_("Format of given results is wrong!"), False
 
         data=numpy.array(data)
-        if type(predicted[0]) == type(''):
-            correct = map(str, correct)
-        predicted = numpy.array(predicted)
+#        if type(predicted[0]) == type(''):
+#            correct = map(str, correct)
+        predicted = numpy.transpose(numpy.array(predicted))
         correct = numpy.array(correct)
 
         len_p = len(predicted)
