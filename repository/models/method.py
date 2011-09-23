@@ -162,13 +162,15 @@ class Result(models.Model):
         data=numpy.array(data)
 #        if type(predicted[0]) == type(''):
 #            correct = map(str, correct)
-        predicted = numpy.transpose(numpy.array(predicted))
-        correct = numpy.array(correct)
+        predicted = (numpy.array(predicted))
+        correct = numpy.transpose(numpy.array(correct))
 
         len_p = len(predicted)
         len_c = len(correct)
-        if len_p != len_c:
-            return -1,_("Length of correct results and submitted results doesn't match, expected %d, got %d") % (len_c, len_p), False
+        
+        if pm != 'VOC detection':
+            if len_p != len_c:
+                return -1,_("Length of correct results and submitted results doesn't match, expected %d, got %d") % (len_c, len_p), False
 
         try:
             t=self.task.type
