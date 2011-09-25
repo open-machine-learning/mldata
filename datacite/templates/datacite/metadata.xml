@@ -14,7 +14,7 @@
 	<language>eng</language>
 	<relatedIdentifiers>
 		<relatedIdentifier relatedIdentifierType="DOI" relationType="IsCitedBy">{{ data.doi }}</relatedIdentifier>
-		<relatedIdentifier relatedIdentifierType="URN" relationType="Cites">http://{{ request.META.HTTP_HOST }}{{ data.get_absolute_slugurl }}</relatedIdentifier>
+		<relatedIdentifier relatedIdentifierType="URN" relationType="Cites">http://mldata.com{{ data.get_absolute_slugurl }}</relatedIdentifier>
 	</relatedIdentifiers>
 	<sizes>
 		<size>{{ data.file.size|filesizeformat }}</size>

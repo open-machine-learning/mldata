@@ -3,34 +3,26 @@ View for datacite application. Display metadata about dataset
 in the xml format.
 """
 from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.core.urlresolvers import reverse
+from django.template import RequestContext, loader
+from django.http import HttpResponse, HttpResponseRedirect
 from repository.models.data import Data
+from datacite import metadata_xml_string
+from datacite.models import DOI
 
 def metadata_xml(request, doi):
     """
-    Show the metadata of the dataset under given DOI.
-    
-    **Required arguments**
-    
-    ``doi``
-        DOI string in format prefix:slugid:version
-    
-    **Context:**
-    
-    ``data``
-        The dataset in proper version.
-    
-    **Template:**
-    
-    datacite/metadata.xml - in current version xml is generated
-    by filling the template.
-    
+        View displays datacite information
+        for given DOI.
     """
-    context = RequestContext(request)
-    prefix, id, version = doi.split(':')
-    data = Data.objects.get(slug__id=id,version=version)
-    data.doi = doi
-    
-    return render_to_response('datacite/metadata.xml',
-                              {'data': data},
-                              context_instance=context)
+    data = Data.objects.get(doi__slug=doi)
+    return HttpResponse(metadata_xml_string(data))
+
+def datacite_post(request, slug):
+    """
+        View posts new data to datacite and requests for a DOI
+    """
+    data = Data.get_object(slug)
+    if request.user == data.user:
+        DOI.objects.create_for_data(data)
+    return HttpResponseRedirect(reverse('data_view_slug', args=[slug,]))

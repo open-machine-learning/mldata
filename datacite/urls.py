@@ -7,9 +7,13 @@ and recovers item's slug and version from it.
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
-from datacite.views import metadata_xml
+from datacite.views import metadata_xml, datacite_post
 
 urlpatterns = patterns('',
+                       url(r'request-doi/(?P<slug>[A-Za-z0-9-_]+)/$',
+                           datacite_post,
+                           {},
+                           name='datacite_post'),
                        url(r'^(?P<doi>.+)/$',
                            metadata_xml,
                            {},

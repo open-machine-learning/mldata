@@ -6,6 +6,7 @@ Code based on datacite documentation v2 https://mds.datacite.org/static/apidoc/
 """
 import httplib2, sys, base64, codecs
 from django.conf import settings
+from django.template import Context, loader
 
 def datacite_command(req,method,body_unicode = ''):
     """Call datacite API command
@@ -60,7 +61,7 @@ def metadata_post(metadata):
     """
     return datacite_command('/metadata','POST',metadata)
 
-def metadata_get(doi): 
+def metadata_get(doi):
     """Get metadata for given doi
 
     @param doi: DOI of the dataset to check
@@ -69,3 +70,42 @@ def metadata_get(doi):
     @rtype: tuple of int and string
     """
     return datacite_command('/metadata/' + doi,'GET')
+
+def get_doi(data):
+    """
+        Generate doi for a given dataset
+    """
+    from datacite.models import DOI
+    doi, c = DOI.objects.get_or_create(slug=settings.DATACITE_FORMAT % {'slug': data.slug.__str__(),
+                                       'version': data.version},
+        data=data)
+    doi.save()
+    return doi
+
+def metadata_xml_string(data):
+    """
+    Show the metadata of the dataset under given DOI.
+    
+    **Required arguments**
+    
+    ``data``
+        data object
+    
+    **Context:**
+    
+    ``data``
+        data object
+    
+    **Template:**
+    
+    datacite/metadata.xml - in current version xml is generated
+    by filling the template.
+    
+    """
+    context = Context()
+    data.doi = get_doi(data)
+    
+    t = loader.get_template('datacite/metadata.xml')
+    c = Context({'data': data})
+    return t.render(c)
+
