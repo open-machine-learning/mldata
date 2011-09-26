@@ -49,3 +49,10 @@ class ChallengeAdmin(admin.ModelAdmin):
     list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags']
     search_fields = ['name']
 admin.site.register(Challenge, ChallengeAdmin)
+
+class LicenseAdmin(admin.ModelAdmin):
+    """Admin class for Challenge"""
+    list_display = ('name', 'url')
+    list_filter =['name', 'url']
+    search_fields = ['name']
+admin.site.register(License, LicenseAdmin)
