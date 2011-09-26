@@ -8,6 +8,17 @@ import httplib2, sys, base64, codecs
 from django.conf import settings
 from django.template import Context, loader
 
+class DataciteAPIException(Exception):
+    """Handles all exceptions which comes from API
+    at once. Each API command results in status code and message
+    so the exception is initialized by those two values.
+    """
+    def __init__(self, value, msg):
+        self.value = value
+        self.msg = msg
+    def __str__(self):
+        return ("%s: %s") % (repr(self.value),self.msg)
+
 def datacite_command(req,method,body_unicode = ''):
     """Call datacite API command
 
@@ -26,6 +37,9 @@ def datacite_command(req,method,body_unicode = ''):
                                   body = body_unicode.encode('utf-8'),
                                   headers={'Content-Type':'text/plain;charset=UTF-8',
                                            'Authorization':'Basic ' + auth_string})
+    
+    if (response.status > 201):
+        raise DataciteAPIException(response.status, content.decode('utf-8'))
     return response.status, content.decode('utf-8')
 
 def doi_post(doi, location): 
@@ -79,7 +93,6 @@ def get_doi(data):
     doi, c = DOI.objects.get_or_create(slug=settings.DATACITE_FORMAT % {'slug': data.slug.__str__(),
                                        'version': data.version},
         data=data)
-    doi.save()
     return doi
 
 def metadata_xml_string(data):

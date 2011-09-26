@@ -22,6 +22,7 @@ class DOIManager(models.Manager):
         location = data.get_absolute_slugurl()
         
         doi_post(doi,location)
+        doi.save()
         metadata_post(metadata_xml_string(data))
         
         return doi
