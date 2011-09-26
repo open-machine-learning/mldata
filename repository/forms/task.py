@@ -1,4 +1,4 @@
-import re,numpy 
+import re,numpy, random, math
 from django.core.urlresolvers import reverse
 from django.forms import *
 from django.db.models import Q
@@ -118,6 +118,8 @@ class TaskForm(RepositoryForm):
                         self.fields[name].initial = str(extract[name][0])
             except KeyError:
                 pass        
+            except TypeError:
+                pass        
             
 
     def _clean_valid_inputformat(self, name):
@@ -133,19 +135,55 @@ class TaskForm(RepositoryForm):
                 return None
             # list ?  datasplit
             if type(self.cleaned_data[name])==list:
+                dset=['train_idx','val_idx','test_idx']
                 out = []
                 splits= []
+                i = 0
+                
+                # loop through all split parts of the same kind (name)
                 for split in self.cleaned_data[name]: 
-                    if not check_split_str(split):
+                    # handle percent
+                    if len(split) > 0 and split[-1] == '%':
+                        # setup
+                        frac = float(split[:-1]) / 100.0
+                        numat = self.cleaned_data['data'].num_instances
+                        ints = range(0,numat)
+                        
+                        # filter already selected instances
+                        for d in dset:
+                            if self.cleaned_data.has_key(d) and d != name and len(self.cleaned_data[d]) >= i:
+                                spl = self.cleaned_data[d][i]
+                                ints = filter(lambda x: not x in spl, ints)
+                        numrest = len(ints)
+                        if (numrest == 0):
+                            raise forms.ValidationError('sum of percents > 1')
+
+                        # sample adjust sampling ratio to number of instances left
+                        frac = frac * float(numat) / float(numrest)
+
+                        if (frac > 1):
+                            raise forms.ValidationError('sum of percents > 1')
+                        
+                        # sample with given ratio from remaining instances
+                        split = random.sample(ints, int(math.floor(frac*numrest)))
+
+                        # save the split
+                        splits.append(split)
+                        out.append(split)
+                    elif not check_split_str(split):
                         raise forms.ValidationError('invalid format')
-                    else:        
+                    else:
+                        # convert python-like string into list of integers
                         split = [int(x) for x in expand_split_str(split)]
                         if len(split)>0 and (int(split[-1]) >= self.cleaned_data['data'].num_instances or int(split[0]) < 0):
                             raise forms.ValidationError('index out of bounds')
                                                 
+                        # save the split
                         splits.append(split)
                         out.append(split)
-                dset=['train_idx','val_idx','test_idx']
+                    i+=1
+                    
+                # check if any of splits intersect with each other
                 for d in dset:
                     if self.data.has_key(d) and d != name:
                         intersec=check_split_intersec([[expand_split_str(i) for i in self.data.getlist(d)],splits])    

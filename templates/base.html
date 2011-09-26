@@ -51,8 +51,10 @@
 			</ul>
 		</div>
 		<ul>
+		{% comment %}
 		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
 		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
+		{% endcomment %}
 		{% if request.user.is_authenticated %}
 			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
 			<li class="last"><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
