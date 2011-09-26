@@ -52,7 +52,7 @@ def doi_post(doi, location):
     @return: response type and message
     @rtype: tuple of int and string
     """
-    body_unicode = u"doi=%s\nurl=%s\n" % (doi,location)
+    body_unicode = u"doi=%s\nurl=http://%s%s\n" % (doi,settings.DATACITE_DOMAIN,location)
     return datacite_command('/doi','POST',body_unicode)
 
 def metadata_get(doi): 
@@ -90,7 +90,7 @@ def get_doi(data):
         Generate doi for a given dataset
     """
     from datacite.models import DOI
-    doi, c = DOI.objects.get_or_create(slug=settings.DATACITE_FORMAT % {'slug': data.slug.__str__(),
+    doi, c = DOI.objects.get_or_create(slug=settings.DATACITE_FORMAT % {'slug': data.slug.__str__().upper(),
                                        'version': data.version},
         data=data)
     return doi

@@ -168,7 +168,7 @@ class Result(models.Model):
         len_p = len(predicted)
         len_c = len(correct)
         
-        if pm != 'VOC detection':
+        if self.task.performance_measure != 'VOC bounding box':
             if len_p != len_c:
                 return -1,_("Length of correct results and submitted results doesn't match, expected %d, got %d") % (len_c, len_p), False
 

@@ -115,7 +115,7 @@
                 <dt>{% trans "Summary" %}</dt>
                 <dd>{{ object.summary|edit_if_empty|markdown:"safe" }}</dd>
                 {% if object.doi %}<dt>DOI ({% trans "more info at" %} <a href="http://datacite.org/">datacite</a>)</dt>
-                <dd><a href="http://data.datacite.org/10.4122/{{ object.doi }}">{{ object.doi }}</a></dd>{% endif %}
+                <dd><a href="http://data.datacite.org/{{ object.doi }}">{{ object.doi }}</a></dd>{% endif %}
                 <dt>{% trans "License" %}</dt>
                 <dd><a href="{{ object.license.url }}">{{ object.license.name }}</a></dd>
                 <dt>{% trans "Dependencies" %}</dt>

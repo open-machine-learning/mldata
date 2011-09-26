@@ -158,7 +158,14 @@ INSTALLED_APPS = (
     'mldata.django_authopenid',
     'mldata.preferences',
     'mldata.captcha',
+    'mldata.datacite',
 )
+
+DATACITE_USERNAME = 'TIB.MLDATA'
+DATACITE_PASSWORD = 'DATACITEPASSWORD'
+DATACITE_API_URL = 'https://mds.datacite.org'
+DATACITE_FORMAT = '10.5072/%(slug)s'
+DATACITE_DOMAIN = 'mldata.org'
 
 RECAPTCHA_PUBLIC_KEY = 'RECAPTCHAPUBLIC'
 RECAPTCHA_PRIVATE_KEY = 'RECAPTCHAPRIVATE'
