@@ -97,6 +97,12 @@ def new_review(request, slug):
         form = DataReviewForm()
         form.prefill(obj.format, ml2h5.fileformat.infer_seperator(fname))
 
+    max_extract_size = 1024*1024*100
+    if os.path.getsize(fname) > max_extract_size:
+        extract = {'data': [['file to big for parsing an extract', '']]}
+    else:
+        extract = ml2h5.data.get_extract(fname)
+    
     info_dict = {
         'object': obj,
         'form': form,
@@ -104,7 +110,7 @@ def new_review(request, slug):
         'tagcloud': get_tag_clouds(request),
         'section': 'repository',
         'supported_formats': ', '.join(ml2h5.converter.HANDLERS.iterkeys()),
-        'extract': ml2h5.data.get_extract(fname),
+        'extract': extract,
     }
     return render_to_response('data/data_new_review.html', info_dict)
 

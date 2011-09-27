@@ -1,4 +1,6 @@
-<resource xmlns="http://datacite.org/schema/kernel-2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://datacite.org/schema/kernel-2.1 http://schema.datacite.org/meta/kernel-2.1/metadata.xsd">
+<resource xmlns="http://datacite.org/schema/kernel-2.2"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://datacite.org/schema/kernel-2.2 http://schema.datacite.org/meta/kernel-2.2/metadata.xsd">
 	<identifier identifierType="DOI">{{ data.doi }}</identifier>
 	<creators>
 		<creator>
@@ -8,9 +10,20 @@
 	<titles>
 		<title>{{ data.name }}</title>
 	</titles>
+	<publisher>mldata.org</publisher>
+	<publicationYear>{% now "Y" %}</publicationYear>
+	<subjects>
+	    <subject>{{ data.summary }}</subject>
+	    <subject subjectScheme="DDC"> </subject>
+	</subjects>
+	<contributors>
+	    <contributor contributorType="DataManager">
+	      <contributorName>{{ data.user.get_full_name }}</contributorName>
+	    </contributor>
+	</contributors>
 	<dates>
-		<date dateType="Accepted">{{ data.pub_date }}</date>
-	</dates>
+		<date dateType="Accepted">{{ data.pub_date|date:"Y-m-d" }}</date>
+	</dates> 
 	<language>eng</language>
 	<relatedIdentifiers>
 		<relatedIdentifier relatedIdentifierType="DOI" relationType="IsCitedBy">{{ data.doi }}</relatedIdentifier>
