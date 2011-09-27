@@ -1,0 +1,136 @@
+<html>
+<head>
+<style>
+/* DEFAULTS */
+body {
+	margin: 0;
+}
+body,td,div,li {
+	font-family: 'lucida grande', Arial, Verdana, Tahoma;
+}
+a {
+	text-decoration: none;
+	color: #005380;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+/* top bar */
+#head {
+	background-color: #00659C;
+	border-bottom: 2px solid 005380;
+	text-align: left;
+	color: white;
+	padding: 3px;
+	position: fixed;
+	width: 100%;
+	height: 18px;
+	font-family: 'lucida grande', Arial, Verdana, Tahoma;
+	font-size: 13px;
+}
+#head a {
+	color: #ffffff;
+	text-decoration: none;
+}
+#head a:hover {
+	text-decoration: underline;
+}
+a#logo {
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 18px;
+	vertical-align: middle;
+}
+a#logo:hover {
+	text-decoration: none;
+}
+#head ul {
+	padding:0;
+	margin:0;	
+	list-style-type:none;
+	display: inline;
+	margin-left: 15px;
+	float: right;
+}
+#head li {
+	display: inline;
+	padding-right: 8px;
+}
+.logo-smaller {
+	color: #B5D5E6;
+	font-size: 13px;
+	position: relative;
+	top: -3px;
+}
+
+
+/* DEFAULTS FOR THE CHALLENGE PAGE
+ * USER MAY BE ALLOWED TO CHANGE FOLLOWING
+ */
+#main {
+	padding-top: 26px;
+}
+
+#menu {
+	background-color: #F7FBFC;	
+	width: 200px;
+	float: left;
+	margin:0px;
+}
+#menu ul {
+	margin:10px;
+	paddint-top: 10px;
+	padding-left: 0px;
+	list-style-type:none;
+}
+#menu li{
+	padding: 3px;
+}
+#content {
+	width: 800px;
+	float: left;
+	padding: 10px;
+}
+#content h1 {
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 5px;
+}
+/* END OF CHALLENGE DEFAULTS */
+</style>
+</head>
+<body>
+<div id="head">
+<a id="logo" href="http://mldata.org/">mldata.<font class="logo-smaller">org</font></a> 
+<ul>
+	<li><a href="{% url about_index %}">About</a></li>
+	<li><a href="{% url data_index %}">Browse datasets</a></li>
+	<li><a href="{% url task_index %}">Tasks</a></li>
+	<li><a href="{% url method_index %}">Machine learning methods</a></li>
+	<li><a href="{% url challenge_index %}"><strong>Other challenges</strong></a></li>
+</ul>
+</div>
+<div id="main">
+	<div id="menu">
+		<ul>
+			</li>
+	<li><a href="{% url challengeviewer_index challenge.slug.text %}">Overview</a></li>
+	<li><a href="">Task</a></li>
+	<li><a href="{% url challengeviewer_results challenge.slug.text %}">Results</a></li>
+	<li><a href="{% url challengeviewer_submit challenge.slug.text %}">Submit</a></li>
+	<li><a href="{% url challengeviewer_login challenge.slug.text %}">Login</a></li>
+	
+		</ul>
+	</div>
+	<div id="content">
+	<h1>{{ challenge.name }}</h1>
+	{% block content %}
+{{ challenge.summary }}
+	</div>
+	{% endblock %}
+
+</div>
+</body>
+</html>
