@@ -1,4 +1,59 @@
 {% extends "challengeviewer/base.html" %}
+{% load i18n %}{% load markup %}
 {% block content %}
+	<h1>{{ task.name }}</h1>
+	{{ task.description|markdown }}
+	<h2>Dataset</h2>
+	{{ task.data.description|markdown }}
+	<h4>{% trans "Download" %}</h4>
+	{% with task.data as object %}
+		{% include "data/download_options.html" %}
+	{% endwith %}
+	
+			{% comment %}
+	<h4>{% trans "Input Variables" %}</h4>
+	<p>{{ task.extract.input_variables|join:', ' }}</p>
+	<h4>{% trans "Output Variables" %}</h4>
+	<p>{{ task.extract.output_variables|join:', ' }}</p>
+	
+	<h2>Splits</h2>
+	        <!-- plot legend -->
+            {% if extract.split_overflow %}
+                <img src="{% url repository.views.task.plot_data_split_array object.pk %}"/>
+            {% else %}
+                <table>
+                    <th>Nr</th><th>Splitimage</th>    
+                    {% for sp in task.extract.split_idx %}    
+                    <tr>
+                        <td>{{ sp.0 }}</td><td><img src="{% url repository.views.task.plot_data_split task.pk  sp.0%}"/></td> 
+                    </tr>
+                    {% endfor %}    
+                </table>
+            {% endif %}
 
+            <!-- table of Datasplits -->
+            <table>
+                <tr>
+                    <th>Nr</th><th>Train Indices</th><th>Validation Indices</th><th>Test Indices</th>
+                </tr>        
+                {% for sp in task.extract.reduce_split_idx %}    
+                <tr>
+                    <td>{{ sp.0 }}</td> 
+                    <td>{{ sp.1|join:', ' }}</td> 
+                    <td>{{ sp.2|join:', ' }}</td> 
+                    <td>{{ sp.3|join:', ' }}</td> 
+                </tr>
+                {% endfor %}    
+            </table>
+            
+            <p>Legend:</p>
+            <img src="{% url repository.views.task.plot_legend %}"/>
+			{% endcomment %}
+	{% comment %}
+	<h2>Format</h2>
+	<h4>Input</h4>
+	{{ task.input|markdown:"safe" }}
+	<h4>Output</h4>
+	{{ task.input|markdown:"safe" }}
+	{% endcomment %}
 {% endblock %}

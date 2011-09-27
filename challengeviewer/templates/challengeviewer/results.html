@@ -1,4 +1,23 @@
 {% extends "challengeviewer/base.html" %}
 {% block content %}
-
+<h1>Leadership</h1>
+{% for task in challenge.task.all %}<table>
+	<h2>Results for "{{ task }}"</h2>
+	{% if task.result_set.all %}
+	<tr><th>Submitter</th><th>Method (version)</th><th>Curve</th><th>Score</th><th>Date</th></tr>
+	{% for o in task.result_set.all %}
+	<tr>
+		<td>{{ o.method.user }}</td>
+		<td><a title="{{ o.method.summary }}" href="{{ o.method.get_absolute_slugurl }}">{{ o.method.name }}&nbsp;({{ o.task.version }})</a></td>
+		<td>{% ifequal o.complex_result_type "Curve" %} <a href="{% url repository.views.method.plot_single_curve o.pk 'large' %}"><img src="{% url repository.views.method.plot_single_curve o.pk 'tiny' %}"\></a>{% else %} - {% endifequal %}</td>
+		<td>{{ o.aggregation_score|floatformat:4 }}&nbsp;
+                                     <a href="{% url method_predictions o.pk %}">predictions</a></td>
+		<td>{{ o.pub_date|date:"Y-m-d H:i" }}</td>
+	</tr>
+	{% endfor %}
+	{% else %}
+	No results submitted yet.
+	{% endif %}
+</table>
+{% endfor %}
 {% endblock %}

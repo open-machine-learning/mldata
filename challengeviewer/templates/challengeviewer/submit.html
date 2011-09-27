@@ -1,4 +1,23 @@
-{% extends "challengeviewer/base.html" %}
+{% extends "challengeviewer/base.html" %}{% load i18n %}
 {% block content %}
+	<h1>Submit your result</h1>
+			{% if request.user.is_authenticated %}
+			<form method="post" enctype="multipart/form-data" action="{{ object.get_absolute_slugurl }}#tabs-method"><dl>
+					<dt><label for="id_task">{% trans "Select Task" %}</label></dt>
+					<dd>{{ form.task }}{{ form.task.errors }}</dd>
+					<dt><label for="id_method">{% trans "Select Method" %}</label></dt>
+					<dd>{{ form.method }}{{ form.method.errors }}</dd>
+					<input name="id_challenge" type="hidden" value="{{ challenge.pk }}" />
+					<dt><label for="id_output_file">{% trans "Upload Outputs" %}</label></dt>
+					<dd>{{ form.output_file }}{{ form.output_file.errors }}</dd>
+					<input type="hidden" name="task" id="id_task" value="{{ object.id }}" />
+					<input type="hidden" name="id" id="id_id" value="0" />
+					<input type="submit" class="submit" value="{% trans "Submit Result" %}" />
+			</dl></form>
+			If you developed new algorithm or methodology please share it with others and 
+			<a href="{% url method_new %}">{% trans "submit a new method into methods' repository" %}</a> before submiting results.
+			{% else %}
+				{% trans "To submit a result, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
+			{% endif %}
 
 {% endblock %}
