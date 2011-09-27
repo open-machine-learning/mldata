@@ -127,6 +127,13 @@ fieldset {
 	border:1px solid #ddd;
 	padding:0 0.5em 0.5em;
 }
+#foot {
+	margin: 5px;
+	padding: 5px;
+	border-top: 1px solid #dddddd;
+	font-size: 12px;
+	text-align: right;
+}
 
 
 /* DEFAULTS FOR THE CHALLENGE PAGE
@@ -145,6 +152,7 @@ div,body {
 	background-color: #ffffff;
 	border: 8px solid #3E6478;
 	border-top: 0px;
+	border-bottom: 0px;
 	min-height: 100%;
 }
 
@@ -236,7 +244,6 @@ ul.errorlist {
 	color: red;
 }
 
-
 dl dt {font-weight:bold;}
 dl#news dt {background-color:#FFF;}
 dl#news dd a {color:#3f3f3f;}
@@ -279,7 +286,9 @@ dl#news dt.active {background-color:#e2f4ff;}
 	{% endblock %}
 	</div>
 	<div style="clear:both;"></div>
-
+	<div id="foot">
+		Challenge hosted by <a href="http://mldata.org/">mldata.org</a>.
+	</div>
 </div>
 </body>
 </html>
