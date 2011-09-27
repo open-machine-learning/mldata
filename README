@@ -76,6 +76,10 @@ these modules with "sudo python setup.py install"
 
   http://pypi.python.org/pypi/recaptcha-client
 
+- python-httplib2
+
+  http://code.google.com/p/httplib2/
+
 
 As debian packages
 ------------------
@@ -91,6 +95,7 @@ python-json
 python-rpy2
 python-matplotlib
 python-recaptcha
+python-httplib2
 
 
 Potentially useful projects
