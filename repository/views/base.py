@@ -89,6 +89,38 @@ def _response_for(request, klass, name, info_dict):
     return render_to_response(klass.__name__.lower() + '/' + name + '.html', info_dict,
             context_instance=RequestContext(request))
 
+def handle_result_form(request):
+    if request.method == 'POST':
+        form = ResultForm(request.POST, request.FILES, request=request)
+        form.added = False
+
+        if form.is_valid():
+            new = form.save(commit=False)
+            r=Result.objects.filter(method=new.method, task=new.task, challenge=new.challenge)
+            if r.count():
+                new=r[0]
+
+            new.aggregation_score=-1
+            new.output_file = request.FILES['output_file']
+            score, msg, ok = new.predict()
+            try:
+                new.aggregation_score=score[0]
+                new.complex_result_type=score[1]
+                new.complex_result=pickle.dumps(score[2])
+            except Exception:
+                new.aggregation_score=score
+
+            if ok:
+                new.save()
+                form.added = True
+            else:
+                form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
+    else:
+        form = ResultForm(request=request)
+        form.added = False
+        
+    return form
+
 @transaction.commit_on_success
 def activate(request, klass, id):
     """Activate item given by id and klass.
@@ -283,30 +315,7 @@ def view(request, klass, slug_or_id, version=None):
     else:
         if request.user.is_authenticated():
             if request.method == 'POST':
-                form = ResultForm(request.POST, request.FILES, request=request)
-                if form.is_valid():
-                    new = form.save(commit=False)
-                    r=Result.objects.filter(method=new.method, task=new.task, challenge=new.challenge)
-                    if r.count():
-                        new=r[0]
-
-                    new.aggregation_score=-1
-                    new.output_file = request.FILES['output_file']
-                    score, msg, ok = new.predict()
-                    try:
-                        new.aggregation_score=score[0]
-                        new.complex_result_type=score[1]
-                        new.complex_result=pickle.dumps(score[2])
-                    except Exception:
-                        new.aggregation_score=score
-
-                    if ok:
-                        new.save()
-                    else:
-                        form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
-            else:
-                form = ResultForm(request=request)
-
+                form = handle_result_form(request)
             info_dict['result_form'] = form
 
 
