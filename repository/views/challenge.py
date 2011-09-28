@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseForbidden, Http404
 from django.core import serializers
+from django.db import transaction
 
 from repository.models import *
 from repository.forms import *
@@ -37,7 +38,66 @@ def new(request):
     @return: rendered response page
     @rtype: Django response
     """
-    return base.new(request, Challenge)
+@transaction.commit_on_success
+def new(request, klass, default_arg=None):
+    """Create a new item of given klass.
+
+    @param request: request data
+    @type request: Django request
+    @param klass: item's class for lookup in correct database table
+    @type klass: either Data, Task or Method
+    @return: user login page, item's view page or this page again on failed form validation
+    @rtype: Django response
+    @raise Http404: if given klass is unexpected
+    """
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('user_signin') + '?next=' + request.path)
+
+    if request.method == 'POST':
+        form = ChallengeForm(request.POST, request.FILES, request=request)
+
+        if form.is_valid():
+            new = form.save(commit=False)
+            new.pub_date = datetime.datetime.now()
+            try:
+                new.slug = new.make_slug()
+            except IntegrityError:
+                # looks quirky...
+                d = ErrorDict({'':
+                    _('The given name yields an already existing slug. Please try another name.')})
+                form.errors['name'] = d.as_ul()
+            else:
+                new.version = 1
+                new.is_current = True
+                new.is_public = False
+                new.user = request.user
+
+                new.is_public = True
+
+                new.license = FixedLicense.objects.get(pk=1) # fixed to CC-BY-SA
+                new.save()
+                new.task=form.cleaned_data['task']
+                new.save()
+
+                return HttpResponseRedirect(new.get_absolute_slugurl())
+    else:
+        form = formfunc(request=request)
+
+    kname = Challenge.__name__.lower()
+
+    info_dict = {
+        'klass': klass.__name__,
+        kname: True,
+        'uuid': uuid.uuid4(), # for upload progress bar
+        'url_new': request.path,
+        'form': form,
+        'request': request,
+        'tagcloud': get_tag_clouds(request),
+        'section': 'repository',
+        'upload_limit': "%dMB" % (upload_limit / MEGABYTE)
+    }
+
+    return _response_for(request, klass, 'item_new', info_dict)
 
 def view(request, id):
     """View Challenge item by id.

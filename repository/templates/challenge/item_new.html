@@ -41,6 +41,15 @@ $(function() {
 			if (!res) { return false; }
 		}
 	});
+	$("#new_task_button").click(function(){
+		$("#new_task").show();
+		$("#existing_task").hide();
+	});
+	$("#existing_task_button").click(function(){
+		$("#existing_task").show();
+		$("#new_task").hide();
+	});
+	$("#new_task").hide();
 });
 </script>
 {% endblock %}
@@ -55,11 +64,11 @@ $(function() {
 		<div id="tabs">
 			<ul class="clearfix">
 				<li><a title="{% trans "Primary attributes of item + download" %}" href="#tabs-summary">{% trans "Summary" %}</a></li>
-				<li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li>
+				<!-- li><a title="{% trans "Other attributes of item" %}" href="#tabs-more">{% trans "More Info" %}</a></li-->
 			</ul>
 
 
-			<div id="tabs-summary"><dl>
+			<div id="tabs-saummary"><dl>
 				<dt><label for="id_name">{% trans "Name" %}</label> * {{ form.name.errors }}</dt>
 				<dd>{{ form.name }}<br />
 				    <span class="helptext">{% trans "Come up with good name. <b>IT CANNOT BE CHANGED LATER ON!</b> The name will also be used for creating the 'slug', that is, the readable id for this item." %}</span></dd>
@@ -68,20 +77,53 @@ $(function() {
 				<dd>{{ form.summary }}<br />
             <span class="helptext">{% trans "One-line summary of your challenge" %}</span></dd>
 
+				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
+				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
+
 				<dt><label for="id_tags">{% trans "Tags" %}</label> {{ form.tags.errors }}</dt>
 				<dd>{{ form.tags }}<br />
 				    <span class="helptext">{% trans "Space separated tags for your challenge (see tag cloud on the right)." %}</span></dd>
-				<dt><label for="id_task">{% trans "Tasks" %}</label> * {{ form.task.errors }}</dt>
-				<dd>{{ form.task }}<br />
-				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd>
 
-			</dl></div><!-- /tabs-summary -->
-
-			<div id="tabs-more"><dl>
-				<dt><label for="id_description">{% trans "Description" %}</label> {{ form.description.errors }}</dt>
-				<dd>{{ form.description }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 				<dt><label for="id_urls">{% trans "URLs" %}</label> {{ form.urls.errors }}</dt>
 				<dd>{{ form.urls }}</dd>
+
+
+				<a id="existing_task_button" href="javascript:void">{% trans "Select Existing task" %}</a>
+				or
+				<a id="new_task_button" href="javascript:void">{% trans "Create new task" %}</a> 
+				<div id="existing_task"><dt><label for="id_task">{% trans "Tasks" %}</label> * {{ form.task.errors }}</dt>
+				<dd>{{ form.task }}<br />
+				    <span class="helptext">{% trans "Specify the tasks that need to be solved in this challenge." %}</span></dd></div>
+				<div id="new_task">
+				
+				<!-- CREATE NEW TASK -->
+				<h3>{% trans "New task" %}</h3>
+				<dt><label for="id_name">{% trans "Name" %}</label> * {{ form.name.errors }}</dt>
+				<dd>{{ form.name }}<br />
+				    <span class="helptext">{% trans "Come up with good name. <b>IT CANNOT BE CHANGED LATER ON!</b> The name will also be used for creating the 'slug', that is, the readable id for this item." %}</span></dd>
+
+				<dt><label for="id_summary">{% trans "Summary" %}</label> {{ form.summary.errors }}</dt>
+
+				<dd>{{ form.summary }}<br />
+				<dt><label for="id_input_variables">{% trans "Input Variables" %}</label> {{ form.input_variables.errors }}</dt>
+				<dd>{{ form.input_variables }}</dd>
+				<dt><label for="id_output_variables">{% trans "Output Variables" %}</label> {{ form.output_variables.errors }}</dt>
+				<dd>{{ form.output_variables }}
+
+                <dt>Datasplits</dt>
+                <dd><table border="1" id="id_split_cont" name="split_cont"> 
+                <tr>
+                        <th>Train Indices</th><th>Validation Indices</th><th>Test Indices</th>
+                </tr>                
+                <tbody>                
+                <tr><td><input type="text" name="train_idx" value=""/></td><td><input type="text" name="val_idx" value="" /></td><td><input type="text" name="test_idx" value="" /></td></tr>
+                </tbody>
+                </table></dd>
+
+				<br/><span class="helptext">We use <a href="{% url about_slicing %}">python style</a> indices. For datasplits you can also use percents, which indicate the random sample of given size. If your indices do not fit into field use handmade h5 file insted.</span></dd>
+				<!-- END OF CREATE NEW TASK -->			</dl></div><!-- /tabs-summary -->
+
+			<!-- >div id="tabs-more"><dl>
 				<dt><label for="id_publications">{% trans "Publications" %}</label> {{ form.publications.errors }}</dt>
 				<dd>{{ form.publications }}</dd>
 			</dl></div><!-- /tabs-more -->
