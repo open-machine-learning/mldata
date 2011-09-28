@@ -227,38 +227,6 @@ def download(request, klass, slug, type='plain'):
     obj.increase_downloads()
     return response
 
-def handle_result_form(request):
-    if request.method == 'POST':
-        form = ResultForm(request.POST, request.FILES, request=request)
-        form.added = False
-
-        if form.is_valid():
-            new = form.save(commit=False)
-            r=Result.objects.filter(method=new.method, task=new.task, challenge=new.challenge)
-            if r.count():
-                new=r[0]
-
-            new.aggregation_score=-1
-            new.output_file = request.FILES['output_file']
-            score, msg, ok = new.predict()
-            try:
-                new.aggregation_score=score[0]
-                new.complex_result_type=score[1]
-                new.complex_result=pickle.dumps(score[2])
-            except Exception:
-                new.aggregation_score=score
-
-            if ok:
-                new.save()
-                form.added = True
-            else:
-                form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
-    else:
-        form = ResultForm(request=request)
-        form.added = False
-        
-    return form
-
 @transaction.commit_on_success
 def view(request, klass, slug_or_id, version=None):
     """View item given by slug and klass.
@@ -314,7 +282,31 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['dependent_link']='#tabs-method'
     else:
         if request.user.is_authenticated():
-            form = handle_result_form(request)
+            if request.method == 'POST':
+                form = ResultForm(request.POST, request.FILES, request=request)
+                if form.is_valid():
+                    new = form.save(commit=False)
+                    r=Result.objects.filter(method=new.method, task=new.task, challenge=new.challenge)
+                    if r.count():
+                        new=r[0]
+
+                    new.aggregation_score=-1
+                    new.output_file = request.FILES['output_file']
+                    score, msg, ok = new.predict()
+                    try:
+                        new.aggregation_score=score[0]
+                        new.complex_result_type=score[1]
+                        new.complex_result=pickle.dumps(score[2])
+                    except Exception:
+                        new.aggregation_score=score
+
+                    if ok:
+                        new.save()
+                    else:
+                        form.errors['output_file'] = ErrorDict({'': msg}).as_ul()
+            else:
+                form = ResultForm(request=request)
+
             info_dict['result_form'] = form
 
 
