@@ -314,8 +314,7 @@ def view(request, klass, slug_or_id, version=None):
         info_dict['dependent_link']='#tabs-method'
     else:
         if request.user.is_authenticated():
-            if request.method == 'POST':
-                form = handle_result_form(request)
+            form = handle_result_form(request)
             info_dict['result_form'] = form
 
 
