@@ -1,0 +1,297 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Muli:300' rel='stylesheet' type='text/css'>
+<style>
+/* DEFAULTS */
+body {
+	margin: 0;
+}
+a {
+	text-decoration: none;
+	color: #005380;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+/* top bar */
+#head {	background: #cccccc;
+
+	background-color: #00659C;
+	border-bottom: 2px solid #002336;
+	text-align: left;
+	color: white;
+	padding: 3px;
+	position: fixed;
+	width: 100%;
+	height: 18px;
+	font-family: Arial, Verdana, Tahoma;
+	font-size: 13px;
+}
+#head a {
+	color: #ffffff;
+	text-decoration: none;
+}
+#head a:hover {
+	text-decoration: underline;
+}
+a#logo {
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 18px;
+	vertical-align: middle;
+}
+a#logo:hover {
+	text-decoration: none;
+}
+#head ul {
+	padding:0;
+	margin:0;	
+	list-style-type:none;
+	display: inline;
+	margin-left: 15px;
+	float: right;
+}
+#head li {
+	display: inline;
+	padding-right: 8px;
+}
+.logo-smaller {
+	color: #B5D5E6;
+	font-size: 13px;
+	position: relative;
+	top: -3px;
+}
+
+#main {
+	padding-top: 26px;
+}
+.download-note {
+	font-size: 12px;
+}
+
+/* FORM */
+fieldset div {
+	margin:0.3em 0;
+	clear:both;
+}
+form {
+	margin:1em;
+}
+label {
+	float:left;
+	width:10em;
+	text-align:right;
+	margin-right:1em;
+	margin-top: 0.6em;
+	font-weight: bold;'
+}
+legend {
+	color:#0b77b7;
+	font-size:1.2em;
+}
+legend span {
+	width:10em;
+	text-align:right;
+}
+#content input, #content textarea, #content select {
+	padding:4px;;
+	width:10em;
+	border:1px solid #ddd;
+	background:#fafafa;
+	color: #444444;
+	-moz-border-radius:0.4em;
+	-khtml-border-radius:0.4em;
+	vertical-align: middle;
+}
+#content input[type=checkbox] {
+    width: 30px;
+}
+#content textarea {
+	width: 40em;
+	font-size: 15px;
+	font-family: Verdana, Tahoma, Arial;
+}
+#content input:hover, #content input:focus {
+	border-color:#c5c5c5;
+	background:#f6f6f6;
+}
+fieldset {
+	border:1px solid #ddd;
+	padding:0 0.5em 0.5em;
+}
+#foot {
+	margin: 5px;
+	padding: 5px;
+	border-top: 1px solid #dddddd;
+	font-size: 12px;
+	text-align: right;
+}
+#main {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+/* DEFAULTS FOR THE CHALLENGE PAGE
+ * USER MAY BE ALLOWED TO CHANGE FOLLOWING
+ */
+h1,h2,h3,h4,h5,h6,h7 {
+	font-family: 'Muli', sans-serif;
+}
+body,td,div,li {
+	font-family: 'Muli', Arial, Verdana, Tahoma;
+}
+body {
+	background: #002336;
+	height:100%; 
+}
+div,body {
+	color: #333333;
+}
+#main {
+	margin: 0 auto;
+	width: 1000px;
+	background-color: #ffffff;
+	border: 8px solid #3E6478;
+	border-top: 0px;
+	border-bottom: 0px;
+	min-height: 100%;
+}
+
+#menu {
+	background-color: #F7FBFC;	
+	width: 200px;
+	float: left;
+	margin:0px;
+	height: 100%;
+	border: 1px solid #E6F0F2;
+}
+#menu-level-0 {
+	margin:10px;
+	paddint-top: 10px;
+	padding-left: 0px;
+	list-style-type:none;
+}
+#menu-level-1 {
+	margin:5px;
+	margin-left: 5px;
+	padding-left: 0px;
+	padding-top: 0px;
+	margin-top: 0px;
+	list-style-type:none;
+}
+#menu-level-0 li{
+	padding: 3px;
+}
+#menu-level-1 li {
+	font-size: 13px;
+	padding: 1px;
+}
+#content {
+	width: 770px;
+	padding: 10px;
+	display: inline-block;
+}
+#content h1 {
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 5px;
+	text-align: center;
+	color: #18658F;
+}
+h3,h4,h5,h6,h7 {
+	margin: 0px;
+	padding: 0px;
+}
+
+table
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: #fff;
+	margin-left: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 650px;
+	border-collapse: collapse;
+	text-align: left;
+}
+table th
+{
+	font-size: 14px;
+	font-weight: normal;
+	color: #039;
+	padding: 10px 8px;
+	border-bottom: 2px solid #6678b1;
+}
+table td
+{
+	color: #669;
+	padding: 9px 8px 0px 8px;
+}
+td,th {
+	border: 1px dashed #CCD4F0;
+}
+table tbody tr:hover td
+{
+	color: #009;
+}
+p {
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+ul.errorlist {
+	margin-top: 5px;
+	margin-bottom: 15px;
+	color: red;
+}
+
+dl dt {font-weight:bold;}
+dl#news dt {background-color:#FFF;}
+dl#news dd a {color:#3f3f3f;}
+dl#news dt.active {background-color:#e2f4ff;}
+/* END OF CHALLENGE DEFAULTS */
+</style>
+</head>
+<body>
+<div id="head">
+<a id="logo" href="http://mldata.org/">mldata.<font class="logo-smaller">org</font></a> : :
+<a href="{% url challengeviewer_index challenge.slug.text %}">{{ challenge.name }}</a>
+<ul>
+	<li><a href="{% url about_index %}">About</a></li>
+	<li><a href="{% url data_index %}">Browse datasets</a></li>
+	<li><a href="{% url task_index %}">Tasks</a></li>
+	<li><a href="{% url method_index %}">Machine learning methods</a></li>
+	<li><a href="{% url challenge_index %}"><strong>Other challenges</strong></a></li>
+</ul>
+</div>
+<div id="main">
+	<div id="menu">
+		<ul id="menu-level-0">
+			</li>
+	<li><a href="{% url challengeviewer_index challenge.slug.text %}">Overview</a></li>
+	<li>Tasks<ul id="menu-level-1">
+		{% for t in challenge.task.all %}<li><a href="{% url challengeviewer_task challenge.slug.text t.slug.text %}">{{ t.name }}</a></li>{% endfor %}
+	</ul></li>
+	<li><a href="{% url challengeviewer_results challenge.slug.text %}">Results</a></li>
+	<li><a href="{% url challengeviewer_submit challenge.slug.text %}">Submit</a></li>
+	{% if not request.user.is_authenticated %}
+	<li><a href="{% url challengeviewer_login challenge.slug.text %}">Login</a></li>
+	{% else %}
+	<li><a href="{% url challengeviewer_logout challenge.slug.text %}">Logout</a></li>
+	{% endif %}
+	
+		</ul>
+	</div>
+	<div id="content">
+	{% block content %}
+	{% endblock %}
+	</div>
+	<div style="clear:both;"></div>
+	<div id="foot">
+		Challenge hosted by <a href="http://mldata.org/">mldata.org</a>.
+	</div>
+</div>
+</body>
+</html>

@@ -173,7 +173,13 @@ class Task(Repository):
         return self.challenge_set.filter(qs)
 
     def get_extract(self):
-        return ml2h5.task.get_extract(os.path.join(MEDIA_ROOT, self.file.name))
+        if not self._extract:
+            self._extract = ml2h5.task.get_extract(os.path.join(MEDIA_ROOT, self.file.name))
+        return self._extract
+
+    # simplifies access to the extract and caches it
+    extract = property(get_extract)
+    _extract = None    
 
     def get_split_image(self,split_nr):
         return ml2h5.task.get_split_image(os.path.join(MEDIA_ROOT, self.file.name),split_nr)

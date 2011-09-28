@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     (r'^comments/', include('django.contrib.comments.urls')),
     (r'^user/', include('user.urls')),
     (r'^datacite/', include('datacite.urls')),
+    (r'^c/', include('challengeviewer.urls')),
 
     (r'^$', views.welcome),
 )

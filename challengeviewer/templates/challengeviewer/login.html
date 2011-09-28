@@ -1,0 +1,15 @@
+{% extends "challengeviewer/base.html" %}
+{% block content %}
+{% if not request.user.is_authenticated %}
+<h1>Login</h1>
+Login using your <a href="">mldata.org</a> account.
+<form method="post" action="?next={{ request.path }}">
+	{{ form.as_p }}
+	<input type="submit" value="Login">
+</form>
+If you don't have an account please register at <a href="{% url registration_register %}?next={{ request.path }}">mldata.org</a>.
+{% else %}
+<p>You are logged in.<br />
+Now you can <a href="{% url challengeviewer_results challenge.slug.text %}">submit your results</a>. 
+{% endif %}
+{% endblock %}
