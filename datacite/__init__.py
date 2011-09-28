@@ -29,7 +29,7 @@ def datacite_command(req,method,body_unicode = ''):
     @return: response type and message
     @rtype: tuple of int and string
     """
-    h = httplib2.Http()
+    h = httplib2.Http(disable_ssl_certificate_validation=True)
     auth_string = base64.encodestring(settings.DATACITE_USERNAME + ':' + settings.DATACITE_PASSWORD)
     
     response, content = h.request(settings.DATACITE_API_URL + req,
