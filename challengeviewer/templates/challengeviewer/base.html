@@ -1,0 +1,47 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Muli:300' rel='stylesheet' type='text/css'>
+<link href='/media/css/challenge-viewer.css' rel='stylesheet' type='text/css'>
+
+</head>
+<body>
+<div id="head">
+<a id="logo" href="http://mldata.org/">mldata.<font class="logo-smaller">org</font></a> : :
+<a href="{% url challengeviewer_index challenge.slug.text %}">{{ challenge.name }}</a>
+<ul>
+	<li><a href="{% url about_index %}">About</a></li>
+	<li><a href="{% url data_index %}">Browse datasets</a></li>
+	<li><a href="{% url task_index %}">Tasks</a></li>
+	<li><a href="{% url method_index %}">Machine learning methods</a></li>
+	<li><a href="{% url challenge_index %}"><strong>Other challenges</strong></a></li>
+</ul>
+</div>
+<div id="main">
+	<div id="menu">
+		<ul id="menu-level-0">
+			</li>
+	<li><a href="{% url challengeviewer_index challenge.slug.text %}">Overview</a></li>
+	<li>Tasks<ul id="menu-level-1">
+		{% for t in challenge.task.all %}<li><a href="{% url challengeviewer_task challenge.slug.text t.slug.text %}">{{ t.name }}</a></li>{% endfor %}
+	</ul></li>
+	<li><a href="{% url challengeviewer_results challenge.slug.text %}">Results</a></li>
+	<li><a href="{% url challengeviewer_submit challenge.slug.text %}">Submit</a></li>
+	{% if not request.user.is_authenticated %}
+	<li><a href="{% url challengeviewer_login challenge.slug.text %}">Login</a></li>
+	{% else %}
+	<li><a href="{% url challengeviewer_logout challenge.slug.text %}">Logout</a></li>
+	{% endif %}
+	
+		</ul>
+	</div>
+	<div id="content">
+	{% block content %}
+	{% endblock %}
+	</div>
+	<div style="clear:both;"></div>
+	<div id="foot">
+		Challenge hosted by <a href="http://mldata.org/">mldata.org</a>.
+	</div>
+</div>
+</body>
+</html>

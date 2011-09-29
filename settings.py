@@ -159,6 +159,7 @@ INSTALLED_APPS = (
     'mldata.preferences',
     'mldata.captcha',
     'mldata.datacite',
+    'mldata.challengeviewer',
 )
 
 DATACITE_USERNAME = 'TIB.MLDATA'

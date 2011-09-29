@@ -1,0 +1,6 @@
+{% extends "challengeviewer/base.html" %}
+{% load i18n %}{% load markup %}
+{% block content %}
+	<h1>{{ challenge.name }}</h1>
+	{{ challenge.description|markdown }}
+{% endblock %}
