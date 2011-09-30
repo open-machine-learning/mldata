@@ -56,23 +56,6 @@
 
 	<br style="float:none">
 	<div class="centerbox">
-		<p class="head">{% trans "How does it work?" %}</p>
-		This repository manages the following types of objects.
-
- <a href="{% url repository_index %}"><img style="padding-left: 20px;" align="right" src="/media/images/datatask2cropped.gif" width="500" alt="Data sets, tasks and solutions"></a>
-<ul>
-<li><strong>Data Sets</strong> - Raw data as a collection of similarily structured objects.</li>
-<li><strong>Material and Methods</strong> - Descriptions of the computational pipeline.</li>
-<li><strong>Learning Tasks</strong> - Learning tasks defined on raw data.</li>
-<li><strong>Challenges</strong> - Collections of tasks which have a particular theme.</li>
-</ul>
-
-Between data sets and tasks, the relationship is one-to-many, as a data set can give rise to many different learning tasks. A method can also be applied to several different tasks, giving rise to solutions. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task. These relationships are illustrated in the image.
-<br /><br />
-  <a style="font-weight: bold;" href="{% url about_index %}">CLICK HERE AND LEARN MORE</a>
-	</div>
-
-	<div class="centerbox">
 		<p class="head">{% trans "Recent Items" %}</p>
 		<ul class="recent">
 			{% for r in recent %}
@@ -89,7 +72,27 @@ Between data sets and tasks, the relationship is one-to-many, as a data set can 
 			</li>
 			{% endfor %}
 		</ul>
-		</div>
+	</div>
+
+	<div class="centerbox">
+		<p class="head">{% trans "How does it work?" %}</p>
+  <iframe style="float: right;" width="420" height="315" src="http://www.youtube.com/embed/VlxWhDj3OkQ" frameborder="0" allowfullscreen></iframe>
+	<div style="float: left; width: 400px;">This repository manages the following types of objects.
+
+<ul>
+<li><strong>Data Sets</strong> - Raw data as a collection of similarily structured objects.</li>
+<li><strong>Material and Methods</strong> - Descriptions of the computational pipeline.</li>
+<li><strong>Learning Tasks</strong> - Learning tasks defined on raw data.</li>
+<li><strong>Challenges</strong> - Collections of tasks which have a particular theme.</li>
+</ul>
+
+Between data sets and tasks, the relationship is one-to-many, as a data set can give rise to many different learning tasks. A method can also be applied to several different tasks, giving rise to solutions. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task. These relationships are illustrated in the image.
+<br /><br />
+  <a style="font-weight: bold;" href="{% url about_index %}">CLICK HERE AND LEARN MORE</a><br /><br />
+  <a style="font-weight: bold;" href="{% url about_videos 0 %}">Watch other videos</a>
+  </div>
+  <div style="clear: both"></div>
+	</div>
 
 	</div><!-- /in -->
 	{% endblock %}

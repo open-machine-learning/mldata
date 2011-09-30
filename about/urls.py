@@ -5,6 +5,7 @@ URLconf for app About
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from settings import MEDIA_URL
+from about.views import about_videos
 import ml2h5.converter
 
 extra_context = {
@@ -20,6 +21,9 @@ urlpatterns = patterns('',
     url(r'^$', direct_to_template,
         {'template':'about/index.html', 'extra_context':extra_context},
         name='about_index'),
+    url(r'^(?P<video>[A-Za-z0-9-_]+)/$', about_videos,
+        {'template':'about/videos.html', 'extra_context':extra_context},
+        name='about_videos'),
     url(r'^motivation/$', direct_to_template, {
         'template':'about/motivation.html', 'extra_context':extra_context},
         name='about_motivation'),
