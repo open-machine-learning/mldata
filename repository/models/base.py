@@ -254,6 +254,7 @@ class Repository(models.Model):
 
         # slices return max number of elements if num > max
         recent_data = repository.models.Data.objects.filter(qs).order_by('-pub_date')
+        recent_data = recent_data.filter(is_approved=True)
         recent_tasks = repository.models.Task.objects.filter(qs).order_by('-pub_date')
         recent_challenges = repository.models.Challenge.objects.filter(qs).order_by('-pub_date')
         recent_results = repository.models.Result.objects.filter(qs_result).order_by('-pub_date')
