@@ -67,6 +67,8 @@ def new_review(request, slug):
         return HttpResponseForbidden()
 
     dummy, ext = os.path.splitext(obj.file.name)
+    if ext == '.gz':
+        ext = os.path.splitext(dummy)[1] + ext
     fname = os.path.join(MEDIA_ROOT, DATAPATH, '%s%s' % (slug, ext))
     form = None
     if request.method == 'POST':
