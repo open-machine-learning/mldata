@@ -106,12 +106,13 @@ class Data(Repository):
         @param convdata: conversion-relevant data
         @type convdata: dict of strings with keys seperator, convert, format + attribute_names_first
         @raise: ml2h5.converter.ConversionError if conversion failed
+        @raise: ml2h5.converter.ConversionUnsupported if an unsupported conversion was tried
         """
         self.is_approved = True
         self.format = convdata['format']
         fname_h5 = ml2h5.fileformat.get_filename(fname_orig)
 
-        if 'convert' in convdata and convdata['convert'] and self.format != 'h5':
+        if 'convert' in convdata and convdata['convert'] and self.format in ml2h5.converter.TO_H5:
             if 'attribute_names_first' in convdata and convdata['attribute_names_first']:
                 anf = True
             else:

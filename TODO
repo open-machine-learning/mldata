@@ -1,0 +1,82 @@
+Some project ideas:
+
+
+
+API for mldata.org
+==================
+
+Provide a programmatic interface to mldata, instead of the HTML webpage.
+
+Implement the following interface for Data objects, which is heavily based on Google Docs API.
+http://code.google.com/apis/documents/overview.html
+
+We can provide the API under the url:
+http://mldata.org/api/
+
+First, we should allow users to access Data objects.
+
+Discovery
+---------
+Retrieve Data lists that match specific tags. We already have this:
+http://mldata.org/repository/data/?page=1&pp=all
+http://mldata.org/repository/tags/data/Clustering/
+But it would be good to return a json or xml blob for the API.
+
+We could also support some "slicing", e.g. Data for multiclass classification
+with between 5-10 classes, and less than 1000 examples. Currently, our database
+design doesn't support this yet, but it may be good to keep in mind.
+
+Revisions
+---------
+Review, download Data item's complete revision history.
+
+Download
+--------
+Export documents in supported formats.
+Each item is an ID, and so we can use this ID for retrieval.
+http://mldata.org/repository/view/stockvalues/
+http://mldata.org/repository/data/download/5102/
+http://mldata.org/repository/data/download/xml/5102/
+
+I suggested that we should use the slug instead of the id for the URL, but since
+we have revisions, it might be good to keep the id. Then the discovery stage
+should provide "groups" of revisions, etc.
+
+Create/upload/copy documents
+----------------------------
+This functionality is currently done internally (see ml2h5), but it can be
+pushed outside.
+
+As a second step, we should allow editing of Data objects directly. This is more
+efficient than downloading, editing, and uploading, if the data is large. But
+perhaps we keep this for another day...
+http://code.google.com/apis/spreadsheets/data/1.0/developers_guide_python.html
+
+
+
+
+
+
+
+
+Integration with shogun http://www.shogun-toolbox.org/
+=======================
+The machine learning data set repository mldata.org provides data and
+task downloads in a standardized format. Make shogun to natively be able
+to read these data formats and interact with the mldata.org website,
+i.e., by
+
+1. read and write support for the hdf5 based data sets and tasks (see
+http://mldata.org/about/hdf5/)
+
+2. contribute features to mldata.org for command-line based
+up/downloading of data,task,methods,solutions
+
+3. contribute features to mloss.org for command-line based
+up/downloading of methods and other community features
+
+Note that the optional part of this task aims to help the machine
+learning community portals for which python and django skills are needed
+(both portal website's source code are also open source).
+
+

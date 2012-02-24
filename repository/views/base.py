@@ -234,7 +234,7 @@ def download(request, klass, slug, type='plain'):
         else:
             fname_export_visible = os.path.join(CACHE_ROOT, prefix + '.' + type)
 
-        if type in ('xml', 'csv', 'arff', 'libsvm', 'matlab', 'octave', 'rdata'):
+        if type in ml2h5.converter.FROM_H5:
             try:
                 c = ml2h5.converter.Converter(fname, fname_export, format_out=type)
                 c.run()

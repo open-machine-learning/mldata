@@ -92,6 +92,14 @@ def new_review(request, slug):
                         'URL: ' + url + "\n\n" +\
                         traceback.format_exc() + "\n" + str(error)
                     mail_admins(subject, body)
+                except ml2h5.converter.ConversionUnsupported, error:
+                    url = 'http://' + request.META['HTTP_HOST'] + reverse(
+                        view_slug, args=[obj.slug])
+                    subject = 'Unsupported conversion tried: %s' % url
+                    body = "Hi admin!\n\n" +\
+                        'URL: ' + url + "\n\n" +\
+                        traceback.format_exc() + "\n" + str(error)
+                    mail_admins(subject, body)
                 return HttpResponseRedirect(
                     reverse(view_slug, args=[obj.slug]))
 

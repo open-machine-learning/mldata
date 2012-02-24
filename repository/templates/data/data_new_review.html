@@ -26,7 +26,7 @@
 		<dd>{{ form.seperator }}<br /><span class="helptext">{% trans "The seperator seperates the variables in the examples. Allowed values are ',', ' ' and '\t' (note: it might not be visible without selection in the text field)." %}</span></dd>
 {% ifnotequal form.fields.format.initial "h5" %}
 		<dt><label for="id_convert">{% trans "Convert Data file" %}</label> {{ form.convert.errors }}</dt>
-		<dd>{{ form.convert }}<br /><span class="helptext">{% trans "Uncheck this if you don't want the Data file to be converted." %}</span></dd>
+		<dd>{{ form.convert }}<br /><span class="helptext">{% trans "Tick this if you want the Data file to be converted." %}</span></dd>
 {% endifnotequal %}
 
 	</dl>
