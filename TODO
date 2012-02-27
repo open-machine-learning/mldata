@@ -80,3 +80,12 @@ learning community portals for which python and django skills are needed
 (both portal website's source code are also open source).
 
 
+
+
+
+Create custom challenge view for Machine Learning challenges
+============================================================
+
+http://www.chalearn.org/challenges.html
+Related to (private) custom view for Pascal VOC challenge by Lukasz Kidinski.
+
