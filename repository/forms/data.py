@@ -45,13 +45,16 @@ class DataForm(RepositoryForm):
 
         super(RepositoryForm, self).__init__(*args, **kwargs)
 
-class DataReviewForm(RepositoryForm):
+class DataReviewForm(DataForm):
     """Form used for Data review."""
     format = forms.CharField(required=True)
     seperator = forms.CharField(required=False, max_length=1)
     attribute_names_first = BooleanField(required=False)
     convert = BooleanField(required=False)
 
+    def __init__(self, *args, **kwargs):
+        """Use __init__ from DataForm"""
+        super(DataForm, self).__init__(*args, **kwargs)
 
     def prefill(self, format, seperator):
         """Prefill form fields aided by given arguments.
