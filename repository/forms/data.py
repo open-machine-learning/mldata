@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect
 
 import ml2h5.task
+import ml2h5.converter
 
 from repository.models import *
 from repository.widgets import *
@@ -65,10 +66,10 @@ class DataReviewForm(forms.Form):
             self.fields['seperator'].initial = ''
         else:
             self.fields['seperator'].initial = seperator
-        if format in ('h5', 'xml', 'unknown'):
-            self.fields['convert'].initial = False
-        else:
+        if format in ml2h5.converter.TO_H5:
             self.fields['convert'].initial = True
+        else:
+            self.fields['convert'].initial = False
 
 
     def clean_format(self):
