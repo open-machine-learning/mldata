@@ -45,7 +45,7 @@ class DataForm(RepositoryForm):
 
         super(RepositoryForm, self).__init__(*args, **kwargs)
 
-class DataReviewForm(forms.Form):
+class DataReviewForm(RepositoryForm):
     """Form used for Data review."""
     format = forms.CharField(required=True)
     seperator = forms.CharField(required=False, max_length=1)
