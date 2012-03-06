@@ -21,10 +21,10 @@ urlpatterns = patterns('',
     url(r'^search/$', views.base.search, name='repository_search'),
 
     # tags
-    url(r'^tags/data/(?P<tag>[A-Za-z0-9-_.]+)/$', views.data.tags_view, name='data_tags_view'),
-    url(r'^tags/task/(?P<tag>[A-Za-z0-9-_.]+)/$', views.task.tags_view, name='task_tags_view'),
-    url(r'^tags/method/(?P<tag>[A-Za-z0-9-_.]+)/$', views.method.tags_view, name='method_tags_view'),
-    url(r'^tags/challenge/(?P<tag>[A-Za-z0-9-_.]+)/$', views.challenge.tags_view, name='challenge_tags_view'),
+    url(r'^tags/data/(?P<tag>[A-Za-z0-9-_.!]+)/$', views.data.tags_view, name='data_tags_view'),
+    url(r'^tags/task/(?P<tag>[A-Za-z0-9-_.!]+)/$', views.task.tags_view, name='task_tags_view'),
+    url(r'^tags/method/(?P<tag>[A-Za-z0-9-_.!]+)/$', views.method.tags_view, name='method_tags_view'),
+    url(r'^tags/challenge/(?P<tag>[A-Za-z0-9-_.!]+)/$', views.challenge.tags_view, name='challenge_tags_view'),
 
     # data, tasks, methods, challenges
     (r'^data/', include('mldata.repository.data_urls')),
