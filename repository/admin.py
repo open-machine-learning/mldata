@@ -11,7 +11,20 @@ class DataAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags', 'format']
     search_fields = ['name','file']
+    actions = ['rename_file']
+
+    def rename_file(self, request, queryset):
+        """Move the file"""
+        old_name = request.file.name
+        new_name = "dummy"
+        #file_move_save(old_name, new_name, allow_overwrite=False)
+        self.message_user(request, "Moved file from %s to %s"
+                          % (old_name, new_name))
+    rename_file.short_description = "Move the data file (one item only)"
 admin.site.register(Data, DataAdmin)
+
+
+
 
 class SlugAdmin(admin.ModelAdmin):
     """Admin class for Slug"""
