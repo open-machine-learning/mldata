@@ -3,7 +3,7 @@ Admin classes in app Repository - kind of unused at the moment
 """
 
 from django.contrib import admin
-from django.forms import ClearableFileInput
+from django.forms import TextInput
 from repository.models import *
 
 
@@ -14,7 +14,7 @@ class DataAdmin(admin.ModelAdmin):
     list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags', 'format']
     search_fields = ['name','file']
     formfield_overrides = {
-        models.FileField: {'widget': ClearableFileInput.template_with_initial}
+        models.FileField: {'widget': TextInput}
     }
 
     def rename_file(self, request, queryset):
