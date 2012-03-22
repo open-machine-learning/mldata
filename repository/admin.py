@@ -2,7 +2,7 @@
 Admin classes in app Repository - kind of unused at the moment
 """
 
-from django import models
+from django.db import models
 from django.contrib import admin
 from django.forms import TextInput
 from repository.models import *
