@@ -252,7 +252,6 @@ class DataAdmin(admin.ModelAdmin):
         old_name = request.file.name
         new_name = "dummy"
         #file_move_safe(old_name, new_name, allow_overwrite=False)
-        self.message_user(request, "Moved file from %s to %s"
-                          old_name, new_name)
+        self.message_user(request, "Moved file from %s to %s" % (old_name, new_name))
     rename_file.short_description = "Move the data file (one item only please!)"
 admin.site.register(Data, DataAdmin)
