@@ -3,6 +3,7 @@ Admin classes in app Repository - kind of unused at the moment
 """
 
 from django.contrib import admin
+from django.forms.widgets import TextInput
 from repository.models import *
 
 class DataAdmin(admin.ModelAdmin):
@@ -11,7 +12,9 @@ class DataAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags', 'format']
     search_fields = ['name','file']
-    actions = ['rename_file']
+    formfield_overrides = {
+        models.FileField: {'widget': TextInput}
+    }
 
     def rename_file(self, request, queryset):
         """Move the file"""
