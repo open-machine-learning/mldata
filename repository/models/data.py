@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.mail import mail_admins
+from django.contrib import admin
 import repository
 from repository.models import License, Repository
 
@@ -241,3 +242,17 @@ class DataRating(Rating):
 
     class Meta:
         app_label = 'repository'
+
+
+class DataAdmin(admin.ModelAdmin):
+    actions = ['rename_file']
+
+    def rename_file(self, request, queryset):
+        """Move the file"""
+        old_name = request.file.name
+        new_name = "dummy"
+        #file_move_safe(old_name, new_name, allow_overwrite=False)
+        self.message_user(request, "Moved file from %s to %s"
+                          old_name, new_name)
+    rename_file.short_description = "Move the data file (one item only please!)"
+admin.site.register(Data, DataAdmin)
