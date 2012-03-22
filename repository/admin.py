@@ -14,6 +14,17 @@ class DataAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags', 'format']
     search_fields = ['name','file']
+admin.site.register(Data, DataAdmin)
+
+class DataAdminWithMove(admin.ModelAdmin):
+    """Admin class for Data
+
+    Cheng: Unsuccessfully tried various ways to implement a file move
+    """
+    list_display = ('name', 'version', 'pub_date', 'slug', 'user', 'is_public', 'is_current', 'file', 'format')
+    date_hierarchy = 'pub_date'
+    list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags', 'format']
+    search_fields = ['name','file']
     formfield_overrides = {
         models.FileField: {'widget': TextInput}
     }
@@ -26,9 +37,6 @@ class DataAdmin(admin.ModelAdmin):
         self.message_user(request, "Moved file from %s to %s"
                           % (old_name, new_name))
     rename_file.short_description = "Move the data file (one item only)"
-admin.site.register(Data, DataAdmin)
-
-
 
 
 class SlugAdmin(admin.ModelAdmin):
