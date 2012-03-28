@@ -10,7 +10,7 @@ from repository.models import *
 
 class DataAdmin(admin.ModelAdmin):
     """Admin class for Data"""
-    list_display = ('name', 'version', 'pub_date', 'slug', 'user', 'is_public', 'is_current', 'file', 'format')
+    list_display = ('name', 'version', 'pub_date', 'slug', 'user', 'is_public', 'is_current', 'file', 'format', 'downloads', 'hits')
     date_hierarchy = 'pub_date'
     list_filter =['pub_date', 'user', 'is_public', 'is_current', 'tags', 'format']
     search_fields = ['name','file']
