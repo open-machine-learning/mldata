@@ -1,4 +1,6 @@
 {% load humanize %}
+Hi,
+
 Someone, hopefully you, signed up for a new account at {{ site.name }} using this email address.
 If it was you, and you'd like to activate and use your account, click the link below or copy and paste it into your web browser's address bar:
 
@@ -6,3 +8,19 @@ https://{{ site.domain }}{% url registration_activate activation_key %}
 
 If you didn't request this, you don't need to do anything; you won't receive any more email from us, and the account will expire automatically in {{ expiration_days|apnumber }} day.
 
+We built this web site as a repository for your machine learning data. Upload your data, find interesting data sets, define learning tasks and challenges, exchange solutions and compare yourself against other methods.
+
+This repository manages the following types of objects.
+
+Data Sets: Raw data as a collection of similarily structured objects.
+Material and Methods: Descriptions of the computational pipeline.
+Learning Tasks: Learning tasks defined on raw data.
+Challenges: Collections of tasks which have a particular theme.
+
+To learn more about why we created mldata.org, please look at:
+http://mldata.org/about/motivation/
+and to get started, please see:
+http://mldata.org/about/
+
+Your friendly site bot,
+{{ site.name }}
