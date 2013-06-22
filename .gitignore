@@ -1,2 +1,3 @@
-*.py[co]
+*.py[coe]
 mldata.db
+media/private
