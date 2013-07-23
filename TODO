@@ -55,10 +55,6 @@ http://code.google.com/apis/spreadsheets/data/1.0/developers_guide_python.html
 
 
 
-
-
-
-
 Integration with shogun http://www.shogun-toolbox.org/
 =======================
 The machine learning data set repository mldata.org provides data and
@@ -89,3 +85,28 @@ Create custom challenge view for Machine Learning challenges
 http://www.chalearn.org/challenges.html
 Related to (private) custom view for Pascal VOC challenge by Lukasz Kidinski.
 
+
+
+Create JSON API for data search
+================================
+
+Create a json api for data search. A draft for the specification could be:
+
+GET /api/v1.0/search?q=QUERY&filter=FOO:BAR
+
+200 OK
+{
+    'data': [
+        {
+         'author':  string,
+         'date': datetime-string,
+         'license': str,
+         'format': [str],
+         'rating': range(5),
+         'views': int,
+         'downloads': int,
+         'views': int,
+         'tags': [str],
+        }
+    ]
+}
