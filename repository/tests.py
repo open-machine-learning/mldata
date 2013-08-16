@@ -268,7 +268,7 @@ class CorrectnessTest(RepositoryTest):
         # create task via www (since we want to indicate variables, and train/test set
         r = self.do_post('new_task', {
                  'name': 'test_task_recommends',
-                 'data': data.id,
+                 'data': d.id,
                  'input_variables': '0:2',
                  'output_variables': '2:3',
                  'train_idx': '0:6',
