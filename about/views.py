@@ -16,6 +16,5 @@ def about_videos(request, video=None, template='about/videos.html', extra_contex
               'V7AKtbchDtI',
               'UIIg9uF7Ic0']
     
-    
     return render_to_response(template,
                               RequestContext(request,dict(extra_context.items() + {'video': VIDEOS[int(video)]}.items())))

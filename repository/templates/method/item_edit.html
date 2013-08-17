@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url method_index %}">{% trans "Method" %}</a> / {% trans "Edit" %} / <a href="{% url repository.views.method.view_slug object.slug %}">{{ object.name }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'repository_index' %}">{% trans "Repository" %}</a> / <a href="{% url 'method_index' %}">{% trans "Method" %}</a> / {% trans "Edit" %} / <a href="{% url 'repository.views.method.view_slug' object.slug %}">{{ object.name }}</a>{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -19,7 +19,7 @@ $(function() {
 	$('#tabs-publications select').change(function() {
 		id = $('#tabs-publications #id_publications').val()
 		// trickery to use django's URL function
-		url = "{% url repository.views.publication.get 0 %}"
+		url = "{% url 'repository.views.publication.get' 0 %}"
 		url = url.substr(0, url.length - 2) + id;
 		$.getJSON(url, function(data){
 			$('#tabs-publications #id_title').val(data[0].fields.title);
@@ -97,9 +97,10 @@ $(function() {
 				<dd>{{ form.publications }}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_more" name="cancel_more" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-more -->
+            {% csrf_token %}
 			</form>
 
-			<div id="tabs-publications"><form method="post" action="{% url repository.views.publication.edit %}"><dl>
+			<div id="tabs-publications"><form method="post" action="{% url 'repository.views.publication.edit' %}"><dl>
 				<dt><label for="id_publications">{% trans "Select an existing publication to edit or leave it blank to create a new one" %}</label></dt>
 				<dd>{{ form.publications }}</dd>
 				<dt><label for="id_title">{% trans "Title" %}</label> {{ publication_form.title.errors }}</dt>
@@ -109,7 +110,9 @@ $(function() {
 				<input type="hidden" name="next" id="id_next" value="{{ request.path }}#tabs-more" />
 				<input type="hidden" name="id" id="id_id" value="0" />
 				<input type="submit" class="submit" value="{% trans "Submit Publication" %}" /> <input type="button" id="cancel_publication" name="cancel_publication" class="submit cancel" value="{% trans "Cancel" %}" />
-			</dl></form></div>
+			</dl>
+                {% csrf_token %}
+            </form></div>
 		</div><!-- /tabs -->
 </div><!-- /in -->
 {% endblock %}

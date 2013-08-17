@@ -3,8 +3,8 @@ Implements feeds like RSS or Atom for app Forum
 """
 
 from django.conf import settings
-from django.contrib.syndication.feeds import Feed
-from django.contrib.syndication.feeds import FeedDoesNotExist
+from django.contrib.syndication.views import Feed
+from django.contrib.syndication.views import FeedDoesNotExist
 from django.utils.feedgenerator import Atom1Feed
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
@@ -24,7 +24,7 @@ class RssForumFeed(Feed):
     title_template = 'forum/feeds/post_title.html'
     description_template = 'forum/feeds/post_description.html'
 
-    def get_object(self, bits):
+    def get_object(self, request, url):
         """Get a forum object.
 
         @param bits: bits of the item's slug
@@ -32,10 +32,11 @@ class RssForumFeed(Feed):
         @return: a forum item matching exactly the slug or none
         @rtype: Forum
         """
-        if len(bits) == 0:
+        print url
+        if len(url) == 0:
             return None
         else:
-            slug = "/".join(bits)
+            slug = "/".join(url)
             return Forum.objects.get(slug__exact=slug)
 
     def title(self, obj):

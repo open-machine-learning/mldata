@@ -7,6 +7,7 @@ Forms and validation code for user registration.
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from captcha.fields import ReCaptchaField
 
 from registration.models import RegistrationProfile
 
@@ -55,6 +56,7 @@ class RegistrationForm(forms.Form):
                                 label=_(u'password (again)'))
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_checkbox),
                              label=u'I have read and agree to the Terms of Service')
+    captcha = ReCaptchaField()
 
     def clean_firstname(self):
         """
