@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {% trans "New" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url "repository_index" %}">{% trans "Repository" %}</a> / {{ klass }} / {% trans "New" %}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -71,11 +71,11 @@ $(function() {
 				<dt><label for="id_license">{% trans "License" %}</label> * {{ form.license.errors }}</dt>
 				<dd>{{ form.license }}<br />
 				    <span class="helptext">Choose a license for your data set. 
-            (<a target="_blank" href="{% url about_license %}">{% trans "more info" %}</a>)</span></dd>
+            (<a target="_blank" href="{% url "about_license" %}">{% trans "more info" %}</a>)</span></dd>
 
 				<dt><label for="id_file">{% trans "Data file" %}</label> * {{ form.file.errors }}</dt>
 				<dd>{{ form.file }}<br />
-				    <span class="helptext">Data file must be smaller than <b>{{ upload_limit }}!</b> (<a href="{% url about_hdf5 %}#fileformats">{% trans "parsed formats" %}</a>)</span></dd>
+				    <span class="helptext">Data file must be smaller than <b>{{ upload_limit }}!</b> (<a href="{% url "about_hdf5" %}#fileformats">{% trans "parsed formats" %}</a>)</span></dd>
 
 			</dl></div><!-- /tabs-summary -->
 
@@ -98,6 +98,7 @@ $(function() {
 		</div>
 
 		<input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}
+        {% csrf_token %}
 	</form>
 
 	<br />

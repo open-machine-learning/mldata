@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {% trans "Edit" %} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url task_index %}">{% trans "Task" %}</a> / {% trans "Edit" %} / <a href="{% url repository.views.task.view_slug object.slug %}">{{ object.name }}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url "repository_index" %}">{% trans "Repository" %}</a> / <a href="{% url "task_index" %}">{% trans "Task" %}</a> / {% trans "Edit" %} / <a href="{% url "repository.views.task.view_slug" object.slug %}">{{ object.name }}</a>{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -21,7 +21,7 @@ $(function() {
 	$('#tabs-publications select').change(function() {
 		id = $('#tabs-publications #id_publications').val()
 		// trickery to use django's URL function
-		url = "{% url repository.views.publication.get 0 %}"
+		url = "{% url 'repository.views.publication.get' 0 %}"
 		url = url.substr(0, url.length - 2) + id;
 		$.getJSON(url, function(data){
 			$('#tabs-publications #id_title').val(data[0].fields.title);
@@ -60,7 +60,7 @@ $(function() {
 	$('#id_type').change(function() {
 		type = $('#id_type').val();
 		// trickery to use django's URL function
-		url = "{% url repository.views.task.get_measures 0 %}";
+		url = "{% url 'repository.views.task.get_measures' 0 %}";
 		url = url.substr(0, url.length - 2) + type;
 		$.getJSON(url, function(data){
 			opt = document.getElementById("id_performance_measure").options;
@@ -78,7 +78,7 @@ $(function() {
 		type = $('#id_type').val();
 		name = $('#id_performance_measure').val();
 		// trickery to use django's URL function
-		url = "{% url repository.views.task.get_measure_help 0 0 %}";
+		url = "{% url 'repository.views.task.get_measure_help' 0 0 %}";
 		url = url.substr(0, url.length - 4) + type + "/" + name;
 		$.getJSON(url, function(data){
 			document.getElementById('id_help_pm').innerHTML = data;
@@ -146,7 +146,7 @@ $(function() {
 				<dt><label for="id_data_heldback">{% trans "Data (held back)" %}</label> {{ form.data_heldback.errors }}</dt>
 				<dd>{{ form.data_heldback }}</dd>
 				<dt><label for="id_file">{% trans "Task file" %}</label>: {{ form.file.errors }}</dt>
-				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url repository.views.task.download object.slug %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
+				<dd>{{ form.file }}{% if object.file %}<br /><a href="{% url 'repository.views.task.download' object.slug %}">{% trans "Download Task file" %}</a>{% endif %}</dd>
 				<input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 			</dl></div><!-- /tabs-summary -->
 
@@ -168,9 +168,9 @@ $(function() {
                 <dt>Datasplits</dt>
                 {% if extract.split_overflow or extract.split_string_overflow %}
                     <dd>{% if object.file %}
-                        <a href="{% url repository.views.task.download object.slug %}">{% trans "Datasplit to large, please edit the Taskfile manually" %}</a><br /> 
+                        <a href="{% url 'repository.views.task.download object.slug' %}">{% trans "Datasplit to large, please edit the Taskfile manually" %}</a><br /> 
                     {% endif %}
-                    <img src="{% url repository.views.task.plot_data_split_array object.pk %}"/></dd>
+                    <img src="{% url 'repository.views.task.plot_data_split_array' object.pk %}"/></dd>
                     {% for sp in extract.split_idx %}
                         <input type="hidden" name="train_idx" value="{{ sp.1|join:', ' }}"/><input type="hidden" name="test_idx" value="{{ sp.2|join:', ' }}" />
                     {% endfor %}
@@ -188,15 +188,15 @@ $(function() {
                 </table>
 
                 {% endif %}
-				<br/><span class="helptext"><a href="{% url about_slicing %}">We use python style indices</a></span></dd>
+				<br/><span class="helptext"><a href="{% url 'about_slicing' %}">We use python style indices</a></span></dd>
                 </label> {{ publication_form.content.errors }}</dt>
                 <input type="hidden" name="next" id="id_next" value="{{ request.path }}" /><br />
                 <input type="submit" id="post" name="post" class="submit" value="{% trans "Save" %}" /> <input type="button" id="cancel_summary" name="cancel_summary" class="submit cancel" value="{% trans "Cancel" %}" /> {% if not object.is_public %}{{ form.keep_private }} {% trans "Keep private" %}{% endif %}
 </dl></div> <!-- tabs-task  -->
-
+            {% csrf_token %}
             </form>
 
-			<div id="tabs-publications"><form method="post" action="{% url repository.views.publication.edit %}"><dl>
+			<div id="tabs-publications"><form method="post" action="{% url 'repository.views.publication.edit' %}"><dl>
 				<dt><label for="id_publications">{% trans "Select an existing publication to edit or leave it blank to create a new one" %}</label></dt>
 				<dd>{{ form.publications }}</dd>
 				<dt><label for="id_title">{% trans "Title" %}</label> {{ publication_form.title.errors }}</dt>
@@ -206,6 +206,7 @@ $(function() {
 				<input type="hidden" name="next" id="id_next" value="{{ request.path }}#tabs-more" />
 				<input type="hidden" name="id" id="id_id" value="0" />
 				<input type="submit" class="submit" value="{% trans "Submit Publication" %}" /> <input type="button" id="cancel_publication" name="cancel_publication" class="submit cancel" value="{% trans "Cancel" %}" />
+                {% csrf_token %}
             </dl></form></div>
 
 		</div><!-- /tabs -->

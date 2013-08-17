@@ -17,6 +17,7 @@
 			{{ rating_form.as_ul }}
 		</ul>
 		<input type="submit" class="submit" value="{% trans "Submit ratings" %}">
+        {% csrf_token %}
 	</form>
 </div>
 {% endif %}

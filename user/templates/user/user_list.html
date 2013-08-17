@@ -18,7 +18,7 @@
 	</tr>
 	{% for user in object_list %}
 	<tr>
-		<td><a href="{% url user.views.show_user user.pk %}">{{ user.username }}</a></td>
+		<td><a href="{% url 'user.views.show_user' user.pk %}">{{ user.username }}</a></td>
 		<td>{{ user.get_full_name }}</td>
 		<td>{{ user.email }}</td>
 	</tr>

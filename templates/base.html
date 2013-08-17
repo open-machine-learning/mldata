@@ -33,34 +33,34 @@
 	<div id="header">
 		<p id="logo"><a href="/"><img width="315" height="100" src="/media/images/mldata-logo.png" alt="mldata.org logo"></img></a></p>
 		<!--<div id="slogan">Machine Learning Data Set Repository</div>-->
-		<div id="slogan"><a href="{% url data_index %}">Data</a>, <a href="{% url task_index %}">Tasks</a>, <a href="{% url method_index %}">Methods</a>, <a href="{% url challenge_index %}">Challenges</a></div>
+		<div id="slogan"><a href="{% url 'data_index' %}">Data</a>, <a href="{% url 'task_index' %}">Tasks</a>, <a href="{% url 'method_index' %}">Methods</a>, <a href="{% url 'challenge_index' %}">Challenges</a></div>
 	</div><!-- /header -->
 
 	<hr class="noscreen" />
 
 	<div id="nav" class="box">
 		<ul>
-			<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url about_index %}">{% trans "About" %}</a></li>
+			<li{% ifequal section 'about' %} class="active"{% endifequal %}><a href="{% url 'about_index' %}">{% trans "About" %}</a></li>
 		</ul>
 		<div class="repository">
 			<ul>
-				<li{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url data_index %}">{% trans "Data" %}</a></li>
-				<li{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url task_index %}">{% trans "Task" %}</a></li>
-				<li{% ifequal klass 'Method' %} class="active"{% endifequal %}><a href="{% url method_index %}">{% trans "Method" %}</a></li>
-				<li{% ifequal klass 'Challenge' %} class="active"{% endifequal %}><a href="{% url challenge_index %}">{% trans "Challenge" %}</a></li>
+				<li{% ifequal klass 'Data' %} class="active"{% endifequal %}><a href="{% url 'data_index' %}">{% trans "Data" %}</a></li>
+				<li{% ifequal klass 'Task' %} class="active"{% endifequal %}><a href="{% url 'task_index' %}">{% trans "Task" %}</a></li>
+				<li{% ifequal klass 'Method' %} class="active"{% endifequal %}><a href="{% url 'method_index' %}">{% trans "Method" %}</a></li>
+				<li{% ifequal klass 'Challenge' %} class="active"{% endifequal %}><a href="{% url 'challenge_index' %}">{% trans "Challenge" %}</a></li>
 			</ul>
 		</div>
 		<ul>
 		{% comment %}
-		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url forum_index %}">{% trans "Forum" %}</a></li>
-		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url blog_index %}">{% trans "Blog" %}</a></li>
+		<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url 'forum_index' %}">{% trans "Forum" %}</a></li>
+		<li{% ifequal section 'blog' %} class="active"{% endifequal %}><a href="{% url 'blog_index' %}">{% trans "Blog" %}</a></li>
 		{% endcomment %}
 		{% if request.user.is_authenticated %}
-			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url user.views.show_user request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
-			<li class="last"><a href="{% url user_signout %}">{% trans "Sign out" %}</a></li>
+			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url 'user.views.show_user' request.user.pk %}">{% trans "User" %} {{ request.user.username }}</a></li>
+			<li class="last"><a href="{% url 'user_signout' %}">{% trans "Sign out" %}</a></li>
 		{% else %}
-			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url registration_register %}">{% trans "Registration" %}</a></li>
-			<li class="last"><a href="{% url user_signin %}">{% trans "Sign in" %}</a></li>
+			<li{% ifequal section 'accounts' %} class="active"{% endifequal %}><a href="{% url 'registration_register' %}">{% trans "Registration" %}</a></li>
+			<li class="last"><a href="{% url 'user_signin' %}">{% trans "Sign in" %}</a></li>
 		{% endif %}
 		</ul>
 
@@ -79,7 +79,7 @@
 
 	<div id="footer" class="box">&copy; 2009-{% now "Y" %}
 		{% permute_items <a href="https://kodeaffe.de">Sebastian Henschel</a>|<a href="http://www.ong-home.my">Cheng Soon Ong</a>|<a href="http://ml.cs.tu-berlin.de/~mikio">Mikio L. Braun</a>|<a href="http://sonnenburgs.de/soeren">Soeren Sonnenburg</a>|<a href="http://www.cs.helsinki.fi/u/phoyer">Patrik O. Hoyer</a> %}
-		| <a href="{% url about_impressum %}">Impressum</a> | <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">Visuals</a> | {% trans "Hosting " %} <a href="http://www.ml.tu-berlin.de">ML Group</a> <a href="http://www.tu-berlin.de">TU Berlin</a> | {% get_version %}.  <!--|   | Visual styles based on <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">http://www.nuviotemplates.com</a>-->
+		| <a href="{% url 'about_impressum' %}">Impressum</a> | <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">Visuals</a> | {% trans "Hosting " %} <a href="http://www.ml.tu-berlin.de">ML Group</a> <a href="http://www.tu-berlin.de">TU Berlin</a> | {% get_version %}.  <!--|   | Visual styles based on <a href="http://www.nuviotemplates.com/preview.php?template=liquid-03">http://www.nuviotemplates.com</a>-->
 	</div><!-- /footer -->
 </div><!-- /main -->
 

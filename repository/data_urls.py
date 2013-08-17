@@ -2,7 +2,7 @@
 URL patterns for Repository
 """
 
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 import repository.views as views
 import repository.views.data
 

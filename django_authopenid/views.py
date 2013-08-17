@@ -23,7 +23,7 @@ from django.contrib.sites.models import Site
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response as render
-from django.template import RequestContext, loader
+from django.template import RequestContext, loader, Context
 
 
 from django.core.urlresolvers import reverse
@@ -148,13 +148,12 @@ def default_on_failure(request, message, **kwargs):
         'message': message
     })
 
-
 def not_authenticated(func):
     """ decorator that redirect user to next page if
     he is already logged."""
     def decorated(request, *args, **kwargs):
         if request.user.is_authenticated():
-            next = request.GET.get("next", "/")
+            next = request.GET.get("next", settings.LOGIN_REDIRECT_URL)
             return HttpResponseRedirect(next)
         return func(request, *args, **kwargs)
     return decorated
@@ -591,7 +590,7 @@ def associate(request, template_name='authopenid/associate.html',
         'form': form,
         redirect_field_name: redirect_to
     }, context_instance=_build_context(request, extra_context=extra_context))     
-    
+
 @login_required
 def dissociate(request, template_name="authopenid/dissociate.html",
         dissociate_form=OpenidDissociateForm, 
