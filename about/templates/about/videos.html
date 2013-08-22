@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url "about_index" %}">{% trans "About" %}</a> / {% trans "About" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / {% trans "About" %}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{% trans "Watch video tutorial" %}</h2>
@@ -10,11 +10,11 @@
 <div class="in">
     <iframe style="float: right;" width="420" height="315" src="http://www.youtube.com/embed/{{ video }}" frameborder="0" allowfullscreen></iframe>
 	<ul>
-		<li><a href="{% url "about_videos" 0 %}">Step 1</a></li>
-		<li><a href="{% url "about_videos" 1 %}">Step 2</a></li>
-		<li><a href="{% url "about_videos" 2 %}">Step 3</a></li>
-		<li><a href="{% url "about_videos" 3 %}">Step 4</a></li>
-		<li><a href="{% url "about_videos" 4 %}">Step 5</a></li>
+		<li><a href="{% url about_videos 0 %}">Step 1</a></li>
+		<li><a href="{% url about_videos 1 %}">Step 2</a></li>
+		<li><a href="{% url about_videos 2 %}">Step 3</a></li>
+		<li><a href="{% url about_videos 3 %}">Step 4</a></li>
+		<li><a href="{% url about_videos 4 %}">Step 5</a></li>
 	</ul>
     <div style="clear: both"></div>
 </div>

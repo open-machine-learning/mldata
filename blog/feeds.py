@@ -6,7 +6,7 @@ from blog.wfwfeed import WellFormedWebRss
 from blog.models import Post
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
-import markdown
+from utils.markdown import markdown
 
 
 def RssBlogFeed(request):

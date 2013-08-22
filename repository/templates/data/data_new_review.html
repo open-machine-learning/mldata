@@ -3,7 +3,7 @@
 {% load markup %}
 
 {% block title %}{% trans "Repository" %} :: {% trans "Data" %} :: {% trans "Review" %} {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url "repository_index" %}">{% trans "Repository" %}</a> / {% trans "Data" %} / {% trans "Review" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {% trans "Data" %} / {% trans "Review" %}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{% trans "Review of your data set" %} "{{ object.name }}" </h2>
@@ -14,10 +14,10 @@
 	<div class="error">{% trans "There had been errors, please see below" %}.</div>
 {% endif %}
 
-	<form action="{% url "repository.views.data.new_review" object.slug.text %}" method="post" enctype="multipart/form-data">
+	<form action="{% url repository.views.data.new_review object.slug.text %}" method="post" enctype="multipart/form-data">
 	<dl id="news">
 		<dt><label for="id_format">{% trans "Detected Data format" %}</label> {{ form.format.errors }}</dt>
-		<dd>{{ form.format }}<br /><span class="helptext">{% trans "Supported formats are: " %}{{ supported_formats }}. {% trans "These will be converted to" %} <a href="{% url "about_hdf5" %}">{% trans "our flavour of HDF5" %}</a>{% trans ", if possible" %}.<br />{% trans "Unsupported formats and failed conversions will be kept as is, but premium features are not available for these." %}</span></dd>
+		<dd>{{ form.format }}<br /><span class="helptext">{% trans "Supported formats are: " %}{{ supported_formats }}. {% trans "These will be converted to" %} <a href="{% url about_hdf5 %}">{% trans "our flavour of HDF5" %}</a>{% trans ", if possible" %}.<br />{% trans "Unsupported formats and failed conversions will be kept as is, but premium features are not available for these." %}</span></dd>
 {% ifequal form.fields.format.initial "csv" %}
 		<dt><label for="id_attribute_names_first">{% trans "First line has attribute names" %}</label> {{ form.attribute_names_first.errors }}</dt>
 		<dd>{{ form.attribute_names_first }}<br /><span class="helptext">{% trans "Check this if the first line contains the attribute names, not data. See the extract below for assistance." %}</span></dd>
@@ -54,7 +54,7 @@
 		{% endfor %}
 		</ol></dd>
 	</dl>
-    {% csrf_token %}
+
 	</form>
 </div><!-- /in -->
 {% endblock %}

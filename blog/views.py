@@ -7,7 +7,6 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-from django.template import RequestContext
 from blog.models import Post, PostForm
 
 
@@ -53,5 +52,4 @@ def new(request):
         'section': 'blog',
         'user': request.user,
     }
-    return render_to_response('blog/new.html', info_dict,
-                              context_instance=RequestContext(request))
+    return render_to_response('blog/new.html', info_dict)

@@ -28,13 +28,12 @@ except ImportError:
     
 from django_authopenid.models import UserAssociation
 
-
+    
 class OpenidSigninForm(forms.Form):
     """ signin form """
     openid_url = forms.CharField(max_length=255, 
-            widget=forms.widgets.TextInput(attrs={'class': 'required openid'}),
-            label=_("OpenID URL"))
-    
+            widget=forms.widgets.TextInput(attrs={'class': 'required openid'}))
+            
     def clean_openid_url(self):
         """ test if openid is accepted """
         if 'openid_url' in self.cleaned_data:
@@ -53,8 +52,8 @@ class OpenidRegisterForm(forms.Form):
     username = forms.CharField(max_length=30, 
             widget=forms.widgets.TextInput(attrs=attrs_dict))
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict, 
-        maxlength=200)), label=_('Email address'))
-    
+        maxlength=200)), label=u'Email address')
+        
     def __init__(self, *args, **kwargs):
         super(OpenidRegisterForm, self).__init__(*args, **kwargs)
         self.user = None
@@ -92,12 +91,12 @@ class OpenidRegisterForm(forms.Form):
                     another.')
             raise forms.ValidationError(_("This email is already \
                 registered in our database. Please choose another."))
-
+                
+                
 class AssociateOpenID(forms.Form):
     """ new openid association form """
     openid_url = forms.CharField(max_length=255, 
-            widget=forms.widgets.TextInput(attrs={'class': 'required openid'}),
-            label=_("OpenID URL"))
+            widget=forms.widgets.TextInput(attrs={'class': 'required openid'}))
 
     def __init__(self, user, *args, **kwargs):
         super(AssociateOpenID, self).__init__(*args, **kwargs)
@@ -122,7 +121,7 @@ class AssociateOpenID(forms.Form):
                     registered in our database by another account. Please choose another."))
                     
             raise forms.ValidationError(_("You already associated this openid to your account."))
-
+            
 class OpenidDissociateForm(OpenidSigninForm):
     """ form used to dissociate an openid. """
     openid_url = forms.CharField(max_length=255, widget=forms.widgets.HiddenInput())

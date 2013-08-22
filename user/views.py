@@ -1,4 +1,4 @@
-from django.views.generic.list import ListView
+from django.views.generic.list_detail import object_list
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -12,12 +12,12 @@ from user.forms import *
 def show_user_list(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
-    return ListView.as_view(request,
+
+    return object_list(request,
             paginate_by=10,
             queryset=User.objects.all(),
             template_name='user/user_list.html',
             extra_context={'section': 'accounts'})
-
 
 
 def show_user(request, user_id):

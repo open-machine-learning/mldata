@@ -17,7 +17,7 @@ from django.template.defaultfilters import striptags, wordwrap
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import ListView
+from django.views.generic.list_detail import object_list
 
 from forum.models import Forum,Thread,Post,Subscription
 from forum.forms import CreateThreadForm, ReplyForm
@@ -27,95 +27,105 @@ from forum.forms import CreateThreadForm, ReplyForm
 FORUM_PAGINATION = getattr(settings, 'FORUM_PAGINATION', 10)
 
 
-class ForumListView(ListView):
-    def get_queryset(self):
-        return Forum.objects.for_groups(self.request.user.groups.all()).filter(parent__isnull=True)
-    def get_context_data(self, **kwargs):
-        context = super(ForumListView, self).get_context_data(**kwargs)
-        context['section'] = 'forum'
-        return context
 
-class ForumView(ListView):
-    context_object_name = 'forum'
-    template_name = 'forum/thread_list.html',
-    paginate_by = FORUM_PAGINATION
-    def get_queryset(self):
-        try:
-            f = Forum.objects.for_groups(self.request.user.groups.all()).select_related().get(slug=self.kwargs['slug'])
-        except Forum.DoesNotExist:
-            raise Http404
-        return f.thread_set.select_related().all()
-    def get_context_data(self, **kwargs):
-        try:
-            f = Forum.objects.for_groups(self.request.user.groups.all()).select_related().get(slug=self.kwargs['slug'])
-        except Forum.DoesNotExist:
-            raise Http404
-        form = CreateThreadForm()
-        child_forums = f.child.for_groups(self.request.user.groups.all())
-        extra_context = {
-            'forum': f,
-            'child_forums': child_forums,
-            'form': form,
-            'login': {
-                'reason': _('create a new thread'),
-                'next': f.get_absolute_url(),
-            },
-            'section': 'forum',
-        }
-        context = super(ForumView, self).get_context_data(**kwargs)
-        for key in extra_context:
-            context[key] = extra_context[key]
-        return context
+def forums_list(request):
+    """Get a list of forums.
 
-class ThreadView(ListView):
-    context_object_name = 'post',
-    template_name = 'forum/thread.html',
-    paginate_by = FORUM_PAGINATION
-    def get_queryset(self):
-        try:
-            t = Thread.objects.select_related().get(pk=self.kwargs['thread'])
-            if not Forum.objects.has_access(t.forum, self.request.user.groups.all()):
-                return HttpResponseForbidden()
-        except Thread.DoesNotExist:
-            raise Http404
-        p = t.post_set.select_related('author').all().order_by('time')
-        return p
-    
-    def get_context_data(self, **kwargs):
-        context = super(ThreadView, self).get_context_data(**kwargs)
-        try:
-            t = Thread.objects.select_related().get(pk=self.kwargs['thread'])
-            if not Forum.objects.has_access(t.forum, self.request.user.groups.all()):
-                return HttpResponseForbidden()
-        except Thread.DoesNotExist:
-            raise Http404
-        s = None
-        if self.request.user.is_authenticated():
-            s = t.subscription_set.select_related().filter(author=self.request.user)
-        t.views += 1
-        t.save()
+    @return: list of forums
+    @rtype: Django object_list
+    """
+    queryset = Forum.objects.for_groups(request.user.groups.all()).filter(parent__isnull=True)
+    return object_list( request,
+                        queryset=queryset,
+                        extra_context={'section':'forum'})
 
-        if s:
-            initial = {'subscribe': True}
-        else:
-            initial = {'subscribe': False}
 
-        form = ReplyForm(initial=initial)
-        extra_context = {
-            'forum': t.forum,
-            'thread': t,
-            'subscription': s,
-            'form': form,
-            'login': {
-                'reason': _('post a reply'),
-                'next': t.get_absolute_url(),
-            },
-            'section': 'forum',
-        }
-        for key in extra_context:
-            context[key] = extra_context[key]
-        return context
 
+def forum(request, slug):
+    """View the list of threads within a forum.
+
+    Threads are sorted by their sticky flag, followed by their 
+    most recent post.
+
+    @param slug: forum's slug
+    @type slug: string
+    @return: list of threads of forum identified by slug
+    @rtype: Django object_list
+    @raise Http404: if slug doesn't yield an existing forum.
+    """
+    try:
+        f = Forum.objects.for_groups(request.user.groups.all()).select_related().get(slug=slug)
+    except Forum.DoesNotExist:
+        raise Http404
+
+    form = CreateThreadForm()
+    child_forums = f.child.for_groups(request.user.groups.all())
+    return object_list( request,
+                        queryset=f.thread_set.select_related().all(),
+                        paginate_by=FORUM_PAGINATION,
+                        template_object_name='thread',
+                        template_name='forum/thread_list.html',
+                        extra_context = {
+                            'forum': f,
+                            'child_forums': child_forums,
+                            'form': form,
+                            'login': {
+                                'reason': _('create a new thread'),
+                                'next': f.get_absolute_url(),
+                            },
+                            'section': 'forum',
+                        })
+
+def thread(request, thread):
+    """View a thread.
+
+    Increments the viewed count on a thread then displays the posts for that
+    thread, in chronological order.
+
+    @param thread: thread id to work on
+    @type thread: integer
+    @return a thread's view
+    @rtype: Django object_list
+    @raise Http404: if thread doesn't exist
+    """
+    try:
+        t = Thread.objects.select_related().get(pk=thread)
+        if not Forum.objects.has_access(t.forum, request.user.groups.all()):
+            return HttpResponseForbidden()
+    except Thread.DoesNotExist:
+        raise Http404
+
+    p = t.post_set.select_related('author').all().order_by('time')
+    s = None
+    if request.user.is_authenticated():
+        s = t.subscription_set.select_related().filter(author=request.user)
+
+    t.views += 1
+    t.save()
+
+    if s:
+        initial = {'subscribe': True}
+    else:
+        initial = {'subscribe': False}
+
+    form = ReplyForm(initial=initial)
+
+    return object_list( request,
+                        queryset=p,
+                        paginate_by=FORUM_PAGINATION,
+                        template_object_name='post',
+                        template_name='forum/thread.html',
+                        extra_context = {
+                            'forum': t.forum,
+                            'thread': t,
+                            'subscription': s,
+                            'form': form,
+                            'login': {
+                                'reason': _('post a reply'),
+                                'next': t.get_absolute_url(),
+                            },
+                            'section': 'forum',
+                        })
 
 def reply(request, thread):
     """Post a reply.

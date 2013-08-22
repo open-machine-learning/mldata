@@ -2,19 +2,19 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url 'about_index' %}">{% trans "About" %}</a>{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a>{% endblock %}
 
 {% block aside %}
 <h4 class="title-03">{% trans "Contents" %}</h4>
 <div class="in">
 	<ul id="subnav">
-	    {% url 'about_index' as url_welcome %}
-		{% url 'about_motivation' as url_motivation %}
-		{% url 'about_related' as url_related %}
-		{% url 'about_license' as url_license %}
-		{% url 'about_hdf5' as url_hdf5 %}
-		{% url 'about_impressum' as url_impressum %}
-		{% url 'about_tos' as url_tos %}
+	        {% url about_index as url_welcome %}
+		{% url about_motivation as url_motivation %}
+		{% url about_related as url_related %}
+		{% url about_license as url_license %}
+		{% url about_hdf5 as url_hdf5 %}
+		{% url about_impressum as url_impressum %}
+		{% url about_tos as url_tos %}
 		<li{% ifequal request.path url_motivation %} class="active"{% endifequal %}><a title="{% trans "Why this site?" %}" href="{{ url_motivation }}">{% trans "Motivation" %}</a></li>
 		<li{% ifequal request.path url_related %} class="active"{% endifequal %}><a title="{% trans "Related projects" %}" href="{{ url_related }}">{% trans "Related Projects" %}</a></li>
 		<li{% ifequal request.path url_license %} class="active"{% endifequal %}><a title="{% trans "Licenses for Data/Task/Method explained" %}" href="{{ url_license }}">{% trans "Data Licenses Explained" %}</a></li>

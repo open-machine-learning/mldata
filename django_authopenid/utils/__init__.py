@@ -17,8 +17,7 @@ import time
 import urllib
 
 from django.conf import settings
-from django.utils.encoding import iri_to_uri
-
+from django.http import str_to_unicode, get_host
 from django.utils.html import escape
 
 from openid.consumer.discover import discover
@@ -63,7 +62,7 @@ DEFAULT_NEXT = getattr(settings, 'OPENID_REDIRECT_NEXT', '/')
 def clean_next(next):
     if next is None:
         return DEFAULT_NEXT
-    next = iri_to_uri(urllib.unquote(next))
+    next = str_to_unicode(urllib.unquote(next), 'utf-8')
     next = next.strip()
     if next.startswith('/'):
         return next
@@ -92,7 +91,7 @@ def get_url_host(request):
         protocol = 'https'
     else:
         protocol = 'http'
-    host = escape(request.get_host())
+    host = escape(get_host(request))
     return '%s://%s' % (protocol, host)
 
 def get_full_url(request):

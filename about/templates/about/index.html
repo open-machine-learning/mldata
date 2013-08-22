@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url "about_index" %}">{% trans "About" %}</a> / {% trans "About" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / {% trans "About" %}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{% trans "About" %}</h2>
@@ -15,26 +15,26 @@
 
   <p>This repository manages the following types of objects.</p>
   <ul>
-    <li><b><a href="{% url "data_index" %}">Data</a> Sets</b> Raw data as a collection of similarily structured objects.</li>
-    <li><b>Material and <a href="{% url "method_index" %}">Methods</a></b> Descriptions of the computational pipeline.</li>
-    <li><b>Learning <a href="{% url "task_index" %}">Tasks</a></b> Learning tasks defined on raw data.</li>
-    <li><b><a href="{% url "challenge_index" %}">Challenges</a></b> Collections of tasks which have a particular theme.</li>
+    <li><b><a href="{% url data_index %}">Data</a> Sets</b> Raw data as a collection of similarily structured objects.</li>
+    <li><b>Material and <a href="{% url method_index %}">Methods</a></b> Descriptions of the computational pipeline.</li>
+    <li><b>Learning <a href="{% url task_index %}">Tasks</a></b> Learning tasks defined on raw data.</li>
+    <li><b><a href="{% url challenge_index %}">Challenges</a></b> Collections of tasks which have a particular theme.</li>
   </ul>
 
   <h4>What to do next:</h4>
   <ul>
-    <li><a href="{% url "about_motivation" %}">Learn more about why we built this website.</a></li>
-    <li><a href="{% url "repository_index" %}">Browse the repository.</a></li>
-    <li><a href="{% url "repository.views.data.new" %}">Upload a data set.</a></li>
-    <li><a href="{% url "repository.views.method.new" %}">Describe your new method.</a></li>
-    <li><a href="{% url "about_hdf5" %}">Learn more about our HDF5 data format.</a></li>
+    <li><a href="{% url about_motivation %}">Learn more about why we built this website.</a></li>
+    <li><a href="{% url repository_index %}">Browse the repository.</a></li>
+    <li><a href="{% url repository.views.data.new %}">Upload a data set.</a></li>
+    <li><a href="{% url repository.views.method.new %}">Describe your new method.</a></li>
+    <li><a href="{% url about_hdf5 %}">Learn more about our HDF5 data format.</a></li>
   </ul>
   <h4>For the more advanced user:</h4>
   <ul>
-    <li><a href="{% url "repository.views.task.new" %}">Define a learning task for a particular dataset.</a></li>
-    <li><a href="{% url "about_slicing" %}">We use python style indices to represent features and splits</a></li>
-    <li><a href="{% url "about_evaluation" %}">See which evaluation measures we support.</a></li>
-    <li><a href="{% url "repository.views.challenge.new" %}">Define your own Challenge.</a></li>
+    <li><a href="{% url repository.views.task.new %}">Define a learning task for a particular dataset.</a></li>
+    <li><a href="{% url about_slicing %}">We use python style indices to represent features and splits</a></li>
+    <li><a href="{% url about_evaluation %}">See which evaluation measures we support.</a></li>
+    <li><a href="{% url repository.views.challenge.new %}">Define your own Challenge.</a></li>
   </ul>
 </div>
 {% endblock %}
