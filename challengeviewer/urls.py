@@ -5,6 +5,7 @@ and recovers item's slug and version from it.
 """
 
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
 from challengeviewer.views import *
 

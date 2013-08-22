@@ -25,5 +25,5 @@
 		<input type="hidden" name="name" id="id_name" maxlength="50" value="{{ user.username }}" />
 	</form>
 {% else %}
-	{% trans "To post a comment, please" %} <a href="{% url 'user_signin' %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
+	{% trans "To post a comment, please" %} <a href="{% url user_signin %}?next={% if object.get_absolute_slugurl %}{{ object.get_absolute_slugurl }}{% else %}{{ object.get_absolute_url }}{% endif %}">sign in</a>.
 {% endif %}

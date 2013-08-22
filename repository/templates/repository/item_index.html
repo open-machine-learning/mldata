@@ -70,11 +70,11 @@
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {{ my_or_archive }}{% endblock %}
 
-{% block breadcrumbs %}<a href="{% url "repository_index" %}">{% trans "Repository" %}</a> / <a href="
-{% if data %}{% url "data_index" %}{% endif %}
-{% if method %}{% url "method_index" %}{% endif %}
-{% if task %}{% url "task_index" %}{% endif %}
-{% if challenge %}{% url "challenge_index" %}{% endif %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="
+{% if data %}{% url data_index %}{% endif %}
+{% if method %}{% url method_index %}{% endif %}
+{% if task %}{% url task_index %}{% endif %}
+{% if challenge %}{% url challenge_index %}{% endif %}
 ">{% trans klass %}</a> / {{ my_or_archive }}{% endblock %}
 
 {% block content %}

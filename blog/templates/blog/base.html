@@ -9,8 +9,8 @@
 <h4 class="title-03">{% trans "Contents" %}</h4>
 <div class="in">
 	<ul id="subnav">
-		{% url 'blog.views.new' as url_new %}
-		<li{% ifnotequal request.path url_new %} class="active"{% endifnotequal %}><a title="Archive of all blog entries" href="{% url 'blog_index' %}">{% trans "Archive" %}</a></li>
+		{% url blog.views.new as url_new %}
+		<li{% ifnotequal request.path url_new %} class="active"{% endifnotequal %}><a title="Archive of all blog entries" href="{% url blog_index %}">{% trans "Archive" %}</a></li>
 		<li{% ifequal request.path url_new %} class="active"{% endifequal %}><a title="Submit new post" href="{{ url_new }}">{% trans "New Post" %}</a></li>
 	</ul>
 </div><!-- /in -->
@@ -20,5 +20,5 @@
 {% endblock %}
 
 {% block feeds %}
-<a class="ico-rss" href="{% url 'blog.feeds.RssBlogFeed' %}">Blog</a>
+<a class="ico-rss" href="{% url blog.feeds.RssBlogFeed %}">Blog</a>
 {% endblock %}

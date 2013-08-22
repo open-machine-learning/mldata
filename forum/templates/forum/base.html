@@ -8,7 +8,7 @@
 <h3 class="title-03">{% trans "Contents" %}</h3>
 <div class="in">
 <ul id="subnav">
-	{% url 'forum_index' as url_forumlist %}
+	{% url forum_index as url_forumlist %}
 	<li{% ifequal request.path url_forumlist %} class="active"{% endifequal %}><a title="List available forums" href="{{ url_forumlist }}">{% trans "Forums" %}</a></li>
 </ul>
 </div><!-- /in -->
@@ -19,8 +19,8 @@
 
 {% block feeds %}
 	{% if forum.title %}
-	<a class="ico-rss" href="{% url 'forum_index' %}rss/{{ forum.slug }}">{% trans "Forum" %} {{ forum.title }}</a>
+	<a class="ico-rss" href="{% url forum_index %}rss/{{ forum.slug }}">{% trans "Forum" %} {{ forum.title }}</a>
 	{% else %}
-	<a class="ico-rss" href="{% url 'forum_index' %}rss/{{ forum.slug }}">{% trans "Forum" %}</a>
+	<a class="ico-rss" href="{% url forum_index %}rss/{{ forum.slug }}">{% trans "Forum" %}</a>
 	{% endif %}
 {% endblock %}

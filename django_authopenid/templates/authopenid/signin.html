@@ -39,7 +39,7 @@ $(function() {
 
 {{ auth_form }}
 
-<form id="auth_form" name="auth_form" action="{% url "user_signin" %}" method="post">
+<form id="auth_form" name="auth_form" action="{% url user_signin %}" method="post">
 	<h3>{% trans "Sign In Using Your Account ID" %}</h3>
 	<input type="hidden" name="next" value="{{ next }}" />
 	<fieldset>
@@ -47,8 +47,7 @@ $(function() {
 		<div class="form-row"><label for="id_password">{% trans "Password" %}</label><br />{{ form2.password }}</div>
 		<br />
 		<div class="submit-row"><input type="submit" class="submit" name="blogin" value="{% trans "Sign in" %}"> </div>
-	</fieldset>
-    {% csrf_token %}
+	</fieldset>	
 </form>
 
 <br style="clear:both" />
@@ -61,7 +60,7 @@ $(function() {
 {% endif %}
 
 <!--
-<form id="openid_form" name="openid_form" action="{% url "user_signin" %}" method="post">
+<form id="openid_form" name="openid_form" action="{% url user_signin %}" method="post">
 	<h3>{% trans "Sign In Using Your OpenID URL" %}</h3>
 	<input type="hidden" name="action" value="verify" />
 	<input type="hidden" name="next" value="{{ next }}" />
@@ -81,11 +80,11 @@ $(function() {
 <h4 class="title-03">{% trans "Hint" %}</h4>
 <div class="in">
 <p>
-	{% trans "If you don't have an account, you can" %} <a href="{% url "registration_register" %}">{% trans "sign up" %}</a> {% trans "for one; it's free, and you'll be able to add content to this site" %}.
+	{% trans "If you don't have an account, you can" %} <a href="{% url registration_register %}">{% trans "sign up" %}</a> {% trans "for one; it's free, and you'll be able to add content to this site" %}.
 </p>
 <p>
 	{% trans "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one" %}.
-<form action="{% url "auth_password_reset" %}" method="post">
+<form action="{% url auth_password_reset %}" method="post">
 <p>
 	<label for="id_email">{% trans "E-mail address" %}:</label><br />
 	<input id="id_email" type="text" name="email" maxlength="75" /><br />

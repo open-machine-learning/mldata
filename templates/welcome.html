@@ -12,7 +12,7 @@
 	<br/>{% trans "Upload your data, find interesting data sets, exchange solutions, compare yourself against other methods." %}</p>
 
 	<div class="leftbox">
-		<form method="get" action="{% url "repository.views.base.search" %}">
+		<form method="get" action="{% url repository.views.base.search %}">
 			<p class="head">{% trans "Search Repositories" %}</p>
 			<p><input type="text" size="40" maxlength="40" name="searchterm" id="searchterm" value="" /></p>
 			<p>
@@ -39,16 +39,16 @@
 		</ul>
 
 		<div class="buttonrow">
-			<form action="{% url "repository.views.data.new" %}">
+			<form action="{% url repository.views.data.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Data' %}" />
 			</form>
-			<form action="{% url "repository.views.task.new" %}">
+			<form action="{% url repository.views.task.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Task' %}" />
 			</form>
-			<form action="{% url "repository.views.method.new" %}">
+			<form action="{% url repository.views.method.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Method' %}" />
 			</form>
-			<form action="{% url "repository.views.challenge.new" %}">
+			<form action="{% url repository.views.challenge.new %}">
 				<input class="stdbutton" type="submit" value="{% trans 'New Challenge' %}" />
 			</form>
 		</div>
@@ -88,8 +88,8 @@
 
 Between data sets and tasks, the relationship is one-to-many, as a data set can give rise to many different learning tasks. A method can also be applied to several different tasks, giving rise to solutions. On the other hand, a task can have many solutions, but each solution belongs to a certain learning task. These relationships are illustrated in the image.
 <br /><br />
-  <a style="font-weight: bold;" href="{% url "about_index" %}">CLICK HERE AND LEARN MORE</a><br /><br />
-  <a style="font-weight: bold;" href="{% url "about_videos" 0 %}">Watch other videos</a>
+  <a style="font-weight: bold;" href="{% url about_index %}">CLICK HERE AND LEARN MORE</a><br /><br />
+  <a style="font-weight: bold;" href="{% url about_videos 0 %}">Watch other videos</a>
   </div>
   <div style="clear: both"></div>
 	</div>

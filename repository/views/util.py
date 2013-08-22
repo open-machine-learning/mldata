@@ -42,6 +42,7 @@ def get_versions_paginator(request, obj):
         versions = paginator.page(page)
     except (EmptyPage, InvalidPage):
         versions = paginator.page(paginator.num_pages)
+
     return versions
 
 

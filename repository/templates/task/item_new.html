@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Repository" %} :: {{ klass }} :: {% trans "New" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url "repository_index" %}">{% trans "Repository" %}</a> / {{ klass }} / {% trans "New" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / {{ klass }} / {% trans "New" %}{% endblock %}
 
 {% block extrahead %}
 {% include "autocomplete.html" %}
@@ -49,7 +49,7 @@ $(function() {
 	$('#id_type').change(function() {
 		type = $('#id_type').val()
 		// trickery to use django's URL function
-		url = "{% url "repository.views.task.get_measures" 0 %}"
+		url = "{% url repository.views.task.get_measures 0 %}"
 		url = url.substr(0, url.length - 2) + type;
 		$.getJSON(url, function(data){
 			opt = document.getElementById("id_performance_measure").options;
@@ -66,7 +66,7 @@ $(function() {
 		type = $('#id_type').val();
 		name = $('#id_performance_measure').val();
 		// trickery to use django's URL function
-		url = "{% url "repository.views.task.get_measure_help" 0 0 %}";
+		url = "{% url repository.views.task.get_measure_help 0 0 %}";
 		url = url.substr(0, url.length - 4) + type + "/" + name;
 		$.getJSON(url, function(data){
 			document.getElementById('id_help_pm').innerHTML = data;
@@ -184,12 +184,11 @@ $(function() {
                 </tbody>
                 </table></dd>
 
-				<br/><span class="helptext">We use <a href="{% url "about_slicing" %}">python style</a> indices. For datasplits you can also use percents, which indicate the random sample of given size. If your indices do not fit into field use handmade h5 file insted.</span></dd>
+				<br/><span class="helptext">We use <a href="{% url about_slicing %}">python style</a> indices. For datasplits you can also use percents, which indicate the random sample of given size. If your indices do not fit into field use handmade h5 file insted.</span></dd>
 			</dl></div><!-- /tabs-task -->
 		</div>
 
 		<input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /> {{ form.keep_private }} {% trans "Keep private" %}
-        {% csrf_token %}
 	</form>
 </div><!-- /in -->
 {% endblock %}

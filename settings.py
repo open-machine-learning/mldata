@@ -28,19 +28,16 @@ MANAGERS = ADMINS
 ABSDIR = os.path.abspath(os.path.dirname(__file__))
 
 if PRODUCTION:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',	# 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'mldata'
-        }
-    }
+    DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_NAME = 'mldata'             # Or path to database file if using sqlite3.
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',	# 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': os.path.join(ABSDIR, 'mldata.db')
-        }
-    }
+    DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_NAME = os.path.join(ABSDIR, 'mldata.db')
+
+DATABASE_USER = 'mldata'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'XXXXXXXXX'         # Not used with sqlite3.
+DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # on production server, path has to be inserted in django.wsgi
 if not PRODUCTION:
@@ -109,8 +106,8 @@ SECRET_KEY = '67-0bxcy%$$&1%=9@1(@g0xxgsx)0jf^i=5@lf!i44ivp$k)mk'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.app_directories.load_template_source',
 #     'django.template.loaders.eggs.load_template_source',
 )
 
@@ -118,11 +115,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-#    'django.middleware.csrf.CsrfResponseMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django_authopenid.middleware.OpenIDMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'mldata.urls'
@@ -138,7 +134,7 @@ else:
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.auth',
     'mldata.django_authopenid.context_processors.authopenid',
 )
 
@@ -151,8 +147,6 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.markup',
     'django.contrib.humanize',
-    'django.contrib.staticfiles',
-    'django.contrib.messages',
     'mldata',
     'mldata.about',
     'mldata.blog',
@@ -167,7 +161,6 @@ INSTALLED_APPS = (
     'mldata.datacite',
     'mldata.challengeviewer',
 )
-STATIC_URL = '/static/'
 
 DATACITE_USERNAME = 'TIB.MLDATA'
 DATACITE_PASSWORD = 'DATACITEPASSWORD'
@@ -175,5 +168,5 @@ DATACITE_API_URL = 'https://mds.datacite.org'
 DATACITE_FORMAT = '10.5881/%(slug)s'
 DATACITE_DOMAIN = 'mldata.org'
 
-RECAPTCHA_PUBLIC_KEY = '*************************************'
-RECAPTCHA_PRIVATE_KEY = '*************************************'
+RECAPTCHA_PUBLIC_KEY = 'RECAPTCHAPUBLIC'
+RECAPTCHA_PRIVATE_KEY = 'RECAPTCHAPRIVATE'

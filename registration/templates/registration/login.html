@@ -14,7 +14,7 @@
 {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
 </p>{% endif %}
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form method="post" action="{% url django.contrib.auth.views.login %}">
 <input type="hidden" name="next" value="{{ next }}" />
 <dl>
 <dt>{{ form.username.label_tag }}: {% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
@@ -28,11 +28,11 @@
 
 {% block aside %}
 <p>
-	{% trans "If you don't have an account, you can" %} <a href="{% url 'registration_register' %}">{% trans "sign up" %}</a> {% trans "for one; it's free, and you'll be able to add content to this site" %}.
+	{% trans "If you don't have an account, you can" %} <a href="{% url registration_register %}">{% trans "sign up" %}</a> {% trans "for one; it's free, and you'll be able to add content to this site" %}.
 </p>
 <p>
 	{% trans "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one" %}.
-<form action="{% url 'auth_password_reset' %}" method="post">
+<form action="{% url auth_password_reset %}" method="post">
 <p>
 	<label for="id_email">{% trans "E-mail address" %}:</label><br />
 	<input id="id_email" type="text" name="email" maxlength="75" /><br />

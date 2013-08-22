@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %} :: HDF5 {% trans "Example" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url 'about_index' %}">{% trans "About" %}</a> / <a href="{% url 'about_hdf5' %}">HDF5</a> / {% trans "Example" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / <a href="{% url about_hdf5 %}">HDF5</a> / {% trans "Example" %}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{% trans "HDF5 Example" %}</h2>

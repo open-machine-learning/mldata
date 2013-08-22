@@ -43,16 +43,16 @@
 				</dt>
 				{% if object.has_tags %}<dt>{% trans "Tags:" %}
 				{% ifequal klass 'Data' %}
-				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url "data_tags_view" tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url data_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Task' %}
-				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url "task_tags_view" tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url task_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Method' %}
-				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url "method_tags_view" tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url method_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				{% ifequal klass 'Challenge' %}
-				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url "challenge_tags_view" tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
+				<span class="index_plain">{% for tag in object.get_tags %}{% if tag %}<a href="{% url challenge_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</span>
                 {% endifequal %}
 				</dt>
 				{% endif %}
@@ -96,32 +96,32 @@
 				<span class="index_plain">
                     {% if object.has_h5 %}
                         {% ifequal klass 'Task' %}
-						<a href="{% url "task_download" object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-						<a href="{% url "task_download_xml" object.slug %}">{% trans "XML" %}</a>
-						<a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url "task_download_matlab" object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
-						<a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url "task_download_octave" object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+						<a href="{% url task_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url task_download_xml object.slug %}">{% trans "XML" %}</a>
+						<a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url task_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+						<a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url task_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
 						{% comment %}
-						<a{% if object.can_convert_to_rdata %} class="download-convert-link" href="{% url "task_download_rdata" object.slug %}"{% endif %}>{% trans "RData" %}</a>
+						<a{% if object.can_convert_to_rdata %} class="download-convert-link" href="{% url task_download_rdata object.slug %}"{% endif %}>{% trans "RData" %}</a>
 						{% endcomment %}
 						{% endifequal %}
                         {% ifequal klass 'Data' %}
-						<a href="{% url "data_download" object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-						<a href="{% url "data_download_xml" object.slug %}" class="download-convert-link">{% trans "XML" %}</a>
-						<a{% if object.can_convert_to_csv %} class="download-convert-link" href="{% url "data_download_csv" object.slug %}"{% endif %}>{% trans "CSV" %}</a>
-						<a{% if object.can_convert_to_arff %} class="download-convert-link" href="{% url "data_download_arff" object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
-						<a{% if object.can_convert_to_libsvm %} class="download-convert-link" href="{% url "data_download_libsvm" object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
-						<a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url "data_download_matlab" object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
-						<a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url "data_download_octave" object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+						<a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url data_download_xml object.slug %}" class="download-convert-link">{% trans "XML" %}</a>
+						<a{% if object.can_convert_to_csv %} class="download-convert-link" href="{% url data_download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
+						<a{% if object.can_convert_to_arff %} class="download-convert-link" href="{% url data_download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
+						<a{% if object.can_convert_to_libsvm %} class="download-convert-link" href="{% url data_download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
+						<a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url data_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+						<a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url data_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
 						{% comment %}
-						<a{% if object.can_convert_to_rdata %} class="download-convert-link" href="{% url "data_download_rdata" object.slug %}"{% endif %}>{% trans "RData" %}</a>
+						<a{% if object.can_convert_to_rdata %} class="download-convert-link" href="{% url data_download_rdata object.slug %}"{% endif %}>{% trans "RData" %}</a>
 						{% endcomment %}
 						{% endifequal %}
 					{% else %}
                         {% ifequal klass 'Task' %}
-						<a href="{% url "task_download" object.slug %}">Task File ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url task_download object.slug %}">Task File ({{ object.file.size|filesizeformat }})</a>
 						{% endifequal %}
                         {% ifequal klass 'Data' %}
-						<a href="{% url "data_download" object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+						<a href="{% url data_download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 						{% endifequal %}
 					{% endif %}
 				</span>
