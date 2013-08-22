@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "About" %} :: {% trans "Slicing" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url about_index %}">{% trans "About" %}</a> / <a href="{% url about_slicing %}"></a> / {% trans "Slicing" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url "about_index" %}">{% trans "About" %}</a> / <a href="{% url "about_slicing" %}"></a> / {% trans "Slicing" %}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{% trans "Slicing" %}</h2>

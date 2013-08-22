@@ -42,13 +42,20 @@ def paginator(context, adjacent_pages=5):
                 'page': page_number,
                 'pages': page.num_pages,
                 'page_numbers': page_numbers,
-                'next': page_obj.next_page_number(),
-                'previous': page_obj.previous_page_number(),
-                'has_next': page_obj.has_next(),
-                'has_previous': page_obj.has_previous(),
                 'show_first': 1 not in page_numbers,
                 'show_last': page.num_pages not in page_numbers,
                 }
+        if page_obj.has_previous():
+            r['previous'] = page_obj.previous_page_number()
+            r['has_previous'] = True
+        else:
+            r['has_previous'] = False
+
+        if page_obj.has_next():
+            r['next'] = page_obj.next_page_number()
+            r['has_next'] = True
+        else:
+            r['has_next'] = False
 
         if hasattr(page, "search_data"):
             r['search_data']=page.search_data

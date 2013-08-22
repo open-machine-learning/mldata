@@ -12,7 +12,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import escape
 from forum.managers import ForumManager
-from utils.markdown import markdown
+import markdown
 
 
 
@@ -337,7 +337,7 @@ class Post(models.Model):
         if not self.id:
             self.time = datetime.datetime.now()
 
-        self.body_html = markdown(escape(self.body))
+        self.body_html = markdown.markdown(escape(self.body))
         super(Post, self).save(force_insert, force_update)
 
         t = self.thread

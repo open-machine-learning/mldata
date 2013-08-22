@@ -75,7 +75,7 @@ def activate(request, activation_key,
 
 def register(request, success_url=None,
              form_class=RegistrationForm, profile_callback=None,
-             template_name='registration/registration_form.html',
+             template_name='registration/signup.html',
              extra_context=None):
     """
     Allow a new user to register an account.

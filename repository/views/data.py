@@ -3,6 +3,7 @@ from django.http import Http404
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 from repository.forms import *
 from repository.models import *
 from repository.views.util import *
@@ -122,7 +123,9 @@ def new_review(request, slug):
         'supported_formats': ', '.join(ml2h5.converter.HANDLERS.iterkeys()),
         'extract': extract,
     }
-    return render_to_response('data/data_new_review.html', info_dict)
+    return render_to_response('data/data_new_review.html',
+                              info_dict,
+                              context_instance = RequestContext(request))
 
 def edit(request, id):
     return base.edit(request, Data, id)

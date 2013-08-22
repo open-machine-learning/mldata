@@ -8,7 +8,7 @@
 <h2 class="title-01">{% trans "Activation" %}</h2>
 <div class="in">
 	{% if account %}
-	<p>{% trans "Thanks for signing up! You can start contributing when you" %} <a href="{% url user_signin %}">{% trans "sign in" %}</a>!</p>
+	<p>{% trans "Thanks for signing up! You can start contributing when you" %} <a href="{% url "user_signin" %}">{% trans "sign in" %}</a>!</p>
 	{% else %}
 	<p>{% trans "Either your activation link was incorrect, or the activation key for your account has expired; activation keys are only valid for" %} {{ expiration_days }}{% trans "d after registration" %}.</p>
 	{% endif %}

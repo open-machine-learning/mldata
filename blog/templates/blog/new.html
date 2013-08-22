@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Blog" %} :: {% trans "New Post" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url blog_index %}">{% trans "Blog" %}</a> / {% trans "New Post" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'blog_index' %}">{% trans "Blog" %}</a> / {% trans "New Post" %}{% endblock %}
 
 {% block content %}
 <h2 class="title-01">{% trans "Submit a new Post" %}</h2>
@@ -18,7 +18,7 @@
 	<hr />
 {% endif %}
 
-	<form action="{% url blog.views.new %}" method="POST">
+	<form action="{% url 'blog.views.new' %}" method="POST">
 	<dl>
 		<dd>{{ form.headline.label }}: {{ form.headline.errors }}</dd>
 		<dt>{{ form.headline }}</dt>
@@ -30,6 +30,7 @@
 		<dt>{{ form.body }}<br /><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dt>
 		<dt><input type="submit" name="preview" class="submit" value="{% trans "Preview" %}" /> <input type="submit" name="post" class="submit" value="{% trans "Submit" %}" /></dt>
 	</dl>
+    {% csrf_token %}
 	</form>
 </div><!-- /in -->
 {% endblock %}

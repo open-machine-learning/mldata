@@ -12,10 +12,10 @@
 
 <div class="in">
 {% if not request.user.is_authenticated %}
-{% trans "To create a new Thread, please" %} <a href="{% url user_signin %}?next={{ forum.get_absolute_url }}">sign in</a>.
+{% trans "To create a new Thread, please" %} <a href="{% url 'user_signin' %}?next={{ forum.get_absolute_url }}">sign in</a>.
 {% else %}
 	<h3 class="title-02">{% trans "Create a new Thread" %}</h3>
-	<form method='post' action='{% url forum.views.newthread forum.slug %}'>
+	<form method='post' action='{% url 'forum.views.newthread' forum.slug %}'>
 	<dl>
 		<dt>{{ form.title.label }}:{% if form.title.errors %}<span class="error">{{ form.title.errors|join:", " }}</span>{% endif %}</dt>
 		<dt>{{ form.title|escape }}</dt>
@@ -23,6 +23,7 @@
 		<dt>{{ form.body }}</dt>
 		<dd><span class="helptext">{% trans 'You may use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> here, but <b>raw HTML will be removed</b>' %}.</span></dd>
 		<dt><input class="submit" type="submit" name="preview" value="{% trans "Preview" %}" /> <input class="submit" type="submit" name="post" value="{% trans "Submit" %}" /></dt>
+        {% csrf_token %}
 	</dl>
 	</form>
 {% endif %}

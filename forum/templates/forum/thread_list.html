@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Forum" %} :: {{ forum.title }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url forum_index %}">{% trans "Forum" %}</a> / {{ forum.title }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'forum_index' %}">{% trans "Forum" %}</a> / {{ forum.title }}{% endblock %}
 
 
 {% block content %}

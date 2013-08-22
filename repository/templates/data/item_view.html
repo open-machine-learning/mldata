@@ -6,7 +6,7 @@
 {% load paginator %}
 
 {% block title %}{% trans "Repository" %} :: {{ object.klass }} :: {{ object.name }}{% endblock %}
-{% block breadcrumbs %}<a href="{% url repository_index %}">{% trans "Repository" %}</a> / <a href="{% url data_index %}">{% trans "Data" %}</a> / {% trans "View" %} /
+{% block breadcrumbs %}<a href="{% url "repository_index" %}">{% trans "Repository" %}</a> / <a href="{% url "data_index" %}">{% trans "Data" %}</a> / {% trans "View" %} /
 {{object.name }}
 {% endblock %}
 {% block extrahead %}
@@ -86,11 +86,11 @@
 
     <!-- Actions -->
     <div id="actions">
-		{% ifequal object.user request.user %}<a{% if not object.doi %} id="activate" href="{% url datacite_post object.slug.text %}" title="{% trans "Request doi" %}"{% else %} id="disabled"{% endif %}>{% trans "REQUEST DOI" %}</a>{% endifequal %}
-		<a{% if can_activate %} id="activate" href="{% url data_activate object.pk %}" title="{% trans "Make this version current and public" %}"{% else %} id="disabled"{% endif %}>{% trans "ACTIVATE" %}</a>
-		<a{% if can_edit %} href="{% url data_edit object.pk %}" title="{% trans "Edit this version to create a new current one" %}"{% else %} id="disabled"{% endif %}>{% trans "EDIT" %}</a>
-		<a href="{% url data_fork object.pk %}" title="{% trans "Fork this version to create a new one based on the current one" %}">{% trans "FORK" %}</a>
-        <a{% if can_delete %} id="delete" href="{% url data_delete  object.pk%}" title="{% trans "Delete this version" %}"{% else %} id="disabled"{% endif %}>{% trans "DELETE" %}</a>
+		{% ifequal object.user request.user %}<a{% if not object.doi %} id="activate" href="{% url "datacite_post" object.slug.text %}" title="{% trans "Request doi" %}"{% else %} id="disabled"{% endif %}>{% trans "REQUEST DOI" %}</a>{% endifequal %}
+		<a{% if can_activate %} id="activate" href="{% url "data_activate" object.pk %}" title="{% trans "Make this version current and public" %}"{% else %} id="disabled"{% endif %}>{% trans "ACTIVATE" %}</a>
+		<a{% if can_edit %} href="{% url "data_edit" object.pk %}" title="{% trans "Edit this version to create a new current one" %}"{% else %} id="disabled"{% endif %}>{% trans "EDIT" %}</a>
+		<a href="{% url "data_fork" object.pk %}" title="{% trans "Fork this version to create a new one based on the current one" %}">{% trans "FORK" %}</a>
+        <a{% if can_delete %} id="delete" href="{% url "data_delete"  object.pk%}" title="{% trans "Delete this version" %}"{% else %} id="disabled"{% endif %}>{% trans "DELETE" %}</a>
         {% if dependent_entries_exist %}
         <br>
         <p class="action-note">Object is <b>LOCKED</b> because others depend on it.<br> Fork to change.</p>
@@ -122,7 +122,7 @@
                 <dd>{% for obj in object.dependencies.all %}<a href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a> {% endfor %}
                 {% for obj in object.base_for.all %}<a href="{{ obj.get_absolute_slugurl }}">{{ obj.name }}</a> {% endfor %}</dd>
                 <dt>{% trans "Tags" %}</dt>
-                <dd>{% for tag in object.get_tags %}{% if tag %}<a href="{% url data_tags_view tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
+                <dd>{% for tag in object.get_tags %}{% if tag %}<a href="{% url "data_tags_view" tag.strip %}">{{ tag }}</a> {% endif %}{% endfor %}</dd>
                 <dt>{% trans "Attribute Types" %}</a></dt>
                 <dd>
 				{{ object.get_attribute_types }}
@@ -134,18 +134,18 @@
                     {% endif %}
 					{% if object.slug %}
                     {% if object.has_h5 %}
-                    <a href="{% url data_download object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
-                    <a href="{% url data_download_xml object.slug %}" class="download-convert-link">{% trans "XML" %}</a>
-                    <a{% if object.can_convert_to_csv %} class="download-convert-link" href="{% url data_download_csv object.slug %}"{% endif %}>{% trans "CSV" %}</a>
-                    <a{% if object.can_convert_to_arff %} class="download-convert-link" href="{% url data_download_arff object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
-                    <a{% if object.can_convert_to_libsvm %} class="download-convert-link" href="{% url data_download_libsvm object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
-                    <a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url data_download_matlab object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
-                    <a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url data_download_octave object.slug %}"{% endif %}>{% trans "Octave" %}</a>
+                    <a href="{% url "data_download" object.slug %}">{% trans "HDF5" %} ({{ object.file.size|filesizeformat }})</a>
+                    <a href="{% url "data_download_xml" object.slug %}" class="download-convert-link">{% trans "XML" %}</a>
+                    <a{% if object.can_convert_to_csv %} class="download-convert-link" href="{% url "data_download_csv" object.slug %}"{% endif %}>{% trans "CSV" %}</a>
+                    <a{% if object.can_convert_to_arff %} class="download-convert-link" href="{% url "data_download_arff" object.slug %}"{% endif %}>{% trans "ARFF" %}</a>
+                    <a{% if object.can_convert_to_libsvm %} class="download-convert-link" href="{% url "data_download_libsvm" object.slug %}"{% endif %}>{% trans "LibSVM" %}</a>
+                    <a{% if object.can_convert_to_matlab %} class="download-convert-link" href="{% url "data_download_matlab" object.slug %}"{% endif %}>{% trans "Matlab" %}</a>
+                    <a{% if object.can_convert_to_octave %} class="download-convert-link" href="{% url "data_download_octave" object.slug %}"{% endif %}>{% trans "Octave" %}</a>
 					{% comment %}
-                    <a{% if object.can_convert_to_rdata %} class="download-convert-link" href="{% url data_download_rdata object.slug %}"{% endif %}>{% trans "RData" %}</a>
+                    <a{% if object.can_convert_to_rdata %} class="download-convert-link" href="{% url "data_download_rdata" object.slug %}"{% endif %}>{% trans "RData" %}</a>
 					{% endcomment %}
 					{% else %}
-                    <a href="{% url data_download object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
+                    <a href="{% url "data_download" object.slug %}">{{ object.format }} ({{ object.file.size|filesizeformat }})</a>
 					{% endif %}
 					{% endif %}
                     {% if object.file.size > download_warning_limit %}
@@ -155,7 +155,7 @@
             </dl>
             <div>
                 {% trans "Completeness of this item currently" %}: {{ object.completeness }}%.<br />
-				{% if can_edit %}{% trans "You can" %} <a href="{% url data_edit object.pk %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.{% endif %}
+				{% if can_edit %}{% trans "You can" %} <a href="{% url "data_edit" object.pk %}">{% trans "edit this item" %}</a> {% trans "to add more meta information and make use of the site's premium features" %}.{% endif %}
             </div>
         </div><!-- /tabs-summary -->
 
@@ -258,7 +258,7 @@
 		{% else %}
 		<h3>No Tasks yet on dataset {{ object.name }}</h3>
 		{% endif %}	
-		<a href="{% url task_new_from_data cur_data=object.slug %}">
+		<a href="{% url "task_new_from_data" cur_data=object.slug %}">
 		{% trans "Submit a new Task for this Data item" %}</a>
 	</div><!-- /tabs-method -->
 

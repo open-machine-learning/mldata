@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Forum" %} :: {{ forum.title }} :: {% trans "New Thread" %}{% endblock %}
-{% block breadcrumbs %}<a href="{% url forum_index %}">{% trans "Forum" %}</a> / <a href="{% url forum.views.forum forum.slug %}">{{ forum.title }}</a> / {% trans "New Thread" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'forum_index' %}">{% trans "Forum" %}</a> / <a href="{% url 'forum_thread_list' forum.slug %}">{{ forum.title }}</a> / {% trans "New Thread" %}{% endblock %}
 
 
 {% block content %}
@@ -13,6 +13,6 @@
 
 {% block aside-info %}
 <div class="in">
-	{% trans "Create a new thread in forum" %} <a href="{% url forum.views.forum forum.slug %}">{{ forum.title }}</a>.
+	{% trans "Create a new thread in forum" %} <a href="{% url 'forum_thread_list' forum.slug %}">{{ forum.title }}</a>.
 </div><!-- /in -->
 {% endblock %}

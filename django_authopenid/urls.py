@@ -14,7 +14,7 @@
 # limitations under the License.
 
 from django.conf.urls.defaults import patterns, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 # views
 from django.contrib.auth import views as auth_views
@@ -25,6 +25,12 @@ from captcha.forms import RegistrationFormCaptcha
 extra_context = {
     'section': 'accounts',
 }
+class AccountView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super(AccountView, self).get_context_data(**kwargs)
+        for key in extra_context:
+            context[key] = extra_context[key]
+        return context
 
 urlpatterns = patterns('',
     # django registration activate
@@ -69,9 +75,8 @@ urlpatterns = patterns('',
         'extra_context': extra_context,
         'form_class': RegistrationFormCaptcha},
         name='registration_register'),
-    url(r'^signup/complete/$',direct_to_template, 
-        {'template': 'registration/activation_sent.html',
-        'extra_context': extra_context},
+    url(r'^signup/complete/$',
+        AccountView.as_view(template_name = 'registration/activation_sent.html'),
         name='registration_complete'
     ),
 
