@@ -28,8 +28,6 @@ class RepositoryTest(TestCase):
             # No file to be removed
             pass
 
-
-    
     url = {
         'index': '/repository/',
         'index_data': '/repository/data/',
@@ -81,7 +79,7 @@ class RepositoryTest(TestCase):
 
     def do_post(self, url, params, follow=False):
         return self.client.post(self.url[url], params, follow=follow)
-        
+
     #
     # Tests
     #
@@ -228,23 +226,23 @@ class CorrectnessTest(RepositoryTest):
         d.create_slug()
         d.attach_file(File(open('fixtures/breastcancer.txt', 'r')))
         d.save()
-        
+
         datasets = Data.objects.filter(name='test_data_set_tags')
         self.assertEqual(1, len(datasets))
-        
+
         # if tags were added properly then TagField
         # returnes them without comma. Functionality tested in tagging app
         self.assertEqual("test test2", datasets[0].tags)
-        
+
     def test_task_results(self):
         #login user
         self.do_login()
-        
+
         # create collaborative-filtering dataset by hand
         file = open('fixtures/ratings.csv', 'w')
         file.write("1,1,5\n3,1,2\n1,3,3\n3,4,5\n2,1,5\n2,3,5\n2,4,2\n3,3,4\n1,2,2\n")
         file.close()
-        
+
         # convert file to hdf5
         from ml2h5.converter import Converter
         Converter("fixtures/ratings.csv","fixtures/ratings.h5").run()
@@ -256,7 +254,7 @@ class CorrectnessTest(RepositoryTest):
             tags="")
         d.create_slug()
         d.attach_file(File(open('fixtures/ratings.h5', 'r')))
-        
+
         # following fields are required for creating task
         d.num_instances = 9
         d.num_attributes = 3
@@ -264,7 +262,7 @@ class CorrectnessTest(RepositoryTest):
         d.is_current = True
         d.is_public = True
         d.save()
-        
+
         # create task via www (since we want to indicate variables, and train/test set
         r = self.do_post('new_task', {
                  'name': 'test_task_recommends',
@@ -279,35 +277,35 @@ class CorrectnessTest(RepositoryTest):
                  'performance_measure': 'Root Mean Squared Error'
             }, follow=True)
         t = Task.objects.get(slug__text='test_task_recommends')
-        
+
         # create dummy method
         m = Method(name = 'Collaborative-filtering',
                  user=User.objects.get(username='user'),
                  license=FixedLicense.objects.get(name='foobar'),
                  )
         m.save()
-        
+
         # write some results for task
         file = open('fixtures/res.txt', 'w')
         file.write("1\n1\n3\n")
         file.close()
-        
+
         # create results entity
         r = Result(task = t, method = m, output_file=File(open('fixtures/res.txt','r')))
         r.save()
-        
+
         # store predictions
         score,msg,success = r.predict()
-        
+
         # check if whole path succeeded
         self.assertGreater(score,-1,msg)
-        
+
 
 class PerformenceTest(RepositoryTest):
     def add_data(self, suffix=''):
         self.do_login()
         data = self.minimal_data.copy()
-        
+
         data['name'] = data['name'] + suffix
         self.remove_if_exists(os.path.join(MEDIA_ROOT, 'data', data['name'] + ".h5"))
         r = self.client.post(self.url['new_data'],
@@ -324,7 +322,7 @@ class PerformenceTest(RepositoryTest):
     def test_view_data_queries(self):
         from django.conf import settings
         from django.db import connection
-    
+
         self.remove_if_exists(self.data_file_name)
         settings.DEBUG = True
         self.add_data()
@@ -332,14 +330,14 @@ class PerformenceTest(RepositoryTest):
         r = self.do_post('new_data_view', {}, follow=True)
         self.assertLess(len(connection.queries), 5, "More than 5 queries executed during simple data view")
         settings.DEBUG = False
-        
+
     def test_view_many_datasets(self):
         from django.conf import settings
         from django.db import connection
-    
+
         for i in xrange(1, 10):
             self.add_data(i.__str__())
-    
+
         import time
         start = time.time()
         settings.DEBUG = True
