@@ -14,6 +14,7 @@ if not PRODUCTION:
     TEMPLATE_DEBUG = DEBUG
     ADMINS = ()
 else:
+    DEBUG = False
     ADMINS = (
         ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
         ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
@@ -167,6 +168,6 @@ DATACITE_API_URL = 'https://mds.datacite.org'
 DATACITE_FORMAT = '10.5072/%(slug)s'
 DATACITE_DOMAIN = 'mldata.org'
 
-RECAPTCHA_PUBLIC_KEY = 'RECAPTCHAPUBLIC'
+RECAPTCHA_PUBLIC_KEY = 'RECAPTCHAPUBLICtest'
 RECAPTCHA_PRIVATE_KEY = 'RECAPTCHAPRIVATE'
 RECAPTCHA_USE_SSL = True
