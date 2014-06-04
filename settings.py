@@ -14,7 +14,6 @@ if not PRODUCTION:
     TEMPLATE_DEBUG = DEBUG
     ADMINS = ()
 else:
-    DEBUG = False
     ADMINS = (
         ('Cheng Soon Ong', 'chengsoon.ong@inf.ethz.ch'),
         ('Soeren Sonnenburg', 'Soeren.Sonnenburg@tu-berlin.de'),
@@ -170,3 +169,4 @@ DATACITE_DOMAIN = 'mldata.org'
 
 RECAPTCHA_PUBLIC_KEY = 'RECAPTCHAPUBLIC'
 RECAPTCHA_PRIVATE_KEY = 'RECAPTCHAPRIVATE'
+RECAPTCHA_USE_SSL = True
